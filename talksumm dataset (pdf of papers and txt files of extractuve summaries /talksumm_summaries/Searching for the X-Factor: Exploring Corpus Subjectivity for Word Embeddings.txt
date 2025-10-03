@@ -1,0 +1,30 @@
+0	14	Distributional analysis methods such as Word2Vec (Mikolov et al., 2013) and GloVe (Pennington et al., 2014) have been critical for the success of many large-scale natural language processing (NLP) applications (Collobert et al., 2011; Socher et al., 2013; Goldberg, 2016).
+1	19	These methods employ distributional hypothesis (i.e., words used in the same contexts tend to have similar meaning) to derive distributional meaning via context prediction tasks and produce dense word embeddings.
+2	29	While there have been active and ongoing research on improving word embedding methods (see Section 5), there is a relative dearth of study on the impact that an input corpus may have on the quality of the word embeddings.
+3	17	The previous preoccupation centers around corpus size, i.e., a larger corpus is perceived to be richer in statistical information.
+8	52	Consequently, such factors may be encoded in the word embeddings, and input corpora may be differentially informative towards various NLP tasks.
+23	30	Its list of policies and guidelines1, assiduously enforced by an editorial team, specify that an article must be written from a neutral point of view, which among other things means “representing fairly, proportionately, and, as far as possible, without editorial bias, all of the significant views that have been published by reliable sources on a topic.”.
+29	25	For instance, Amazon’s Community Guideline2 states that “Amazon values diverse opinions”, and that “Content you submit should be relevant and based on your own honest opinions and experience.”.
+46	29	The Objective and Subjective corpora undergo the same preprocessing, i.e., discarding short sentences (< 5 tokens) and rare words (< 10 occurrences), removing punctuation, normalizing Unicode symbols.
+55	33	Sentiment Classification Task This task classifies a sentence into either positive or negative.
+62	11	The second is Cornell’s sentence polarity dataset v1.04 (Pang and Lee, 2005), made up of 5331 each of positive and negative sentences from Rotten Tomatoes movie reviews.
+65	17	Subjectivity Classification Task This task classifies a sentence into subjective or objective.
+66	22	The dataset is Cornell’s subjectivity dataset v1.05, consisting of 5000 subjective sentences derived from Rotten Tomatoes (RT) reviews and 5000 objective sentences derived from IMDB plot summaries (Pang and Lee, 2004).
+70	25	Each group’s sentences then form the in-topic class, and we randomly sample an equivalent number of sentences from the remaining newsgroups to form the out-of-topic class.
+71	22	This results in six datasets, each corresponding to a binary classification task.
+89	75	Yet, even after a dramatic reduction in size, the Subjective embeddings still outperform the Objective significantly on both datasets of the sentiment classification task (+4% on Amazon and +2.5% on RT), while showing similar performance on subjectivity and topic classifications.
+91	41	While there is a small effect due to corpus size difference, the gap in performance between Subjective and Objective embeddings on sentiment classification is still significant and cannot be explained away by the corpus size alone.
+102	28	Table 2 shows the top 25 words most associated with the misclassified sentences, sorted by their association scores.
+104	218	40 − 44% of these words carry positive or negative sentiment connotations in general (see the underlined words in Table 2), while other words like return or send may carry sentiment connotation in e-commerce context.
+105	154	We check if a word carries sentiment connotation using sentiment lexicon compiled by Hu and Liu (2004), including 6789 words along with positive or negative labels.
+106	22	We also observe linguistic negations (i.e., not, Don’t).
+107	109	For instance, the word most associated with the Objective-specific mistakes (excluding the Subjective misclassified sentences) is not, which suggests that perhaps Subjective word embedding accommodates better understanding of linguistic negations, which may partially explain the difference.
+110	31	Controlling for Sentiment Words To control for the “amount” of sentiment in the Subjective and Objective corpora, we use sentiment lexicon compiled by Hu and Liu (2004).
+114	38	Sentiment lexicon has a significant impact on the performance of sentiment and subjectivity classifications, and a smaller impact on topic classification.
+119	73	SentiVec seeks to satisfy two objectives, namely context prediction and lexical category prediction: logL = logLword2vec(W ;C) + λ logLlex(W,L), (5) where Lword2vec(W ;C) is the Skip-gram objective as in (4); Llex(W,L) is a lexical objective for corpus W and lexical resource L; and λ is a tradeoff parameter.
+120	160	Lexical resource L = {Xi}ni=1 comprises of n word sets, each Xi contains words of the same category.
+121	26	For sentiment classification, we consider positive and negative word categories.
+122	17	Logistic SentiVec admits lexical resource in the form of two disjoint word sets, L = {X1, X2}, X1 ∩X2 = ∅.
+123	65	The objective is to tell apart which word set of L word w belongs to: logLlex(W,L) (6) = ∑ w∈X1 log P(w ∈ X1) + ∑ w∈X2 log P(w ∈ X2).
+124	51	We further tie these probabilities together, and cast the objective as a logistic regression problem: P(w ∈ X1) = 1− P(w ∈ X2) = σ(vw · τ), (7) where vw is a word embedding and τ is a direction vector.
+126	49	We experiment with randomly sampled unit length directions.

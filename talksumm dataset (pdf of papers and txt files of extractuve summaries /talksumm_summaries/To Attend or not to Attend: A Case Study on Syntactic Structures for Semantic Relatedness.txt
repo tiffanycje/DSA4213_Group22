@@ -1,0 +1,30 @@
+10	70	With these questions in mind, we present our investigation and findings in the context of semantic relatedness tasks.
+29	17	Typically, these dependency relations are explicitly typed, which makes the trees valuable for practical applications such as information extraction, paraphrase detection and semantic relatedness.
+34	12	: h̃j = ∑ k∈C(j) hk (7) ij = σ(wjW i + h̃jR i + bi) (8) fjk = σ(wjW f + hkR f + bf ) (9) oj = σ(wjW o + h̃jR o + bo) (10) uj = tanh(wjW u + h̃jR u + bu) (11) cj = ij uj + ∑ k∈C(j) fjk ck (12) hj = oj tanh(cj) (13) where: • wj ∈ RD represents word embedding of all nodes in Dependency structure and only terminal nodes in Constituency structure.
+37	16	2wj is ignored for non-terminal nodes in a Constituency structure by removing the wW terms in Equations 8-11.
+39	14	• C(j) is the set of children of node j.
+41	66	Referring to Equation 12, the new memory cell state, cj of node j, receives new information, uj , partially.
+43	31	When the Child-Sum Tree model is deployed on a dependency tree, it is referred to as Dependency Tree-LSTM, whereas a constituency-treebased instantiation is referred to as Constituency Tree-LSTM.
+45	99	Recently, attention techniques (which are effectively soft alignment models) in neural machine translation (NMT) (Bahdanau et al., 2014) came into prominence, where attention scores are calculated by considering words of source sentence while decoding words in target language.
+46	15	Although effective attention mechanisms (Luong et al., 2015) such as Global Attention Model (GAM) (Figure 4) and Local Attention Model (LAM) have been developed, such techniques have not been explored over Tree-LSTMs.
+56	64	In contrast to the original model, we compute the final representations of the each sentence by concatenating the LSTM-encoded representation of root with the attention-weighted representation of the root 3: h ′′ L = G([l̄ ′ rootL ;βrootL ]) (17) h ′′ R = G([r̄ ′ rootR ;αrootR ]) (18) where G is a feed-forward neural network.
+80	25	• apj ∈ Rx represents the normalized attention weights at node j of tree Dp; where Dp is the dependency structure of sentence p. • Wc ∈R2d x d and Wa ∈Rd represent learned weight matrices.
+91	63	Finally, we compute the representation of sentence R based on attention to sentence L. We perform Phase2 with the same process, except that we now condition on sentence R. In summary, the progressive attention mechanism refers to all nodes in the other tree while encoding a node in the current tree, instead of waiting till the end of the structural encoding to establish cross-sentence attention, as was done in the decomposable attention model.
+122	15	We also performed pre-processing to clean the data and then parsed the sentences using Stanford Parsers.
+130	19	Table 2 summarizes our results where best results are highlighted in bold within each category.
+138	14	However, when our progressive attention mechanism is integrated into syntactic structures (dependency or constituency), we witness a boost in the semantic relatedness score.
+147	26	Second, the performance gap between the two attention models is quite striking, in the sense that the progressive model completely dominate its decomposable counterpart.
+149	58	The progressive attention model garners it’s empirical superiority by attending while encoding, instead of waiting till the end of the structural encoding to establish cross-sentence attention.
+150	14	In retrospect, this may justify why the original decomposable attention model in (Parikh et al., 2016) achieved competitive results without any LSTM-type encoding.
+151	37	Effectively, they implemented a naive version of our progressive attention model.
+154	14	Admittedly though, on the relatively large Quora dataset, we observe some diminishing returns of incorporating structural information.
+155	95	It is not counter-intuitive that the sheer size of data can possibly allow structural patterns to emerge, hence lessen the need to explicitly model syntactic structures in neural architectures.
+157	26	Specifically, performance lift on Linear Bi-LSTM > performance lift on Constituency Tree-LSTM, and PA struggles to see performance lift on dependency Tree-LSTM.
+158	16	Interestingly enough, this observation is echoed by an earlier study (Gildea, 2004), which showed that tree-based alignment models work better on con- stituency trees than on dependency trees.
+159	15	In summary, our results and findings lead to several intriguing questions and conjectures, which call for investigation beyond the scope of our study: • Is it reasonable to conceptualize attention mechanisms as an implicit form of structure, which complements the representation power of explicit syntactic structures?
+160	28	• If yes, does there exist some trade-off between the modeling efforts invested into syntactic and attention structures respectively, which seemingly reveals itself in our empirical results?
+162	14	Does that indicate a closer affinity between dependency structures (relative to constituency structures) and compositional semantics (Liang et al., 2013)?
+163	48	• If yes, why is dependency structure a better stepping stone for compositional semantics?
+165	51	Or is it because the dependency relations (grammatical functions) embody more semantic information?
+166	127	In conclusion, we proposed a novel progressive attention model on syntactic structures, and demonstrated its superior performance in semantic relatedness tasks.
+167	121	Our work also provides empirical ingredients for potentially profound questions and debates on syntactic structures in linguistics.

@@ -1,0 +1,30 @@
+2	22	However, rather than stating plainly that She fixed the bug, one might instead say: (1a) She managed to fix the bug before midnight.
+6	19	By changing only one word, these sentence no longer give a clear indication as to whether or not the bug has been fixed: (2a) She wanted to fix the bug before midnight.
+7	53	(2b) She planned to fix the bug while refactoring.
+8	25	Implicative verbs, like those in (1), give rise to entailments, while non-implicative verbs, like those in (2), do not.
+10	29	In this paper, we exploit a known linguistic property of implicative verbs– that their complement clause is constrained to be in the same tense as the main clause– in order to predict the tendency of verbs to behave implicatively.
+17	14	This contrasts with non-implicative verbs, like want, which do not permit any inference regarding their complements, and for which the truth of the complement is unaffected by negation in the main clause (Table 1).
+18	19	The method described in this paper aims to separate implicatives from non-implicatives (manage vs. want), rather than to differentiate between types implicatives (manage vs. fail).
+19	33	Making this implicative/non-implicative distinction is a necessary first step toward handling inferences involving embedded clauses, and one that, to date, has only been performed using manually-constructed word lists (MacCartney, 2009; Recasens et al., 2013).
+27	14	(3) I managed to solve the problem last night.
+28	14	(4) #I managed to solve the problem tomorrow.
+32	66	We hypothesize that, given a large corpus, we should be able to distinguish implicative verbs from nonimplicative verbs by observing how often the main verb tense agrees/disagrees with the tense of the complement clause.
+34	29	We therefore use the Stanford Temporal Tagger (TT) (Chang and Manning, 2012) in order to identify time-referring expressions (e.g. tomorrow or last night) and resolve them to either past, present, or future tense.
+35	17	We find all sentences containing VB∗1 to VB2 constructions in the Annotated Gigaword corpus (Napoles et al., 2012).
+38	30	We provide the TT with the document publication dates,3 which are used to resolve each time mention to a specific calendar date and time.
+41	38	We also assign the main clause to past, present, or future tense by using the fine-grained POS tag and a set of heuristics (for example, to check for modals).4 We assign a tense agreement score to each verb v as follows.
+42	19	Let S be the set of all VB∗1 to VB2 constructions in which VB∗1 = v. Then tense agreement is simply 1|S| × |{s ∈ S | complement tense = main tense}|, i.e. the fraction of constructions in S in which the tenses of the main and complement clauses agree.
+49	20	Tense agreement almost perfectly divides the list, with implicative verbs appearing above non-implicative verbs in all cases.
+52	15	the sentence I decided to leave would likely be taken to mean I left.
+53	23	Our interest is not in distinguishing implicatives from non-implicatives for its own sake, but rather to predict, based on the main verb, whether the truth of the complement can be inferred.
+54	24	We therefore conduct a second evaluation to assess how well tense agreement predicts this entailment property.
+55	30	We design our evaluation following the recognizing textual entailment (RTE) task (Dagan et al., 2006), in which two sentences are given, a premise p and a hypothesis h, and the goal is to determine whether p reasonably entails h. To construct our p/h pairs, we take all the verbs extracted in Section 3 which appear in at least 50 tense-labeled sentences.
+58	75	We then use the original sentence as p and the extracted complement as h: e.g. a p/h pair might look like I get to interact with fellow professors/I interact with fellow professors.
+59	29	We ask 5 independent annotators on Amazon Mechanical Turk to read each p and then determine whether h is true, false, or unclear given p.7 We take the majority answer as the true label.
+60	53	We expect that implicative verbs should lead to judgements which are decidedly true or false while non-implicatives should lead to mostly judgements of unclear.
+62	41	When a verb with low tense agreement appeared as the main verb of a sentence, the truth of the complement could only be inferred 30% of the time.
+67	22	For example, our method finds high tense agreement for choose to and be allowed to, which are often used to communicate, albeit indirectly, that their complements did in fact happen.
+68	21	To convince ourselves that treating such verbs as implicatives makes sense in practice, we manually look through the RTE3 dataset (Giampiccolo et al., 2007) for examples containing high-scoring verbs according to our method.
+69	29	Table 3 shows some example inferences that hinge precisely on recognizing these types of de facto implicatives.
+78	75	We have presented a data-driven method that captures the implicative tendencies of verbs by exploiting the tense relationship between the verb and its complement clauses.
+79	202	This method effectively separates known implicatives from known non-implicatives, and, more importantly, provides good predictive signal in an entailment recognition task.

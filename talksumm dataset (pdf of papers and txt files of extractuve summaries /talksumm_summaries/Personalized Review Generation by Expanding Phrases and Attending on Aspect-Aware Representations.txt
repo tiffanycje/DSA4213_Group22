@@ -1,0 +1,30 @@
+2	23	A successful model could work (for instance) as (a) a highly-nuanced recommender system that tells users their likely reaction to a product in the form of text fragments; (b) a writing tool that helps users ‘brainstorm’ the review-writing process; or (c) a querying system that facilitates personalized natural lan- guage queries (i.e., to find items about which a user would be most likely to write a particular phrase).
+3	85	Some recent works have explored the review generation task and shown success in generating cohesive reviews (Dong et al., 2017; Ni et al., 2017; Zang and Wan, 2017).
+4	14	Most of these works treat the user and item identity as input; we seek a system with more nuance and more precision by allowing users to ‘guide’ the model via short phrases, or auxiliary data such as item specifications.
+5	44	For example, a review writing assistant might allow users to write short phrases and expand these key points into a plausible review.
+8	17	We are interested in exploring how such knowledge (e.g. extracted aspects) can be used in the review generation task.
+9	26	In this paper, we focus on designing a review generation model that is able to leverage both user and item information as well as auxiliary, textual input and aspect-aware knowledge.
+10	4	Specifically, we study the task of expanding short phrases into complete, coherent reviews that accurately reflect the opinions and knowledge learned from those phrases.
+13	5	The sequence encoder uses a gated recurrent unit (GRU) network to encode text information; the attribute encoder learns a latent representation of user and item identity; finally, the aspect encoder finds an aspect-aware representation of users and items, which reflects user-aspect preferences and item-aspect relationships.
+30	55	Given a user u, item i, several short phrases {d1, d2, ..., dM}, and a group of extracted aspects {A1, A2, ..., Ak}, our goal is to generate a review (w1, w2, ..., wT) that maximizes the probability P (w1:T|u, i, d1:M).
+31	10	To solve this task, we propose a method called ExpansionNet which contains two parts: 1) three encoders to leverage the input phrases and aspect information; and 2) a decoder with an attention fusion layer to generate sequences and align the generation with the input sources.
+46	12	For the attribute encoder, the attention vector is calculated as: a2t = ∑ j∈u,i α2tjγj (9) α2tj = exp(tanh(v 2 α > (W 2α[γj ;ht] + b 2 α)))/Z, (10) where a2t ∈ Rn is the attention vector on the attribute encoder, and α2tj is the attention score between the attribute latent factor γj and decoder hidden state ht.
+47	34	Inspired by the copy mechanism (Gu et al., 2016; See et al., 2017), we design an attention vector that estimates the probability that each aspect will be discussed in the next time-step: sui =Ws[βu;βi] + bs (11) a3t = tanh(W 3 α[sui; et;ht] + b 3 α), (12) where sui ∈ Rk is the aspect importance considering the interaction between u and i, et is the decoder input after embedding layer at time-step t, and a3t ∈ Rk is a probability vector to bias each aspect at time-step t. Finally, the first two attention vectors are concatenated with the decoder hidden state at time-step t and projected to obtain the output word distribution Pv.
+48	12	The attention scores from the aspect encoder are then directly added to the aspect words in the final word distribution.
+51	22	We consider a real world dataset from Amazon Electronics (McAuley et al., 2015) to evaluate our model.
+52	8	We convert all text into lowercase, add start and end tokens to each review, and perform tokenization using NLTK.1 We discard reviews with length greater than 100 tokens and consider a vocabulary of 30,000 tokens.
+53	16	After preprocessing, the dataset contains 182,850 users, 59,043 items, and 992,172 reviews (sparsity 99.993%), which is much sparser than the datasets used in previous works (Dong et al., 2017; Ni et al., 2017).
+57	15	All results are reported on the test set.
+64	7	For both the sequence encoder and decoder, we use a 2- layer GRU with hidden size 512.
+68	19	We evaluate the model on six automatic metrics (Table 3): Perplexity, BLEU-1/BLEU-4, ROUGEL and Distinct-1/2 (percentage of distinct unigrams and bi-grams) (Li et al., 2016).
+69	81	We compare 3 http://pytorch.org/docs/master/index.html 4 https://github.com/nijianmo/textExpansion against three baselines: Rand (randomly choose a review from the training set), GRU-LM (the GRU decoder works alone as a language model) and a state-of-the-art model Attr2Seq that only considers user and item attribute (Dong et al., 2017).
+70	14	ExpansionNet (with summary, item title, attribute and aspect as input) achieves significant improvements over Attr2Seq on all metrics.
+74	29	ExpansionNet captures fine-grained item information (e.g. that the item is a tablet), which Attr2Seq fails to recognize.
+75	76	Moreover, given a phrase like “easy to use” in the summary, ExpansionNet generates reviews containing the same text.
+76	9	This demonstrates the possibility of using our model in an assistive review generation scenario.
+77	39	Finally, given extra aspect information, the model successfully estimates that the screen would be an important aspect (i.e., for the current user and item); it generates phrases such as “screen is very respon- sive” about the aspect “screen” which is also covered in the real (ground-truth) review (“display is beautiful”).
+78	35	We are also interested in seeing how the aspectaware representation can find related aspects and bias the generation to discuss more about those aspects.
+79	50	We analyze the average number of aspects in real and generated reviews and show on average how many aspects in real reviews are covered in generated reviews.
+80	51	We consider a review as covering an aspect if any of the aspect’s representative words exists in the review.
+81	12	As shown in Table 4, Attr2Seq tends to cover more aspects in generation, many of which are not discussed in real reviews.
+82	44	On the other hand, ExpansionNet better captures the distribution of aspects that are discussed in real reviews.

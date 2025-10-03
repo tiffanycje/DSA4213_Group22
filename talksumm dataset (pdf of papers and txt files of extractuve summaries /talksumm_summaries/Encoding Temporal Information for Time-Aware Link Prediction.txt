@@ -1,0 +1,30 @@
+0	35	Knowledge bases (KBs) such as Freebase (Bollacker et al., 2008) and YAGO (Fabian et al., 2007) play a pivotal role in many NLP related applications.
+2	34	Link prediction is to predict relations between entities based on existing triplets, which can alleviate the incompleteness of current KBs.
+3	18	Recently a promising approach for this task called knowledge base embedding (Nickel et al., 2011; Bordes et al., 2011; Socher et al., 2013) aims to embed entities and relations into a continuous vector space while preserving certain information of the KB graph.
+5	16	Most existing KB embedding methods solely learn from time-unknown facts but ignore the useful temporal information in the KB.
+6	23	In fact, there are many temporal facts (or events) in the KB, e.g., (Obama, wasBornIn, Hawaii) happened at August 4, 1961.
+9	39	The happening time of time-sensitive facts may indicate special temporal order of facts and time-sensitive relations.
+10	24	For example, (Einstein, wasBornIn, Ulm) happened in 1879, (Einstein, wonPrize, Nobel Prize) happened in 1922, (Einstein, diedIn, Princeton) occurred in 1955.
+12	16	Traditional KB embedding models such as TransE often confuse relations such as wasBornIn and diedIn when predicting (person,?,location) because TransE learns only from time-unknown facts and cannot distinguish relations with similar semantic meaning.
+19	11	For example, we have two temporal facts sharing the same head entity: (ei, ri, ej , t1) and (ei, rj , ek, t2) and the temporal order constraint t1< t2, i.e., ri happens before rj , then we propose the assumption that prior relation ri after temporal transition should lie close to subsequent relation rj , i.e., riM ≈ rj , here matrix M captures the temporal order information between relations.
+26	27	Specially, temporal order of relations in timesensitive facts should affect KB representation.
+27	20	If ri and rj share the same head entity ei, and ri occurs before rj , then prior relation’s vector ri could evolve into subsequent relation’s vector rj in the temporal dimension.
+28	26	To encode the transition between time-sensitive relations, we define a transition matrix M ∈ Rn×n between pair-wise temporal ordering relation pair (ri, rj).
+29	36	Our optimization requires that positive temporal ordering relation pairs should have lower scores (energies) than negative pairs, so we define a temporal order score function as g(ri, rj) = ‖riM− rj‖1, (1) which is expected to be a low score when the relation pair is in chronological order, and high otherwise.
+32	19	The optimization is to minimize the joint score function, L= ∑ x+∈∆ [ ∑ x−∈∆′ [γ1 + f(x +)− f(x−)]+ +λ ∑ y+∈Ωei ,y −∈Ω′ei [γ2 + g(y +)− g(y−)]+ ] (3) where x+ = (ei, ri, ej) ∈ ∆ is the positive triple (quad), x−=(e′i, ri, e ′ j)∈∆′ is corresponding the negative triple.
+35	25	In experiments, we enforce constrains as ‖ei‖2 ≤ 1, ‖ri‖2 ≤ 1, ‖rj‖ ≤ 1 and ‖riM‖2 ≤ 1.
+36	23	The first term in Equation (3) enforces the resultant embedding space compatible with all the observed triples, and the second term further requires the space to be temporally consistent and more accurate.
+46	24	Second, to make a mixed dataset, we created YG36k where 50% facts have time annotations and 50% do not.
+49	18	For each test triple with missing head or tail entity, various methods are used to compute the scores for all candidate entities and rank them in descending order.
+55	10	We then use time-aware embedding based on these methods to obtain the corresponding time-aware embedding models.
+67	40	When dealing with sparse data YG15k, all the temporal information is utilized to model temporal associations and make the embeddings more accurate, so it obtains better improvement than mixing the time-unknown triples in YG36k.
+68	31	Relation prediction aims to predict relations given two entities.
+73	13	Triple classification aims to judge whether an unseen triple is correct or not.
+74	10	We follow the same evaluation protocol used in Socher et al. (2013).
+76	12	To corrupt a position (head or tail), only entities that have appeared in that position are allowed.
+77	15	During triple classification, a triple is predicted as positive if the score is below a relation-specific threshold δr; otherwise as negative.
+83	12	Temporal order information may help to distinguish positive and negative triples as different head entities may have different temporally associated relations.
+84	26	If the temporal order is the same with most facts, the regularization term helps it get lower energies and vice versa.
+90	29	In this paper, we propose a general time-aware KB embedding, which incorporates creation time of entities and imposes temporal order constraints on the geometric structure of the embedding space and enforce it to be temporally consistent and accurate.
+91	12	As future work: (1) We will incorporate the valid time of facts.
+92	10	(2) Some time-sensitive facts lack temporal information in YAGO2, we will mine such temporal information from texts.

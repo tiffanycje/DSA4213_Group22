@@ -1,0 +1,30 @@
+10	28	Prior work focused mostly on spoken dialogue, commonly addressing conversational agents, psychological interventions, or call center applications (McQuiggan and Lester, 2007; Fung et al., 2016; Pérez-Rosas et al., 2017; Alam et al., 2017).
+13	11	1 Psychological studies commonly distinguish between state and trait empathy.
+14	34	While the former construct describes the amount of empathy a person experiences as a direct result of encountering a given stimulus, the latter refers to how empathetic one is on average and across situations.
+16	42	For a contribution addressing trait empathy from an NLP perspective, see AbdulMageed et al. (2017).
+17	36	In this contribution we present the first publicly available gold standard for text-based empathy prediction.
+18	9	It is constructed using a novel annotation methodology which reliably captures empathy assessments via multi-item scales.
+19	17	The corpus as well as our work as a whole is also unique in being—to the best of our knowledge—the first computational approach differentiating multiple types of empathy, empathic concern and personal distress, a distinction well recognized throughout psychology and other disciplines.2
+25	15	The by far most widely cited state empathy scale is Batson’s Empathic Concern – Personal Distress Scale (Batson et al., 1987), henceforth empathy and distress.
+27	22	Empathy is a warm, tender, and compassionate feeling for a suffering target.
+31	62	The corpus acquisition was set up as a crowdsourcing task on MTurk.com pointing to a Qualtrics.com questionnaire.
+32	27	The participants completed background measures on demographics and personality, and then proceeded to the main part of the survey where they read a random selection of five of the news articles.
+33	93	After reading each of the articles, participants were asked to rate their level of empathy and distress before describing their thoughts and feelings about it in writing.
+35	32	Arguably, our proposed annotation methodology yields more appropriate gold data, yet also leads to more variance in the relationship between linguistic features and empathic state ratings.
+36	45	That is because each rating reflects a single individual’s feelings rather than a more stable average assessment by multiple raters.
+37	10	To account for this, we use multi-item scales as is common practice in psychology.
+38	29	I.e., participants give ratings for multiple items measuring the same construct (e.g., empathy) which are then averaged to obtain more reliable results.
+39	42	As far as we know, this is the first time that multiitem scales are used in sentiment analysis.3 In our case, participants used Batson’s Empathic Concern – Personal Distress Scale (see above), i.e, rating 6 items for empathy (e.g., warm, tender, moved) and 8 items for distress (e.g., troubled, disturbed, alarmed) using a 7-point scale for each of those (see Appendix for details).
+40	11	After rating their empathy, participants were asked to share their feelings about the article as they would with a friend in a private message or with a group of friends as a social media post in 300 to 800 characters.
+59	8	Instead, we compute split-half reliability (SHR), a standard approach in psychology (Cronbach, 1947) which also becomes increasingly popular in sentiment analysis (Mohammad and BravoMarquez, 2017a; Buechel and Hahn, 2018a).
+66	10	Distinct models were trained for empathy and distress prediction.
+77	14	Again, the embedding centroid is used as features.
+82	9	We applied dropout with probabilities of .2, .5 and .5 on input, dense and pooling layers, respectively.
+89	18	While the CNN significantly outperforms the other models in every case, the differences between Ridge and the FFN are not statistically significant for either empathy or distress.6 The improvements of the CNN over the other two approaches are much more pronounced for distress than for empathy.
+91	11	In comparison to closely related tasks such as emotion prediction (Mohammad and Bravo-Marquez, 2017a) our performance figures for empathy and distress prediction are generally lower.
+107	12	Hereby we create the first publicly available gold standard for empathy prediction in written language, our survey being set-up and supervised by an expert psychologist.
+108	25	Our analysis shows that the data set excels with high rating reliability and an authentic and diverse language, rich of challenging phenomena such as sarcasm.
+115	35	After reading each of the articles, participants rated their level of empathic concern and personal distress using multi-item scales.
+118	8	The last eight items (worried, upset, troubled, perturbed, grieved, disturbed, alarmed, and distressed) refer to distress.
+120	37	This could be a private message to a friend or something you would post on social media.
+121	40	Please do not identify your intended friend(s) — just write your thoughts about the article as if you were communicating with them.

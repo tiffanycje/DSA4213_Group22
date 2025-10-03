@@ -1,0 +1,30 @@
+11	146	We also need a systematic procedure that trains a system to produce meaningful SBs.
+12	27	This paper first proposes a finite state machine (FSM) that both shows superior performance in end-of-turn detection compared to previous methods and is compatible with incremental processing.
+14	103	Section 2 of the paper discusses related work; Section 3 describes the finite state machine; Sections 4, 5, and 6 describe how to produce meaningful SB; Section 7 gives experimental results of an evaluation using the CMU Let’s Go Live system and simulation results on the Dialog State Tracking Challenging (DTSC) Corpus and Section 8 concludes.
+33	36	We first describe how these two modes operate, and then show how they are compatible with existing incremental dialog approaches.
+38	34	But before a long pause (e.g. 1000ms) is detected, the user’s continued speech will stop the system from responding, as shown on Figure 1: Most of the system’s attempts to respond will thus be FCs.
+39	87	However, since the listener can stop the system from speaking, the FCs have no effect on the conversation (users may hear the false start of the system’s prompt, but often the respond state is cancelled before the synthesized speech begins).
+43	23	By changing the value of each of these thresholds we can modify the system’s behavior from rigid turn taking to active SB.
+46	32	(AT = LT = small value) This abstraction simplifies the challenge: “when the system should barge in” as the following transition: PassiveAgent Φ(dialog state)−−−−−−−−−→ ActiveAgent where Φ(·) : dialog State → {true, false} is a function that outputs true whenever the agent should take the floor, regardless of the current state of the floor.
+63	20	Barge in when the hypothesis confidence is low and the predicted future hypothesis will not get better.
+66	30	The quality of the recognized information is positively correlated to number of correctly recognized slots (CS) and inversely correlated to the number of incorrectly recognized slots (ICS).
+68	75	We first design a cost model that defines a reward function.
+69	19	This model is based on the assumption that the system will use explicit confirmation for every slot.
+80	14	We denote csi and icsi as the number of correctly/incorrectly recognized slots in the user response.
+86	30	Then the reward, ri, associated with each user response can be expressed as the difference between the previous and current estimates: ri = (hi−1 + fi−1)− (hi + fi) (3) = −1 + (E[S]− 1)︸ ︷︷ ︸ weight to CS csi − icsi (4) Therefore, a positive reward means the new user response reduces the estimated number of turns for task completion while a negative reward means the opposite.
+95	16	A sequence of real-valued reward functions, y0, y1(x1), y2(x1, x2)...
+99	17	A (finite) MDP is a tuple (S,A, {Psa}, γ, R), where: • S is a finite set of N states • A = a1, ...ak is a set of k actions • Psa(·) are the state transition probabilities on taking action a in state s. • γ ∈ [0, 1) is the discount factor • R : S → < is the rewards function.
+120	41	The Bellman equations become: Qπ(si, stop) = ri (8) Qπ(si, wait) = γm−irm (9) and the oracle action at any s can be obtained by : a∗i = wait if Q ∗(si, stop) < Q∗(si, wait) a∗i = stop if Q ∗(si, stop) ≥ Q∗(si, wait) This special property of optimal stopping problem allows us to use supervised learning methods directly modeling the optimal Q function, by finding a mapping from the input state space, si, into the Q-value for both actions: Q(si, stop)∗ and Q(si, wait)∗.
+126	15	Immediate features come from the ASR and the NLU in the latest partial hypothesis.
+127	28	Delta features are the first-order derivate of immediate features with respect to the previous observed feature.
+141	27	Figure 4 shows that when the end-of-turn detector produces an FC, the continued flow of user speech instantiates a new user utterance which overlaps with the previous one.
+153	25	Average user utterance duration over time
+165	20	Utterance duration is more stable in the new system than in the old one.
+166	22	Two possible explanations are: 1) since UFR is much higher in the old system, the system is more likely to cut in at the wrong time, possibly making users abandon their normal turn-taking behavior and talk over the system.
+193	16	Table 6 shows that the SVM classifier can achieve very high precision and high recall in predicting the correct action.
+195	16	Table 7 shows that learned policy increases the average reward by 27.7% and 14.9% compared to the baseline system for the departure and arrival responses respectively.
+199	215	For responses to both questions, the oracle system utterance duration is about 55% shorter than the baseline one.
+200	57	The learned policy is also 45% shorter, which means that at about the middle of a user utterance, the system can already predict that the user either has expressed enough information or that the ASR is so wrong that there is no point of continuing to listen.
+205	129	The learned policy is more conservative in producing no-parse utterances because it cannot cheat like the oracle to access future information and know that all future hypotheses will contain only incorrect information.
+212	29	Future studies will include constructing a more comprehensive cost model that not only takes into account of CS/ICS, but also includes other factors such as conversational behavior.
+215	20	Also, we will add more complex actions to the system such as back channeling, clarifications etc.

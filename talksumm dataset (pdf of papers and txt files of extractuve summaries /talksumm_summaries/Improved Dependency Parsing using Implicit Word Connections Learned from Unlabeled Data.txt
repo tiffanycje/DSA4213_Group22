@@ -1,0 +1,30 @@
+0	42	Dependency parsing is a fundamental task for language processing which aims to establish syntactic relations between words in a sentence.
+1	11	Graphbased models (McDonald et al., 2005; McDonald and Pereira, 2006; Carreras, 2007; Koo and Collins, 2010) and transition-based models (Nivre, 2008; Zhang and Nivre, 2011) are the most successful solutions to the challenge.
+2	44	Recently, neural network methods have been successfully introduced into dependency parsing.
+4	45	It alleviates the heavy burden of feature engineering.
+5	21	LSTM networks (Hochreiter and Schmidhuber, 1997) are then applied to dependency parsing (Dyer et al., 2015; Cross and Huang, 2016; Wang and Chang, 2016; Kiperwasser and Goldberg, 2016; Dozat and Manning, 2016) due to its ability to capture contextual information.
+6	25	Generative neural network models (Dyer et al., 2016; Smith et al., 2017; Choe and Charniak, 2016) also show promising parsing performance.
+9	58	They generate large quantities of parse trees by parsing unlabeled data with two existing parsers and selecting only the sentences for which the two parsers produced the same trees.
+10	38	However, the trees produced this way have noise1 and tend to be short sentences, since it is easier for different parsers to get consistent results.
+12	30	Pretrained word embeddings (Mikolov et al., 2013) and language model (Józefowicz et al., 2016; Peters et al., 2017, 2018) have been shown useful in modelling NLP tasks since word embeddings could capture word semantic information and language model could capture contextual information at the sentence level.
+13	23	However, connections between words in the sentence cannot be directly captured by word embeddings or language model, which are crucial for dependency parsing given its goal is to establish dependency relations between words.
+14	12	In this paper, we propose to implicitly model word connections by a word ordering model.
+16	25	We human could make sentences easily from unordered words since we have syntactic knowledge, thus a model generating wellformed sentences from the bag of words encodes syntactic information.
+20	11	Ablation tests also show self-attention mechanism is critical.
+24	18	Self-attention mechanism effectively decides which words in the word bag are more important in generating the next word.
+25	30	It improves the ability of our model to capture word connections.
+30	21	We initialize the forward LSTM with an average of the input word embeddings (cwowi:n).
+36	27	Given a large set of unlabeled sentences, we can just ignore the word order of sentence and train the model to generate the corresponding well-formed sentence in the training set.
+46	12	The input layer creates a sequence of input vectors x1:n in which each xi is a concatenation of its word embedding (ewi), POS tag embedding (epi), character-level BiLSTM embedding (cwi), and word ordering model pre-trained vector (wowi): xi = [ewi ; epi ; cwi ;wowi ] (7) To get the word ordering model pre-trained vector (wowi), the sentence s is fed into the pretrained word ordering model.
+47	26	Following Peters et al. (2018), we then combine the input vector (xwoi =[c wo wi ; sa wo wi ]) and L-layer BiLSTM vectors (hwoi,j =[ −→ h woi,j ; ←− h woi,j ] | j=1, 2, ..., L) by a Softmaxnormalized weight (Wwoc) and a scalar parameter (γ): wowi = γ(W woc 0 x wo i +Σ L j=1W woc j h wo i,j ) (8) The parameters of word ordering model are fixed during the training of parsing model.
+54	12	Using section 2-21 for training, section 22 as development set and 23 as test set.
+71	15	Two sets of experiments are provided to show the effectiveness of pre-trained word ordering model.
+72	18	Although our baseline system is similar to (Kiperwasser and Goldberg, 2016; Wang and Chang, 2016) but with subtle differences in architecture, the baseline could perform much better to our surprise and thus constitutes a very strong baseline.
+73	14	Compared with this baseline, introducing the pre-trained word ordering model achieves a significant improvement (almost 0.6% UAS gains for both datasets, p < 0.001).
+74	14	To further show the effectiveness of word ordering model, we also implement an even stronger baseline with pretrained language model5.
+75	13	Compared with this much stronger baseline, incorporating pre-trained word ordering model still achieves a significant improvement (0.3% UAS gains for both datasets, p < 0.01).
+90	17	The differences between connections and dependency arcs are because that our word ordering model trained without any supervised dependency information.
+91	25	The connections are actually built to increase the likelihood.
+93	24	In this paper, we propose to implicitly capture word connections from large-scale unlabeled data by a word ordering model with self-attention.
+95	17	Moreover, with the help of word ordering model and language model, our model achieves SOTA results on the PTB dataset.
+96	20	As for future work, we are testing on languages other than English.

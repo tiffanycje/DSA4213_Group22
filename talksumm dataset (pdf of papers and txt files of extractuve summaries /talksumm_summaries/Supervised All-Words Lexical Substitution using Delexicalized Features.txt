@@ -1,0 +1,30 @@
+73	87	After the list of potential substitutions is obtained, lexical substitution is cast as a ranking task where the goal is to prefer contextually plausible substitutions over implausible ones.
+75	24	A supervised model can generalize over the example target words in the datasets, if aggregate features can be defined that have the same semantics regardless of the actual context, target word or candidate substitution they are computed from.
+76	42	Having such a representation, one can expect to learn patterns that generalize over the words/contexts seen in the training dataset, and thus the setup constitutes a supervised all-word system.
+92	42	A further set of features captures the properties of the target and candidate word in a lexical resource (WordNet), such as their number of senses, how frequent senses are synonymous, etc.
+93	20	Lastly, we use part of speech patterns to describe the target word in context.
+95	99	Even though we make intensive use of WordNet to compute some of our feature functions, this is not a severe restriction for a practical paraphrasing system: one has to have a decent lexical resource in order to mine a reasonable set of candidate synonyms and such a resource can also serve as a source for features in the classifier.
+97	51	For a target word t, and candidate substitution si from a set of candidates S, we used the features below.
+102	17	We denote the left and right contexts around t and all words in the sentence except t with cl, cr and c, respectively)
+103	43	We used Wordnet 3.0 as the source for substitution candidates and as a source for delexicalized features.
+104	40	We found the measure of ambiguity and the sense number to provide useful information in a more general context: it is informative how many senses a word has, and it is informative from which sense number of the substitution target the substitution candidate came from, since they are ordered by corpus frequency.
+109	27	After counting the frequency of each feature for each word, we apply a significance measure (log-likelihood test (LL), (Dunning, 1993)), rank features per word according to their significance, and prune the data, keeping only the 1000 most salient features (Fw) per word7.
+110	24	The similarity of two words is then given by the number of their common features.
+116	17	We also use part of speech information (from TreeTagger (Schmid, 1994)) as features, in order to enable the model to learn POS-specific patterns.
+121	26	That is, for the sentence ”He was bright and independent and proud.”, where the human annotators listed intelligent, clever as suitable paraphrases, our system had 1 correct (intelligent) and 74 incorrect substituions in the candidate set (that is, clever is not found in WordNet in the above described way).
+125	19	For instance, ”bright” and ”intelligent” are frequently occurring in comma-separated enumerations, and ”intelligent” fits well in the target context based on n-gram probabilities.
+126	18	The second largest block of features is constituted by 48 active distributional similarity features (Sect.
+130	27	4.3.1) e.g. inform about the number of senses of the target (10) and the candidate (4).
+131	27	Now, we describe our results in detail.
+132	121	First we compare our system on two datasets with a competitive baseline, which uses the same candidate set as our ML-based model, and the simple and effective ranking function based on Google n-grams described by Giuliano et al. (2007).
+133	82	Later on we analyze how the four major feature groups contribute to the results in a feature ablation experiment, and then we provide a detailed and thorough comparison to earlier works that are similar to the model presented here and used the same dataset (LexSub) for evaluation.
+135	74	As can be seen, our model outperforms the baseline by a significant margin (p < 0.01 for all measures, using a paired t-test for significance).
+150	39	All single feature groups, when combined with n-grams, lead to significant improvements (p < 0.01), which proves the usefulness of each feature group.
+168	46	In this study, we presented a supervised approach to all-words lexical substitution based on delexicalized features, which enables us to fully exploit the power of supervised models while ensuring applicability to a large, open vocabulary.
+170	18	Also, it performed slightly better than the state of the art for candidates pooled from the gold standard without any parameter tuning or empirical design choices.
+173	40	While previous works showed the potential of more/improved lexical resources for lexical substitution, we improved over the best Semeval-style performance just by exploiting an improved ranking model over a standard WordNet-based candidate set.
+174	52	These results indicate that improvements from lexical resources and better ranking models are additive, thus we want to add more lexical resources in our system in the future.
+176	79	First of all, similar to the best ranking approaches (e.g. Thater et al. (2011)), one could use contextualized feature functions to make global information from the distributional thesaurus more accurate.
+177	85	Instead of using globally calculated similarities, information from the distributional thesaurus could be contextualized via constraining the statistics with words from the context.
+178	44	Other natural ways to improve the model described here are to make heavier use of parser information or to employ pair-wise or list-wise machine learning models (Cao et al., 2007), which are specifically designed for subset ranking.
+179	200	Lastly, while intrinsic evaluation of lexical substitution is important, we would like to show its practicability in tasks such as steganography or information retrieval.

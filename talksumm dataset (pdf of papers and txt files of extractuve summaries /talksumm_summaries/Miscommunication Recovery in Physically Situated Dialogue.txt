@@ -1,0 +1,30 @@
+4	25	The current study establishes an empirical basis for grounding in physically situated contexts.
+5	130	We had people provide recovery strategies for a robot in various situations.
+6	63	The focus of this work is on recovery from situated grounding problems, a type of miscommunication that occurs when an agent fails to uniquely map a person’s instructions to its surroundings (Marge and Rudnicky, 2013).
+7	48	A referential ambiguity is where an instruction resolves to more than one possibility (e.g., “Search the room on the left” when there are multiple rooms on the agent’s left); an impossible-to-execute problem fails to resolve to any action (e.g., same instruction but there are no rooms on the agent’s left).
+8	46	A common strategy evidenced in human-human corpora is for people to ask questions to recover from situated grounding problems (Tenbrink et al., 2010).
+13	22	We cast the problem space as one where the agent aims to select the most efficient recovery strategy that would resolve a user’s intended referent.
+15	28	Viethen and Dale (2006) suggest a similar prediction in their study comparing human and automatically generated referring expressions of objects and their properties.
+16	22	We sought to answer the following questions in this work: • How good are people at detecting situated grounding problems?
+43	20	The participant would then watch the robot enter the first scene.
+59	24	Trials were assembled in two groups and participants were assigned randomly to one (see Table 1).
+75	20	Impossible-to-Execute The impossible-to-execute trials divided into two broad types.
+77	24	The other six scenes were impossible because a path to get to the matching referent was not possible.
+82	31	The robot also knew the color and size of objects in the environment (intrinsic properties), where objects were relative to the robot itself and to other objects (proximity), when objects were right, left, in front, and behind it (spatial terms), the room and hallway locations of objects (location), and the places it has been (history, the robot kept track of which objects it had visited).
+83	62	The robot could not pass through closed doors.
+97	28	Additionally, Clark’s least effort principle (Clark, 1996) suggests that clarifying one referent using a yes-no confirmation would require less effort than presenting a list in two ways: producing a shorter question and constraining the range of responses to expect.
+113	19	Projected belief (impossible-to-execute trials only, κ = 0.80): The participant’s belief about the next task, given the current operator instruction (projected onto the robot).
+114	20	The types were unknown (response indicates participant is unsure what to do next), ask for more (ask for more details), propose alternative (propose alternative object), ask for help (ask operator to physically manipulate environment), and off topic.
+129	19	In fact, they were four times worse; of the impossible-toexecute scenes, participants failed to detect that 22% (50/225) of them were impossible, compared to 5% (17/375) of scenes with referential ambiguity.
+145	21	Of the intrinsic dimensions mentioned, most were only color (61%, 148/242), followed by size (33%, 81/242), and using both (5%, 13/242).
+163	25	Though this belief occurred in about a third of responses, the remaining responses were all proactive ways for the robot to get the conversation back on track (i.e., propose alternative, ask for more, and ask for help).
+167	21	An error analysis of the 50 responses for this condition had participants responding as if the impossible scenes were possible (62%, 31/50).
+178	17	These results suggest that dialogue systems should present detection of referential ambiguity implicitly, and as a list.
+180	18	A list offers several benefits: it grounds awareness of surroundings, presents a fixed set of options to the user, and constrains the range of linguistic responses.
+220	139	We asked participants to provide what they think the robot should say; there was no ongoing interaction.
+224	25	We conducted a study that collected recovery strategies for physically situated dialogue with the goal of establishing an empirical basis for grounding in physically situated contexts.
+227	159	For disambiguation, there was a preference for strategies that use visually salient properties over ones that require additional mental processing, like spatial reasoning or memory recall.
+228	47	For impossible-to-execute scenes, responses more often presented alternative referents than just noting non-understanding.
+229	126	We should note that some differences between our findings and those of others may in part rest on differences in task and environment, though intrinsic variables such as mental effort will likely persist over different situations.
+230	132	In future work, we intend to use these data to model salience ranking in similar contexts.
+231	30	We will further assess the hypothesis that participants’ preferences in this study will enhance performance in a spoken dialogue system that deploys similar strategies.

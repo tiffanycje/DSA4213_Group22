@@ -1,0 +1,30 @@
+2	29	We primarily target unstructured dialogues, where there is no a priori logical representation for the information exchanged during the conversation.
+4	54	We observe that in several subfields of AI— computer vision, speech recognition, machine translation—fundamental break-throughs were achieved in recent years using machine learning methods, more specifically with neural architectures [1]; however, it is worth noting that many of the most successful approaches, in particular convolutional and recurrent neural networks, were known for many years prior.
+5	30	It is therefore reasonable to attribute this progress to three major factors: 1) the public distribution of very large rich datasets [5], 2) the availability of substantial computing power, and 3) the development of new training methods for neural architectures, in particular leveraging unlabeled data.
+6	27	Similar progress has not yet been observed in the development of dialogue systems.
+23	30	These datasets have been significant resources for structured dialogues, and have allowed major progress in this field, though they are quite small compared to datasets currently used for training neural architectures.
+27	25	However to our knowledge, these datasets have not been made public, and furthermore, the post-reply format of such microblogging services is perhaps not as representative of natural dialogue between humans as the continuous stream of messages in a chat room.
+28	30	In fact, Ritter et al. estimate that only 37% of posts on Twitter are ‘conversational in nature’, and 69% of their collected data contained exchanges of only length 2 [21].
+79	17	To alleviate the problem of ‘holes’ in the dialogue, where one user does not address the other explicitly, as in Figure 5, we check whether each user talks to someone else for the duration of their conversation.
+81	32	An example conversation along with the extracted dialogues is shown in Figure 5.
+98	16	It can be seen that the number of dialogues and turns per dialogue follow an approximate power law relationship.
+106	42	An example pair is shown in Table 3.
+107	54	To make the task harder, we can move from pairs of responses (one correct, one incorrect) to a larger set of wrong responses (all with flag=0).
+109	33	Since we want to learn to predict all parts of a conversation, as opposed to only the closing statement, we consider various portions of context for the conversations in the test set.
+117	16	Here the agent is asked to select the k most likely responses, and it is correct if the true response is among these k candidates.
+119	158	Although a language model that performs well on response classification is not a gauge of good performance on next utterance generation, we hypothesize that improvements on a model with regards to the classification task will eventually lead to improvements for the generation task.
+138	37	This leads to the formation of an internal state of the network, ht, which allows it to model time-dependent data.
+139	26	The internal state is updated at each time step as some function of the observed variables xt, and the hidden state at the previous time step ht−1.
+147	47	Given some input context and response, we compute their embeddings — c, r ∈ Rd, respectively — by feeding the word embeddings one at a time into its respective RNN.
+153	49	The model is trained by minimizing the cross entropy of all labeled (context, response) pairs [33]: L = − log ∏ n p(flagn|cn, rn) + λ 2 ||θ||F2 where ||θ||F2 is the Frobenius norm of θ = {M, b}.
+166	32	The hyper-parameter configuration (including number of neurons) was optimized independently for RNNs and LSTMs using a validation set extracted from the training data.
+170	24	We observe that the LSTM outperforms both the RNN and TF-IDF on all evaluation metrics.
+171	58	It is interesting to note that TF-IDF actually outperforms the RNN on the Recall@1 case for the 1 in 10 classification.
+174	21	We also show, in Figure 3, the increase in performance of the LSTM as the amount of data used for training increases.
+176	19	This paper presents the Ubuntu Dialogue Corpus, a large dataset for research in unstructured multiturn dialogue systems.
+184	40	This seems supported through qualitative examination of the data, but could be the subject of more formal evaluation.
+187	38	In the future, instead of choosing false responses randomly, we will consider selecting false responses that are similar to the actual response (e.g. as measured by cosine similarity).
+188	23	A dialogue model that performs well on this more difficult task should also manage to capture a more fine-grained semantic meaning of sentences, as compared to a model that naively picks replies with the most words in common with the context such as TF-IDF.
+202	40	Another possibility is to use human subjects to score automatically generated responses, but time and expense make this a highly impractical option.
+203	106	In summary, while it is possible that current language models have outgrown the use of slot filling as a metric, we are currently unable to measure their ability in next utterance generation in a standardized, meaningful and inexpensive way.
+204	22	This motivates our choice of response selection as a useful metric for the time being.

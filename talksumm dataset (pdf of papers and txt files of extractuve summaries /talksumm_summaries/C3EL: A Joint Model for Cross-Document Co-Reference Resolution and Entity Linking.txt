@@ -1,0 +1,30 @@
+26	50	CCR alone would likely miss the coreference relation between Logan (Doc 1) and its alias Wolverine (Doc 2), leaving NEL with the difficult task of disambiguating “Logan” in a document with sparse and highly ambiguous context (Doc 1).
+39	51	C3EL couples several building blocks like unsupervised hierarchical clustering, context summaries for mentions and distant KB features for entities, drawing inspiration from the CCR-only method of (Dutta & Weikum, 2015).
+40	56	Mention linking to the KB (NEL) is performed using distant knowledge and co-occurring mentions.
+41	135	In a nutshell, the major contributions of this paper are: • the C3EL framework for joint computation of cross-document co-reference resolution (CCR) and entity linking to a KB (NEL), based on propagating information across iterative CCR and NEL steps; • techniques for considering co-occurring men- tions in context summaries and for harnessing context-based keywords for link validation in NEL, improving accuracy on out-of-KB entities; • an experimental evaluation with two different corpora, one based on news articles and one based on web pages, demonstrating substantial gains for both CCR and NEL over state-of-theart methods.
+42	70	2 C3EL: Joint CCR-NEL Framework Given an input corpus C of n documents, C = {D1, D2, · · · , Dn} with entity mentions EM = {m11,m12, · · · ,m21,m22, · · · } (mij ∈ Di), C3EL aims to jointly compute: • CCR: an equivalence relation over EM with equivalence classesEi, such thatEi ∩i 6=j Ej = ∅ and ∪i Ei = EM , and • NEL: linking each of the classes Ei to entities present in a KB or map it to null if there is no proper entity in the KB.
+43	27	To this end, C3EL consists of 3 algorithmic stages: (i) Pre-Processing, (ii) Interleaved NEL and CCR, and (iii) Finalization.
+50	24	For each of the mention groups Mi, C3EL then constructs a context summary using: • Sentences – all sentences in the document that contain mentions of group Mi; and • Co-occurrence – all sentences for other men- tion groups that contain mentions co-occurring in any of the sentences of Mi (as obtained above).
+52	44	Also, let the co-occurring mention set of Mi be Co(Mi) = {m′ |m′ ∈ S(Mi) ∧ m′ /∈ Mi}.
+58	83	For each Mi, the entity link obtained (from NEL) is then “validated” using a similarity measure between features from the context summary, CS(Mi) (including co-occurring mentions) and distant KB labels – forming the link validation procedure of C3EL.
+61	29	The mappings between the mention groups and KB entries are then classified, on the basis of the NEL confidence scores, into Strong Evidence (SE), Weak Evidence (WE), and No Evidence (NE) classes.
+72	24	Based on the context summary similarities between mentions, C3EL performs hierarchical clustering to group together the “Hugh” mentions (in the WE class) and creates a co-referring mention group with the individual mentions’ context summaries concatenated.
+73	33	This merging of summaries grows and strengthens captured contexts, which propagates across documents.
+74	50	This concludes the first iteration of C3EL.
+75	29	The above results are provided to the second Iteration: • NEL: The context summary of the “Hugh” mention group in WE now provides definitive cues to correctly map it to the actor Hugh Jackman with high confidence, thus placing it in the SE class.
+76	30	• CCR: The ensuing CCR step groups together “Ava Eliot” and “Ava” (in NE) using cooccurrence context of the co-referring Hugh mentions.
+77	52	Subsequent NEL iterations (on WE and NE) identify “Ava” as an out-of-KB entity and correctly links “Australia” to the movie using CCRgenerated mention-group contexts and link validation.
+78	92	CCR finally groups together “Logan” with “Wolverine” based on context similarity with distant KB features.
+79	48	This process of alternating CCR and NEL is repeated until all mention groups are strongly connected to KB entities (placed in SE), or no changes are made anymore.
+80	24	The NEL and CCR procedures are performed separately on the different mention types (like PER, LOC, etc.
+83	155	In its NEL procedure, C3EL disambiguates mentions to entities in the YAGO knowledge base (yago-knowledge.org).
+86	22	Link Validation: For each mention group (e.g., Hugh), we extract distant KB labels such as se- mantic types or categories (e.g., actor), title (e.g., Golden Globe winner), alias (e.g., Wolverine), location, and gender (for person) from the Wikipedia page infoboxes.
+95	19	They mostly represent long-tail in-KB entities (sparsely represented in KB) with limited semantic information (for detection) but might also be new/emerging entities absent from KB.
+96	28	• No Evidence (NE): φ(Mi, ei) < δw represents mentions groups that have been mapped to null (or have near-zero match confidence) or have failed link validation during the NEL procedure.
+103	31	A similarity-weighted graph with the mention groups as nodes and edge weights representing mention-mention similarities is constructed.
+104	33	Bisection-based hierarchical balanced min-edge-cut graph partitioning (Buluc et al., 2013) is performed, using the METIS software (Karypis & Kumar, 1999)2, to partition noncoreferent mentions groups.
+106	200	CCR aims to process heterogeneous corpora that go beyond a single domain and style, such as Web collections.
+107	34	For the remaining mention groups in WE, we finally perform threshold based disambiguation of mention clusters using the context summaries.
+109	40	Mi is concatenated with the best matching entity Mk (in SE) if the similarity score is above a threshold θ; else Mi is marked as an out-of-KB entity (mapped to null) and is placed in theNE class.
+110	41	This helps in reducing propagated CR errors like erroneous mention boundary detection (in NER), omissions in co-reference chain, etc.
+111	24	(leading to “phantom” out-of-KB entities).

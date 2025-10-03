@@ -1,0 +1,30 @@
+0	20	With the growing need of correctly identifying the sentiments expressed in subjective texts such as product reviews, sentiment classification has received continuous attention in the NLP community for over a decade (Pang et al., 2002; Pang and Lee, 2004; Hu and Liu, 2004; Choi and Cardie, 2008; Nakagawa et al., 2010).
+1	42	One of the big challenges of sentiment classification is how to adapt a sentiment classifier trained on one domain to a different new domain.
+2	15	This is because sentiments are often expressed with domain-specific words and expressions.
+3	15	For example, in the Movie domain, words such as moving and engaging are usually positive, but they may not be relevant in the Restaurant domain.
+4	75	Since labeled data is expensive to obtain, it would be very useful if we could adapt a model trained on a source domain to a target domain.
+6	211	Among them, an appealing method is the Structural Correspondence Learning (SCL) method (Blitzer et al., 2007), which uses pivot feature prediction tasks to induce a projected feature space that works well for both the source and the target domains.
+7	58	The intuition behind is that these pivot prediction tasks are highly correlated with the original task.
+8	37	For sentiment classification, Blitzer et al. (2007) first chose pivot words which have high mutual information with the sentiment labels, and then set up the pivot prediction tasks to be the predictions of each of these pivot words using the other words.
+9	81	However, the original SCL method is based on traditional discrete feature representations and linear classifiers.
+12	14	By using real-valued word embeddings pre-trained from a large corpus, these models can take advantage of the embedding space that presumably better captures the syntactic and semantic similarities between words.
+13	24	And by using non-linear functions through multi-layer neural networks, these models represent a more expressive hypothesis space.
+15	11	236 There has been some recent studies on neural network-based domain adaptation (Glorot et al., 2011; Chen et al., 2012; Yang and Eisenstein, 2014).
+17	23	However, SDA is fully unsupervised and does not consider the end task we need to solve, i.e., the sentiment classification task.
+19	26	Another line of work aims to learn a low dimensional representation for each feature in both domains based on predicting its neighboring features (Yang and Eisenstein, 2015; Bollegala et al., 2015).
+20	38	Different from these methods, we aim to directly learn sentence embeddings that work well across domains.
+24	122	Moreover, different from SCL and the auto-encoderbased methods, in which the hidden feature representation and the final classifier are learned sequentially, we propose to jointly learn the hidden feature representation together with the sentiment classification model itself, and we show that joint learning works better than sequential learning.
+25	34	We conduct experiments on a number of different source and target domains for sentence-level sentiment classification.
+26	20	We show that our proposed method is able to achieve the best performance compared with a number of baselines for most of these domain pairs.
+40	9	We first introduce the necessary notation and an overview of our method.
+45	18	, V } is a word in the vocabulary and V is the vocabulary size.
+46	49	Let the sentiment label ofx be y ∈ {+,−}where + denotes a positive sentiment and − a negative sentiment.
+49	79	Our goal is to learn a good sentiment classifier from both Ds and Dt such that the classifier works well on the target domain.
+51	94	To simplify the discussion and focus on the domain adaptation ideas we propose, we will leave the details of the neural network model we use in Section 3.5.
+52	69	For now, we assume that a multilayer neural network is used to transform each input x into a sentence embedding vector z.
+53	19	Let us use fΘ to denote the transformation function parameterized by Θ, that is, z = fΘ(x).
+54	62	Next, we assume that a linear classifier such as a softmax classifier is learned to map z to a sentiment label y.
+55	76	We introduce two auxiliary tasks which presumably are highly correlated with the sentiment classification task itself.
+56	21	Labels for these auxiliary tasks can be automatically derived from unlabeled data in both the source and the target domains.
+57	35	With the help of the two auxiliary tasks, we learn a non-linear transformation function fΘ′ from unlabeled data and use it to derive a sentence embedding vector z′ from sentence x, which supposedly works better across domains.
+62	25	If we have a list of domain-independent positive sentiment words, then an input sentence that contains one of these words, regardless of the domain the sentence is from, is more likely to contain an overall positive sentiment.

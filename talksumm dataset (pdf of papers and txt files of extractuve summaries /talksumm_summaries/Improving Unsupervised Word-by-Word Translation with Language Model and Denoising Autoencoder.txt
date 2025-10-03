@@ -1,0 +1,30 @@
+0	24	Building a machine translation (MT) system requires lots of bilingual data.
+5	11	Unsupervised learning is another alternative, where we can train an MT system with only monolingual corpora.
+7	19	Recent work by Artetxe et al. (2018) and Lample et al. (2018) train sequence-to-sequence MT models of both translation directions together in an unsupervised way.
+8	26	They do back-translation (Sennrich et al., 2016a) back and forth for every iteration or batch, which needs an immensely long time and careful tuning of hyperparameters for massive monolingual data.
+9	11	Here we suggest rather simple methods to build an unsupervised MT system quickly, based on word translation using cross-lingual word embeddings.
+10	20	The contributions of this paper are: • We formulate a straightforward way to combine a language model with cross-lingual word similarities, effectively considering context in lexical choices.
+12	10	• We analyze the effect of different artificial noises for the denoising model and propose a novel noise type.
+17	33	Altogether, our unsupervised MT system outperforms the sequence-to-sequence neural models even without training signals from the opposite translation direction, i.e. via backtranslation.
+20	17	Cross-lingual word embedding is a continuous representation of words whose vector space is shared across multiple languages.
+22	11	We train cross-lingual word embedding in a fully unsupervised manner: 1.
+25	21	Find a linear mapping from source embedding space to target embedding space by adversarial training (Conneau et al., 2018).
+32	10	Repeat Step 3 and 4 for a fixed number of iterations to update the mapping further.
+35	10	The word translation using nearest neighbor search does not consider context around the current word.
+36	38	In many cases, the correct translation is not the nearest target word but other close words with morphological variations or synonyms, depending on the context.
+39	15	In this paper, we integrate context information into word-by-word translation by combining a language model (LM) with cross-lingual word embedding.
+40	15	Let f be a source word in the current position and e a possible target word.
+43	12	Accumulating the scores per position, we perform a beam search to allow only reasonable translation hypotheses.
+48	11	Training label sequences for the denoising network would be target monolingual sentences, but we do not have their noisy versions at hand.
+51	16	Instead, we inject artificial noise into a clean sentence to simulate the noise of word-by-word translation.
+55	15	For example, a German sentence “Ich höre zu.” would be translated to “I’m listening to.” by a word-by-word translator, but “I’m listening.” is more natural in English (Figure 1).
+58	25	If pi < pins, sample a word e from the most frequent Vins target words and insert it before position i.
+59	10	We limit the inserted words by Vins because target insertion occurs mostly with common words, e.g. prepositions or articles, as the example above.
+62	10	For example, a German word “im” must be “in the” in English, but word translation generates only one of the two English words.
+70	11	From a clean target sentence, we corrupt its word order by random permutations.
+84	51	For French, we used News Crawl 2007-2014 (around 42M sentences).
+85	15	The data was lowercased and filtered to have a maximum sentence length 100.
+86	20	German compound words were splitted beforehand.
+96	14	We used 6-layer Transformer encoder/decoder (Vaswani et al., 2017) for denoisers, with embedding/hidden layer size 512, feedforward sublayer size 2048 and 8 attention heads.
+102	72	When our denoising model is applied on top of it, we have additional gain around +3% BLEU.
+103	37	Note that our methods do not involve any decoding steps to generate pseudo-parallel training data, but still perform better than unsupervised MT systems that rely on repetitive back-translations (Artetxe et al., 2018; Lample et al., 2018) by up to +3.9% BLEU.

@@ -1,0 +1,30 @@
+0	33	In recent years there has been a great deal of interest in dependency parsing models for natural languages.
+5	39	This paper describes novel methods for the transfer of syntactic information between languages.
+6	50	As in previous work (Hwa et al., 2005; Ganchev et al., 2009; McDonald et al., 2011; Ma and Xia, 2014), our goal is to induce a dependency parser in a target language of interest without any direct supervision (i.e., a treebank) in the target language: instead we assume access to parallel translations between the target and one or more source languages, and to supervised parsers in the source languages.
+7	19	We can then use alignments induced using tools such as GIZA++ (Och and Ney, 2000), to transfer dependencies from the source language(s) to the target language (example projections are shown in Figure 1).
+8	94	A target language parser is then trained on the projected dependencies.
+10	27	In the most extreme case, a “dense” structure is a sentence in the target language where the projected dependencies form a fully projective tree that includes all words in the sentence (we will refer to these structures as “full” trees).
+34	24	We describe the generalization to more than two languages in §3.5.
+51	63	The set P is constructed from D and the alignment variables Ak,j as follows: P = {(l, k, h,m) : l = f ∧ (e, k, Ak,h, Ak,m) ∈ D} We say the k’th sentence receives a full parse under the dependencies P if the dependencies (f, k, h,m) for k form a projective tree over the entire sentence: that is, each word has exactly one head, the root symbol is the head of the entire structure, and the resulting structure is a projective tree.
+53	57	We then define the following set, P100 = {(l, k, h,m) ∈ P : k ∈ T100} We say the k’th sentence receives a dense parse under the dependencies P if the dependencies of the form (f, k, h,m) for k form a projective tree over at least 80% of the words in the sentence.
+54	16	n} to denote the set of all sentences that receive a dense parse under P .
+61	23	The second imposes a soft constraint, that the two POS tags must fall into the same equivalance class: the equivalence classes used are listed in §4.1.
+63	33	Throughout the experiments in this paper, we used German as the target language for development of our approach.
+78	106	• CDECODE(P, θ) is a function that takes a set of partial dependency structures P , and a model θ as input, and as output returns a set of full trees D. It achieves this by constrained decoding of the sentences inP under the model θ, where for each sentence we use beam search to search for the highest scoring projective full tree that is consistent with the dependencies in P .
+79	26	• TOP(D, θ) takes as input a set of full trees D, and a model θ.
+80	94	It returns the top m highest scoring trees in D (in our experiments we usedm = 200, 000), where the score for each tree is the perceptron-based score normalized by the sentence length.
+81	28	Thus we return the 200,000 trees that the perceptron is most confident on.4 Figure 2 shows the learning algorithm.
+83	35	In the first stage of learning, the model is initialized by training on P100.
+89	33	For example, in our experiments with German as the target, we used English, French, Spanish, Portuguese, Swedish, and Italian as source languages.
+127	20	Even the lowest performing model, θ1, which is trained only on full trees, has a performance of 75.88%, close to the 76.15% accuracy for the method of (Ma and Xia, 2014).
+128	36	There are clear gains as we move from θ1 to θ4, on all languages.
+136	22	Table 3 shows the results for the transfer methods and the supervised parsing models of (McDonald et al., 2011) and (Rasooli and Tetreault, 2015).
+147	24	Compared to the results of (McDonald et al., 2011) and (Ma and Xia, 2014) which are directly comparable, there are clear improvements across all languages; the highest accuracy, 82.18%, is a 5.51% absolute improvement over the average accuracy for (Ma and Xia, 2014).
+152	26	In all cases the accuracy reported is the percentage match to a supervised parser used to parse the same data.
+154	24	The voting method not only increases accuracy over the single source method, but also increases the number of sentences (from an average 17k to 77k) and the average number of dependencies per sentence (from 6.8 to 10.4).
+158	134	For the voting method the average number of dependencies is 13.7, giving an average density of 50% on these sentences.
+160	175	The number of sentences for each language, the average length of those sentences, and average number of dependencies per sentence is also quite uniform, with the exception of German, which is a clear outlier.
+161	44	German has fewer sentences, and fewer dependencies per sentence: this may account for it having the lowest accuracy for our models.
+162	160	Future work should investigate why this is the case: one hypothesis is that German has quite different word order from the other languages (it is V2, and verb final), which may lead to a degradation in the quality of the alignments from GIZA++, or in the projection process.
+164	53	We have described a density-driven method for the induction of dependency parsers using parallel data and source-language parsers.
+167	23	Future work should consider application of the method to a broader set of languages, and application of the method to transfer of information other than dependency structures.

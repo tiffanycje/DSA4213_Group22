@@ -1,0 +1,30 @@
+9	218	Instead of establishing a static semantic connection between hashtags and entities, we are interested in dynamically linking the hashtags to entities that are closest to the underlying topics during burst time periods of the hashtags.
+10	40	For instance, while ‘#sochi’ refers to a city in Russia, during February 2014, the hashtag was used to report the 2014 Winter Olympics (cf.
+41	24	The number of times an entity’s article has been requested is called the entity view count.
+59	19	We follow common approaches that use a lexicon to match each textual phrase in a tweet to a potential entity set (Shen et al., 2013; Fang and Chang, 2014).
+73	21	By exploiting the content of entities from these external sources, we can complement the explicit similarity metrics based on mentions.
+84	44	To compute fc, we first construct the contexts for hashtags and entities.
+88	25	The textual context of an entity is extracted from its Wikipedia article.
+98	21	We use the same estimation for tweets: P̂ (w|h) = tfw,D(h) |D(h)| , where D(h) is the concatenated text of all tweets of h in T .
+100	17	The third similarity, ft, is computed using temporal signals from both sources – Twitter and Wikipedia.
+103	18	A time series similarity metric is then used to compute ft. Several metrics can be used, however most of them suffer from the time lag and scaling discrepancy, or incur expensive computational costs (Radinsky et al., 2011).
+107	21	To unify the individual similarities into one global metric (Equation 1), we need a guiding premise of what manifest the prominence of an entity to a hashtag.
+111	46	However, this coherence does not hold for topics in hashtags: Entities reported in a big topic such as the Olympics vary greatly with different subevents.
+112	32	They are not always coherent to each other, as they are largely dependent on the users’ diverse attention to each sub-event.
+113	19	This heterogeneity of hashtags calls for a different premise, abandoning the idea of coherence.
+115	44	We use an observed behavioral pattern in creating Wikipedia pages for guiding our approach to entity prominence: Wikipedia articles of entities that are prominent for a topic are quickly created or updated,1 and subsequently enriched with links to related entities.
+118	51	As illustrated in Figure 2, the entities closer to the 2014 Olympics get more updates in the revisions of their Wikipedia articles, with subsequent links pointing to articles of more distant entities.
+141	19	6 Sort rh, get the top-k entities E(h, k) if ∑ e∈E(h,k) L(f(e, h), r(e, h)) < then Stop end ω := ω − µ∑e∈E(h,k)∇L(f(e, h), r(e, h)) end return ω,E(h, k) baseline method suggested by Liu et al. (2014): rh := τBrh + (1− τ)sh (6) where B is the influence transition matrix, sh are the initial influence scores that are based on the entity prominence model (Step 1 of IPL), and τ is the damping factor.
+146	25	We start with an initial guess for ω, and compute the similarities for the candidate entities.
+179	32	From this rough sample, three inspectors carefully checked the tweets and chose 30 hashtags where the meanings and hashtag types were certain to the knowledge of the inspectors.
+194	64	We employ five volunteers to evaluate the pairs in the range from 0 to 2, where 0 means the entity is noisy or obviously unrelated, 2 means the entity is strongly tied to the topic of the hashtag, and 1 means that although the entity and hashtag might share some common contexts, they are not involved in a direct relationship (for instance, the entity is a too general concept such as Ice hockey, as in the case illustrated in Figure 2).
+195	20	The annotators were advised to use search engines, the Twitter search box or Wikipedia archives whenever applicable to get more background on the stories.
+197	68	Table 2 shows the performance comparison of the methods using the standard metrics for a ranking system (precision at 5 and 15 and MAP at 15).
+214	34	To investigate this case further, we re-examined the hashtags and divided them by their semantics, as to whether the hashtags are spurious trends of memes inside social media (endogenous, e.g., “#stopasian2014”), or whether they reflect external events (exogenous, e.g., “#mh370”).
+215	30	The performance of the methods in terms of MAP scores is shown in Figure 3.
+219	20	Finally, we study the impact of the burst time period on the annotation quality.
+223	34	It is obvious that within the win- dow of 2 months (where the hashtag time series is constructed and a trending time is identified), our method is stable and always outperforms the baselines by a large margin.
+226	19	We study Wikipedia temporal resources and find that using efficient time series-based measures can complement content-based methods well in the domain of Twitter.
+227	50	We propose use similarity measures to model both the local mention-based, as well as the global context- and time-based prominence of entities.
+230	21	As future work, we aim to improve the efficiency of our entire workflow, such that the annotation can become an end-to-end service.
+234	88	We believe that influence maximization has a great potential in NLP research, beyond the scope of annotation for microblogging topics.

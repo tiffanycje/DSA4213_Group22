@@ -1,0 +1,30 @@
+0	91	Topic models (Blei et al., 2003) have become standard tools for analyzing document collections, and topic analyses are quite common for social media (Paul and Dredze, 2011; Zhao et al., 2011; Hong and Davison, 2010; Ramage et al., 2010; Eisenstein et al., 2010).
+1	14	Their popularity owes in part to their data driven nature, allowing them to adapt to new corpora and languages.
+2	37	In social media especially, there is a large diversity in terms of both the topic and language, necessitating the modeling of multiple languages simultaneously.
+3	82	A good candidate for multi-lingual topic analyses are polylingual topic models (Mimno et al., 2009), which learn topics for multiple languages, creating tuples of language specific distributions over monolingual vocabularies for each topic.
+5	14	Training of polylingual topic models requires parallel or comparable corpora: document tuples from multiple languages that discuss the same topic.
+7	20	However, the ever changing vocabulary and topics of social media (Eisenstein, 2013) make finding suitable comparable corpora difficult.
+8	35	Standard techniques – such as relying on machine translation parallel corpora or comparable documents extracted from Wikipedia in different languages – fail to capture the specific terminology of social media.
+10	10	The result: an inability to train polylingual models on social media.
+11	20	In this paper, we offer a solution: utilize codeswitched social media to discover correlations across languages.
+12	31	Social media is filled with examples of code-switching, where users switch between two or more languages, both in a conversation and even a single message (Ling et al., 2013).
+14	72	We learn from code-switched social media by extending the polylingual topic model framework to infer the language of each token and then automatically processing the learned topics to identify aligned topics.
+17	7	Several tasks have focused on identification and analysis, including mining translations in code-switched documents (Ling et al., 2013), predicting codeswitched points (Solorio and Liu, 2008a), identifying code-switched tokens (Lignos and Marcus, 2013; Yu et al., 2012; Elfardy and Diab, 2012), adding code-switched support to language models (Li and Fung, 2012), linguistic processing of code switched data (Solorio and Liu, 2008b), corpus creation (Li et al., 2012; Diab and Kamboj, 2011), and computational linguistic analyses and theories of code-switching (Sankofl, 1998; Joshi, 1982).
+31	6	To train a polylingual topic model on social media, we make two modifications to the model of Mimno et al. (2009): add a token specific language variable, and a process for identifying aligned topics.
+54	38	The generative process is as follows: • For each topic z ∈ T • For each language l ∈ L • Draw word distribution φlz∼Dir(βl) • For each document d ∈ D: • Draw a topic distribution θd ∼ Dir(α) • Draw a language distribution ψd∼Dir(γ) • For each token i ∈ d: • Draw a topic zi ∼ θd • Draw a language li ∼ ψd • Draw a word wi ∼ φlz For monolingual documents, we fix li to the LID tag for all tokens.
+57	9	The graphical model is shown in Figure 2.
+60	43	We use a block Gibbs sampler to jointly sample topic and language variables for each token.
+65	8	We optimize the hyperparameters α, β, γ and δ by interleaving sampling iterations with a NewtonRaphson update to obtain the MLE estimate for the hyperparameters.
+68	8	We next identify learned topics (a set of related word-distributions) that truly represent an aligned topic across languages, as opposed to an unrelated set of distributions for which there is no supporting alignment evidence in the corpus.
+70	35	If a topic never occurs in a code-switched document, then there can be no evidence to support alignment across languages.
+77	8	We then sampled an additional 2475 code-switched messages, 4221 English and 4211 Chinese messages as test data.
+83	7	We further expanded the mined tweets to full conversations, yielding 1055 Spanish-English codeswitched documents (including both tweets and conversations), along with 4007 English and 4421 Spanish tweets composes our data set.
+84	9	We reserve 10% of the data for testing.
+94	15	Table 4 shows some csLDA topics.
+98	19	While we see gains for the code-switched data, overall the results for csLDA-bg and csLDA-bg with LID are similar, suggesting that the model can operate effectively even without a supervised per-token LID system.
+99	38	We evaluate topic alignment quality through a human judgements (Chang et al., 2009).
+100	43	For each aligned topic, we show an annotator the 20 most frequent words from the foreign language topic (Chinese or Spanish) with the 20 most frequent words from the aligned English topic and two random English topics.
+101	23	The annotators are asked to select the most related English topic among the three; the one with the most votes is considered the aligned topic.
+102	8	We count how often the model’s alignments agree.
+103	16	LDA may learn comparable topics in different languages but gives no explicit alignments.
+104	27	We create alignments by classifying each LDA topic by language using the KL-divergence between the topic’s words distribution and a word distribution for the English/foreign language inferred from the monolingual documents.

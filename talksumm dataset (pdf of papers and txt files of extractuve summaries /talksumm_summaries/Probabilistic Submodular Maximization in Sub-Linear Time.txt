@@ -1,0 +1,30 @@
+0	45	Motivated by applications in data summarization (Lin & Bilmes, 2011; Wei et al., 2013; Mirzasoleiman et al., 2016d) and recommender systems (El-Arini et al., 2009; Yue & Guestrin, 2011; Mirzasoleiman et al., 2016a), we tackle the challenge of efficiently solving many statistically related submodular maximization problems.
+1	38	In these applications, submodularity arises in the form of user-specific utility functions for valuating sets of items, and a prototypical problem is to find sets of say k items with nearmaximal value (Krause & Golovin, 2012; Mirzasoleiman et al., 2016b).
+2	21	Even though efficient greedy algorithms exist for submodular maximization, those become infeasible when serving many users and optimizing over large item collections.
+3	15	To this end, given training examples of (users and their utility) functions drawn from some unknown distribution, we seek to reduce the ground set to a small (ideally sublinear) size.
+5	47	Optimizing the empirical objective is an instance of twostage submodular maximization, a problem recently considered by Balkanski et al. (2016) who provide a 0.316 approximation guarantee for the case of coverage functions (more about it in the related work).
+6	28	One of our key technical contributions is a computationally efficient novel local-search based algorithm, called ReplacementGreedy, for two-stage submodular maximization, that provides a constant-factor 0.432 approximation guarantee for the general case of monotone submodular functions.
+9	83	Lastly, we demonstrate the effectiveness of our approach on recommender systems for which we compare the utility value and running time of maximizing a submodular function over the full data set and its reduced version returned by our algorithm.
+12	12	A seminal result of Nemhauser et al. (1978) proves that a simple greedy algorithm provides an optimal constant factor (1 − 1/e) approximation guarantee.
+26	13	As argued by Balkanski et al. (2016), two-stage submodular maximization can be seen as a discrete analogue of representation learning problems like dictionary learning.
+31	12	Therefore the XOS property itself is not sufficient to get any positive algorithmic result for our problem.
+34	42	In both of these problems, one needs to repeatedly maximize weighted combinations of submodular functions, for changing weights.
+36	34	In this paper, we consider the problem of frequently optimizing monotone submodular functions f : 2Ω → R+ that are drawn from some unknown probability distribution D. Hereby, Ω denotes the ground set of size n over which the submodular functions are defined.
+50	23	The hope is that optimizing new functions arising at test time will provide almost as much value when restricting the choice to items in S, than when considering arbitrary items in Ω, while being substantially more computationally efficient.
+51	72	More formally, the expected performance when using the candidate reduced ground set S is G(S) = Ef∼D max T∈I(S) f(T ), (1) where we use I(S) ≡ {T ∈ I and T ⊆ S} to refer to the collection of feasible sets restricted to those containing only elements from S. The optimum achievable performance would be G(Ω).
+71	18	One simple special case arises when the union of the optimal sets for all functions in the support of D is of size ` < n, i.e.,∣∣{T ∗ : T ∗ = arg max T∈I f(T ) for some f ∈ supp(D)} ∣∣ = `.
+79	39	Then, for any > 0, the compression error is bounded by as long as ` ≥ kn /2kL, where nδ is the δ-covering number of (Ω, d).
+84	37	As we noted earlier, the objective function in Problem 3 is not submodular in general (Balkanski et al., 2016), thus the classical greedy algorithm may not provide any approximation guarantees.
+87	27	To describe how these decisions are made we need a few definitions.
+95	34	In words,∇i(x,A) denotes how much we can increase the value of fi(A) by either inserting x into A or replacing x with one element of A while keeping A an independent set.
+99	37	In each iteration, it picks the top element x∗ from the ground set Ω, based on its total contribution to fi’s, i.e, ∑m i=1∇i(x, Ti), and updates S. Then ReplacementGreedy checks whether any of Ti’s can be augmented.
+136	24	The relevance of a set S with respect to a category i is measured by the submodular function fi that counts the number of pages that belong to category i with a link to at least one page in S. These submodular functions are L-Lipschitz with L = 1 by considering the distance between two articles as the fraction of all pages that have a link to exactly one of these two articles.
+154	20	1d (for ` = 20 and varying k) we see that ReplacementGreedy and LocalSearch achieve the same objective value.
+158	16	Movie recommendation with missing ratings.
+160	12	There are 20 genres (Animation, Comedy, Thriller, etc) and each movie can have one or more of these genres assigned to it.
+170	14	If we define the distance between two movies to be the maximum difference of ratings they received from the same user, the submodular functions fi will be L-Lipschitz with L = 1.
+173	22	We then compare submodular maximization with cardinality constraint k = 3 on the reduced sets S (returned by the baselines) and that of the whole ground set Ω.
+181	13	3b, 3c, 3d show the loss versus the running time for ` = 10, ` = 30, and ` = 60.
+182	12	Of course, if we use use the whole ground set Ω, the loss will be zero.
+184	54	Instead, by using ReplacementGreedy, we see that the loss is negligible (even for ` = 30) while the running time suddenly improves by two orders of magnitude.
+186	15	The previous experiment suffers from the potential issue that values are estimated conservatively: i.e., a user derives value only if we happen to select movies that she actually rated in the data.

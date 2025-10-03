@@ -1,0 +1,30 @@
+15	13	Ganitkevitch and Callison-Burch (2014) published a large-scale multilingual Paraphrase Database (PPDB) http://paraphrase.
+17	26	To our knowledge, this paper is the first comprehensive study of the use of PPDB for statistical machine translation model training.
+28	18	Other applications such as text-to-text generation have used PPDB (Ganitkevitch et al., 2011) but SMT brings along a specific set of concerns when using paraphrases: translation candidates should be transferred suitably across paraphrases.
+29	37	There are many cases, e.g. when faced with different word senses where transfer of a translation is not appropriate.
+31	28	5) we compare our approach with the state-of-the-art in three different settings in SMT: 1) when faced with limited amount of parallel training data; 2) a domain shift between training and test data; and 3) handling a morphologically complex source language.
+33	25	Our goal is to produce translations for OOV phrases by exploiting paraphrases from the multilingual PPDB (Ganitkevitch and Callison-Burch, 2014) by using graph propagation.
+39	15	A comparison of different association measures appears in (Marton et al., 2009; Razmara et al., 2013; Saluja et al., 2014) and our preliminary experiments validated the choice of the same association measure as in these papers, namely Pointwise Mutual Information (Lin, 1998) (PMI).
+40	23	For each potential context word wi: A(f, wi) = log2 P (f, wi) P (f)P (wi) (1) To evaluate the similarity between two phrases we use cosine similarity.
+41	13	The cosine coefficient of two phrases f1 and f2 is: S(f1, f2) = cos(DP (f1), DP (f2)) =∑ wi∈V A(f1, wi)A(f2, wi)√∑ wi∈V A(f1, wi) 2 √∑ wi∈V A(f2, wi) 2 (2) where V is the vocabulary.
+49	58	1 from (Bannard and Callison-Burch, 2005) we see that paraphrase pairs like (in check, under control) can be extracted by pivoting over the German phrase unter kontrolle.
+50	18	The multilingual Paraphrase Database (PPDB) (Ganitkevitch and Callison-Burch, 2014) is a published resource for paraphrases extracted using bilingual pivoting.
+51	50	It leverages syntactic information and other resources to filters and scores each paraphrase pair using a large set of features.
+52	24	These features can be used by a log linear model to score paraphrases (Zhao et al., 2008).
+58	23	3.2) for phrase ∈ {OOVs} do newTrans = TranslationFinder(PropGraph, phrase); Augment(PhrTable, newTrans); (Sec.
+59	68	After paraphrase extraction we have paraphrase pairs, (f1, f2) and a score S(f1, f2) we can induce new translation rules for OOV phrases using the steps in Algo.
+64	15	V has two types of nodes: seed (labeled) nodes, Vs, from the SMT phrase table, and regular nodes, Vr.
+65	23	Note that in this step OOVs are part of these regular nodes, and we try to find translation in the propagation step for all of these regular nodes.
+67	15	2 shows a small slice of the actual graph used in one of our experiments; This graph is constructed using the paraphrase database on the right side of the figure.
+70	52	Considering the translation candidates of known phrases in the SMT phrase table as the “labels” we apply a soft label propagation algorithm in order to assign translation candidates to “unlabeled” nodes in the graph, which include our OOV phrases.
+71	15	As described by the example in Fig.
+72	75	2 we wish two outcomes: 1) transfer of translations (or “labels”) to unlabeled nodes (OOV phrases) from labeled nodes, and 2) smoothing the label distribution at each node.
+90	16	A new feature is added to the standard SMT log-linear discriminative model and introduced into the phrase table.
+130	32	They pre-structure the graph into bipartite graphs (only connections between phrases with known translation and OOV phrases) and tripartite graphs (connections can also go from a known phrasal node to an OOV phrasal node through one node that is a paraphrase of both but does not have translations, i.e. it is an unlabeled node).
+207	25	Arabic side of 1M sentences of LDC2007T08 and LDC2008T09 is used to extract unigram paraphrases for DP.
+208	39	Table 7 shows that PPDB (large; with phrases) resulted in +1.53 BLEU score improvement over DP which only slightly improved over baseline.
+237	162	In future work, we would like to include translations for infrequent phrases which are not OOVs.
+238	97	We would like to explore new propagation methods that can directly use confidence estimates and control propagation based on label sparsity.
+239	54	We also would like to expand this work for morphologically rich languages by exploiting other resources like morphological analyzer and campare our approach to the current state of art approaches which are using these types of resources.
+240	93	In conclusion, we have shown significant improvements to the quality of statistical machine translation in three different cases: low resource SMT, domain shift, and morphologically complex languages.
+241	83	Through the use of semi-supervised graph propagation, a large scale multilingual paraphrase database can be used to improve the quality of statistical machine translation.

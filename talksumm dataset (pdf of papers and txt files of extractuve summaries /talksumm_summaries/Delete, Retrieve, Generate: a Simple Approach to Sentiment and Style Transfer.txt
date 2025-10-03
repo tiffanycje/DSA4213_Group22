@@ -1,0 +1,24 @@
+1	55	The desire for more sophisticated, controllable NLG has led to increased interest in text attribute transfer— the task of editing a sentence to alter specific attributes, such as style, sentiment, and tense (Hu great food but horrible staff and very very rude workers !
+2	4	target=positivegreat food staff and very workers !
+3	19	Delete attribute markers (b) Attribute transfer neg pos pos pos pos neg neg neg worst very disappointed won't be back ... delicious great place for well worth ... (a) Extracting attribute markers et al., 2017; Shen et al., 2017; Fu et al., 2018).
+4	24	In each of these cases, the goal is to convert a sentence with one attribute (e.g., negative sentiment) to one with a different attribute (e.g., positive sentiment), while preserving all attribute-independent content1 (e.g., what properties of a restaurant are being discussed).
+5	62	Typically, aligned sentences with the same content but different attributes are not available; systems must learn to disentangle attributes and content given only unaligned sentences labeled with attributes.
+13	82	First, from unaligned corpora of positive and negative sentences, we identify attribute markers by finding phrases that occur much more often within sentences of one attribute than the other (e.g., “worst” and “very disppointed” are negative markers).
+14	34	Second, given a sentence, we delete any negative markers in it, and regard the remaining words as its content.
+15	2	Third, we retrieve a sentence with similar content from the positive corpus.
+16	16	We further improve upon this baseline by incorporating a neural generative model, as shown in Figure 1.
+17	104	Our neural system extracts content words in the same way as our baseline, then generates the final output with an RNN decoder that conditions on the extracted content and the target attribute.
+18	144	This approach has significant benefits at training time, compared to adversarial networks: having already separated content and attribute, we simply train our neural model to reconstruct sentences in the training data as an auto-encoder.
+19	20	We test our methods on three text attribute transfer datasets: altering sentiment of Yelp reviews, altering sentiment of Amazon reviews, and altering image captions to be more romantic or humorous.
+20	159	Averaged across these three datasets, our simple baseline generated grammatical sentences with appropriate content and attribute 23% of the time, according to human raters; in contrast, the best adversarial method achieved only 12%.
+22	17	Our code and data, including newly collected human reference outputs for the Yelp and Amazon domains, can be found at https://github.com/lijuncen/ Sentiment-and-Style-Transfer.
+23	23	We assume access to a corpus of labeled sentences D = {(x1, v1), .
+24	29	, (xm, vm)}, where xi is a sentence and vi ∈ V , the set of possible attributes (e.g., for sentiment, V = {“positive”, “negative”}).
+25	11	We define Dv = {x : (x, v) ∈ D}, the set of sentences in the corpus with attribute v. Crucially, we do not assume access to a parallel corpus that pairs sentences with different attributes and the same content.
+26	97	Our goal is to learn a model that takes as input (x, vtgt) where x is a sentence exhibiting source (original) attribute vsrc, and vtgt is the target attribute, and outputs a sentence y that retains the content of x while exhibiting vtgt.
+29	9	More generally, we find that the attribute is often localized to a small fraction of the words, an inductive bias not captured by previous work.
+30	268	How do we know which negative sentiment word to insert?
+31	10	The key observation is that the remaining content words provide strong cues: given “The chicken was .
+32	120	”, one can infer that a tasterelated word like “bland” fits, but a word like “rude” does not, even though both have negative sentiment.
+37	32	Delete: All 4 systems use the same procedure to separate the words in x into a set of attribute markers a(x, vsrc) and a sequence of content words c(x, vsrc).
+38	104	Retrieve: 3 of the 4 systems look through the corpus and retrieve a sentence xtgt that has the target attribute vtgt and whose content is similar to that of x.

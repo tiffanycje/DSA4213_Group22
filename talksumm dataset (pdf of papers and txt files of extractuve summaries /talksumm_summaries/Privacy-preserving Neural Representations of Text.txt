@@ -1,0 +1,30 @@
+0	45	This article presents an adversarial scenario meant at characterizing the privacy of neural representations for NLP tasks, as well as defense methods designed to improve the privacy of those representations.
+1	17	A deep neural network constructs intermediate hidden representations to extract features from its input.
+3	66	However, they might also encode information about the input that a user wants to keep private (e.g. personal data) and can be exploited for adversarial usages.
+4	30	We study a specific type of attack on neural representations: an attacker eavesdrops on the hidden representations of novel input examples (that are not in the training set) and tries to recover information about the content of the input text (Figure 1).
+10	42	For example, demographic information about the author of a text can be predicted with above chance accuracy from linguistic cues in the text itself (Rosenthal and McKeown, 2011; Preoţiuc-Pietro et al., 2015).
+12	23	In such a case, there is a tradeoff between the utility of the representation (measured by the accuracy of the network) and its privacy.
+17	36	In this paper we explore the following situation: (i) a main classifier uses a deep network to predict a label from textual data; (ii) an attacker eavesdrops on the hidden layers of the network and tries to recover information about the input text of unseen examples.
+21	16	This paper makes the following contributions:1 • We propose a metric to measure the privacy of the neural representation of an input for Natural Language Processing tasks.
+24	37	The methods are based on modified training objectives and lead to an improved privacy-accuracy tradeoff.
+25	208	In the scenario we propose, each example consists of a triple (x, y, z), where x is a natural language text, y is a single label (e.g. topic or sentiment), and z is a vector of private information contained in x.
+26	35	Our base setting has two entities: (i) a main classifier whose role is to learn to predict y from x, (ii) an attacker who learns to predict z from the 
+27	20	latent representation of x used by the main classifier.
+32	22	Training of the attacker’s network and evaluation of its performance for measuring privacy.
+33	15	In the remainder of this section, we describe the main classifier (Section 2.1), and the attacker’s model (Section 2.2).
+36	9	First, an LSTM encoder computes a fixed-size representation r(x) from a sequence of tokens x = (x1, x2, .
+38	13	We use θr to denote the parameters used to construct r. They include the parameters of the LSTM, as well as the word embeddings.
+39	17	Then, the encoder output r(x) is fed as input to a feedforward network with parameters θp that predicts the label y of the text, with a softmax output activation.
+40	22	In the standard setting, the model is trained to minimize the negative log-likelihood of y labels: Lm(θr,θp) = N∑ i=1 − logP (y(i)|x(i);θr,θp), where N is the number of training examples.
+45	7	However, since the attacker has access to the representation function r parameterized by θr, they can generate a dataset from any corpus containing the private variables they want to recover.
+47	42	The attacker trains a second feedforward network on the new dataset {(r(x(i)), z(i))}i≤N .
+50	30	Since the parameters used to construct r are fixed, the attacker only acts upon its own parameters θa to optimize this loss.
+51	43	We use the performance of the attacker’s classifier as a proxy for privacy.
+52	11	If its accuracy is high, then an eavesdropper can easily recover information about the input document.
+53	9	In contrast, if its accuracy is low (i.e. close to that of a mostfrequent label baseline), then we may reasonably conclude that r does not encode enough information to reconstruct x, and mainly contains information that is useful to predict y.
+57	11	In the following sections, we propose several training method modifications aimed at obfuscating private information from the hidden representation r(x).
+58	13	Intuitively, the aim of these modifications is to minimize some measure of information between r and z to make the prediction of z hard.
+64	13	First, we propose to frame the training of the main classifier as a two-agent process: the main agent and an adversarial generator, exploiting a setting similar to Generative Adversarial Networks (GAN, Goodfellow et al., 2014).
+71	34	• We modify the objective function of the main classifier to incorporate a penalty when the adversarial classifier is good at reconstructing z.
+75	9	The second term is designed to deceive the adversary.
+78	33	The duplicate adversarial classifier is identical to the classifier used to evaluate privacy after the main model has been trained and its parameters are fixed.

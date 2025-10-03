@@ -1,0 +1,30 @@
+22	24	The results show that (1) as compared to SSGD and ASGD, DC-ASGD accelerated the convergence of the training process; (2) the accuracy of the model obtained by DC-ASGD within the same time period is very close to the accuracy obtained by sequential SGD.
+23	18	In this section, we introduce DNN and its parallel training through ASGD.
+37	34	According to the figure, local worker m starts from wt, the snapshot of the global model at time t, calculates the local gradient g(wt), and then add this gradient back to the global model3.
+38	18	However, before this happens, some other τ workers may have already added their local gradients to the global model, the global model has been updated τ times and becomes wt+τ .
+41	64	It is clear that the above update rule of ASGD is problematic (and inequivalent to that of sequential SGD): one actually adds a “delayed” gradient g(wt) to the current global model wt+τ .
+43	33	This problem of delayed gradient has been well known (Agarwal & Duchi, 2011; Recht et al., 2011; Lian et al., 2015; Avron et al., 2015), and many practical observations indicate that it usually costs ASGD more iterations to converge than sequential SGD, and sometimes, the converged model of ASGD cannot reach accuracy parity of sequential SGD, especially when the number of workers is large (Dean et al., 2012; Ho et al., 2013; Zhang et al., 2015).
+45	32	This is exactly the motivation of our paper.
+46	19	As explained in the previous sections, ideally, the optimization algorithm should add gradient g(wt+τ ) to the global model wt+τ , however, ASGD adds a delayed version g(wt).
+50	28	(3), we can immediately find that ASGD actually uses the zero-order item in Taylor expansion as its approximation to g(wt+τ ), and totally ignores all the higher-order terms ∇g(wt)(wt+τ − wt) + O((wt+τ − wt)2)In.
+52	17	With this insight, a straightforward and ideal method is to use the full Taylor expansion to compensate the delay.
+55	31	(5) This is because the first-order derivative of the gradient function g corresponds to the Hessian matrix of the original loss function f (e.g., cross entropy for neural net- works), which is defined as Hf(w) = [hij ]i,j=1,··· ,n where hij = ∂2f ∂wi∂wj (w).
+59	18	Computing the exact Hessian matrix is computationally and spatially expensive, especially for large models.
+61	19	First, we show that the outer product of the gradients is an asymptotically unbiased estimation of the Hessian matrix.
+66	12	Second, we show that by further introducing a welldesigned weight to the outer product of the gradients, we can achieve a better trade-off between bias and variance for the approximation.
+79	99	To be specific, we only store the diagonal elements of the approximator λG(w) and make all the other elements to be zero.
+80	78	We denote the refined approximator asDiag(λG(w)) and assume that the diagonalization error is upper bounded by ϵD , i.e., ||Diag(H(wt)) − H(wt)|| ≤ ϵD .
+81	30	We give a uniform upper bound of its MSE in the supplementary materials, from which we can see that λ plays a role of trading off variance and Lipschitz6.
+82	18	Delay Compensated ASGD: Algorithm Description In Section 3, we have shown that Diag(λG(w)) is a cheap approximator of the Hessian matrix, with guaranteed approxi- Algorithm 1 DC-ASGD: workerm repeat Pull wt from the parameter server.
+83	53	Compute gradient gm = ∇fm(wt).
+86	19	Initialize: t = 0, w0 is initialized randomly, wbak(m) = w0,m ∈ {1, 2, · · · ,M} repeat if receive “gm" then wt+1 ← wt−η· ( gm+λtgm⊙gm⊙(wt−wbak(m)) ) t ← t+ 1 else if receive “pull request” then wbak(m) ← wt Send wt back to workerm.
+88	19	In this section, we will use this approximator to compensate the gradient delay, and call the corresponding algorithm Delay-Compensated ASGD (DC-ASGD).
+92	42	According to Algorithm 1, local worker m pulls the latest global model wt from the parameter server, computes its gradient gm and sends it back to the server.
+93	54	According to Algorithm 2, the parameter server will store a backup model wbak(m) when worker m pulls wt.
+94	18	When the delayed gradient gm calculated by worker m is received at time t, the parameter server updates the global model according to Eqn (10).
+95	26	Please note that as compared to ASGD, DC-ASGD has no extra communication cost and no extra computational requirement on the local workers.
+98	26	This is not a critical issue since the parameter server is usually implemented in a distributed manner, and the parameters and its backup version are stored in CPU-side memory which is usually far beyond the total parameter size.
+99	38	In this case, the cost of DC-ASGD is quite similar to ASGD, which is also reflected by our experiments.
+100	25	The Delay Compensation is not only applicable to ASGD but SSGD.
+101	75	Recently a study on SSGD(Goyal et al., 2017) assumes g(wt+j) ≈ g(wt) for j < M to make the updates from small and large mini-batch SGD similar, which can be immediately improved by applying delay-compensated gradient.
+102	82	Please check the detailed discussion in Supplementary.

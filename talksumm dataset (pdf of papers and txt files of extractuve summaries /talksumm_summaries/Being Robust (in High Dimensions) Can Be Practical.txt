@@ -1,0 +1,30 @@
+0	46	Robust statistics was founded in the seminal works of (Tukey, 1960) and (Huber, 1964).
+1	47	The overarching motto is that any model (especially a parametric one) is only approximately valid, and that any estimator designed for a particular distribution that is to be used in practice must also be stable in the presence of model misspecification.
+2	147	The standard setup is to assume that the samples we are given come from a nice distribution, but that an adversary has the power to arbitrarily corrupt a constant fraction of the observed data.
+7	6	In one dimension, robustness and computational efficiency are in perfect harmony.
+11	9	The Tukey median (Tukey, 1960) is a natural generalization of the one-dimensional median to high-dimensions.
+12	62	It is known that it behaves well (i.e., it needs few samples) when estimating the mean for various symmetric distributions (Donoho & Gasko, 1992; Chen et al., 2016).
+14	19	The same issues plague estimators for scale.
+17	30	The fact that robustness in high dimensions seems to come Collectively, the authors were supported by NSF CCF1652862, CCF-1551875, CCF-1617730, CCF-1650733, CCF1553288, CCF-1453261, ONR N00014-12-1-0999, three Sloan Research Fellowships, two Google Faculty Research Awards, an NSF fellowship, the MIT NEC Corporation, and a USC startup grant.
+27	8	Then one wants estimators that work without assuming anything at all about these outliers.
+33	16	The starting point for our paper is the work of Diakonikolas et al. (2016a) who gave an efficient algorithm for the problem of agnostically learning a Gaussian: Given a polynomial number of samples from a high-dimensional Gaussian N (µ,Σ), where an adversary has arbitrarily corrupted an ε-fraction, find a set of parametersN ′(µ̂, Σ̂) that satisfy dTV (N ,N ′) ≤ Õ(ε)1.
+36	67	(Lai et al., 2016) independently gave an algorithm for the unknown mean case that achieves dTV (N ,N ′) ≤ Õ(ε √ log d), and in the unknown covariance case achieves guarantees in a weaker metric that is not affine invariant.
+39	21	This follows because not only would these be good estimates for the mean and covariance in the above model, but in fact any estimates that are good must also be close to them.
+40	40	Thus, these works fit into the emerging research direction of circumventing worst-case lower bounds by going beyond worst-case analysis.
+41	6	Since the dissemination of the aforementioned works (Diakonikolas et al., 2016a; Lai et al., 2016), there has been a flurry of research activity on computationally efficient robust estimation in a variety of high-dimensional settings, including studying graphical models (Diakonikolas et al., 2016b), understanding the computation-robustness tradeoff for statistical query algorithms (Diakonikolas et al., 2016c), tolerating much more noise by allowing the algorithm to output a list of candidate hypotheses (Charikar et al., 2017), and developing robust algorithms under sparsity assumptions (Li, 2017; Du et al., 2017), and more (Diakonikolas et al., 2017; Steinhardt et al., 2017).
+42	51	Our goal in this work is to show that high-dimensional robust estimation can be highly practical.
+44	118	First, the sample complexity and running time of the algorithms in (Diakonikolas et al., 2016a) is prohibitively large for highdimensional applications.
+47	12	Roughly speaking, we accomplish this with a new definition of the good set which straightforwardly plugs into the existing analysis, showing that one can estimate the mean with Õ(d/ε2) samples (when the covariance is known) and the covariance with Õ(d2/ε2) samples.
+51	105	We avoid this by giving new ways to empirically tune the threshold for where to remove points from the sample set.
+52	29	Finally, we show that the same bounds on the error guarantee continue to work even when the underlying distribution is sub-Gaussian.
+54	8	In fact, the filtering algorithm of (Diakonikolas et al., 2016a) is easily shown to be robust under much weaker distributional assumptions, while retaining near-optimal sample and error guarantees.
+56	8	Even in this regime, the filtering algorithm guarantees optimal error, up to a constant factor.
+61	10	To test out our algorithms, we design a synthetic experiment where a (1 − ε)-fraction of the samples come from a Gaussian and the rest are noise and sampled from another distribution (in many cases, Bernoulli).
+65	79	But are algorithms for agnostically learning a Gaussian unduly sensitive to the distributional assumptions they make?
+66	42	We are able to give an intriguing visual demonstration of our techniques on real data.
+67	38	The famous study of (Novembre et al., 2008) showed that performing principal component analysis on a matrix of genetic data recovers a map of Europe.
+70	24	Given that one of the most important applications of robust estimation ought to be in exploratory data analysis, we ask: To what extent can we recover the map of Europe in the presence of noise?
+71	40	We show that when a small number of corrupted samples are added to the dataset, the picture becomes entirely distorted (and this continues to hold even for many other methods that have been proposed).
+72	23	In contrast, when we run our algorithm, we are able to once again recover the map of Europe.
+73	21	Thus, even when some fraction of the data has been corrupted (e.g., medical studies were pooled together even though the subpopulations studied were different), it is still possible to perform principal component analysis and recover qualitatively similar conclusions as if there were no noise at all!
+74	76	For a vector v, we will let ‖v‖2 denote its Euclidean norm.

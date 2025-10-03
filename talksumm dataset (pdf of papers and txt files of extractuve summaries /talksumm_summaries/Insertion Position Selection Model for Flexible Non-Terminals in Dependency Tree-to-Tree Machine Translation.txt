@@ -1,0 +1,24 @@
+17	16	Flexible non-terminals are analogous to the auxiliary tree of the tree adjoining grammars (TAG) (Joshi, 1985), which is successfully adopted in machine translation (DeNeefe and Knight, 2009).
+20	5	However the computational cost of decoding becomes high even though they are compactly represented in the lattice form (Cromieres and Kurohashi, 2014).
+21	2	In our experiments, using flexible nonterminals causes the decoding to be 3 to 6 times slower than when they are not used.
+22	3	Flexible nonterminals increase the number of translation rules because the insertion positions are selected during the decoding.
+23	67	However, we think it is possible to restrict possible insertion positions or even select only one insertion position by looking at the tree structures on both sides.
+24	4	In this paper, we propose a method to select the appropriate insertion position before decoding.
+25	6	This can not only reduce the decoding time but also improve the translation quality because of reduced search space.
+26	3	We assume that correct insertion positions can be determined before decoding, using the word to be inserted (I) with the context on the source side and the context of the insertion positions on the target side.
+27	5	On the source side, we use the parent of I (Ps) and the distance of I from Ps (Ds).
+28	8	On the target side, we use the previous (Sp) and next (Sn) sibling of the insertion position, the parent of the insertion position (Pt) and the distance of the insertion position from Pt (Dt).
+29	35	The distances are calculated on the siblings rather than the words in the sentence, and it is a positive or negative value if the insertion position is to the left or to the right of the parent respectively.
+30	5	Taking the insertion position between “park” and “yesterday” in Figure 1 as an example, I = “突然”, Ps = “電話した”, Ds = +2, Sp = “park”, Sn = “yesterday”, Pt = “called” and Dt = -3.
+31	2	In cases where Sp or Sn is empty, we use special words “[[LEFTSTART]]”, “[[LEFT-END]]”, “[[RIGHT-START]]” and “[[RIGHT-END]]”.
+32	3	In the case of “yesterday” in Figure 1, Sp = “in” and Sn = “[[RIGHT-END]]”.
+33	5	These clues are fed into the neural network model to solve the insertion position selection problem.
+35	5	Given an insertion position candidate with an index k, the words (I , Ps, Skp , S k n, Pt) are first converted into vector representations through the same three embedding layers: surface form embedding (200 dimensions.
+37	8	The word embedding is a randomly initialized transformation from an one-hot vector to a 200 or 10-dimensional vector, and it is learned during the whole network training.
+38	8	Using these words and the distances, we create source and target context vectors cks and c k t which represent the information of source and target sides, respectively.
+39	3	The distances (integer values) are directly inputted to the network.
+40	4	Then the context vec- tor of the given insertion position cki is created using cks and c k t .
+41	3	Finally we get the score of the given insertion position sk from cki .
+42	2	These vectors are calculated as follows: cks = tanh(Wcs [I; Ps; Ds]) ckt = tanh(Wct [Sp; Sn; Pt; D k t ]) cki = tanh(Wci [c k s ; c k t ]) sk = Wsc k i where “;” means concatenation of the vectors.
+43	4	The size of cks , c k t and c k i is 100 in our experiments.
+44	69	The same network is applied to all the other insertion positions and get their scores.

@@ -1,0 +1,30 @@
+6	27	This makes it unsuitable for the massive data setting where the data set is distributed across machines and computation has to occur in parallel.
+8	82	Whereas k-means++ only samples a single cluster center in each of k rounds, k-means‖ samples in expectation ` points in each of t iterations.
+10	101	We provide a novel analysis of k-means‖ that bounds the expected solution quality for any number of rounds t and any oversampling factor ` ≥ k, the two parameters that need to be chosen in practice.
+11	16	Our bound on the expected quantization error includes both a “traditional” multiplicative error term based on the optimal solution as well as a scale-invariant additive error term based on the variance of the data.
+12	86	The key insight is that this additive error term vanishes at a rate of ( k e` )t if t or ` is increased.
+13	12	This shows that k-means‖ provides provably good clusterings even for a small, constant number of iterations and explains the commonly observed phenomenon that k-means‖ works very well even for small t. We further provide a hard instance on which k-means‖ provably incurs an additive error based on the variance of the data and for which an exclusively multiplicative error guarantee cannot be achieved.
+15	23	Let X denote a set of points in Rd.
+16	28	The k-Means clustering problem is to find a set C of k cluster centers in Rd that minimizes the quantization error φX (C) = ∑ x∈X d(x,C)2 = ∑ x∈X min q∈C ‖x− q‖22.
+20	50	The seeding step of k-means++ (Arthur & Vassilvitskii, 2007), detailed for potentially weighted data sets in Algorithm 1, selects an initial cluster center uniformly at random and then sequentially adds k − 1 cluster centers using D2 sampling whereby C is always the set of previously sampled centers.
+21	82	Arthur & Vassilvitskii (2007) show that the solution quality φk-means++ of k-means++ seeding is bounded in expectation by E[φk-means++] ≤ 8 (log2 k + 2)φOPT(X ).
+22	21	The computational complexity of k-means++ seeding is O(nkd) where n is the number of data points and d the dimensionality.
+23	16	Unfortunately, the iterations in k-means++ seeding are inherently sequential and, as a result, the algorithm requires k full passes through the data.
+24	38	This makes the algorithm unsuitable for the distributed setting.
+26	82	The key component of k-means‖ is detailed in Algorithm 2 in what we call k-means‖ overseeding: First, a data point is sampled as the first cluster center uniformly at random.
+27	52	Then, in each of t sequential rounds, each data point x ∈ X is independently sampled with probability min ( 1, ` d(x,C) 2 φX (C) ) and added to the set of sampled centers C at the end of the round.
+28	48	The parameter ` ≥ 1 is called the oversampling factor and determines the expected number of sampled points in each iteration.
+29	50	At the end of Algorithm 2, one obtains an oversampled solution with t` cluster centers in expectation.
+30	38	The full k-means‖ seeding algorithm as detailed in Algorithm 3 reduces such a solution to k centers as follows: First, each of the centers in the oversampled solution is weighted by the number of data points which are closer to it than the Algorithm 2 k-means‖ overseeding Require: data set X , # rounds t, oversampling factor ` 1: C ← sample a point uniformly at random from X 2: for i = 1, 2, .
+31	12	, t do 3: C ′ ← ∅ 4: for x ∈ X do 5: Add x to C ′ with probability min ( 1, ` d(x,C) 2 φX (C) ) 6: C ← C ∪ C ′ 7: Return C Algorithm 3 k-means‖ seeding Require: data set X , # rounds t, oversampling factor ` 1: B ← Result of Algorithm 2 applied to (X , t, `) 2: for c ∈ B do 3: Xc ← points x ∈ X whose closest center in B is c (ties broken arbitrarily but consistently) 4: wc ← |Xc| 5: C ← Result of Algorithm 1 applied to (B,w) 6: Return C other centers.
+36	20	Due to the low number of synchronizations (i.e., rounds), Algorithm 2 can be efficiently run in a distributed setting.1 Other related work.
+45	10	Algorithm 3 with its use of k-means++ to obtain the final k cluster centers, only adds an additional O(log k) factor as shown in Theorem 1.
+46	21	Our key result is Lemma 4 (see Section 4) which guarantees that, for ` ≥ k, the expected error of solutions computed by Algorithm 2 is at most E[φX (C)] ≤ 2 ( k e` )t Var(X ) + 26φOPT(X ).
+52	42	This result implies that even for a constant number of rounds one may obtain good clusterings by increasing the oversampling factor `.
+55	27	Furthermore, state of the art uniform deviation bounds for k-Means include a similar additive error term (Bachem et al., 2017).
+65	12	Then, E[φX (C)] ≤ O (( k e` )t ln k ) Var(X )+O(ln k)φOPT(X ).
+68	88	Furthermore, Var(X ) > 0, φOPT(X ) = 0 and n∆2 ≤ β where ∆ is the largest distance between any points in X .
+69	56	Theorem 2 shows that there exists a data set on which k-means‖ provably incurs a non-negligible error even if the optimal quantization error is zero.
+72	56	We note that the upper bound in (1) and the lower bound in Theorem 2 exhibit the same 1`t dependence on the oversampling factor ` for a given number of rounds t. Furthermore, Theorem 2 implies that, for general data sets, k-means‖ cannot achieve the multiplicative error of O(log k) in expectation as claimed by Bahmani et al. (2012).3 In particular, if the optimal quantization error is zero, then k-means‖ would need to return a solution with quantization error zero.
+74	31	The proof is divided into four steps: First, we relate k-means‖-style oversampling to k-means++-style D2-sampling in Lemmas 1 and 2.
+84	105	Let m ∈ N. For each a ∈ A, let ia be an independent random variable drawn uniformly at random from {1, 2, .

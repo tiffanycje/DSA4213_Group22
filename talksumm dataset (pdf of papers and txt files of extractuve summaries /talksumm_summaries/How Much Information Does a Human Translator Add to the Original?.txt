@@ -1,0 +1,30 @@
+0	37	Text compression exploits redundancy in human language to store documents compactly, and transmit them quickly.
+1	49	It is natural to think about compressing bilingual texts, which have even more redundancy: “From an information theoretic point of view, accurately translated copies of the original text would be expected to contain almost no extra information if the original text is available, so in principle it should be possible to store and transmit these texts with very little extra cost.” (Nevill and Bell, 1992) Of course, if we look at actual translation data (Figure 1), we see that there is quite a bit of unpredictability.
+3	54	By finding and exploiting patterns in bilingual data, we want to provide an upper bound for this question: How much information does a human translator add to the original?
+19	93	Decompression code, dictionaries, and/or other resources must be embedded in the executable—we cannot assume that the recipient of the compressed file has access to those resources.
+35	25	For English, we have removed accent marks and further eliminated all but the 95 printable ASCII characters (Brown et al., 1992), plus newline.
+41	64	In compression, we seek a small executable that prints out a text, while in language modeling, we seek an executable that assigns low perplexity to held-out test data.1 Actually, the two areas have much more in common, as a review of compression algorithms reveals.
+43	22	The tree is arranged so that frequent characters have short binary codes (edge sequences).
+53	22	An n-gram table is one way to map contexts onto predictions.
+55	23	The solution is called arithmetic coding (Rissanen and Langdon Jr., 1981; Witten et al., 1987).
+57	51	We produce context-dependent probability intervals, and each time we observe a character, we move to its interval.
+59	48	A document’s compression is the shortest bit string that fits inside the final interval.
+76	22	The unit’s model weights are adaptively updated by: wi ← wi + ηxi(correct− P(1)), where xi = ln(Pi(1)/(1− Pi(1)) η = fixed learning rate Pi(1) = ith model’s prediction PAQ models include a character n-gram model that adapts to recent text, a unigram word model (where word is defined as a subsequence of characters with ASCII > 32), a bigram model, and a skip-bigram model.
+93	27	English so far: I should like to ob
+111	22	Another approach is to forget Viterbi alignments and instead exploit a probabilistic translation dictionary table t(e|f).
+137	26	We also implement a single-pass HMM alignment model (Vogel et al., 1996).
+144	28	The relative offset o-table learns to encourage adjacent English words to align to adjacent Spanish words.
+149	26	Single-pass, online HMM suffers the same two problems, both solved when we smooth differentially (λo = 102, λt = 10−4) and fix p1 = 0.1.
+161	64	For this use case, we can get an additional +0.3 alignment fscore (just as fast) if we print Viterbi alignments in a second pass instead of during training.
+189	56	ek−1) We adjust µ dynamically based on the relative confidence of the models: µ = max(PPM) 2.5 max(PPM)2.5+max(HMM)2.5 Here, max(model) refers to the highest probability assigned to any character in the current context by the model.
+190	55	This yields better compression rates than simply setting µ to a constant.
+192	27	Figure 8 shows that monolingual PPM compresses the Spanish side of our corpus to 15.8% of the original.
+195	26	Assuming our Spanish compression is good, we can also say that the human translator produces at most 68.1% (35.0/51.4) of the information that the original Spanish author produced.
+196	43	Intuitively, we feel this bound is high and should be reduced with better translation modeling.
+197	44	Figure 9 also reports our Shannon game experiments in which bilingual humans guessed subsequent characters of the English text.
+200	45	For a 502- character English sequence, a team of four bilinguals working together gave us an upper-bound bpb of 0.51.
+205	51	Uncompressed English (294.5 Mb) is 90.6% the size of uncompressed Spanish (324.9 Mb).
+219	46	Translation researchers may also view bilingual compression as an alternate, reference-free evaluation metric for translation models.
+220	31	We anticipate that future ideas from bilingual compression can be brought back into translation.
+221	163	Like Brown et al. (1992), with their gauntlet thrown down and fury of competitive energy, we hope that crossfertilizing compression and translation will bring fresh ideas to both areas.
+222	52	8www.isi.edu/natural-language/compression

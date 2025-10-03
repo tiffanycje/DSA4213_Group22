@@ -1,0 +1,30 @@
+0	61	Machine learning is increasingly used to make consequential classification decisions about individuals.
+5	28	This might happen due to biases in the training data or due to biases introduced by the algorithm.
+7	28	A growing literature attempts to tackle these challenges by exploring different fairness criteria.
+8	19	Discrimination can take many guises.
+10	70	Imagine a protected minority population P (defined by race, gender identity, etc).
+13	16	This is a “group-level” fairness notion, sometimes referred to as statistical parity.
+14	39	Pointing out several weakness of group-level notions of fairness, the seminal work of (Dwork et al., 2012) introduced a notion of individual fairness.
+15	16	Their notion relies on a task-specific similarity metric that specifies, for every two individuals, how similar they are with respect to the specific classification task at hand.
+16	91	Given such a metric, similar individuals should be treated similarly, i.e. assigned similar classification distributions (their focus was on probabilistic classifiers, as will be ours).
+20	67	While coming up with a good metric can be challenging, metrics arise naturally in prominent existing examples (such as credit scores and insurance risk scores), and in natural scenarios (a metric specified by an external regulator).
+24	20	Consider a learner that is given a similarity metric and a training set of labeled examples, drawn from an underlying population distribution.
+27	14	Generalization of the fairness guarantee is a key difference: we focus on guaranteeing fairness not just for the (training) data set at hand, but also for the underlying population from which it was drawn.
+32	18	We proceed to describe our setting and contributions.
+56	30	We develop strong generalization bounds for approximate metricfairness, showing that for any class of predictors with bounded Rademacher complexity, approximate MF on the sample S implies approximate MF on the underlying distribution (w.h.p.
+60	18	We construct polynomial-time (relaxed) PACF algorithms for linear and logistic regression.
+71	37	Under mild cryptographic assumptions, we exhibit a learning problem and a similarity metric where: (i) there exists a perfectly fair and perfectly accurate simple (linear) predictor, but (ii) any polynomialtime perfectly metric-fair learner can only find a trivial predictor, whose error approaches 1/2.
+100	16	That is, with all but α probability over a choice of two individuals from the underlying distribution, if the two individuals are similar then they get similar classification distributions.
+101	16	We think of α ∈ [0, 1) as a small constant, and note that setting α = 0 recovers the definition of perfect metric-fairness (thus, setting α to be a small constant larger than 0 is indeed a relaxation).
+112	26	Every protected group P of fractional size significantly larger than α is protected in the sense that, on average, members of P are treated similarly to similar individuals outside of P .
+132	43	Crucially, both fairness and accuracy goals are stated with respect to the (unknown) underlying distribution.
+133	25	Definition 3.1 (PACF Learning) A learning algorithm A PACF-learns a hypothesis classH if for every metric d and population distribution D, every required fairness parameters α, γ ∈ [0, 1), every failure probability δ ∈ (0, 1), and every error parameters , α, γ ∈ (0, 1), there exists a sample complexity m = poly ( log |X |·log(1/δ) α·γ· · α· γ ) and constants α′, γ′ ∈ [0, 1) (specified below), such that with all but δ probability over an i.i.d.
+140	15	Note that the accuracy guarantee is agnostic: we make no assumptions about the way the training labels are generated.
+152	17	For every δ ∈ (0, 1) and every α, γ ∈ (0, 1), there exists a sample complexity m = O ( r2·ln(1/δ) 2α· 2γ ) , such that with probability at least 1−δ over an i.i.d sample S ∼ Dm, simultaneously for every h ∈ H: if h is (α, γ)-approximately metric-fair on the sample S, then h is also (α + α, γ + γ)-approximately metric-fair on the underlying distribution D. See Appendix A.4 and Theorem A.9 for a full statement and discussion (and see Definition A.8 for a definition of Rademacher complexity).
+163	15	The approximation incurs a 1/G additive slack in the fairness guarantee.
+168	25	Then H is informationtheoretically strongly PACF learnable with sample complex- ity m = O ( r2 ln(1/δ) ( ′)2 ) , for ′ = min { , α, γ} .
+178	15	We show polynomial-time relaxed-PACF learning algorithms for linear regression and for logistic regression.
+179	22	See Appendix D.2 for full and formal details.
+187	31	We show a relaxed PACF learning algorithm for Hlin : Theorem 5.1 Hlin is relaxed PACF learnable with sample and time complexities of poly( 1 γ , 1 α , 1 , log 1 δ ).
+190	77	Thus, given the metric and a training set, our task is to find a linear predictor that is as accurate as possible, conditioned on the empirical fairness constraint.
+195	22	Thus, we do not know how to solve the above optimization problem efficiently.

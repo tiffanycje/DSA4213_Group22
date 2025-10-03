@@ -1,0 +1,30 @@
+0	40	In the multi-task learning setting (Caruana, 1997) a learner is given a collection of prediction tasks that all need to be solved.
+2	19	Indeed, theoretical as well as experimental studies have shown that information transfer can reduce the amount of annotated examples per task needed to achieve good performance under various assumptions on how the learning tasks are related.
+4	38	In this paper, we study a new and more challenging setting, in which for a subset of the tasks (typically the large majority) only unlabeled data is available.
+5	26	In practice, it is highly desirable to be able to handle this situation for problems with a very large number of tasks, such as sentiment analysis for market studies: for different products different attributes matter and, thus, each product should be have its own predictor and forms its own learning task.
+9	19	A distinctive feature of the setting we study is that it requires two types of information transfer: between the labeled tasks and from labeled to unlabeled ones.
+11	29	In contrast, information transfer from labeled to unlabeled tasks is commonly studied in domain adaptation research, where, however, transfer of the first type is typically not considered.
+13	32	In this work we focus on a transfer method that learns a predictor for every task of interest by minimizing a taskspecific convex combination of training errors on the labeled tasks (Ben-David et al., 2007; Mansour et al., 2009).
+16	18	Moreover, one can expect it also to depend on the subset of labeled tasks as well, because some subsets of tasks might be more informative and representative than the others.
+17	25	This suggests that it will be beneficial if the labeled subset is not arbitrary but if it can be chosen in a data-dependent way.
+54	28	, 〈DT , fT 〉}, where each task t is defined by a marginal distributionDt over the input space X and a deterministic labeling function ft : X → Y .
+115	15	The left-hand side of inequality (5) is the average expected error over all T tasks, the quantity of interest that the learner would like to minimize but cannot directly compute.
+117	16	The complexity terms C and D behave as O( √ d log(nT )/n) and converge to zero when the number of unlabeled examples per task, n, tends to infinity.
+121	24	Thus, by minimizing them with respect to these quantities one can expect to obtain values for them that are beneficial for solving all tasks of interest based on the given data.
+122	20	For the theorem to hold, the set of labeled tasks and the weights may not depend on the labels.
+125	36	(17) The first term in (17) is the average weighted distance from every task to the labeled ones, as measured by the discrepancy between the corresponding unlabeled training samples.
+127	34	Note that the employed ”similarity”, which is captured by the discrepancy, directly depends on the considered hypothesis class and loss function and, thus, is tailored to a particular setting of interest.
+129	23	In particular, they encourage information transfer also between the labeled tasks, since minimizing just the first term in (17) for every labeled tasks i ∈ I would result in all weight to be put on task i itself and nothing on other tasks, because by definition disc(Si, Si) = 0.
+135	23	Such cases would be very unstable in the worst case scenario: mistakes on such tasks would propagate and have a major effect on the overall performance.
+139	24	, T} and i ∈ I , then ‖α‖2,1 = ‖α‖1,2 = T√k and the convergence rate improves to Õ( √ 1/km), which is the best one can expect from having a total of km labeled examples.
+143	42	1. estimate pairwise discrepancies between the tasks based on the unlabeled data 2. choose the tasks I to be labeled (in the active case) and the weights α1, .
+144	72	, αT by minimizing (17) 3. receive labels for the labeled tasks I 4. for every task t train a classifier by minimizing (3) using the obtained weights αt.
+146	35	Algorithm 1 is guaranteed to perform well, if the solution it finds leads to a low value of the right-hand side of (5).
+147	20	By construction, it minimizes all data-dependent terms in (5), except for one quantity that cannot be estimated from the available data: 1 T T∑ t=1 ∑ i∈I αtiλti.
+148	102	(18) While discrepancy captures the similarity between marginal distributions, the λ-terms reflect the similarity between labeling functions: for every pair of task, t, and labeled task, i ∈ I , the corresponding value λti is small if there exists a hypothesis that performs well on both tasks.
+167	27	We use n = 1000 unlabeled and m = 100 labeled examples per task.
+212	78	We analyzed two scenarios: a passive one, in which the set of labeled tasks is predefined, and the active task selection scenario, in which the learner decides for which tasks to query labels.
+214	96	We demonstrated how the bound can be used to make the choice of labeled tasks (in the active scenario) and to transfer information between the tasks in a principled way.
+215	19	We also showed how the terms in the bound have intuitive interpretations and provide guidance under which assumption of tasks relatedness the induced algorithm is expected to work well.
+217	82	For future work we plan to further exploit the idea of active learning in the multi-task setting.
+218	37	In particular, we are interested in identifying whether by allowing the learner to make its decision on which tasks to label in an iterative way, rather than forcing it to choose all the tasks at the same time, one could obtain better learning guarantees as well as more effective learning methods.

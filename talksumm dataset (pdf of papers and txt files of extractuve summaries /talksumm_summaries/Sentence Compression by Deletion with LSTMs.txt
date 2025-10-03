@@ -1,0 +1,30 @@
+0	81	Sentence compression is a standard NLP task where the goal is to generate a shorter paraphrase of a sentence.
+1	160	Dozens of systems have been introduced in the past two decades and most of them are deletion-based: generated compressions are token subsequences of the input sentences (Jing, 2000; Knight & Marcu, 2000; McDonald, 2006; Clarke & Lapata, 2008; Berg-Kirkpatrick et al., 2011, to name a few).
+2	79	Existing compression systems heavily use syntactic information to minimize chances of introducing grammatical mistakes in the output.
+5	25	Unfortunately, this makes such systems vulnerable to error propagation as there is no way to recover from an incorrect parse tree.
+6	18	With the state-of-the-art parsing systems achieving about 91 points in labeled attachment accuracy (Zhang & McDonald, 2014), the problem is not a negligible one.
+8	37	In this paper we research the following question: can a robust compression model be built which only uses tokens and has no access to syntactic or other linguistic information?
+9	36	While phenomena like long-distance relations may seem to make generation of grammatically correct compressions impossible, we are going to present an evidence to the contrary.
+29	37	In contrast to our proposal, it makes use of a large set of syntactic features which are treated as soft evidence.
+48	43	Dependency label of the least common ancestor in the dependency tree between a batch of dropped tokens.
+63	90	During the first pass over the input, the network is expected to learn a compact, distributed representation of the input sentence, which will allow it to start generating the right predictions when the second pass starts, after the “GO” symbol is read.
+76	25	The output layer is a SoftMax classifier that predicts, after the “GO” symbol is read, one of the following three labels: 1, if a word is to be retained in the compression, 0 if a word is to be deleted, or EOS, which is the output label used for the “GO” input and the end-of-sentence final period.
+80	51	For the LSTM+PAR architecture we first parse the input sentence, and then we provide as input, for each input word, the embedding-vector representation of that word and its parent word in the dependency tree.
+84	17	Similarly to McDonald (2006), syntax is used here as a soft feature in the model.
+97	30	The number of nodes in each LSTM layer is always identical to the number of nodes in the input layer.
+99	40	Both the LSTM systems we introduced and the baseline require a training set of a considerable size.
+100	68	In particular, the LSTM model uses 256- dimensional embeddings of token sequences and cannot be expected to perform well if trained on a thousand parallel sentences, which is the size of the commonly used data sets (Knight & Marcu, 2000; Clarke & Lapata, 2006).
+107	32	Additionally, for experiments on the development set, we used two metrics for automatic evaluation: per-sentence accuracy (i.e., how many compressions could be fully reproduced) and word-based F1-score.
+110	45	Compression ratio: The three versions of our system (LSTM*) and the baseline (MIRA) have comparable compression ratios (CR) which are defined as the length of the compression in characters divided over the sentence length.
+112	15	Automatic evaluation: A total of 1,000 sentence pairs from the test set4 were used in the automatic evaluation.
+117	33	Evaluation with humans: The first 200 sentences from the set of 1,000 used in the automatic evaluation were compressed by each of the four systems.
+127	32	Only in a few cases (out of 200) did it get an average score of two or three.
+129	18	For example, in the second sentence in Figure 4, if one removes from the input the age modifiers and the preceding commas, the words and Chris Martin are not dropped and the output compression is grammatical, preserving both conjoined elements.
+131	45	For example, the only part that can be removed from the fourth sentence in Figure 4 is the modifier of police, everything else being important content.
+132	44	Similarly, in the fifth sentence the context of the event must be retained in the compression for the event to be interpreted correctly.
+138	76	Even though for a significant number of input sentences the compression was a continuous subsequence of tokens, there are many discontinuous compressions.
+140	27	Our understanding of why the extended model (LSTM+PAR+PRES) performed worse in the human evlauation than the base model is that, in the absence of syntactic features, the basic LSTM learned a model of syntax useful for compression, while LSTM++, which was given syntactic information, learned to optimize for the particular way the ”golden” set was created (tree pruning).
+144	21	The training data of about two million sentence-compression pairs was collected automatically from the Internet.
+145	45	Our results clearly indicate that a compression model which is not given syntactic information explicitly in the form of features may still achieve competitive performance.
+146	42	The high readability and informativeness scores assigned by human raters support this claim.
+147	54	In the future, we are planning to experiment with more “interesting” paraphrasing models which translate the input not into a zero-one sequence but into words.

@@ -1,0 +1,30 @@
+23	13	The problem of estimating V π(s) from samples is called policy evaluation.
+24	32	If the target policy π is different than the behavior policy µ which generated the samples, the problem is called off-policy evaluation (OPE).
+33	13	When the state space is too large to hold V π(s), a linear function approximation scheme is used: V π(s) ≈ θ>π φ(s), where θ is the optimized weight vector and φ(s) is the feature vector of state s composed of k features.
+34	8	We denote by Πdπ the projection to the subspace spanned by the features with respect to the dπ-weighted norm, and by Φ ∈ RS,k the matrix whose lines consist of the feature vectors for each state and assume its columns are linearly independent.
+40	9	The first state s0 is distributed according to the stationary distribution of the behavior policy dµ(s).
+43	9	Assumption 3 is required so the importance sampling ratios will be well defined.
+53	12	A comparison of these algorithms in terms of convergence rate, synergy with function approximation and more is available in (White and White, 2016; Geist and Scherrer, 2014).
+54	20	We focus in this paper on the limit point of the convergence.
+55	57	For most of the aforementioned algorithms, the process was shown to converge almost surely to the fixed point of the projected Bellman operator ΠdTπ where d is some stationary distribution (usually dµ), however the d in question was never1 dπ as we would have obtained from running on-policy TD with the target policy (also see (Kolter, 2011) for relevant discussion).
+56	66	The algorithm achieving the closest result is ETD(λ,β) which replaced d with f = ( I − βP>π )−1 dµ, where β trades-off some of the process’ variance with the bias in the limit point.
+57	19	Hence, our main contribution is a consistent algorithm which can converge to the same value that would have been obtained by running an on-policy scheme with the same policy.
+58	28	Here we provide a motivating example showing that even in simple cases with “close” behavior and target policies, the two induced stationary distributions can differ greatly.
+59	24	Choosing a specific linear parameterization further emphasizes the difference between applying on-policy TD with the target policy, and applying inconsistent off-policy TD.
+62	18	Assume the behavior policy moves left with probability 0.5 + , while the target policy moves right with probability 0.5+ .
+64	10	For instance, if we have a length 100 chain with = 0.01, for the rightmost state we have dµ(|S|) ≈ 8 · 10−4, dπ(|S|) ≈ 0.04.
+75	14	(2) In problems with a long horizon, or these that start from the stationary distribution, we suggest using the time-invariant covariate shift ρd multiplied by the current ρt.
+78	19	If the αt satisfy ∑∞ t=0 αt =∞, ∑∞ t=0 α 2 t <∞ then the process described by Eq.
+81	13	Since ρd(s) is generally unknown, it is estimated using an additional stochastic approximation process.
+83	43	Let ρ̂d be an unbiased estimate of ρd, and for every n = 0, 1, .
+86	37	Now, we can devise a TD algorithm which estimates ρd and uses it to find θ, which we call COP-TD(0, β) (Consistent Off-Policy TD).
+87	14	Algorithm 1 COP-TD(0,β), Input: θ0, ρ̂d,0, 1: Init: F0 = 0, n β 0 = 1, N(s) = 0 2: for t = 1, 2, ... do 3: Observe st, at, rt, st+1 4: Update normalization terms: 5: N(st) = N(st) + 1, ∀s ∈ S : d̂µ(s) = N(s)t 6: nβt = βn β t + 1 7: Update Γnt ’s weighted average: 8: Ft = ρt−1(βFt−1 + est−1) 9: Update & project by ρd’s TD error: 10: δdt = F>t ρ̂d,t nβt︸ ︷︷ ︸ →Γ̃βt −ρ̂d,t(st) 11: ρ̂d,t+1 = Π∆d̂µ ( ρ̂d,t + α d t δ d t est ) 12: Off-policy TD(0): 13: δt = rt + θ>t (γφ(st+1)− φ(st)) 14: θt+1 = θt + αtρ̂d,t+1(st)ρtδtφ(st) 15: end for Similarly to the Bellman operator for TD-learning, we define the underlying COP-operator Y and its β extension: Y u = D−1µ P > π Dµu, Y βu = (1− β)D−1µ P>π (I − βP>π )−1Dµu.
+88	10	The following Lemma may give some intuition on the convergence of the ρd estimation process: Lemma 3.
+90	22	Then Y β is a maxi 6=1 (1−β)|ξi| |1−βξi| < 1-contraction in the L2-norm on the orthogonal subspace to ρd, and ρd is a fixed point of Y β .
+92	8	If the step sizes satisfy ∑ t αt = ∑ t α d t = ∞, ∑ t(α 2 t + (α d t ) 2) < ∞, αt αdt → 0, tαdt → 0, and E [ (βnΓnt ) 2|st ] ≤ C for some constant C and every t and n, then after applying COP-TD(0, β), ρ̂d,t converges to ρd almost surely, and θt converges to the fixed point of ΠπTπV .
+99	29	Algorithm 2 COP-TD(λ,β) with Function Approximation, Input: θ0, θρ,0 1: Init: F0 = 0, n β 0 = 1, Nφ = 0, e0 = 0 2: for t = 1, 2, ... do 3: Observe st, at, rt, st+1 4: Update normalization terms: 5: nβt = βn β t + 1, Nφ = Nφ + φρ(st), d̂φρ = Nφ t 6: Update Γnt ’s weighted average: 7: Ft = ρt−1(βFt−1 + φρ(st−1)) 8: Update & project by ρd’s TD error: 9: δdt = θ > ρ,t−1 ( Ft nβt − φρ(st) ) 10: θρ,t+1 = Π∆d̂φρ ( θρ,t + α d t δ d t φρ(st) ) 11: Off-policy TD(λ): 12: Mt = λ+ (1− λ)θ>ρ,t+1φρ(st) 13: et = ρt (λγet +Mtφ(st+1)) 14: δt = rt + θ>t (γφ(st+1)− φ(st)) 15: θt+1 = θt + αtδtet 16: end for Theorem 2.
+100	7	If the step sizes satisfy ∑ t αt = ∑ t α d t = ∞, ∑ t(α 2 t + (α d t ) 2) < ∞, αt αdt → 0, tαdt → 0, and E [ (βnΓnt ) 2|st ] ≤ C for some constant C and every t, n, then after applying COP-TD(0, β) with function approximation satisfying φρ(s) ∈ Rk+, ρ̂d,t converges to the fixed point of Π∆Eµ[φρ]ΠφρY β denoted by ρCOPd almost surely, and if θt converges it is to the fixed point of Πdµ◦ρCOPd TπV , where ◦ is a coordinate-wise product of vectors.
+104	29	Still, the dependence on another set of features allows to trade-off accuracy with computational power in estimating ρd and subsequently V .
+106	10	We conclude with linking the error in ρd’s estimate with the difference in the resulting θ, which suggests that a well estimated ρd results in consistency: Corollary 1.
+108	20	Recently, Sutton et al. (2015) had suggested an algorithm for off-policy evaluation called Emphatic TD.
+109	117	Their algorithm was later on extended by Hallak et al. (2015) and renamed ETD(λ, β), which was shown to perform extremely well empirically by White and White (2016).

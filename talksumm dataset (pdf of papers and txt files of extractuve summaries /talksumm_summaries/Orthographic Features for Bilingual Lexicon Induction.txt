@@ -1,0 +1,30 @@
+3	7	More recent work has focused on reducing that constraint.
+4	22	Vulić and Moens (2016) and Vulic and Korhonen (2016) use document-aligned data to learn bilingual embeddings instead of a seed dictionary.
+5	32	Artetxe et al. (2017) use a very small, automatically-generated seed lexicon of identical numerals as the initialization in an iterative self-learning framework to learn a linear mapping between monolingual embedding spaces; Zhang et al. (2017) use an adversarial training method to learn a similar mapping.
+6	18	Lample et al. (2018a) use a series of techniques to align monolingual embedding spaces in a completely unsupervised way; their method is used by Lample et al. (2018b) as the initialization for a completely unsupervised machine translation system.
+9	34	This is in contrast to work that predates many of these embedding-based methods that leveraged linguistic features such as edit distance and orthographic similarity: Dyer et al. (2011) and Berg-Kirkpatrick et al. (2010) investigate using linguistic features for word alignment, and Haghighi et al. (2008) use linguistic features for unsupervised bilingual lexicon induction.
+10	39	These features can help identify words with common ancestry (such as the English-Italian pair agile-agile) and borrowed words (macaronimaccheroni).
+11	9	The addition of linguistic features led to increased performance in these earlier models, especially for related languages, yet these features have not been applied to more modern methods.
+12	45	In this work, we extend the modern embeddingbased approach of Artetxe et al. (2017) with orthographic information in order to leverage similarities between related languages for increased accuracy in bilingual lexicon induction.
+13	35	This work is directly based on the work of Artetxe et al. (2017).
+14	54	Following their work, let X ∈ R|Vs|×d and Z ∈ R|Vt|×d be the word embedding matrices of two distinct languages, referred to respectively as the source and target, such that each row corresponds to the d-dimensional embedding of a single word.
+19	35	Artetxe et al. (2017) define the optimal mapping matrix W ∗ with the following equation, W ∗ = arg min W ∑ i ∑ j Dij ‖Xi∗W − Zj∗‖2 which minimizes the sum of the squared Euclidean distances between mapped source embeddings and their aligned target embeddings.
+23	17	To reduce the need for a large seed dictionary, Artetxe et al. (2017) propose an iterative, self-learning framework that determines W as above, uses it to calculate a new dictionary D, and then iterates until convergence.
+27	36	To do this, we append to each word’s embedding a vector of length equal to the size of the union of the two languages’ alphabets.
+28	18	Each position in this vector corresponds to a single letter, and its value is set to the count of that letter within the spelling of the word.
+29	46	This letter count vector is then scaled by a constant before being appended to the base word embedding.
+33	54	We modify this similarity score by adding a measure of orthographic similarity, which is a function of the normalized string edit distance of the two words.
+34	4	The normalized edit distance is defined as the Levenshtein distance (L(·, ·)) (Levenshtein, 1966) divided by the length of the longer word.
+35	49	The Levenshtein distance represents the minimum number of insertions, deletions, and substitutions required to transform one word into the other.
+36	5	The normalized edit distance function is denoted as NL(·, ·).
+38	16	These similarity scores are used to form an orthographic similarity matrix S, where each entry corresponds to a source-target word pair.
+39	25	Each entry is first scaled by a constant factor cs.
+55	12	We do not use the training set as the input dictionary to the system, instead using an automatically-generated dictionary consisting only of numeral identity translations (such as 2-2, 3-3, et cetera) as in Artetxe et al. (2017).1 However, because the methods presented in this work feature tunable hyperparameters, we use a portion of the training set as development data.2 In all experiments, a single target word is predicted for each source word, and full points are awarded if it is one of the listed correct translations.
+58	5	The size of this union was 199 for English-Italian, 200 for English-German, and 287 for English-Finnish.
+68	7	Because approximately 20% of source-target pairs in the dictionary were identical, we also extended all systems to guess the identity translation if the source word appeared in the target vocabulary.
+71	39	The fact that Finnish is the only language here that is not in the Indo-European family (and has fewer words borrowed from English or its ancestors) may explain why the performance trends for English-Finnish were different than those of the other two language pairs.
+72	39	In addition to identifying orthographically similar words, the extension method is capable of learning a mapping between source and target letters, which could partially explain its improved performance over our edit distance method.
+73	31	Table 2 shows some correct translations from our system that were missed by the baseline.
+74	29	In this work, we presented two techniques (which can be combined) for improving embedding-based bilingual lexicon induction for related languages using orthographic information and no parallel data, allowing their use with low-resource language pairs.
+75	100	These methods increased accuracy in our experiments, with both the combined and embedding extension methods providing significant gains over the baseline system.
+76	168	In the future, we want to extend this work to related languages with different alphabets (experimenting with transliteration or phonetic transcription) and to extend other unsupervised bilingual lexicon induction systems, such as that of Lample et al. (2018a).

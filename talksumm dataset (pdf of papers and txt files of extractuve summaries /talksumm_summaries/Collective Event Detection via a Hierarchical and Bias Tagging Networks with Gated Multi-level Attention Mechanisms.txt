@@ -1,0 +1,30 @@
+0	64	Event detection (ED) is a crucial subtask of event extraction, which aims to identify event triggers and classify them into specific types from texts.
+1	32	According to the task defined in Automatic Context Extraction1 (ACE), given the following sentence S1, a robust ED system should be able to recognize two events: a Die event triggered by died and an Attack event triggered by fired.
+2	26	S1: In Baghdad, a cameraman died when an American tank fired on the Palestine Hotel.
+3	28	To this end, most methods (Ahn, 2006; Hong et al., 2011; Chen et al., 2015; Nguyen and Grishman, 2016; Liu et al., 2017) model ED as a multiclassification task and predict every word in the sentence separately to determine whether it triggers a specific type of event by using sentencelevel information.
+4	18	However, they face two problems: (1) Neglecting event interdependency by separately predicting each event; (2) Sentencelevel information is usually insufficient to resolve ambiguities for some types of events.
+9	14	However, if we know died triggers a Die event in S1, which is easier to disambiguate, we tend to predict that fired triggers an Attack event.
+10	13	The reason is that the events mentioned in the same sentence tend to be semantically coherent and a Die event usually co-occurs with an Attack event.
+25	22	However, sometimes it is difficult even for people to classify event types from an isolated sentence.
+28	13	It is hard to tell left triggers a Transport event which means that he left the place, or an EndPosition event which means that he resigned from the company.
+29	26	However, if we read the whole document, a clue like “He planned to go shopping before he went home, because he got off work early today.” would give us more confidence to believe that left triggers a Transport event, while a clue like “They held a party for his retirement.” would indicate the aforementioned event is an End-Position event.
+37	30	To capture event interdependency and collectively detect multiple events in one sentence, we propose a hierarchical and bias tagging networks for event detection.
+38	17	In which, we exploit a hierarchical RNN-based tagging layer to capture all event interdependencies in the whole sentence and devise a bias objective function to reinforce the influence of trigger tags on the model2.
+57	13	We adopt the “BIO” tags schema, where tag “O” represent the “other” tag which means that the corresponding word does not trigger any event, tags “B-EventType” and “I-EventType” represent the “Begin-EventType” and “Inside-EventType” tag respectively.
+73	36	Gated multi-level attention primarily involves the following three components: (i) sentence-level attention layer, which automatically captures important sentence-level information by considering the current word; (ii) document-level attention layer, which automatically captures important document-level information by considering the current sentence; and (iii) fusion gate layer, which use a fusion gate to dynamically integrate sentence-level and document-level information.
+74	28	Sentence-level attention layer aims to capture the important clues in sentence level.
+83	15	In hierarchical tagging layer, we propose two Tagging LSTMs (TLSTM1 and TLSTM2) and a tagging attention to automatically capture the event interdependency and tag the sequence collectively.
+84	35	When detecting the tag of word wt in TLSTM1, the inputs are: the feature representation xrt obtained from embedding layer and gated multi-level attention layer, former predicted tag vector T 1t 1, and former hidden vector h1t 1 in TLSTM1.
+87	30	Thus, we devise a second tagging layer (TLSTM2) upon the LSTM1 to capture the interdependency between the current event candidate and both of former and later predicted event tags from TLSTM1.
+88	24	When detecting the tag of word wt in TLSTM2, the inputs are: the feature representation xrt, former predicted tag vector T 2t 1 in TLSTM2, the preliminary predicted information T at calculated from TLSTM1, and former hidden vector h2t 1 in TLSTM2.
+94	17	In one sentence, the number of “O” tags is much more than the number of trigger tags.
+98	35	For comparison, as the same as previous works (Liao and Grishman, 2010; Li et al., 2013; Chen et al., 2015; Nguyen et al., 2016; Liu et al., 2017), we used the same test set with 40 documents and the same development set with 30 documents and the rest 529 documents are used for training.
+118	17	(2) Comparing our HBTNGMA to separate methods, it achieves a better performance.
+119	14	It proves that collectively predicting multiple events in one sentence is effective.
+129	14	And we have the following observations: 1) Compared with LSTM+Softmax, LSTM-based collective ED methods (LSTM+CRF, LSTM+TLSTM, LSTM+HTLSTM, LSTM+HTLSTM+Bias) achieves a better performance.
+149	20	Interesting Cases: Our neural tagging schema not only can model the interdependency between multiple events in one sentence as proved in Subsection 4.3, but also the “BIO” tagging schema can solve the multiple words trigger inherently.
+156	148	The surrounding sentence “this is ... tiresome.” gives us more confidence to predict that leave triggers an End-Position event.
+167	27	This paper proposes a novel framework for event detection, which can automatically extract and dynamically integrate sentence-level and documentlevel information and collectively detect multiple events in one sentence.
+168	19	A hierarchical and bias tagging networks is proposed to detect multiple events in one sentence collectively.
+169	26	A gated multi-level attention is devised to automatically extract and dynamically integrate contextual information.
+170	34	The experimental results on the widely used dataset prove the effectiveness of the proposed method.

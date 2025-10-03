@@ -1,0 +1,30 @@
+25	8	This bound, in conjunction with the results in §3, positively shows that random Fourier features can give guarantees for KRR under reasonable assumptions.
+26	8	We give a lower bound showing that our upper bound is tight for the Gaussian kernel (Theorem 8).
+27	30	We show that the upper bound can be improved dramatically by modifying the sampling distribution used in classical random Fourier features (§4).
+28	81	Our sampling distribution is based on an appropriately defined leverage function of the kernel, closely related to so-called leverage scores frequently encountered in the analysis of sampling based methods for linear regression.
+29	24	Unfortunately, it is unclear how to efficiently sample using the leverage function.
+30	434	To address the lack of an efficient way to sample using the leverage function, we propose a novel, easy-tosample distribution for the Gaussian kernel which approximates the true leverage function distribution and allows random Fourier features to achieve a significantly improved upper bound (Theorem 10).
+31	63	The bound has an exponential dependence on the data dimension, so it is only applicable to low dimensional datasets.
+32	15	Nevertheless, it demonstrate that classic random Fourier features can be improved for spectral approximation and motivates further study.
+33	22	As an application, our improved understanding of the leverage function yields a novel asymptotic bound on the statistical dimension of Gaussian kernel matrices over bounded datasets, which may be of independent interest (Corollary 15).
+35	7	For a vector x or a matrix A, x⇤ or A⇤ denotes the Hermitian transpose.
+37	18	We use the convention that vectors are column-vectors.
+38	44	A Hermitian matrix A is positive semidefinite (PSD) if x ⇤ Ax 0 for every vector x.
+40	11	For any two Hermitian matrices A and B of the same size, A B means that B A is PSD.
+44	10	We denote the training set by (x 1 , y 1 ), .
+54	38	Random Fourier features (Rahimi & Recht, 2007) is an approach to scaling up kernel methods for shift-invariant kernels.
+59	15	,⌘ s are drawn according to p(·), and we define '(x) ⌘ 1p s ⇣ e 2⇡i⌘ T 1 x, · · · , e 2⇡i⌘Ts x ⌘⇤ , then it is not hard to see that k(x, z) = E ' ['(x)⇤'(z)] .
+60	60	The idea of the Random Fourier features method is then to define ˜k(x, z) ⌘ '(x)⇤'(z) = 1 s sX l=1 e 2⇡i⌘ T l (x z) (4) as a substitute kernel.
+61	113	Now suppose that Z 2 Cn⇥s is the matrix whose jth row is '(x j ) ⇤, and let ˜K = ZZ⇤.
+62	332	˜K is the kernel matrix corresponding to ˜k(·, ·).
+63	7	The resulting random Fourier features KRR estimator is ˜f(x) ⌘Pn j=1 ˜k(x j ,x)↵̃ j where ↵̃ is the solution of ( ˜K+ I n )↵̃ = y.
+64	51	Typically, s < n and we can represent ˜f(·) more efficiently as: ˜f(x) = '(x)⇤w where w = (Z ⇤ Z+ I s ) 1 Z ⇤ y We can compute w in O(ns2) time, making random Fourier features computationally attractive if s < n.
+65	17	While it seems to be a natural choice, there is no fundamental reason that we must sample the frequencies ⌘ 1 , .
+66	6	,⌘ s using the Fourier transform density function p(·).
+67	20	In fact, our results show that it is advantageous to use a different sampling distribution based on the kernel leverage function (defined later).
+68	10	Let q(·) be any probability density function whose support includes that of p(·).
+70	42	We refer to this method as modified random Fourier features and remark that it can be viewed as a form of importance sampling.
+72	14	The (j, l) entry of Z is given by Z jl = 1p s e 2⇡ix T j⌘l p p(⌘ l )/q(⌘ l ).
+89	33	Given a feature transformation, like random Fourier features, how do we analyze it and relate its use to nonapproximate methods?
+91	40	However, it is unclear how such bounds translate to downstream guarantees on statistical learning methods, such as KRR.
+92	22	In this paper we advocate and focus on spectral approximation bounds on the regularized kernel matrix, specifically, bounds of the form (1 )(K+ I n ) ZZ⇤+ I n (1+ )(K+ I n ) (6) for some < 1.

@@ -1,0 +1,30 @@
+0	45	Recently, the “sequence-to-sequence” framework (Sutskever et al., 2014; Cho et al., 2014) has facilitated the use of recurrent neural networks (RNNs) on sequence transduction problems such as machine translation and speech recognition.
+21	40	Of course, this is not true in all problems; for example, when using soft attention for image captioning, the model will often change focus arbitrarily between output steps and will spread attention across large regions of the input image (Xu et al., 2015).
+26	20	The rest of this paper is structured as follows: In the following section, we develop an interpretation of soft attention as optimizing a stochastic process in expectation and formulate a corresponding stochastic process which allows for online and linear-time decoding by relying on hard monotonic alignments.
+27	101	In analogy with soft attention, we then show how to compute the expected output of the monotonic attention process and elucidate how the resulting algorithm differs from standard softmax attention.
+42	18	When computing y i , a soft attention-based decoder uses a learnable nonlinear function a(·) to produce a scalar value e i,j for each entry h j in the memory based on h j and the decoder’s state at the previous timestep s i 1.
+44	117	These scalar values are normalized using the softmax function to produce a probability distribution over the memory, which is used to compute a context vector c i as the weighted sum of h. Because items in the memory have a sequential correspondence with items in the input, these attention distributions create a soft alignment between the output and input.
+47	32	To motivate our monotonic alignment scheme, we observe that eqs.
+48	39	(2) and (3) are computing the expected output of a simple stochastic process, which can be formulated as follows: First, a probability ↵ i,j is computed independently for each entry h j of the memory.
+49	31	Then, a memory index k is sampled by k ⇠ Categorical(↵ i ) and c i is set to h k .
+50	29	We visualize this process in fig.
+52	28	The discussion above makes clear that softmax-based attention requires a pass over the entire memory to compute the terms ↵ i,j required to produce each element of the output sequence.
+53	22	This precludes its use in online settings, and results in a complexity of O(TU) for generating the output sequence.
+56	90	Specifically, for output timestep i we begin processing memory entries from index t i 1, where t i is the index of the memory entry chosen at output timestep i (for convenience, letting t0 = 1).
+57	30	We sequentially compute, for j = t i 1, ti 1 + 1, ti 1 + 2, .
+58	26	e i,j = a(s i 1, hj) (6) p i,j = s(e i,j ) (7) z i,j ⇠ Bernoulli(p i,j ) (8) where a(·) is a learnable deterministic “energy function” and s(·) is the logistic sigmoid function.
+60	20	Each z i,j can be seen as representing a discrete choice of whether to ingest a new item from the memory (z i,j = 0) or produce an output (z i,j = 1).
+72	35	(6) and (7), where p i,j are interpreted as the probability of choosing memory element j at output timestep i.
+74	23	(9) = p i,j ✓ (1 p i,j 1) ↵ i,j 1 p i,j 1 + ↵ i 1,j ◆ (10) We provide a solution to the recurrence relation of eq.
+97	42	As mentioned above, in order for our mechanism to exhibit similar behavior when training in expectation and when using the hard monotonic attention process at test time, we require that p i,j ⇡ 0 or p i,j ⇡ 1.
+98	21	A straightforward way to encourage this behavior is to add noise before the sigmoid in eq.
+134	19	To validate our proposed approach for learning monotonic alignments, we applied it to a variety of sequenceto-sequence problems: sentence summarization, machine translation, and online speech recognition.
+172	24	We therefore additionally measured performance against a baseline model which was identical to our model except that it used softmax-based attention (which makes it quadratic-time and offline) instead of a monotonic alignment decoder.
+173	38	This resulted in a small decrease of 1.4% WER, suggesting that our hard monotonic attention approach achieves competitive performance while being substantially more efficient.
+175	36	Both models learn roughly the same alignment, with some minor differences caused by ours being both hard and strictly monotonic.
+191	20	Most apparent is that a given word in the summary is not always aligned to the most obvious word in the input sentence; the hard monotonic decoder aligns the first four words in the summary reasonably (greek $ greek, government $ finance, approves $ approved, more $ more), but the latter four words have unexpected alignments (funds$ in, to$ for, bird$measures, bird $ flu).
+211	22	Most noticeable is that the monotonic alignment model tends to focus attention later in the input sequence than the baseline softmax-attention model.
+212	64	We hypothesize that this is a way to compensate for non-monotonic alignments when a unidirectional encoder is used; i.e. the model has effectively learned to focus on words at the end of phrases which require reordering, at which point the unidirectional encoder has observed the whole phrase.
+216	51	We believe our framework presents a promising environment for future work on online and linear-time sequence-to-sequence models.
+217	31	We are interested in investigating various extensions to this approach, which we outline in appendix E. To facilitate experimentation with our proposed attention mechanism, we have made an example TensorFlow (Abadi et al., 2016) implementation of our approach available online3 and added a reference implementation to TensorFlow’s tf.contrib.seq2seq module.
+218	45	We also provide a “practitioner’s guide” in appendix G. 3 https://github.com/craffel/mad

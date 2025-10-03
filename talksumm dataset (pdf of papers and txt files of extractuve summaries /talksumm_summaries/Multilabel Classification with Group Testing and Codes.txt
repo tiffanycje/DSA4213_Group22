@@ -1,0 +1,30 @@
+1	17	The vector yi has a one in the jth coordinate if the ith data point belongs to jth class.
+2	37	We wish to learn a mapping (prediction rule) between the features and the labels, such that, we can predict the class label vector y of a new data point x correctly.
+3	23	Such multilabel classification problems occur in many domains such as text mining, computer vision, music, and bioinformatics (Barutcuoglu et al., 2006; Trohidis, 2008; Tai & Lin, 2012), and modern applications involve large number of labels.
+5	37	In most of these applications, the label vectors yi are sparse (with average sparsity of k d), i.e., each data point belongs to a few (average k out of d) classes.
+6	26	The multiclass classification is an instance of the multilabel classification, where all data points belong to only one of the d classes (k = 1).
+10	38	In ECOC method, m-dimensional binary vectors (typically codewords from an error correcting code with m ≤ d) are assigned to each class, and m binary classifiers are learned.
+11	34	For the jth classification, the jth coordinate of the corresponding codeword is used as the binary label for each class.
+13	30	The idea of ECOC approach has been extended to the multilabel classification (MLC) problem.
+22	21	These methods reduce the label dimension by projecting label vectors onto a low dimensional space, based on the assumption that the label matrix Y = [y1, .
+33	24	Hence we need to use regressors for training and cannot leverage the efficient binary classifiers for effective training for the model.
+40	31	The prediction algorithm can also detect and correct errors.
+43	50	In the group testing problem, we wish to efficiently identify a small number k of defective elements in a population of large size d. The idea is to test the items in groups with the premise that most tests will return negative results, clearing the entire group.
+46	29	In the nonadaptive group testing scheme, the grouping for each test can be described using an m× d binary (0/1 entries) matrix A.
+78	17	An m × d binary matrix A is called k-disjunct if the support of any of its columns is not contained in the union of the supports of any other k columns.
+88	40	We then compute the reduced measured (label) vectors zi for each label vectors yi, i = 1, .
+89	82	, n using the boolean OR operation zi = A ∨ yi.
+92	36	Algorithm 1 MLGT: Training Algorithm Input: Training data {(xi, yi)}ni=1, group testing matrix A ∈ Rm×d, a binary classifier algorithm C. Output: m classifiers {wj}mj=1.
+93	70	In the prediction stage, given a test data x ∈ Rp, we use the m classifiers {wj}mj=1 to obtain a predicted reduced label vector ẑ.
+94	51	We know that a k sparse label vector can be recovered exactly, if the group testing matrix A is a k-disjunct matrix.
+97	20	That is, we set the lth coordinate of ŷ to 1, if the number of coordinates that are in the support of the corresponding column A(l) but are not in the predicted reduced vector ẑ, is less than e/2.
+98	37	The decoder returns the exact label vector even if up to e/2 binary classifiers make errors.
+99	21	Algorithm 2 summarizes our prediction algorithm.
+102	29	It is equivalent to an AND operation between a binary sparse matrix and a binary (likely sparse) vector, which should cost less than a sparse matrix vector productO(nnz(A)) ≈ O(kd), where nnz(A) is the number of nonzero entries of A.
+104	123	In order to recover a k sparse label vector exactly, we know that the group testing matrixAmust be a k-disjunct matrix.
+107	22	Proposition 1 (Random Construction).
+108	52	An m× d random binary {0, 1} matrix A where each entry is 1 with probability ρ = 1k+1 , is (k, 3k log d)-disjunct with very high probability, if m = O(k2 log d).
+109	44	If we tolerate a small ε fraction of sparsity label misclassifications (i.e., εk errors in the recovered label vector), which we call ε-tolerance group testing, then we can follow the analysis of Theorem 8.1.1 in (Du & Hwang, 2000), to show that it is sufficient to have m = O(k log d) number of classifiers.
+113	20	This matrix will also detect e = Ω(m) errors.
+115	23	Kautz and Singleton (Kautz & Singleton, 1964) introduced a two-level construction in which a q-ary ( q > 2) ReedSolomon (RS) code is concatenated with a unit-weight binary code.
+123	33	The distance of the q-ary RS code is h = 2(q − logq(d)).

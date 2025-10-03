@@ -1,0 +1,30 @@
+0	45	Learning to ask questions (or, question generation) aims to generate a question to a given input.
+1	99	Deciding what to ask and how is an indicator of machine understanding (Mostafazadeh et al., 2016), as demonstrated in machine comprehension (Du et al., 2017; Zhou et al., 2017b; Yuan et al., 2017) and question answering (Tang et al., 2017; Wang et al., 2017).
+2	70	Raising good questions is essential to conversational systems because a good system can well interact with users by asking and responding (Li et al., 2016).
+3	26	Furthermore, asking ∗Authors contributed equally to this work.
+4	57	questions is one of the important proactive behaviors that can drive dialogues to go deeper and further (Yu et al., 2016).
+5	15	Question generation (QG) in open-domain conversational systems differs substantially from the traditional QG tasks.
+6	26	The ultimate goal of this task is to enhance the interactiveness and persistence of human-machine interactions, while for traditional QG tasks, seeking information through a generated question is the major purpose.
+12	19	Instead, traditional QG tasks can be roughly addressed by syntactic transformation (Andrenucci and Sneiders, 2005; Popowich and Winne, 2013), or implicitly modeled by neural models (Du et al., 2017).
+21	34	Interrogatives indicate the pattern of questioning, topic words address the key information of topic transition, and ordinary words play syntactical and grammatical roles in making a natural sentence.
+50	27	The first model is soft typed decoder (STD).
+51	64	It estimates a type distribution over word types and three type-specific generation distributions over the vocabulary, and then obtains a mixture of type-specific distributions for word generation.
+52	18	The second one is a hard form of STD, hard typed decoder (HTD), in which we can control the decoding process more explicitly by approximating the operation of argmax with Gumbel-softmax (Jang et al., 2016).
+62	24	The soft typed decoder firstly estimates a word type distribution over latent types in the given context, and then computes type-specific generation distributions over the entire vocabulary for different word types.
+71	29	Note that the type-specific generation distribution is parameterized by Wci , indicating that the distribution for each word type has its own parameters.
+93	28	(8) As mentioned, in order to have an effect of argmax but still maintain the differentiability, we resort to Gumbel-Softmax (Jang et al., 2016), which is a differentiable surrogate to the argmax function.
+133	18	We conducted automatic evaluation over the 5, 000 test posts.
+135	47	We adopted perplexity to quantify how well a model fits the data.
+156	14	Each of the following metrics is evaluated independently on each pair-wise comparison: Appropriateness: measures whether a question is reasonable in logic and content, and whether it is questioning on the key information.
+159	15	Willingness to respond: measures whether a user will respond to a generated question.
+179	15	These examples also clearly show that asking questions in open-domain conversational systems requires scene understanding, which is verified by this scene example of singing at karaoke(在卡拉ok唱歌).
+184	17	While for Post-3, the questions are asking about transitional topics of the input (上 班-work → 部门-department; 体育中心-sports center → 体育学院-college of Physical Education), indicating a typical case of topic transition in our task (also seen in Post-4,寿司-sushi→日式 料理-Japanese food).
+187	23	To gain more insights into how a word type influence the generation process, we visualized the type probability at each decoding position in HTD.
+188	36	This example (Figure 3) shows that the model can capture word types well at different positions.
+189	22	For instance, at the first and second positions, ordinary words have the highest probabilities for generating 你-you and 喜欢-like, and at the third position, a topic word兔子-rabbit is predicted while the last two positions are for interrogatives (a particle and a question mark).
+191	37	There are 4 typical error types: no topic words (NoT) in a response (mainly universal questions), wrong topics (WrT) where topic words are irrelevant, type generation error (TGE) where a wrong word type is predicted (See Eq.
+194	27	For STD, most of the errors are attributed to no topic or wrong topics, while for HTD, the majority of errors fall into wrong topics.
+204	18	We present two typed decoders to generate questions in open-domain conversational systems.
+208	140	The work can be extended to multi-turn conversation generation by including an additional detector predicting when to ask a question.
+209	25	The detector can be implemented by a classifier or some heuristics.
+210	25	Furthermore, the typed decoders are applicable to the settings where word types can be easily obtained, such as in emotional text generation (Ghosh et al., 2017; Zhou et al., 2018b).

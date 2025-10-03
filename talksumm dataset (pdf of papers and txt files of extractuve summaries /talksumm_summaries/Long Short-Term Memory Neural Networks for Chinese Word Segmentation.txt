@@ -1,0 +1,30 @@
+2	17	The popular method is to regard word segmentation task as a sequence labeling problem (Xue, 2003; Peng et al., 2004).
+4	25	However, the ability of these models is restricted by the design of features, and the number of features could be so large that the result models are too large for practical use and prone to overfit on training corpus.
+5	23	Recently, neural network models have increasingly used for NLP tasks for their ability to minimize the effort in feature engineering (Collobert et al., 2011; Socher et al., 2013; Turian et al., 2010; Mikolov et al., 2013b; Bengio et al., 2003).
+9	92	Chen et al. (2015) proposed a gated recursive neural network (GRNN) to explicitly model the combinations of the characters for Chinese word segmentation task.
+21	34	In order to address this problem, we propose a neural model based on Long Short-Term Memory Neural Network (LSTM) (Hochreiter and Schmidhuber, 1997) that explicitly model the previous information by exploiting input, output and forget gates to decide how to utilize and update the memory of pervious information.
+22	22	Intuitively, if the LSTM unit detects an important feature from an input sequence at early stage, it easily carries this information (the existence of the feature) over a long distance, hence, capturing the potential useful long-distance information.
+59	23	Though RNN has been proven successful on many tasks such as speech recognition (Vinyals et al., 2012), language modeling (Mikolov et al., 2010) and text generation (Sutskever et al., 2011), it can be difficult to train them to learn longterm dynamics, likely due in part to the vanishing and exploding gradient problem (Hochreiter and Schmidhuber, 1997).
+60	17	The LSTM provides a solution by incorporating memory units that allow the network to learn when to forget previous information and when to update the memory cells given new information.
+61	25	Thus, it is a natural choice to apply LSTM neural network to word segmentation task since the LSTM neural network can learn from data with long range temporal dependencies (memory) due to the considerable time lag between the inputs and their corresponding outputs.
+72	33	The input of the LSTM unit is from a window of context characters.
+76	19	LSTM-2 The LSTM-2 can be created by stacking multiple LSTM hidden layers on top of each other, with the output sequence of one layer forming the input sequence for the next (See Figure 3b).
+89	17	Intuitively, the Max-Margin criterion provides an alternative to probabilistic, likelihood based estimation methods by concentrating directly on the robustness of the decision boundary of a model (Taskar et al., 2005).
+94	43	For a given training instance (xi, yi),the predicted tag sequence ŷi ∈ Y (xi) is the one with the highest score: ŷi = argmax y∈Y (xi) s(xi, y, θ), (13) where the function s(·) is sentence-level score and defined in equation (11).
+108	54	For evaluation, we use the standard bake-off scoring program to calculate precision, recall, F1score and out-of-vocabulary (OOV) word recall.
+116	28	For the context lengths (k1, k2) and dropout strategy, we give detailed analysis in next section.
+117	29	We first investigate the different dropout strategies, including dropout at different layers and with different dropout rate p. As a result, we found that it is a good trade-off between speed and model performance to drop the input layer only with dropout rate pinput = 0.2.
+121	18	50% or higher dropout rate seems to be underfitting since its training error is also high.
+122	25	Table 2 shows that the LSTM-1 model performs consistently well with the different context length, but the LSTM-1 model with short context length saves computational resource, and gets more efficiency.
+123	23	At the meanwhile, the LSTM-1 model with context length (0,2) can receive the same or better performance than that with context length (2,2), which shows that the LSTM model can well model the pervious information, and it is more robust for its insensitivity of window size variation.
+131	36	The LSTM-2 (two LSTM layers) get worse, which shows the performance seems not to benefit from deep model.
+132	21	The LSTM-3 and LSTM-4 models do not converge, which could be caused by the complexity of models.
+133	20	The results on PKU test set are also shown in Table 3, which again show that the LSTM-1 achieves the best performance.
+136	36	We first compare our model with two neural models (Zheng et al., 2013; Pei et al., 2014) on Chinese word segmentation task with random initialized character embeddings.
+146	20	Table 6 lists the performances of our model as well as previous state-of-the-art systems.
+147	25	(Zhang and Clark, 2007) is a word-based segmentation algorithm, which exploit features of complete words, while the rest of the list are character-based word segmenters, whose features are mostly extracted from a window of characters.
+159	17	In this paper, we use LSTM to explicitly model the previous information for Chinese word segmentation, which can well model the potential long- distance features.
+160	18	Though our model use smaller context window size (0,2), it still outperforms the previous neural models with context window size (2,2).
+161	34	Besides, our model can also be easily generalized and applied to other sequence labeling tasks.
+163	43	The future context is also useful for Chinese word segmentation.
+164	47	In future work, wewould like to adopt the bidirectional recurrent neural network (Schuster and Paliwal, 1997) to process the sequence in both directions.

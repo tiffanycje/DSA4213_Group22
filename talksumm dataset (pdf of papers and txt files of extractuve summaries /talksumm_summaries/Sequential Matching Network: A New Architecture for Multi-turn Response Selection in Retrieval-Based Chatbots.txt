@@ -1,0 +1,30 @@
+31	17	In contrast to the Ubuntu corpus in which data is collected from a specific domain and negative candidates are randomly sampled, conversations in this data come from the open domain, and response candidates in this data set are collected from a retrieval engine and labeled by three human judges.
+34	8	We have released Douban Conversation Corups and our source code at https://github.com/MarkWuNLP/ MultiTurnResponseSelection Our contributions in this paper are three-folds: (1) the proposal of a new context based matching model for multi-turn response selection in retrieval-based chatbots; (2) the publication of a large human-labeled data set to research communities; (3) empirical verification of the effectiveness of the model on public data sets.
+51	23	SMN first decomposes context-response matching into several utterance-response pair matching and then all pairs matching are accumulated as a context based matching through a recurrent neural network.
+52	21	The first layer matches a response candidate with each utterance in the context on a word level and a segment level, and important matching information from the two levels is distilled by convolution, pooling and encoded in a matching vector.
+54	9	The third layer calculates the final matching score with the hidden states of the second layer.
+57	18	Second, information extraction from each utterance is conducted on different levels of granularity and under sufficient supervision from the response, thus semantic structures that are useful for response selection in each utterance can be well identified and extracted.
+64	35	The CNN distills important matching information from the matrices and encodes the information into a matching vector v. Specifically, ∀i, j, the (i, j)-th element of M1 is defined by e1,i,j = e > u,i · er,j .
+65	48	(1) M1 models the matching between u and r on a word level.
+66	7	To construct M2, we first employ a GRU to transform U and R to hidden vectors.
+70	29	Therefore, M2 models the matching between u and r on a segment level.
+76	17	According to Equation (1), (3), (4), and (5), we can see that by learning word embedding and parameters of GRU from training data, words or segments in an utterance that are useful for recognizing the appropriateness of a response may have high similarity with some words or segments in the response and result in high value areas in the similarity matrices.
+78	64	This is how our model identifies important information in context and leverage it in matching under the supervision of the response.
+79	16	We consider multiple channels because we want to capture important matching information on multiple levels of granularity of text.
+87	8	, h ′ n] = h ′ n. (2) the hidden states are linearly combined.
+96	8	, h ′ n] as SMNlast, SMNstatic, and SMNdynamic, and empirically compare them in experiments.
+98	8	Let Θ denote the parameters of SMN, then the objective function L(D,Θ) of learning can be formulated as − N∑ i=1 [yilog(g(si, ri)) + (1− yi)log(1− g(si, ri))] .
+105	7	Then we send the expanded message to the index and retrieve response candidates using the inline retrieval algorithm of the index.
+114	17	The Ubuntu Corpus is a domain specific data set, and response candidates are obtained from negative sampling without human judgment.
+117	18	It simulates the real scenario of a retrievalbased chatbot.
+130	24	Besides Rn@ks, we also followed the convention of information retrieval and employed mean average precision (MAP) (Baeza-Yates et al., 1999), mean reciprocal rank (MRR) (Voorhees et al., 1999), and precision at position 1 (P@1) as evaluation metrics.
+134	10	We considered the following baselines: Basic models: models in (Lowe et al., 2015) and (Kadlec et al., 2015) including TF-IDF, RNN, CNN, LSTM and BiLSTM.
+137	9	Advanced single-turn matching models: since BiLSTM does not represent the state-ofthe-art matching model, we concatenated the utterances in a context and matched the long text with a response candidate using more powerful models including MV-LSTM (Wan et al., 2016) (2D matching), Match-LSTM (Wang and Jiang, 2015), Attentive-LSTM (Tan et al., 2015) (two attention based models), and Multi-Channel which is described in Section 3.3.
+138	17	Multi-Channel is a simple version of our model without considering utterance relationships.
+159	8	Rn@ks are low on the Douban Corpus as there are multiple correct candidates for a context (e.g., if there are 3 correct responses, then the maximumR10@1 is 0.33).
+161	11	The reason might be that the GRU can select useful signals from the matching sequence and accumulate them in the final state with its gate mechanism, thus the efficacy of an attention mechanism is not obvious for the task at hand.
+162	10	Visualization: we visualize the similarity matrices and the gates of GRU in layer two using an example from the Ubuntu corpus to further clarify how our model identifies important information in the context and how it selects important matching vectors with the gate mechanism of GRU as described in Section 3.3 and Section 3.4.
+163	43	The example is {u1: how can unzip many rar ( number for example ) files at once; u2: sure you can do that in bash; u3: okay how?
+164	12	u4: are the files all in the same directory?
+165	94	u5: yes they all are; r: then the command glebihan should extract them all from/to that directory}.
+166	29	It is from the test set and our model successfully ranked the correct response to the top position.

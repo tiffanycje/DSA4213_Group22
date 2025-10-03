@@ -1,0 +1,30 @@
+0	25	The union of subspaces (UoS) model, in which data vectors lie near one of several subspaces, has been used actively in the computer vision community on datasets ranging from images of objects under various lighting conditions (Basri & Jacobs, 2003) to visual surveillance tasks (Oliver et al., 2000).
+1	61	The recent textbook (Vidal et al., 2016) includes a number of useful applications for this model, including lossy image compression, clustering of face images under different lighting conditions, and video segmentation.
+2	94	Subspace clustering algorithms utilize the UoS model to cluster data vectors and estimate the underlying subspaces, achieving excellent performance on a variety of real datasets.
+7	15	In (Davidson et al., 2006), the authors investigate the phenomenon that incorporating poorly-chosen constraints can lead to an increase in clustering error, rather than a decrease as one would expect from additional label information.
+8	18	This is because points constrained to be in the same cluster that are otherwise dissimilar can confound the constrained clustering algorithm.
+9	12	For this reason, researchers have turned to active query selection methods, in which constraints are intelligently selected based on a number of heuristics.
+12	44	Let X = { xi ∈ RD }N i=1 be a set of data points lying near a union of K linear subspaces of the ambient space.
+13	23	We denote the subspaces by {Sk}Kk=1, each having dimension dk.
+15	23	The goal of subspace clustering algorithms has traditionally been to cluster the points in X according to their nearest subspace without any supervised input.
+16	63	We turn this around and ask whether this model is useful for active clustering, where we request a very small number of intelligently selected labels.
+17	47	A key observation when considering data well-modeled by a union of subspaces is that uncertain points will be ones lying equally distant to multiple subspaces.
+18	16	Using a novel definition of margin tailored for the union of subspaces model, we incorporate this observation into an active subspace clustering algorithm.
+19	21	Our contributions are as follows.
+21	26	A key step in our algorithm is choosing points of minimum margin, i.e., those lying near a decision boundary between subspaces.
+23	102	We show through extensive experimental results that when the data lie near a union of subspaces, our method drastically outperforms existing PCC algorithms, requiring far fewer queries to achieve perfect clustering.
+27	79	In datasets where we do not expect subspace structure, our algorithm still achieves competitive performance.
+57	19	Recall that X = { xi ∈ RD }N i=1 is a set of data points lying on a union ofK subspaces {Sk}Kk=1, each having dimension d. In this work, we assume all subspaces have the same dimension, but it is possible to extend our algorithm to deal with non-uniform dimensions.
+58	12	The goal is to cluster the data points according to this generative model, i.e., assigning each data point to its (unknown) subspace.
+63	12	These are the inputs to our algorithm.
+66	17	Certain sets are in some sense equivalent to labels in that points within a certain set belong to the same cluster and points across certain sets belong to different clusters.
+70	41	Select Test Point: Obtain a test point xT using subspace margin with respect to the just estimated subspaces.
+71	69	Assign xT to Certain Set: Query the human to compare the test point with representatives from certain sets until a must-link is found or all certain sets have been queried, in which case the test point becomes its own certain set.
+72	80	Impute Label Information: Certain sets are used to impute must-link and cannot-link values in the affinity matrix.
+73	56	We refer to our algorithm as SUPERPAC (SUbsPace clustERing with Pairwise Active Constraints).
+76	26	Min-margin points have been studied extensively in active learning; intuitively, these are points that lie near the decision boundary of the current classifier.
+77	40	In (Settles, 2012), the author notes that actively querying points of minimum margin (as opposed to maximum entropy or minimum confidence) is an appropriate choice for reducing classification error.
+80	21	For a subspace Sk with orthonormal basis Uk, let the distance of a point to that subspace be dist(x,Sk) = miny∈Sk ‖x − y‖2 = ∥∥x− UkUTk x∥∥2 .
+81	15	Let k∗ = arg mink∈[K] dist(x,Sk) be the index of the closest subspace, where [K] = {1, 2, · · · ,K}.
+82	74	Then the subspace margin of a point x ∈ X is the ratio of closest and second closest subspaces, defined as µ̂(x) = 1− max j 6=k∗,j∈[K] dist(x, Sk∗) dist(x, Sj) .
+87	14	This method of point selection is then motivated by the fact that the difficult points to cluster are those lying near the intersection of subspaces [12].

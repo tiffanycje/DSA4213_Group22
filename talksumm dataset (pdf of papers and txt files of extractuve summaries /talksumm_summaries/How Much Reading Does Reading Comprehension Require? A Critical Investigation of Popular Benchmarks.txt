@@ -1,0 +1,30 @@
+0	28	Recently, reading comprehension (RC) has emerged as a popular task, with researchers proposing various end-to-end deep learning algorithms to push the needle on a variety of benchmarks.
+1	10	As characterized by Hermann et al. (2015); Onishi et al. (2016), unlike prior work addressing question answering from general structured knowledge, RC requires that a model extract information from a given, unstructured passage.
+2	9	It’s not hard to imagine how such systems could be useful.
+4	35	While many RC datasets have been proposed over the years (Hirschman et al., 1999; Breck et al., 2001; Peñas et al., 2011; Peñas et al., 2012; Sutcliffe et al., 2013; Richardson et al., 2013; Berant et al., 2014), more recently, larger datasets have been proposed to accommodate the dataintensiveness of deep learning.
+5	51	These vary both in the source and size of their corpora and in how they cast the prediction problem—as a classification task (Hill et al., 2016; Hermann et al., 2015; Onishi et al., 2016; Lai et al., 2017; Weston et al., 2016; Miller et al., 2016), span selection (Rajpurkar et al., 2016; Trischler et al., 2017), sentence retrieval (Wang et al., 2007; Yang et al., 2015), or free-form answer generation (Nguyen et al., 2016).1 Researchers have steadily advanced on these benchmarks, proposing myriad neural network architectures aimed at attending to both questions and passages to produce answers.
+7	21	In particular, we demonstrate that the level of difficulty for several of these tasks is poorly characterized.
+8	51	For example, for many RC datasets, it’s not reported, either in the papers introducing the datasets, or in those proposing models, how well one can perform while ignoring either the question or the passage.
+21	16	The training corpus contains over 37, 000 candidates and each question is associated with 10 candidates, POSmatched to the correct answer.
+22	9	The authors established LSTM/embedding-based Q-only baselines but did not present the results obtained by their best model using Q-only or P-only information.
+23	9	CNN Hermann et al. (2015) introduced the CNN/Daily Mail datasets containing more than 1 million news articles, each associated with several highlight sentences.
+24	12	Also adopting the clozestyle dataset preparation, they remove an entity (answer) from a highlight (question).
+28	9	They hand-engineered a set of eight features for each entity e (does e occur in the question, in the passage, etc.
+45	17	Models choose answers by selecting (varying-length) spans from these passages.
+46	12	Generating Corrupt Data To void any information in either the questions or the passages, while otherwise leaving each architecture intact, we create corrupted versions of each dataset by assigning either questions randomly, while preserving the correspondence between passage and answer, or by randomizing the passage.
+47	28	For tasks where question-answering requires selecting spans or candidates from the passage, we create passages that contain the candidates in random locations but otherwise consist of random gibberish.
+48	12	In our investigations of the various RC benchmarks, we rely upon the following three recentlyproposed models: key-value memory networks, gated attention readers, and QA nets.
+51	11	KV-MemNets are based on Memory Networks (Sukhbaatar et al., 2015), shown to perform well on both datasets.
+52	36	For bAbI tasks, the keys and values both encode the passage as a bag-of-words (BoW).
+67	35	Children’s Books Test On the NE and CN CBT tasks, Q-only KV-MemNets obtain an accuracy close to the full accuracy and on the Verbs (V) and Prepositions (P) tasks, Q-only models outperform the full model (Table 2).
+70	37	Table 3 shows that if we make use of just last sentence instead of all 20 sentences in the passage, our sentence memory based KV-MemNet achieve comparable or better performance w.r.t the full model on most subtasks.
+73	24	This drop in accuracy could be due to the anonymization of entities which prevents models from building entity-specific information.
+74	26	Notwithstanding the deficiencies noted by Chen et al. (2016), we found that out CNN, out all the cloze-style RC datasets that we evaluated, appears to be the most carefully designed.
+75	10	Who-did-What P-only models achieve greater than 50% accuracy in both the strict and relaxed setting, reaching within 15% of the accuracy of the full model in the strict setting.
+77	77	Our P-only model also outperforms all the suppressed baselines and 5 additional baselines reported by Onishi et al. (2016).
+78	38	We suspect that the models memorize attributes of specific entities, justifying the entity-anonymization used by Hermann et al. (2015) to construct the CNN dataset.
+85	20	Our goal is not to blame the creators of past datasets but instead to support the community by offering practical guidance for future researchers.
+88	17	While many proposed technical innovations purportedly work by better matching up information in questions and passages, absent these baselines one cannot tell whether gains come for the claimed reason or if the models just do a better job of passage classification (disregarding questions).
+90	74	On first glance the the length-20 passages in CBT, might suggest that success requires reasoning over all 20 sentences to identify the correct answer to each question.
+91	12	However, it turns out that for some models, comparable performance can be achieved by considering only the last sentence.
+92	60	We recommend that researchers provide reasonable ablations to characterize the amount of context that each model truly requires.

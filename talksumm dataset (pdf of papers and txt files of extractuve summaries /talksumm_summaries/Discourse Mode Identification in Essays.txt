@@ -1,0 +1,30 @@
+53	16	We are interested in the use of discourse modes in writing composition.
+54	36	This section describes the discourse modes we are going to study, an annotated corpus of student essays and what we learn from corpus analysis.
+56	22	Four basic discourse modes are narration, description, expositionand argument in English composition and rhetoric (Bain, 1890).
+57	35	Smith (2003) proposes five modes for studying discourse passages: narrative, description, report, information and argument.
+59	24	Their elements can mostly find corresponding ones in other taxonomies literally or conceptually, e.g., exposition mode has similar functions to information mode.
+62	24	It is also related to appeal to emotion, which is a method for argumentation by the manipulation of the recipient’s emotions in classical rhetoric (Aristotle and Kennedy, 2006).
+64	14	Therefore, considering it as an independent mode is also reasonable.
+88	14	Therefore, the annotation standard allows that one sentence can have multiple modes.
+104	15	Consider the following sentence: Father’s love is the fire that lights the lamp of hope.
+117	17	Narration, description and emotion expressing are the main discourse modes in narrative essays, while exposition and argument are rare.
+129	14	All modes tend to transit to themselves except exposition, which is rare and usually brief.
+134	22	This section describes the proposed method for discourse mode identification.
+135	16	According to the corpus analysis, sentences often have multiple discourse modes and prefer local transition patterns.
+148	15	Here, we use the GRU (Cho et al., 2014) as the recurrent unit.
+158	15	The representation of each sentence after the bidirectional-GRU layer is first fully connected to a hidden layer.
+160	19	The sigmoid activation function is applied to each way to get the probability that whether corresponding discourse mode should be assigned to the sentence.
+179	14	tion in Figure2(a)for sentence classification.
+201	23	Because the amount of emotion expressing sentences is much more, distinguishing argument from them is hard.
+207	25	We adopt the standard regression framework for essay scoring.
+210	31	The basic feature sets are based on (Phandi et al., 2015).The original feature sets include: • Length features • Part-Of-Speech (POS) features • Prompt features • Bag of words features We re-implement the feature extractors exactly according to the description in (Phandi et al., 2015) except for the POS features, since we don’t have correct POS ngrams for Chinese.
+212	23	We further design discourse mode related features for each essay: features indicate the distribution of discourse • Bag of ngrams of discourse modes: We use the number of unigrams and bigrams of the dominant discourse modes of the sequence of sentences in the essay as features.
+229	16	Table7 shows the Pearson correlation coefficient between the mode ratio and essay score.
+250	37	We can see the following trends: (1) The QWK scores decrease along with shorter essays are removed gradually; (2) Adding discourse mode features always improves the performance; (3) As the threshold becomes larger, the improvements by adding discourse mode features become larger.
+254	22	In such situations, features that can model more advanced aspects of writing, such as discourse modes, should play a more important role.
+256	45	This paper has introduced a fundamental but less studied task in NLP—discourse mode identification, which is designed in this work to automatically identify five discourse modes in essays.
+258	22	The corpus analysis revealed several aspects of characteristics of discourse modes including the distribution, co-occurrence and transition patterns.
+261	23	We evaluated discourse mode features for automatic essay scoring and draw preliminary observations.
+262	72	Discourse mode features can make positive contributions, especially in challenging situations when simple surface features don’t work well.
+263	78	The ratio of description and emotion expressing is shown to be positively correlated to essay scores.
+264	39	In future, we plan to exploit discourse mode identification for providing novel features for more downstream NLP applications.

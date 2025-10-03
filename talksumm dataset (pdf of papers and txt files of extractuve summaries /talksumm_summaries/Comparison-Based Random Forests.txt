@@ -1,0 +1,26 @@
+1	11	Instead, we have access to an oracle that we can actively ask a triplet comparison: given any triplet of items (xi, xj , xk) in the metric space X , is it true that δ(xi, xj) < δ(xi, xk) ?
+2	8	Such a comparison-based framework has become popular in recent years, for example in the context of crowd-sourcing applications (Tamuz et al., 2011; Heikinheimo and Ukkonen, 2013; Ukkonen et al., 2015), and more generally, whenever humans are supposed to give feedback or when constructing an explicit distance or similarity function is difficult (Wilber et al., 2015; Zhang et al., 2015; Wah et al., 2015; Balcan et al., 2016; Kleindessner and von Luxburg, 2017).
+3	26	In the present work, we consider classification and regression problems in a comparison-based setting where we are given the labels y1, .
+4	26	, xn, and we can actively query triplet comparisons between objects.
+5	28	An indirect way to solve such problems is to first construct an “ordinal embedding” of the data points in a (typically low-dimensional) Euclidean space that satisfies the set of triplet comparisons, and then to apply standard machine learning methods to the Euclidean data representation.
+7	19	Furthermore, all existing ordinal embedding methods are painfully slow, even on moderate-sized datasets (Agarwal et al., 2007; van der Maaten and Weinberger, 2012; Terada and von Luxburg, 2014).
+8	5	In addition, one has to estimate the embedding dimension, which is a challenging task by itself (Kleindessner and Luxburg, 2015).
+13	7	We use the recently described comparison tree (Haghiri et al., 2017) for this purpose (which in Euclidean cases would be distantly related to linear decision trees (Kane et al., 2017b; Ezra and Sharir, 2017; Kane et al., 2017a)).
+15	4	We study the proposed CompRF both from a theoretical and a practical point of view.
+21	19	Random forests, first introduced in Breiman (2001), are one of the most popular algorithms for classification and regression in Euclidean spaces.
+22	42	In a comprehensive study on more than 100 classification tasks, random forests show the best performance among many other general purpose methods (Fernández-Delgado et al., 2014).
+23	5	However, standard random forests heavily rely on the vector space representation of the underlying data points, which is not available in a comparison-based framework.
+26	97	Let us recap the CART random forest: The input consists of a labeled set Dn = {(x1, y1), (x2, y2), .
+28	11	Second, we select a random subset Dims of size mtry of all possible dimensions {1, 2, .
+30	39	The exact splitting point along this direction is determined via the CART criterion, which also involves the labels of the subset Ds of points (see Biau and Scornet (2016) for details).
+32	18	To estimate a regression function m(x), each individual tree routes the query point to the appropriate leaf and outputs the average response over all points in this leaf.
+33	42	The random forest aggregates M such trees.
+34	72	Let us denote the prediction of tree i at point x by mi(x,Θi, Dn), where Θi encodes the randomness in the tree construction.
+35	6	Then the final forest estimation at x is the average result over all trees (for classification, the average is replaced by a majority vote): mM,n(x; (Θi)1≤i≤M , Dn) = 1 M M∑ i=1 mi(x,Θi, Dn) .
+36	19	The general consensus in the literature is that CART forests are surprisingly robust to parameter choices.
+37	37	Consequently, people use explicit rules of thumb, for example to set mtry = dd/3e, and n0 = 5 (resp.
+39	76	Comparison trees have originally been designed to find nearest neighbors by recursively splitting the search space into smaller subspaces.
+40	90	Inspired by the CART criterion, we propose a supervised variant of the comparison tree, which we refer to as “supervised comparison tree.” For classification, the supervised comparison tree construc- Algorithm 1 CompTree(S, n0): Supervised comparison tree construction Input: Labeled data S and maximum leaf size n0 Output: Comparison tree T 1: T.root← S 2: if |S| > n0 then 3: Sample distinct (x1, y1), (x2, y2) ∈ S s.t.
+41	39	y1 6= y2 (if all points have the same label choose randomly) 4: S1 ← {(x, y) ∈ S : δ(x, x1) ≤ δ(x, x2)} 5: T.leftpivot← x1, T.rightpivot← x2 6: T.leftchild← CompTree(S1, n0) 7: T.rightchild← CompTree(S\S1, n0) 8: end if 9: Return T tion for a labeled set S ⊂ X × {0, 1} is as follows (see Algorithm 1 and Figure 1): we randomly choose two pivot points x1 and x2 with different labels y1 and y2 among the points in S (the case where all the points in S have the same label is trivial).
+42	10	For every remaining point (x, y) ∈ S, we request the triplet comparison “δ(x, x1) < δ(x, x2).” The answer to this query determines the relative position of x with respect to the generalized hyperplane separating x1 and x2.
+43	40	We assign the points closer to x1 to the first child node of S and the points closer to x2 to the other one.

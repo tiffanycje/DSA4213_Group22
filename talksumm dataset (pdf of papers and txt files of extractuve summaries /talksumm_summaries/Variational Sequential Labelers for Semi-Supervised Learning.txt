@@ -1,0 +1,30 @@
+6	35	In this paper, we apply neural variational methods to sequence labeling by combining a latentvariable generative model and a discriminativelytrained labeler.
+7	39	We refer to this family of procedures as variational sequential labelers (VSLs).
+13	13	Adding unlabeled data further improves the model performance by 0.1-0.3% accuracy or 0.2 F1 score.
+15	15	Our models, like generative latent variable models in general, have the ability to naturally combine labeled and unlabeled data.
+38	12	We begin by describing variational autoencoders and the notation we will use in the following sections.
+39	17	We denote the input word sequence by x1:T , the corresponding label sequence by l1:T , the input words other than the word at position t by x−t, the generative model by pθ(·), and the posterior inference model by qφ(·).
+41	16	When using a VAE, we assume a generative model that generates an input using a latent variable z, typically assumed to follow a multivariate Gaussian distribution.
+43	12	Since this is typically intractable, especially when using continuous latent variables, we instead maximize a lower bound on the marginal log-likelihood (Kingma and Welling, 2014): log pθ(x1:T ) ≥ E z∼qφ(·|x1:T ) [ log pθ(x1:T |z)− log qφ(z| x1:T ) pθ(z) ] = E z∼qφ(·|x1:T ) [log pθ(x1:T |z)]︸ ︷︷ ︸ Reconstruction Loss −KL(qφ(z|x1:T )‖pθ(z))︸ ︷︷ ︸ KL divergence (1) where we have introduced the variational posterior q parametrized by new parameters φ. q is referred to as an “inference model” as it encodes an input into the latent space.
+50	23	Although the latent struc- ture varies, a VSL maximizes the conditional probability of pθ(xt|x−t) and minimizes a classification loss using the latent variables as the input to the classifier.
+54	33	All of our models use latent variables for each position in the sequence.
+55	37	These characteristics are shown in the visual depictions of our models in Figure 1.
+61	18	VSL-G uses two training objectives; the first is similar to the lower bound on log-likelihood used by VAEs: log pθ(xt|x−t) ≥ E zt∼qφ(·| x1:T ,t) [log pθ(xt| zt)− log qφ(zt| x1:T , t) pθ(zt| x−t) ] = E zt∼qφ(·| x1:T ,t) [log pθ(xt| zt)] −KL(qφ(zt| x1:T , t)‖ pθ(zt| x−t)) = U0(x1:T , t) (2) VSL-G additionally uses a classifier f on the latent variable zt which is trained with the following objective: C0(x1:T , lt) = E zt∼qφ(·|x1:T ,t) [− log f(lt|zt)] (3) The final loss is L(x1:T , l1:T ) = T∑ t=1 [C0(x1:T , lt)− αU0(x1:T , t)] where α is a trade-off hyperparameter.
+63	13	The same procedure is adopted for the other VSL models below.
+74	19	We introduce VSL-GG-Flat (shown in Figure 1b), which has two conditionally independent Gaussian latent variables at each time step, denote zt and yt for time step t. The variational lower bound is derived as follows: log pθ(xt|x−t) ≥ E zt,yt∼qφ(·|x1:T ,t) [log pθ(xt| zt, yt) − log qφ(zt|x1:T , t) pθ(zt|x−t) − log qφ(yt|x1:T , t) pθ(yt|x−t) ] = E zt,yt∼qφ(·|x1:T ,t) [log pθ(xt|zt, yt)] −KL(qφ(zt|x1:T , t)‖pθ(zt|x−t)) −KL(qφ(yt|x1:T , t)‖pθ(yt|x−t)) = U1(x1:T , t) (4) The classifier f is on the latent variable yt and its loss is C1(x1:T , lt) = E yt∼qφ(·|x1:T ,t) [− log f(lt|yt)] (5) The final loss for the model is L(x1:T , l1:T ) = T∑ t=1 [C1(x1:T , lt)− αU1(x1:T , t)] (6) Where α is a trade-off hyperparameter.
+109	21	Our implementation is available at https: //github.com/mingdachen/vsl
+110	37	We evaluate our model on the CoNLL 2003 English NER dataset (Tjong Kim Sang and De Meulder, 2003) and 7 POS tagging datasets: the Twitter tagging dataset of Gimpel et al. (2011) and Owoputi et al. (2013), and 6 languages from the Universal Dependencies (UD) 1.4 dataset (McDonald et al., 2013).
+140	12	Table 1b shows results on the CoNLL 2003 NER development and test sets.
+159	59	In the VSL-GG-Flat model (Figure 3c), the y variable (the upper plot) reflects the clustering of the tagging space much more closely than the z variable (the lower plot).
+160	49	Since both variables are used to reconstruct the word, but only the y variable is trained to predict the tag, it appears that z is capturing other information useful for reconstructing the word.
+169	17	We investigate the beneficial effects of variational frameworks (“variational regularization”) by replacing our variational components in VSLs with their deterministic counterparts, which do not have randomness in the latent space and do not use the KL divergence term during optimization.
+170	29	Note that these BiGRU encoders share the same architectures as their variational posterior counterparts and still use both the classification and reconstruction losses.
+179	34	In order to examine the effect of unlabeled data, we report our Twitter dev accuracies when varying the unlabeled data size.
+185	130	However if the amount of unlabeled data is too large, the supervised training signal becomes too weak to extract something useful from the unlabeled data.
+186	125	We also notice that when there is a large amount of unlabeled data, it is always better to pretrain the prior first using a small α (e.g., 0.1) and then use it as a warm start to train a new model using a larger α (e.g., 1.0).
+187	63	Tuning the weight of the KL divergence could achieve a similar effect, but it may require tuning the weight for labeled data and unlabeled data separately.
+189	26	We introduced variational sequential labelers for semi-supervised sequence labeling.
+190	68	They consist of latent-variable generative models with flexible parametrizations for the variational posterior (using RNNs over the entire input sequence) and a classifier at each time step.
+191	35	Our best models use multiple latent variables arranged in a hierarchical structure.
+192	23	We demonstrate systematic improvements in NER and POS tagging accuracy across 8 datasets over a strong baseline.
+193	20	We also find small, but consistent, improvements by using unlabeled data.

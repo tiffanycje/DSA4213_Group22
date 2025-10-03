@@ -1,0 +1,30 @@
+5	15	Recent work has shown that for NLP tasks such as Natural Language Inference (NLI), models can achieve strong results by simply using the hypothesis of a premise-hypothesis pair and ignoring the premise entirely (Gururangan et al., 2016; Tsuchiya, 2018; Poliak et al., 2018).
+6	106	In this work we consider understanding DNNs by looking at the difficulty of specific test set examples and comparing DNN performance under different training scenarios.
+8	32	If a model does well on hard examples and poor on easy examples, then can we say that it has really learned anything?
+10	8	To model difficulty we use Item Response Theory (IRT) from psychometrics (Baker and Kim, 2004).
+11	11	IRT models characteristics such as difficulty and discrimination ability of specific examples (called “items”1) in order to estimate a latent ability trait of test-takers.
+12	7	Here we use IRT to model the difficulty of test items to determine how DNNs learn items of varying difficulty.
+14	23	IRT was previously used to build a new test set for the NLI task (Lalor et al., 2016) and show that model performance is dependent on test set difficulty.
+24	9	To model item difficulty we use the Three Parameter Logistic (3PL) model from IRT (Baker, 2001; Baker and Kim, 2004; Lalor et al., 2016).
+26	93	For a particular item i, the probability that an individual j will answer item i correctly is a function of the individual’s ability and the three item characteristics: pij(θj) = ci + 1− ci 1 + e−ai(θj−bi) (1) where ai is the discrimination parameter (the value of the function slope at it’s steepest point), bi is the difficulty parameter (the value where pij(θj) = 0.5), and ci is the guessing parameter (the lower asymptote of the function).
+27	20	For a set of items I and a set of individuals J , the likelihood of each individual in J’s responses to the items in I is: L = J∏ j=1 I∏ i=1 pij(θj) yijqij(θj) (1−yij) (2) where qij(θj) = 1− pij(θj) and yij = 1 if individual j answered item i correctly and yij = 0 otherwise.
+28	20	Item parameters and individual ability are jointly estimated from a set of individuals’ response patterns using an Expectation-Maximization algorithm (Bock and Aitkin, 1981).
+29	18	In this work we focus on the difficulty parameter bi, which represents the latent ability level at which an individual has a 50% chance of answering item i correctly.
+30	9	Low values of bi are associated with easier items (since an individual with low ability has a 50% chance of answering correctly), and higher values of bi represent more difficult items.
+32	18	The data consists of approximately 1000 human annotator responses from Amazon Mechanical Turk (AMT) for a selection of 180 premise-hypothesis pairs from the SNLI data set (Bowman et al., 2015).
+36	16	We converted these responses to binary positive/negative labels and fit a new IRT 3PL model (§2.1) using the mirt R package (Chalmers et al., 2015).
+39	3	The first example in Table 1 is a clear case of entailment, where if we assume that the premise is true, we can infer that the hypothesis is also true.
+54	49	However this disagreement can be interpreted as varying difficulty of the items, which is what we expect when we fit the IRT models.
+56	64	To test this, we trained three DNN models using subsets of the original SNLI and SSTB training data sets: (i) Long Short Term Memory Network (LSTM) (Bow- man et al., 2015), (ii) Convolutional Neural Network (CNN) (Kim, 2014), and (iii) Neural Semantic Encoder (NSE), a type of memory-augmented RNN (Munkhdalai and Yu, 2017).3 For each task (NLI and SA), we randomly sampled subsets of training data, from 100 examples up to and including the full training data sets.4 We trained each model on the training data subsets, using the original development sets for early stopping to prevent overfitting.
+57	39	The IRT data with difficulty estimates were used as test sets for the trained models.
+58	26	Once the models were trained and had classified the IRT data sets, we fit logistic regression models to predict whether a DNN model would label an item correctly, using the training set size and item difficulty as the dependent parameters.
+60	17	The top row plots results for the NLI task, and the bottom row plots results for the SA task.
+61	10	From left to right in both rows, the plots show results for the LSTM, CNN, and NSE models.
+62	16	In each plot, the x-axis is the training set size, the y-axis is the item difficulty, and the contour lines represent the log-odds that the DNN model would classify an item correctly.
+64	13	Easier items have higher odds of being classified correctly across all of the training set sizes.
+65	15	In addition, the slopes of the contour lines are steeper at lower levels of difficulty.
+67	62	The contour plots for the CNN and NSE models on the SA task (Figure 1, second row middle and right plots) show that the easier items have higher likelihood of being classified correctly, but the odds for the most difficult items decrease as training size increases.
+68	83	This suggests that these models are learning in such a way that improves performance on easy items but has a negative effect on hard items.
+69	4	This result is important for interpretability, as it could inform stakeholder decisions if they need to have difficult examples classified.
+71	4	For example, when teaching new concepts to students, easier concepts are presented first so that the students can learn patterns and core information before moving to more difficult concepts (Collins et al., 1988; Arroyo et al., 2010).
+72	60	As students do more examples, all questions get easier, but easy questions get easier at a faster rate.

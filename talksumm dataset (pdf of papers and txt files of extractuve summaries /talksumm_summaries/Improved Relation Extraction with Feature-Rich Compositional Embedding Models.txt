@@ -1,0 +1,30 @@
+0	19	Two common NLP feature types are lexical properties of words and unlexicalized linguistic/structural interactions between words.
+1	19	Prior work on relation extraction has extensively studied how to design such features by combining discrete lexical properties (e.g. the identity of a word, ⇤Gormley and Yu contributed equally.
+2	60	While these help learning, they make generalization to unseen words difficult.
+4	56	Embedding features have improved many tasks, including NER, chunking, dependency parsing, semantic role labeling, and relation extraction (Miller et al., 2004; Turian et al., 2010; Koo et al., 2008; Roth and Woodsend, 2014; Sun et al., 2011; Plank and Moschitti, 2013; Nguyen and Grishman, 2014).
+6	160	In this paper, we introduce a compositional model that combines unlexicalized linguistic context and word embeddings for relation extraction, a task in which contextual feature construction plays a major role in generalizing to unseen data.
+7	55	Our model allows for the composition of embeddings with arbitrary linguistic structure, as expressed by hand crafted features.
+28	115	S = {w1, w2, ..., wn} is a sentence of length n that expresses a relation of type y between two entity mentions M1 and M2, where M1 and M2 are sequences of words in S. A is the associated annotations of sentence S, such as part-of-speech tags, a dependency parse, and named entities.
+43	15	The closest work is that of Nguyen and Grishman (2014), who use a loglinear model for relation extraction with embeddings as features for only the entity heads.
+44	51	Such embedding features are insensitive to the broader contextual information and, as we show, are not sufficient to elicit the word’s role in a relation.
+59	13	In fact, we find that the feature sets used in prior work for many other NLP tasks are special cases of this simple construction (Turian et al., 2010; Nguyen and Grishman, 2014; Hermann et al., 2014; Roth and Woodsend, 2014).
+66	32	Here we suppose that each factor has the same number of words, and there is a transformation from the words in a factor to a hidden layer as follows: hf = ewf,1 : ewf,2 : ... : ewf,t · W , (1) where ewi is the word embedding for word wi.
+149	15	Specifically, each label y corresponds to a slice of the tensor Ty , which is a matrix (y, ·, ·).
+220	16	Appendix 1: Features Used in FCT 7.1 Overall performances on ACE 2005 SUM(AB) SUM(BA) (7) 2n 2 |V |n (8) A A0 of B0 B (9) A B A0 of B0 (10) T f e Relations (11) f ⌦ e [f : e] FCT CNN @` @R @` @T = @` @R @R @T L1, L2 @L @R = @L1 @R + @L2 @R s(l, e1, e2, S; T ) = nX i=1 s(l, ewi , fwi) = nX i=1 Tl fwi ewi (12) @` @T = nX i=1 @` @R ⌦ fwi ⌦ ewi , (13) w 1 w 2 ,… ,w n ew fw fwi ewi ewi fwi (wi=“driving”) (wi is on path?)
+242	29	Smoothed Lexical Features Another intuition about the selection of outer product is that it is actually a smoothed version of traditional lexical features used in classical NLP systems.
+243	15	Consider a lexical feature f = u ^ w, which is a conjunction (logic-and) between non-lexical property u and lexical part (word) w. If we represent w as a one-hot vector, then the outer product exactly recovers the original feature f .
+258	36	When we treat the word embeddings as parameters (i.e. the log-bilinear model), we also fine-tune the word embeddings with the FCM model: @` @ew = nX i=1 X y @` @sy Ty !
+260	40	The training process for the hybrid model (§ 4) is also easily done by backpropagation since each sub-model has separate parameters.
+262	21	Here h1, h2 are the indices of the two head words of M1, M2, ⇥ refers to the Cartesian product between two sets, th1 and th2 are entity types (named entity tags for ACE 2005 or WordNet supertags for SemEval 2010) of the head words of two entities, and stands for the empty feature.
+276	42	(2) FCM in isolation with fine-tuning (i.e. trained as a log-bilinear model).
+280	13	(4) The feature set of Nguyen and Grishman (2014) obtained by using the embeddings of heads of two entity mentions (+HeadOnly).
+283	26	Following prior work we focus on the domain adaptation setting, where we train on one set (the union of the news domains (bn+nw), tune hyperparameters on a dev domain (half of bc) and evaluate on the remainder (cts, wl, and the remainder of bc) (Plank and Moschitti, 2013; Nguyen and Grishman, 2014).
+301	27	FCM uses only a dependency parse but still obtains better results (Avg.
+302	30	SemEval 2010 Task 8 Table 4 shows FCM compared to the best reported results from the SemEval-2010 Task 8 shared task and several other compositional models.
+303	45	For the FCM we considered two feature sets.
+324	15	Among all the features templates, removing HeadEmb results in the largest degradation.
+326	61	Removing all entity type features (thi) does significantly worse than the full model, showing the value of our entity type features.
+327	271	Good word embeddings are critical for both FCM and other compositional models.
+329	66	Those embeddings include the 300-d baseline embeddings trained on English Wikipedia (w2venwiki-d300) and the 100-d task-specific embeddings (task-specific-d100)10 from the RelEmb paper (Hashimoto et al., 2015), the 400-d embeddings from the CR-CNN paper (dos Santos et al., 2015).
+332	19	We use the same hyperparameters and number of iterations in Table 4.
+334	22	We also find that increasing the dimension of the word embeddings does not necessarily lead to better results due to the problem of over-fitting (e.g.w2v-enwiki-d400 vs. w2v-enwiki-d300).

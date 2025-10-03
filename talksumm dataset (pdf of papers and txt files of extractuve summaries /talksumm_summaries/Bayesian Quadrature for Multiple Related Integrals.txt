@@ -1,0 +1,30 @@
+13	79	In particular, we provide asymptotic convergence results for the marginal posterior variance on each of the integrals, both in the case of a well specified and misspecified prior.
+14	29	We also demonstrate the performance of our algorithm on some toy problems from the engineering literature on multi-fidelity models, and on a challenging problem from the field of computer graphics.
+15	52	Bayesian Quadrature Let (X ,B,Π) be a probability space and consider some function f : X → R where X ⊆ Rp, p ∈ N+.
+16	31	The classical problem of numerical integration is concerned with approximating the integral: Π[f ] := ∫ X f(x)Π(dx), where we assume ∫ X f 2(x)Π(dx) < ∞.
+17	142	Under fairly general conditions on f , one can show that an optimal algorithm (in terms of worst-case integration error in some function space) takes the form of a quadrature (or cubature) rule Π̂[f ] = ∑N i=1 wif(xi) for some weights {wi}Ni=1 ∈ R and samples {xi}Ni=1 ∈ X (see (Bakhvalov, 1971)).
+18	59	These are also sometimes denoted in vectorised form as Π[f ] = w>f(X) where w = (w1, .
+19	58	The notation Π̂[f ] is motivated by the fact that we can see this object as an exact integral with respect to a discrete measure Π̂ = ∑N i=1 wiδxi , where δxi denotes the Dirac delta measure taking value 1 at xi and 0 otherwise.
+20	29	Many popular numerical integration methods take this form, including Newton–Cotes rules, Gaussian quadrature, Monte Carlo methods and sparse grids.
+22	53	Bayesian quadrature (BQ), introduced by (O’Hagan, 1991), proposes to approach the problem of numerical integration by first formulating a prior stochastic model g : X × Ω → R for the integrand f (where ∀ω ∈ Ω, g(·, ω) represents a realisation of g).
+24	34	A popular choice of prior is a Gaussian Process (GP) GP(m, k) with m : X → R denoting the mean function (i.e. m(x) = Eω[g(x, ω)]), and c : X × X → R denoting the covariance function/kernel (i.e. c(x,x′) = Eω[(g(x, ω)−m(x))(g(x′, ω)−m(x′))]).
+27	20	Here, c(X,X) is the Gram matrix with entries (c(X,X))ij = c(xi,xj) and c(x,X) = (c(x,x1), .
+28	80	The push-forward of this posterior through the integral operator is a Gaussian distribution with mean and variance: E [Π[gN ]] = Π[c(·,X)]c(X,X)−1f(X), V [Π[gN ]] = ΠΠ̄ [c]−Π[c(·,X)]c(X,X)−1Π̄[c(X, ·)], where Π[c(·,X)] = (Π[c(·,x1)], .
+29	33	These expression can be obtained in closed-form if the kernel mean Π[c(·,x)] = ∫ X c(x ′,x)Π(dx′) (also called the representer of integration) and initial error ΠΠ̄[c] =∫ X×X c(x,x ′)Π(dx)Π(dx′) can be obtained in closed form (here Π̄ indicates that the integral is taken with respect to the second argument).
+30	25	The choice of covariance function c can be used to encode prior beliefs about the function f , such as smoothness or periodicity, and is very important to obtain good performance in practice.
+33	21	Examples of infinitely smooth kernels include the squared-exponential kernel c(x,x′) = exp(−‖x− x′‖22/σ2) where σ > 0, the multi-quadric kernel c(x,x′) = (−1)dβe(σ2+‖x−x′‖22)β for β, σ > 0, β 6∈ N and the inverse multi-quadric kernel c(x,x′) = (σ2 + ‖x− x′‖22)−β for β, σ > 0.
+41	11	In fact, a well-known alternative view of the posterior mean provided by BQ is that of an optimally-weighted quadrature rule in a reproducing kernel Hilbert spaces (RKHS) in the classical worst-case setting (Ritter, 2000).
+43	28	Suppose that our integrand f ∈ Hk and that ∫ X k(x,x)Π(dx) <∞.
+44	69	In that case, using the Cauchy–Schwarz inequality, the integration error can be decomposed as:∣∣∣Π[f ]− Π̂[f ]∣∣∣ ≤ ‖f‖k ∥∥∥Π [k(·,x)]− Π̂ [k(·,x)]∥∥∥ k .
+46	14	This final expression can be minimised in closed form over w ∈ RN to show that the optimal quadrature rule has weights w = Π[k(·,X)]k(X,X)−1.
+66	43	In this case, after conditioning on X , we have a GP gN with vectorvalued mean mN : X → RD and matrix-valued covariance CN : X × X → RD×D: mN (x) = C(x,X)C(X,X) −1f(X), CN (x,x ′) = C(x,x′)−C(x,X)C(X,X)−1C(X,x′), for C(x,X) = (C(x,x1), .
+67	24	, C(x,xN )) ∈ RD×ND and Gram matrix C(X,X) ∈ RND×ND is: C(X,X) =  (C(X1,X1))1,1 .
+68	46	(C(X1,XD))1,D (C(X2,X1))2,1 ... (C(X2,XD))2,D ... ... ... (C(XD,X1))D,1 .
+69	22	(C(XD,XD))D,D  , where C(Xd,Xd′)d,d′ is an N × N matrix.
+74	15	The posterior distribution on Π[f ] is a D-dimensional Gaussian distribution with mean and covariance matrix: E [Π[gN ]] = Π[C(·,X)]C(X,X)−1f(X), V [Π[gN ]] = ΠΠ̄ [C]−Π[C(·,X)]C(X,X)−1Π̄[C(X, ·)].
+89	32	Note that it is also common to combine kernels, by summing them (i.e. C(x,x′) = ∑Q q=1Cq(x,x ′)) in order to obtain more flexible models.
+98	13	For a fixed point set X , denote by Π̂[f ] = W>f(X) any quadrature rule for the vector-valued function f = (f1, .
+100	13	In specific cases, it is also possible to characterise the rate of convergence of the worst-case error for each element fd.
+101	67	This is for example the case with the separable kernel introduced in Sec.
+102	32	2, as will be demonstrated in the Theorem 1 below.
+110	85	Suppose we want to approximate Π[f ] for some f : X → RD and Π̂BQ[f ] is the multi-output BQ rule with the kernel C(x,x′) = Bc(x,x′) for some positive definite B ∈ RD×D and scalar-valued kernel c : X × X → R. Then, ∀d = 1, .

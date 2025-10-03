@@ -1,0 +1,30 @@
+4	31	FOIL (Shekhar et al., 2017b) is one such dataset.
+5	21	It was proposed to evaluate the ability of V2L models in understanding the interplay of objects and their attributes in the images and their relations in an image captioning framework.
+7	19	Shekhar et al. (2017b) report poor performance for V2L models in classifying captions as foiled (or not).
+10	28	In contrast to methods from previous work that make use of word based information extracted from captions (Heuer et al., 2016; Yao et al., 2016; Wu et al., 2018), we use explicit object category information directly extracted from the images.
+27	47	For the foiled caption classification task (Section 3.1), our proposed model uses information from explicit object detections as an object-based image representation along with textual representations (Section 3.2) as input to several different classifiers (Section 3.3).
+28	23	Let y ∈ {REAL, FOIL} denote binary class labels.
+36	29	As comparison, we also compute a standard CNN-based image representation, using the POOL5 layer of a ResNet-152 (He et al., 2016) CNN pre-trained on ImageNet.
+38	42	For the language side, we explore two features: (a) a simple bag of words (BOW) representation for each caption; (b) an LSTM classifier based model trained on the training part of the dataset.
+39	68	Our intuition is that an image description/caption is essentially a result of the interaction between important objects in the image (this includes spatial relations, co-occurrences, etc.).
+41	16	Three types of classifiers are explored: (a) Multilayer Perceptron (MLP): For BOW-based text representations, a two 100-dimensional hidden layer MLP with ReLU activation function is used with cross-entropy loss, and is optimized with Adam (learning rate 0.001); (b) LSTM Classifier: For LSTM-based text representations, a uni-directional LSTM classifier is used with 100-dimensional word embeddings and 200- dimensional hidden representations.
+45	48	Data: We use the dataset for nouns from Shekhar et al. (2017b)1 and the datasets for other parts of speech from Shekhar et al. (2017a) 2.
+47	30	The evaluation metric is accuracy per class and the average (overall) accuracy over the two classes.
+48	18	Performance on nouns: The results of our experiments with foiled nouns are summarized in Table 2.
+49	164	First, we note that the models that use Gold bag of objects information are the best performing models across classifiers.
+50	27	We also note that the performance is better than human performance.
+51	22	We hypothesize the following reasons for this: (a) human responses were crowd-sourced, which could have resulted in some noisy annotations; (b) our gold object-based features closely resembles the information used for data-generation as described in Shekhar et al. (2017b) for the foil noun dataset.
+55	19	The Multimodal LSTM (MM-LSTM) has a slightly better performance than LSTM classifiers.
+73	16	This is a central finding, suggesting that foiled captions are easy to detect even without image information.
+74	14	We also observe that the performance of BOW improves by adding object Frequency image information, but not CNN image embeddings.
+76	26	In the case of LSTMs, adding either image information helps slightly.
+79	18	The anomaly of improved performance of BOW based models seems heavily pronounced in the nouns dataset.
+80	16	Thus, we further analyze our model in the next section to shed light on whether the high performance is due to the models or the dataset itself.
+84	53	As the caption is correctly predicted to be foiled, we observe that the most important feature for classification is the information on the word ball, which also happens to be the foiled word.
+85	41	We further analyzed the chances of this happening on the entire test set.
+86	31	We found that 96.56% of the time the most important classification feature happens to be the foiled word.
+87	49	This firmly indicates that there is a very strong linguistic bias in the training data, despite the claim in Shekhar et al. (2017b) that special attention was paid to avoid linguistic biases in the dataset.3 We note that we were not able to detect the linguistic bias in the other parts of speech datasets.
+89	32	The hypothesis was that such models provide the necessary semantic information for the task, while this informaiton is not explicitly present in CNN image embeddings commonly used in V2L tasks.
+91	43	A significant finding is that our simple models, especially for the foiled noun dataset, perform well even without image information.
+92	38	This could be partly due to the strong linguistic bias in the foiled noun dataset, which was revealed by our analysis on our interpretable object-based models.
+93	60	We release our analysis and source code at https://github.com/ sheffieldnlp/foildataset.git.

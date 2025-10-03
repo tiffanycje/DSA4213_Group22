@@ -1,0 +1,30 @@
+0	65	Abstract reasoning is a hallmark of human intelligence.
+1	61	A famous example is Einstein’s elevator thought experiment, in which Einstein reasoned that an equivalence relation exists between an observer falling in uniform acceleration and an observer in a uniform gravitational field.
+2	15	It was the ability to relate these two abstract concepts that allowed him to derive the surprising predictions of general relativity, such as the curvature of space-time.
+3	23	A human’s capacity for abstract reasoning can be estimated surprisingly effectively using simple visual IQ tests, such as Raven’s Progressive Matrices (RPMs) (Figure 1) (Raven et al., 1938).
+4	31	The premise behind RPMs is simple: one must reason about the relationships between perceptually obvious visual features – such as shape positions or line colors – to choose an image that completes the matrix.
+7	15	Since one of the goals of AI is to develop machines with similar abstract reasoning capabilities to humans, to aid scientific discovery for instance, it makes sense to ask whether visual IQ tests can help to understand learning machines.
+12	15	In its most abstract form, this principle can apply to the quantity of shapes or lines, or even the intensity of their colour.
+13	17	We can construct training data that instantiates this notion for increasing quantities or sizes and we can construct test data that only involves increasing colour intensities.
+34	22	In this setting, a potential answer is correct if it is consistent with the underlying generative model, and success rests on the ability to invert the model.
+48	19	We use Sa to denote the set of attributes among the triples in S .
+49	17	After setting values for the colour attribute, we then choose values for all other attributes a 6∈ Sa in one of two ways.
+55	41	Our choice of regimes is informed by this, but is in no way exhaustive.
+56	26	(1) Neutral In both training and test sets, the structures S can contain any triples [r, o, a] for r ∈ R, o ∈ O and a ∈ A.
+57	41	The training and test sets are disjoint, but this separation was at the level of the input variables (i.e., the pixel manifestations of the matrices).
+80	35	The input consisted of the eight context panels and eight multiple-choice panels.
+82	44	Models were trained to produce the label of the correct missing panel as an output answer by optimising a softmax cross entropy loss.
+96	20	), and passed the resulting sequence of labelled embeddings to the LSTM.
+109	32	In this way, the Wild-ResNet is designed to provide a score for each candidate panel, independent of the other candidates.
+112	16	Context-blind ResNet: A fully-blind model should be at chance performance level, which for the PGM task is 12.5%.
+113	15	However, sufficiently strong models can learn to exploit statistical regularities in multiple-choice problems using the choice inputs alone, without considering the context (Johnson et al., 2017).
+138	50	The WReN model performed notably better when these distractors were removed (79.3% on the validation and 78.3% on the test set, compared with 63.0% and 62.6% with distractors).
+141	121	Note that performance on both the Interpolation and Extrapolation training sets was higher than on the neutral training set because certain attributes (size, colour) have half as many values in those cases, which reduces the complexity of the task.4 After Interpolation, the model generalised best in regimes where the test questions involved novel combinations of otherwise familiar [r, o, a] triples (Held-out Attribute Pairs and Held-out Triple Pairs).
+142	29	This indicates that the model learned to combine relations and attributes, and did not simply memorize combinations of triples as distinct structures in their own right.
+153	27	In addition to improving performance, training with metatargets provides a means to measure which shapes, attributes, and relations the model believes are present in a given PGM, providing insight into the model’s decisions.
+154	36	Using these predictions, we asked how the WReN model’s accuracy varied as a function of its meta-target predictions.
+155	38	Unsurprisingly, the WReN model achieved a test accuracy of 87.4% when its meta-target predictions were correct, compared to only 34.8% when its predictions were incorrect.
+175	51	Though there has also been substantial progress in both reasoning and abstract representation learning in neural nets (Botvinick et al., 2017; LeCun et al., 2015; Higgins et al., 2016; 2017), the extent to which these models exhibit anything like general abstract reasoning is the subject of much debate (Garnelo et al., 2016; Lake & Baroni, 2017; Marcus, 2018).
+194	34	Generalisation is a multi-faceted phenomenon; there is no single, objective way in which models can or should generalise beyond their experience.
+195	17	The PGM dataset provides a means to measure the generalization ability of models in different ways, each of which may be more or less interesting to researchers depending on their intended training setup and applications.
+202	36	We also hope to develop a deeper understanding of the solutions learned by the WReN model when solving Raven-style matrices.

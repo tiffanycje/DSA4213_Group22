@@ -1,0 +1,30 @@
+13	40	Coreference resolution is the task of grouping referring expressions (or mentions) in a text into disjoint clusters such that all mentions in a cluster refer to the same entity.
+22	32	Every subtree under the root node corresponds to a cluster of coreferent mentions.
+23	33	Since coreference training data is typically not annotated with trees, Fernandes et al. (2012) proposed the use of latent trees that are induced during the training phase of a coreference resolver.
+24	66	The latent tree provides more meaningful antecedents for training.2 For instance, the popular pair-wise instance creation method suggested by Soon et al. (2001) assumes non-branching trees, where the antecedent of every mention is its linear predecessor (i.e., heb2 is the antecedent of Gary Wilberb3).
+25	113	Comparing the two alternative antecedents of Gary Wilberb3 , the tree in Figure 2 provides a more reliable basis for training a coreference resolver, as the two mentions of Gary Wilber are both proper names and have an exact string match.
+27	43	We assume that the mentions are ordered ascendingly with respect to the linear order of the document, where the document root precedes all other mentions.3 For each mention mj , let Aj denote the set of potential antecedents.
+28	16	That is, the set of all mentions that precede mj according to the linear order including the root node, or, Aj = {mi | i < j}.
+29	50	Finally, let A denote the set of all antecedent sets {A0, A1, ..., An}.
+30	115	In the tree model, each mention corresponds to a node, and an antecedent-anaphor pair 〈ai,mi〉, where ai ∈ Ai, corresponds to a directed edge (or arc) pointing from antecedent to anaphor.
+31	62	The score of an arc 〈ai,mi〉 is defined as the scalar product between a weight vector w and a feature vector Φ(〈ai,mi〉), where Φ is a feature extraction function over an arc (thus extracting features from the antecedent and the anaphor).
+32	61	The score of a coreference tree y = {〈a1,m1〉, 〈a2,m2〉, ..., 〈an,mn〉} is defined as the sum of the scores of all the mention pairs: score(〈ai,mi〉) = w · Φ(〈ai,mi〉) (1) score(y) = ∑ 〈ai,mi〉∈y score(〈ai,mi〉) The objective is to find the output ŷ that maximizes the scoring function: ŷ = arg max y∈Y(A) score(y) (2) where Y(A) denotes the set of possible trees given the antecedent sets A.
+33	23	By treating the mentions as nodes in a directed graph and assigning scores to the arcs according to (1), Fernandes et al. (2012) solved the search problem using the Chu-LiuEdmonds (CLE) algorithm (Chu and Liu, 1965; Edmonds, 1967), which is a maximum spanning tree algorithm that finds the optimal tree over a connected directed graph.
+40	15	In our setting inputs xi correspond to documents and outputs yi are trees over mentions in a document.
+49	24	Algorithm 1 PA algorithm with latent trees Input: Training data D, number of iterations T Output: Weight vector w 1: w = −→ 0 2: for t ∈ 1..T do 3: for 〈Mi,Ai, Ãi〉 ∈ D do 4: ŷi = arg maxY(A) score(y) .
+74	22	Such non-local features are able to capture information beyond that of a mention and its potential antecedent, e.g., the size of a partially built cluster, or features extracted from the antecedent of the antecedent.
+75	53	When only local features are used, greedy search (either with CLE or the best-first decoder) suffices to find the highest scoring tree.
+77	35	Non-local features, however, render the exact search problem intractable.
+80	41	Beam search works incrementally by keeping an agenda of state items.
+89	30	It has previously been observed (Huang et al., 2012) that substantial gains can be made by applying an early update strategy (Collins and Roark, 2004): if the correct item is pruned before reaching the end of the document, then stop and update.
+104	17	A drawback of early updates is that the remainder of the document is skipped when an early update is applied, effectively discarding some training data.6 An alternative strategy that makes better use of the training data is to apply the maxviolation procedure suggested by Huang et al. (2012).
+166	40	Since early updates do not always make use of the complete documents during training, it can be expected that it will require either a very wide beam or more iterations to get up to par with the baseline learning algorithm.
+168	20	The figure shows that even after 50 iterations, early update falls short of the baseline, even when the early update system has access to more informative non-local features.9 In Figure 4 we compare early update with LaSO and delayed LaSO on the English development set.
+169	15	The left half uses the local feature set, and the right the extended non-local feature set.
+183	35	For almost all metrics our system is significantly better than the best competitor.
+209	31	We found that the early update strategy is considerably worse than a local baseline, as it is unable to exploit all training data.
+210	50	LaSO resolves this issue by giving feedback within documents, but still underperforms compared to the baseline as it distorts the choice of latent antecedents.
+211	32	We introduced a modification to LaSO, where updates are delayed until each document is processed.
+212	49	In the special case where only local features are used, this method coincides with standard structured perceptron learning that uses exact search.
+213	93	Moreover, it is also able to profit from nonlocal features resulting in improved performance.
+214	135	We evaluated our system on all three languages from the CoNLL 2012 Shared Task and present the best results to date on these data sets.

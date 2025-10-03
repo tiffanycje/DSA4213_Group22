@@ -1,0 +1,30 @@
+0	45	One of the most successful neural network architectures is convolutional neural networks (CNNs) (LeCun et al., 1989).
+6	25	As we move higher in the network, these domains generally get larger, allowing the CNN to capture structure in images at multiple different scales.
+43	25	The number of parameters in CNNs is much smaller than in general (fully connected) feed-forward networks, since we only have to learn the w2 numbers defining the χ` filters rather than O((m2)2) weights.
+44	65	(3) applies the same filter to every part of the image.
+45	17	Therefore, if the networks learns to recognize a certain feature, e.g., eyes, in one part of the image, then it will be able to do so in any other part as well.
+46	20	Equivalently to the above, if the input image is translated by any vector (t1, t2) (i.e., f0 ′ (x1, x2) = f 0(x1− t1, x2−t2), then all higher layers will translate in exactly the same way.
+52	18	This means that each g ∈G has a corresponding transformation Tg : X → X , and for any g1, g2 ∈G, Tg2g1 = Tg2 ◦ Tg1 .
+54	110	In the case of translation invariant image recognition, X = Z2, G is the group of integer translations, which is isomorphic to Z2 (note that this is a very special case, in general X and G are different objects), the action is T(t1,t2)(x1, x2) = (x1 + t1, x2 + t2) (t1, t2)∈Z 2, and the corresponding (induced) action on functions is T : f 7→ f ′ f ′(x1, x2) = f(x1− t1, x2− t2).
+64	15	Let N be a feed-forward neural network as defined in Definition 1, and G be a group that acts on each index space X0, .
+65	21	,TL be the corresponding actions on LV0(X0), .
+66	47	We say that N is a G–equivariant feed-forward network if, when the inputs are transformed f0 7→ T0g(f0) (for any g ∈ G), the activations of the other layers correspondingly transform as f` 7→ T`g(f`).
+72	18	Note also that invariance is a special case of equivariance, where Tg = id for all g. In fact, this is another major reason why equivariant architectures are so prevalent in the literature: any equivariant network can be turned into a G–invariant network simply by tacking on an extra layer that is equivariant in this degenerate sense (in practice, this often means either averaging or creating a histogram of the activations of the last layer).
+80	36	What we are interested in for this paper, however, is the much broader generalization of convolution to the case when f and g are functions on a compact group G. As mentioned in the Introduction, this takes the form (f ∗ g)(u) = ∫ G f(uv−1) g(v) dµ(v).
+81	22	(6) Note that (6) only differs from (4) in that x−y is replaced by the group operation uv−1, which is not surprising, since the group operation on R in fact is exactly (x, y) 7→ x+y, and the “inverse” of y in the group sense is −y.
+96	19	Definition 4 hides the facts that depending on the choice of X and Y : (a) the summation might only have to extend over a quotient space of G rather than the entire group, (b) the result f ∗ g might have symmetries that effectively make it a function on a quotient space rather than G itself (this is exactly what the case will be in generalized convolutional networks).
+145	19	We are finally in a position to define the notion of generalized convolutional networks, and state our main result connecting convolutions and equivariance.
+148	18	Let G be a compact group and N be an L + 1 layer feed-forward neural network in which the `’th index set is of the form X` = G/H`, where H` is some subgroup of G. ThenN is equivariant to the action of G in the sense of Definition 3 if and only if it is a G-CNN.
+150	20	Proof of Theorem 1 (forward direction).
+177	27	Cohen et al. (2018) explicitly make this connection between spherical harmonics and SO(3) Fourier transforms, and store the activations in terms of this representation.
+189	18	, n}, and the symmetric group Sn (the group of permutations of {1, 2, .
+200	20	≥ λm and∑ i λi = n. Moreover, the structure of the Fourier transform of a function f : Sn/(Sn−`×S`) dictated by Proposition 1 in this case is that each of the Fourier matrices are zero except for a single column in each of the f̂((n−p, p)) components, where 0 ≤ p ≤ `.
+201	17	The main theorem of our paper dictates that the linear map φ` in each layer must be a convolution.
+202	47	In the case of Fourier matrices with such extreme sparsity structure, this means that each of the `+1 Fourier matrices can be multiplied by a scalar, χ`p.
+203	39	These are the learnable parameters of the network.
+204	47	A real MPNN of course has multiple channels and various corresponding parameters, which could also be introduced in the k–subset network.
+206	18	Convolution has emerged as one of the key organizing principles of deep neural network architectures.
+207	70	Nonetheless, depending on their background, the word “convolution” means different things to different researchers.
+208	40	The goal of this paper was to show that in the common setting when there is a group acting on the data that the architecture must be equivariant to, convolution has a specific mathematical meaning that has far reaching consequences: we proved that a feed forward network is equivariant to the group action if and only if it respects this notion of convolution.
+209	54	Our theory gives a clear prescription to practitioners on how to design neural networks for data with non-trivial symmetries, such as data on the sphere, etc..
+210	87	In particular, we argue for Fourier space representations, similar to those that have appeared in (Worrall et al., 2017; Cohen et al., 2018; Kondor et al., 2018)), and, even more recently, since the submission of the original version of the present paper in (Thomas et al., 2018; Kondor, 2018; Weiler et al., 2018).

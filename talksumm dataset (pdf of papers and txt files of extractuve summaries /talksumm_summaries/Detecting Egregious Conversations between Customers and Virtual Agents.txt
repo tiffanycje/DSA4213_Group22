@@ -1,0 +1,30 @@
+0	37	Automated conversational agents (chatbots) are becoming widely used for various tasks such as personal assistants or as customer service agents.
+3	22	Still, chatbots may behave extremely badly, leading to conversations so off-the-mark that only a human agent could step in and salvage them.
+16	36	Here the customer aims to understand the details of a flight ticket.
+18	40	The customer then tries to explain what went wrong, but the chatbot has insufficient exposure to this sort of utterance to provide anything but the default response (“I’m not trained on that”).
+19	17	The response seems to upset the customer and leads to a request for a human agent, which is rejected by the system (“We don’t currently have live agents”).
+23	28	As an aid to chatbot improvement, analysis of egregious conversations can often point to problems in training data or system logic that can be repaired.
+33	14	We describe our data, experimental setting, and results.
+66	20	While we are currently applying this to complete conversations (i.e., the classification is done on the whole conversation), some of the features examined here could likely be used to detect egregious conversations as they were unfolding in real time.
+67	33	To perform egregious conversation detection, features from both customer inputs and agent responses are extracted, together with features related to the combination of specific inputs and responses.
+69	41	Using this set of features for detecting egre- gious conversations is novel, and as our experimental results show, improves performance compared to a model based solely on features extracted from the conversation’s text.
+80	17	We represented each sentence by averaging the pre-trained embeddings5 of each word in the sentence, calculating the cosine similarity between the representations.
+86	17	We extracted the possible variants of the unsupported intent messages directly from the system, and later matched them with the agent responses from the logs.
+87	15	From the customer’s point of view, an ineffective interaction with a virtual agent is clearly undesirable.
+99	36	We focused on negative emotions (denoted as NEG EMO) to identify turns with a negative emotional peak (i.e., single utterances that carried high negative emotional state), as well as to estimate the aggregated negative emotion throughout the conversation (i.e., the averaged negative emotion intensity).
+102	19	Note that we used the positive emotions as a filter for other customer features, such as the rephrasing analysis.
+108	46	The assumption is that single word (unigram) sentences are probably short customer responses (e.g., no, yes, thanks, okay), which in most cases do not contribute to the egregiousness of the conversation.
+117	20	We also calculated the similarity between the customer’s turn and the virtual agent’s response in cases of customer rephrasing.
+129	16	Each system logs conversations, and each conversation is a sequence of tuples, where each tuple consists of {conversation id, turn id, customer input, agent response}.
+136	15	This sample included 1100 and 200 conversations for company A and company B respectively.
+139	27	Given the full conversation, each judge tagged whether the conversation was egregious or not following this guideline: “Conversations which are extraordinarily bad in some way, those conversations where you’d like to see a human jump in and save the conversation”.
+148	16	This model was implemented using state-of-the-art textual features as in (Herzig et al., 2017).
+164	23	The figure also suggests that the most informative group in terms of prediction ability is the customer group.
+167	21	For this task, we utilized the 200 annotated conversations of company B as test data, and experimented with the different models, trained on company A’s data.
+169	19	Table 3 summarizes the results showing that the performance of the EGR model is relatively stable (w.r.t the model’s performance when it was trained and tested on the same domain), with a degradation of only 9% in F1-score11.
+172	37	Inspired by (Sarikaya, 2017; Sano et al., 2017) we analyzed the customer rephrasing motivations for both the egregious and the non-egregious classes.
+174	70	Specifically, in our setting, the relevant motivations are12: (1) Natural language understanding (NLU) error - the agent’s intent detection is wrong, and thus the agent’s response is semantically far from the customer’s turn; (2) Language generation (LG) limitation - the intent is detected correctly, but the customer is not satisfied by the response (for example, the response was too generic); (3) Unsupported intent error - the customer’s intent is not supported by the agent.
+175	15	In order to detect NLU errors, we measured the similarity between the first customer turn (before the rephrasing) and the agent response.
+189	29	In this paper, we have shown how it is possible to detect egregious conversations using a combination of customer utterances, agent responses, and customer-agent interactional features.
+191	60	In this context, future work includes collecting more data and using neural approaches (e.g., RNN, CNN) for analysis, validating our models on a range of domains beyond the two explored here.
+192	48	We also plan to extend the work to detect egregious conversations in real time (e.g., for escalating to a human operators), and create log analysis tools to analyze the root causes of egregious conversations and suggest possible remedies.

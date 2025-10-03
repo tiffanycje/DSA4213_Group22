@@ -1,0 +1,30 @@
+0	27	Task-oriented dialog systems have been an important branch of spoken dialog system (SDS) research (Raux et al., 2005; Young, 2006; Bohus and Rudnicky, 2003).
+4	30	This information is further processed by the dialog state tracker (DST), which accumulates the input of the turn along with the dialog history.
+16	33	Developing such a model for task-oriented dialog sys- 1 tems faces several challenges.
+18	55	The second challenge is that often a task-oriented agent needs to interface with structured external databases, which have symbolic query formats (e.g. SQL query).
+23	21	Our studies yield promising results 1) in jointly learning policies for state tracking and dialog strategies that are superior to a modular-based baseline, 2) in efficiently incorporating various types of labelled data and 3) in learning dialog state representations.
+57	22	It has been shown that the belief state is sufficient for optimal control (Monahan, 1982), so that the objective is to find π∗ : b → a that maximizes the expected future return.
+78	29	The environment consists of a user, Eu and a database Edb.
+80	76	In order to interface with the database environment Edb, the agent can apply special actions ah ∈ Ah that can modify a query hypothesis h. The hypothesis is a slot-filling form that represents the most likely slot values given the observed evidence.
+83	51	We can then define the observation ot of turn t as, ot =  atout odbt  (3) We then use the LSTM network as the dialog state tracker that is capable of aggregating information over turns and generating a dialog state representation, bt = LSTM(ot, bt−1), where bt is an approximation of the belief state at turn t. Finally, the dialog state representation from the LSTM network is the input to S + 1 policy networks implemented as Multilayer Perceptrons (MLP).
+84	79	The first policy network approximates the Q-value function for all verbal actions Q(bt, av) while the rest estimate the Q-value function for each slot, Q(bt, ah), as shown in Figure 3.
+93	27	In order to train the slot-filling policy with both short-term and long-term supervision signals, we decompose the reward function for Ah into two parts: Qπ(b, ah) = R̄(b, a) + γ ∑ b′ P (b′|b, ah)V π(b′) (4) R̄(b, a, b′) = R(b, ah) + P (ah|b) (5) where P (ah|b) is the conditional probability that the correct label of the slots is ah given the cur- rent belief state.
+98	48	The difference is that Dyna Qlearning uses the estimated environment dynamics to generating experiences, while our method only uses the known transition function (i.e. the dynamics of the database) to generate synthetic samples.
+106	22	The pseudo reward function F (s, a, s′) is defined as: R̄(s, a, s′) = R(s, a, s′) + F (s, a, s′) (8) F (s, a, s′) = γφ(s′)− φ(s) (9) Let the total number of entities in the database be D and Pmax be the max potential, the potential φ(s) is: φ(st) = Pmax(1− dt D ) if dt > 0 (10) φ(st) = 0 if dt = 0 (11) The intuition of this potential function is to encourage the agent to narrow down the possible range of valid entities as quickly as possible.
+110	26	Then the agent asks the user a series of Yes/No questions.
+125	25	We manually designed several Yes/No questions for each attribute that is available to the agent.
+131	20	In order to generate realistic natural language with the yes/no/unknown intent, we collected utterances from the Switchboard Dialog Act (SWDA) Corpus (Jurafsky et al., 1997).
+136	49	yes/no/unknown A game is terminated when one of the four conditions is fulfilled: 1) the agent guesses the correct answer, 2) there are no people in the database consistent with the current hypothesis, 3) the max game length (100 steps) is reached and 4) the max number of guesses is reached (10 guesses).
+165	29	The horizontal axis is the total number of interaction between the agent and either the user or the database.
+166	56	The baseline model has the fastest learning speed but its performance saturated quickly because the dialog policy was not trained together with the state tracker.
+167	75	So the dialog policy is not aware of the uncertainty in slotfilling and the slot-filler does not distinguish between the consequences of different wrong labels (e.g classify yes to no versus to unknown).
+171	124	One of the hypotheses is that the RL approach can learn a good state tracker using only dialog success reward signals.
+172	51	We ran the best trained models using a greedy policy and collected 10,000 samples.
+175	32	The RL model aims for high precision so that it predicts unknown when the input is ambiguous, which is a safer option than predicting yes/no, because confusing between yes and no may potentially lead to a contradiction and a game failure.
+176	22	This is very different from the baseline which does not distinguish between incorrect labels.
+181	22	For both studies, we ran the Hybrid-RL models saved at 20K, 50K and 100K steps against the simulator with a greedy policy and recorded 10,000 samples for each model.
+184	23	We used the LSTM output as input features to a linear regression model with l2 regularization.
+185	23	Table 5 shows the correlation of determination r2 increases for the model that was trained with more data.
+187	55	The latent state of the 20Q game is the true intent of the users’ answers to all the questions that have been asked so far.
+191	39	Then we compute the empirical probability that each slot of the true state s differs from the retrieved neighbors: pdiff(s[k]) = Esi [∑4 n=0 1(N(bi)[n][k] 6= si[k]) 5 ] (12) where 1 is the indicator function, k is the slot index and n is the neighbor index.
+196	33	Furthermore, our analysis confirms our hypotheses that the proposed models implicitly capture essential information in the latent dialog states.

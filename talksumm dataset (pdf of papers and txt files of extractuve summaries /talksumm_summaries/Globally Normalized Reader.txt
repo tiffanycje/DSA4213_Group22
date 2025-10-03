@@ -1,0 +1,30 @@
+2	41	However, current approaches to extractive question answering face several limitations: 1059 1.
+5	61	They rely extensively on expensive bidirectional attention mechanisms (Seo et al., 2016) or must rank all possible answer spans (Lee et al., 2016).
+6	51	While data-augmentation for question answering have been proposed (Zhou et al., 2017), current approaches still do not provide training data that can improve the performance of existing systems.
+8	35	Extractive Question Answering can be cast as a nested search process, where sentences provide a powerful document decomposition and an easy to learn search step.
+10	36	When cast as a search process, models without bi-directional attention mechanisms and without ranking all possible answer spans can achieve near state of the art results on extractive question answering.
+11	45	Preserving narrative structure and explicitly incorporating type and question information into synthetic data generation is key to generating examples that actually improve the performance of question answering systems.
+12	34	Our claims are supported by experiments on the SQuAD dataset where we show that the Globally Normalized Reader (GNR), a model that performs an iterative search process through a document (shown visually in Figure 1), and has computation conditionally allocated based on the search process, achieves near state of the art Exact Match (EM) and F1 scores without resorting to more expensive attention or ranking of all possible spans.
+23	41	, dn denote each sentence in the document, and for each sentence di, let di,1, .
+27	72	Let A(d) denote the set of valid answer tuples for document d. We now describe each stage of the model in turn.
+34	35	Specifically, each word in the document is represented as the concatenation of its word vector di,j , the question vector q, boolean features indicating if a word appears in the question or is repeated, and a question-aligned embedding from Lee et al. (2016).
+39	61	Each sentence di is represented by the hidden state of the first and last word in the sentence for the backward and forward LSTM respectively, [hbwdi,1 ;h fwd i,mi ], and is scored by passing this representation through a fully connected layer that outputs the unnormalized sentence score for sentence di, denoted φsent(di).
+40	38	After selecting a sentence di, we pick the start of the answer span within the sentence.
+48	46	In a locally normalized model each decision is made conditional on the previous decision.
+49	57	The probability of some answer a = (i, j, k) is decomposed as P(a|d, q) =Psent(i|d, q) · Psw(j|i, d, q)· Pew(k|j, i, d, q).
+52	34	In a globally normalized model, we define score(a, d, q) = φsent(di)+φsw(di,j)+φew(di,j:k).
+54	33	(13) In contrast to locally-normalized models, the model is normalized over all possible search paths instead of normalizing each step of search procedure.
+55	29	At inference time, the problem is to find arg max a∈A(d) P(a | d, q), (14) which can be approximately computed using beam search.
+58	80	Instead, to ensure learning is efficient, we use beam search during training and early updates (Andor et al., 2016; Zhou et al., 2015; Collins and Roark, 2004).
+60	59	(16) At training time, if the gold sequence falls off the beam at step t during decoding, a stochastic gradient step is performed on the partial objective computed through step t and normalized over the beam at step t.
+87	51	Assigning types to named entities in natural language is an open problem, nonetheless when faced with documents where we can safely assume that the majority of the entities will be contained in a large knowledge base (KB) such as Wikidata Vrandečić and Krötzsch (2014) we find that simple string matching techniques are sufficiently accurate.
+88	38	Specifically, we use a part of speech tagger (Honnibal, 2017) to extract nominal groups in the training data and string-match them with entities in Wikidata.
+91	40	to nominal groups that contain dates, numbers, or quantities5.
+97	95	We evaluate our model on the 100,000 example SQuAD dataset (Rajpurkar et al., 2016) and perform several ablations to evaluate the relative importance of the proposed methods.
+106	34	Moreover, data augmentation and global normalization are complementary.
+120	50	Type Swaps, our data augmentation strategy, offers a way to incorporate the nature of the question and the types of named entities in the answers into the learning process of our model and reduce sensitivity to surface variation.
+122	29	Augmenting the dataset with additional type-sensitive synthetic examples improves performance by providing better coverage of different answer types.
+154	30	Furthermore, we find that a type-aware data augmentation strategy improves the performance of all models under study on the SQuAD dataset.
+156	32	We expect it to be applicable to other NLP tasks that would benefit from more training data.
+157	273	As future work we plan to apply the GNR to other question answering datasets such as MS MARCO (Nguyen et al., 2016) or NewsQA (Trischler et al., 2016a), as well as investigate the applicability and benefits of Type Swaps to other tasks like named entity recognition, entity linking, machine translation, and summarization.
+158	121	Finally, we believe there a broad range of structured prediction problems (code generation, generative models for images, audio, or videos) where the size of original search space makes current techniques intractable, but if cast as learning-to-search problems with conditional computation, might be within reach.

@@ -1,0 +1,30 @@
+0	16	Dependency parsing is a core task in natural language processing (NLP).
+1	27	Given a sentence, a dependency parser produces a dependency tree, which specifies the typed head-modifier relations between pairs of words.
+6	33	The idea is to parse the sentences of the target language with a supervised parser trained on the treebanks of one or more source languages.
+7	40	Although the parser cannot be expected to know the words of the target language, it can make do with parts of speech (POS) (McDonald et al., 2011; Täckström et al., 2013; Zhang and Barzilay, 2015) or crosslingual word embeddings (Duong et al., 2015; Guo et al., 2016; Ammar et al., 2016).
+8	50	A more serious challenge is that the parser may not know how to handle the word order of the target language, unless the source treebank comes from a closely related language (e.g., using German to parse Luxembourgish).
+10	18	Some authors (Rosa and Žabokrtský, 2015a,b; Wang and Eisner, 2016) have shown additional improvements by preferring source languages that are “close” to the target language, where the closeness is measured by distance between POS language models trained on the source and target corpora.
+11	25	We will focus on delexicalized dependency parsing, which maps an input POS tag sequence to a dependency tree.
+12	46	We evaluate single-source transfer—train a parser on a single source language, and evaluate it on the target language.
+14	15	Our novel ingredient is that rather than seek a close source language that already exists, we create one.
+31	13	Let us suppose that the dependency tree for a sentence starts as a labeled graph—a tree in which siblings are not yet ordered with respect to their parent or one another.
+32	39	Each language has some systematic way to realize its unordered trees as surface strings:1 it imposes a particular order on the tree’s word tokens.
+35	26	That is, we suppose that different languages use similar underlying syntactic/semantic graphs, but differ in how they realize this graph structure on the surface.
+60	13	Given a source treebank B and some parameters θ, we can use equation (1) to randomly sample realizations of the trees inB.
+71	32	We estimate p̂θ in the same way, where cp(st) denotes the expected count of st in a random POS sequence y ∼ pθ.
+76	22	We need a metric to evaluate θ.
+77	44	If p and q are bigram language models over POS sequences y (sentences), their Kullback-Leibler divergence is KL(p || q) def= Ey∼p[log p(y)− log q(y)] (2) = ∑ s,t cp(st) (3) · (log p(t | s)− log q(t | s)) where y ranges over POS sequences and st ranges over POS bigrams.
+102	46	It also counts bigrams st that cross the boundary between consecutive nodes (via cacrossa ), where nodes ai and aj are consecutive with probability pa(i, j).
+106	29	(Notice that thus, cacrossa (st) counts ya’s boundary bigrams—the bigrams stwhere s = BOS or t = EOS—when i = 0 or j = n+ 1 respectively.)
+107	24	The main challenge above is computing the node bigram probabilities pa(i, j).
+110	12	The SteinhausJohnson-Trotter (SJT) algorithm (Sedgewick, 1977) does so in O(1) time per permutation, obtaining each permutation by applying a single swap to the previous one.
+144	15	As our main dataset, we use Universal Dependencies version 1.2 (Nivre et al., 2015)—a set of 37 dependency treebanks for 33 languages, with a unified POS-tag set and relation label set.
+171	46	However, it tends to hurt a source language that is already in the target language family.
+175	57	This shows that large improvements would be possible if we could only find the best permutation policy allowed by our model family.
+212	44	We have shown how cross-lingual transfer parsing can be improved by permuting the source treebank to better resemble the target language on the surface (in its distribution of gold POS bigrams).
+218	22	On the downside, Figure 7 shows that with our current method, permuting the source language to be more like the target language is helpful (on average) only when the source language is from a different language family.
+220	23	Several opportunities for future work have already been mentioned throughout the paper.
+222	20	We could use entropy regularization (Grandvalet and Bengio, 2005) to encourage more “deterministic” patterns of realization in the synthetic languages.
+223	63	We would also like to consider more sensitive divergence measures that go beyond bigrams, for example using recurrent neural network language models (RNNLMs) for q̂ and p̂θ.
+228	18	Furthermore, it would enable us to harness richer lexical information beyond the 17 UD POS tags.
+229	14	After all, even a (gold) POS corpus might not be sufficient to determine the word order of the target language: “NOUN VERB NOUN” could be either subject-verb-object or object-verbsubject.

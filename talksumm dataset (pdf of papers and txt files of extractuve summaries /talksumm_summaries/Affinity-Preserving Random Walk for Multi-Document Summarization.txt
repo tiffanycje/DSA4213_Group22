@@ -1,0 +1,30 @@
+12	29	A series of conferences and workshops on automatic text summarization (e.g. NTCIR, DUC), special topic sessions in ACL, EMNLP and SIGIR have advanced the techniques to achieve these goals and many approaches have been proposed so far.
+13	39	In this paper, we focus on the extractive summarization methods, which extract the summary sentences from the input document cluster.
+15	72	The method is a graphbased ranking method, which takes into account the global information collectively computed from the entire sentence affinity graph.
+16	39	Different from the previous graph-based ranking methods, our method adopts “global normalization” to transform sentence affinity matrix into sentence transition matrix and formulates the sentence ranking process in an absorbing random walk model.
+17	38	Meanwhile, the adjustable affinity-preserving random walk is proposed to facilitate the diversity of summary by adjusting the sentence transition matrix after each iteration of random walk.
+18	41	Experimental results on DUC generic and topic-focused multi-document summarization tasks show the competitive performance of our method.
+21	10	(1) We preserve the original affinity relations between sentences in a novel affinity-preserving random walk view for multi-document summarization.
+25	28	(3) Experiments on DUC 2003 and DUC 2004 tasks demonstrate the competitive performance of our method.
+26	14	The rest of the paper is organized as follows.
+27	21	Section 2 discusses the related work.
+28	99	Section 3 describes traditional random walk model for summarization.
+53	11	Suppose there is a conductance c(si, sj) > 0 associated with each edge (si, sj) ∈ E and c(si, sj) = 0 associated with the set S2 − E (the conductance of nonexistent edge is zero).
+57	28	We can prove that∑ sj∈S P (si, sj) = 1 for any si ∈ S (C(si) 6= 0) so P is a row-stochastic matrix by P = D−1W, where D is a diagonal matrix with entries Dii = C(si) and W is the adjacency matrix of G where Wij = c(si, sj).
+58	10	For the summarization task, G is the sentence affinity graph.
+59	26	The vertex set S = {s1, s2, ..., sn} contains every sentence in the document cluster and the edge set E contains the pairwise affinity between sentences.
+61	13	isf is often calculated as 1+log(n/nt), where n is the total number of sentences and nt is the number of sentences containing the term t. Wij is computed using the standard cosine measure (BaezaYates et al., 1999).
+65	19	Then we transform W into P by P = D−1W and use the stationary distribution of random walk as sentence ranking scores.
+72	10	The prior here is that the number ratio of good candidate sentences over bad candidate sentences is very low due to the summary length limit.
+81	12	The symmetric normalization can be deduced from the objective function of manifold ranking (Zhou et al., 2003) and does not make a distinction between the good and bad candidate sentences.
+87	18	The maximum conductance Cmax = maxi=1,2,...nC(si).
+88	21	Of the (n + 1) vertices, s0 is an absorbing vertex with c(si, s0) > 0, c(s0, si) = 0, and c(s0, s0) = Cmax for i = 1, 2, ..., n. The remaining vertices are the normal vertices with c(si, sj) > 0 for i, j = 1, 2, ..., n. The discrete-time Markov chain X = (X0, X1, X2, ...) with state space and transition probability matrix P given by P (si, sj) = c(si, sj) Cmax P (si, s0) = 1− C(si) Cmax , P (s0, si) = 0 P (s0, s0) = 1 for i, j = 1, 2, ..., n (4) is called an affinity-preserving random walk on the graph G. For our summarization task, we construct a sentence augmented graph GA (as shown in Figure 4.1) by adding an absorbing vertex s0 to the sentence affinity graph G. The unabsorbed vertices si (i = 1, 2, ..., n) represent sentences in the documents.
+90	26	In the affinity-preserving random walk, once the surfer reaches the absorbing vertex, she cannot walk out of there.
+112	15	µ is the damping factor that trades off between two actions: the transition according to WT /‖W‖1 and the teleport specified by y. Transpose operation in Eq.
+113	13	(8) can be removed because of symmetry of W. The final transition matrix of affinity-preserving random walk is given by A = µW/‖W‖1 + (1− µ)y · e T and x should be normalized by its first norm after each iteration of random walk.
+160	9	In this setting, A is dependent on the transient distribution x in the previous iteration, which differs from the invariant transition matrix in Eq.(8).
+191	10	DPP (Lin and Bilmes, 2011) combines a sentence saliency model with a global diversity model encouraging non-overlapping information.
+201	24	From Tables 5.2 and 5.3, our method has the best ROUGE-2 score among all graph-based ranking methods for generic multi-document summarization, and it also has the best ROUGE-2 score for topic-focused multi-document summarization.
+211	18	Figures 5.1 and 5.2 show the ROUGE-1 and ROUGE-2 recall curves of our method on the two data sets, respectively.
+212	40	We can see from the figures that the damping factor has an effect on the performance of multi-document summarization.
+215	16	In the future work, we will focus on the self transition of adjustable affinity preserving random walk, which could be used to remove the redundancy between summary sentences.

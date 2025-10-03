@@ -1,0 +1,30 @@
+1	33	Identifying these entities are particularly important in biomedical data.
+2	55	While large scale Named Entity Recognition (NER) datasets exist in news and web data (Tjong Kim Sang and De Meulder, 2003; Hovy et al., 2006), biomedical NER datasets are typically smaller and contain only one or two types per dataset.
+3	15	Ultimately, we would like to identify all entity types present across the union of the label sets during inference while leveraging all the available annotations to train our models.
+6	18	To remedy these problems, we propose methods to train a joint model across the multiple tag-sets of the different datasets, sharing statistical strength by using a single feature encoder across datasets while respecting the incompleteness of the labels during training.
+10	24	Our models build on state-of-the-art NER systems (Lample et al., 2016) based on bi-directional Long Short Term Memory (BiLSTM) feature extractors fed into a conditional random field (CRF).
+13	14	The output consists of labels for each token in the sequence y = {y1, .
+20	9	Each token t produced from BPE is mapped to a d dimensional word embedding w. Character level features have been shown to improve NER accuracy (Lafferty et al., 2001; Lample et al., 2016; Passos et al., 2014).
+33	11	We first propose one simple method to get around the assumption of complete annotation – train separate CRFs for the label set of each dataset.
+38	17	We propose and evaluate a simple heuristic procedure for merging the outputs of the different CRF predictions.
+39	24	Whenever the different CRF predictions disagree on a span of tokens, we choose the prediction from the CRF that has higher marginal probability of predicting that span of tokens (Alg.
+42	40	Thus, when tagging dataset i ∈ [D], we treat the non-entity tokens as potentially taking any entity type label from any of the other datasets as well as the ‘O’ label.
+43	35	For a particular input x of length T from a dataset i ∈ [D] with label set Si, let y be the gold output label.
+44	37	Let E ⊂ [T ] be the index of tokens with any entity type label in Si and N ⊂ [T ] be the index of tokens with ‘O’ label, and let yE be the output sequence corresponding to indices in E, and similarly yN be the output sequence for indices in N .
+45	56	Then, from (1), we get the likelihood Pi(yE ∪ yN|x), and a naive CRF trained on the concatenation of all the data will maximize this probability.
+46	24	However, since we cannot make the complete annotation assumption, we should instead maximize only the marginal probability of the observed entities on the dataset i, Pi(yE|x), allowing yN to take any values from the labels of the other datasets: ∪Dj 6=iSj .
+47	9	Thus, logPi(yE|x) = log ∑ yN∈∪j 6=iSj Pi(yE,yN|x) logPi(yE|x) = logsumexp yN∈∪j 6=iSj s(x,yE ,yN )− logZ where logZ is the log normalization term which is the same as in (1).
+50	27	Thus, this can be computed using the same dynamic programming algorithm (Tsuboi et al., 2008), and the implementation of training this model is compatible with modern automatic differentiation libraries.
+51	24	We perform experiments on two benchmark Biocreative datasets as well as the recently introduced MedMentions data (Murty et al., 2018).
+52	10	Our experiments consider three types of models.
+56	16	Biocreative VI ChemProt (CP): consists of 2,432 PubMed titles and abstracts, and contains human annotated mentions of both chemicals and proteins (Krallinger et al., 2017)1.
+58	9	The top portion of the table shows models trained on single datasets, and the bottom portion shows models trained on both CDR and CP.
+65	43	Our models improve further, outperforming the state-of-the-art TaggerOne model (Leaman and Lu, 2016).
+66	42	MedMentions (Murty et al., 2018) is a recently introduced large dataset of PubMed abstracts containing entity linked mentions of many different semantic types.
+67	47	We used this data to create an artificially extreme example where two training sets contain 9 and 10 entity types each.
+68	28	The two type sets are fully disjoint (further details in supplementary).
+69	83	In Table 3, we see that the single CRF model performs very poorly in this extreme setting due to the large amount of missing annotations.
+70	125	The multi CRF and EM CRF both perform well and come close to the performance of a single CRF trained on the full data, which is approximately twice as much annotated data.
+82	33	We’ve introduced a method for training NER models on multiple datasets containing disjoint label sets.
+84	30	One interesting problem that our models do not account for is the existence of overlapping and non-continuous entity spans.
+85	36	Particularly when annotating using disjoint label sets, a token could belong to multiple entity spans from different label sets.

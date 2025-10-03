@@ -1,0 +1,30 @@
+18	23	The baseline system for English and French implements a hybrid generation approach, which combines a rule-based approach (with a manually created grammar) and statistical machine translation (SMT) techniques.
+19	31	For French, we have monolingual data for training language model, which can be used in the SMT system.
+44	18	However, in the work presented here, we do not directly lexicalize the slot/value pairs, but realize them in a pseudo language first.
+45	56	For example, the pseudo-language sequence for the slot/value pairs in Table 1 is “ brand ACME cat Cell Phones & Smart Phones color white capacity 32GB”.1 1 cat refers to an e-Commerce category in the browse page.
+62	8	BPE is essentially a data compression technique which splits each word into sub-word units and allows the NMT system to train on a smaller vocabulary.
+65	34	In such case, one can first run the normalization with placeholders followed by BPE, but due to time constraints, we do not report experiments on the same.
+71	12	Our decoder is a simple recurrent neural network (RNN) consisting of gated recurrent units (GRU) (Cho et al., 2014) because of their computationally efficiency.
+73	54	, yl) based on the final encoded state h. Basically, the RNN predicts the target token yj ∈ V (with target vocabulary V) and emits a hidden state sj based on the previous recurrent state sj−1, the previous sequence of words Yj−1 = (y1, y2, .
+78	20	The decoder predicts a score for all the tokens in the target vocabulary, which is then normalized by a softmax function, and the token with the highest probability is predicted.
+82	22	For example, Johnson et al. (June, 2016) had no parallel data available to train a Japanese-to-Korean MT system, but training Japanese-English and English-Korean language pairs allowed their model to learn translations from Japanese to Korean without seeing any parallel data.
+86	16	On top of the multi-lingual approach, we follow the work of Currey et al. (2017) who proposed copying monolingual data on both sides (source and target) as a way to improve the performance of NMT systems on low-resource languages.
+87	12	In machine translation, there are often named entities and nouns which need to be translated verbatim, and this copying mechanism helps in identifying them.
+88	4	Since our use case is monolingual generation, we expect a large gain from this copying approach because we have many brands and other slot values which need to occur verbatim in the generated titles.
+90	12	When generating these titles, human annotators were specifically asked to realize all slots in the title.
+93	21	Statistics of the data sets are reported in Table 2.
+95	9	Single-language setting: This is the baseline NLG system, a straightforward sequence-tosequence model with attention as described in Luong et al. (August, 2015), trained separately for each language.
+96	18	The vocabulary is computed on the concatenation of both source and target data, and the same vocabulary is used for both source and target languages in the experiments.
+100	7	Dropout is set to 0.2 and is activated for all layers except the initial word embedding layer, because we want to realize all aspects, we cannot afford to zero out any token in the source.
+101	56	We continue training of the model and evaluate on the development set after each epoch, stopping the training if the BLEU score on the development set does not increase for 10 iterations.
+102	53	Baselines: We compare our neural system with a fair baseline system (Baseline 1), which is a statistical MT system trained on the same parallel data as the neural system: the source side is the linearized pseudo-language sequence, and the target side is the curated title in natural language.
+104	17	These are unfair baselines, because (1) the hybrid system employs a large number of hand-made rules in combination with statistical models (Mathur, Ueffing, and Leusch, 2017), while the neural systems are unaware of the knowledge encoded in those rules, (2) the APE system and neural systems learn from same amount of parallel data, but the APE system aims at correcting rule-based generated titles, whereas the neural system aims at generating titles directly from a linearized form, which is a harder task.
+105	38	We compare our systems with the best performing systems of (Mathur et al., 2017), i.e. hybrid system for English and French, and APE system for German.
+106	8	Multi-lingual setting: We train the neural model jointly on multiple languages to leverage transfer learning from a high-resource language to a low-resource one.
+107	7	In our multi-lingual setting, we experiment with three different combinations to improve models for French: 1) English+French (en-fr) 2) German+French (de-fr) 3) English+French+German (en-fr-de).
+108	16	English and French being close languages, we expect the enfr system to benefit more from transfer learning across languages than any other combination.
+110	58	For comparison, we also run a combination of two highresource languages, i.e. English and German (ende), to see if transfer learning works for them.
+115	8	The second point is especially important in our case because this avoids highly sensitive issues such as brand violations.
+118	12	After normalization, we see vocabulary reductions of 15% for French, 20% for German and as high as 35% for English.
+119	9	As described in Section 5, we also use byte pair encoding, with a BPE code size of 30,000 for all systems (with BPE).
+122	6	Note that BLEU and character F-score are quality metrics, i.e. higher scores mean higher quality, while TER is an error metric, where lower scores indicate higher quality.

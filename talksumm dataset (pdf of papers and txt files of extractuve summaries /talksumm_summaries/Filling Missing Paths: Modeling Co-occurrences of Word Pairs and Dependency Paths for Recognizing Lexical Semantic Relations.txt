@@ -1,0 +1,30 @@
+27	43	For word pair representations v, we can use the distributional information of each word and path information in which two words cooccur.
+38	52	Each edge of a dependency path is composed of a lemma, part of speech (POS), dependency label, and dependency direction.
+42	14	The final hidden state vector op is treated as the representation of the dependency path p. When classifying a word pair (w1, w2), the word pair is represented as the average of the dependency path vectors that connect two words in a corpus: v(w1,w2) = vpaths(w1,w2) = ∑ p∈paths(w1,w2) fp,(w1,w2) · op∑ p∈paths(w1,w2) fp,(w1,w2) (3) where paths(w1, w2) is the set of dependency paths that connects w1 and w2 in the corpus, and fp,(w1,w2) is the frequency of p in paths(w1, w2).
+44	42	This neural path-based model can be combined with distributional methods.
+46	15	This integrated model, named LexNET, exploits both path information and distributional information, and has high generalization performance for lexical semantic relation detection.
+50	51	This missing path problem leads to the fact that path-based models cannot find any clues for two words that do not co-occur.
+52	16	However, this process makes path-based classifiers unable to distinguish between semanticallyrelated pairs with no co-occurrences and those that have no semantic relation.
+62	28	In our proposed method, word pairs and dependency paths are represented as embeddings that are updated with unsupervised learning through predicting path from w1 and w2 (Section 3.1).
+63	16	After the learning process, our model can be used to (1) augment path data by predicting the plausibility of the co-occurrence of two words and a dependency path (Section 3.2); and to (2) extract useful features from word pairs, which reflect the information of co-occurring dependency paths (Section 3.3).
+67	17	Data and Network Architecture We are able to extract many triples (w1, w2, path) from a corpus after dependency parsing.
+68	21	We denote a set of these triples as D. These triples are the instances used for the unsupervised learning of P (path|w1, w2).
+69	28	Given (w1, w2, path), our model learns through predicting path fromw1 and w2.
+71	16	We associate each path with the embedding vpath, initialized randomly.
+113	23	Following Shwartz and Dagan (2016), we optimized each model using Adam (whose learning rate is 0.001) while tuning the dropout rate dr among {0.0, 0.2, 0.4} on the validation set.
+127	21	We concatenated vp−paths(w1,w2) in Equation (9) with the penultimate layer.
+136	21	This result shows that our path data augmentation effectively solves the missing path problem.
+147	18	A possible explanation for this is that applying both methods is redundant, as both +Aug and +Rep depend on the same model of P (path|w1, w2).
+154	47	For (owl, rump), which is a meronymy pair, the top predicted path was X that Y represent.
+159	18	For examples, given X leaf and Y and X specie and Y of (carrot, beans), we can infer that both X and Y are plants or vegetables.
+161	16	These examples show that our path data augmentation is effective for the missing path problem and enhances path-based models.
+163	52	In BLESS, every pair was annotated with 17 domain class labels.
+166	29	The examples are displayed in Figure 3.
+167	27	We found that our representations (the top row in Figure 3) grouped the word pairs according to their semantic relation in some specific domains based only on unsupervised learning.
+169	52	In contrast to our representations, the concatenation of word embeddings (the bottom row in Figure 3) has little or no such tendency in all domains.
+171	23	This is because the concatenation of word embeddings cannot capture the relational information of word pairs but only the distributional information of each word (Levy et al., 2015).
+174	63	Our neural model of P (path|w1, w2) can be learned from a corpus in an unsupervised manner, and can generalize cooccurrences of word pairs and dependency paths.
+176	18	Finally, our experiments demonstrated that our methods can improve upon the previous models and successfully solve the missing path problem.
+177	17	In future work, we will explore unsupervised learning with a neural path encoder.
+178	50	Our model bears not only word pair representations but also dependency path representations as context vec- tors.
+179	22	Thus, we intend to apply these representations to various tasks, which path representations contribute to.

@@ -1,0 +1,30 @@
+7	9	It has been shown that sigmoid networks are more expressive than similar-sized threshold networks (Maass et al., 1994), and ReLU networks are more expressive than similar-sized threshold networks (Pan & Srikumar, 2016).
+8	44	The complexity or expressiveness of neural networks belonging to the family of PWL functions can also be analyzed by looking at how the network can partition the input space to an exponential number of linear response regions (Pascanu et al., 2014; Montúfar et al., 2014).
+9	28	The basic idea of a PWL function is simple: we can divide the input space into several regions and we have individual linear functions for each of these regions.
+10	16	Functions partitioning the input space to a larger number of linear regions are considered to be more complex, or in other words, possess better representational power.
+12	16	The results were later extended and improved.
+18	11	1 highlights the main contributions, and the following list summarizes all the contributions: • We achieve tighter upper and lower bounds on the maximal number of linear regions of the PWL function corresponding to a DNN that employs ReLUs as shown in Fig.
+19	23	As a special case, we present the exact maximal number of regions when the input dimension is one.
+24	13	This new capability can be used to evaluate the tightness of the bounds and potentially to analyze the correlation between accuracy and the number of linear regions.
+25	5	Let us assume that a feedforward neural network, which is studied in this paper, has n0 input variables given by x = {x1, x2, .
+31	57	Activation Pattern: Let us consider an input vector x = {x1, .
+32	21	For every layer l we define an activation set Sl ⊆ {1, .
+37	18	We say that an input x corresponds to an activation pattern S if feeding x to the DNN results in the activations in S. We define linear regions as follows.1 Definition 1.
+39	15	In this paper, we interchangeably refer to S as an activation pattern or a region for convenience.
+41	22	The activation units {a, b, c, d, e, f} on these layers can be thought of as hyperplanes that each divide the space in two.
+44	8	One may wonder: into how many linear regions do n hyperplanes split a space?
+46	17	The term general position basically means that a small perturbation of the hyperplanes does not change the number of regions.
+52	21	Subsequent hyperplanes are affected by the transformations applied in the earlier layers.
+53	14	Figure 2 also highlights that activation boundaries behave like hyperplanes when inside a region and may bend whenever they intersect with a boundary from a previous layer.
+54	34	This has also been pointed out by Raghu et al. (2017).
+58	22	Raghu et al. (2017) improve this result by deriving an asymptotic upper bound of O(nLn0) to the maximal number of regions, assuming nl = n for all layers l and n0 = O(1).
+59	14	Montúfar (2017) further tightens the upper bound to ∏L l=1 ∑dl j=0 ( nl j ) , where dl = min{n0, n1, .
+64	7	Consider a deep rectifier network with L layers, nl rectified linear units at each layer l, and an input of dimension n0.
+69	29	Two insights can be extracted from the above expression: 1.
+77	6	Figure 4 illustrates this behavior.
+85	11	Further in this section, we formalize this in terms of dimension and show that the dimension of the image of a region is limited by the widths of earlier layers, which is used to prove Theorem 1.
+88	5	Montúfar et al. (2014) show that if the input dimension n0 is constant, then the number of regions of deep networks is asymptotically larger than that of shallow (single-layer) networks.
+93	19	, nL are the widths of layers 1 through L of the network.
+95	26	This is a consequence of Theorem 1 (see Appendix A for the proof).
+97	23	As we increase the number of layers while keeping the total size of the network constant, the bound plateaus at a value lower than the exact maximal number of regions for shallow networks.
+99	8	Hence, for a given number of units and n0, there is a particular depth maximizing the bound.

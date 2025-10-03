@@ -1,0 +1,30 @@
+0	38	Applications using social media data, such as reviews, discussion posts, and (micro) blogs are becoming increasingly popular.
+1	47	We observed from our collaborations with social science and health science researchers that in a typical application, the researcher first need to obtain a set of posts of a particular topic that he/she wants to study, e.g., a political issue.
+2	70	Keyword search is often used as the first step.
+5	65	Thus, text classification is needed to make more sophisticated decisions to improve accuracy.
+8	45	One key reason we observed is that the labeled negative training data is not fully representative of the negative test data.
+9	30	Let the user-interested topic be P (positive), and the set of all other irrelevant topics discussed in a social media source be T = {T1, T2, …, Tn}, which forms the negative data.
+12	45	Further, due to the highly dynamic nature of social media, it is probably impossible to label all possible negative topics.
+18	24	In machine learning, this problem is called covariate shift, a type of sample selection bias.
+19	55	In classic machine learning, it is assumed that the training and testing data are drawn from the same distribution.
+20	20	However, this assumption may not hold in practice such as in our case above, i.e., the training and the test distributions are different (Heckman 1979; Shimodaira 2000; Zadrozny 2004; Huang et al. 2007; Sugiyama et al. 2008; Bickel et al. 2009).
+21	23	In general, the sample selection bias problem is not solvable because the two 2347 distributions can be arbitrarily far apart from each other.
+23	39	One main assumption was that the conditional distribution of the class given a data instance is the same in the training and test data sets (Shimodaira 2000; Huang et al. 2007; Bickel et al. 2009).
+26	86	We assume that the covariate shift problem occurs mainly in the negative training and test data, and no or minimum covariate shift exists in the positive training and test data.
+28	53	Following the notations in (Bickel et al. 2009), our special case of the covariate shift problem can be stated formally as follows: let the set of training examples be {(x1, y1), (x2, y2), …, (xk, yk)}, where xi is the data/feature vector and yi is the class label of xi.
+31	60	The labeled training data and the unseen test data have the same target conditional distribution p(y|x) and the marginal distributions of the positive data in both the training and testing are also the same.
+103	37	Instead, it represents a set of similarity values between document d and the center of the positive documents.
+122	24	Let D = {(d1, y1), (d2, y2), …, (dn, yn)} be the set of training examples, where di is a document and yi ∈ {1, -1} is its class label.
+124	36	However, in the CBS space, we learn a classifier that returns 1 for documents that are “close enough” to the center of the training positive documents and -1 for documents elsewhere.
+128	37	We then compute the center of positive training documents, which is represented as a set of 𝑝 centroids C = {c1, c2, …, cp}, each of which corresponds to one document space representation in Rd.
+129	32	The way to compute each center ci is similar to that in the Rocchio relevance feedback method in information retrieval (Rocchio, 1971; Manning et al. 2008), which uses the corresponding ds-vectors of all training positive and negative documents.
+141	29	Step 2: Compute the similarity vector cbs-vd (center-based similarity space vector) for each document d ∈D based on its set of document space vectors Rd and the corresponding centroids C of the positive documents.
+154	21	The similarity measures we used are listed in Table 1, where P and Q are two vectors and d represents the dimension of P and Q.
+158	18	The covariate shift problem will not affect the classification much.
+160	19	For example, in Figure 1, we want to build a SVM classifier to separate positive data represented as black squares and negative data represented as empty circles.
+167	59	As stated at the beginning of the paper, this work was motivated by the real-life problem of identifying the right social media posts or documents for specific applications.
+172	33	Each topic (a type of products) have 1000 reviews.
+180	199	Document space one-class SVM (ds-osvm): As we discussed earlier, due to the covariate shift problem in the negative training data, one solution is to drop the negative training data completely to build a one-class classifier.
+181	36	One-class SVM is the state-of-the-art one-class classification algorithm.
+183	27	One-class SVM was first introduced by Schölkopf et al. (1999; 2000), which is based on the assumption that the origin is the only member of the second class.
+184	20	The data is first mapped into a transformed feature space via a kernel and then standard two-class SVM is employed to construct a hyper-plane that separates the data and the original with maximum margin.

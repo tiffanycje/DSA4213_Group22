@@ -1,0 +1,28 @@
+11	60	Our Dobrushin-optimized Gibbs samplers (DoGS) come equipped with a guaranteed bound on scan quality, are never worse than the standard uniform random and systematic scans, and can be tailored to a target number of sampling steps and a subset of target variables.
+12	11	Moreover, Dobrushin variation can be used to evaluate and compare the quality of any user-specified set of scans prior to running any expensive simulations.
+14	35	While DoGS can be used with any discrete distribution, it was designed for targets with total influence k ¯Ck < 1, measured in any matrix norm.
+15	91	This criterion is known to hold for a variety of distributions, including Ising models with sufficiently high temperatures, hard-core lattice gas models, random graph colorings (Hayes, 2006), and classes of weighted constraint satisfaction problems (Feng et al., 2017).
+16	28	Moreover, as we will see in Section 4.1, suitable variable influence bounds are readily available for pairwise and binary Markov random fields.
+22	10	In Section 5, we apply our techniques to three popular applications of the Gibbs sampler: joint image segmentation and object recognition, MCMC maximum likelihood estimation with intractable gradients, and inference in the Ising model.
+24	12	Section 6 presents our conclusions and discussion of future work.
+26	33	We use diag(v) for a square diagonal matrix with v on the diagonal and for element-wise multiplication.
+34	9	Typically one selects between the uniform random scan, q t = (1/p, .
+38	53	Let ⇡ t represent the distribution of the t-th step, Xt, of a Gibbs sampler.
+39	1	The quality of a T -step Gibbs sampler and its scan is typically measured in terms of total variation (TV) distance between ⇡ T and the target distribution ⇡: Definition 1.
+43	47	For example, when modeling a large particle system, we may be interested principally in the behavior in local region of the system; likewise, when segmenting an image into its component parts, a particular region, like the area surrounding a face, is often of primary interest.
+51	3	x 1 , is an e 1 -Lipschitz feature.
+55	14	variation Since the direct computation of total variation measures is typically prohibitive, we will define an efficiently computable upper bound on the weighted total variation of Definition 4.
+58	18	For any such coupling, we can define the marginal coupling probability p t,i , P(Xt i 6= Y t i ).
+59	5	The following lemma, a generalization of results in (Dobrushin & Shlosman, 1985; Hayes, 2006), shows that weighted total variation is controlled by these marginal coupling probabilities.
+60	66	The proof is given in Appendix A.1, and similar arguments can be found in Rebeschini & van Handel (2014).
+61	12	Lemma 5 (Marginal coupling controls weighted TV).
+62	14	For any joint distribution (X, Y ) such that X ⇠ µ and Y ⇠ ⌫ for probability measures µ and ⌫ on X p and any nonnegative weight vector d 2 Rp, kµ ⌫k d,TV  X i d i P(X i 6= Y i ).
+63	86	Dobrushin’s second step is to control the marginal coupling probabilities p t in terms of influence, a measure of how much a change in variable j affects the conditional distribution of variable i.
+66	14	This influence matrix is at the heart of our efficiently computable measure of scan quality, Dobrushin variation.
+70	8	The proof in Appendix A.2 rests on the fact that, for each t, b t , B(q t ) · · · B(q 1 )1 provides an elementwise upper bound on the vector of marginal coupling probabilities, p t .
+75	10	We will refer to the resulting customized Gibbs samplers as Dobrushin-optimized Gibbs samplers or DoGS for short.
+76	111	Algorithm 2 optimizes Dobrushin variation using coordinate descent, with the selection distribution q t for each time step serving as a coordinate.
+77	29	Since Dobrushin variation is linear in each q t , each coordinate optimization (in the absence of ties) selects a degenerate distribution, a single coordinate, yielding a fully deterministic scan.
+78	57	If m  p is a bound on the size of the Markov blanket of each variable, then our forward-backward algorithm runs in time O(kdk 0 + min(m log p + m2, p)T ) with O(p + T ) storage for deterministic input scans.
+79	14	The T (m log p + m2) term arises from maintaining the derivative vector, w, in an efficient sorting structure, like a max-heap.
+80	18	A user can initialize DoGS with any baseline scan, including a systematic or uniform random scan, and the resulting customized scan is guaranteed to have the same or better Dobrushin variation.

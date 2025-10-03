@@ -1,0 +1,30 @@
+1	30	Structures of such problems can range from simple sequences like part-of-speech tagging (Ling et al., 2015) and named entity recognition (Lample et al., 2016), to complex syntactic or semantic analysis such as dependency parsing (Dyer et al., 2015) and semantic parsing (Dong and Lapata, 2016).
+6	91	This setting of implicit supervision increases the difficulty of learning a neural model, not only because the signals are vague and noisy, but also delayed.
+7	50	For instance, among different semantic parses that result in the same answers, typically only few of them correctly represent the meaning of the question.
+8	24	Moreover, the correctness of answers corresponding to a parse can only be evaluated through an external oracle (e.g., executing the query on the knowledge base) after the parse is fully constructed.
+9	40	Early model update before the search of a full semantic parse is complete is generally infeasible.1 It is also not clear how to leverage implicit and explicit signals integrally during learning when both kinds of labels are present.
+10	87	In this work, we propose Maximum Margin Reward Networks (MMRN), which is a general neural network-based framework that is able to learn from both implicit and explicit supervision signals.
+11	68	By casting structured-output learning as a search problem, the key insight in MMRN is the 2368 special mechanism of rewards.
+13	19	The explicit supervision signals can be viewed as a source of immediate rewards, as we can often instantly know the correctness of the current action.
+17	20	MMRN outperforms the current best results on CoNLL-2003 named entity recognition dataset (Tjong Kim Sang and De Meulder, 2003), reaching 91.4% F1, in the close setting where no gazetteer is allowed.
+21	26	In the rest of the paper, we survey the most related work in Sec.
+37	19	In our framework, predicting the best structured output, inference, is formulated as a state/action search problem.
+45	20	We also define E(x) = {h | h ∈ H(x),h ; ŝ, γ(ŝ) = ∅}, which is all possible paths that lead to terminal states.
+49	28	In practice, inference is often approximated by beam search when no efficient algorithm exists.
+71	25	Predicates like cast, actor and character are also from the knowledge base that define the relationships between these entities and the answer.
+80	19	Integrating search spaces allows the model to use implicit signals to update both the semantic parsing and the entity linking systems.
+87	61	In this case, any state that is a legitimate semantic parse (consisting of one topic entity and one main relationship, as well as zero or more constraints) can lead to a terminal state.
+91	24	A reward function is defined over a state–action pair R(s, a), representing the true quality of taking action a in the state s. The reward for a path can be formally defined as: R(h) = ∑k i=0R(si, ai).
+97	40	Let Y (s) be the set of predicted answers generated from state s, and Y (s) = {} when s is not a legitimate semantic parse.
+128	47	Algorithm 1 Maximum Margin Reward Networks 1: for a random labeled data (x, y) do 2: h∗ ← arg max h∈E(x) R(h; y) + fθ(h) 3: ĥ← arg max h∈E(x) fθ(h)−R(h; y) 4: update θ by minimizing L(ĥ,h∗) 5: end for
+129	44	Although the learning algorithm of MMRN is simple and general, the quality of the learned model is dictated by the effectiveness of the search procedure.
+137	38	The approximated reward function can be thought of as estimating whether there exists a high-reward state that is reachable from the current state.
+170	19	The search procedure is conducted using beam search, and the reward function is simply the number of correct tag assignments to the words.
+197	31	In both cases, we use the previous entity linking model trained on the NEEL dataset to initialize the parameters.
+200	49	The SP column reports the averaged F1 scores.
+210	32	Note that the entity linking results of MMRN-PIPELINE (line 1) are exactly the results of the entity linking component MMRN-EL.
+211	21	The result is also better than REINFORCE, and comparable to REINFORCE+.
+222	23	Recently, Chang et al. (2015) extend this line of work and discuss different roll-in and roll-out strategies during training for structured contextual bandit settings.
+225	19	For example, a chess playing agent cannot control the move made by its opponent, and has to commit a single move and wait for the opponent.
+226	182	Note that the agent can still think ahead and build a search tree, but only one move can be made in the end.
+227	112	In contrast, in scenarios like semantic parsing, the whole search space is controlled by the agent itself.

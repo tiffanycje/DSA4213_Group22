@@ -1,0 +1,30 @@
+31	9	Informally, the generator is trained to fool the critic, and the critic to tell real from generated.
+32	7	WGAN training uses the following min-max optimization over generator θ and critic w, min θ max w∈W Ez∼P∗ [fw(z)]− Ez̃∼Pz [fw(z̃)], where fw : Z 7→ R denotes the critic function, z̃ is obtained from the generator, z̃ = gθ(s), and P∗ and Pz are real and generated distributions.
+73	11	This provides theoretical justification for adversarial autoencoders (Makhzani et al., 2015), and Tolstikhin et al. (2018) used the above to train deep generative models of images by minimizing the Wasserstein-2 distance (i.e. squared loss between real/generated images).
+82	27	As the above objective is hard to minimize directly, we follow Tolstikhin et al. (2018) and consider an easier objective by (i) restricting Q(z | x) to a family of distributions induced by a deterministic encoder parameterized by φ, and (ii) using a Langrangian relaxation of the constraint PQ = Pz.
+83	7	In particular, letting Q(z | x) = 1{z = encφ(x)} be the dirac distribution induced by a deterministic encoder (with associated marginal Pφ), the objective is given by min φ,ψ EP?
+85	17	Finally, instead of using a fixed prior (which led to mode-collapse in our experiments) we parameterize Pz implicitly by transforming a simple random variable with a generator (i.e. s ∼ N (0, I), z = gθ(s)).
+88	10	Meaningfully quantifying (and reducing) such approximation gaps remains an avenue for future work.
+93	12	The encoder used is an MLP mapping from {0, 1}n 7→ Rm, encφ(x) = MLP(x;φ) = z.
+94	11	The decoder predicts each pixel in x with as a parameterized logistic regression, pψ(x | z) =∏n j=1 σ(h) xj (1− σ(h))1−xj where h = MLP(z;ψ).
+95	30	The text model uses a recurrent neural network (RNN) for both the encoder and decoder.
+100	7	Instead we approximate this with greedy search.
+101	9	The text transfer model uses the same architecture as the text model but extends it with a classifier pu(y | z) which is modeled using an MLP and trained to minimize cross-entropy.
+102	12	We further compare our approach with a standard autoencoder (AE) and the cross-aligned autoencoder (Shen et al., 2017) for transfer.
+103	19	In both our ARAE and standard AE experiments, the encoder output is normalized to lie on the unit sphere, and the generator output is bounded to lie in (−1, 1)n by the tanh function at output layer.
+104	16	Note, learning deep latent variable models for text sequences has been a significantly more challenging empirical problem than for images.
+111	9	A common quantitative measure of sample quality for generative models is to evaluate a strong surrogate model trained on its generated samples.
+122	7	Next we evaluate the model in the context of a learned adversarial prior, as described in Section 3.
+123	13	We experiment with two unaligned text transfer tasks: (i) transfer of sentiment on the Yelp corpus, and (ii) topic on the Yahoo corpus (Zhang et al., 2015).
+126	38	Transfer corresponds to encoding sentences of one class and decoding, greedily, with the opposite decoder.
+127	29	Experiments compare against the crossaligned AE of Shen et al. (2017) and also an AE trained without the adversarial regularization.
+128	47	For ARAE, we experimented with different λ(1) weighting on the adversarial loss (see section 4) with λ(1)a = 1, λ (1) b = 10.
+129	39	Empirically the adversarial regularization enhances transfer and perplexity, but tends to make the transferred text less similar to the original, compared to the AE.
+130	16	Randomly selected example sentences are shown in Table 2 and additional outputs are available in Appendix G. Table 3 (top) shows quantitative evaluation.
+131	6	We use four automatic metrics: (i) Transfer: how successful the model is at altering sentiment based on an automatic classifier (we use the fastText library (Joulin et al., 2017)); (ii) BLEU: the consistency between the transferred text and the original; (iii) Forward PPL: the fluency of the generated text; (iv) Reverse PPL: measuring the extent to which the generations are representative of the underlying data distribution.
+132	7	Both perplexity numbers are obtained by training an RNN language model.
+133	16	Table 3 (bottom) shows human evaluations on the cross-aligned AE and our best ARAE model.
+135	8	We create a separate task in which we show the original and the transferred sentences, and ask them to evaluate the similarity based on sentence structure (1-5, 5 being most similar).
+136	8	We explicitly requested that the reader disregard sentiment in similarity assessment.
+138	24	For Yahoo we chose 3 relatively distinct topic classes for transfer: SCIENCE & MATH, ENTERTAINMENT & MUSIC, and POLITICS & GOVERNMENT.
+141	23	See Appendix G for additional generation examples.

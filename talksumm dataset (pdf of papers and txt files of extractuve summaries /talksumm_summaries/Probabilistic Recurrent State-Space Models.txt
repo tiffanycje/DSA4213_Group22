@@ -1,0 +1,30 @@
+14	5	Together, these contributions allow for efficient and robust learning of the PR-SSM.
+57	7	Inference on this model is detailed in Sec.
+58	4	A GP (Williams & Rasmussen, 2005) is a distribution over functions f : RD → R that is fully defined by a mean function m(·) and covariance function k(·, ·).
+69	5	, zP ] at pseudo input points ζ = [ζ1, .
+78	10	A time series of observations from time a to time b (including) is abbreviated by ya:b (analogously for the other model variables).
+83	13	, σ2y,Dy )), (9) In particular, in our experiments, we employed a parametric observation model g(xt) = Cxt .
+84	5	(10) The matrixC is chosen to select theDy first entries of xt by defining C := [I,0] ∈ RDy×Dx with I being the identity matrix.
+92	10	Computing the log likelihood or a posterior based on (8) is generally intractable due to the nonlinear GP dynamics model in the latent state.
+93	15	However, the log marginal likelihood log p(y1:T ) (evidence) can be bounded from below by the Evidence Lower BOound (ELBO) (Blei et al., 2017).
+94	5	This ELBO is derived via Jensen’s inequality by introducing a computationally simpler, variational distribution q(x1:T ,f2:T , z) to approximate the model’s true posterior distribution p(x1:T ,f2:T , z | y1:T ) (cf.
+97	7	The inference scheme is inspired by doubly stochastic variational inference for deep GPs as presented in (Salimbeni & Deisenroth, 2017).
+100	11	Unfortunately, this complexity is still prohibitive for large datasets.
+107	6	This choice, however, leads to several caveats: (i) The number of model parameters grows linearly with the length of the time series since each latent state is parametrized by its individual distribution q(xt) for every time step.
+110	5	Instead, these correlations are only introduced by enforcing pairwise couplings during the optimization process.
+125	6	Based on (8) and (13) and using standard variational calcu- lus, the ELBO (14) can be transformed into LPR-SSM = T∑ t=1 Eq(xt)[log p(yt | xt)] − Dx∑ d=1 KL(q(zd) ‖ p(zd; ζd)) , (15) with q(xt) defined in Sec.
+135	6	This enables a differentiable, sampling-based estimation of the expectation term.
+136	5	Samples x̃t from (16) can be obtained by recursively drawing from the sparse GP posterior in (12) for t = 1, .
+138	8	The gradient can be propagated back through time due to this re-paramatrization and unrolling of the latent state.
+144	4	The predicted observation distribution can then be computed from the latent distribution according to the observation model in (9).
+161	9	(iii) Momentumbased optimizers (e.g. Adam) exhibit fragile optimization performance and are prone to overfitting.
+162	7	The proposed method addresses these problems by employing the stochastic ELBO gradient based on minibatches of sub-trajectories and the initial state recognition model (cf.
+165	9	In contrast, the learned recognition model almost perfectly initializes the latent state, leading to much smaller deviations in the predicted observations and far less predictive uncertainty.
+175	9	Multi-step-ahead autoregressive and recurrent GP models in latent space: REVARB based on 1, respectively 2, hidden layers (Mattos et al., 2015) and MSGP (Doerr et al., 2017a).
+196	22	In contrast, the GP-NARX baseline achieves worse predictions and fails to predict the remaining five joints (not shown).
+198	43	Based on GP priors and doubly stochastic variational inference, a novel model optimization criterion is derived, which is closely related to the one of powerful, but deterministic, RNNs or LSTMs.
+199	29	By maintaining the true latent state distribution and thereby enabling long-term gradients, efficient inference in latent space becomes feasible.
+200	8	Furthermore, a novel recognition model enables learning of unstable or slow dynamics as well as scalability to large datasets.
+201	23	Robustness, scalability and high performance in model learning is demonstrated on realworld datasets in comparison to state-of-the-art methods.
+202	87	A limitation of PR-SSM is its dependency on an a-priori fixed latent state dimensionality.
+203	72	This shortcoming could potentially be resolved by a sparsity enforcing latent state prior, which would suppress unnecessary latent state dimensions.

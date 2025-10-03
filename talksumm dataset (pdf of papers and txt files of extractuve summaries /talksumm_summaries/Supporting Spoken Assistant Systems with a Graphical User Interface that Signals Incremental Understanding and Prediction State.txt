@@ -1,0 +1,30 @@
+0	44	Current virtual personal assistants (PAs) require users to either formulate complex intents in one utterance (e.g., “call Peter Miller on his mobile phone”) or go through tedious sub-dialogues (e.g., “phone call” – who would you like to call?
+2	93	This is not how one would interact with a human assistant, where the request would be naturally structured into smaller chunks that individually get acknowledged (e.g., “Can you make a connection for me?” – sure – “with Peter Miller” - uh huh - “on his mobile” - dialling now).
+3	54	Current PAs signal ongoing understanding by displaying the state of the recognised speech (ASR) to the user, but not their semantic interpretation of it.
+4	71	Another type of assistant system forgoes enquiring user intent altogether and infers likely intents from context.
+7	40	In this work, we explore adding a graphical user interface (GUI) modality that makes it possible to see these interaction styles as extremes on a continuum, and to realise positions between these extremes and present a mixed graphical/voice enabled PA that can provide feedback of understanding to the user incrementally as the user’s utterance unfolds–allowing users to make requests in instalments instead of fully thought-out requests.
+8	46	It does this by signalling ongoing understanding in an intuitive tree-like GUI that can be displayed on a mobile device.
+39	23	Incremental ASR must transcribe uttered speech into words which must be forthcoming from the ASR as early as possible (i.e., the ASR must not wait for endpointing to produce output).
+60	23	At each word increment, the updated slots (and their corresponding) distributions are given to the DM, which will now be explained.
+62	41	The DM policy is based on a confidence score derived from the NLU (in this case, we used the distribution’s argmax value) using thresholds for the actions (see below), set by hand (i.e., trial and error).
+63	44	At each word and resulting distribution from NLU, the DM needs to choose one of the following: • wait – wait for more information (i.e., for the next word) • select – as the NLU is confident enough, fill the slot can with the argmax from NLU • request – signal a (yes/no) clarification request on the current slot and the proposed filler • confirm – act on the confirmation of the user; in effect, select the proposed slot value Though the thresholds are statically set, we applied OpenDial (Lison, 2015) as an IU-module to perform the task of the DM with the future goal that these values could be adjusted through reinforcement learning (which OpenDial could provide).
+64	26	The DM processes and makes a decision for each slot, with the assumption that only one slot out of all that are processed will result in an non-wait action (though this is not enforced).
+67	32	The display is a rightbranching tree, where the branches directly off the root node display the affordances of the system (i.e., what domains of things it can understand and do something about).
+71	33	For example, at a minimum, the user could utter the name of the domain then an item for each slot (e.g., food Thai downtown) or the speech could be more natural (e.g., I’m quite hungry, I am looking for some Thai food maybe in the downtown area).
+104	79	A screen, tablet, and keyboard were on the desk in front of the user (see Figure 7).2 The user was instructed to convey the task presented on the screen to the system such that the GUI on the tablet would have a completed tree (e.g., as in Figure 5).
+106	31	The possible task domains were call, which had a single slot for name to be filled (i.e., one out of the 22 most common German given names); message which had a slot for name and a slot for the message (which, when invoked, would simply fill in directly from the ASR until 1 second of silence was detected); eat which had slots for type (in this case, 6 possible types) and location (in this case, 6 locations based around the city of Bielefeld); route which had slots for source city and the destination city (which shared the same list of the top 100 most populous German cities); and reminder which had a slot for message.
+108	38	The system kept track of which tasks were already presented to the participant.
+110	33	The participant was told that she would interact with the system in three different phases, each for 4 minutes, and to accomplish as many tasks as possible in that time allotment.
+113	41	We also report a comparison between Phase 2 and 3 (incremental and incremental-adaptive phases).
+114	61	Phase 1 and Phase 3 are not directly comparable to each other as Phase 3 is really a variant of Phase 2.
+116	44	Each of these phases are described below.
+124	33	After Phase 2, a 10-question questionnaire was displayed on the screen for the participant to fill out comparing Phase 1 and Phase 2.
+125	26	For each question, they had the choice of Phase 1, Phase 2, Both, and Neither.
+127	36	After completing the questionnaire, they moved onto Phase 3.
+129	27	If the user saw a task more than once, the user model would predict that, if the user chose that task domain again (e.g., route) then the system would automatically ask a clarification using the previously filled values (except for the message slot, which the user always had to fill).
+155	26	Though the average time per task and fscore for the endpointed variant are better than those of the incremental variant, the total number of tasks for the incremental variant was higher.
+182	34	There are gains to be made when the system signals understanding at finer-grained levels than just at the end of a pre-formulated utterance.
+185	24	For future work, we intend to provide simple authoring tools for the system to make building simple PAs using our GUI easy.
+201	34	• The assistant sometimes did things that I did not expect.
+207	166	• Do you have suggestions that you think would help us improve our assistants?
+208	24	• If you have used other speech-based interfaces before, do you prefer this interface?

@@ -1,0 +1,30 @@
+5	42	The result- The band instructor told the band to start playing.
+6	42	They grew tired and started playing worse after a while.
+9	35	Instructor Players E M E M E M E M E M E M E M E M E M E M confide nt [esteem] [anger] need re st [esteem] frustrate d angry afraid [disgust, fear] [esteem] M EE M [stability] Figure 1: A story example with partial annotations for motivations (dashed) and emotional reactions (solid).
+11	37	ing dataset offers three unique properties.
+13	105	Second, the annotations include state changes for entities even when they are not mentioned directly in a sentence (e.g., in the fourth sentence in Figure 1, players would feel afraid as a result of the instructor throwing a chair), thereby capturing implied effects unstated in the story.
+14	58	Finally, the annotations encompass both formal labels from multiple theories of psychology (Maslow, 1943; Reiss, 2004; Plutchik, 1980) as well as open text descriptions of motivations and emotions, providing a comprehensive mapping between open text explanations and label categories (e.g., “to spend time with her son” !
+18	38	Understanding people’s actions, motivations, and emotions has been a recurring research focus across several disciplines including philosophy and psychology (Schachter and Singer, 1962; Burke, 1969; Lazarus, 1991; Goldman, 2015).
+20	30	We use two popular theories of motivation: the “hierarchy of needs” of Maslow (1943) and the “basic motives” of Reiss (2004) to compile 5 coarse-grained and 19 fine-grained motivation categories, shown in Figure 2.
+21	70	Maslow’s “hierarchy of needs” are comprised of five categories, ranging from physiological needs to spiritual growth, which we use as coarse-level categories.
+26	24	Among several theories of emotion, we work with the “wheel of emotions” of Plutchik (1980), as it has been a common choice in prior literature on emotion categorization (Mohammad and Turney, 2013; Zhou et al., 2016).
+51	41	For each line and story character pair, we obtain 4 annotations.
+57	16	(3a) Motivation We use the output from the action resolution stage (2a) to ask workers to annotate character motives in lines where they intentionally initiate an event.
+69	17	Therefore, we obtain theory category labels only for a third of our annotated stories, which we assign to the development and test sets.
+70	31	The training data is annotated with a shortened pipeline with only open text descriptions of motivations and emotional reactions from two workers (⇠$1 per story).
+71	26	Scale Our dataset to date includes a total of 300k low-level annotations for motivation and emotion across 15,000 stories (randomly selected from the ROC story training set).
+91	24	State Classification The three primary tasks involve categorizing the psychological states of story characters for each of the label sets (Maslow, Reiss, Plutchik) collected for the dev and test splits of our dataset.
+96	17	These explanations allow for two conditional generation tasks where the model must generate the words describing the emotional reaction or motivation of the character.
+107	16	hc) and concatenating these encodings (he = [hc;hs]).
+121	595	The character vector hc is encoded the same way.
+122	41	REN We use the “tied” recurrent entity network from Henaff et al. (2017).
+123	16	A memory cell m is initialized for each of the J characters in the story, E = {e0, .
+124	166	The REN reads documents one sentence at a time and updates mj for ej 2 E after reading each sentence.
+157	15	Explanation Pretraining Because the state classification and explanation generation tasks use the same models to encode the story, we explore initializing a classification encoder with parameters trained on the generation task.
+158	32	For the CNN, LSTM, and REN encoders, we pretrain a generator to produce emotion or motivation explana- tions.
+159	20	We use the parameters from the emotion or motivation explanation generators to initialize the Plutchik or Maslow/Reiss classifiers respectively.
+161	29	Despite the difficulty of the task, all models outperform the random baseline.
+162	146	Interestingly, the performance boost from adding entity-specific contextual information (i.e., not ablating hc) indicates that the models learn to condition on a character’s previous experience to classify its mental state at the current time step.
+165	27	For the CNN, LSTM, REN, and NPN models, we also report results from pretraining encoder parameters using the free response annotations from the training set.
+167	42	The best performing models in each task are most effective at predicting Maslow physiological needs, Reiss food motives, and Plutchik reactions of joy.
+168	31	The relative ease of predicting motivations related to food (and physiological needs generally) may be because they involve a more limited and concrete set of actions such as eating or cooking.

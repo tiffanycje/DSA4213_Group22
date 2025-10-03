@@ -1,0 +1,14 @@
+24	1	We show that DPCNN with 15 weight layers outperforms the previous best models on six benchmark datasets for sentiment classification and topic classification.
+44	1	In addition, downsampling with stride 2 essentially doubles the effective coverage (i.e., coverage in the original document) of the convolution kernel; therefore, after going through downsampling L times, associations among words within a distance in the order of 2L can be represented.
+53	1	With pre-activation, it is the results of linear weighting (Wσ(x) + b) that travel through the shortcut, and what is added to them at a ⊕ (Figure 1a) is also the results of linear weighting, instead of the results of nonlinear activation (σ(Wx + b)).
+69	1	From the region embedding viewpoint, ShallowCNN is DPCNN’s special case in which a region embedding layer is directly followed by the final pooling layer (Figure 1b).
+116	1	To put it into perspective, we also show the previous results in the literature.
+130	1	Row 7 shows the performance of deep wordlevel CNN from (Zhang et al., 2015), which was designed to match their character-level models in complexity.
+134	1	It stands out in the left figure that the character-level CNN of (Conneau et al., 2016) is much slower than DPCNNs.
+160	1	The error rate improves as the depth increases.
+171	1	The word2vec training was done on the training data (ignoring the labels), same as tv-embedding training.
+173	1	We attribute the superiority of the proposed model to its use of richer information than a word embedding.
+174	1	These results support our approach.
+175	21	This paper tackled the problem of designing highperformance deep word-level CNNs for text categorization in the large training data setting.
+176	132	We proposed a deep pyramid CNN model which has low computational complexity, and can efficiently represent long-range associations in text and so more global information.
+177	133	It was shown to outperform the previous best models on six benchmark datasets.

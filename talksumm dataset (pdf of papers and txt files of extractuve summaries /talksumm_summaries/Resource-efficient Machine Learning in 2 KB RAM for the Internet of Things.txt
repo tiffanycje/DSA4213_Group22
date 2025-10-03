@@ -1,0 +1,30 @@
+0	55	Objective: This paper develops a novel tree-based algorithm, called Bonsai, which can be trained on a laptop, or the cloud, and can then be shipped onto severely resource constrained Internet of Things (IoT) devices.
+1	25	Resource constrained devices: The Arduino Uno board has an 8 bit ATmega328P microcontroller operating at 16 MHz with 2 KB SRAM and 32 KB read-only flash memory.
+2	17	The BBC Micro:Bit has a 32 bit ARM Cortex M0 microcontroller operating at 16 MHz with 16 KB SRAM and 256 KB read-only flash.
+8	17	The dominant paradigm for these applications, given the severe resource constraints of IoT devices, has been that the IoT device is dumb – it just senses its environment and transmits the sensor readings to the cloud where all the decision making happens.
+12	22	Making predictions locally would allow the device to work everywhere irrespective of cloud connectivity.
+18	17	Even more importantly, they are ideally suited to IoT applications as they can achieve good prediction accuracies with prediction times and energies that are logarithmic in the number of training points.
+20	93	In particular, learning shallow trees, or aggressively pruning deep trees or large ensembles, to fit in just a few KB often leads to poor prediction accuracy.
+21	25	Bonsai: This paper develops a novel tree learner, called Bonsai, designed specifically for severely resource constrained IoT devices based on the following contributions.
+23	24	Second, both internal and leaf nodes in Bonsai make non-linear predictions.
+24	38	Bonsai’s overall prediction for a point is the sum of the individual node predictions along the path traversed by the point.
+26	24	Third, Bonsai learns a sparse matrix which projects all data points into a low-dimensional space in which the tree is learnt.
+28	19	Furthermore, the sparse projection is implemented in a streaming fashion thereby allowing Bonsai to tackle IoT applications where even a single feature vector might not fit in 2 KB of RAM.
+58	21	First, it reduces Bonsai’s model size as all tree parameters are now learnt in the low-dimensional space.
+61	22	Fourth, since Zx can be computed in a streaming fashion, this allows Bonsai to tackle IoT applications where even a single feature vector cannot fit in 2 KB of SRAM.
+84	38	Optimization problem: Bonsai’s parameters are learnt as min Z,Θ J (Z,Θ) = λθ 2 Tr(θ>θ) + λW 2 Tr(W>W) + λV 2 Tr(V>V) + λZ 2 Tr(ZZ>) + 1 N N∑ i=1 L(xi,yi,y(xi);Z,Θ) s. t. ‖Z‖0 ≤ BZ, ‖Θ‖0 ≤ BΘ (2) where y(xi) is Bonsai’s prediction for point xi as given in (1) and L is an appropriately chosen loss function for classification, regression, ranking, etc.
+92	33	Algorithm - Joint learning of nodes: Bonsai therefore learns all node parameters jointly with the memory budget for each node being determined automatically as part of the optimization.
+105	16	As optimization progresses, σI is gradually increased so that tanh tends to the signum function and Ik(x) goes back to being an indicator function by the time convergence is reached.
+106	17	This allows Bonsai to directly use the learnt model for prediction and was found to empirically lead to good results.
+113	34	Algorithm - Gradient step: Given feasible Zt and Θt with a feasible allocation of the memory budget to various nodes at time step t, Bonsai applies M updates of gradient descent keeping the support of Z and Θ fixed so that the budget allocations to nodes remain unchanged and the memory constraints are never violated.
+129	24	Datasets: Experiments were carried out on a number of publically available binary and multi-class datasets including Chars4K (Campos et al., 2009), CIFAR10 (Krizhevsky, 2009), MNIST (LeCun et al., 1998), WARD (Yang et al., 2009), USPS (Hull, 1994), Eye (Kasprowski & Ober, 2004), RTWhale (RTW), and CUReT (Varma & Zisserman, 2005).
+140	28	Bonsai’s performance was however compared to that of uncompressed single hidden layer neural networks without convolutions, Gradient Boosted Decision Trees (GBDT), kNN classifiers and RBF-SVMs.
+141	18	Hyper-parameters: The publically provided training set for each dataset was subdivided into 80% for training and 20% for validation.
+164	24	The BonsaiOpt model was a more efficient implementation of the chosen Bonsai model.
+169	32	Learning a projection matrix independently via sparse PCA before training reduced accuracy significantly as compared to Bonsai’s joint training of the projection matrix and tree parameters.
+170	34	Other tree and uncompressed methods also did not benefit much by training in the sparse PCA space.
+172	52	The Bonsai tree learner was developed towards this end and demonstrated to be fast, accurate, compact and energy-efficient at prediction time.
+173	49	Bonsai was deployed on the Arduino Uno board as it could fit in a few KB of flash, required only 70 bytes of writable memory for binary classification and 500 bytes for a 62 class problem, handled streaming features and made predictions in milliseconds taking only milliJoules of energy.
+174	23	Bonsai’s prediction accuracies could be as much as 30% higher as com- pared to state-of-the-art resource-efficient ML algorithms for a fixed model size and could even approach and outperform those of uncompressed models taking many MB of RAM.
+175	44	Bonsai achieved these gains by developing a novel model based on a single, shallow, sparse tree learnt in a low-dimensional space.
+177	24	Bonsai’s code is available from (BonsaiCode) and is part of Microsoft’s ELL machine learning compiler for IoT devices.

@@ -1,0 +1,30 @@
+0	65	A mystery about deep nets is that they generalize (i.e., predict well on unseen data) despite having far more parameters than the number of training samples.
+1	12	One commonly voiced explanation is that regularization during training –whether implicit via use of SGD (Neyshabur et al., 2015c; Hardt et al., 2016) or explicit via weight decay, dropout (Srivastava et al., 2014), batch normalization (Ioffe and Szegedy, 2015), etc.
+5	21	Clearly, deep nets trained on real-life data have some properties that reduce effective capacity, but identifying them has proved difficult —at least in a quantitative way that yields sample size upper bounds similar to classical analyses in simpler models such as SVMs (Bartlett and Mendelson, 2002; Evgeniou et al., 2000; Smola et al., 1998) or matrix factorization (Fazel et al., 2001; Srebro et al., 2005).
+8	16	A quantitative version of “flatness” was suggested in (Langford and Caruana, 2001): the net’s output is stable to noise added to the net’s trainable parameters.
+11	24	(Same holds for the earlier Bartlett and Mendelson (2002); Neyshabur et al. (2015b); Bartlett et al. (2017); Neyshabur et al. (2017a); Golowich et al. (2017); see Figure 3).
+13	33	Chaudhari et al. (2016) suggest adding noise to gradient descent to bias it towards finding flat minima.
+14	15	While study of generalization may appear a bit academic — held-out data easily establishes generalization in practice— the ultimate hope is that it will help identify simple, measurable and intuitive properties of well-trained deep nets, which in turn may fuel superior architectures and faster training.
+15	39	We hope the detailed study —theoretical and empirical—in the current paper advances this goal.
+16	20	A simple compression framework (Section 2) for prov- ing generalization bounds, perhaps a more explicit and intuitive form of the PAC-Bayes work.
+22	12	All are empirically studied, including their correlation with generalization (Section 6).
+33	38	Other works have designed experiments to empirically evaluate potential properties of the network that helps generalization(Arpit et al., 2017; Neyshabur et al., 2017b; Dinh et al., 2017).
+34	13	The idea of compressing trained deep nets is very popular for low-power applications; for a survey see Cheng et al. (2018).
+35	26	Finally, note that the terms compression and stability are traditionally used in a different sense in generalization theory (Littlestone and Warmuth, 1986; Kearns and Ron, 1999; Shalev-Shwartz et al., 2010).
+43	19	For most of the paper we assume that deep nets have fully connected layers, and use ReLU activations.
+45	18	If the net has d layers, we label the vector before activation at these layers by x0, x1, xd for the d layers where x0 is the input to the net, also denoted simply x.
+46	11	So xi = Aiφ(xi−1) where Ai is the weight matrix of the ith layer.
+50	14	Let fA(x) be the function calculated by the above network.
+51	15	Stable rank of a matrix B is ‖B‖2F /‖B‖22, where ‖ · ‖F denotes Frobenius norm and ‖ · ‖2 denotes spectral norm.
+56	12	Suppose the training data contains m samples, and f is a classifier from a complicated class (e.g., deep nets with much more than m parameters) that incurs very low empirical loss.
+62	48	But in all our examples the mapping will be explicit and fairly efficient.
+67	11	We also consider a different setting where the compression algorithm is allowed a“helper string” s, which is arbitrary but fixed before looking at the training samples.
+69	11	A simple example is to let s be the random initialization used for training the deep net and then compress the difference between the final weights and s. This can give better generalization bounds, similar to (Dziugaite and Roy, 2017).
+73	11	Suppose GA,s = {gA,s|A ∈ A} where A is a set of q parameters each of which can have at most r discrete values and s is a helper string.
+76	12	Remarks: (1) The framework proves the generalization not of f but of its compression gA. (An exception is if the two are shown to have similar loss at every point in the domain, not just the training set.
+80	12	By contrast we have no hypothesis class, only a single neural net that has some specific properties (described in Section 3) on a single finite training set.
+84	25	(4) As we will see later, our compression which is achieved via a randomized algorithm seems “non-destructive” and should not overfit to the training set more than the original network.
+86	16	To illustrate the above compression method and its connection to noise stability, we use linear classifiers with high margins.
+87	27	Let c ∈ Rh(‖c‖ = 1) be a classifier for binary classification whose output on input x is sgn(c · x).
+88	12	Let D be a distribution on inputs (x, y) where ‖x‖ = 1 and y ∈ {±1}.
+90	24	If we add Gaussian noise vector η with coordinate-wise variance σ2 to c, then E[x · (c+ η)] is c · x and the variance is σ2.

@@ -1,0 +1,30 @@
+22	15	The rest of the paper is organized as follows.
+23	7	We revisit the connection between stability and generalization of SGD in Section 3 and introduce a data-dependent notion of stability in Section 4.
+25	35	Next we demonstrate empirically that the bound shown in Theorem 4 is tighter than the worstcase one in Section 5.2.1.
+67	20	On an intuitive level, a learning algorithm is said to be stable whenever a small perturbation in the training set does not affect its outcome too much.
+69	59	The most important consequence of a stable algorithm is that it generalizes from the training set to the unseen data sampled from the same distribution.
+70	38	In other words, the difference between the risk RpASq and the empirical risk pRSpASq of the algorithm’s output is controlled by the quantity that captures how stable the algorithm is.
+71	11	So, to observe good performance, or a decreasing true risk, we must have a stable algorithm and decreasing empirical risk (training error), which usually comes by design of the algorithm.
+72	48	In this work we focus on the stability of the Stochastic Gradient Descent (SGD) algorithm, and thus, as a consequence, we study its generalization ability.
+73	11	Recently, (Hardt et al., 2016) used a stability argument to prove generalization bounds for learning with SGD.
+74	7	Specifically, the authors extended the notion of the uniform stability originally proposed by (Bousquet & Elisseeff, 2002), to accommodate randomized algorithms.
+75	7	Definition 1 (Uniform stability).
+80	12	Then, ˇ ˇ ˇ ˇ E S,A ” pRSpASq ´RpASq ı ˇ ˇ ˇ ˇ ď .
+82	7	In particular, (Hardt et al., 2016) showed generalization bounds for SGD under different assumptions on the loss function f .
+89	9	We extend the setting of (Hardt et al., 2016) by proving data-dependent stability bounds for convex and non-convex loss functions.
+94	18	In particular, in the following we will be interested in scenarios where θ describes the data-generating distribution and the initialization point of SGD.
+95	12	Definition 2 (On-Average stability).
+98	11	The difference lies in the fact that we take supremum over index of replaced example.
+109	8	Note that this also implies that |fpw, zq ´ fpv, zq| ď L}w ´ v} .
+115	7	Examples of such commonly used loss functions are the logistic/softmax losses and neural networks with sigmoid activations.
+134	14	In particular, γ characterizes how the curvature at the initialization point affects stability, and hence the generalization error of SGD.
+140	16	Suppose that we choose a step size αt “ ct such that γ “ Θ̃ ` Er}∇2fpw1, zq}2s ˘ , yet not too small, so that the empirical risk can still be decreased.
+149	26	Finally, we note that (Hardt et al., 2016, Theorem 3.8) showed a bound similar to (1), however, in place of γ their bound has a Lipschitz constant of the gradient.
+150	82	The crucial difference lies in term γ which is now not merely a Lipschitz constant, but rather depends on the data-generating distribution and initialization point of SGD.
+151	141	We compare to their bound by considering the worst case scenario, namely, that SGD is initialized in a point with high curvature, or altogether, that the objective function is highly curved everywhere.
+152	20	Then, at least our bound is no worse than the one of (Hardt et al., 2016), since γ ď β.
+153	68	Finally, it should be noted that our bound can be compared to the one of (Hardt et al., 2016) only in a setting of a single pass.
+154	39	In a multiple-pass case, data-dependent analysis in a current form would not hold, since the output of SGD would not be independent from a newly observed example after the first pass.
+156	65	Theorem 4 also allows us to prove an optimistic generalization bound for learning with SGD on non-convex objectives.
+158	17	An important consequence of Corollary 2, is that for a vanishing expected empirical risk, in particular for ES,Ar pRSpASqs “ O ` T cγ m1`cγ ˘ , the generalization error behaves as O ` T cγ m1`cγ ˘ .
+161	29	However, a PAC bound does not suggest a way to minimize non-convex empirical risk in general, where SGD is known to work reasonably well.

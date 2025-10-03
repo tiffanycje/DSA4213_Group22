@@ -1,0 +1,30 @@
+1	14	This model covers a very vast class of problems arising from several fields such as machine learning, signal processing, etc.
+2	36	For instance, least-squares regression, logistic regression problem, etc can be expressed in the form of (1).
+6	24	In (Schmidt et al., 2015), the authors considered a special case of the large-sum problem (1) where fi are convex and smooth functions and p corresponds to the `2 regularization.
+10	16	On the other hand, in real-world applications such as image processing, microarray analysis, etc.
+24	27	Assume that x = (x1, ..., xm) ∈ Rm is partitioned into J non-overlapping groups x(1), ..., x(J), then the `2,0-norm of x is defined by ‖x‖2,0 = | { j ∈ {1, ..., J} : ‖x(j)‖2 6= 0 } |.
+41	26	Using a non-convex approximation will lead to a ”harder” optimization problem but it has been proved that non-convex approximations perform better than convex approximations in terms of sparsity (Le Thi et al., 2015).
+52	45	DC programming and DCA constitute the backbone of smooth/non-smooth non-convex programming and global optimization (Pham Dinh & Le Thi, 1997; 1998; Le Thi & Pham Dinh, 2005).
+53	20	They address the problem of minimizing a DC function on the whole space Rn or on a closed convex set Ω ⊂ Rn.
+54	22	Generally speaking, a standard DC program takes the form: α = inf{F (x) := G(x)−H(x) |x ∈ Rn} (Pdc), where G,H are lower semi-continuous proper convex functions on Rn.
+64	14	Stochastic DCA for solving the problem (2) In this section, we introduce a stochastic version of DCA for solving (2) that exploits the structure of objective function f .
+65	60	We consider a family of DC approximations p̃(x) of `2,0-norm, defined by p̃(x) = J∑ j=1 η(‖x(j)‖2), where η is a non-convex penalty function which includes SCAD, MCP, Capped-`1, exponential function, `p+ with 0 < p < 1, `p− with p < 0 (see (Le Thi et al., 2015) for more details).
+66	37	Hence, the approximate problem of (2) can be written as min x∈Rm { f(x) = 1 n n∑ i=1 [ fi(x) + λg̃(x)− λh̃(x) ]} .
+68	23	Since fi(x) is differentiable with L-Lipschitz gradient,[ ρ 2‖x‖ 2 − fi(x) ] is strongly convex with ρ > L. Hence, fi(x) is a DC function.
+70	23	DCA for solving (3) amounts to computing two sequences {xl} and {vl} such that vl ∈ ∂h(xl) and xl+1 is an optimal solution of the following convex problem min { g(x)− 〈vl, x〉 } .
+71	17	(5) The computation of subgradients of h requires the one of all components hi.
+72	22	This can be expensive when n is very large.
+73	14	Hence we propose a stochastic version of DCA in which we only compute the subgradients of a small subset of components hi.
+74	18	Precisely, at each iteration l, we compute vli ∈ ∂hi(xl) for i ∈ sl and keep vli = v l−1 i for i 6∈ sl, where sl ⊂ {1, ..., n} is a randomly chosen set of index.
+96	42	(12) From (9) and (12), we have T l(xl+1) ≤ T l−1(xl)− ρ− L 2n ∑ i∈sl ‖xl − xl−1i ‖ 2.
+104	13	It follows from xlk+1 ∈ arg minT lk(x) that T lk(xlk+1) ≤ T lk(x).
+105	16	Taking k →∞, we get that λg̃(x∗) ≤ λg̃(x)+ρ 2 ‖x−x∗‖2−〈x−x∗, y∗− 1 n n∑ i=1 ∇fi(x∗)〉, is almost surely satisfied for all x ∈ Rm.
+116	26	(18) Given a training set containing n instances xi and their corresponding labels yi ∈ {1, ..., Q}, we aim to find (W, b) for which the total probability of the training instances xi belonging to its correct classes yi is maximized.
+122	24	The `2,0-norm ofW , i.e., the number of non-zero rows of W , is defined by ‖W‖2,0 = |{j ∈ {1, ..., d} : ‖Wj,:‖2 6= 0}|.
+136	20	Algorithm 2 SDCA for solving the problem (21) Initialization: Choose W 0 ∈ Rd×Q, b0 ∈ RQ, ρ > L, s0 = {1, ..., n}, l← 0.
+192	24	For sim 2 dataset, SDCA is the best algorithm on both criteria: classification accuracy and running time.
+209	15	For sensorless dataset, SDCA is better than both LibLinear and msgl on all three aspects: classification accuracy, sparsity and running time.
+213	41	Overall, SDCA gives the best among the three in term of classification accuracy on all 4 datasets.
+216	18	We have rigorously studied the large-sum optimization problem involving `2,0 regularization.
+218	16	The resulting problem is then reformulated as a DC program and we developed stochastic DCA to solve it.
+221	26	We have also proved that the convergence is guaranteed with probability one.

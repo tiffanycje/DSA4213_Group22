@@ -1,0 +1,30 @@
+16	57	Teacher forcing eliminates exposure bias as well as error propagation in inference.
+17	38	The results verify the existence of error propagation, since the later part (the right part in left-to-right decoding and the left part in right-toleft decoding) of the translation results get more accuracy improvement with teacher forcing, regardless of the decoding direction.
+18	69	Meanwhile, the accuracy of the right part is still lower than that of the left part with teacher forcing, which demonstrates that there must be some other causes apart from error propagation leading to accuracy drop.
+19	21	Third, inspired by linguistics, we find that the concept of branching (Berg et al., 2011; Payne, 2006) can help to explain the problem.
+20	31	We conduct the third set of experiments to study the correlation between language branching and accuracy drop.
+21	261	We find that if a target language is right branching such as English, the accuracy of the left part words is usually higher than that of the right part words, no matter for left-to-right or right-toleft NMT models, while for a left-branching target language such as Japanese, the accuracy of the left part words is usually lower than that of the right part, no matter for which models.
+22	64	The intuitive explanation is that a right-branching language has a clearer structure pattern (easier to predict) in the left part of sentence than that in the right part, since the main subject of the sentence is usually put in the left part.
+23	29	We calculate two statistics to verify this assumption: n-gram statistics (including n-gram frequency and conditional probabilities) and dependency parsing statistics.
+24	48	For rightbranching languages, we found higher n-gram frequency/conditional probabilities as well as more dependencies in the left part compared with that in the right part.
+26	3	We summarize our findings as follows.
+28	84	Error propagation alone cannot fully explain the accuracy drop in the left or right part of sentence.
+29	21	• We find the branching in linguistics well correlates with accuracy drop in the left or right part of sentence and the corresponding analysis on n-gram and dependency parsing statistics well explain this phenomenon.
+30	6	Our studies show that linguistics can be very helpful to understand existing machine learning models and build better models for language related tasks.
+31	41	We hope that our work can bring some insights to the research on neural machine translation.
+33	16	For example, the finding on language branching suggests us to use left-to-right NMT models for right-branching languages such as English and right-to-right NMT models for left-branching languages such as Japanese.
+46	43	A left-to-right NMT model feeds target tokens one by one from left to right in training and generate target tokens one by one from left to right during inference, while a right-to-left NMT model trains and generates token in the reverse direction.
+47	64	Intuitively, if error propagation is the root cause of accuracy drop, then a right-to-left NMT model will generate translations with better right half accuracy than the left half.
+48	17	In this section, we study the results of both left-to-right and right-to-left NMT models to analyze the relationship between error propagation and accuracy drop.
+49	18	We conduct experiments on three translation tasks with different language pairs, which include: IWSLT 2014 German-English (De-En), WMT 2014 English-German (En-De) and WMT 2017 English-Chinese (En-Zh).
+58	23	Afterwards we report the BLEU scores of the left half and the right half in Table 2.
+59	19	• When translating from left-to-right, the BLEU score of the left half is higher than the right half on all the three tasks, which is consistent with previous observation and is able to be explained via error propagation.
+62	5	The inconsistent observation above suggests that error propagation is not the only cause of accuracy drop that there are other factors beyond error propagation for accuracy drop.
+63	116	It even challenges the existence of error propagation: does error propagation really exist?
+69	7	For comparison, we also include the BLEU scores of normal translation (without teacher forcing).
+71	11	The accuracy of both left and right half tokens in the normal translation is lower than that in teacher forcing, which feeds the ground-truth tokens as inputs.
+74	10	We find the error is accumulated along the sequential generation of the sentence.
+76	6	Similarly, for En-Zh with the right-to-left NMT model, the BLEU score improvement of the left half (the second half of the generation) of teacher forcing over normal translation is 2.82, which is much larger than the accuracy improvement of the right half (the first half of the generation): 1.77.
+78	19	Similar results can be found in other language pairs and models.
+81	8	We hypothesize that the language itself, i.e., its characteristics, may explain the phenomenon of accuracy drop.
+82	10	Watanabe and Sumita (2002) finds that leftto-right decoding performs better for JapaneseEnglish translation while right-to-left decoding performs better for English-Japanese translation.

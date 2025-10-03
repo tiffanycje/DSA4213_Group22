@@ -1,0 +1,30 @@
+3	21	Then, we infer the hidden structure; this means computing (or approximating) the posterior.
+4	26	Last, we evaluate the model; this helps build better models down the road (Blei, 2014).
+10	15	This simple combination has fueled the development of myriad probabilistic models (Bishop, 2006; Murphy, 2012).
+16	20	These are per-datapoint quantities, each a variance to mean ratio of the datapoint’s likelihood with respect to the posterior.
+30	21	This datapoint is reasonably well modeled, but is sensitive to the posterior.
+38	11	In each case, a PDI provides insight beyond predictive accuracy and highlights potential directions for improvement.
+57	11	A small case study illustrates how a PDI gives more insight beyond predictive accuracy.
+60	40	One-term presidents stay in office for around 1460 days; two-term presidents approximately double that.
+61	28	Yet many presidents deviate from this “two bump” trend.
+67	12	1 A Poisson likelihood is too underdispersed.
+75	22	Some presidents are clear outliers: Harrison [31: natural death], Roosevelt [4452: four terms], and Garfield [199: assassinated].
+79	20	They are datapoints whose likelihoods are rapidly changing with respect to a peaked posterior, like the high measurement in the nuclear plant example in the introduction.
+84	16	A probabilistic model has two parts.
+87	15	If the observations are independent and identically distributed, the likelihood of the dataset factorizes as p.x j / D Q n p.xn j /.
+89	24	It captures the structure we expect from the hidden patterns.
+99	23	The variance of the likelihood under the posterior highlights potential model mismatch; dividing by the mean calibrates this spread to its predictive accuracy.
+103	27	Related ratios also appear in classical statistics under a variety of forms, such as indices of dispersion (Hoel, 1943), coefficients of variation (Koopmans et al., 1964), or the Fano factor (Fano, 1947).
+106	12	In this paper, we study a particular PDI, called the widely applicable posterior dispersion index (WAPDI), WAPDI.n/ D 2log.n/ log .n/ : Its form and name comes from the widely applicable information criterion WAIC D 1 N P n log .n/ C 2 log.n/: WAIC measures generalization error; it asymptotically equates to leave-one-one cross validation (Watanabe, 2010; 2015).
+177	21	The dataset tracks 136 584 “checkout” sessions; each session contains a basket of purchased items.
+186	13	Yoplait fans tend to purchase many different flavors at the same time.
+188	12	Sessions where a customer purchases many items from different categories have low predictive accuracy.
+190	19	For example, the session with the lowest predictive accuracy contains 117 items ranging from coffee to hot dogs.
+200	30	Population genetics considers how individuals exhibit ancestral patterns of mutations.
+212	28	First, individuals with poor WAPDI values have many missing observations; the worst 10% of WAPDI have 1 344 missing values, in contrast to 563 for the lowest 10% of predictive scores.
+213	22	We may consider directly modeling these missing observations.
+222	16	These populations, as they stand, are not necessarily interpretable.
+223	27	Revising the model to penalize correlation may be a direction worth pursuing.
+234	18	Comparing PDI values in this way could lead to a meaningful way of thresholding PDIs.
+241	16	Finally, we end on a reminder that PDIs are simply another tool in the statistician’s toolbox.
+243	31	While good tools can help, an overarching obstacle remains to pursue their adoption by practitioners.

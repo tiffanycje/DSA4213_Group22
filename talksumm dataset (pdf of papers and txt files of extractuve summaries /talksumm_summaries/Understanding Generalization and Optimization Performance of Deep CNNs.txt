@@ -1,0 +1,30 @@
+67	2	We start with explaining our assumptions.
+68	5	Similar to (Xu & Mannor, 2012; Tian, 2017; Zhou & Feng, 2018), we assume that the parameters of the CNN have bounded magnitude.
+78	1	We now proceed to establish generalization error bound for deep CNNs.
+80	2	drawn from D. When the optimal solution w̃ to problem (1) is computed by a deterministic algorithm, the generalization error is defined as g = ∣∣Q̃n(w̃)−Q(w̃)∣∣.
+87	2	To our best knowledge, this generalization error rate is the first one that grows linearly (in contrast to exponentially) with depth l without needing any special training procedure.
+98	4	Besides, Theorem 1 explicitly reveals the roles of network parameters in determining model generalization performance.
+102	2	More specifically, to obtain smaller generalization error, more samples are needed to train a deep CNN model having larger freedom degree θ.
+103	4	As aforementioned, although the results in Theorem 1 are obtained under the low-rankness condition defined on the parameter matrix consisting of kernels per layer, they are easily extended to the (tensor) low-rankness defined on each kernel individually.
+105	2	For instance, (Lebedev et al., 2014; Jaderberg et al., 2014) showed that parameter redundancy exists in a trained network model and can be squeezed by low-rank tensor decomposition.
+106	3	The classic residual function (He et al., 2016; Zagoruyko & Komodakis, 2016) with three-layer bottleneck architecture (1× 1, 3× 3 and 1× 1 convs) has rank 1 in generalized block term decomposition (Chen et al., 2017; Cohen & Shashua, 2016).
+108	2	Employing these low-rank approximation techniques helps reduce the freedom degree and provides smaller generalization error.
+110	1	Without this assumption, θ will be replaced by the total parameter number of the network.
+114	2	Also, the pooling operation in the first l convolutional layers helps reduce the generalization error, as reflected by the factor 1/p in %.
+122	1	Therefore, for achieving better generalization performance in practice, architecture engineering is indeed essential.
+124	3	The effectiveness of such a regularization will be more significant when imposing on the weight matrix of the fully connected layer due to its large size.
+127	2	Sun et al. (2016) also analyzed generalization error bound in deep CNNs but employing different techniques.
+136	3	Although deep CNNs are highly non-convex, gradient descent based algorithms usually perform quite well on optimizing the models in practice.
+138	1	Specifically, in practice one usually adopts SGD or its variants, such as adam and RMSProp, to optimize the CNN models.
+143	1	Founded on this, we further establish convergence of the empirical gradient of the computed solution to its corresponding population gradient.
+146	3	Here we present guarantees on convergence of the empirical gradient to the population one in Theorem 2.
+151	2	More specifically, there exist universal constants cg′ and cg such that if n ≥ cg′ l2bl+1 2(bl+1+ ∑l i=1 dibi) 2(r0c0d0) 4 d40b1 8(d log(6)+θ%)ε2 maxi(rici) , then sup w∈Ω ∥∥∥∇wQ̃n(w)−∇wQ(w)∥∥∥ 2 ≤cgβ √ 2d+θ%+log ( 4 ε ) 2n holds with probability at least 1 − ε, where % is provided in Lemma 1.
+153	1	From Theorem 2, the empirical gradient converges to the population one at the rate of O(1/ √ n) (up to a log factor).
+156	3	The roles of the kernel size ki, the stride si, the pooling size p and the channel number di in β are consistent with those in Theorem 1.
+193	1	Corollary 2 tells us that the corresponding pair, w(k)n and w(k), has the same geometric property.
+197	5	Thus it partially explains why the computed solution w̃ can generalize well on new data.
+235	18	Moreover, we analyzed the relationship between the computed solution by minimizing the empirical risk and the optimum solutions in population risk from their gradient and their Euclidean distance.
+236	6	All these results show that with sufficient training samples, the generalization performance of deep CNN models can be guaranteed.
+237	35	Besides, these results also reveal that the kernel size ki, the stride si, the pooling size p, the channel number di and the freedom degree θ of the network parameters are critical to the generalization performance of deep CNNs.
+238	179	We also showed that the weight parameter magnitude is also important.
+239	172	These suggestions on network designs accord with the widely used network architectures.

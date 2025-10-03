@@ -1,0 +1,30 @@
+0	51	Ever since BLEU (Papineni et al., 2002) many proposals for an improved automatic evaluation metric for Machine Translation (MT) have been made.
+1	43	Some proposals use additional information for extracting quality indicators, like paraphrasing (Denkowski and Lavie, 2011), syntactic trees (Liu and Gildea, 2005; Stanojević and Sima’an, 2015) or shallow semantics (Rios et al., 2011; Lo et al., 2012) etc.
+2	32	Whereas others use different matching strategies, like n-grams (Papineni et al., 2002), treelets (Liu and Gildea, 2005) and skip-bigrams (Lin and Och, 2004).
+3	66	Most metrics use several indicators of translation quality which are often combined in a linear model whose weights are estimated on a training set of human judgments.
+5	21	While the effectiveness of this framework for training evaluation metrics has been confirmed many times, e.g., (Ye et al., 2007; Duh, 2008; Stanojević and Sima’an, 2014; Ma et al., 2016), so far there is no prior work exploring alternative objective functions for training learning-to-rank models.
+6	47	Without exception, all existing learning-to-rank models are trained to rank sentences while completely ignoring the corpora judgments, likely because human judgments come in the form of sentence rankings.
+8	64	Empirically it has been shown that many metrics that perform well on the sentence level do not perform well on the corpus level and vice versa.
+10	94	Training for the corpus level score would force the metric to give well scaled scores on the sentence level.
+14	20	We first create a learning-to-rank model for ranking corpora and compare it to the standard learning-to-rank model that is trained for ranking sentences.
+16	21	To tackle this prob- 20 lem we contribute a new objective function, inspired by multi-task learning, in which we train for both objectives simultaneously.
+17	24	This multiobjective model behaves a lot more stable over all methods of meta-evaluation and achieves a higher correlation than both single objective models.
+20	14	Usually in training we would like to process a mini-batch of feature vectors Φ, where Φ is a matrix in which each column is a feature vector of individual sentence in the mini-batch or in the corpus.
+25	30	For each mini-batch we randomly select m human relative ranking pairwise judgments and after extracting features for all the sentences taking part in these judgments we put features in two matrices Φswin and Φslos.
+27	30	We would like to maximize the average margin that would separate sentence level scores of pairs of translations in each judgment.
+29	15	At the corpus level we would like to do a similar thing as on the sentence level: maximize the distance between the scores of “good” and “bad” corpora.
+30	68	In this case we have additional information that is not present on the sentence level: we know not only which corpus is (according to humans) better, but also by how much it is better.
+31	26	For that we can use one of the heuristics such as the Expected Wins (Koehn, 2012).
+34	17	We want the margin between the scores ∆corp to be at least as big as the margin between the human scores ∆human assigned to these systems.
+36	51	The corpus level loss function is given by: ∆corp = corpScore(Φcwin)− corpScore(Φclos) LossCorp = max(0,∆human −∆corp)
+37	11	In this model we optimize both objectives jointly in the style of multi-task learning (Caruana, 1997).
+40	22	The feature functions that are used are reimplementation of many (but not all) feature functions of BEER.
+42	22	We use just simple precision, recall and 3 types of F-score (with β parameters 1, 2 and 0.5) over different “pieces” of translation: • character n-grams of orders 1,2,3,4 and 5 • word n-grams of orders 1,2,3 and 4 • skip-bigrams of maximum skip 2 and ∞ (similar to ROUGE-S2 and ROUGE-S* (Lin and Och, 2004)) One final feature deals with length-disbalance.
+44	14	It is computed both for word and character length.
+49	27	We show the results for the relative ranking (RR) judgments correlation in Table 1.
+51	79	RR corpus vs. sentence objective The corpusobjective is better than the sentence-objective for both corpus and sentence level RR judgments on 5 out of 7 languages and also on average correlation.
+52	30	RR joint vs. single-objectives Training for the joint objective improves even more on both levels of RR correlation and outperforms both singleobjective models on average and on 4 out of 7 languages.
+53	27	Making confident conclusions from these results is difficult because, to the best of our knowledge, there is no principled way of measuring statistical significance on the RR judgments.
+56	14	The results of correlation with human judgment are for sentence and corpus level are shown in Table 2.
+57	38	DA corpus vs. other objectives On DA judgments the results for corpus level objective are completely different than on the RR judgments.
+59	13	This shows that gambling on one objective function (being that sentence or corpus level objective) could give unpredictable results.

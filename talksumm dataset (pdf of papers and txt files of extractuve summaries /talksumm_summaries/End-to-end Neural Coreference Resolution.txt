@@ -1,0 +1,30 @@
+0	43	We present the first state-of-the-art coreference resolution model that is learned end-to-end given only gold mention clusters.
+2	85	We demonstrate for the first time that these resources are not required, and in fact performance can be improved significantly without them, by training an end-to-end neural model that jointly learns which spans are entity mentions and how to best cluster them.
+11	35	Our final approach outperforms existing models by 1.5 F1 on the OntoNotes benchmark and by 3.1 F1 using a 5-model ensemble.
+25	27	The input is a document D containing T words along with metadata such as speaker and genre information.
+26	101	Let N = T (T+1)2 be the number of possible text spans in D. Denote the start and end indices of a span i in D respectively by START(i) and END(i), for 1 ≤ i ≤ N .
+32	92	The dummy antecedent represents two possible scenarios: (1) the span is not an entity mention or (2) the span is an entity mention but it is not coreferent with any previous span.
+34	20	We aim to learn a conditional probability distribution P (y1, .
+39	76	There are three factors for this pairwise coreference score: (1) whether span i is a mention, (2) whether span j is a mention, and (3) whether j is an antecedent of i: s(i, j) = { 0 j = sm(i) + sm(j) + sa(i, j) j 6= Here sm(i) is a unary score for span i being a mention, and sa(i, j) is pairwise score for span j being an antecedent of span i.
+40	67	By fixing the score of the dummy antecedent to 0, the model predicts the best scoring antecedent if any non-dummy scores are positive, and it abstains if they are all negative.
+41	39	A challenging aspect of this model is that its size is O(T 4) in the document length.
+42	77	As we will see in Section 5, the above factoring enables aggressive pruning of spans that are unlikely to belong to a coreference cluster according the mention score sm(i).
+44	44	At the core of the model are vector representations gi for each possible span i, which we describe in detail in the following section.
+49	33	We also include an attention mechanism over words in each span to model head words.
+51	69	,xT }, which are composed of fixed pretrained word embeddings and 1-dimensional convolution neural networks (CNN) over characters (see Section 7.1 for details) To compute vector representations of each span, we first use bidirectional LSTMs to encode every word in its context: ft,δ = σ(Wf[xt,ht+δ,δ] + bi) ot,δ = σ(Wo[xt,ht+δ,δ] + bo) c̃t,δ = tanh(Wc[xt,ht+δ,δ] + bc) ct,δ = ft,δ ◦ c̃t,δ + (1− ft,δ) ◦ ct+δ,δ ht,δ = ot,δ ◦ tanh(ct,δ) x∗t = [ht,1,ht,−1] where δ ∈ {−1, 1} indicates the directionality of each LSTM, and x∗t is the concatenated output of the bidirectional LSTM.
+55	19	The weights ai,t are automatically learned and correlate strongly with traditional definitions of head words as we will see in Section 9.2.
+60	28	We only consider spans with up to L words and compute their unary mention scores sm(i) (as defined in Section 4).
+89	20	All features (speaker, genre, span distance, mention width) are represented as learned 20-dimensional embeddings.
+106	31	Table 1 compares our model to several previous systems that have driven substantial improvements over the past several years on the OntoNotes benchmark.
+130	20	With oracle mentions, we see an improvement of 17.5 F1, suggesting an enormous room for improvement if our model can produce better mention scores and anaphoricity decisions.
+135	20	The top spans, according to the mention scores, cover a large portion of the mentions in gold clusters, as shown in Figure 3.
+136	23	Given a similar number of spans kept, our recall is comparable to the rulebased mention detector (Raghunathan et al., 2010) that produces 0.26 spans per word with a recall of 89.2%.
+157	69	The model is capable of detecting relatively long and complex noun phrases, such as a region of central Italy bordering the Adriatic Sea in Example 2.
+158	28	It also appropriately pays attention to region, showing that the attention mechanism provides more than content-word classification.
+159	37	The context encoding provided by the bidirectional LSTMs is critical to making informative head word decisions.
+163	43	The predicted head words attendants and pilots likely have nearby word embeddings, which is a signal used—and often overused—by the model.
+165	23	These mistakes suggest substantial room for improvement with word or span representations that can cleanly distinguish between equivalence, entailment, and alternation.
+166	66	Unsurprisingly, our model does little in the uphill battle of making coreference decisions requiring world knowledge.
+168	101	However, an ideal model that uses common-sense reasoning would instead correctly infer that a rescuer is more likely to look for the man overboard rather than the ship from which he fell.
+169	26	This type of reasoning would require either (1) models that integrate external sources of knowledge with more complex inference or (2) a vastly larger corpus of training data to overcome the sparsity of these patterns.
+170	45	We presented a state-of-the-art coreference resolution model that is trained end-to-end for the first time.

@@ -1,0 +1,30 @@
+12	8	Is it possible to achieve open category detection with guarantees?
+16	7	At test time, a new sample will include insects from the training categories along with some percentage of insects from new alien categories.
+18	47	We would like to guarantee that the system is able to raise an alarm for, say, 95% of the insects from alien classes, with each alarm being examined by a scientist.
+22	17	In particular, we give an algorithm that uses this knowledge to provide Probably Approximately Correct (PAC) guarantees for achieving a user-specified alien detection rate.
+23	11	While knowledge of a non-trivial upper bound on α may not always be possible, in many situations it will be possible to select a reasonable value based on domain knowledge, prior data, or by inspecting a sample of the test data.
+27	11	The quality of the detector, however, has a significant impact on the false alarm rate, with better detectors leading to fewer false alarms.
+33	20	Overall, our results provide a useful baseline for driving future work on open category detection with guarantees.
+56	6	from a mixture dis- tribution Dm.
+58	10	We assume that Da is stationary, so that all alien points that appear as future test queries will also be drawn from Da.
+68	11	Our key challenge is to select a threshold that provides a guarantee on the alien detection rate.
+70	12	Later, we will show that knowing an upper bound on α is sufficient to obtain a guarantee.
+71	15	Our approach is based on considering the cumulative distribution functions (CDFs) over anomaly scores of a fixed anomaly detector.
+72	73	Let F0, Fa, and Fm be the CDFs of anomaly scores for the nominal data distribution D0, alien distribution Da, and mixture distribution Dm respectively.
+74	22	From this we can derive the CDF for Fa in terms of Fm and F0: Fa(x) = Fm(x)− (1− α)F0(x) α .
+76	13	In reality, we do not have access to Fm or F0 and hence cannot exactly determine Fa.
+77	5	Rather, we have samples Sm and S0.
+86	7	Although F̂m and F̂0 are both legal CDFs, the estimate for F̂a from step 3 may not be a legal CDF, because it is the difference of two noisy estimates—it may not increase monotonically and it may even be negative.
+87	5	A good technique for dealing with this problem is to employ isotonization (Barlow & Brunk, 1972) and clipping.
+89	11	To convert F̂a into a legal CDF, define F̌a = min{max{F̂ ∗a ,0},1}, where the min and max operators are applied pointwise to their arguments.
+90	11	We performed experiments (shown in the supplementary materials) to test whether using F̌a in Step 4 would improve the performance of the overall algorithm.
+92	19	In this section, we consider the finite data case where |S0| = |Sm| = n. We derive a value for the sample size n that guarantees with high probability over random draws of S0 and Sm, that fraction 1 − q − of the alien test points will be detected, where is an additional error incurred because of the finite sample size n. Our key theoretical tool is a finite sample result on the uniform convergence of empirical CDF functions (Massart, 1990).
+96	47	The following theorem gives the sample complexity for guaranteeing that 1 − η of the alien examples will be detected using threshold τ̂q .
+97	35	Let S0 and Sm be nominal and mixture datasets containing n i.i.d.
+98	87	samples from the nominal and mixture data distributions respectively.
+99	14	For any ∈ (0, 1−q) and δ ∈ (0, 1), if n > 1 2 ln 2 1− √ 1− δ ( 1 )2 ( 2− α α )2 , then with probability at least 1− δ, Algorithm 1 will return a threshold τ̂q that achieves an alien detection rate of at least 1− η, where η = q + .
+100	38	Note that n grows as O( 1 2α2 log 1 δ ).
+101	52	Hence, this guarantee is polynomial in all relevant parameters, which we believe is the first such guarantee for open category detection.
+102	12	The result can be generalized to the case where n0 < nm; in practice, the larger the mixture sample Sm is, the easier it is to estimate τq, because this provides more alien points for estimating the q-th quantile of Fa.
+104	28	The parameter controls a trade-off between sample size and false alarm rate.
+105	28	To minimize the false alarm rate, we want to make q large (to obtain a larger threshold), so we want to set q close to η.

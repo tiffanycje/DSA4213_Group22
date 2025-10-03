@@ -1,0 +1,30 @@
+7	18	In all cases, any system backed by machine learning needs to be robust enough to handle occasional errors.
+8	25	While machine learning is in the business of predicting the unknown, online algorithms provide guidance on how to act without any knowledge of the future.
+10	28	However these guarantees come at a cost: since they protect against the worst case, online algorithms may be overly cautious, which leads to high competitive ratios even for seemingly simple problems.
+30	22	Instead, we adapt the Marker algorithm (Fiat et al., 1991) to carefully incorporate the feedback of the predictor.
+55	19	Moreover, since q is trivially bounded by n, this shows that even relatively weak classifiers (those with average error of √ n) this can lead to an improvement in performance.
+82	19	In this section, we introduce a general formulation to combine online algorithms with machine learning predictions, which we term Online with Machine Learned Advice model (OMLA).
+99	60	If the requested element is in the fast memory, a cache hit occurs and the algorithm satisfies the request at no cost.
+101	45	If the fast memory is full, then one of the items must be evicted.
+117	23	Importantly, we do not alter the definition of the competitive ratio—we expect our algorithms to work well on any sequence σ; however, the competitive ratio may depend on the total loss η.
+118	49	Suppose that an algorithm A uses a predictor h with loss η to achieve a competitive ratio c(η).
+119	35	We note that the above definition is with respect to the observed quality η of the predictor.
+120	50	If the instances come from a specific distribution D, then one can also define the generalization error, η̄ = ED[η].
+123	41	The holy grail is to find 1-consistent, robust, and most com- petitive algorithms: they are never worse than the algorithms that do not use the ML oracle, and perform as well as the offline optimum when the oracle is perfect.
+130	38	The machine learning task is to predict the next time a particular element will appear.
+137	31	This motivates the need to combine the oracle’s predictions with classic tools from competitive analysis, we show how to combine the two and develop a consistent and robust algorithm.
+145	40	Thus the algorithm has a cache miss almost every time, leading to an unbounded competitive ratio, even though the average absolute loss is η1/T = 1.
+158	38	Classic Marker algorithm We begin by recalling the Marker algorithm and the analysis of its performance.
+190	46	The total length of the chains represents the total number of evictions incurred by the algorithm during the phase, whereas the number of distinct chains represents the number of clean elements; we call the lead element in a chain, its representative and denote it by ω(r, c), where r is the index of the phase and c the index of the chain.
+194	21	This guarantees that the competitive ratio is at most 4Hk in expectation; we make the argument formal in Theorem 2.
+209	51	When s1 arrives, it evicts another element which we call s2, and so on.
+228	23	24: Set e as representative for the chain: ω(r, c)← e. 25: end if 26: Mark incoming element (M ← M∪ {zi}), increase round (i← i+ 1), and go to step 3.
+241	23	Robustness vs. Competitiveness.
+243	26	If the switch occurs at length γHk, this provides a trade-off between competitiveness and robustness.
+269	23	• Citi is data extracted from CitiBike, a popular bike sharing platform operating in New York City.
+286	25	• LRU is the Least Recently Used policy that is wildly successful in practice.
+290	19	• Blind Oracle is the algorithm of Section 3.1, evicting the element predicted to appear furthest in the future.
+300	18	We model the setting for the classical caching problem and give an oracle-based algorithm whose competitive ratio is directly tied to the accuracy of the machine learned oracle.
+302	21	On the theoretical side, it would be interesting to see similar oraclebased algorithms for other online settings.
+305	87	In essence, we have reduced the worst case performance of the caching problem to that of finding a good (on average) predictor.
+306	51	This opens up the door for practical algorithms that yield provably good performance without being tailored towards the worst-case or specific distributional assumptions.

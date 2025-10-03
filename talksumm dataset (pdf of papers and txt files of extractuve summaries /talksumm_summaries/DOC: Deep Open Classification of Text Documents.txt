@@ -1,0 +1,30 @@
+0	29	A key assumption made by classic supervised text classification (or learning) is that classes appeared in the test data must have appeared in training, called the closed-world assumption (Fei and Liu, 2016; Chen and Liu, 2016).
+1	14	Although this assumption holds in many applications, it is violated in many others, especially in dynamic or open environments.
+5	30	This problem is called open world classification or open classification (Fei and Liu, 2016).
+10	24	, lm} = Y is xi’s class label, we want to build a model f(x) that can classify each test instance x to one of them training or seen classes inY or reject it to indicate that it does not belong to any of them training or seen classes, i.e., unseen.
+33	19	Our proposed method, called DOC (Deep Open Classification), uses deep learning (Goodfellow et al., 2016; Kim, 2014).
+35	30	It reduces the open space risk further for rejection by tightening the decision boundaries of sigmoid functions with Gaussian fitting.
+37	20	DOC uses CNN (Collobert et al., 2011; Kim, 2014) as its base and augments it with a 1-vsrest final sigmoid layer and Gaussian fitting for classification.
+38	12	Note: other existing deep models like RNN (Williams and Zipser, 1989; Schuster and Paliwal, 1997) and LSTM (Hochreiter and Schmidhuber, 1997; Gers et al., 2002) can also be adopted as the base.
+43	12	The first layer embeds words in document x into dense vectors.
+44	11	The second layer performs convolution over dense vectors using different filters of varied sizes (see Sec.
+45	33	Next, the max-over-time pooling layer selects the maximum values from the results of the convolution layer to form a kdimension feature vector h. Then we reduce h to a m-dimension vector d = d1:m (m is the number of training/seen classes) via 2 fully connected layers and one intermediate ReLU activation layer: d = W ′(ReLU(Wh + b)) + b′, (1) where W ∈ Rr×k, b ∈ Rr, W ′ ∈ Rm×r, and b′ ∈ Rm are trainable weights; r is the output dimension of the first fully connected layer.
+46	16	The output layer of DOC is a 1-vs-rest layer applied to d1:m, which allows rejection.
+47	15	Traditional multi-class classifiers (Goodfellow et al., 2016; Bendale and Boult, 2016) typically use softmax as the final output layer, which does not have the rejection capability since the probability of prediction for each class is normalized across all training/seen classes.
+48	16	Instead, we build a 1-vs-rest layer containing m sigmoid functions for m seen classes.
+49	36	For the i-th sigmoid function corresponding to class li, DOC takes all examples with y = li as positive examples and all the rest examples y 6= li as negative examples.
+50	39	The model is trained with the objective of summation of all log loss of the m sigmoid functions on the training data D. Loss = m∑ i=1 n∑ j=1 −I(yj = li) log p(yj = li) −I(yj 6= li) log(1− p(yj = li)), (2) where I is the indicator function and p(yj = li) = Sigmoid(dj,i) is the probability output from ith sigmoid function on the jth document’s ithdimension of d. During testing, we reinterpret the prediction of m sigmoid functions to allow rejection, as shown in Eq.
+51	23	For the i-th sigmoid function, we check if the predicted probability Sigmoid(di) is less than a threshold ti belonging to class li.
+52	18	If all predicted probabilities are less than their corresponding thresholds for an example, the example is rejected; otherwise, its predicted class is the one with the highest probability.
+64	16	But this threshold does not consider potential open space risks from unseen (rejection) class data.
+66	16	The x-axis represents di and y-axis is the predicted probability p(y = li|di).
+68	42	As demonstrated by those 3 circles on the right-hand side of the y-axis, during testing, unseen class examples (circles) can easily fill in the gap between the y-axis and those dense positive (+) examples, which may reduce the recall of rejection and the precision of the i-th seen class prediction.
+70	14	To obtain a better ti for each seen class i-th, we use the idea of outlier detection in statistics: 1.
+71	69	Assume the predicted probabilities p(y = li|xj , yj = li) of all training data of each class i follow one half of the Gaussian distribution (with mean µi = 1), e.g., the three positive points in Fig.
+79	10	We perform evaluation using two publicly available datasets, which are exactly the same datasets used in (Fei and Liu, 2016).
+82	10	(2) 50-class reviews (Chen and Liu, 2014): The dataset has Amazon reviews of 50 classes of products.
+89	30	For each class in each dataset, we randomly sampled 60% of documents for training, 10% for validation and 30% for testing.
+96	12	We use macro F1-score over 5 + 1 classes (1 for rejection) for evaluation.
+125	15	This paper proposed a novel deep learning based method, called DOC, for open text classification.
+126	22	Using the same text datasets and experiment settings, we showed that DOC performs dramatically better than the state-of-the-art methods from both the text and image classification domains.
+127	12	We also believe that DOC is applicable to images.

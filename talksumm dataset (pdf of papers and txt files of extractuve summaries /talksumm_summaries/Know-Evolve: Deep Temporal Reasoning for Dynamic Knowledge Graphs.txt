@@ -1,0 +1,30 @@
+3	50	In particular, Knowledge Graphs have gained much attention as an important model for studying complex multi-relational settings.
+4	27	Traditionally, knowledge graphs are considered to be static snapshot of multi-relational data.
+6	38	For instance, GDELT (Leetaru & Schrodt, 2013) and ICEWS (Boschee et al., 2017) are two popular event based data repository that contains evolving knowledge about entity interactions across the globe.
+7	56	Thus traditional knowledge graphs need to be augmented into Temporal Knowledge Graphs, where facts occur, recur or evolve over time in these graphs, and each edge in the graphs have temporal information associated with it.
+12	12	Effectively capturing temporal dependencies across facts in addition to the relational (structural) dependencies can help improve the understanding on behavior of entities and how they contribute to generation of facts over time.
+17	50	”People (entities) change over time and so do relationships.” When two entities forge a relationship, the newly formed edge drives their preferences and behavior.
+18	37	This change is effected by combination of their own historical factors (temporal evolution) and their compatibility with the historical factors of the other entity (mutual evolution).
+21	58	Finally, time plays a vital role in this process.
+23	48	Being able to capture this temporal and evolutionary effects can help us reason better about future relationship of an entity.
+27	31	The relationship score further depends on the dynamically evolving entity embeddings.
+28	34	Specifically, our work makes the following contributions: • We propose a novel deep learning architecture that evolves over time based on availability of new facts.
+31	31	• Our model supports Open World Assumption as missing links are not considered to be false and may potentially occur in future.
+32	43	It further supports prediction over unseen entities due to its novel dynamic embedding process.
+33	67	• The large-scale experiments on two real world datasets show that our framework has consistently and significantly better performance for link prediction than stateof-arts that do not account for temporal and evolving non-linear dynamics.
+34	11	• Our work aims to introduce the use of powerful mathematical tool of temporal point process framework for temporal reasoning over dynamically evolving knowledge graphs.
+35	16	It has potential to open a new research direction in reasoning over time for various multi-relational settings with underlying spatio-temporal dynamics.
+37	43	Equivalently, a given temporal point process can be represented as a counting process, N(t), which records the number of events before time t. An important way to characterize temporal point processes is via the conditional intensity function λ(t), a stochastic model for the time of the next event given all the previous events.
+40	146	, tn}, for any t > tn, we characterize the conditional probability that no event happens during [tn, t) as S(t|T ) = exp ( − ∫ t tn λ(τ) dτ ) .
+41	51	Moreover, the conditional density that an event occurs at time t is defined as : f(t) = λ(t)S(t) (2) The functional form of the intensity λ(t) is often designed to capture the phenomena of interests.
+42	16	Some Common forms include: Poisson Process, Hawkes processes (Hawkes, 1971), Self-Correcting Process (Isham & Westcott, 1979), Power Law and Rayleigh Process.
+56	16	A bilinear relationship score that captures multirelational interactions between entities and modulates the intensity function of above point process.
+59	31	Discrete epoch based methods to model such temporal behavior fail to capture the underlying intricate temporal dependencies.
+61	37	More concretely, given a set of observed events O corresponding to a TKG, we construct a relationship-modulated multidimensional point process to model occurrence of these events.
+62	94	We characterize this point process with the following conditional intensity function: λe s,eo r (t|t̄) = f(ge s,eo r (t̄)) ∗ (t− t̄) (3) where t > t̄, t is the time of the current event and t̄ = max(te s−, teo−) is the most recent time point when either subject or object entity was involved in an event before time t. Thus, λe s,eo r (t|t̄) represents intensity of event involving triplet (es, r, ej) at time t given previous time point t̄ when either es or eo was involved in an event.
+64	34	f(·) = exp(·) ensures that intensity is positive and well defined.
+65	30	The first term in (3) modulates the intensity function by the relational compatibility score between the involved enti- ties in that specific relationship.
+66	70	Specifically, for an event (es, r, eo, t) ∈ D occurring at time t, the score term ges,eor is computed using a bilinear formulation as follows: ge s,eo r (t) = v es(t−)T ·Rr · ve o (t−) (4) where ve s , ve s ∈ Rd represent latent feature embeddings of entities appearing in subject and object position respectively.
+67	28	Rr ∈ Rd×d represents relationship weight matrix which attempts to capture interaction between two entities in the specific relationship space r. This matrix is unique for each relation in dataset and is learned during training.
+68	91	t is time of current event and t− represent time point just before time t. ve s (t−) and veo(t−), therefore represent most recently updated vector embeddings of subject and object entities respectively before time t. As these entity embeddings evolve and update over time, ge s,eo r (t) is able to capture cumulative knowledge learned about the entities over the history of events that have affected their embeddings.
+69	36	We represent latent feature embedding of an entity e at time t with a low-dimensional vector ve(t).

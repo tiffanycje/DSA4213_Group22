@@ -1,0 +1,30 @@
+3	19	In this paper we consider a simple convolutional neural network with a single filter and overlapping patches followed by average pooling (Figure 1).
+4	17	More formally, for an input image x, we consider k patches of size r indicated by selection matrices P1, .
+6	26	The neural network is computed as fw(x) = 1k ∑k i=1 σ(w TPix) where σ is the activation function and w ∈ Rr is the weight vector corresponding to the convolution filter.
+19	18	Additionally, we require only that the underlying distribution on samples is symmetric and induces a covariance matrix on the patches with polynomially bounded condition number1.
+21	15	Another major difference from prior work is that we give guarantees using purely empirical updates.
+50	43	Each matrix Pi has exactly one 1 in each row and at most one 1 in every column.
+52	29	We study the problem of learning the teacher network with true weight w∗ under the square loss from noisy labels, that is, we wish to find a w such that L(w) := Ex∼DX [ (fw(x)− fw∗(x))2 ] ≤ .
+53	81	We make the following assumptions: (a) Learning Model: Probabilistic Concept Model (Kearns & Schapire, 1990), that is, for all (x, y) ∼ D, y = fw∗(x)+ξ, for some unknownw∗ where ξ is noise with E[ξ|x] = 0 and E[ξ4|x] ≤ ρ for some ρ > 0.
+55	79	(c) Patch Structure: The minimum eigenvalue of PΣ :=∑k i,j=1 PiΣP T j where Σ = Ex∼DX [xxT ] and the max- imum eigenvalue of P := ∑k i,j=1 PiP T j are polynomially bounded.
+56	49	(d) Activation Function: The activation function has the following form: σ(x) = { x if x ≥ 0 αx otherwise for some constant α ∈ [0, 1].
+57	18	The distributional assumption includes common assumptions such as Gaussian inputs, but is far less restrictive.
+58	43	For example, we do not require the distribution to be continuous nor do we require it to have identity covariance.
+59	109	In Section 4, we show that commonly used patch schemes from computer vision satisfy our patch requirements.
+60	17	The assumption on activation functions is satisfied by popular activations such as ReLU (α = 0) and leaky ReLU (α > 0).
+62	18	The loss function can be upper bounded by the l2-norm distance of weight vectors using the following lemma.
+65	26	For a n × n matrix A, define Ri := ∑n j=1,j 6=i |Ai,j |.
+66	91	Each eigenvalue of A must lie in at least one of the disks {z : |z −Ai,i| ≤ Ri}.
+69	83	Convotron is an iterative algorithm similar in flavor to SGD with a modified (aggressive) gradient update.
+70	41	Unlike SGD (Algorithm 3), Convotron comes with provable guarantees and also does not need a good initialization scheme for convergence.
+74	39	for t = 1 to T do Draw (xt, yt) ∼ D Let Gt = (yt − fwt(xt)) (∑k i=1 Pixt ) Set wt+1 = wt + ηGt end for Return wT+1 Proof.
+77	63	(4) (1) follows using linearity of expectation and the fact that that E[ξt|xt] = 0 and (3) follows from using Lemma 1.
+85	48	By using Lemma 2, we can get a bound on L(wT ) ≤ ||w∗||2 by appropriately scaling .
+96	19	The matrix Pi of dimension r × n corresponding to patch i looks as follows, Pi = ( 0r×((i−1)d+1)Ir0r×(n−r−(i−1)d) ) where 0a×b indicates a matrix of dimension a× b with all zeros and Ia indicates the identity matrix of size a.
+100	56	Simple algebra gives us the following structure for P , Pi,j = { k − a if |i− j| = ad 0 otherwise For understanding, we show the matrix structure for d = 1 and n ≥ 2r.
+108	15	By simple algebra, λmax(P ) ≤ k∑ j=1 Pp2d+1,j = k + 2 p2∑ j=1 (k − j) + (p− 2p2)(k − p2 − 1) = k(p+ 1)− (p− p2)(p2 + 1).
+115	54	This gives us, for each i, ∑ j 6=i Pi,j = k − 1.
+118	30	Augmenting the above analysis with Theorem 2 gives us learnability of 1D convolution filters.
+127	23	Let k1 = bn1−r1d1 c+ 1 and k2 = b n2−r2 d2 c+ 1.
+137	19	We know that (P (1)i )p,r = 1 iff r = (i− 1)d1 + p+ 1 and (P (2) j )q,s = 1 iff s = (j − 1)d2 + q + 1.
+141	63	Note that this technique can be extended to higher dimensional patch structures as well.

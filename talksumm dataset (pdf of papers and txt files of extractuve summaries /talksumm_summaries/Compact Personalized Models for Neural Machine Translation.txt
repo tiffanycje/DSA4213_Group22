@@ -1,0 +1,30 @@
+1	51	Domain adaptation is critical to providing high quality suggestions for interactive machine translation and post-editing interfaces.
+2	60	When many translators use the same shared service, the system must train and apply a personalized adapted model for each user.
+5	15	Batch adaptation is applied when a user uploads relevant translated documents before starting to work.
+12	14	Interactive translation requires suggestions to be generated at typing speed, and incremental adaptationmust occur within a few hundredmilliseconds to keep up with a translator’s typical workflow.
+13	12	The service can be expected to store models for a large number of users and dynamically load and adapt models for many active users concurrently.
+15	10	We achieve space and time efficiency by representing each user’s model as an offset from the unadapted baseline parameters and encouraging most offset tensors to be zero during adaptation.
+45	9	The decoders in this work have three layers, and all sub-layer sizes are 256.
+46	7	The decoder sublayers are simplified versions of those described in Vaswani et al. (2017): The filter sub-layers perform only a single linear transformation, and layer normalization is only applied once per decoder layer after the filter sub-layer.
+50	13	We apply finetuning, which involves continuing to train model parameters with a gradient-based method on domainrelevant data, as a simple and effective method for neural translation domain adaptation (Luong and Manning, 2015).
+52	11	Confirming previous work, we found that stochastic gradient descent (SGD) is the most effective optimizer for fine tuning (Turchi et al., 2017).
+53	39	In our experiments, batch adaptation uses a batch size of 7000 words for 10 Epochs and a fixed learning rate of 0.1, dropout of 0.1, and label smoothing with ls = 0.1 (Szegedy et al., 2016).
+57	32	In a personalized translation service, adapted models need to be loaded quickly, so a space-efficient representation is critical for time efficiency as well.
+58	9	Production speed requirements using contemporary cloud hardware limit model sizes to roughly 10M parameters per user, while a high-quality baseline Transformer model typically requires 35M parameters or more.
+59	19	We propose to store the parameters of an adapted model as an offset from the baseline model.
+60	14	Each tensor is a sumW = Wb+Wu, where Wb is from the baseline model and is shared across all adapted models, while the offsetWu is specific to an individual user domain.
+61	30	Space efficiency is achieved by only storingWu for a subset of tensors and setting the rest of the offset tensors to zero.
+62	60	One approach to achieving model sparsity is to manually partition the network into a small number of regions and systematically evaluate translation performance when storing offsets for only one region.
+63	44	We define five distinct regions, which are evaluated in isolation: Outer layers (the first and last layers of both encoder and decoder), inner layers (all the remaining layers), the two embedding matrices Xe and Ye, and the output projection matrix Yo.
+64	16	The latter three are each stored as a single matrix and each contributes 10.3M parameters to the full model size in English→German.
+66	23	The same principle can be applied to the output projection matrix by only updating parameters corresponding to vocabulary items that appears in the adaptation examples (denoted Sparse Output Proj.
+67	28	A second approach to achieving model sparsity is to use a procedure to select the subset of offset tensors that are stored.
+69	18	This set is selected on a development domain and held fixed for all other domains.
+70	10	We refer to this method as fixed adaptation.
+75	15	Note that we are regularizing the difference between the parameters of the adapted model and the baseline model, rather than regularizing the full network parameters directly.
+77	17	Group lasso regularization is equivalent to `1 regularization when the group size is 1.
+79	14	To facilitate tensor selection, we define a threshold ϑ to clip offset tensors ∆T with average weight 1|T | ∑ τ∈T ∆τ < ϑ to zero.
+89	18	The overall best performing compact adaptation technique, group lasso regularization, is further evaluated on six other language pairs trained using production data sets collected from Lilt’s user base: English↔French, English↔Russian and English↔Chinese.
+107	19	We observe average improvements of 14.3 Bleu with our final compact model, which compares to 15.5 Bleu for full model adaptation.
+108	41	We describe an efficient approach to personalized machine translation that stores a sparse set of tensor offsets for each user domain.
+109	61	Group lasso regularization applied to the offsets during adaptation achieves high space and time efficiency while yielding translation performance close to a full adapted model, for both batch and incremental adaptation and their combination.

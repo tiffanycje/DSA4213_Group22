@@ -1,0 +1,30 @@
+0	52	One of the most successful approaches to grammatical error correction (GEC) is to cast the problem as (monolingual) machine translation (MT), where we translate from possibly ungrammatical English sentences to corrected ones (Brockett et al., 2006; Gao et al., 2010; Junczys-Dowmunt and Grundkiewicz, 2016).
+1	33	Such systems, which are based on phrasebased MT models that are typically trained on large sets of sentence-correction pairs, can correct global errors such as word order and usage and local errors in spelling and inflection.
+2	30	The approach has proven superior to systems based on local classifiers that can only fix focused errors in prepositions, determiners, or inflected forms (Rozovskaya and Roth, 2016).
+4	17	Thus, there is growing interest in applying neural systems to GEC (Yuan and Briscoe, 2016; Xie et al., 2016).
+8	58	Thus, the S2S model is expected to perform better on GEC than phrase-based models.
+10	4	First, a GEC model needs to deal with an extremely large vocabulary that consists of a large number of words and their (mis)spelling variations.
+11	10	Second, the GEC model needs to capture structure at different levels of granularity in order to correct errors of different types.
+12	51	For example, while correcting spelling and local grammar errors requires only word-level or sub-word level information, e.g., violets→ violates (spelling) or violate→ violates (verb form), correcting errors in word order or usage requires global semantic relationships among phrases and words.
+13	17	Standard approaches in neural machine translation, also applied to grammatical error correction by Yuan and Briscoe (2016), address the large vocabulary problem by restricting the vocabulary to a limited number of high-frequency words and re- 753 sorting to standard word translation dictionaries to provide translations for the words that are out of the vocabulary (OOV).
+14	47	However, this approach often fails to take into account the OOVs in context for making correction decisions, and does not generalize well to correcting words that are unseen in the parallel training data.
+15	33	An alternative approach, proposed by Xie et al. (2016), applies a character-level sequence to sequence neural model.
+16	18	Although the model eliminates the OOV issue, it cannot effectively leverage word-level information for GEC, even if it is used together with a separate word-based language model.
+17	33	Our solution to the challenges mentioned above is a novel, hybrid neural model with nested attention layers that infuse both word-level and character-level information.
+20	14	Contextual information is crucial for GEC.
+21	33	Using the proposed model, by combining embedding vectors and attention at both word and character levels, we model all contextual words, including OOVs, in a unified context vector representation.
+22	87	In particular, as we will discuss in Section 5, the character-level attention layer captures most useful information for correcting local errors that involve small edits in orthography.
+23	16	Our model differs substantially from the wordlevel S2S model of Yuan and Briscoe (2016) and the character-level S2S model of Xie et al. (2016) in the way we infuse information at both the word level and the character level.
+24	57	We extend the wordcharacter hybrid model of Luong and Manning (2016), which was originally developed for machine translation, by introducing a character attention layer.
+25	44	This allows the model to learn substitution patterns at both the character level and the word level in an end-to-end fashion, using sentencecorrection pairs.
+26	93	We validate the effectiveness of our model on the CoNLL-14 benchmark dataset (Ng et al., 2014).
+27	5	Results show that the proposed model outperforms all previous neural models for GEC, including the hybrid model of Luong and Manning (2016), which we apply to GEC for the first time.
+28	54	When integrated with a large word-based n-gram language model, our GEC system achieves an F0.5 of 45.15 on CoNLL-14, substantially exceeding the previ- ously reported top performance of 40.56 achieved by using a neural model and an external language model (Xie et al., 2016).
+47	49	Our model is hybrid, and uses both word-level and character-level representations.
+50	44	For completeness, we give a sketch here.
+51	50	It uses recurrent neural networks to encode the input sentence and to decode the output sentence.
+53	12	, xT ), (1) the encoder creates a corresponding context- specific sequence of hidden state vectors e: e = (h1, .
+54	52	, hT ) The hidden state ht at time t is computed as: ft = GRUencf (ft−1, xt) , bt = GRUencb(bt+1, xt), ht = [ft; bt], where GRUencf and GRUencb stand for gated recurrent unit functions as described in Cho et al. (2014).
+55	4	We use the symbol GRU with different subscripts to represent GRU functions using different sets of parameters (for example, we used the encf and encb subscripts to denote the parameters of the forward and backward word-level encoder units.)
+62	19	The model is trained by minimizing the crossentropy loss, which for a given (x,y) pair is: Loss(x,y) = − S∑ s=1 log p(ys|y<s,x) (5) For parallel training data C, the loss is: Loss = − ∑ (x,y)∈C S∑ s=1 log p(ys|y<s,x)
+63	8	The word-level backbone models a limited vocabulary of source and target words, and represents out-of-vocabulary tokens with special UNK symbols.

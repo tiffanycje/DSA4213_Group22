@@ -1,0 +1,30 @@
+0	19	Visual Reasoning (Antol et al., 2015; Andreas et al., 2016; Bisk et al., 2016; Johnson et al., 2017) requires a sophisticated understanding of the compositional language instruction and its relationship with the corresponding image.
+2	23	Specifically, each task instance consists of an image with three sub-images and a statement which describes the image.
+6	60	Moreover, each statement reasons for truth over three sub-images (instead of the usual single image setup), which also breaks most of the existing models.
+7	18	In our paper, we introduce a novel end-to-end model to address these three problems, leading to strong gains over the previous best model.
+10	19	With these strong representations of the visual objects and the statement units, a joint-bidirectional attention flow model builds consistent, two-way matchings between the representations in different domains.
+11	16	Finally, since the scores computed by the bidirectional attention are about the three sub-images, a pooling combination layer over the three subimage representations is required to give the final score of the whole image.
+14	53	Furthermore, we also show the result of our joint bidirectional attention model on the raw-image version (with pixel-level, spatial-filter CNNs) of the NLVR dataset, where our model achieves an accuracy of 69.7% and outperforms the previous best result by 3.6%.
+15	15	On the unreleased leaderboard test set, our model achieves an accuracy of 71.8% and 66.1% on the structured and raw-image versions, respectively, leading to 4% absolute improvements on both tasks.
+24	19	The training datum for this task consists of the statement s, the structured-representation objects o in the image I , and the ground truth label y (which is 1 for true and 0 for false).
+27	23	Our CNNBiATT model for the raw-image I dataset version is similar but learns the structure directly via pixellevel, spatial-filter CNNs – details in Sec.
+31	27	A word embedding layer is added before the LSTM to project the words to high-dimension vectors {w̃i}.
+32	74	, w̃T) (1) The raw features of the objects in the j-th subimage are {ojk} (since the NLVR dataset has 3 subimages per task).
+34	15	We then go through all the objects in random order (or some learnable order, e.g., via our pointer network, see Sec.
+43	18	However, the inverse attention from the objects to the words is important in our task because the representation of the object depends on its corresponding words.
+45	19	The improvement (6.1%) of our BiATT model over the BiDAF model is shown in Table 1. βk,i = softmaxi ( gᵀk B2 hi ) (7) dk = ∑ i βk,i · hi (8) ĝk = relu (WOBJ [gk; dk; gk−dk; gk◦dk]) (9) These above vectors {ĥi} and {ĝk} are the representations of the words and the objects which are aware of each other bidirectionally.
+47	67	Lastly, two max pooling layers over the hidden output states create two single-vector outputs for the statement and the sub-image, respectively: h̄1, h̄2, .
+57	23	Instead of randomly ordering the objects, humans look at the objects in an appropriate order w.r.t.
+60	16	The pointer network contains two RNNs, the encoder and the decoder.
+61	56	The encoder reads all the objects in a random order.
+67	21	Suppose that we sampled a permutation π∗ from the distribution p(π|s, o); then the above RL loss could be optimized via policy gradient methods (Williams, 1992).
+74	43	We only use the raw features of the statement and the objects with minimal standard preprocessing (e.g., tokenization and UNK replacement; see appendix for reproducibility training details).
+75	14	Results on Structured Representations Dataset: Table 1 shows our primary model results.
+84	16	We simply replace each object-related LSTM with a visual feature CNN that directly learns the structure via pixel-level, spatial filters (instead of a pointer network which addresses an unordered sequence of structured object representations).
+85	18	As shown in Table 1, this CNN-BiATT model outperforms the neural module networks (NMN) (Andreas et al., 2016) previous-best result by 3.6% on the public test set and 4.1% on the unreleased test set.
+89	46	1 could not be handled by the BiENC model.
+110	21	The training datum for the NLVR raw-image version consists of the statement s, the image I and the ground truth label y.
+111	14	The image I contains three sub-images x1, x2 and x3.
+120	78	, fL = ResNet(x) (21) al = relu(Wx fl + bx) (22) The joint-representation of the statement {ĥi} is the combination of the LANG-LSTM hidden output states {hi} and the image-aware context vectors {ci}: αi,l = softmaxl (h ᵀ i B1 al) (23) ci = ∑ l αi,l · al (24) ĥi = relu (WLANG [hi; ci; hi−ci; hi◦ci]) (25) The joint-representation of the image {âl} is cal- culated in the same way: βl,i = softmaxi ( aᵀl B2 hi ) (26) dl = ∑ i βl,i · hi (27) âl = relu (WIMG [al; dl; al−dl; al◦dl]) (28) The joint-representation of the statement is further processed by a LSTM-RNN.
+121	32	Different from our BiATT model, a 3-layers CNN is used for modeling the joint-representation of the image {âl}.
+133	25	The word embedding is trained from scratch.

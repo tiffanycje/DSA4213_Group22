@@ -1,0 +1,28 @@
+15	19	We show that any 0-1 integer linear program (ILP) can be solved exactly in polynomial time, if the number confounding vertices is bounded by a polynomial.
+18	3	The algorithm from (Dimakis et al., 2009) relies on the special structure of the graphical models that correspond to LDPC codes.
+21	30	• Given our condition, one may be tempted to think that we generate the top M -best vertices of a linear program (for M polynomial) and output the best integral one in this list.
+22	6	We actually show that such an approach would be computationally intractable.
+24	1	This result holds even if the list is allowed to be approximate.
+26	2	In terms of achievability, the best previously known result (from (Angulo et al., 2014)) can only solve the ILP if there is at most a constant number of confounding vertices.
+31	7	We use this method in an empirical evaluation of the number of confounding vertices of previously studied problems and analyze how well common integer programming techniques perform at pruning confounding vertices.
+54	4	This algorithm works by starting with a root node, then branching on a fractional coordinate by making two new linear programs with all the constraints of the parent node, with the constraint xi = 0 added to one new leaf and xi = 1 added to the other.
+56	28	When the best leaf is integral, we know that this is the best integral solution.
+58	59	Let x∗ be the optimal integral solution and let {v1, v2, .
+59	22	, vM} be the set of confounding vertices in the LP relaxation.
+60	13	Algorithm 1 will find the optimal integral solution x∗ after 2M calls to an LP solver.
+61	30	Since MAP inference is a binary integer program regardless of the alphabet size of the variables and order of the clique potentials, we have the following corollary: Corollary 2.
+62	9	Given a graphical model such that the local polytope has M as cofounding variables, Algorithm 1 can find the optimal MAP configuration with 2M calls to an LP solver.
+63	5	Cutting-plane methods, which remove a fractional vertex by introducing a new constraint in the polytope may not have this property, since this cut may create new confound- Algorithm 1 Branch and Bound test Input: an LP {min cTx : Ax ≤ b, 0 ≤ x ≤ 1} # branch (v, I0, I1) means v is optimal LP # with xI0 = 0 and xI1 = 1. def LP(I0, I1): v∗ ← argmax cTx subject to: Ax ≤ b xI0 = 0 xI1 = 1 return v∗ if feasible, else return null v ← LP(∅, ∅) B ← {(v, ∅, ∅)} while optimal integral vertex not found: (v, I0, I1)← argmax(v,I0,I1)∈B c T v if v is integral: return v else: find a fractional coordinate i v(0) ← LP(I0 ∪ {i}, I1) v(1) ← LP(I0, I1 ∪ {i}) remove (v, I0, I1) from B add (v(0), I0 ∪ {i}, I1) to B if feasible add (v(1), I0, I1 ∪ {i}) to B if feasible ing vertices.
+67	24	The proof follows from the following invariants: • At every iteration we remove at least one fractional vertex.
+68	20	• Every integral vertex is in exactly one branch.
+70	17	• No fractional vertices are created by the new constraints.
+71	76	To see the last invariant, note that every vertex of a polytope can be identified by the set of inequality constraints that are satisfied with equality (see (Bertsimas & Tsitsiklis, 1997)).
+73	4	As mentioned in the introduction, the algorithm used to prove Theorem 1 does not enumerate all the fractional vertices until it finds an integral vertex.
+76	6	This was established by (Angulo et al., 2014) to be NP-hard when M = O(n).
+78	17	It is NP-hard to approximate the M -best LP problem by a factor better than O(n ε M ) for any fixed ε > 0.
+81	21	By adding the constraint vector wTx ≤ 0, and using the cost function −w, the vertices corresponding to the short paths have value 1/2, the vertices corresponding to the long paths have value O(1/n), and all other vertices have value 0.
+85	4	The best known algorithm for the M -best LP problem is a generalization of the facet guessing algorithm (Dimakis et al., 2009) developed in (Angulo et al., 2014), which would require O(mM ) calls to an LP solver, where m is the number of constraints of the LP.
+86	116	Since we only care about integral solutions, we can find the single best integral vertex with O(M) calls to an LP solver, and if we want all of the K-best integral solutions among the top M vertices of the polytope, we can find these with O(nK +M) calls to an LP-solver, as we will see in the next section.
+87	27	K-Best Integral Solutions Finding the K-best solutions to general optimization problems has been uses in several machine learning applications.
+88	27	Producing multiple high-value outputs can be naturally combined with post-processing algorithms that select the most desired solution using additional sideinformation.
+91	73	Under the assumption that there are less than M fractional vertices with objective value at least as good as the K-best integral solutions, we can find all of the Kbest integral solutions, O(nK +M) calls to an LP solver.

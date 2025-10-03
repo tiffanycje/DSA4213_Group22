@@ -1,0 +1,30 @@
+0	32	Knowing who wrote a piece of text can help to better understand it.
+1	35	For instance, knowing the age and gender groups of authors has been shown to improve document classification (Hovy, 2015) and sentiment analysis (Volkova et al., 2013).
+2	59	However, putting people into discrete groups (e.g. age groups, binary gender) often relies on arbitrary boundaries which may not correspond to meaningful changes in language use.
+3	27	A wealth of psychological research suggests people should not be characterized as discrete types (or domains) but rather as mixtures of continuous factors (McCrae and Costa Jr., 1989; Ruscio and Ruscio, 2000; Widiger and Samuel, 2005).
+4	23	Here, we ask how one can adapt NLP models to real-valued human factors – continuous valued attributes that capture fine-grained differences between users (e.g. real-valued age, continuous gender scores).
+7	19	Our approach composes user factor information with the linguistic features, similar to feature augmentation (Daumé III, 2007), a widely used domain adaptation technique which allows for easy integration with most feature-based learning models.
+8	27	Since relevant user information often is not explicitly available, we use a background of tweets from the user to infer user factors.
+48	85	The discrete adaptation method is a direct application of this idea, where the training and test instances are mapped into domains based on some grouping that we induce from the user factors.
+54	60	For instances from domain i, the original features are copied over to feature set i + 1.
+62	34	Figure 1 illustrates the advantage of continuous adaptation for a single feature — whether the current instance contains an intensifier — using sarcasm detection as an example.
+63	24	The colored shapes show the feature values for instances from four users, with green squares representing “sarcastic” tweets and yellow circles representing “not sarcastic” ones.
+64	51	The model is unable to distinguish between sarcastic and non-sarcastic tweets in the no adaptation and discrete adaptation case.
+67	39	A compositional function c combines d user factor scores fu,d with original feature values x: Φ(x, u) = 〈x, c(fu,1,x), c(fu,2,x), · · · , c(fu,d,x)〉 Thus, a version of each feature exists with and without the factor information integrated.
+70	20	As with discrete adaptation, learning then proceeds unmodified with these augmented instances.
+71	45	The augmented training data (trainaug) is thus associated with the features x of the tweet, the task labels y, and the user information u.
+72	19	Following the feature augmentation formulation, any supervised learning task of finding a parametrized function hθ over the original labeled training data can now be specified in terms of the augmented training data along with the transformed instances: arg min θ ∑ (x,y,u)∈trainaug loss (hθ (Φ(x, u), y)) For test instances we apply the same transformation function Φ before prediction.
+77	68	We learn factors from a user’s background language, or past tweets2.
+83	19	Age, gender, and the five personality dimensions are each a single factor.
+105	61	Adaptation yields better results for sarcasm and stance, semantic tasks where we’d expect user preferences to be an important factor.
+110	21	Stance, however, is the one task where discrete works better for most factors.
+111	71	As we show in Section 5.4, demographics and personality scores are themselves highly predictive of stances on issues; we believe this makes the simpler binning approach more reliable than the continuous model.
+112	23	(iii) Both known and latent factors are helpful: Sarcasm benefits from age, gender and personality based adaptations, while stance benefits from personality.
+117	117	(v) Expanding feature space alone is not enough: One possible explanation for the gains with factors are that the expanded feature space could somehow provide more capacity for learners to generalize.
+118	33	However, adapting to random factors typically lowered results, suggesting that models using more features but not more information naturally take a hit.
+125	48	Performance improves with d first and then tapers off; its best is +3.4 at d=5 and 7.
+132	27	One way to use the factors is to add them as direct features to the instances, without adaptation.
+135	46	For stance, however, we see that while there is an improvement over the baseline, it is not as large as that from adaptation.
+142	22	Increase in the number of adjectives is a positive indicator of sarcasm for women (high gender scores) but is a negative indicator for men (low gender scores).
+144	55	User-factor adaptation can model these interaction relationships when direct features alone may not.
+145	68	To understand the advantage of continuous latent adaptation, we look at how well discrete and continuous factor representations capture meaningful information about users.

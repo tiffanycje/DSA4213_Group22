@@ -1,0 +1,30 @@
+45	27	Like Collobert et al. (2011), we lower-cased all words and replaced digits with zeros.
+47	34	As implemented, each method uses a different vocabulary, so we computed the intersection of the six vocabularies and used the resulting set of 103,647 words for all nearest-neighbor experiments.
+87	79	In comparative evaluation, users give direct feedback on the embeddings themselves, so we do not have to define a metric that compares scored word pairs.
+89	49	We compiled a diverse inventory of 100 query words that balance frequency, part of speech (POS), and concreteness.
+94	31	Our experiments were performed with users from Amazon Mechanical Turk (MTurk) that were native speakers of English with sufficient experience and positive feedback on the Amazon Mechanical Turk framework.
+95	30	For each of the 100 query words in the dataset, the nearest neighbors at ranks k ∈ {1, 5, 50} for the six embeddings were retrieved.
+97	33	Each Turker was requested to evaluate between 25 and 50 items per task, where an item corresponds to the query word and the set of 6 retrieved neighbor words from each of the 6 embeddings.
+104	27	We compare embeddings by average win ratio, where the win ratio was how many times raters chose embedding e divided by the number of total ratings for item i.
+106	25	Figure 1(a) shows normalized win ratio scores for each embedding across 3 conditions corresponding to the frequency of the query word in the training corpus.
+108	47	CBOW in general performed the best and random projection the worst (p-value < 0.05 for all pairs except H-PCA and C&W in comparing un-normalized score differences for the ALL-FREQ condition with a randomized permutation test).
+109	36	The novel comparative evaluations correspond both in rank and in relative margins to those shown in Table 1.
+113	29	For neighbors that appear after that, CBOW does not necessarily produce better embeddings.
+124	52	In the relatedness task we measure whether a pair of semantically similar words are near each other in the embedding space.
+125	23	In this novel coherence task we assess whether groups of words in a small neighborhood in the embedding space are mutually related.
+127	45	Good embeddings should have coherent neighborhoods for each word, so inserting a word not belonging to this neighborhood should be easy to spot.
+137	40	However, the best performing embeddings at this task are TSCCA, CBOW and GloVe (the precision mean differences were not significant under a random permutation test), while TSCCA attains greater precision (p < 0.05) in relation to C&W, H-PCA and random projection embeddings.
+141	24	Evaluation of set-based properties of embeddings may produce different results from item-based evaluation: rankings we got from the intrusion task did not match the rankings we obtained from the relatedness task.
+144	53	However, the results in Figure 1(b) suggest that there is little differences at higher ranks (rank 50) between embeddings.
+145	44	Extrinsic evaluations measure the contribution of a word embedding model to a specific task.
+160	23	First, we can observe that adding word vectors as features results in performance lifts with all embeddings when compared to the baseline.
+165	41	Performance on downstream tasks is not consistent across tasks, and may not be consistent with intrinsic evaluations.
+189	23	We found a strong correlation between the frequency of a word and its position in the ranking of nearest neighbors in our experiments.
+193	33	As a consequence, we need to explicitly consider word frequency as a factor in the experiment design.
+194	61	Also, the above results mean that the commonly-used cosine similarity in the embedding space for the intrinsic tasks gets polluted by frequency-based effects.
+195	120	We believe that further research should address how to better measure linguistic relationships between words in the embedding space, e.g., by learning a custom metric.
+215	34	There are many factors that affect word embedding quality.
+217	36	Factors such as word frequency play a significant and previously unacknowledged role.
+219	30	We present a novel evaluation framework based on direct comparisons between embeddings that provides more fine-grained analysis and supports simple, crowdsourced relevance judgments.
+220	34	We also present a novel Coherence task that measures our intuition that neighborhoods in the embedding space should be semantically or syntactically related.
+221	72	We find that extrinsic evaluations, although useful for highlighting specific aspects of embedding performance, should not be used as a proxy for generic quality.

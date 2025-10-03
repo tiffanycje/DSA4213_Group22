@@ -1,0 +1,30 @@
+0	26	Entrainment, also called accommodation or alignment, is the tendency of human interlocutors to adapt their behavior to each other to become more similar.
+2	21	It has also been linked to external aspects of the conversation such as task success (Reitter and Moore, 2007; Nenkova et al., 2008) and social factors (Ireland et al., 2011; Levitan et al., 2012).
+3	20	The study of entrainment thus far has been fragmented, with researchers considering numerous individual features and measuring similarity in various ways, but few searching for correlations or other structure.
+4	17	For instance, both Ward and Litman (2007) and Fusaroli and Tylén (2016) measured lexical as well as acoustic-prosodic entrainment but neither paper investigated correla- tions between these measures.
+7	25	Rahimi et al. (2017) also showed correlations, between lexical and acoustic-prosodic entrainment in group conversations.
+8	32	However, neither considered more complex structure and Rahimi et al., while including lexical features, focus on high-frequency and topic words alone.
+9	26	We take a broad view of entrainment, analyzing 18 sets of measurements in four different ways on two corpora to uncover structure, hoping to find higher-level behaviors that explain observed variability between speakers.
+12	29	According to Chartrand and Bargh (1999), entrainment is based on a link between perception and behavior and correlates with “greater perceptual activity directed at the other person”.
+13	13	Giles et al. (1991), lastly, argue that adaptive behavior is meant to increase or decrease “interpersonal differences” of the interlocutors.
+18	16	The first is the Objects Games por- 297 tion of the Columbia Games Corpus (Gravano and Hirschberg, 2011), CGC, which comprises 12 sessions with 14 identical tasks each, a total of about four hours of speech.
+19	20	Second, we use the Switchboard Corpus (Godfrey and Holliman, 1993), SBC, which contains over 2000 free conversations about given topics with a total of more than 200 hours of speech.
+25	43	Two speakers exhibit local similarity if their feature values differ little at turn exchanges and local convergence if that difference decreases over time.
+26	13	Global similarity is defined by a small difference in mean feature values over an entire task or session while global convergence is a decreasing difference in means from the first to the second half of a session.
+32	17	The first two measures were used by Gravano et al. (2014) to compare ToBI annotations of CGC but, to our knowledge, have not been used before in the context of lexical entrainment.
+35	32	For the second measure, KLD, we compute the negated Kullback-Leibler divergence between pairs of unigram distributions of partners’ words.
+43	13	To control for the effect of complexity of speech on the lexical measures, we weight the non-partner similarities by how closely the entropy of the nonpartner’s language model matches that of the actual partner.
+57	29	In both corpora we find strong correlations between local similarity and synchrony for each acoustic-prosodic feature (r between +0.64 and +0.95).
+62	36	Specifically, we find correlations between local and global convergence for each prosodic feature (+0.14 ≤ r ≤ +0.47) and local and global similarity on pitch (r = +0.16) and intensity (r = +0.26).
+67	22	Then we use χ2 tests to check whether some behaviors are disproportionately likely to co-occur.
+69	38	For CGC, we analyze conversations at the task level as only this gives us a sufficient number of samples (149 usable tasks after excluding 19 with too little speech by at least one speaker).
+74	15	We analyze the same measurements as in Section 3.3, treating each task/session as a point in a continuous 9D/18D space, respectively, and use k-means clustering to group points in this space.
+78	39	For comparison, we compute clusters after shuffling within columns of our data to remove correlations and cluster dummy data randomly sampled from standard normal distributions, the same distribution as our real data after normalization.
+84	24	Lastly, we use PCA on the same data as in Section 3.4.
+85	36	We find that all nine dimensions are needed to retain 99% of the variance in CGC, seven to retain 95% and six to retain 90%.
+94	20	It appears that entrainment, rather than a single behavior or a structured collection of behaviors, is a set of behaviors which are only loosely linked and perhaps independently explained by the competing theories.
+95	30	Practically, we had hoped to simplify and motivate downstream uses of entrainment measures, but our findings suggest that they must be considered separately.
+108	22	Thus, it seems unlikely that alternative measures would yield fundamentally different outcomes, such as strong correlations across features.
+112	32	We intend to investigate higher-level features and perhaps additional corpora to confirm or qualify our findings.
+113	28	Beyond that, our result raises the question which principles govern the emergence of entrainment on one feature over another in a given conversation.
+114	60	As a first attempt to find an answer, we plan to use asymmetrical, speakerspecific measures of entrainment and analyze the consistency of each individual’s entrainment behavior across sessions.

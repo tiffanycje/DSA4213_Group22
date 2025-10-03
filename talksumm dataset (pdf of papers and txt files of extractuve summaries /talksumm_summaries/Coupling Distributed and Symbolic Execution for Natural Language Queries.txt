@@ -1,0 +1,30 @@
+1	44	Table 1 illustrates an example of a knowledge base (a table) and a query “How long is the game with the largest host country size?” To answer the question, we should first find a row with the largest value in the column Area, and then select the value of the chosen row with the column being Duration.
+6	31	In realistic settings, we only assume groundtruth denotations1 are available, and that we do not know execution sequences or intermediate execution results.
+8	41	But it is known that the REINFORCE algorithm is sensitive to the initial policy; also, it could be very difficult to get started at early stages.
+9	60	Yin et al. (2016b) propose a fully distributed neural enquirer, comprising several neuralized execution layers of field attention, row annotation, etc.
+10	19	The model can be trained in an end-to-end fashion because all components are differentiable.
+11	50	However, it lacks explicit interpretation and is not efficient in execution due to intensive matrix/vector operation during neural processing.
+18	18	For example, the field attention gadget in Yin et al. (2016b) generally aligns with column selection.
+20	14	Guided by such imperfect stepby-step supervision, the symbolic executor learns a fairly meaningful initial policy, which largely alleviates the cold start problem of REINFORCE.
+39	16	All table cells are also represented as embeddings.
+44	9	The row vector can be intuitively thought of as row selection in query execution, but is represented by distributed semantics here.3 In the last step of execution, a softmax classifier is applied to the entire table to select a cell as the answer.
+52	15	We represent the selected cell in each row as the sum of all cells in that row, weighted by soft field selection p(t−1)f .
+58	26	The methodology of designing a symbolic executor is to define a set of primitive operators for the task, and then to use a machine learning model to predict the operator sequence and its arguments.
+59	11	Our symbolic executor is different from the neural programmer (Neelakantan et al., 2016) in that we keep discrete/symbolic operators as well as execution results, whereas Neelakantan et al. (2016) fuse execution results by weighted average.
+60	34	We design six operators for symbolic execution, which are complete as they cover all types of queries in our scenario.
+61	20	Similar to the distributed executor, the result of one-step symbolic execution is some information for a row; here, we use a 0-1 boolean scalar, indicating whether a row is selected or not after a particular step of execution.
+90	19	• The symbolic executor has high execution efficiency and explicit interpretation.
+100	13	t̂(i) ∈ Rn (i) label is the induced action from the fully distributed model in Figure 1a.
+115	12	After policy improvement by REINFORCE, we could further feed back the symbolic executor’s intermediate results to the distributed one, akin to the step-by-step supervision setting in Yin et al. (2016b).
+120	14	This shows the distributed and symbolic worlds can indeed be coupled well.
+122	12	The dataset comprises 25k different tables and queries for training; validation and test sets contain 10k samples, respectively, and do not overlap with the training data.
+125	15	However, only denotations are used as labels during training, which is a realistic setting; execution sequences are only used during testing.
+128	25	One can easily design a dummy operator to fill an unnecessary step or one can also train a discriminative sentence model to predict the number of execution steps if a small number of labels are available.
+136	23	When feeding back to the distributed model, we chose λ from {0.1, 0.5, 1} by validation to balance denotation error and field attention error.
+138	9	The results are reported in Yin et al. (2016b), where a SEMPRE version that is specially optimized for table query is adopted (Pasupat & Liang, 2015).
+141	42	Because reinforcement learning is much more noisy to train, we report the test accuracy corresponding to highest validation accuracy among three different random initializations (called trajectories).
+143	58	As we see, both distributed and symbolic executors outperform the SEMPRE system, showing that neural networks can capture query information more effectively than human-engineered features.
+144	51	Further, the coupled approach also significantly outperforms both of them.
+145	12	If trained solely by REINFORCE, the symbolic executor can recover the execution sequences for simple questions (SelectWhere and Superlative).
+146	28	However, for more complicated queries, it only learns last one or two steps of execution and has trouble in recovering early steps, even with the tricks in Section 2.3.1.
+147	15	This results in low execution accuracy but near 50% denotation accuracy because, in our scenario, we still have half chance to obtain an accurate denotation even if the nested (early) execution is wrong—the ultimate result is either in the candidate list or not, given a wrong where-clause execution.

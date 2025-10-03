@@ -1,0 +1,30 @@
+0	30	Collaborative filtering (or matrix completion) is a popular approach for modeling the recommendation system problem, where the goal is to provide personalized recommendations about certain items to a user (Koren & Bell, 2015).
+3	14	Hence, a popular modeling hypothesis is that the underlying preference matrix Y ∗ is low-rank, and thus, the collaborative filtering problem reduces to that of low-rank matrix completion (Recht, 2011; Candes & Recht, 2012).
+5	14	Naturally, personalization problems require collecting and analyzing sensitive customer data like their preferences for various items, which can lead to serious privacy breaches (Korolova, 2010; Narayanan & Shmatikov, 2010; Calandrino et al., 2011).
+6	20	In this work, we attempt to address this problem of privacy-preserving recommendations using collaborative filtering (McSherry & Mironov, 2009; Liu et al., 2015).
+8	19	In particular, we provide the first differentially private (Dwork et al., 2006b) matrix completion algorithms with provable accuracy guarantees.
+10	38	Most of the prior works on DP matrix completion (and lowrank approximation) (Blum et al., 2005; Chan et al., 2011; Hardt & Roth, 2012; 2013; Kapralov & Talwar, 2013; Dwork et al., 2014b) have provided guarantees which are non-trivial only in the entry-level privacy setting, i.e., they preserve privacy of only a single rating of a user.
+12	23	In fact, their trivial extension to user-level privacy leads to vacuous bounds (see Table 1).
+13	24	Some works (McSherry & Mironov, 2009; Liu et al., 2015) do serve as an exception, and directly address the user-level privacy problem.
+21	25	Notion of privacy: To measure privacy, we select differential privacy, which is a de-facto privacy notion for largescale learning systems, and has been widely adopted by the academic community as well as big corporations like Google (Erlingsson et al., 2014), Apple (McMillan, 2016), etc.
+22	88	The underlying principle of standard DP is that the output of the algorithm should not change significantly due to presence or absence of any user.
+23	17	In the context of matrix completion, where the goal is to release the entire preference matrix while preserving privacy, this implies that the computed ratings/preferences for any particular user cannot depend strongly on her own personal preferences.
+24	18	Naturally, the resulting preference computation is going to be trivial and inaccurate (which also follows from the reconstruction attacks of (Dinur & Nissim, 2003) and (Hardt & Roth, 2012)).
+31	13	Granularity of privacy: DP protects the information about a user in the context of presence or absence of her data record.
+37	26	Here, m is the number of users, and n is the number of items.
+38	16	Let Ω = {(i, j) ⊆ [m]× [n]} be the index set of the observed entries from Y ∗, and let PΩ : <m×n → <m×n be a matrix operator s.t.
+40	14	(1) Generalization error captures the ability of an algorithm to predict unseen samples from Y ∗.
+48	16	In other words, even with √ n observed ratings per user, we obtain asymptotically the correct estimation of each entry of Y ∗ on average, as long asm is large enough.
+55	20	On the other hand, the local component independently fine-tunes the statistics computed by the global component to generate accurate predictions for each user.
+62	58	That is, if the standard FW algorithm decides to add matrix u · vT during an iteration, our private FW computes a noisy version of v ∈ <n via its global component.
+64	15	The noisy version of v suffices for the Joint DP guarantee, and allows us to provide the strong error bound in Theorem 1.1 above.
+131	12	Note that v and λ2 can also be obtained as the top right eigenvector and eigenvalue of A(t−1) > A(t−1) = m∑ i=1 Ai (t−1)>Ai (t−1), where Ai(t−1) = PΩ(Yi (t−1) − Y ∗i ) is the i-th row of A(t−1).
+134	32	(3) A block schematic of this idea is presented in Figure 1.
+135	16	Algorithm 1 Private Frank-Wolfe algorithm function Global Component Aglobal (Input- privacy parameters: ( , δ) s.t.
+136	87	≤ 2 log (1/δ), total number of iterations: T , bound on ‖PΩ(Y ∗i )‖2: L, failure probability: β, number of users: m, number of items: n) σ ← L2 √ 64 · T log(1/δ)/ , v̂← {0}n, λ̂← 0 for t ∈ [T ] do W (t) ← {0}n×n, λ̂′ ← λ̂+ √ σ log(n/β)n1/4 for i ∈ [m] do W (t) ←W (t) +Alocal(i, v̂, λ̂′, T, t, L) Ŵ (t) ← W (t) + N (t), where N (t) ∈ <n×n is a matrix with i.i.d.
+137	26	entries from N (0, σ2) (v̂, λ̂2)← Top eigenvector and eigenvalue of Ŵ (t) end for end function function Local Update Alocal (Input- user number: i, top right singular vector: v̂, top singular value: λ̂′, total number of iterations: T , current iteration: t, bound on ‖PΩ(Y ∗i )‖2: L, private true matrix row: PΩ(Y ∗i )) Yi (0) ← {0}n, Ai(t−1) ← PΩ(Yi(t−1) − Y ∗i ) ûi ← (Ai(t−1) · v̂)/λ̂′ Define ΠL,Ω (M)i,j = min { L ‖PΩ(Mi)‖2 , 1 } ·Mi,j Yi (t) ← ΠL,Ω (( 1− 1T ) Yi (t−1) − kT ûi(v̂) T ) Ai (t) ← PΩ ( Yi (t) − Y ∗i ) if t = T , Output Yi(T ) as prediction to user i and stop else Return Ai(t) > Ai (t) to Aglobal end function Noisy rank-one update: Observe that v and λ, the statistics computed in each iteration of Aglobal, are aggregate statistics that use information from all rows of Y ∗.
+142	52	However, each intermediate computation Yi(t) in (3) can have high `2-norm even if ‖PΩ(Y ∗i )‖2 ≤ L. We address this by applying a projection operator ΠL,Ω (defined below) to Yi (t), and compute the local update as ΠL,Ω ( Yi (t) ) in place of (3).
+150	18	Theorem 3.2 (Excess empirical risk guarantee).
+151	27	Let Y ∗ be a matrix with ‖Y ∗‖nuc ≤ k, and max i∈[m] ‖PΩ(Y ∗)i‖2 ≤ L. Let Y (T ) be a matrix, with its rows being Yi(T ) for all i ∈ [m], computed by function Alocal in Algorithm 1 after T iterations.
+157	12	We also compute the optimal number of iterations required to minimize the empirical risk.
+159	14	We further illustrate our empirical risk bound by considering a simple setting: let Y ∗ be a rank-one matrix with Y ∗ij ∈ [−1, 1] and |Ω| = m √ n. Then k = O( √ mn), and L = O(n1/4), implying an error of Õ (√ nm−2/5 ) hiding the privacy parameter ; in contrast, a trivial solution like Y = 0 leads to O(1) error.

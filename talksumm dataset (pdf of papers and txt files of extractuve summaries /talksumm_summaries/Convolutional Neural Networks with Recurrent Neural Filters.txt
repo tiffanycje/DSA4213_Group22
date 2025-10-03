@@ -1,0 +1,30 @@
+0	28	Convolutional neural networks (CNNs) have been shown to achieve state-of-the-art results on various natural language processing (NLP) tasks, such as sentence classification (Kim, 2014), question answering (Dong et al., 2015), and machine translation (Gehring et al., 2017).
+2	22	Hence, the key components of CNNs are a set of convolution filters that compose low-level word features into higher-level representations.
+4	24	Prior work directly adopts a linear convolution filter to NLP problems by utilizing a concatenation of embeddings of a window of words as the input, which leverages word order information in a shallow additive way.
+6	10	Due to the linear nature of the convolution filters, they lack the ability to capture complex language phenomena, such as compositionality and long-term dependencies.
+7	53	To overcome this, we propose to employ recurrent neural networks (RNNs) as convolution filters of CNN systems for various NLP tasks.
+8	27	Our recurrent neural filters (RNFs) can naturally deal with language compositionality with a recurrent function that models word relations, and they are also able to implicitly model long-term dependencies.
+13	15	Experimental results on the Stanford Sentiment Treebank and the QASent and WikiQA datasets demonstrate that RNFs significantly improve CNN performance over linear filters by 4-5% accuracies and 3-6% MAP scores respectively.
+14	51	Analysis results suggest that RNFs perform much better than linear filters in detecting longer key phrases, which provide stronger cues for categorizing the sentences.
+15	26	The aim of a convolution filter is to produce a local feature for a window of words.
+22	11	Linear convolution filters make strong assumptions about language that could harm the performance of NLP systems.
+23	27	First, linear filters assume local compositionality and ignore long-term dependencies in language.
+27	9	We use the last hidden state hi+m−1 as the RNF output feature vector ci.
+31	13	Sentence encoder We use a CNN architecture with one convolution layer followed by one max pooling layer to encode a sentence.
+33	19	Then a max-over-time pooling operation (Collobert et al., 2011) is used to produce a fixed size sentence representation: v = max{C}.
+34	13	Sentence classification We use a CNN architecture that is similar to the CNN-static model described in Kim (2014) for sentence classification.
+35	15	After obtaining the sentence representation v, a fully connected softmax layer is used to map v to an output probability distribution.
+38	11	Let v1 and v2 be the vector representations of the two sentences.
+41	13	The output of the sigmoid layer is used by binary cross-entropy loss to optimize the model.
+58	13	We conduct random search with a budget of 100 runs to seek the best hyperparameter configuration for each system.
+60	82	RNFs significantly outperform linear filters on both tasks.
+62	20	On the Stanford Sentiment Treebank, CNN-RNF-LSTM outperforms CNN-linear-filter by 5.4% and 3.9% accuracies on the fine-grained and binary classification settings respectively.
+64	13	CNN-RNFGRU improves upon CNN-linear-filter by 3.7% MRR score on QASent and CNN-RNF-LSTM performs better than CNN-linear-filter by 6.1% MAP score on WikiQA.
+66	20	CNN-RNF-LSTM also obtains competitive results on answer sentence selection datasets, despite the simple model architecture compared to state-of-the-art systems.
+68	63	Like RNF-based CNN models, max-pooled RNNs also consist of two essential layers.
+69	9	The recurrent layer learns a set of hidden states corresponding to different time steps, and the max pooling layer extracts the most salient information from the hidden states.
+82	23	Specifically, we define the key phrases for a sentence to be the set of phrases that are labeled with the same sentiment as the original sentence.
+83	15	The key phrase hit rate is then defined as the ratio of filter-detected m-grams that fall into the corresponding key phrase sets.
+86	21	As shown, RNFs consistently per- form better than linear filters on identifying key phrases across different phrase lengths, especially on phrases of moderate lengths (4-7).
+98	36	We present RNFs, a new class of convolution filters based on recurrent neural networks.
+99	14	RNFs sequentially apply the same recurrent unit to words of a phrase, which naturally capture language compositionality and implicitly model long-term dependencies.

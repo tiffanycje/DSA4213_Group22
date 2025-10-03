@@ -1,0 +1,30 @@
+0	85	Elementary grade science tests are challenging as they test a wide variety of commonsense knowledge that human beings largely take for granted, yet are very difficult for machines (Clark, 2015).
+1	36	For example, consider a question from a NY Regents 4th Grade science test: Question 1 “When a baby shakes a rattle, it makes a noise.
+5	7	This mental ability to create a scene from partial information is at the heart of natural language understanding (NLU), which is essential for answering these kinds of question.
+9	11	These elaborations reflect the mental process of “filling in the gaps”, and multiple choice questions can then be answered by finding which answer option creates the most coherent scene.
+11	10	These methods are inspiring, but have previously been limited by the lack of background knowledge to supply implicit information, and with the complexity of their representations.
+13	10	Although we lose some subtlety of expression, we gain the ability to leverage several vast resources of world knowledge to supply implicit information.
+15	31	Although the approach makes several simplifying assumptions, our experiments show that it outperforms competitive algorithms on several datasets of (real) elementary science questions.
+17	28	The output is a ranked list of the K answer options.
+19	25	Each scene node has an associated measure of coherence (described shortly), denoting how well-connected it is.
+20	75	The question-answering objective is, for each answer option ak, to find the most coherent scene containing (at least) the question keywords kwi ∈ Q and answer option ak, and then return the answer option with the overall highest coherence score.
+21	12	Our implementation approximates this objective using a simple elaborate-and-prune algorithm, illustrated in Figure 11 and now described.
+23	21	For our purposes we compute importance by sending the question to Google, grouping the top 20 result snippets into a document d, and computing: IS(kw) = tfd(kw) dfQ(kw) , (1) where tfd(kw) is the term frequency of kw in document d, and dfQ(kw) is the document frequency of kw in question set Q containing all the available elementary science questions.
+24	21	The intuition here is that the words frequently mentioned in variations of the question should be important (reflected by ”tf”), while the descriptive words (e.g. ”following”, ”example”) which are widely used in many questions should be penalized (reflected by ”idf”).
+26	25	In this step our goal is to inject implicit knowledge from the background KBs to form an elaborated knowledge graph.
+31	10	As we may get a large number of such nodes, we score them and retain only the top scoring ones (and all edges connecting to it).
+33	12	Formally, the scoring function is: score(w) = ∑ kw∈K IS(kw) ∗ rel(kw, w) (2) where IS(kw) is the importance score of keyword kw and rel(kw, w) is the relatedness score between kw and w. In this work we use the cosine similarity between word2vec (Mikolov et al., 2013) word vectors to measure two words’ relatedness, as a rough proxy for the strength of related- ness in the KBs (the KBs themselves do not provide meaningful strengths of relationship).
+34	35	After the ranking, the top N ×|KW | neighbor words w are retained3, along with their edges to keywords kw and each other.
+35	41	Note that at this point the elaboration process is independent of any answer option; rather, the graph depicts the question scenario.
+40	48	The goal of this pruning is to find a dense subgraph (i.e. the coherent scene) that would ideally contain all the question keywords kw, the answer option ak, and extra words wk that are highly connected with them.
+42	24	We define the coherence of a node as the summed weight of its incident edges: coherence(w) = ∑ w′∈{(w,r,w′)} rel(w, w′) (3) where rel(w, w′) is the weight of edge (w, r, w′) in the graph, again computed using cosine similarity between w and w′.
+52	25	We compared our system (called SceneQA) with two other state-of-the-art systems for this task: • LSModel (Lexical semantics model): SVM combination of several language models (likelihood of answer given question) and information retrieval scores (score of top retrieved sentence matching question plus answer), trained on a set of questions plus answers.
+56	20	We also performed some case studies to identify what kinds of questions SceneQA does well on, relative to the baselines.
+63	10	• -Both: No new nodes, no pruning The results (% scores, Table 3) suggest that the two most important algorithmic features - adding concepts implied but not explicitly stated in the text (NewNodes), and later removing implied information that is of low relevance to the answer (Prune) - are important for answering the questions correctly.
+65	23	We also examined cases where SceneQA gave the wrong answer.
+67	11	For example: Question 3 An animal that has a backbone is called a(n) (A) invertebrate (B) vertebrate (C) exoskeleton (D) sponge Since the relatedness measure we use (i.e. word2vec) cannot distinguish words with similar distributional semantics (a common property of antonyms), our method cannot confidently identify which of the opposites (e.g., here, vertebrate vs. invertebrate) is correct.
+68	28	(2) The word ordering in the question is particularly important, e.g., questions about processes or sequences.
+71	63	Our goal is to answer simple science questions.
+72	46	Unlike entity-centric factoid QA tasks, science questions typically involve general concepts, and answering them requires identifying implicit relationships in the question.
+75	147	Our contribution is to show this works well in the elementary science domain.
+76	71	Despite this, there are clearly many limitations with our approach: we are largely ignoring syntactic structure in the questions; the KBs are noisy, contributing errors to the scenes; the graph representation has limited expressivity (e.g., no quantification or negation); the word2vec measure of relationship strength does not account for the question context; and contradictions are not detected within the scene.

@@ -1,0 +1,30 @@
+3	30	For instance, instead of using softmax to predict a word for learning word embeddings, noise contrastive estimation (NCE) (Dyer, 2014; Mnih and Teh, 2012) can be used in skip-gram or CBOW word embedding models (Gutmann and Hyvärinen, 2012; Mikolov et al., 2013; Mnih and Kavukcuoglu, 2013; Vaswani et al., 2013).
+6	72	Given a scoring function, the gradient of the model’s parameters on observed positive examples can be readily computed, but the negative phase requires a design decision on how to sample data.
+7	35	In noise contrastive estimation for word embeddings, a negative example is formed by replacing a component of a positive pair by randomly selecting a sampled word from the vocabulary, resulting in a fictitious word-context pair which would be unlikely to actually exist in the dataset.
+13	31	Even if hard negatives are occasionally reached, the infrequency means slow convergence.
+15	112	In this work, we propose to augment the simple corruption noise process in various embedding models with an adversarially learned conditional distribution, forming a mixture negative sampler that adapts to the underlying data and the embedding model training progress.
+17	81	The adaptive conditional model engages in a minimax game with the primary embedding model, much like in Generative Adversarial Networks (GANs) (Goodfellow et al., 2014a), where a discriminator net (D), tries to distinguish samples produced by a generator (G) from real data (Goodfellow et al., 2014b).
+18	29	In ACE, the main model learns to distinguish between a real positive example and a negative sample selected by the mixture of a fixed NCE sampler and an adversarial generator.
+21	34	In our proposed ACE approach, the conditional sampler finds harder negatives than NCE, while being able to gracefully fall back to NCE whenever the generator cannot find hard negatives.
+45	31	Instead, we use the REINFORCE (Williams, 1992) gradient estimator for∇θL(θ, x): (1−λ)E [ −lω(x, y+, y−)∇θ log(gθ(y−|x)) ] (6) where the expectation E is with respect to p(y+, y−|x) = p(y+|x)gθ(y−|x), and the discriminator loss lω(x, y+, y−) acts as the reward.
+55	36	However, we would still like to avoid such collapse, as the adversarial samples provide greater learning signals than NCE samples.
+64	32	The entropy regularization reduces this problem as it forces the generator to spread its mass, hence reducing the chance of a false negative.
+68	51	Second, to upate θ in the generator learning step, the reward for false negative samples are replaced by a large penalty, so that the REINFORCE gradient update would steer gθ away from those samples.
+78	29	The generator learning can use importance re-weighting to leverage those samples.
+99	33	With respect to our ACE framework, the difference between NCE and Negative Sampling is inconsequential, so we continue the discussion using NCE.
+129	81	Implementation details Let a positive entity-relation-entity triplet be denoted by ξ+ = (h+, r+, t+), and a negative triplet could either have its head or tail be a negative sample, i.e. ξ− = (h−, r+, t+) or ξ− = (h+, r+, t−).
+131	26	The non-separable loss function takes on the form: l = max(0, η + sω(ξ +)− sω(ξ−)) (12) The scoring rule is: s = ‖h⊥ + r− t⊥‖ (13) where r is the embedding vector for r, and h⊥ is projection of the embedding of h onto the space of r by h⊥ = h + rph>p h, where rp and hp are projection parameters of the model.
+135	52	During generator learning, only θ is updated and the TransD model embedding parameters are frozen.
+137	48	In short, whenever the original learning objective is contrastive (all tasks except Glove fine-tuning) our results consistently show that ACE improves over NCE.
+145	30	For knowledge graph embeddings, we use TransD (Ji et al., 2015) as our base model, and perform ablation study to analyze the behavior of ACE with various add-on features, and confirm that entropy regularization is crucial for good performance in ACE.
+147	87	In this experiment, we empirically observe that training word embeddings using ACE converges significantly faster than NCE after one epoch.
+149	26	We note similar results on WordSim353 dataset where ACE and ADV outperforms NCE by 40.4% and 45.7%.
+150	40	We also evaluate our model qualitatively by inspecting the nearest neighbors of selected words in Table.
+151	43	We first present the five nearest neighbors to each word to show that both NCE and ACE models learn sensible embeddings.
+152	104	We then show that ACE embeddings have much better semantic relevance in a larger neighborhood (nearest neighbor 45-50).
+153	75	We take off-the-shelf pre-trained Glove embeddings which were trained using 6 billion tokens (Pennington et al., 2014) and fine-tune them using our algorithm.
+157	27	As can be seen from our results in Table 2, ACE on RW is not always better and for the 100d and 300d Glove embeddings is marginally worse.
+158	41	However, on WordSim353 ACE does considerably better across the board to the point where 50d Glove embeddings outperform the 300d baseline Glove model.
+160	50	We further report training curve in Fig.
+171	50	4 shows the final test results on WN18 link prediction task.
+173	38	As MRR is a lot more sensitive to the top rankings, i.e., how the correct configuration ranks among the competitive alternatives, this is consistent with the fact that ACE samples hard negatives and forces the base model to learn a more discriminative representation of the positive examples.

@@ -1,0 +1,30 @@
+0	49	Classic dialog systems rely on developing a meaning representation to represent the utterances from both the machine and human users (Larsson and Traum, 2000; Bohus et al., 2007).
+3	27	This approach suffers from generalization to more complex domains because it soon become intractable to manually design a frame representation that covers all of the fine-grained system actions.
+8	19	First, having interpretable system actions enables human to understand the behavior of a dialog system and better interpret the system intentions.
+12	21	We focus on learning discrete latent representations instead of dense continuous ones because discrete variables are easier to interpret (van den Oord et al., 2017) and can naturally correspond to categories in natural languages, e.g. topics, dialog acts and etc.
+52	72	Our baseline model is a sentence VAE with discrete latent space.
+64	18	It is well-known that sentence VAEs are hard to train because of the posterior collapse issue.
+65	39	Many empirical solutions have been proposed: weakening the decoder, adding auxiliary loss etc.
+72	74	3 is to maximize both the data likeli- hood lowerbound and the mutual information between z and the input data: LVAE + I(Z,X) = EqR(z|x)p(x)[log pG(x|z)]− KL(q(z)‖p(z)) (4) Therefore, jointly optimizing ELBO and mutual information simply cancels out the informationdiscouraging term.
+75	19	Our derivation provides a theoretical justification to their superior performance.
+81	30	Let xn be a sample from a batch of N data points.
+94	32	Skip thought (ST) is a powerful sentence representation that captures contextual information (Kiros et al., 2015).
+95	52	ST uses an RNN to encode a sentence, and then uses the resulting sentence representation to predict the previous and next sentences.
+113	18	Our methods learn qR(z|x) that only depends on x and trains qR separately to ensure the semantics of z are interpretable standalone.
+122	38	The first experiment used PTB and DD to evaluate the performance of the proposed methods in learning discrete sentence representations.
+132	42	Intuitively a good model should achieve low perplexity and KL distance, and simultaneously achieve high I(x, z).
+137	125	Also, since there is no regularization term in the latent space, q(z) is very different from the p(z) which prohibits us from generating sentences from the latent space.
+144	34	In order to understand BPR’s sensitivity to batch size N , a follow-up experiment varied the batch size from 2 to 60 (If N=1, DI-VAE is equivalent to DVAE).
+145	60	Figure 2 show that asN increases, perplexity, I(x, z) monotonically improves, while KL(q‖p) only increases from 0 to 0.159.
+158	28	We tested this on the SW and DD, which contain human annotated features and we report the latent actions’ homogeneity w.r.t these features in Table 3.
+161	54	One reason is that the dialog acts in SW are more fine-grained (42 acts) than the ones in DD (5 acts) so that distinguishing utterances based on words in x is more important than the information in the neighbouring utterances.
+163	42	Two experts are shown 5 randomly selected utterances from each latent action and are asked to give an action name that can describe as many of the utterances as possible.
+170	98	For example, DI-VST would group “Can I get a restaurant”, “I am looking for a restaurant” into one action where DI-VAE may denote two actions for them.
+172	46	Model Action Sample utterance DI-VAE scheduling - sys: okay, scheduling a yoga activity with Tom for the 8th at 2pm.
+174	18	requests - usr: find out if it ’s supposed to rain - usr: find nearest coffee shop DI-VST ask schedule info - usr: when is my football activity and who is going with me?
+175	82	- usr: tell me when my dentist appointment is?
+194	27	The second experiment checks if the policy network π is able to predict the right latent action given just the dialog context.
+206	31	Given a dialog context, our systems are able to output a probability distribution over different latent actions that have interpretable meaning along with their natural language realizations.
+208	21	Our main contributions reside in the two sentence representation models DI-VAE and DIVST, and their integration with the encoder decoder models.
+210	43	Our findings also suggest promising future research directions, including learning better context-based latent actions and using reinforce- ment learning to adapt policy networks.
+211	35	We believe that this work is an important step forward towards creating generative dialog models that can not only generalize to large unlabelled datasets in complex domains but also be explainable to human users.

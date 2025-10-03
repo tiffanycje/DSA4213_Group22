@@ -1,0 +1,30 @@
+0	46	When we use supervised learning to solve Natural Language Processing (NLP) problems, we typically train an individual model for each task with task-specific labeled data.
+9	30	Most NLP tasks, including some well-studied ones such as POS tagging, still suffer from the lack of training data for many low-resource languages.
+14	48	In (Yang et al., 2017), the authors simulated a low-resource setting for English and Spanish by downsampling the training data for the target task.
+15	44	However, for most low-resource languages, the data sparsity problem also lies in related tasks and languages.
+17	38	To tackle this issue, we propose a multi-lingual multi-task architecture which combines different transfer models within a unified architecture through two levels of parameter sharing.
+19	15	These components serve as a basis to connect multiple models and transfer universal knowledge among them.
+21	32	For example, we use the same output layer for all Name Tagging tasks to share task-specific knowledge (e.g., I-PER3 should not be assigned to the first word in a sentence).
+23	34	In the NLP context, the goal of sequence labeling is to assign a categorical label (e.g., POS tag) to each token in a sentence.
+24	31	It underlies a range of fundamental NLP tasks, including POS Tagging, Name Tagging, and chunking.
+25	25	Experiments show that our model can effectively transfer various types of knowledge from different auxiliary tasks and obtains up to 50.5% absolute F-score gains on Name Tagging compared to the mono-lingual single-task baseline.
+26	16	Additionally, our approach does not rely on a large amount of auxiliary task data to achieve the improvement.
+36	16	On top of that, a bidirectional LSTM processes the sequence x = {x1, x2, ...} in both directions and encodes each word and its context into a fixed-size vector hi.
+37	34	Next, a linear layer converts hi to a score vector yi, in which each component represents the predicted score of a target tag.
+39	51	In the CRFs layer, given an input sentence x of length L and the output of the linear layer y, the score of a sequence of tags z is defined as: S(x,y, z) = L∑ t=1 (Azt−1,zt + yt,zt), where A is a transition matrix in which Ap,q represents the binary score of transitioning from tag p to tag q, and yt,z represents the unary score of assigning tag z to the t-th word.
+43	21	Additionally, we transform character feature vectors using highway networks (Srivastava et al., 2015), which is reported to enhance the overall performance by (Kim et al., 2016) and (Liu et al., 2018).
+69	16	For cross-task transfer, we use the same word embedding matrix across tasks so that they can mutually enhance word representations.
+83	50	In addition to the shared linear layer, we add an unshared language-specific linear layer to allow the model to behave differently toward some features for different languages.
+85	64	We combine the output of the shared linear layer yu and the output of the language-specific linear layer ys using: y = g ⊙ ys + (1− g)⊙ yu, where g = σ(W gh + bg).
+91	15	To optimize multiple tasks within one model, we adopt the alternating training approach in (Luong et al., 2016).
+92	21	At each training step, we sample a task di with probability ri∑ j rj , where ri is the mixing rate value assigned to di.
+95	49	For example, given English Name Tagging as the target task, the task coefficient µ and language coefficient ζ of Spanish Name Tagging are 0.1 and 1 respectively.
+97	22	Thus, auxiliary tasks receive higher probabilities to reduce overfitting when we have a smaller amount of main task data.
+98	52	For Name Tagging, we use the following data sets: Dutch (NLD) and Spanish (ESP) data from the CoNLL 2002 shared task (Tjong Kim Sang, 2002), English (ENG) data from the CoNLL 2003 shared task (Tjong Kim Sang and De Meulder, 2003), Russian (RUS) data from LDC2016E95 (Russian Representative Language Pack), and Chechen (CHE) data from TAC KBP 2017 10-Language EDL Pilot Evaluation Source Corpus4.
+101	28	In this data set, each token is annotated with two POS tags, UPOS (universal POS tag) and XPOS (language-specific POS tag).
+122	39	We can see that our model substantially outperforms the mono-lingual single-task baseline model and obtains visible gains over single transfer models.
+126	37	We also experiment with transferring from English to Chechen.
+127	29	Because Chechen uses Cyrillic alphabet , we convert its data set to Latin script.
+128	70	Surprisingly, although these two languages are not close, we get more improvement by using English as the auxiliary language.
+130	45	Results show that although we design this architecture for low-resource settings, it also achieves good performance in high-resource settings.
+138	39	For example, in sentence #2, our model is able to identify “Rusland” (Russia) as the suffix -land is usually associated with location names in the English data; e.g., Finland.

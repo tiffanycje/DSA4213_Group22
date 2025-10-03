@@ -1,0 +1,30 @@
+0	9	Up until recent years, opinion analysis in reviews has been commonly handled as a supervised polarity (positive vs. negative) classification problem.
+1	46	However, understanding the grounds on which an opinion is formed is of highest interest for decision makers.
+2	33	Aligned with this goal, the emerging field of aspect-based sentiment analysis (Pontiki et al., 2016) has evolved towards a more involved machine learning task where opinions are considered to be structured objects—typically hierarchical structures linking polarities to aspects and relying on different units of analysis (i.e. sentence-level and review-level) as in (Marcheggiani et al., 2014).
+4	27	In this context, the prediction error should be flexible and should integrate this subjectivity so that, for example, mistakes on one aspect do not interfere with the prediction of polarity.
+5	13	In order to address this issue, we propose a novel framework called Structured Output Learning with Abstention (SOLA) which allows for abstaining from predicting parts of the structure, so as to avoid providing erroneous insights about the object to be predicted, therefore increasing reliability.
+6	7	The new approach extends the principles of learning with abstention recently introduced for binary classification (Cortes et al., 2016) and generalizes surrogate least-square loss approaches to Structured Output Prediction recently studied in (Brouard et al., 2016; Ciliberto et al., 2016; Osokin et al., 2017).
+7	12	The main novelty comes from the introduction of an asymmetric loss, based on embeddings of desired outputs and outputs predicted with abstention in the same space.
+20	8	Extending Supervised Classification with Abstention (Cortes et al., 2016), Structured Output Learning with Abstention aims at learning a pair of functions (h, r) from X to Y H,R ⊂ {0, 1}d × {0, 1}d composed of a predictor h that predicts the label of each component of the structure and an abstention function r that determines on which components of the structure G to abstain from predicting a label.
+21	8	⊂ {0, 1, a}d, the set of legal labelings with abstention where a denotes the abstention label, then the abstention-aware predictive model fh,r : X → Y?
+27	28	An abstention-aware loss is required to deal asymmetrically with observed labels which are supposed to be complete and predicted labels which may be incomplete due to partial abstention.
+41	15	In this case, the abstention choice can be used at a particular node to pay the cost cA for predicting its child.
+44	53	For sake of space, the dot product representation with ψwa and ψa of this loss is detailed in the supplementary material.
+45	15	The goal of SOLA is to learn a pair (h, r) from a i.i.d.
+47	15	We notice that this risk can be rewritten as an expected valued over the input variables only: R(h, r) = Ex 〈Ey|xψwa(y), Cψa(h(x), r(x))〉.
+48	45	This pleads for considering the following surrogate problem: • Step 1: we define g∗(x) = Ey|xψwa(y) = ming∈(X→Rq) Ex,y‖ψwa(y)− g(x)‖2︸ ︷︷ ︸ surrogate risk .
+49	19	g∗ is then the minimizer of a square surrogate risk.
+52	10	• The complexity of the arg min problem will depend on some properties of ψa.
+54	13	These pitfalls, common to all structured output learning problems, can be overcome by substituting a surrogate loss to the target loss and proceeding in two steps: 1.
+87	8	Following the line given by the form of our abstention aware predictor fh,r defined in Section 2, we consider losses involving binary interaction between the predict function h(x) and the reject function r(x), and suppose that there exists a rectangular matrix M such that ψa(h(x), r(x)) = M  h(x)r(x) h(x)⊗ r(x)  where ⊗ is the Kronecker product between vectors.
+113	7	We first fix the ci weights in the following way : c0 = 1 ci = cp(i) |siblings(i)| ∀i ∈ {1, .
+128	5	Based on the recent results of (Conneau et al., 2017), we focus on the InferSent representation to encode our inputs.
+147	6	Even though H Regression was trained in order to predict the whole structure, it obtains results similar to logistic regression and linear chain CRF.
+150	11	1) and build an adapted abstention mechanism.
+167	7	Secondly, increasing the number of abstentions on aspects helps reducing the number of errors counted on the aspects nodes when the predictor abstains on less than 3 labels.
+172	23	Star rating regression at the review level based on sentence level predictions.
+179	12	It takes as input the component-wise average of the sentence level opinion representations, and intends to predict the star ratings at the review level.
+180	13	For each of the five overall aspects a separate Ridge Regressor is trained based on the true labels available.
+189	14	We do not report the score for H Regression with abstention since it is dependent on the number of abstentions but show that it improves the results of the H Regression model on the text-level prediction task.
+191	6	The novel framework, Structured Learning with Abstention, extends two families of approaches: learning with abstention and least-squares surrogate structured prediction.
+195	6	Concerning Opinion Analysis, we have shown that abstention can be used to build a robust representation for star rating in a pipeline framework.

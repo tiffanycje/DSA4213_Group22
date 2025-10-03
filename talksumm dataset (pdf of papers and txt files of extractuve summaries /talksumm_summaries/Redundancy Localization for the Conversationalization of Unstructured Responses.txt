@@ -1,0 +1,30 @@
+5	14	The Plasmodium parasite that causes Malaria is neither a virus nor a bacterium – it is a single-celled parasite that multiplies in red blood cells of humans as well as in the mosquito intestine.
+8	24	Other works deal with task-oriented dialogues, which offer natural-language interfaces to real-world services like restaurant booking (Bordes and Weston, 2016; Dhingra et al., 2016; Crook et al., 2016).
+9	123	We focus in this paper on a third dialogue setting where the goal is to have a natural conversation with a user, during which the user’s information needs are satisfied in an iterative manner.
+21	34	Information on the location of non-novel portions of a passage could either be fed back to the retrieval model, so that only text passages with new information would be selected, or alternatively this localized redundancy might be used as input to a summarization model (Rush et al., 2015).
+24	49	• Due to the insufficient amount of annotated data for training purposes, we report on a weak supervision signal over a large collection of passages with partially redundant content (Sec.
+43	23	We focus in this work on the problem of redundancy localization in a passage with respect to another text, i.e., we aim to understand when a sub-passage is redundant with what is mentioned in the context.1 Consider the following example with a context passage c and a follow-up passage p with sub-sequences s0–s3, which need to be ranked according to the extent to which their semantics are covered by c. In this case, one may expect the order to be (s1, s2, s3, s0): c : The Allianz Arena is a football stadium in Munich, Bavaria, Germany, with a seating capacity of more than 70,000. s0 : Bayern to increase stadium capacity.
+48	24	< sm−1 < sm = n, each subsequence sk ∈ S is ranging from tokens sk to (sk+1 − 1), inclusive.
+49	27	Given a context sequence c, the task of redundancy localization is to produce a ranking function rank(sk) ∈ {1, .
+74	71	While the annotation required for our task is comparatively simple and can be performed by raters without special training, a workable fullysupervised model would require a very considerable amount of data and is likely to prove costly.3 Suppose, however, we were supplied with a large number of short texts with varying degrees of similarity and relatedness to one another and we had a means of assessing at the coarse level of text pairs whether or not they were similar.
+76	23	We derive a proxy signal from passage-level retrieval scores which allows to bootstrap the redundancy-localization model described in Sec.
+82	16	From each of the queries’ passage lists we extract three passages, the top-scoring passage c, the second-highest ranking passage p+, and a lower-scoring passage p− from the score corridor described above.
+96	25	It first (a) learns a uni-directional alignment between the passages, which is utilized to produce a customized representation of the context passage, specific to each token of the potentially redundant passage.
+98	71	During training, (c) an additional layer aggregates the local scores and produces a passage-level similarity score on top of which a ranking objective is applied.
+99	16	At inference time, (d) the local scores from (b) serve as the basis for the ranking of the subpassage elements as described in Sec.
+100	130	Input to the model are two sequences of n tokens each, p = (p0, .
+117	14	During inference time, the goal of this model is to rank a set of given sub-sequences S of p with respect to their redundancy with c; note that during inference time the model is presented with pairs of passages in contrast to the triples it sees in the training phase.
+119	24	A ranking of the subsequences is then given by: rank(sk) := |{sl | ssim(sl, c) ≥ ssim(sk, c)}| (9) In other words, sub-passages are ranked by comparing the mean of their local redundancy scores.
+123	16	Although it has not been developed with the localization of redundancy in mind, its native problem formulation (RTE) is structurally related to the problem at hand by requiring models to assess to what degree the semantic content of one passage is embedded in a second one.
+146	64	We measure performance by calculating the Spearman correlation of the raw passage scores with the gold redundancy for all segments in the respective partition of the dataset.
+154	72	3 depicts a scatter plot of the segments in TEST, with the x-axis corresponding to the gold redundancy scores (Sec.
+155	15	4) and the y-axis showing the redundancy assessment by UA.
+158	15	This section briefly discusses an experiment in a dialogue setting, in which redundancy information is used for the compression of passages.
+166	31	For comparison, we implemented a baseline which always dropped the first sentence of a passage, as well as one that removed the sentence with the highest term overlap.
+174	56	Similarly, always dropping the first sentence can leave a passage with dangling backward references, e.g., in the case of anaphors.
+175	59	In terms of the informativeness dimension (question c), all approaches resulted in slightly less informative compressed passages, which is expected.
+177	24	In this paper, we described the problem of localizing redundancy in pairs of passages.
+180	33	The conducted evaluation showed that the proposed uni-directional alignment model is indeed capable of finding the redundant sub-segments in texts.
+181	140	In future work, we would like to represent and model more facets of the naturalness and coherence of dialogues.
+182	205	For instance in dialogue settings, a certain amount of redundancy between the utterances of participants may actually tie the dialogue turns together, i.e., may be beneficial in terms of discourse coherence and naturalness.
+183	64	Incorporating this consideration into the structure of a model can potentially improve the results of passage compression techniques in settings similar to Sec.

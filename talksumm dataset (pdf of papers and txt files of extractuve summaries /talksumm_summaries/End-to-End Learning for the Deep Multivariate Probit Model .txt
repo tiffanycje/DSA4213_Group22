@@ -1,0 +1,30 @@
+1	9	For example, in computational sustainability (Gomes, 2009; MacKenzie et al., 2004), it is important to understand the spatial distribution of species and how species interact with each other and their environment, for developing conservation plans.
+4	19	The multivariate probit model (MVP) (Ashford & Sowden, 1970) is a popular classic model for studying interactions of multiple entities.
+6	9	A classic approach for optimizing the MVP model is Bayesian Inference (Chib & Greenberg, 1998; Tabet, 2007), where the posterior distribution is simulated by Markov Chain Monte Carlo (MCMC) methods (Jeliazkov & Hee Lee, 2010) and the maximum likelihood estimates are obtained by a Monte Carlo version of the Expectation Maximization (EM) algorithm.
+20	13	We propose a novel end-to-end learning scheme for the Deep Multivariate Probit Model (DMVP), which is scalable and flexible with various deep neural networks.
+21	13	Specifically: (1) We introduce the Deep Multivariate Probit Model (DMVP), a deep generalization of classic MVP, in which a flexible deep neural network is embedded to extract the high-level features from the raw data.
+23	9	(3) We provide both a theoretical and an empirical analysis of the convergence behavior of the sampling process embedded in DMVP.
+25	8	Our theoretical bound also sheds light on the trade-offs between performance and convergence.
+28	34	In the second application, we study the deforestation and human encroachment in Amazon rainforest with high-resolution satellite images.
+32	9	For the sake of simplicity, we use Φ(x) to denote the CDF of one-dimensional standard normal distribution.
+33	19	For the comparison between vectors, we use ”4” to denote the ”element-wise less or equal to”, i.e, a 4 b iff ∀i, ai ≤ bi (3)
+34	43	The multivariate probit model (MVP) is described in terms of a multivariate normal distribution of the underlying latent variables that are manifested as binary responses through a threshold specification.
+35	15	More specifically, given the dataset D = {(xi, yi)|i = 1, ..., N}, where xi ∈ Rm is the m-dimensional contextual data and yi ∈ {0, 1}l is the ldimensional binary label, MVP maps the Bernoulli distribution of each binary label yi,j to a sequence of latent variables ri = (ri,1, ..., ri,l) through the threshold 0, where ri is subject to a multivariate normal distribution, i.e, Pr(yi,j = 1|xi) = Pr(ri,j > 0) (4) Pr(yi,j = 0|xi) = Pr(ri,j ≤ 0) where ri ∼ N(µ(xi),Σ).
+36	12	More specifically, the marginal likelihood is, Pr(yi,j = 1|xi) = Φ ( µ(xi)j√ Σj,j ) Pr(yi,j = 0|xi) = Φ ( −µ(xi)j√ Σj,j ) , and the joint likelihood is, Pr(yi|xi) = ∫ A1 ... ∫ Al φ(s;µ(xi),Σ)ds1...dsl Here Aj = { (−∞, 0] if yi,j = 0 [0,+∞) if yi,j = 1 (5) LetDi = diag(2yi−1) ∈ {−1, 0, 1}l×l which is a diagonal matrix using vector 2yi − 1 as its diagonal.
+42	10	In this way, the DMVP obtains the flexibility as well as the predictive power of various deep neural networks while modelling the correlations of multiple entities by fitting the correlations of the latent variables.
+43	8	The generic learning methods of MVP are maximum-aposteriori estimation and maximum likelihood estimation.
+45	11	The difficulties with respect to learning the DMVP are mainly due to the computation of equation (6) as well as its gradients, which are obtained by integrating over a high-dimensional constrained space of latent variables.
+47	33	The vanilla rejection sampling estimates Φ(0;−µ′i,Σ′i) by counting the rate that a sample r from N(−µ′i,Σ′i) satisfies r 4 0.
+50	11	Another importance sampling method proposed by (Genz, 1992) uses Cholesky factorization to compute the equation (6).
+52	15	Because both the MCMC method and the importance sampling require a sequentially dependent sampling, they cannot easily integrate with parallelized deep learning infrastructure such as GPUs.
+54	38	Though there is no closed form for computing the CDF of a general multivariate normal distribution, the onedimensional CDF Φ(x) has very accurate analytical estimation (Cody, 1969), which has been implemented in almost all machine learning tools.
+62	63	Then, DMVP samples batches of independent samples w(k) from the residual multivariate normal distribution and uses equation (7) to compute the estimation of the joint likelihood.
+78	13	In terms of the convergence behavior of this sampling process, we provide a theoretical analysis with respect to the estimation error.
+92	11	In that case, the variance of our sampling process is zero, so that we only need to sample once to get the exact likelihood.
+93	45	In more general cases, if the rescaled residual covariance Σ is a low-rank matrix, most eigenvalues of the matrix 2Σ + I are 1, which indicates a small |2Σ + I|.
+95	18	In the experimental section, we provide more detailed analysis in terms of the performance as well as the convergence behavior of DMVP with a low-rank residual covariance matrix, showing that the DMVP’s performance only degrades significantly when the rank of the residual covariance matrix is extremely small.
+139	27	The first group, which we refer to as conditional independent model (CIM), assumes independence among entities, conditioned on the contextual data.
+149	11	For the last group, we chose the MEDL CVAE(Tang et al., 2017) model, which is a state-of-the-art multi-entity modelling approach proposed recently.
+151	23	Because we study multi-entity modelling problems, in our experiments, we use Negative Joint Distribution Loglikelihood (Neg.JLL) as the indicator of a model’s perfor- mance: − 1N N∑ i=1 log Pr(yi|xi), where N is the number of samples in the test set.
+152	11	Based on the theorem (1) we obtain 1,000,000 samples from the residual multivariate normal distribution for testing DMVP’s performance, which is sufficient to guarantee the accuracy of the estimation.
+159	37	(2) DMVP trains more than 100 times faster than the MCMC-based DMSE model in terms of the wall-clock time.

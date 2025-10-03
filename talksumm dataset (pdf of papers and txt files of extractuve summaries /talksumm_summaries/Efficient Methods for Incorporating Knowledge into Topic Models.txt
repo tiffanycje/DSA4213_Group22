@@ -1,0 +1,30 @@
+0	23	Topic models, such as Latent Dirichlet Allocation (Blei et al., 2003, LDA), have been successfully used for discovering hidden topics in text collections.
+2	9	However, LDA’s lack of supervision can lead to disappointing results.
+3	49	Often, the hidden topics learned by LDA fail to make sense to end users.
+4	82	Part of the problem is that the objective function of topic models does not always correlate with human judgments of topic quality (Chang et al., 2009).
+5	49	Therefore, it’s often necessary to incorporate prior knowledge into topic models to improve the model’s performance.
+8	16	In addition to its occasional inscrutability, scalability can also hamper LDA’s adoption.
+20	30	In this section, we introduce the factor model for incorporating prior knowledge and show how to efficiently use Gibbs sampling for inference.
+32	6	Yao et al. (2009) propose a clever factorization of Equation 1 so that the complexity is typically sublinear by breaking the conditional probability into three “buckets”:∑ t P (z = t|z−, w) = ∑ t αβ nt + V β︸ ︷︷ ︸ s (2) + ∑ t,nd,t>0 nd,tβ nt + V β︸ ︷︷ ︸ r + ∑ t,nw,t>0 (nd,t + α)nw,t nt + V β︸ ︷︷ ︸ q .
+40	8	We address this limitation in this section by adding a factor graph to encode prior knowledge.
+49	25	Each prior knowledge m ∈ M defines a potential function fm(z, w, d) of the hidden topic z of word type w in document d with which m is associated.
+50	33	Therefore, the complete prior knowledge M defines a score on the current topic assignments z: ψ(z,M) = ∏ z∈z exp fm(z, w, d) (3) If m is knowledge about word type w, then fm(z, w, d) applies to all hidden topics of word w. If m is knowledge about document d, then fm(z, w, d) applies to all topics that are in document d. The potential function assigns large values to the topics that accord with prior knowledge but penalizes the topic assignments that disagree with the prior knowledge.
+58	43	The first term is identical to standard LDA, and admits efficient computation using SparseLDA.
+59	44	However, if the second term, exp fm(z, w, d), is dense, we still need to compute it explicitly T times (once for each topic) because we need the summation of P (z = t) for sampling.
+60	32	Therefore, the critical part of speeding up the sampler is finding a sparse representation of the second term.
+61	41	In the following sections, we show that natural, sparse prior knowledge representations are possible.
+66	10	In contrast, a cannot-link relation between two words indicates that these two words are not topically similar, and they should not both be prominent within the same topic.
+69	9	Let us say word w is associated with a set of prior knowledge correlations Mw.
+79	21	The smaller λ is, the stronger this correlation is.
+81	11	As λ decreases, the constraint becomes active for topics with lesser counts.
+83	20	In our experiments, for simplicity, we use the same value λ for all knowledge and set λ = 1.
+85	8	If λ is large, the prior knowledge has little impact on the conditional probability of topic assignments.
+89	11	In a 500-topic model trained on a larger dataset like the New York Times News (Sandhaus, 2008), 81.9% of word types have fewer than 50 topics with nonzero counts.
+90	26	Moreover, the model becomes increasingly sparse with additional Gibbs iterations.
+91	46	Figure 1 shows the word frequency histogram of nonzero topic counts of NYT-News dataset.
+93	31	SparseLDA efficiently computes the s, r, q bins as in Equation 3.
+95	8	We only need to compute the potential term for the topics whose counts are greater than λ.
+102	80	Ramage et al. (2009) propose Labeled-LDA, which improves LDA with document labels.
+103	97	It assumes that there is a one-to-one mapping between topics and labels, and it restricts each document’s topics to be sampled only from those allowed by the documents label set.
+105	14	We define fm(z, w, d) = { 1, if z ∈ md −∞, else (8) where md specifies document d’s label set converted to corresponding topic labels.
+106	16	Since fm(z, w, d) is sparse, we can speed up the training as well.

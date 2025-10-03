@@ -1,0 +1,30 @@
+0	14	KDE (Rosenblatt, 1956; Parzen, 1962) is a foundational aspect of nonparametric statistics.
+1	30	It is a powerful method to estimate the probability density function of a random variable.
+5	57	In this paper, we focus on the uniform finite-sample facet of KDE convergence theory.
+9	27	These bounds hold with high-probability under general assumptions on f and the kernel i.e. we only require f to be bounded as well as decay assumptions on the kernel functions.
+10	27	Moreover, these bounds hold uniformly over Rd and bandwidth matrices H. We then show the versatility of our results by applying it to the related areas of KDE rates under `∞, mode estimation, density level-set estimation, and class probability estimation.
+72	43	samples drawn from it and letFn denote the empirical distribution w.r.t.
+73	28	i.e. Fn(A) = 1n ∑n i=1 1{Xi ∈ A}.
+94	20	Chaudhuri & Dasgupta (2010) takes G to be the indicator functions over balls.
+95	42	Dasgupta & Kpotufe (2014) uses this to provide similar bounds for the k-NN density estimator as in this paper.
+96	27	Here, we extend this idea to ellipsoids by taking G = B (the indicator functions over ellipsoids), which has VC dimension (d2 + 3d)/2 as determined by Akama & Irie (2011).
+127	20	We next get a handle on each Fn (BH0(x, jh∆)).
+128	23	Thus, by Lemma 3, we have Fn (BH0(x, jh∆)) ≥ vd · (jh∆)d · Fj − βn √ vd · (jh∆)d/2 · √ Fj − β2n ≥ vd · (jh∆)d · Fj − βn √ vd · ||f ||∞ · (jh∆)d/2 − β2n.
+137	71	We next get a handle on each Fn (BH0(x, jh∆)).
+160	32	This result can be extended to multi-modal distributions as done by Dasgupta & Kpotufe (2014) by using the connected components of nearest neighbor graphs at appropriate empirical density levels to isolate the modes away from each other.
+161	30	In this section, we estimate the density level set Lf (λ) := {x : f(x) ≥ λ} where λ > 0 is given.
+164	11	It is clear that the results that follow can be extended to arbitrary H0.
+176	39	dH(L̂f , Lf (λ)) ≤ C ′′ ( (log n)2/ρ · h+ ( log n n · hd )1/(2β)) , where C ′′ ≡ C ′′(C, C̃, Ĉβ , Čβ , C̃, β).
+177	79	Choosing h = n−β/(2β+d) gives us a densitylevel set estimation rate of O(n−1/(2β+d)).
+178	43	This matches the lower bound (ignoring log factors) determined by Tsybakov (1997).
+179	78	This result can be extended so that we can recover each component separately (i.e. identify which points correspond to which connected components of Lf (λ)).
+180	30	Similar to the mode estimation result, this can be done using nearest neighbor graphs at the appropriate level to isolate the connected components of Lf (λ) away from each other.
+182	19	The global α-Hölder continuous assumption is not required and is only here for simplicity.
+198	69	This corresponds to an optimized rate of Õ(n−α/(2α+d)).
+199	14	This matches the lower bounds up to log factors for misclassification as established in related works e.g. Audibert et al. (2007); Chaudhuri & Dasgupta (2014).
+200	25	Note that misclassification rate for a hard classifier is a slightly different but very related to what is done here, which is directly estimating the marginal density.
+201	23	We make the following regularity assumptions which are standard among works in manifold learning e.g. (Baraniuk & Wakin, 2009; Genovese et al., 2012; Balakrishnan et al., 2013).
+202	29	F is supported on M where: • M is a dM -dimensional smooth compact Riemannian manifold without boundary embedded in compact subset X ⊆ RD.
+204	20	• M has condition number 1/τ , which controls the curvature and prevents self-intersection.
+205	15	Let f be the density of F with respect to the uniform measure on M .
+208	171	It is then the case that we must know the intrinsic dimension dM .

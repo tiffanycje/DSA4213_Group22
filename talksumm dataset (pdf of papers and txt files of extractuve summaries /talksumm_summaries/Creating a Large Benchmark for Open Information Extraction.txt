@@ -1,0 +1,30 @@
+5	16	In spite of this wide attention, Open IE’s formal definition is lacking.
+6	23	There are no clear guidelines as to what constitutes a valid proposition to be extracted, and subsequently there is no large scale benchmark annotation.
+8	32	This evaluation practice lacks in several respects: (1) Most works provide a precision oriented metric, whereas recall is often not measured, (2) the numbers are not comparable across systems, as they use different guidelines and datasets, and (3) the experiments are hard to replicate.
+9	44	In this work, we aim to contribute to the standardization of Open IE evaluation by providing a large gold benchmark corpus.
+10	27	For that end, we first identify consensual guiding principles across prominent Open IE systems, resulting in a clearer formulation of the Open IE task.
+13	29	Finally, we automatically evaluate the performance of various Open IE systems against our corpus, using a soft matching criterion.
+16	17	Open Information Extraction (Open IE) was introduced as an open variant of traditional Information Extraction (Etzioni et al., 2008).
+17	59	As mentioned in the Introduction, its primary goal is to extract coherent propositions from a sentence, each comprising of a relation phrase and two or more argument phrases (e.g., (Barack Obama, born in, Hawaii)).
+19	23	In parallel, many Open IE extractors were developed.
+29	21	Table 1 summarizes the evaluations taken by the most prominent Open IE systems.
+41	15	For example, given the sentence “Sam succeeded in convincing John”, ReVerb and ClausIE produce the extraction: (Sam; succeeded in convincing; John).
+43	16	Other elements that affect assertedness, like negations and modals, are typically included in the predicate slot as well (e.g. (John; could not join; the band)).
+47	22	Having shorter entities as Open IE arguments was further found to be useful in several semantic tasks (Angeli et al., 2015; Stanovsky et al., 2015).
+48	64	Completeness and open lexicon Open IE systems aim to extract all asserted propositions from a sentence.
+55	44	However, SRL’s predicates are grounded to a lexicon such as PropBank (Palmer et al., 2005) or FrameNet (Baker et al., 1998), which violates the completeness and open lexicon principle.
+56	29	Further, in contrast to the minimal propositions principle, arguments in SRL annotations are inclusive, each marked as full subtrees in a syntactic parse.
+62	23	Given: • s - a sentence from the QA-SRL dataset.
+63	13	• p - a predicate in s. • tq1, ..., qnu - a list of questions over p. • tta1,1, ..., a1,l1u, ...tan,1, ..., an,lnuu - a list of sets of corresponding answers, where question qi has li answers.
+69	31	}, and the corresponding answer sets are: {{“Barack Obama”, “the U.S president”}, {“win the majority vote in Washington”, “win the majority vote in Arizona”}}.
+72	83	With respect to pronoun removal (step 2(a)), we would remove the pronoun “he” as the answer to the question who was tired?
+73	48	in “John went home, he was tired”.
+74	20	Notice that in this sentence “John” would be a second answer for the above question, yielding the extraction (John; was tired).
+79	15	The corpus is available at: http://www.cs.biu.ac.il/nlp/ resources/downloads.
+80	21	Corpus validation We assess the validity of our dataset by performing expert annotation6 of Open IE extractions, following the principles discussed in Section 3.1, for 100 random sentences.
+82	23	In this section, we illustrate the utility of our new corpus by testing the performance of 6 prominent Open IE systems: OpenIE-4, ClausIE, OLLIE, PropS, Stanford, and ReVerb (see Section 2).7 In order to evaluate these systems in terms of precision and recall, we need to match between their automated extractions and the benchmark extractions.
+83	15	To allow some flexibility (e.g., omissions of prepositions or auxiliaries), we follow (He et al., 2015) and match an automated extraction with a gold proposition if both agree on the grammatical head of all of their elements (predicate and arguments).
+86	15	To the best of our knowledge, this is the first objective comparative evaluation of prominent OpenIE systems, over a large and independently created dataset.
+88	26	Open IE-4 achieves best precision above 3% recall (ě 78.67) and best AUC score (54.02), 2.
+91	32	We presented the first independent and large scale Open IE benchmark annotation, and tested the most prominent systems against it.
+92	47	We hope that future Open IE systems can make use of this new resource to easily and objectively measure and compare their performance.

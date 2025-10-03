@@ -1,0 +1,30 @@
+23	26	Contributions To summarize, the main contributions of this paper are the following: 1.
+25	111	The first approach to model and analyze the sequential and hierarchical overall structure of argumentative texts in combination.
+76	27	What the main claim is follows from a tree-like overall structure emerging from four types of relations: normal or example support from one unit to another, a rebuttal of units by other units, and undercutters where a relation is attacked by another unit.
+77	43	For 88 texts, the stance towards a specified topic is labeled as pro (46) or con (42).
+84	28	The corpus composes argumentative texts of four genres, namely, 5 articles, 216 comments to articles, 46 blog posts, and 73 forum posts.
+92	24	For this, we unify the specific corpus models of overall argumentation outlined above in one general model.
+98	26	To obtain a unified form in the general model, we modify the undercutters such that they target the premise of the undercutted relation.
+112	31	The general model is slightly less expressive than the specific models.
+119	26	As we aim to provide intuitive insights into how people argue in overall terms, we discuss the graphs in an informal visual way instead of listing exact numbers.6 In the visualizations in Figure 2, brightness captures (inverse) frequency, so darker nodes represent more frequent argument units.
+128	97	While the proportion of con stance seems rather similar between pro and con texts, our visualization reveals that their overall structure is “mirror-inverted” to a limited extent: Most pro texts start with the main claim (depth 0, position 1), discuss con stance later (red proportions increase to the right), and deepen the argumentation in a topdown fashion (most edges from top left to bottom right).
+129	35	Vice versa, con texts more often present the main claim later, attack it earlier, and seem to argue more bottom-up.
+139	34	In contrast, we expect that the impact on classifying genres in the Web Discourse corpus is low.
+151	51	On Arg-Microtexts, for instance, this creates labels such as opponent-support or opponent-undercutter.
+163	23	Label Frequencies (a1) Our simplest model of overall argumentation does not encode structure at all.
+166	48	Label Sequences (a2) To encode sequential overall structure, we refer to the kernel of Mooney and Bunescu (2006), representing the sequential ordering of node labels in a tree by all contiguous subsequences.
+168	44	This approach can be seen as an imitation of our flow model (Wachsmuth and Stein, 2017).7 Label Tree Paths (a3) We capture hierarchical overall structure adapting the non-positional part of the route kernel of Aiolli et al. (2009), label paths.
+170	33	Following Aiolli et al. (2009), we consider only label paths starting at the root vi = v0, abbreviated here as ξ(vj).
+194	21	To prevent the classifiers from using knowledge about the class distributions, we used fairness during training, i.e., each class was given an equal weight (Filice et al., 2014).
+197	36	To clarify the reliability of the differences between the results, the table includes the confidence level (starting at 95%) at which each approach is significantly better than all weaker approaches according to a two-tailed paired student’s t-test.10 Myside Bias on AAE-v2 The highest accuracy reported for classifying myside bias is 77.0 (Stab and Gurevych, 2016).
+198	25	While the comparability is limited (see above), we see that label frequencies (a1) already achieve 83.4 and 85.7 for the general and specific model respectively, outperforming all baselines with 99.9% confidence.
+205	58	Considering that no corpus annotation is perfect, the outstanding accuracy of 97.1 conveys an important finding: Modeling the tree structure of an argumentation basically solves the myside bias task without requiring other features.
+211	36	Putting them together in the positional tree paths (a4) yields an accuracy of 66.7 and 67.8 respectively; more than the token n-grams (b2, 65.2).
+213	73	We conclude that both sequential and hierarchical overall structure are important for the distinction of pro from con argumentation, supporting our hypothesis from Section 4.
+220	94	This paper provides answers to the question of how the overall structure of a monological argumentative text should be modeled in order to tackle downstream tasks of computational argumentation.
+221	21	We have adopted the idea of including positional information in tree kernels in order to capture the explicit sequential and the implicit hierarchical overall structure of the text at the same time.
+223	54	Most impressively, we have found that hierarchical structure decides about myside bias alone, while the combination of sequential and hierarchical structure has turned out beneficial for classifying stance.
+224	138	The missing impact on genre supports that the presented approaches actually capture argumentationrelated properties of a text.
+225	47	So far, however, we have restricted our view to ground-truth argument structure, leaving the integration of computational argument mining approaches to future work.
+226	109	While the noise from mining errors might qualify some of our findings, we also expect that larger corpora will allow us to discover more reliable and discriminative patterns.
+227	31	After all, our results underline the general importance of modeling overall argumentation.

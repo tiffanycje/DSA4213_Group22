@@ -1,0 +1,30 @@
+6	44	For example, for identifying emails about postdoc positions, a university professor might say ‘These inquiries usually seek a postdoc opportunity and include a CV’, rather than label scores of examples of such emails.
+7	25	Second, acquiring large quantities of labeled data may be infeasible because of a long tail of concepts that are highly domain or user specific.
+9	56	to an email assistant in order to better manage her/his inbox.
+11	52	On the other hand, humans can efficiently learn about new concepts and phenomena through language.
+12	111	In fact, verbal and written language form the basis for much of human learning and pedagogy, as reflected in text-books, lectures and student-teacher dialogues.
+15	26	In general, natural language can subsume several modes of supervision: instance labeling (e.g., ‘This email is spam’), feature labeling (e.g., ‘The word ‘Viagra’ indicates spam’), model expectations (‘Spam emails rarely come from edu extensions’), etc.
+20	26	In doing this, each statement s effectively acts as a binary feature function {z = fs(x) ∈ {0, 1}} that fires when the interpretation of a statement s is true for an instance x.
+21	161	The crux of our approach is that correct interpretations of natural language explanations are more likely to be useful in discriminating concepts, and this observation can be used to guide both semantic interpretation and concept learning2.
+23	34	The latent variables correspond to evaluations of natural language statements for different instances, and training proceeds via a generalized EM procedure that iteratively (1) estimates evaluations of explanations (marginalizing over all 2e.g., a parser may associate multiple incorrect interpretations with the statement in Figure 2 (like stringMatch(attachment stringVal (‘usually’))), which are unlikely to help in discriminating instances of the concept.
+25	28	The inputs to the method consist of a small number of labeled examples and non-examples of a concept, natural language statements explaining the concept, and a domain specific lexicon.
+26	76	The method does not require labeling sentences with logical forms.
+27	17	For our empirical evaluation, we focus on personal emails, a practical example of a domain where target concepts are often highly individualized and labeled data is scarce.
+52	24	We augment the representation of each instance, xi, with a feature vector zi, that encodes the information contained in S. The individual elements of this feature vector, zij ∈ {0, 1}, denote whether the statement sj applies to instance xi (see Figure 3).
+54	16	These are obtained by parsing each statement sj into a logical expression lj : X → {0, 1} which can be evaluated for an instance xi to obtain zij = JljKxi .
+61	22	In Equation 1, we observe that the data likelihood decouples into the log probability of observing the concept labels pθc(yi | z, x) conditioned on the statement evaluations and the log probability of the latent statement evaluations pθp(z | x,S).
+64	81	On the other hand, the probability of the latent statement evaluation values z can be parametrized using a probabilistic semantic parsing model (with associated parameters θp).
+67	17	log pθp(zj | x, sj) = log ∑ l:JlKx=zj pθp(l | sj) (2) Following recent work in semantic parsing (Liang and Potts, 2015; Krishnamurthy and Mitchell, 2012), we use a log-linear model over logical forms: pθp(l | s) ∝ exp(θpTφ(s, l)) (3) where φ(s, l) ∈ Rd is a feature vector over statements s and logical interpretations l.
+69	18	The learning algorithm consists of an iterative generalized EM procedure, which can be interpreted as a block-coordinate ascent in the estimates of statement evaluations q(z) and the model parameters θc and θp.
+79	26	At the same time, the classification model is updated to fit evaluations that are supported by interpretations from the semantic parser.
+80	29	We now describe the M-step updates for the loglinear semantic parser with parameters, θp.
+96	15	Since our focus in this work is concepts about emails, we specify a logical language that is expressive enough to be useful for concept learning in this domain.
+99	24	e.g., ‘These inquiries will usually seek a postdoc opportunity and include a CV’ can be expressed as and (getPhrasesLike(email, stringVal(‘seek postdoc opportunity’)), (stringMatch attachment (stringVal‘CV’))).
+113	28	We created a dataset of 1,030 emails paired with 235 natural language statements made by human users in the process of teaching a set of seven concepts.
+169	51	Concept learning vs language interpretation: To delineate the relationship between parsing performance and concept learning more clearly, we plot concept classification performance for different levels of semantic parsing proficiency in Figure 6.
+171	18	The figure shows a (expectedly) strong association between parsing performance and concept learning, although gains from parsing taper after a certain level of proficiency.
+177	33	However, this effort is onetime, and can find re-use across the long tail of concepts in a domain.
+179	35	A natural solution could detect that a feature described in the statement is novel4, and request the user to teach the unknown concept.
+180	87	The same principle can be applied recursively, resulting in a mixed-initiative dialog, much like between a student and a teacher.
+181	16	Future work can also incorporate other modes of supervision from language.
+182	52	For example, this work ignores modifiers such as ‘always’ and ‘usually’, which often carry valuable information that could be incorporated via model expectation constraints.

@@ -1,0 +1,30 @@
+4	18	If the statement is the answer to the question “Where did the cat sit?” the speaker might stress the word “mat” to indicate that it is the answer to the question.
+6	60	The question, “Would you like an apple or an orange?” can also be spoken in multiple ways, indicating information about the set of objects that exist.
+13	26	This view of prosody is compatible with interpretations of prosody from previous works (Wagner & Watson, 2010; Ladd, 2008).
+16	35	We propose one possible construction of a prosody latent space, and show that we capture meaningful variation in speech by demonstrating transfer in this space (i.e., using a latent representation to make one utterance sound like another): this roughly corresponds to a “say it like this” task.
+17	31	The recently proposed Tacotron speech synthesis system (Wang et al., 2017a) computes its output directly from graphemes or phonemes, and its prosody model is implicit, learned from the statistics of the training data alone.
+18	20	It learns, for example, that an English sentence ending in a question mark likely has a rising pitch if the question has a yes-or-no answer.
+43	30	Additionally, we exclusively use phoneme inputs produced by a text normalization front-end and lexicon, as we are specifically interested in addressing prosody, not the model’s ability to learn pronunciation from graphemes.
+45	54	The audio samples included on our demo page were produced with a WaveNet vocoder (Shen et al., 2017); however, the original linear-spectrogram prediction network followed by Griffin-Lim spectrogram inversion from (Wang et al., 2017a) works equally well for prosody transfer.
+57	27	In combination with the speaker embeddings described in Section 3.1, the encoder embeddings form a LT ×(dT +dS+dP ) embedding matrix, where the speaker and prosody embeddings are fixed across all timesteps.
+61	19	In training, one can think of the combined system as an RNN encoder-decoder (Cho et al., 2014a) with phonetic and speaker information as conditioning input.
+64	18	During inference, we can use the prosody reference encoder to encode any utterance: we are not constrained to match either the text input or the speaker identity.
+65	58	In particular, this enables the possibility of prosody transfer – using an utterance by a different speaker, or different text to control the output.
+67	21	For the reference encoder architecture (Figure 2), we use a simple 6-layer convolutional network.
+69	23	Batch normalization (Ioffe & Szegedy, 2015) is applied to every layer.
+94	32	We use the following datasets: Single-speaker dataset: A single speaker high-quality English dataset of audiobook recordings by Catherine Byers (the speaker from the 2013 Blizzard Challenge).
+122	19	In particular, notice that the spectrogram from the baseline model, which does not use a reference signal, exhibits noticeably different rhythm – for example, there is a long pause between the two halves of the utterance, and the utterance lasts much longer.
+127	26	“Same speaker” indicates a reference utterance from the same speaker as the target, while “unseen speaker” refers to a reference utterance from a speaker unseen in training.
+128	54	For the multi-speaker model, we also tested synthesis with a speaker seen in training but different from the target speaker (“seen speaker”).
+132	32	The objective metrics MCD13 and FFE also support this conclusion, both resulting in substantially lower values for the reference encoder model than for the baseline model.
+133	41	Note that when the target and reference speakers are different (i.e., when the reference in Table 1 is either “seen speaker” or “unseen speaker”), we must be careful to demonstrate that prosody transfer has been achieved.
+138	29	Since the prosody embeddings we learn capture prosodic features with some fine time detail, it isn’t clear what it would mean to transfer these prosodic features to a radically different utterance.
+146	30	This is not accidental: pitch, pacing, and other prosodic characteristics factor into speaker identity, and thus it is difficult to prescribe exactly which aspects of the target speaker’s identity should be preserved during prosody transfer.
+152	48	When controlled by a male reference signal, female target speakers sound as if they’re imitating a person with a deeper voice.
+154	30	This suggests that the prosody and speaker representations are somewhat entangled.
+161	25	The speaker identification model identified the spectrograms as originating from the reference speaker in 61% of test set examples, and the target speaker only 21% of the time (ideally, the target speaker would be at 100%).
+166	51	In this experiment, we use our single speaker as both the reference signal and target (we are essentially trying to conditionally autoencode the mel spectrograms given text).
+169	33	More interestingly, using a softmax activation leads to a degradation of metrics in comparison to tanh: this is probably due to the exponential suppression of the non-maximal components in the softmax.
+174	29	Future work should focus on encoding prosody in a pitch-relative manner so that speaker identity is more completely preserved during transfer.
+175	29	A substantial open question is how to disentangle the textual information implicit in the reference signal from the prosodic information.
+178	31	As noted earlier, this is a somewhat ill-defined task, and a more careful formalization of this problem is needed to make real progress.

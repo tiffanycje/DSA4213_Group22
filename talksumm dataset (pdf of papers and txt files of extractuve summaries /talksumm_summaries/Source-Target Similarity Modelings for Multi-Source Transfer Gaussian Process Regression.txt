@@ -1,0 +1,30 @@
+2	5	The problem of regression, however, has been much less studied, despite of the variety of real-world domains in which it arises; for instance wifi or indoor signal location (Pan et al., 2008), biological data analysis (Lam et al., 2016), or mechanical system design (Ghosh et al., 2015).
+3	49	In this work, we concentrate on multi-source transfer regression (MSTR) based on Gaussian process (GP) models.
+4	41	All the way through, the TL community has been paying attention to modeling the similarity between different domains so that only the source knowledge that is helpful for the target domain is transferred.
+5	23	This is because designing a TL method based on the assumption that domains are mutually relevant may lead to negative transfer (Pan & Yang, 2010).
+7	32	Thus, TL methods that are capable of tuning the strength of the knowledge transfer to the similarity of the domains are attracting increasing interest (Luo et al., 2008; Wang et al., 2014; Al-Stouhi & Reddy, 2011).
+8	7	As regards to MSTR, a key issue is to capture the diverse Source-Target (S-T) similarities.
+11	7	However, as outlined in (Al-Stouhi & Reddy, 2011), such an instance-based similarity strategy in boosting has shown issues with slow/premature weights convergence that have seriously penalized the computational cost or the transfer performance.
+12	33	Another type of ensemble strategy for multisource transfer is stacking (Wolpert, 1992).
+15	67	In this case, the S-T similarities can be captured through the model importance.
+16	17	However, in such stacking-based methods, the base models suffer from a lack of consideration of the dependencies between the different source domains.
+17	99	Another popular idea to model the S-T similarity is to construct a transfer covariance function that relates two data points from distinct domains through the similarity coefficients (Bonilla et al., 2008; Williams et al., 2009).
+19	25	Note, however, that multi-task learning differs from the TL problem in that the former aims at improving performance across all the domains while the objective of the latter focuses on the target domain only.
+21	80	In (Cao et al., 2010), a single source transfer covariance function (TCSS) was proposed.
+22	24	In the corresponding transfer covariance matrix, one similarity coefficient was assigned to the S-T block to model the inter-domain similarity.
+23	10	A GP with such TCSS (called GP-TCSS) was then trained for the transfer task.
+24	10	When generalizing to MSTR, one may naturally consider a multi-source transfer covariance function (TCMS) with different similarity coefficients attached to distinct S-T blocks in the corresponding transfer covariance matrix.
+26	19	We theoretically prove that a general GP with TCMS (GP-TCMS) fails to capture the similarity diversities of various S-T domain pairs.
+27	9	Although TCMS intends to utilize different similarity coefficients, the learnt GPTCMS would give the same similarity coefficient for all the S-T domain pairs.
+28	33	The generalization error bounds of the learnt GP-TCMS show that this coefficient is taking effect in every source domain.
+29	83	Considering the diverse S-T similarities between the sources and the target, this may jeopardize the transfer performance, especially when the number of sources increases.
+30	22	Moreover, the learning of GPTCMS rapidly poses a computational issue with increasing amounts of source domains as usually O(m3) computations are required to evaluate a model for m data points.
+31	77	The unsatisfactory performance of GP-TCMS leads us to exploit the transfer covariance function in another way.
+32	58	Considering that both the stacking strategy and the transfer covariance function can model the S-T similarity and using the transfer covariance function at the base models would therefore add flexibility to the similarity capture capability of the stacking approach, we propose to integrate them into one unified model.
+35	21	However, TCSSStack still suffers from the aforementioned limitation of conventional stacking.
+37	61	Two salient features make TCMSStack significantly different from TCSSStack: (i) it associates the similarity coefficients in the base GP-TCSS with the model importance during learning, and (ii) it learns the model importance and the base GP-TCSS jointly.
+38	52	By doing so, on the one hand, TCMSStack further reduces the computational cost by lowering the number of optimization variables.
+39	18	On the other hand, although the similarity coefficient in TCMSStack represents bivariate S-T similarity relations, they are elicited by pondering all the inter-domain dependencies.
+40	28	In the experiments, we show the superiority of TCMSStack on the transfer performance compared to TCSSStack, GP-TCMS , and other MSTR methods.
+60	28	Moreover, we assume nTl min(nS1 , ..., nSN , nTu).
+62	12	We use the GP model for this regression task.

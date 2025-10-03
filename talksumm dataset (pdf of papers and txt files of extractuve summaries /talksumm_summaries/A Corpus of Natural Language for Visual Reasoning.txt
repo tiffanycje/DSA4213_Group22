@@ -1,0 +1,30 @@
+5	45	In this paper, we introduce the Cornell Natural Language Visual Reasoning (NLVR) corpus and task.
+6	13	We define the binary prediction task of judging if a statement is true for an image or not, and introduce a corpus of annotated pairs of natural language statements and synthetic images.
+20	16	We also analyze the language in our data for presence of certain linguistic phenomena, and compare this analysis with related datasets.
+38	25	Given an example, the task is to determine whether a statement is true or false for the image or structured representation.
+41	16	Images are divided into three boxes.
+43	39	Each object has four properties: position (x/y coordinates), color (black, blue, yellow), shape (triangle, square, circle), and size (small, medium, large).
+52	25	We generate images following the structure described in Section 3, and collect grounded natural language descriptions.
+61	55	To generate the sets of images presented to annotators, we generate two images independently, a third image by using the set of objects in the first im- age and randomly re-shuffling them between the boxes, and a fourth image by re-shuffling the objects in the second image.
+65	30	The constraints force the worker to contrast two pairs by referring to similarities and differences between the images, but not to refer to the position of the image in the prompt, or of each box in each image.
+67	10	Phase 2 – Validation In the second phase, we pair each sentence with the four images used to generate it.
+71	34	During validation, boxes are randomly permuted to ensure the last constraint was followed.
+79	15	For the training set we collect a single validation annotation for each sentence-image pair; for the rest of the data we collect five annotations each.
+82	25	Table 1 shows the number of sentences and pairs, including permutations, for each split.
+83	18	We merge the development and test splits to calculate agreement statistics.
+88	26	We analyze 200 development sentences to identify the distribution of semantic phenomena and syntactic ambiguity (Table 2).
+89	18	For comparison, we apply this analysis to 200 abstract-image and 200 real-image sentences from VQA (Antol et al., 2015).
+90	12	The difference in the distribution illustrates the complexity of our data.
+92	18	In Figure 3, we compare sentence length distribution to VQA, MSCOCO (Chen et al., 2015b), and CLEVR (Johnson et al., 2016).
+93	10	Our sentences are generally longer than VQA and more similar in length to MSCOCO.
+94	34	However, our task is more similar to VQA, where context is used to understand language, rather than to generate.
+107	11	Propertybased features trigger when some property (e.g., an object is touching a wall) is true in the structure.
+109	15	Count-based features trigger when a count we observe in the image (e.g., the number of black triangles) is present in the sentence.
+110	96	We generate features combining the type of item counted (e.g., black triangles) with the n-grams surrounding the count in the sentence, up to n = 6.
+112	28	MLP Train a single-layer perceptron with a softmax layer.
+113	73	The input to the perceptron is the mean of the feature embeddings.
+114	12	We use the same feature set as the MaxEnt model.
+115	64	Image Features+RNN Compute features from the structure representation only, and encode the text with an LSTM RNN.
+126	24	When ablating count-based features from the MaxEnt model, development accuracy decreases from 68.04 to 57.7.
+127	23	This indicates counting is an important aspect of the problem.
+128	12	We introduce the Cornell Natural Language Visual Reasoning dataset and task.

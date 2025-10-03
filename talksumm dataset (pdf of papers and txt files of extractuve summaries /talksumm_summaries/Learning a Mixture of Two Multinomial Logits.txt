@@ -1,0 +1,30 @@
+3	17	Mixtures of multinomial logistic models have been widely used in discrete choice since 1980 (Boyd & Mellman, 1980; Cardell & Dunbar, 1980), and are of particular interest because they are known to -approximate any Random Utility Model (McFadden & Train, 2000).
+7	23	A multinomial logistic model (usually called an MNL) over a universe U of items provides a specific mapping from any non-empty subset S ⊆ U to a distribution over S. The model requires a weight function w : U → R+ that gives a positive weight to each item in the universe.
+8	21	The model then assigns probability to each u ∈ S proportional to its weight: Pr[u | S] = w(u)/ ∑ v∈S w(v).
+9	99	These models are frequently employed in the setting of discrete choice, in which a user must select exactly one item from a set of alternatives.
+10	24	If S ⊆ U gives the alternatives, the MNL then provides a distribution representing the likelihood that each item in S will be selected.
+11	10	Such models are employed in many settings: selection of a piece of music, a mode of transportation, a brand of toothpaste, and so forth.
+12	35	We note in passing that the weight function may be generalized in many ways.
+13	26	Rather than mapping from u to w(u), it may instead be defined in terms of features of u (allowing easy generalization to unseen objects) or in terms of features of the particular situation (for instance depending on properties of the user making the choice).
+14	17	In our work we do not consider such generalizations; we assume that w simply maps an item to a positive real-valued weight.
+16	11	The estimation is convex and is easily solved at large scale by gradient ascent methods.
+17	24	As a result, MNL is widely used in practice.
+21	8	The slate of available options is {ICML, CVPR}, and based on the distribution, 60% of authors work in vision, and submit to CVPR.
+26	4	Thus, for ICML and ICLR to be chosen with the same probability it must be that they have the same weight of 20%; but, if that is the case, then the slate {ICML, CVPR} will let CVPR win with probability 75%.
+34	8	In fact, moving from a single MNL to a mixture of MNLs is surprisingly powerful, as we now describe.
+36	9	We may broaden the function family by removing the restriction that the likelihood of each item is always proportional to its fixed weight.
+37	16	The Random Utility Model mentioned above (Marschak, 1960) is defined, not by a weight function, but by a distribution over value vectors, where each value vector assigns a value to each item of U .
+42	4	For this reason, mixtures of MNLs are commonly employed in discrete choice settings.
+45	11	We take a first step towards remedying this situation by resolving positively the question of learning uniform mixtures of two MNLs.
+47	12	The uniform 2-MNL (a, b) assigns to item u in subset S ⊆ U the probability 12 · a(u)∑ v∈S a(v) + 12 · b(u)∑ v∈S b(v) .
+49	21	• Identifiability: There is an algorithm that learns any 2-MNL (a, b) in time O(|U|).
+51	63	This oracle, when presented with any slate of size at most 3, returns the distribution over items of the slate induced by the mixture.
+53	14	If the oracle can be queried adaptively, we show an algorithm that makes O(|U|) queries, which we show to be optimal.
+54	110	For the non-adaptive case, we show an algorithm that makes O(|U|2) queries, also optimal.
+56	9	The underlying question involves studying the uniqueness of solution to a system of quartic multivariate polynomials, derived from the unknown parameters of the mixture model.
+57	18	Through a series of reductions and delicate case analyses, we obtain several structural properties of this polynomial system, which we use to prove uniqueness.
+58	4	The tools we develop for showing uniqueness could be of independent interest and might have applications in other algorithmic discrete choice settings.
+61	6	In Section 5.1, we show lower bounds on the numbers of adaptive and non-adaptive queries for reconstruction and in Section 5.2 we show algorithms with matching query complexity.
+92	10	An s-slate is a slate of size s. A multinomial logit (1-MNL, or simply, MNL) model is fully specified by a weight function a : [n] → R+, where R+ is the set of positive real numbers.
+94	21	We can think of DaT (i) as the probability that item i wins in the slate T .
+95	15	Clearly, without loss of generality, ∑n i=1 ai = 1.

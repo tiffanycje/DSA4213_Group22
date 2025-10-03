@@ -1,0 +1,30 @@
+0	35	Vulgarity is a common element of conversation (Jay, 2009; Mehl et al., 2007) and is used even more frequently in social networks such as Twitter (Wang et al., 2014).
+1	163	Understanding the motivation behind the choice to be vulgar and the way in which vulgarity is manifested in naturally occurring environments is of interdisciplinary interest.
+4	13	Research in linguistics and psychology has identified several types of usage for vulgar words (Andersson and Trudgill, 1990; Pinker, 2007; Wang, 2013).
+6	28	Table 1 shows example tweets with the six general functions of vulgar word usage.
+7	184	We notice that in one of the examples, the vulgar word ass is used to verbally abuse another user, while the same word can also be employed to emphasize a feeling (‘good ass day’) or to express an emotion (‘pain in the ass’).
+11	34	The first data set of written utterances that con- tain vulgar words, where each vulgar word is labeled for one of six functions of use1 2.
+14	22	Experiments demonstrating that modeling the type of vulgar word usage in context can im VulgarFunctionsTwitter prove predictive performance of the hate speech prediction task on a benchmark data set Our novel data set contains 7,800 tweets with 8,524 vulgar word labels annotated for one of six functions by seven annotators.
+51	22	The Vulgar Twitter corpus was constructed by identifying tweets containing vulgarity through use of the vulgarity lexicon available at www.
+53	36	For the complete description of the composition and construction of the Vulgar Twitter corpus, we refer the interested reader to the original paper (Cachola et al., 2018).
+57	25	Demographic information (including gender, age, level of education, level of annual income, faith, an political ideology) was was self-reported via online survey.
+68	21	Available responses ranged from ‘Never’ (1) to ‘Multiple times per week’ (6).
+81	16	This alpha value (0.506) is regarded as a moderate level of agreement (Artstein and Poesio, 2008).
+83	30	In cases where no majority class emerged from the seven annotations (10.6% of the instances), the tie was broken by one of the authors of the paper, who have significant training and experience in linguistic annotation.
+91	33	We start with a quantitative analysis of our data.
+113	14	Younger users of Twitter are more likely to use vulgar words to signal group identity and to express emotion.
+118	33	Previous research showed that liberals are more likely to use more vulgarity overall in social media (Sylwester and Purver, 2015; Preoţiuc-Pietro et al., 2017) and are perceived by others to use more frequently than they do vulgar words (Carpenter et al., 2016), but this analysis shows this is especially due to vulgar word use to emphasise.
+120	35	Controlling for faith and political ideology with partial correlation does not alter the significance of this result.
+125	25	We use logistic regression5 to build six one vs. all binary classifiers for each of the six functions using information from the immediate lexical and syntactic context surrounding the word and general usage of the word in training data.
+126	27	We use the following feature types in our experiments: Intention Distribution –We include six features encoding the distribution over intentional classes of the target word in training data, as some words use only several functions and some more predominantly than others.
+129	17	Sentiment Content –We include two features which represent the number of positive and negative valence words in the tweet, normalized by tweet length.
+131	49	Part of Speech Context –We encode the part of speech of the target word, the previous word and the next word as one-hot vectors as we expect syntactic information to be an indicator of different functions in context.
+132	258	We extract parts of speech using the Twitter version of the Stanford POS tagger which demonstrated good results on tagging tweets and uses the finer grained Penn Treebank tagset (Derczynski et al., 2013).
+133	19	Brown Clusters –Finally, we include two one-hot feature groups which indicate the Brown Cluster (Brown et al., 1992) membership of word immediately before and immediately after the vulgar term.
+141	45	Our predictive model vastly outperforms the most frequent baseline, which uniformly selects the most frequent class overall (emphasis) and scores very low due to the very even distribution over functions.
+146	32	However, even with no word function prior, the predictive performance is still relatively high (55.3 macro F1 across six classes), showing that only the content and context is substantially predictive for the function of a vulgar word Removing tweet content features or part-ofspeech context introduce a similar drop in predictive performance, showing that the overall tweet content and the local syntactic context of the mention play complimentary roles in inference.
+155	25	Several data sets and approaches to automatic hate speech detection have been recently proposed (Djuric et al., 2015; Burnap and Williams, 2015; Waseem and Hovy, 2016; Nobata et al., 2016; Davidson et al., 2017).
+159	17	Our hypothesis is that explicitly modeling the function a vulgar word has in context will benefit the hate speech prediction task, by differentiating between aggression and other usages.
+160	17	We use the dataset introduced in Davidson et al. (2017) as this is publicly available, contains tweets collected using vulgar words and explicitly differentiates between offensive tweets and tweets containing hate speech.
+166	25	We directly and explicitly include the function of the vulgar word present in the tweet by introducing six new features to the hate speech detection model which represent the scores with which the vulgar word is associated with the six functions.
+168	39	We run the model from Davidson et al. (2017) using the provided code on 10-fold cross validation and report the average F1 score for each class as well as the macro-averaged F1 score across all ten folds.

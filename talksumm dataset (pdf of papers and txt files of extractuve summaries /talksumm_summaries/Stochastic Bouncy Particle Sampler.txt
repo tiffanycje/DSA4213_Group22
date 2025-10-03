@@ -1,0 +1,30 @@
+18	21	In Section 6 we discuss related works and in Section 7 we illustrate the advantages of SBPS in several examples.
+19	21	Consider a distribution p(w) ∝ e−U(w) ,w ∈ RD, where the normalization factor may be intractable.
+20	45	The Bouncy Particle Sampler (BPS), proposed in (Peters & de With, 2012; Monmarché, 2014) and formalized and developed in (Bouchard-Côté et al., 2015), introduces a random velocity vector v distributed uniformly in the unit sphere SD−1, and defines a continuous Markov process in (w,v).
+22	11	Denoting time by t, consider a discrete-time Markov process that acts on the variables (w,v) as (w,v)t+∆t = { (w+v∆t,v) w/prob.
+23	9	(4) Note that G in (3) is the directional derivative of U(w) in the direction v, and vr is a reflection of v with respect to the plane perpendicular to the gradient ∇U , satisfying vr · ∇U = −v · ∇U and (vr)r = v. In other words, the particle w moves along a straight line in the direction of v and this direction is reflected as (4) with probability ∆t[G]+.
+24	16	This probability is non-zero only if the particle is moving in a direction of lower target probability p(w), or equivalently higher potential U(w).
+25	16	Applying the transition (1) repeatedly and taking ∆t → 0, the random reflection point becomes an event in an inhomogeneous Poisson process with intensity [G]+.
+27	18	Note that the algorithm also includes occasional resamplings of v, to ensure ergodicity (Bouchard-Côté et al., 2015).
+29	6	The Zig-Zag process (Bierkens & Roberts, 2015; Bierkens et al., 2016) is similar to BPS, but velocity components can take only ±1 values, and the piecewise linear trajectories change direction only in a single coordinate at each random breakpoint.
+30	15	For a review of these methods, see (Fearnhead et al., 2016; Bierkens et al., 2017).
+38	7	Many Cox processes are based on Poisson intensities obeying stochastic differential equations, or assume that the joint distribution at several w’s has a non-trivial wdependent structure.
+43	13	To sample from the posterior using the noisy gradient (7), we want to simulate the first arrival time in a doubly stochastic Poisson process with random intensity [G̃(t)]+, where G̃(t) = v · ∇Ũ(w + vt) .
+56	4	While there are many possibilities for such a predictive model, we found that a simple local linear model was very effective and computationally trivial.
+68	19	(13) The proposal intensity is now λ(t) = [γ(t)]+, and sampling from an inhomogeneous Poisson process with piecewise linear rate λ(t) can be done analytically using the inverse CDF method.
+72	3	The hyperparameters µ, σ2 of the regression model can be learned by performing, after each bounce, a gradient ascent step on the marginal likelihood, p({G̃i}|µ, σ2); this gradient can be computed analytically and does not significantly impact the computational cost.
+73	24	The linear model for G̃ is good when the target distribution can be locally approximated by a Gaussian, since G̃(t) in (8) is a projection of the derivative of the negative log posterior.
+74	11	When the posterior is highly non-Gaussian, a decaying weight can be used for more-distant observations, leading to a local regression; the scale of this decay can be fit again via stochastic gradient ascent on the predictive likelihood.
+75	3	We have also explored a Gaussian Process regression model, but it did not improve over the linear model in the cases we considered.
+78	5	The latter is only needed when a bounce is accepted.
+89	7	(15) The SBPS algorithm can be applied to the density pz(z) using the gradients of U(w).
+91	36	(16) The piecewise linear trajectory zt = z0+vt becomes wt = w0 + Avt.
+95	21	The preconditioner at iteration j is defined as Aj = Diag ( ãj√ aji+ ) .
+96	11	This is the same preconditioner used in (Li et al., 2016), up to the ãj factor; the latter is needed here in order to prevent scaling of G̃.
+97	47	As noted in (Li et al., 2016), a time dependent preconditioner requires adding a term proportional to ∂A j ∂w to the gradient, yet this term is negligibly small and can be ignored when β ≈ 1, since in this parameter regime the preconditioner changes slowly as a function of j and thus of w. We call this preconditioned variant pSBPS.
+98	28	It performs favorably compared to SBPS when the posterior is anisotropic and axis-aligned, since we use a diagonal approximation of the Hessian in the preconditioner.
+99	94	See (Bierkens et al., 2017) for a related approach.
+100	37	As Figure 3 shows, pSBPS converges to the posterior mode faster than SBPS, and mixes faster in the direction of greatest covariance.1 1pSBPS code at https://github.com/dargilboa/SBPS-public.
+113	49	Although simpler MCMC methods perform well in Bayesian logistic regression (BLR) models (Chopin & Ridgway, 2015), we begin with this well-understood case for comparing SBPS against a few of the existing stochastic MCMC methods discussed in the previous section.
+116	34	In the regime d N the Laplace approximation holds fairly well, providing another good comparison method.
+117	20	Figure 4 shows results for N = 1000, d = 20, k = 3, n = 100.

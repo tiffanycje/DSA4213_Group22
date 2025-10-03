@@ -1,0 +1,15 @@
+0	28	Correcting noisy, ungrammatical text remains a challenging task in natural language processing.
+1	10	Ideally, given some piece of writing, an error correction system would be able to fix minor typographical errors, as well as grammatical errors that involve longer dependencies such as nonidiomatic phrasing or errors in subject-verb agreement.
+3	25	Classifier-based approaches to error correction are limited in their ability to capture a broad range of error types (Ng et al., 2014).
+5	6	late noisy, ungrammatical sentences to clean, corrected sentences—can flexibly handle a large variety of errors; however, such approaches are bottlenecked by the need for a large dataset of sourcetarget sentence pairs.
+7	61	A simple approach to noise clean text is to noise individual tokens or bigrams, for example by replacing each token with a random draw from the unigram distribution.
+11	15	Our method combines a neural sequence transduction trained on a seed corpus of clean→noisy pairs with beam search 619 noising procedures to produce more diversity in the decoded outputs.
+12	15	This technique addresses two issues with existing synthesis techniques for grammar correction: 1.
+13	182	By using a neural model trained end-to-end on a large corpus of noisy and clean sentences, the model is able to generate rich, diverse errors that better capture the noise distribution of real data.
+14	42	By encouraging diversity through applying noise to hypotheses during decoding, we avoid what we refer to as the one-to-many problem, where decoding from a model trained on clean→noisy examples results in overly clean output, since clean subphrases still form the majority of noisy examples.
+15	70	We perform experiments using several noising methods to validate these two claims, yielding gains on two benchmarks.
+16	9	Our main empirical result is that, starting with only clean news data and models trained on a parallel corpus of roughly 1.3 million sentences, we can train models with additional synthesized data that nearly match the performance of models trained on 3 million nonsynthesized examples.
+33	3	We first briefly describe the neural model we use, then detail the noising schemes we apply when synthesizing examples.
+34	99	In order to generate noisy examples as well as to translate ungrammatical examples to their corrected counterparts, we need to choose a sequence transduction model.
+36	12	Our method uses two neural encoder-decoder models: 1.
+40	31	For both models, we use the same convolutional encoder-decoder to model p(Y |X) = TY∏ t=1 p(yt|X, y1:t−1; θ) where X = (x1, x2, .

@@ -1,0 +1,30 @@
+0	63	A widely used machine learning technique is the transfer of a representation learned from a source task, for which labeled data is abundant, to a target task, for which labeled data is scarce.
+1	15	This may be effective if the tasks approximately share an intermediate representation.
+8	14	We may either treat the representation as fixed, or we may narrow the class of representations considered on the target task, which we refer to as fine-tuning.
+9	19	The fixed option may be attractive when very little labeled target task data is available and hence overfitting is a strong concern, while the advantage of fine-tuning is relatively greater hypothesis class expressiveness.
+10	29	Let X,Y and Z be sets known as the input, output and feature spaces respectively.
+11	31	Let F be a class of representations, where f : X → Z for f ∈ F .
+12	23	Let G be a class of specialized classifiers, where g : Z → Y for g ∈ G. Let the hypothesis class H := {h : ∃f ∈ F, g ∈ G such that h = g ◦ f}.
+13	20	Let hS , hT : X → Y be the labeling functions and PS , PT be the input distributions for source task S and target task T respectively.
+14	31	Let the risk of a hypothesis h on S and T be RS(h) := Ex∼PS [hS(x) 6= h(x)] and RT (h) := Ex∼PT [hT (x) 6= h(x)] respectively.
+17	109	Let dH be the VC dimension of H .
+23	18	Empirical studies have shown the success of transferring representations between tasks (Donahue et al., 2014; Hoffman et al., 2014; Girshick et al., 2014; Socher et al., 2013; Bansal et al., 2014).
+24	93	Word embeddings learned on a source task have been shown (Qu et al., 2015) to perform better than unigram features on target tasks such as part of speech tagging, and comparably or better than embeddings finetuned on the target task.
+25	14	Yosinski et al. (2014) learned neural network weights using half of the ImageNet classes, and then learned the other classes with a neural network initialized with these weights, finding a benefit compared to random initialization only with target task fine-tuning.
+27	44	Previous work on domain adaptation (Ben-David et al., 2010; Mansour et al., 2009; Germain et al., 2013) has considered learning a hypothesis h on S and re-using it on T , bounding RT (h) using RS(h) (measured with labeled source data) and some notion of similarity between PS and PT (measured with additional unlabeled target data).
+39	38	Suppose labeled source data is abundant, labeled target data is scarce, and we believe the tasks share a representation.
+42	21	The value of the theorem is that if ω(R) = O(R), R̂S(ĝS ◦ f̂) is a small constant, mS mT and dH dG,4 we improve on the VC dimension-based bound for learning T from scratch by avoiding the generalization error of a hypothesis in H learned from mT samples.
+51	26	Using m training points and a hypothesis class of VC dimension d, with probability at least 1 − δ, for all hypotheses h simultaneously, the riskR(h) and empirical risk R̂(h) satisfy |R(h)−R̂(h)| ≤ 2 √ 2d log(2em/d)+2 log(4/δ) m (Mohri et al., 2012).
+76	20	We propose learning T with the hypothesis class H̃G◦F̂ := {h̃g◦f : f ∈ F̂ , g ∈ G} and the prior h̃ĝS◦f̂ .
+79	13	In Theorem 3 we show that if F̂ is ‘small enough’ so that all h̃ ∈ H̃G◦F̂ have a small KL divergence from h̃ĝS◦f̂ , we may apply a PAC-Bayes bound to the generalization error of hypotheses in H̃G◦F̂ involving four terms: a function ω measuring a transferrability property, the empirical risk R̂S(ĝS ◦ f̂), the generalization error of a hypothesis in H learned from mS points, and a weak dependence on mT .
+80	17	The value of the theorem is that if ω(R) = O(R), R̂S(ĝS◦f̂) is a small constant, andmS mT , we improve on the PAC-Bayes bound for H̃G◦F and h̃0.9 F̂ is useful if it is also ‘large enough’ in the sense that ∃h̃gT ◦f ∈ H̃G◦F̂ such that RT (h̃gT ◦f ) ≤ .
+81	15	Here ω quantifies how large the F̂ we search on T must be in order to be ‘large enough’, in terms of RS(ĝS ◦ f̂).
+98	20	We make F̂ ‘small enough’ by only including lower-level weights with small angles to ŵi, and ‘large enough’ by using the risk observed using ŵi on S to provide an upper bound on the angle between each pair wi and ŵi.
+119	13	For the bottom part, we use the example from Section 4.1 and set σ2 = 110 , k = 499, p = 2 3 .
+125	41	In a fully-connected feedforward neural network with l layers of weights, let W (j) be the jth weight matrix, Ŵ (j) be its estimate from S (excluding weights for bias units in both cases), and ||·||2 be the entry-wise 2 norm.
+127	29	m∑ i=1 [−yi log ŷi − (1− yi) log(1− ŷi)] + λ 2 l∑ j=1 (||W (j)||22) (1) We replace the regularization penalty with (2).13 l∑ j=1 [ λ1(j) 2 ||W (j) − Ŵ (j)||22 + λ2(j) 2 ||W (j)||22] (2) This penalizes estimates of W far from the representation learned on S. Since we expect the tasks to share a lowlevel representation (e.g. edge detectors for vision, word embeddings for text) but be distinct at higher levels (e.g. image components for vision, topics for text), we set λ1(·) to be a decreasing function, while λ2(·) controls standard L2 regularization.
+129	48	We experiment on basic image and text classification tasks.14 We show that learning algorithms motivated by our theoretical results can help to overcome a scarcity of labeled target task data.
+131	15	We randomly partition label classes into sets S+ and S−, where |S+| = |S−|.15 We construct T+ by randomly picking from S+ up to γ := |S+∩T+| |S+| , then randomly picking from S− such that |T+| = |T−|.
+140	37	While FIX f̂ outperforms FIX ĝS ◦ f̂ when the tasks are non-identical on MNIST, on NEWSGROUPS there is no evidence of benefit.
+146	108	Potentially λ1(j) and λ2(j) in (2) could be tuned with cross validation on the target task.
+149	13	A promising direction for future work is generalizing the neural network architectures considered (e.g. using multiple hidden layers) and relaxing the distributional assumptions required.

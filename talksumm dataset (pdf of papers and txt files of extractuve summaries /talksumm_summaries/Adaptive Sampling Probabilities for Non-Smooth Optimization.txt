@@ -1,0 +1,30 @@
+0	44	Identifying and adapting to structural aspects of problem data can often improve performance of optimization algorithms.
+2	55	As a motivating concrete example, consider the ` p regression problem minimize x ( f(x) := kAx bkp p = n X i=1 |aT i x b i |p ) , (1) where a i denote the rows of A 2 Rn⇥d.
+9	27	Our method applies to both coordinate descent (feature/column sampling) and mirror descent (observation/row sampling).
+10	37	Heuristically, our algorithm learns to sample informative features/observations using their gradient values and requires overhead only logarithmic in the number of blocks over which it samples.
+11	21	We show that our method optimizes a particular bound on convergence, roughly sampling from the optimal stationary probability distribution in hindsight, and leading to substantial improvements when the data has pronounced irregularity.
+13	89	In this paper, we consider potentially non-smooth functions and present an adaptive block coordinate descent method, which iterates over b blocks of coordinates, reminiscent of AdaGrad (Duchi et al., 2011).
+33	25	We let U j 2 {0, 1}d⇥dj be the matrix identifying the jth block, so that I d = [U 1 · · · U d ].
+34	20	We define the projected subgradient vectors for each block j by G j (x) = U j U> j f 0(x) 2 Rd, where f 0(x) 2 @f(x) is a fixed element of the subdifferential @f(x).
+47	61	To make this more concrete, we consider sampling from the uniform distribution pt ⌘ 1 b 1 so that p min = 1/b, and assume homogeneous block sizes d j = d/b for simplicity.
+50	13	As the projection costs are linear in the number b of blocks, the two algorithms are comparable.
+62	14	Since xt depends on the pt, we view this as an online convex optimization problem and choose p1, .
+68	31	To this end, we first bound the regret (4) by the regret of a linear bandit problem.
+71	14	We wish to apply EXP3 (due to Auer et al. (2002)) or equivalently, a 1-sparse mirror descent to p with P (p) = p log p (see, for example, Section 5.3 of Bubeck and Cesa-Bianchi (2012) for the connections).
+79	39	This means that blocks with large “surprises”—those with higher gradient norms relative to their sampling probability—will get sampled more frequently in the subsequent iterations.
+86	60	Thus, Algorithm 3 attains the best convergence guarantee for the optimal stationary sampling distribution in hindsight.
+113	27	To see the runtime bounds for uniformly sampled coordinate descent and gradient descent, recall the regret bound (3) given in Proposition 1.
+114	15	Plugging pt j = 1/d in the bound, we obtain S(f, x̄ T )  O(R p log d p 2dT ).
+118	32	Note that for ↵ 2 (1,1), the first term in the runtime bound for our adaptive method given in Table 1 is strictly better than that of uniform coordinate descent or gradient descent.
+155	18	Since we usually have T = ⇥(n) for SGD, as long as n = ⌦(b log b) we have S(f, x̄ T )  O 0 B @ R T v u u u t min p2 b T X t=1 E 2 4 b X j=1 G[j](xt) 2 j,⇤ p j 3 5 1 C A .
+160	35	However, we make a heuristic modification to our adaptive algorithm since rescaling the bandit gradient (5) and (10) dwarfs the signals in gradient values if L is too large.
+169	29	We consider the problem minimizekxk11 1 n kAx bk 1 , and we endow A 2 Rn⇥d with the following block structure: the columns are drawn as a j ⇠ j ↵/2N(0, I).
+172	19	We run all experiments with p min = 0.1/b and multiple values of c. Results are shown in Figure 1, where we show the optimality gap vs. runtime in (a) and the learned sampling distribution in (b).
+173	15	Increasing ↵ (stronger block structure) improves our relative performance with respect to uniform sampling and our ability to accurately learn the underlying block structure.
+182	18	We set the blocksize as 50 features (b = 2110) and p min = 0.01/b.
+183	97	Results are shown in Figure 2, where we see that adaptive feature selection certainly improves training time in (a).
+184	61	The learned sampling distribution depicted in (b) for the best case (c = 107) places larger weight on features known as G-complexes; these features are wellknown to affect binding affinities (Cho et al., 2013).
+186	43	In Figure 3, we see that when there is little block structure (↵ = 0.4) all sampling schemes perform similarly.
+189	39	We note that our method is able to handle online data streams unlike stationary methods such as leverage scores.
+191	26	Labels are used to form blocks so that b = 200 for CUB and b = 1000 for ALOI.
+193	69	We set p min = 0.5/b to enforce enough exploration.

@@ -1,0 +1,30 @@
+4	19	This work was done when Yunchen Pu, Zhe Gan and Yizhe Zhang were Ph.D. students at Duke University.
+5	5	There has been recent interest in employing GAN ideas to learn conditional distributions for two random variables.
+7	13	Example applications include generative models with (stochastic) latent variables (Mescheder et al., 2017; Tao et al., 2018), and conditional data synthesis (Isola et al., 2017; Reed et al., 2016), when both domains consist of observed pairs of random variables.
+8	29	In this paper we focus on learning the joint distribution of multiple random variables using adversarial training.
+9	12	For the case of two random variables, conditional GAN (Mirza & Osindero, 2014) and Triangle GAN (Gan et al., 2017a) have been utilized for this task in the case that paired data are available.
+11	18	These models are unified as the joint distribution matching problem by Li et al. (2017a).
+12	9	However, in all previous approaches the joint distributions are not fully learned, i.e., the model only learns to sample from the conditional distributions, assuming access to the marginal distributions, which are typically instantiated as empirical samples from each individual domain (see Figure 1(b) for illustration).
+16	28	The resulting model may then be employed in several distinct applications: (i) synthesis of draws from any of the marginals; (ii) synthesis of draws from the conditionals when other random variables are observed, i.e., imputation; (iii) or we may simultaneously draw all random variables from the joint distribution.
+23	6	Unlike existing models, the proposed framework learns marginals and conditionals simultaneously.
+47	15	As in GAN, p( 2) and p( ′2) are two simple distributions that provide the stochasticity when generating y given x, and vice versa.
+53	9	By “supervised” it is meant that we have access to joint empirical data (x,y), and by “unsupervised” it is meant that we have access to empirical draws ofx and y, but not paired observations (x,y) from the joint distribution.
+76	5	Compared with using multiple binary classifiers, this design is more principled in that we avoid multiple critics resulting in possibly conflicting (real vs. synthetic) assessments.
+87	12	In this case, the discriminator becomes a 4-class classifier.
+89	11	To encourage cycle consistency, we modify the objective in (11) as min θ,φ max ω LJointGAN(θ,φ,ω) (12) = ∑4 k=1Epk(x,y)[log g′ω(x,y)[k]] +Rθ,φ(x,y) , where Rθ,φ(x,y) in (12) is a cycle-consistency regulariza- tion term specified as Rθ,φ(x,y) = Ex∼q(x),y∼pθ(y|x),x̂∼pφ(x|y)||x− x̂|| + Ey∼q(y),x∼pφ(x|y),ŷ∼pθ(y|x)||y − ŷ|| .
+94	8	One must have access to all the six instantiations of these models, if the goal is to be able to generate (impute) samples from all conditionals.
+126	13	Adam (Kingma & Ba, 2014) with learning rate 0.0002 is utilized for optimization of the JointGAN objectives.
+159	8	Relevance Score We use relevance score to evaluate the quality and relevance of two generated images.
+160	15	The relevance score is calculated as the cosine similarity between two images that are embedded into a shared latent space, which are learned via training a ranking model (Huang et al., 2013).
+167	9	It demonstrates that this metric correlates well with the quality of generated image pairs.
+169	7	Since generating realistic text using GAN itself is a challenging task, in this work, we train our model on pairs of caption features and images.
+170	10	The caption features are obtained from a pretrained word-level CNN-LSTM autoencoder (Gan et al., 2017b), which aims to achieve a one-to-one mapping between the captions and the features.
+171	10	We then train JointGAN based on the caption features and their corresponding images (the paired data for training JointGAN use CNN-generated text features, which avoids issues of training GAN for text generation).
+172	93	Finally to visualize the results, we use the pretrained LSTM decoder to decode the generated features back to captions.
+173	12	We employ StackGAN-stage-I (Zhang et al., 2017a) for generating images from caption features while a CNN is utilized to generate caption features from images.
+175	9	The results show high-quality and diverse image generation, and strong coherent relationship between each pair of the caption feature and image.
+176	45	It demonstrates the robustness of our model, in that it not only generates realistic multidomain images but also handles well different datasets such as caption feature and image pairs.
+177	11	We propose JointGAN, a new framework for multi-domain joint distribution learning.
+178	20	The joint distribution is learned via decomposing it into the product of a marginal and a conditional distribution(s), each learned via adversarial training.
+179	13	JointGAN allows interesting applications since it provides freedom to draw samples from various marginalized or conditional distributions.
+180	18	We consider joint analysis of two and three domains, and demonstrate that JointGAN achieves significantly better results than a two-step baseline model, both qualitatively and quantitatively.

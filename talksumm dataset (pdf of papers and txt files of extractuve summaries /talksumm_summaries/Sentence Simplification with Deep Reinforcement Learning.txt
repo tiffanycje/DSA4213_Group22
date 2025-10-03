@@ -1,0 +1,30 @@
+4	31	The most prevalent rewrite operations which give rise to simplified text include substituting rare words with more common words or phrases, rendering syntactically complex structures simpler, and deleting elements of the original text (Siddharthan, 2014).
+6	67	For example, several systems performed syntactic simplification only, using rules aimed at sentence splitting (Carroll et al., 1999; Chandrasekar et al., 1996; Vickrey and Koller, 2008; Siddharthan, 2004) while others turned to lexical simplification by substituting difficult words with more common WordNet synonyms or paraphrases (Devlin, 1999; Inui et al., 2003; Kaji et al., 2002).
+8	64	Simplification rewrites are learned automatically from examples of complex-simple sentences extracted from online resources such as the ordinary and simple English Wikipedia.
+11	24	Wubben et al. (2012) propose a two-stage model: initially, a standard phrase-based machine translation (PBMT) model is trained on complex-simple sentence pairs.
+20	50	Although our model uses the encoder-decoder architecture as its backbone, it must also meet constraints imposed by the simplification task itself, i.e., the predicted output must be simpler, preserve the meaning of the input, and grammatical.
+21	46	To incorporate this knowledge, the model is trained in a reinforcement learning framework (Williams, 1992): it explores the space of possible simplifications while learning to maximize an expected reward function that encourages outputs which meet simplificationspecific constraints.
+22	21	Reinforcement learning has been previously applied to extractive summarization (Ryang and Abekawa, 2012), information extraction (Narasimhan et al., 2016), dialogue generation (Li et al., 2016), machine translation, and image caption generation (Ranzato et al., 2016).
+26	28	Given a (complex) source sentence X = (x1, x2, .
+28	33	Inferring the target Y given the sourceX is a typical sequence to sequence learning problem, which can be modeled with attention-based encoderdecoder models (Bahdanau et al., 2015; Luong et al., 2015).
+29	29	Sentence simplification is slightly different from related sequence transduction tasks (e.g., compression) in that it can involve splitting operations.
+31	34	can be simplified as two sentences (In 1883, Faur married Marie Fremiet.
+40	54	In this section we present DRESS, our Deep REinforcement Sentence Simplification model.
+48	38	The agent continues to take actions until it produces an End Of Sentence (EOS) token yielding the action sequence Ŷ = (ŷ1, ŷ2, .
+52	28	The reward r(Ŷ ) for system output Ŷ is the weighted sum of the three components aimed at capturing key aspects of the target output, namely simplicity, relevance, and fluency: r(Ŷ ) = λS rS + λR rR + λF rF (7) where λS , λR, λF ∈ [0, 1]; r(Ŷ ) is a shorthand for r(X,Y, Ŷ ) whereX is the source, Y the reference (or target), and Ŷ the system output.
+69	31	The relevance reward rR is simply the cosine similarity between these two vectors: rR = cos(qX ,qŶ ) = qX · qŶ ||qX || ||qŶ || (9) We use a sequence auto-encoder (SAE; Dai and Le 2015) to train the LSTM sentence encoder on both the complex and simple sentences.
+99	27	We use an pre-trained encoder-decoder model (which is trained on a parallel corpus of complex and simple sentences) to obtain probabilistic word alignments, aka attention scores (see αt in Equation (6)).
+108	36	Datasets We conducted experiments on three simplification datasets.
+153	30	These include PBMT-R, a monolingual phrase-based machine translation system with a reranking post-processing step8 (Wubben et al., 2012) and Hybrid, a model which first performs sentence splitting and deletion operations over discourse representation structures and then further simplifies sentences with PBMT-R (Narayan and Gardent, 2014).
+166	22	Integrating lexical simplification (DRESS-LS) yields better BLEU, but slightly worse FKGL and SARI.
+174	64	DRESS-LS (and DRESS) are significantly better (p < 0.01) on Simplicity than EncDecA, PBMT-R, and Hybrid which indicates that our reinforcement learning based model is effective at creating simpler output.
+177	25	Returning to our original questions, we find that neural models are more fluent than comparison systems, while performing non-trivial rewrite operations (see the SARI scores in Table 1) which yield simpler output (see the Simplicity column in Table 2).
+186	21	There is a strong correlation between sentence length and number of deletion operations (i.e., more deleteions lead to shorter sentences) and PBMT-R performs very few deletions.
+187	75	Overall, reinforcement learning encourages deletion (see DRESS and DRESS-LS), while performing a reasonable amount of additional operations (e.g., substitutions and shifts) compared to EncDecA and PBMT-R.
+195	124	DRESS-LS is significantly better on Simplicity than PBMT-R, Hybrid, and the Reference.
+206	36	On Fluency, it is on par with PBMT-R12 but better than Hybrid and SBMT-SARI.
+208	38	We developed a reinforcement learning-based text simplification model, which can jointly model simplicity, grammaticality, and semantic fidelity to the input.
+209	33	We also proposed a lexical simplification component that further boosts performance.
+210	25	Overall, we find that reinforcement learning offers a great means to inject prior knowledge to the simplification task achieving good results across three datasets.
+211	143	In the future, we would like to explicitly model sentence splitting and simplify entire documents (rather than individual sentences).
+212	34	Beyond sentence simplification, the reinforcement learning framework presented here is potentially applicable to generation tasks such as sentence compression (Chopra et al., 2016), generation of programming code (Ling et al., 2016), or poems (Zhang and Lapata, 2014).

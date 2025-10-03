@@ -1,0 +1,30 @@
+20	2	Finally, we will give a conclusion of this paper and envisions on future work.
+26	1	Large-scale training data is essential for training neural networks.
+30	1	They construct these datasets with web-crawled CNN and Daily Mail news data.
+37	1	The following research on these datasets showed that the entity word anonymization is not as effective as expected (Chen et al., 2016).
+38	1	• Children’s Book Test There was also a dataset called the Children’s Book Test (CBTest) released by Hill et al. (2015), which is built on the children’s book story through Project Gutenberg 2.
+39	2	Different from the CNN/Daily Mail datasets, there is no summary available in the children’s book.
+43	1	In their studies, they have found that the answering of verbs and prepositions are relatively less dependent on the content of document, and the humans can even do preposition blank-filling without the presence of the document.
+46	1	In this section, we will give a detailed introduction to the proposed Attention-over-Attention Reader (AoA Reader).
+52	4	• Contextual Embedding We first transform every word in the document D and queryQ into one-hot representations and then convert them into continuous representations with a shared embedding matrix We.
+55	1	After making a trade-off between model performance and training complexity, we choose the Gated Recurrent Unit (GRU) (Cho et al., 2014) as recurrent unit implementation.
+67	3	Our motivation is to exploit mutual information between the document and query.
+68	1	However, most of the previous works are only relying on query-to-document attention, that is, only calculate one document-level attention when considering the whole query.
+93	1	The word class can be obtained by using clustering methods.
+97	2	The general settings of our neural network model are listed below in detail.
+100	3	Also, it should be noted that we do not exploit any pretrained embedding models.
+101	1	• Hidden Layer: Internal weights of GRUs are initialized with random orthogonal matrices (Saxe et al., 2013).
+102	4	• Optimization: We adopted ADAM optimizer for weight updating (Kingma and Ba, 2014), with an initial learning rate of 0.001.
+123	3	However, on the contrary, the CN category benefits from LMglobal and LMwc rather than the LMlocal.
+125	2	The LMglobal and LMwc are all trained by training set, which can be seen as Global Feature.
+130	2	In this section, we will give a quantitative analysis to our AoA Reader.
+131	1	The following analyses are carried out on CBTest NE dataset.
+133	1	The result is depicted in Figure 2.
+136	1	Furthermore, we also investigate if the model tends to choose a high-frequency candidate than a lower one, which is shown in Figure 3.
+138	1	This is because that the correct answer that has the highest frequency among the candidates takes up over 40% of the test set (1071 out of 2500).
+140	1	Empirically, we think that these models tend to choose extreme cases in terms of candidate frequency (either too high or too low).
+161	2	The proposed AoA Reader aims to compute the attentions not only for the document but also the query side, which will benefit from the mutual information.
+164	2	The future work will be carried out in the following aspects.
+165	10	We believe that our model is general and may apply to other tasks as well, so firstly we are going to fully investigate the usage of this architecture in other tasks.
+166	162	Also, we are interested to see that if the machine really “comprehend” our language by utilizing neural networks approaches, but not only serve as a “document-level” language model.
+167	148	In this context, we are planning to investigate the problems that need comprehensive reasoning over several sentences.

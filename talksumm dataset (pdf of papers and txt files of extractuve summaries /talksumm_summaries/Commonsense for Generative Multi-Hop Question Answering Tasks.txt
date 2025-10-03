@@ -1,0 +1,30 @@
+0	22	In this paper, we explore the task of machine reading comprehension (MRC) based QA.
+1	59	This task tests a model’s natural language understanding capabilities by asking it to answer a question https://github.com/yicheng-w/CommonSenseMultiHopQA based on a passage of relevant content.
+4	61	There also have been several attempts at the MRC-QA task on human-generated text.
+8	57	However, QAngaroo is an extractive dataset where answers are guaranteed to be spans within the context; hence, this is more focused on fact finding and linking, and does not require models to synthesize and generate new information.
+9	64	We focus on the recently published NarrativeQA generative dataset (Kočiskỳ et al., 2018) that contains questions requiring multi-hop reasoning for long, complex stories and other narratives, which requires the model to go beyond fact linking and to synthesize non-span answers.
+45	56	• Reasoning Layer: The embedded context is then passed through k reasoning cells, each of which iteratively updates the context representation with information from the query via BiDAF attention (Seo et al., 2017), emulating a single reasoning step within the multi-step reasoning process.
+48	32	The overall model is illustrated in Fig.
+73	55	We remedy this issue by introducing grounded commonsense (background) information using relations between concepts from ConceptNet (Speer and Havasi, 2012)1 that help inference by introducing useful connections between concepts in the context and question.
+75	27	Our commonsense selection strategy is twofold: (1) collect potentially relevant concepts via a tree construction method aimed at selecting with high recall candidate reasoning paths, and (2) rank and filter these paths to ensure both the quality and variety of added information via a 3-step scoring strategy (initial node scoring, cumulative node scoring, and path selection).
+76	28	2 as a running example throughout this section.2
+79	28	For each concept c1 in the question, we do: Direct Interaction: In the first level, we select relations r1 from ConceptNet that directly link c1 to a concept within the context, c2 ∈ C, e.g., in Fig.
+80	39	2, we have lady → church, lady → mother, lady→ person.
+81	27	Multi-Hop: We then select relations in ConceptNet r2 that link c2 to another concept in the context, c3 ∈ C. This emulates a potential reasoning hop within the context of the MRC task, e.g., church → house, mother → daughter, person → lover.
+99	29	Cumulative Node Scoring: We want to add commonsense paths consisting of multiple hops of relevant information, thus we re-score each node based not only on its relevance and saliency but also that of its tree descendants.
+100	35	We do this by computing a cumulative node score from the bottom up, where at the leaf nodes, we have c-score = n-score, and for cl not a leaf node, we have c-score(cl) = n-score(cl) + f(cl) where f of a node is the average of the c-scores of its top 2 highest scoring children.
+102	23	Then, to cumulatively score mother , we would take the average score of its two highest scoring children (in this case married and daughter) and compound that with the score of mother itself.
+117	104	NOIC This cell is an extension to the base reasoning cell that allows the model to use commonsense information to fill in gaps of reasoning.
+118	23	An example of this is on the bottom left of Fig.
+129	33	The results of our model on both NarrativeQA and WikiHop with and without commonsense incorporation are shown in Table 2 and Table 3.
+138	43	We see that ELMo embeddings (Peters et al., 2018) were also important for the model’s performance and that self-attention is able to contribute significantly to performance on top of other components of the model.
+140	22	We also conducted experiments testing the effectiveness of our commonsense selection and incorporation techniques.
+144	50	We also experimented with a simpler commonsense extraction method of using a single hop from the query to the context.
+146	33	whereas our commonsense selection and incorporation mechanism improves performance significantly across all metrics.
+147	42	We also present several examples of extracted commonsense and its model attention visualization in the supplementary.
+154	43	Model Performance: We also conduct human evaluation to verify that our commonsense incorporated model was indeed better than MHPGM.
+155	38	We randomly selected 100 examples from the NarrativeQA test set, along with both models’ predicted answers, and for each datapoint, we asked 3 external human evaluators (fluent English speakers) to decide (without knowing which model produced each response) if one is strictly better than the other, or that they were similar in quality (bothgood or both-bad).
+156	42	As shown in Table 7, we see that the human evaluation results are in agreement with that of the automatic evaluation metrics: our commonsense incorporation has a reasonable impact on the overall correctness of the model.
+157	27	The inter-annotator agreement had a Fleiss κ = 0.831, indicating ‘almost-perfect’ agreement between the annotators (Landis and Koch, 1977).
+158	106	We present an effective reasoning-generative QA architecture that is a novel combination of previous work, which uses multiple hops of bidirectional attention and a pointer-generator decoder to effectively perform multi-hop reasoning and synthesize a coherent and correct answer.
+159	115	Further, we introduce an algorithm to select grounded, useful paths of commonsense knowledge to fill in the gaps of inference required for QA, as well a Necessary and Optional Information Cell (NOIC) which successfully incorporates this information during multi-hop reasoning to achieve the new state-of-the-art on NarrativeQA.

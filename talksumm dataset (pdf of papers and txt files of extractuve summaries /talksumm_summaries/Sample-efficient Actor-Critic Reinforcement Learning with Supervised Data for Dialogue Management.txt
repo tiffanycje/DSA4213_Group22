@@ -1,0 +1,30 @@
+6	27	More recently, it has been formulated as a planning problem and solved using reinforcement learning (RL) to optimise a dialogue policy through interaction with users (Levin and Pieraccini, 1997; Roy et al., 2000; Williams and Young, 2007; Jurčı́ček et al., 2011).
+30	19	The second part aims to mitigate the cold start issue by using demonstration data to pre-train an RL model.
+59	20	To ensure tractability, the policy selects a from a restricted action set which identifies the intent and sometimes a slot, any remaining information required to complete the reply is extracted using heuristics from the tracked belief state.
+61	23	This can be solved by applying either value-based or policy-based methods.
+65	15	Policy-based methods suffer from low sampleefficiency, high variance and often converge to local optima since they typically learn via Monte Carlo estimation (Williams, 1992; Schulman et al., 2016).
+69	15	Following the Policy Gradient Theorem (Sutton et al., 2000), the gradient of the parameters given the objective function has the form: ∇θJ(θ) = E [∇θ log πθ(a|b)Qπθ(b, a)] .
+73	46	This can be viewed as a special case of the actor-critic, where πθ is the actor and Aw(b, a) is the critic, defined by two parameter sets θ and w. To reduce the number of required parameters, temporal difference (TD) errors δw = rt + γVw(bt+1)− Vw(bt) can be used to approximate the advantage function (Schulman et al., 2016).
+77	22	Sample-efficiency can be improved by utilising experience replay (ER) (Lin, 1992), where minibatches of dialogue experiences are randomly sampled from a replay pool P to train the model.
+78	17	This increases learning efficiency by re-using past samples in multiple updates whilst ensuring stability by reducing the data correlation.
+88	22	However, setting the rate low enough to avoid occasional large destabilising updates is not conducive to fast learning.
+90	58	In addition to maximising the cumulative reward J(θ), the optimisation is also subject to a Kullback-Leibler (KL) divergence limit between the updated policy θ and an average policy θa to ensure safety.
+95	34	Otherwise, the update is scaled down along the direction of k and the policy change rate is lowered.
+102	25	This implies ∆θNG = w = F (θ)−1∇θJ(θ) and it is called the natural gradient.
+110	26	For very large models, the inversion of the Fisher matrix can become prohibitively expensive to compute.
+113	25	Note that by using the compatible function approximation, the value function does not need to be explicitly calculated.
+116	28	This problem can be mitigated by an off-line corpus of demonstration data to bootstrap a policy.
+117	53	This data may come from a WoZ collection or from interactions between users and an existing policy.
+118	191	It can be used in three ways: A: Pre-train the model, B: Initialise a supervised replay buffer Psup, and C: a combination of the two.
+119	43	(A) For model pre-training, the objective is to ‘mimic’ the response behaviour from the corpus.
+122	33	A policy trained by SL on a fixed dataset may not generalise well.
+125	83	Nonetheless, supervised pre-training offers a good model starting point which can then be fine-tuned using RL.
+131	54	(C) The learned parameters of the pre-trained model in method A above might distribute differently from the optimal RL policy and this may cause some performance drop in early stages while learning an RL policy from this model.
+136	17	The task is to learn a policy which manages the dialogue flow and delivers requested information to the user.
+145	33	DQN often suffers from over-estimation on Qvalues as the max operator is used to select an action as well as to evaluate it.
+146	31	Double DQN (DDQN) (Van Hasselt et al., 2016) is thus used to de-couple the action selection and Q-value estimation to achieve better performance.
+148	30	It is appealing since it can learn from a small number of observations by exploiting the correlations defined by a kernel function and provides an uncertainty measure of its estimates.
+149	20	In GPRL, the Q-function is modelled as a GP with zero mean and kernel: Q(B,A) ∼ GP(0, (k(b, a), k(b, a)).
+155	24	In this case, the user intent is perfectly captured in the dialogue belief state without noise.
+156	21	The total return of each dialogue was set to 1(D)− 0.05× T , where T is the dialogue length and 1(D) is the success indicator for dialogue D. The maximum dialogue length was set to 20 turns and γ was 0.99.
+157	28	All deep RL models (A2C, TRACER, eNACER and DQN) contained two hidden layers of size 130 and 50.

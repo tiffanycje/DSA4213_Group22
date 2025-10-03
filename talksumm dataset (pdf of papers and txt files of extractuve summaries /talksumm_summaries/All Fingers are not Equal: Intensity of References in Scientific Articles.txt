@@ -1,0 +1,30 @@
+1	91	In this context, we highlight the following interesting facts about the process of citing scientific articles: (i) the most commonly cited paper by Gerard Salton, titled “A Vector Space Model for Information Retrieval” (alleged to have been published in 1975) does not actually exist in reality (Dubin, 2004), (ii) the scientific authors read only 20% of the works they cite (Simkin and Roychowdhury, 2003), (iii) one third of the refer- ences in a paper are redundant and 40% are perfunctory (Moravcsik and Murugesan, 1975), (iv) 62.7% of the references could not be attributed a specific function (definition, tool etc.)
+3	29	In this paper, we would emphasize the fact that all the references of a paper are not equally influential.
+4	17	For instance, we believe that for our current paper, (Wan and Liu, 2014) is more influential reference than (Garfield, 2006), although the former has received lower citations (9) than the latter (1650) so far1.
+5	26	Therefore the influence of a cited paper completely depends upon the context of the citing paper, not the overall citation count of the cited paper.
+6	16	We further took the opinion of the original authors of few selective papers and realized that around 16% of the references in a paper are highly influential, and the rest are trivial (Section 4).
+7	41	This motivates us to design a prediction model, GraLap to automatically label the influence of a cited paper with respect to a citing paper.
+9	33	We experiment with ACL Anthology Network (AAN) dataset and show that GraLap along with the novel feature set, quite efficiently, predicts the intensity of references of papers, which achieves (Pearson) correlation of 0.90 with the human annotations.
+10	18	Finally, we present four interesting appli- 1348 cations to show the efficacy of considering unequal intensity of references, compared to the uniform intensity.
+15	168	It might happen that two similar reference are used with different intensity levels in a citing paper – while one is just mentioned somewhere in the paper and other is used as a baseline.
+16	36	Here, we address the former problem as a semi-supervised learning problem with clues taken from content of the citing and cited papers.
+70	57	Next four features are based on the occurrence of words in the corresponding lists created manually (see Table 1) to understand different aspects.
+79	16	Then we calculate the cosine-similarity2 between the title (T) of Pj and (i) SF:TTitle.
+84	13	Therefore, we take the same similarity based approach mentioned above, but replace the title of Pj with its RC and obtain five more features: (vi) SF:RCTitle, (vii) SF:RCAbs, (viii) SF:RCIntro, (ix) SF:RCConcl and (x) SF:RCRest.
+85	27	If a reference appears multiple times in a citing paper, we consider the aggregation of all RCs together.
+92	25	to measure the fraction of different sections of Pi where Rij occurs (assuming that appearance of Rij in different sections is more influential).
+96	21	For the first two features, we divide the entire paper into two parts equally based on the sentence count and then see whether Rij appears (i) PF:Begin.
+106	34	Different levels of n-grams (1- grams, 2-grams and 3-grams) are extracted from the reference context to see the effect of different word combination (Athar and Teufel, 2012).
+127	77	To answer whether a highly-cited paper has more academic influence on the citing paper than the one which is less cited, we measure the number of other papers (except Pi) citing Pj .
+131	16	It measures the co-citation counts of Pi and Pj defined by |Ri∩Rj | |Ri∪Rj | , which in turn an- swers the significance of reference-based similarity driving the academic influence (Small, 1973).
+133	15	We use the AAN dataset (Radev et al., 2009) which is an assemblage of papers included in ACL related venues.
+153	43	The percentages of labels in the overall annotated dataset are as follows: 1: 9%, 2: 74%, 3: 9%, 4: 3%, 5: 4%.
+155	13	In order to determine which features highly determine the gold-standard labeling, we measure the Pearson correlation between various features and the ground-truth labels.
+159	27	Both CF and LF seem to be equally important.
+162	97	Here we consider five baselines to compare with GraLap: (i) Uniform: assign 3 to all the references assuming equal intensity, (ii) SVR+W: recently proposed Support Vector Regression (SVR) with the feature set mentioned in (Wan and Liu, 2014), (iii) SVR+O: SVR model with our feature set, (iv) C4.5SSL: C4.5 semisupervised algorithm with our feature set (Quinlan, 1993), and (v) GLM: the traditional graph-based LP model with our feature set (Zhu et al., 2003).
+163	65	Three metrics are used to compare the results of the competing models with the annotated labels: Root Mean Square Error (RMSE), Pearson’s correlation coeffi- cient (ρ), and coefficient of determination (R2)5.
+164	17	Table 2 shows the performance of the competing models.
+165	23	We incrementally include each feature set into GraLap greedily on the basis of ranking shown in Figure 2(a).
+166	19	We observe that GraLap with only FF outperforms SVR+O with 41% improvement of ρ.
+167	34	As expected, the inclusion of PF into the model improves the model marginally.
+169	24	In this section, we provide four different applications to show the use of measuring the intensity of references.

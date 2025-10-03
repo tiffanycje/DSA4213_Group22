@@ -1,0 +1,30 @@
+0	69	In modern theoretical linguistics, empty categories (ECs) are an important piece of machinery in representing the syntactic structure of a sentence and they are used to represent phonologically null elements such as dropped pronouns and traces of dislocated elements.
+1	49	They have also found their way into largescale treebanks which have played an important role in advancing the state of the art in syntactic parsing.
+6	20	This is because Chinese is a pro-drop language (Huang, 1984) that allows the subject to be dropped in more contexts than English does.
+7	19	While detecting and resolving traces is important to the interpretation of the syntactic structure of a sentence in both English and Chinese, the prevalence of dropped nouns in Chinese text gives EC detection added significance and urgency.
+8	13	They are not only an important component of the syntactic parse of a sentence, but are also essential to a wide range of NLP applications.
+11	23	In fact, Chung and Gildea (2010) reported preliminary work that has shown a positive impact of automatic EC detection on statistical machine translation.
+15	51	The first stage is EC detection, where empty categories are first located and typed.
+17	186	In this paper we describe a novel approach to detecting empty categories in Chinese, using the CTB as training and test data.
+18	38	More concretely, EC detection involves (i) identifying the position of the EC, relative to some overt word tokens in the same sentence, and (ii) determining the type of EC, e.g., whether it is a dropped pronoun or a trace.
+19	27	We focus on EC detection here because most of the ECs in the Chinese Treebank are either not resolved to an overt element or linked to another EC.
+28	30	In the present work, we propose to look at EC detection in a dependency structure representation, where we define EC detection as (i) determining its linear position relative to the following word token, (ii) determining its head it is a dependent of, and (iii) determining the type of EC.
+44	29	According to the CTB bracketing guidelines (Xue and Xia, 2000), there are seven different types of ECs in the CTB.
+48	31	*OP*: null operator, used to represent empty relative pronouns.
+49	19	*T*: trace left by movement such as topicalization and relativization.
+70	18	The alternative is to have a one-pass model in which we add a NONE category indicating there is no EC associated with the tuple.
+71	18	With the seven EC types presented earlier in this section, this will be an eightway classification problem.
+82	21	The first group of features we use can be described as horizontal features that exploit lexical context of the head (h), the word token following the EC (t), and the word token before the EC (p) .
+84	14	They also include various linear distance features between h and t. Below is the full list of lexical features: 1.
+88	32	Vertical features are designed to exploit the hierarchical structure of the syntactic tree.
+91	24	We also define a path feature from h to t, which constrains the distance between the EC and its head, just as it constrains the distance between a predicate and its argument in the semantic role labeling task (Gildea and Jurafsky, 2002).
+92	23	Given the lowest common ancestor A′ of h and t, the path from h to t is the path from h to A′ and from A′ to t. In Figure 3, assuming that t is 迅速 (“rapidly”) and h is 崛起 (“take off”), the vertical features ex- tracted include: 1.
+138	21	The CTB file IDs for training, development and testing are listed in Table 1.
+149	43	This is a more stringent measure than metrics proposed in previous work, which evaluates EC detection based on its position and type without considering the head it is a dependent of.
+154	42	In (Yang and Xue, 2010), the *OP*-*T* sequences are collapsed into one, and only the *T*s are counted.
+169	27	As should be clear from Table 4, the most effective features are the horizontal features, followed by vertical structures.
+171	31	Transitivity and semantic role features make virtually no difference at all.
+172	104	We believe it is premature to conclude that they are not useful.
+173	35	Possible explanations for their lack of effectiveness is that they are used in very limited context and the accuracy of the semantic role label- ing system is not sufficient to make a difference.
+190	73	We described a novel approach to detecting empty categories (EC) represented in dependency trees and a new metric for measuring EC detection accuracy.
+191	17	The new metric takes into account not only the position and type of an EC, but also the head it is a dependent of in a dependency structure.

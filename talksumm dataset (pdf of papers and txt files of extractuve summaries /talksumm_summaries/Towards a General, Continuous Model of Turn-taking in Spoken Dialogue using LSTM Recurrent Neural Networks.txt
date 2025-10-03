@@ -1,0 +1,30 @@
+22	69	Traditionally, spoken dialogue systems have rested on a very simplistic model of turn-taking, where a certain amount of silence (e.g., 700ms) is used as an indicator that the user has stopped speaking, and that the turn is yielded to the system.
+23	29	One obvious problem with this model is that turn-shifts often are supposed to be much more rapid than this, with very short gaps, and that pauses within a turn often might be longer.
+30	22	Studies have also shown that the more turn-yielding cues are presented together, the more likely it is that the other speaker will take the turn (Gravano and Hirschberg, 2011; Koiso et al., 1998; Duncan and Niederehe, 1974).
+43	34	The model proposed in this paper is based on an incremental and predictive notion of turn-taking, where the model continuously monitor the speech from the two interlocutors and makes predictions about future turn-taking events.
+57	65	An RNN is trained to make continuous predictions about the speech activity for one of the speakers (speaker S0) for an upcoming fixed time window, based on previous events in both speaker channels.
+61	29	For the experiments in this paper, we use a frame size of 50ms (20 frames per second), and a prediction window of 3 seconds (60 frames).
+64	17	To allow the model to train to make predictions for both speakers, the same network is trained on each dialogue twice, with each speaker serving as both speaker S0 and S1.
+83	29	To train and evaluate the model, we have used the HCRC Map Task corpus (Anderson et al., 1991).
+127	16	Some examples of the predictions the model makes on the test set are shown in the Appendix.
+130	25	As can be seen, the performance varied a lot depending on the time window – predictions within the first second are much more accurate than predictions further into the future.
+134	58	One of the most common turn-taking decisions that has been modelled in related work is to predict whether a speaker will continue speaking when a brief pause is detected (HOLD), or whether the turn will shift to the other speaker (SHIFT).
+148	19	As the figure shows, the performance of the Prosody model quickly stabilizes and reaches an F-score of 0.724 at epoch 30 (and then degrades somewhat), whereas the Full model continues to learn, reaching an F-score of 0.762 at epoch 100.
+150	44	However, turn-shifts might of course be much more rapid than this, and a dialogue system should be able to assess whether it should take the turn immediately when a pause is detected, or possibly wait a longer time if it is uncertain.
+163	14	However, since their data preparations and definitions were not exactly the same as ours, we also trained a set of more traditional models on our data set, using Naive Bayes, Support Vector Machines and Logistic Regression, to classify each 500ms pause as either HOLD or SHIFT.
+165	37	Instead, we used feature engineering similar to Meena et al. (2014), including syntactic features (last POS unigram and bigram), prosodic features (pitch slope, mean pitch, mean intensity, and mean spectral stability in the final 300ms voiced region), and context (length of last IPU and last turn).
+171	29	To test this, we used the Crowdflower platform, where human subjects were paid to judge which speaker would continue after a brief silence, given 10 seconds of interaction ending just after a pause of 500ms (i.e., the same task ask the RNN was given).
+172	56	To simplify the task, we selected a random subset of the corpus where there was a man and a woman talking (207 instances), and asked the annotator “do you think the man or the woman will speak next?” As a quality control question, we also asked whether it was the man or the woman that was the last speaker, and excluded annotators who gave an incorrect answer.
+176	45	Next, we wanted to see if the same model can be applied to a different task: to predict utterance length at the onset of speech.
+178	13	If the user is just giving a brief response (i.e., a backchannel), the system typically does not have to stop speaking.
+179	42	However, if the user is initiating a longer response, the system might decide to stop speaking and allow the user to “barge-in” (cf.
+181	69	To test this, we identified instances in the data where a speaker had just initiated a LONG or a SHORT utterance (i.e., something like a backchannel).
+184	13	If this onset was followed by a maximum of 500ms of more speech, and then no speech (by the same speaker) for 5s, it was categorized as a SHORT utterance.
+190	21	Using the best prediction score separation threshold derived from the training set (0.404), the F-score for classifying SHORT vs. LONG utterances in the test set was 0.786.
+197	13	Again, our generic model achieves a better performance than traditional non-sequential models that were trained specifically for the task.
+200	99	This is of course challenging, partly because human-human interaction and humancomputer interaction typically look very different, but also because human-human turn-taking behaviour might not necessarily be a role model for how we want systems to behave.
+202	28	In that setting, the user was asked to tell the robot about a past visit to a foreign country, while the robot listened actively by giving backchannels and asking various follow-up questions to elicit more elaborate descriptions.
+204	14	Each end of an IPU was manually annotated as either HOLD, OPTIONAL or TAKE.
+207	93	We first applied the model directly according to the simple approach outlined in 3.1 above, i.e., we fed the user’s and the system’s speech into two networks and then compared the predictions for the user and the system at the end of each IPU.
+212	38	However, it is still possible that the network might model phenomena relevant to turn-taking in the dialogue, and be useful for feature extraction.
+213	14	To test this, we partitioned the human-robot interaction data into a training and testing set, and applied a Logistic Regression model trained on the manual annotations (TAKE/HOLD).

@@ -1,0 +1,29 @@
+0	20	The sheer number and variety of online social networks (OSN) today is staggering.
+1	23	Although the purpose and the shaping of these networks vary generously, the majority of them has one aspect in common: the value of most OSNs is in its user data and the information that one can infer from the data.
+2	48	This, unfortunately, results in a big incentive for culprits to intrude OSNs and manipulate their data.
+3	23	One popular method of intruding and attacking an OSN is referred to as Sybil attack, where the intruder creates a whole bunch of fake (Sybil) accounts that are all under the attacker’s control.
+4	14	The intruder’s influence over the OSN is multiplied by the number of accounts created, which opens possibilities of manipulation typically for gaining some monetary advantage in the end.
+5	86	The term, Sybil attack, was coined by Douceur (2002) who showed that this kind of attack will be always possible unless a trusted agency certifies identities.
+8	11	On the other hand, Sybil attacks can damage the value of OSNs significantly, which has been proved by the fact that Facebook shares dropped in 2012 after the company revealed that a significant share of its network is made up by Sybil accounts (The Associated Press, 2012).
+9	16	There exists a number of “classic” feature-based solutions (Stein et al., 2011; Cao et al., 2012; Stringhini et al., 2010; Yang et al., 2014).
+11	7	More recent graph-based Sybil detection methods assume that honest (non-Sybil) nodes form a strongly connected subgraph and attackers can establish a limited amount of edges which leads to a sparse cut between the honest subraph and the Sybil nodes.
+12	4	The majority of the graph-based methods define trusted nodes, which the defender is sure to be honest, and use random walks (Yu et al., 2010; Danezis, 2009; Cao et al., 2012) or other typical graph-based algorithms like breadth-first-search (Tran et al., 2011) and belief propagation (Gong et al., 2014) to convey trust from the trusted nodes.
+17	12	We further dicuss the robustness of the random walk approach against adversarial strategies.
+18	30	To this end, we formally introduce adversarial settings for graph-based Sybil detection and derive an optimal attacking strategy that is based on the exploitation of trust leaks.
+19	12	Based on our analysis, we propose a transductive Sybil ranking (TSR), an integrated approach capable of adjusting edge weights based on sampled trust leaks.
+20	47	We empirically show good performance of TSR against the state-of-the-art baselines on a variety of attacking scenarios using artificially generated data as well as real-world Facebook data.
+23	1	EA is the set of edges connecting any node in GS and any node in GH .
+24	17	Sybil Rank is considered the state-of-the-art graph-based method to detect Sybil accounts as it outperformed all its contestants (Cao et al., 2012).
+25	20	It is also based on random walks and operates solely on the topology of the graph.
+26	15	Sybil Rank starts from the initial distribution {p(i)0 2 [0, 1]}|V |i=1 (without superscript refers to a vector containing all elements), in which “trust” is assigned to the known honest nodes VT : p (i) 0 = ( 1 |VT | if vi 2 VT , 0 otherwise.
+27	28	(1) Then, it “propagates” the trust via a short (k steps) random walk: p > k = p > k 1Q = · · · = p>0 Qk , (2) where Q 2 R|V |⇥|V | is the transition matrix through the edges with Qi,j = ( P j0 1[(i, j 0 ) 2 E]) 1, if (i, j) 2 E, and else 0.
+28	70	It is known that the stationary distribution ⇡ ⌘ p1 is the normalized degree distribution (Behrends, 2000) ⇡ > = ⇣ deg(v1) Vol(V ) , .
+29	13	, deg(v|V |) Vol(V ) ⌘ , (3) where deg(v) is the degree of node v, i.e., the number of all incident edges of v, and Vol(V ) = P v2V deg(v) is the sum of the degrees for all nodes in V .
+30	48	SybilRank conpensates the effect of degrees, and use the degree-normalized probability p (i) = p (i) k /⇡ (i) (4) as the ranking score, where a high ranking indicates a high probability of being an honest node.
+31	66	Essentially, SybilRank relies on the assumption that the total number of attacking edges is bounded.
+32	2	Under this assumption, only a small fraction of the trust is propagated through the sparse cut between the honest network and the Sybil nodes during the short random walk, while ”trust” go through the ”non-trusted” honest nodes through the dense connections within the the honest subgraph.
+33	12	Boshmaf et al. (2016) developed Integro to cope with a larger number of attacking edges.
+34	7	To this end, Integro introduces weights on the edges to bias the random walk, where the weights are determined after its pre-processing step to detect victims.
+35	7	Here a victim is defined as a node that established a connection to one of the Sybil nodes.
+37	21	After the detection step, Integro lowers the weights to all incident edges to the detected victims, which prevents the trust to propagate through victim nodes.
+38	5	As the victims form a natural border between the honest and the Sybil graph, this reduces the overall flow of trust into the Sybil graph.

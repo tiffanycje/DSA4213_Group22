@@ -1,0 +1,30 @@
+3	15	Problems of this type arise frequently in supervised learning applications (Hastie et al., 2009).
+5	18	The `2-regularized logistic regression for binary classification is written with fi(w) def = log(1 + exp(−yixTi w)) + λ2 ‖w‖ 2 (yi ∈ {−1, 1}).
+6	22	In recent years, many advanced optimization methods have been developed for problem (1).
+7	15	While the objective function is smooth and convex, the traditional optimization methods, such as gradient descent (GD) or Newton method are often impractical for this problem, when n – the number of training samples and hence the number of fi’s – is very large.
+9	22	Under strong convexity assumption on P and with appropriate choice of ηt, GD converges at a linear rate in terms of objective function values P (wt).
+26	16	In this paper, we propose a novel algorithm which combines some of the good properties of existing algorithms, such as SAGA and SVRG, while aiming to improve on both of these methods.
+36	32	We show that the variance of the steps inside the inner loop goes to zero, thus SARAH is theoretically more stable and reliable than SVRG.
+37	24	• We provide a practical variant of SARAH based on the convergence properties of the inner loop, where the simple stable stopping criterion for the inner loop is used (see Section 4 for more details).
+41	28	(3) For comparison, SVRG update can be written in a similar way as vt = ∇fit(wt)−∇fit(w0) + v0.
+44	40	,m} end for Observe that in SVRG, vt is an unbiased estimator of the gradient, while it is not true for SARAH.
+46	11	Hence, SARAH is different from SGD and SVRG type of methods, however, the following total expectation holds, E[vt] = E[∇P (wt)], differentiating SARAH from SAG/SAGA.
+49	17	Each inner iteration evaluates 2 stochastic gradients and hence the total work per outer iteration isO(n+m) in terms of the number of gradient evaluations.
+51	38	To proceed with the analysis of the proposed algorithm, we will make the following common assumptions.
+53	54	2 E[·|Ft] = Eit [·], which is expectation with respect to the random choice of index it (conditioned on w0, i1, i2, .
+54	96	Note that this assumption implies that P (w) = 1 n ∑n i=1 fi(w) is also L-smooth.
+55	52	The following strong convexity assumption will be made for the appropriate parts of the analysis, otherwise, it would be dropped.
+56	12	Assumption 2a (µ-strongly convex).
+63	12	Furthermore, we should also notice that Assumptions 2a and 2b both cover a wide range of problems, e.g. l2-regularized empirical risk minimization problems with convex losses.
+65	19	Each function fi : Rd → R, i ∈ [n], is convex, i.e., fi(w) ≥ fi(w′) +∇fi(w′)T (w − w′), ∀i ∈ [n].
+70	40	In this case we will say that wT is an -accurate solution.
+74	127	In other words, if we simply run the inner loop for many iterations (without executing additional outer loops), the variance of the steps does not reduce in the case of SVRG, while it goes to zero in the case of SARAH.
+78	73	However, later iterations of SVRG wander randomly around the origin with large deviation from it, while SARAH follows a much more stable convergent trajectory, with a final iterate falling in a small neighborhood of the optimal solution.
+79	83	In Figure 2, the x-axis denotes the number of effective passes which is equivalent to the number of passes through all of the data in the dataset, the cost of each pass being equal to the cost of one full gradient evaluation; and y-axis represents ‖vt‖2.
+80	31	Figure 2 shows the evolution of ‖vt‖2 for SARAH, SVRG, SGD+ (SGD with decreasing learning rate) and FISTA (an accelerated version of GD (Beck & Teboulle, 2009)) withm = 4n, where the left plot shows the trend over multiple outer iterations and the right plot shows a single outer iteration4.
+81	138	We can see that for SVRG, ‖vt‖2 decreases over the outer iterations, while it has an increasing trend or oscillating trend for each inner loop.
+83	14	We will now show that the stochastic steps computed by SARAH converge linearly in the inner loop.
+84	24	We present two linear convergence results based on our two different assumptions of µ-strong convexity.
+87	55	Suppose that Assumptions 1, 2a and 3 hold.
+90	20	Below we show that a better convergence rate can be obtained under a stronger convexity assumption.
+92	20	Consider vt defined by (2) in SARAH (Algorithm 1) with η ≤ 2/(µ+ L).

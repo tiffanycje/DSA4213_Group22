@@ -1,0 +1,30 @@
+10	42	We consider the following problem in training generalized linear models: min x : 1 where l(·, ·) is a loss function andR is a regularization term that could be `1 norm, `2 norm, or even an indicator function representing the constraint.
+24	16	When applied to linear models, this optimal strategy can save up to 1.6× communication compared with the uniform strategy.
+28	25	To the best of our knowledge, this is the first time such optimal quantization strategies have been applied to training.
+30	61	We have labeled data points (a1, b1), (a2, b2), .
+39	15	The stochastic gradient gt should be unbiased; 3.
+53	22	0 75 150 225 300 32-bit Full Precision Deterministic Rounding Naive Stochastic Sampling 7%Our Approach #Epochs .0013 .0012 .0014 Tr ai ni ng L os s The naive way to use lowprecision samples ât := Q(at) is ĝt := âtâ > t x− âtbt.
+57	31	In fact, it is easy to see that in instances where the minimizer x is large and gradients become small, we will simply diverge.
+58	36	We now present a simple method to fix the biased gradient estimator.
+59	46	We generate two independent random quantizations and revise the gradient: gt := Q1(at)(Q2(at) >x− bt) .
+60	61	(6) This gives us an unbiased estimator of the gradient.
+62	25	We note that this will not introduce 2× overhead in terms of data communication.
+63	75	Instead, we start from the observation that the two samples can differ by at most one bit.
+66	88	Under this procedure, once we store the base quantization level, we will need one extra bit for each additional sample.
+67	67	More generally, since samples are used symmetrically, we only need to send a number representing the number of times the lower quantization level has been chosen among all the sampling trials.
+68	22	Thus, sending k samples only requires log2 k more bits.
+70	20	It is not hard to see that the variance of the double sampling based stochastic gradient in (6) can be decomposed into E‖gt −∇f(xt)‖2 ≤ E‖g(full)t −∇f(xt)‖2 + E‖gt − g(full)t ‖2.
+71	54	(7) The first term is from the full stochastic gradient, which can be reduced by using strategies such as mini-batch, weight sampling, and so on.
+74	13	All strategies for reducing the variance of the first term can seamlessly combine with the approach of this paper.
+79	16	The following makes this quantitative dependence precise.
+99	12	This optimization problem is non-convex and non-smooth.
+102	33	Define T (k,m) be the optimal total variance for points in [0, dm] with k quantization levels choosing dm = xm for all m = 1, 2, · · · , N .
+111	12	Let the maximal number of data points in each “small interval” (defined by {dm}M−1m=1 ) and the maximal length of small intervals be bounded by bN/M and a/M , respectively.
+180	25	We validate that our data-optimal quantization strategy can be used in training deep neural networks.
+181	22	We take Caffe’s CIFAR-10 tutorial (Caf) and compare three different quantization strategies: (1) Full Precision, (2) XNOR5, a XNOR-Net implementation that, following the multi-bits strategy in the original paper, quantizes data into five uniform levels, and (3) Optimal5, our quantization strategy with five optimal quantization levels.
+209	15	However, we notice that a strawman approach, which applies naive stochastic rounding over the input data to just 8-bit precision, converges to similar results, without the added complexity.
+216	42	The complexity of the approximation and the resulting variance increase force us to increase the density of the quantization, in order to achieve good approximation guarantees.
+217	26	We choose to realize our implementation using FPGA because of its flexibility in dealing with low-precision arithmetic, while CPU or GPU can only do at least 8-bit computation efficiently.
+219	31	We are currently conducting an architecture exploration study which aims at understanding the system trade-off between FPGA, CPU, and GPU.
+220	53	This requires us to push the implementation on all three architectures to the extreme.
+221	115	We expect this study will soon provide a full systematic answer to the question that on which hardware can we get the most from the ZipML framework.

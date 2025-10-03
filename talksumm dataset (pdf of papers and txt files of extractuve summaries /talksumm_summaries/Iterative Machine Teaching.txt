@@ -1,0 +1,30 @@
+4	45	Comparison between iterative machine teaching and the other learning paradigms.
+6	45	Thus, many research work under this topic try to construct the smallest such dataset, or characterize the size of of such dataset, called the teaching dimension of the student model (Zhu, 2013; 2015).
+10	36	Intuitively, such observations will allow us to get a better estimate where the student model is and pick examples more intelligently to better guide the student model to convergence.
+11	145	• In cyber-security setting where an attack wants to mislead a recommendation system that learns online, the attacker can constantly generate fake clicks and observe the system’s response.
+13	41	From the aspects of both faster model compression and bet- ter avoiding hacker attack, we seek to understand some fundamental questions, such as, what is the sequence of examples that teacher should feed to the student in each iteration in order to achieve fast convergence?
+15	24	In this paper, we will focus on this new paradigm, called iterative machine teaching, which extends traditional machine teaching from batch setting to iterative setting.
+16	35	In this new setting, the teacher model can communicate with and influence the student model in multiple rounds, but the student model remains passive.
+17	59	More specifically, in each round, the teacher model can observe (potentially different levels of) information about the students to intelligently choose one example, and the student model runs a fixed iterative algorithm using this chosen example.
+18	55	Furthermore, the smallest number of examples (or rounds) the teacher needs to construct in order for the student to efficiently learn a target model is called the iterative teaching dimension of the student algorithm.
+46	49	In general, the asset of a student (learner) includes the initial parameter w0, loss function, optimization algorithm, representation (feature), model, learning rate ηt over time (and initial η0) and the trackability of the parameterwt.
+54	42	w and v do not necessarily lie in the same space, but for omniscient teacher, they are equivalent and interchangeably used.
+56	34	In this paper, the teacher provides one example xt in one iteration, where t denotes the t-th iteration.
+57	36	The goal of the teacher is to provide examples in each iteration such that the student parameter w converge to its optimum w∗ as fast as possible.
+59	48	We assume this is a convex loss function `(f(x), y), and the best model is usually found by minimizing the expected loss below: w∗ = argmin w E(x,y) [`(〈w, x〉 , y)] .
+68	105	Thus the general strategy for the teacher is to choose an example (x, y), such that η2t T1− 2ηtT2 is minimized in the t-th iteration: argmin x∈X ,y∈Y η2t T1(x, y|wt)− 2ηtT2(x, y|wt).
+69	45	(4) The teaching algorithm of omniscient teacher is summarized in Alg.1.
+76	52	The larger the norm of gradient is, the more difficult the example is.
+77	26	• For logistic regression, we have T1 =‖ 11+exp(y〈w,x〉)‖ 2 2.
+78	50	We know that 11+exp(y〈w,x〉) is the probability of predicting the wrong label.
+99	32	It has nice connection with curriculum learning (easy example first and difficult later) and boosting (gradually focus on difficult examples).
+140	60	Theorem 8 For a rescalable pool-based omniscient teacher and a student with fixed learning rate η 6=0 and initialization w0, if for any w∈Rd, w 6⊥w∗ and w0−w∗∈ span (D), there exists {x, y}∈X ×Y and γ such that while x̂= γ‖w−w ∗‖ ‖x‖ x, ŷ=y, we have 0 < γ∇〈w,x̂〉` (〈w, x̂〉 , ŷ) < 2V(X ) η , then the student can learn an -approximation of w∗ with O(Cη,γ,V(X )2 log 1 ) samples.
+216	36	Interestingly, our imitation teacher achieves very similar con- vergence speedup to the omniscient teacher under the condition that the teacher does not know the student’s feature space.
+222	30	First, we applied the omniscient teacher and the surrogate teacher to the CNN-6 student using the optimal FC layer from the joint backprop training.
+227	26	Selected training examples by the omniscient teacher on ego-centric data of infants.
+231	29	For objective value, the omniscient teacher shows the largest convergence speedup, and the imitation teacher performs slightly worse but still much better than the SGD.
+232	36	Using our teaching model, we analyze cropped object instances obtained from ego-centric video of an infant playing with toys (Yurovsky et al., 2013).
+233	29	Full detailed settings and results are in Appendix F. The results in Fig.
+235	59	In both cases, the learner experiences extended bouts of viewing the same object.
+238	64	Previous works have documented the unique temporal structure of the image examples that a child receives during object play (Bambach et al., 2016; Pereira et al., 2014).
+239	29	We believe these are the first results demonstrating that similar orderings can be obtained via a machine teaching approach.

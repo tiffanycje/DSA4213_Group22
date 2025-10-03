@@ -1,0 +1,30 @@
+0	42	Researchers have demonstrated impressive successes in building agents that can achieve excellent performance in difficult tasks, e.g. (Mnih et al., 2015; Silver et al., 2016).
+3	20	We might hope that the tasks of interest are compositional: for example, cracking an egg is the same whether one is making pancakes or an omelette.
+4	67	If the space of tasks we want an agent to be able to solve has compositional structure, then a state abstraction that exposes this structure could be used both to specify instructions to the agent, and to plan through sub-tasks that allow the agent to complete its instructions.
+8	39	Once the agent learns how its actions affect the environment in terms of the attribute representation, novel tasks can be solved compositionally by executing a plan consisting of a sequence of transitions between abstract states defined by those attributes.
+12	46	In the experiments below, we will show empirically that this kind of approach can be useful on problems that can be challenging for standard reinforcement learning.
+14	31	We first consider 3D block stacking, and show that we can compose single-action tasks seen during training to perform multi-step tasks.
+16	50	Finally, we see how our approach scales to a unit-building task in StarCraft.
+24	44	The agent’s objective at test time is, given a set of goal attributes ⇢g , to take a sequence of actions in the environment that end with the agent in a state that maps to ⇢g.
+25	30	During training, the agent constructs a model with three parts: 1. a neural-net based attribute detector f̂ , which maps states s to a set of attributes ⇢, i.e. ⇢ = f̂(s).
+27	29	3. a transition table c⇡(⇢i, ⇢j) that records the empirical probability that ⇡(s⇢i , ⇢j) can succeed at transiting successfully from ⇢i to ⇢j in a small number of steps.
+28	57	The transition table c⇡ can be interpreted as a graph where the edge weights are probabilities.
+29	104	This high-level attribute graph is then searched at test time to find a path to the goal with maximum probability of success, with the policy network performing the low-level actions to transition between adjacent attribute sets.
+30	34	The first step in training the Attribute Planner is to fit the neural network detector f̂ that maps states s to attributes ⇢, using the labeled states provided.
+33	51	Every time an attribute transition (⇢i, ⇢j) is observed, it is recorded in an intermediate transition table c⇡e .
+35	40	The most naive exploratory policy takes random actions, but the agent can explore more efficiently if it performs count-based exploration in attribute space.
+36	136	We use a neural network exploration policy that we train via reinforcement learning with a count-based reward1 proportional to c⇡e(⇢i, ⇢j) 0.5 upon every attribute transition (⇢i, ⇢j), where c⇡e(⇢i, ⇢j) is the visit count of this transition during exploration.
+37	31	This bonus is as in (Strehl & Littman, 2008), but with no empirical reward from the environment.
+40	51	From state s with attributes ⇢, the model picks an attribute set ⇢g randomly from the neighbors of ⇢ in c⇡e weighted by their visit count in the Explore phase and sets that as the goal for ⇡.
+41	33	Once the goal is achieved or a timeout is reached, the policy is updated and the main transition table c⇡ is updated to reflect the success or failure.
+44	74	In the case of block stacking (Sec.
+47	25	// Step 1: Train attribute detector Fit f̂ on {(si, ⇢i)} with supervised learning.
+55	20	The optimal path can be found using Dijkstra’s algorithm with a distance metric of log(c⇡(⇢i, ⇢i+1)).
+118	20	We perform experiments with the Attribute Planner (AP) in three environments.
+119	45	First, we consider a 3D block stacking environment.
+122	33	Finally, we evaluate AP on a build order planning task in Starcraft to see how AP scales to a more complex task that is of broader interest We further show that an exploratory policy over attributes allows the agent to explore attribute transitions where random search fails.
+123	42	Baselines: In all experiments, we compare against baseline policies trained with reinforcement learning.
+124	27	These baseline policies take the state and goal as inputs, and use the same neural network architecture as the policy used for the Attribute Planner.
+126	21	Policies (ii) and (iii) are trained on full sequences, thus have an inherent advantage over our model.
+127	40	In the block stacking task, we further compare against a state-of-the-art algorithm for hierarchical RL: Option-Critic with deliberation cost (Harb et al., 2017), as well as an inverse model trained by supervised learning.
+129	75	In this experiment, we train AP only on single-action trajectories and evaluate on multi-step tasks, in order to evaluate AP’s ability to generalize using planning.

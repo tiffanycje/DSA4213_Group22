@@ -1,0 +1,29 @@
+0	56	Supervised machine learning traditionally depends on access to labeled training data, a major bottleneck in developing new methods and applications.
+1	37	In particular, deep learning methods require tens of thousands or more labeled data points for each specific task.
+2	86	Collecting these labels is often prohibitively expensive, especially when specialized domain expertise is required, and major technology companies are investing heavily in hand-curating labeled training data (Metz, 2016; Eadicicco, 2017).
+3	66	Aiming to overcome this bottleneck, there is growing interest in using generative models to synthesize training data from weak supervision sources such as heuristics, knowledge bases, and weak classifiers trained directly on noisy sources.
+4	8	Rather than treating training labels as gold-standard inputs, such methods model training set creation as a process in order to generate training labels at scale.
+6	37	After fitting the parameters of this generative model on unlabeled data, a distribution over the latent, true labels can be inferred.
+7	29	The structure of such generative models directly affects the inferred labels, and prior work assumes that the structure is user-specified (Alfonseca et al., 2012; Takamatsu et al., 2012; Roth & Klakow, 2013b; Ratner et al., 2016).
+12	88	While structure learning in the supervised setting is wellstudied (e.g., Meinshausen & Bühlmann, 2006; Zhao & Yu, 2006; Ravikumar et al., 2010, see also Section 6), learning the structure of generative models for weak supervision is challenging because the true class labels are latent.
+13	26	Although we can learn the parameters of generative models for a given structure using stochastic gradient descent and Gibbs sampling, modeling all possible dependencies does not scale as an alternative to model selection.
+14	20	For example, estimating all possible correlations for a modestly sized problem of 100 weak supervision sources takes over 40 minutes.
+16	9	As users develop their supervision heuristics, rerunning parameter learning to identify dependencies becomes a prohibitive bottleneck.
+17	67	We propose an estimator to learn the dependency structure of a generative model without using any labeled training data.
+18	36	Our method maximizes the `1-regularized marginal pseudolikelihood of each supervision source’s output independently, selecting those dependencies that have nonzero weights.
+19	56	This estimator is analogous to maximum likelihood for logistic regression, except that we marginalize out our uncertainty about the latent class label.
+20	29	Since the pseudolikelihood is a function of one free variable and marginalizes over one other variable, we compute the gradient of the marginal pseudolikelihood exactly, avoiding the need for approximating the gradient with Gibbs sampling, as is done for maximum likelihood estimation.
+21	36	Our analysis shows that the amount of data required to identify the true structure scales sublinearly in the number of possible dependencies for a broad class of models.
+22	3	Intuitively, this follows from the fact that learning the generative model’s parameters is possible when there are a sufficient number of better-than-random supervision sources available.
+24	11	We run experiments to confirm these predictions.
+25	22	We also compare against the alternative approach of considering all possible dependencies during parameter learning.
+26	51	We find that our method is 100⇥ faster.
+28	12	Finally, we demonstrate that on real-world applications of weak supervision, using generative models with automatically learned dependencies improves performance.
+29	11	We find that our method provides on average 1.5 F1 points of improvement over existing, user-developed information extraction applications on PubMed abstracts and hardware specification sheets.
+30	8	When developing machine learning systems, the primary bottleneck is often curating a sufficient amount of labeled training data.
+32	34	Recently researchers have proposed methods for synthesizing labels from noisy label sources using generative models.
+33	62	(See Section 6 for a summary.)
+34	47	We ground our work in one framework, data programming (Ratner et al., 2016), that generalizes many approaches in the literature.
+35	102	In data programming, weak supervision sources are encoded as labeling functions, heuristics that label data points (or abstain).
+36	54	A generative probabilistic model is fit to estimate the accuracy of the labeling functions and the strength of any user-specified statistical dependencies among their outputs.
+37	26	In this model, the true class label for a data point is a latent variable that generates the labeling function outputs.

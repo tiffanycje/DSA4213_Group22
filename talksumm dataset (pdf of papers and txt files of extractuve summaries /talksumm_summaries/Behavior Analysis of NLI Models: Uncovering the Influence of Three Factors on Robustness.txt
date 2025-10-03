@@ -1,0 +1,30 @@
+0	55	The task of Natural Language Inference (NLI)1 has received a lot of attention and has elicited models which have achieved impressive results on the Stanford NLI (SNLI) dataset (Bowman et al., 2015).
+1	12	Such results are impressive due to the linguistic knowledge required to solve the task (LoBue and Yates, 2011; Maccartney, 2009).
+2	14	However, the ever-growing complexity of these models inhibits a full understanding of the phenomena that they capture.
+5	26	In both examples, the models exploit a bias (an undesired pattern hidden in the dataset) to enhance accuracy.
+7	11	Assessing to what extent the models are robust to these contingencies just by looking at test accuracy is, therefore, difficult.
+15	34	We aim to answer the research questions: How robust is the predictive behavior of the pre-trained models under our transformation to input data?
+16	21	Do the target factors (insensitivity, polarity, and unseen pairs) influence the prediction of the models?
+32	12	Behavior analysis seeks to account for the role that factors (independent variables) play in the behavior (dependent variable) of subjects.
+41	13	Decomposable Attention Model DAM (Parikh et al., 2016) consists of 2-layer multilayerperceptrons (MLPs) factorized in a 3-step process.
+57	13	We then produce new instances which differ either minimally from the control instances, by changing only a single word in the premise and hypothesis, or more substantially, by copying the same sentence structure into the premise and hypothesis with a single word changed.
+66	22	Given a set of word pairs of the form W = (w1, w2), where w1 and w2 hold under a semantic relation s ∈ {antonymy, hypernymy, hyponymy}, we look through the training set for instances ik = (pk, hk), where pk and hk are premise and hypothesis sentences, respectively, such that w1 ∈ pk and w2 ∈ hk.
+67	51	For each instance ik we apply transformation T : we swap w1 with w2; this transformation yields an instance im = (pm, hm) where w2 ∈ pm, w1 ∈ hm and w1 /∈ pm, w2 /∈ hm.3 An example of transformation T on a contradiction instance ik is the following: (1) pk : A soccer game occurring at sunset.
+92	16	We note that for both conditions, in situ and ex situ, the same word pairs are swapped, so the differences are the surrounding context words and the factors being controlled.
+104	12	We describe the three target factors that we hypothesize that affect the models’ response.
+106	77	Thus a model would be insensitive if, for example, it incorrectly predicts the same class label for both the control instance in Example 3 and the transformed instance in Example 4 just because they closely resemble each other.
+123	28	And on Subset 3 of IH , DAM appears to rely on a bias (polarity) in the same way as CE.
+129	27	Accuracy scores of CE model seem to reveal that it is much less robust to the antonym swap, with performance significantly dropping by roughly 10.5% according to a McNemar’s test.
+132	11	Doing this on both the premise and hypothesis yields two new samples, ITA2 and ITA3 , which we manually annotate.
+168	47	This is further evidence that the models get confused with a simple reversal of an antonym pair.
+175	11	In contrast to the case in Experiment 1, insensitivity acts in detriment of the models’ robustness when gold labels change after the transformation.
+178	48	Homogeneity tests find no evidence of an association between unseen word pairs and incorrect predictions for any model (CE:χ2(1) = 0.00036, p = 0.98, DAM:χ2(1) = 0.98, p = 0.32, ESIM:χ2(1) = 0.178, p = 0.67).
+188	32	Insensitivity The drop in performance described above can be partially explained by insensitivity to changes in gold label, since around 93% of the instances in ETH changed gold-label with respect to EH .
+190	33	However, in the case of DAM, this factor seems to play a small role on its behavior as seen when we compare accuracy on Subset 1 with that of the whole transformed sample.
+191	36	Insensitivity seems to have a bigger influence on the models when the transformed instances are closer to the training set: Accuracy scores on Subset 1 from ITH are smaller than those on Subset 1 from ETH .
+193	32	We posit the same explanation as before: Models may use hypernymy information contained in the embeddings.
+199	48	On the other hand, much better performance is obtained for the DAM and ESIM models on ITH instances containing unseen word pairs, indicating these models have learned to infer hyper- nym/hyponym relations from information in the pre-trained word embeddings.
+203	15	One result that remains anomalous is the overall performance of the ESIM model on the whole ETH sample.
+209	36	In fact, the complexities of these models (LSTMs, attention mechanisms and MLPs) are specifically intended to capture the interactions between the words in the premise and hypothesis.
+210	90	Further work is required to understand what these interactions are and how they contribute to performance.
+211	69	Fully uncovering these factors in current NLI datasets is a pre-requisite for the construction of more effective resources in the future.

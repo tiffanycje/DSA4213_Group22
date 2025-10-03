@@ -1,0 +1,30 @@
+2	74	We can furthermore infer her likely next action: she will most likely set her fingers on the piano keys and start playing.
+3	84	This type of natural language inference requires commonsense reasoning, substantially broadening the scope of prior work that focused primarily on linguistic entailment (Chierchia and McConnellGinet, 2000).
+4	40	Whereas the dominant entailment paradigm asks if two natural language sentences (the ‘premise’ and the ‘hypothesis’) describe the same set of possible worlds (Dagan et al., 2006; Bowman et al., 2015), here we focus on whether a (multiple-choice) ending describes a possible (future) world that can be anticipated from the situation described in the premise, even when it is not strictly entailed.
+5	30	Making such inference necessitates a rich understanding about everyday physical situations, including object affordances (Gibson, 1979) and frame semantics (Baker et al., 1998).
+7	62	However, recent work has shown that human-written datasets are susceptible to annotation artifacts: unintended stylistic patterns that give out clues for the gold labels (Gururangan et al., 2018; Poliak et al., 2018).
+9	34	In this paper, we introduce Adversarial Filtering (AF), a new method to automatically detect and reduce stylistic artifacts.
+10	35	We use this method to construct Swag: an adversarial dataset with 113k multiple-choice questions.
+11	74	We start with pairs of temporally adjacent video captions, each with a context and a follow-up event that we know is physically possible.
+12	34	We then use a state-of-theart language model fine-tuned on this data to massively oversample a diverse set of possible negative sentence endings (or counterfactuals).
+20	28	More formally, a model is given a context c = (s,n): a complete sentence s and a noun phrase n that begins a second sentence, as well as a list of possible verb phrase sentence endings V = {v1, .
+30	28	We then discuss how we generate counterfactual endings, and Algorithm 1 Adversarial filtering (AF) of negative samples.
+48	29	On each iteration, we split the data into dummy ‘train’ and ‘test’ splits.
+49	78	We train a model f on the training portion and obtain parameters θ, then use the remaining test portion to reassign the indices of A.
+78	17	In this section, we evaluate the performance of various NLI models on Swag.
+82	48	We consider three different types of word representations: 300d GloVe vectors from Common Crawl (Pennington et al., 2014), 300d Numberbatch vectors retrofitted using ConceptNet relations (Speer et al., 2017), and 1024d ELMo contextual representations that show improvement on a variety of NLP tasks, including standard NLI (Peters et al., 2018).
+84	16	See the appendix for more details.
+87	32	SkipThoughts was trained by predicting adjacent sentences in book data, whereas InferSent was trained on supervised NLI data.
+101	25	We also considered the following models: h. Length: Although length was used by the adversarial classifier, we want to verify that human validation didn’t reintroduce a length bias.
+103	44	i. ConceptNet As our task requires world knowledge, we tried a rule-based system on top of the ConceptNet knowledge base (Speer et al., 2017).
+106	53	Human performance To benchmark human performance, five Mechanical Turk workers were asked to answer 100 dataset questions, as did an ‘expert’ annotator (the first author of this paper).
+111	17	Further improvement is gained from models that compute pairwise representations of the inputs.
+113	50	The best results come from pairwise NLI models: when fully trained on Swag, ESIM+ELMo obtains 59.2% accuracy.
+121	74	Second, our use of videos results in wide coverage of dynamic and temporal situations Compared with SNLI, with contexts from Flickr30K (Plummer et al., 2017) image captions, Swag has more active verbs like ‘pull’ and ‘hit,’ and fewer static verbs like ‘sit’ and ‘wear’ (Figure 4).11 Third, our dataset suffers from few lexical biases.
+122	25	Whereas fastText, a bag of n-gram model, obtains 67.0% accuracy on SNLI versus a 34.3% baseline (Gururangan et al., 2018), fastText obtains only 29.0% accuracy on Swag.12
+125	44	We asked 5 Amazon Mechanical Turk workers to pick the better ending (of which they preferred the gold endings 94% of the time) and to select one (or more) multiple choice reasons explaining why the chosen answer was better.
+126	39	The options, and the frequencies, are outlined in Table 4.
+131	20	Though models can do decently well by identifying complex alignment patterns between the two sentences (e.g. being “up a tree” implies that “tree” is the end phrase), the incorrect model predictions suggest this strategy is insuffi- cient.
+138	91	As models are developed for commonsense inference, and more broadly as the field of NLP advances, we note that AF can be used again to create a more adversarial version of Swag using better language models and AF models.
+160	54	We propose a new challenge of physically situated commonsense inference that broadens the scope of natural language inference (NLI) with commonsense reasoning.
+163	82	Our adversarial filtering paradigm is general, allowing potential applications to other datasets that require human composition of question answer pairs.

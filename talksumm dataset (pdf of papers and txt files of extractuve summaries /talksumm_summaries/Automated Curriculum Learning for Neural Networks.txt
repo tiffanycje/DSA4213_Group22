@@ -1,0 +1,30 @@
+0	92	Over two decades ago, in The importance of starting small, Elman put forward the idea that a curriculum of progressively harder tasks could significantly accelerate a neural network’s training (Elman, 1993).
+2	31	In particular, recent work on learning programs with neural networks has relied on curricula to scale up to longer or more complicated tasks (Sutskever and Zaremba, 2014; Reed and de Freitas, 2015; Graves et al., 2016).
+8	60	We propose to instead treat the decision about which task to study next as a stochastic policy, continuously adapted to optimise some notion of what Oudeyer et al. (2007) termed learning progress.
+9	84	Doing so brings us into contact with the intrinsic motivation literature (Barto, 2013), where various indicators of learning progress have been used as reward signals to encourage exploration, including compression progress (Schmidhuber, 1991), information acquisition (Storck et al., 1995), Bayesian surprise (Itti and Baldi, 2009), prediction gain (Bellemare et al., 2016) and variational information maximisation (Houthooft et al., 2016).
+10	23	We focus on variants of prediction gain, and also introduce a novel class of progress signals which we refer to as complexity gain.
+11	25	Derived from minimum description length principles, complexity gain equates acquisition of knowledge with an increase in effective information encoded in the network weights.
+12	22	Given a progress signal that can be evaluated for each training example, we use a multi-armed bandit algorithm to find a stochastic policy over the tasks that maximises overall progress.
+65	23	The first two signals we present are instantaneous in the sense that they only depend on x.
+69	27	Prediction gain is defined as the instantaneous change in loss for a sample x, before and after training on x: νPG := L(x, θ)− L(x, θ′).
+73	18	When pθ is differentiable, an alternative is to consider the first-order Taylor series approximation to prediction gain: L(x, θ′) ≈ L(x, θ) + [∇L(x, θ)]>∆θ, where ∆θ is the descent step.
+78	30	Self prediction gain addresses this issue by sampling a second time from the same task and estimating progress on the new sample: νSPG := L(x ′, θ)− L(x′, θ′) x′ ∼ Dk.
+84	20	Mean prediction gain has additional variance from sampling an evaluation task k ∼ UN .
+108	20	We believe that the linear approximation is more reliable here than for prediction gain, as the model complexity has less curvature than the loss surface.
+109	28	Variational Information Maximizing Exploration (VIME) (Houthooft et al., 2016), uses a reward signal that is closely related to variational complexity gain.
+110	21	The difference is that while VIME measures the KL between the posterior before and after a step in parameter space, VCG considers the change in KL between the posterior and prior induced by the step.
+149	29	In the repeat copy task (Graves et al., 2014) the network receives an input sequence of random bit vectors, and is then asked to output that sequence a given number of times.
+153	39	We devised a curriculum with both the sequence length and the number of repeats varying from 1 to 13, giving 169 tasks in all, with length 13, repeats 13 defined as the target task.
+157	26	2 shows that GVCG solves the target task about twice as fast as uniform sampling for VI training, and that the PG, SPG and TPG gains are somewhat faster than uniform for ML training, especially in the early stages.
+161	20	L2G and particularly GPG and GL2G were much worse than uniform, suggesting that (1) the bias induced by the gradient approximation has a pernicious effect on learning and (2) that the increase in L2 norm is not a reliable measure of increased network complexity.
+162	57	Training directly on the target task failed to learn at all, underlining the necessity of curriculum learning for this problem.
+163	20	3 reveals a consistent strategy for the GVCG syllabuses, first focusing on short sequences with high repeats, then long sequences with low repeats, thereby decoupling the two dimensions of difficulty.
+164	94	At each stage the loss is substantially reduced across many tasks that the policy does not focus on.
+165	18	Crucially, this means that the network does not have to visit each of the 169 tasks to solve them all, and the syllabus is able to exploit this fact to more efficiently complete the curriculum.
+172	129	We therefore used the bAbI code (Weston et al., 2015) to generate 1M stories (each containing one or more questions) for each of the 20 tasks.
+173	31	With so many examples, we found that training and evaluation set performance were indistinguishable, and therefore report training performance only.
+174	22	The LSTM network had two layer of 512 cells, the batch size was 16, and the RMSProp learning rate was 3× 10−5.
+175	130	4 shows that prediction gain (PG) clearly improved on uniform sampling in terms of both learning speed and number of tasks completed; for self-prediction gain (SPG) the same benefits were visible, though less pronounced.
+180	53	For example, the bandit solves ‘Time Reasoning’ much faster than uniform sampling by concentrating on it early in training, and later focuses strongly on ‘Path Finding’ (one of the harder bAbI tasks) until completion.
+183	26	We note however that uniformly sampling from all tasks is a surprisingly strong benchmark.
+184	76	We speculate that this is because learning is dominated by gradients from the tasks on which the network is making fastest progress, inducing a kind of implicit curriculum, albeit with the inefficiency of unnecessary samples.

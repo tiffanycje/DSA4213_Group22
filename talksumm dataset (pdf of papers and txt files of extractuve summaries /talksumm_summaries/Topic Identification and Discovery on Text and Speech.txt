@@ -1,0 +1,30 @@
+0	33	The text processing and speech processing research communities have similar problems and goals, but the technical approaches in these two communities develop largely independently.
+1	48	In this paper we compare dimensionality reduction techniques on multinomial language data from the text and speech communities.
+28	30	Second, we use triphone state cluster soft counts instead of ASR word counts, hence our representation of speech data is significantly lower-resource.
+29	27	Third, we also evaluate performance on text data, and where Morchid et al. limit their vocabulary (from ASR) to 166 task-specific words, we use all 26,606 words present in our training data.
+35	61	The deep neural network (DNN) used to infer the triphone state cluster posteriors forming the basis of our speech data was trained on Parts 1 and 2 of the Fisher English speech corpus (Cieri et al., 2004a; Cieri et al., 2005); see the supplement for further details about our dataset and ASR system.
+37	17	The text representation is sparse, with median density 292 and maximum 500 (out of 26,606 dimensions); the speech representation is dense, with median density 7586 and maximum 7591 (out of 7591 dimensions).
+41	46	We consider four main dimensionality reduction models: the mi-vector model from the speech community, the SAGE and LDA topic models from the text community, and LSA.
+55	19	In this version of the i-vector model the observations are draws from a multinomial and the (unnormalized) natural parameters of that distribution are represented in an affine subspace: φ(d) = softmax ( m +Hθ(d) ) (2) θ(d) ∼ N (0, I).
+74	28	(4) This modification of the SAGE topic model is the same as the mi-vector model but with different regularization on the representation vector θ(d) and l1 regularization on the basis vectorsHk.
+76	33	LDA Latent Dirichlet Allocation (LDA) (Blei et al., 2003b) is a generative Bayesian topic model similar to SAGE, but in which each topic is drawn from a Dirichlet prior G rather than a sparsityinducing distribution.
+77	25	LDA does not explicitly account for the background distribution; to account for this, it is common practice to threshold the vocabulary a priori to remove very common and very rare words (though in our experiments, we do not do this).
+85	17	We apply l2 normalization rather than tf-idf weighting to the speech data because it is dense and tf-idf is thus inappropriate.
+86	35	On both text and speech, mean-centering is performed after the respective normalization, as this pre-processing recipe performed best of all the variants we tried.6 For each of the four models, the lowdimensional real vector θ(d) represents a given document d in our experiments.
+87	19	We also consider two high-dimensional baseline representations: raw (soft) counts on both the text and speech data, and, only on the text data, tf-idf– weighted word counts.
+97	38	Performance is measured by topic ID error, the error of multi-class prediction where the class predicted for each document is that of the per-class classifier that gave it the highest weight.
+100	47	Document Construction Prior work (Hazen et al., 2007; Wintrode and Khudanpur, 2014) treated whole conversations as documents in addition to separating each conversation into its two sides.
+111	20	In both datasets, as the dimension K increases, topic ID error decreases, approaching (approximately) the raw baseline.
+112	81	On text, tf-idf performs slightly better than the raw representation.
+113	32	LSA is marginally the best-performing lower-dimensional learned representation; LDA and mi-vectors perform well at some representation sizes, depending on the data source, but their performance is less consistent.
+115	41	To measure this effect and attempt to separate the predictive power of logistic regression from the quality of the learned representations in our analysis, we experiment with reducing the number of labeled training examples the classifier can use; we still learn representations on the full (unlabeled) training set.
+116	18	This experiment represents the limited-supervision setting in which supervised data is costly to obtain but unlabeled data abounds.
+125	17	To quantitatively assess representations’ potential for topic discovery we compute their V-measure against the gold-standard labels.
+126	27	V-measure is an unsupervised measure of similarity between two partitions (Rosenberg and Hirschberg, 2007) and is equivalent to the mutual information normalized by the sum of the entropy (Becker, 2011).
+128	20	A partition is induced on a representation by assigning each document d to the cluster indexed by the coordinate of θ(d) with highest value (the argmax).
+135	32	On speech, SAGE is best overall, mi-vectors exhibit similar but generally lower performance, LDA performs worse, and LSA is worst.
+142	18	Using K = 600 models on text as before and picking M = 20, we compute mi-vector coherence as −453.34 and SAGE coherence (averaged over three runs) as −407.52, indicating that SAGE is more amenable to topic discovery and human interaction.
+159	71	However, our results support that the speech community can benefit from broader use of sparsity-inducing graphical models such as SAGE in tasks like spoken topic discovery and recommendation, in which humaninterpretable representations are desired.
+160	84	The text community may similarly benefit from parsimonious models such as LSA or mi-vectors in downstream tasks; underparametrized mi-vectors perform particularly well on text, and future work may benefit from investigating this setting.
+170	34	Topic ID and topic discovery are competing objectives in our setting: we found that the bestperforming representations per task were the same whether considering text- or speech-based communications.
+171	30	By evaluating learned representations from both the text and speech communities on a common set of data and tasks, we have provided a framework for better understanding the topic ID and topic discovery objectives, among others.

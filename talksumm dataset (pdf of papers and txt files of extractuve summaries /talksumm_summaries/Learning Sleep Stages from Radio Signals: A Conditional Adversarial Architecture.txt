@@ -1,0 +1,27 @@
+1	23	Sleep progresses in cycles that involve multiple sleep stages: Awake, Light sleep, Deep sleep and REM (Rapid Eye Movement).
+2	41	Different stages are associated with different physiological functions.
+3	18	For example, deep sleep is essential for tissue growth, muscle repair, and memory consolidation, while REM helps procedural memory and emotional health.
+6	20	Monitoring sleep stages is beneficial for diagnosing sleep disorders, and tracking the response to treatment (Carskadon & Rechtschaffen, 2000).
+7	10	Prevailing approaches for monitoring sleep stages are inconvenient and intrusive.
+8	35	The medical gold standard relies on Polysomnography (PSG), which is typically conducted in a hospital or sleep lab, and requires the subject to wear a plethora of sensors, such as EEG-scalp electrodes, an ECG monitor, multiple chest bands, and nasal probes.
+10	31	Furthermore, the cost and discomfort of PSG limit the potential for long term sleep studies.
+11	78	Recent advances in wireless systems have demonstrated that radio technologies can capture physiological signals without body contact (Kaltiokallio et al., 2014; Adib et al., 2015; Zhao et al., 2016).
+12	10	These technologies transmit a low power radio signal (i.e., 1000 times lower power than a cell phone transmission) and analyze its reflections.
+13	186	They extract a person’s breathing and heart beats from the radio frequency (RF) signal reflected off her body.
+14	24	Since the cardio-respiratory signals are correlated with sleep stages, in principle, one could hope to learn a subject’s sleep stages by analyzing the RF signal reflected off her body.
+16	24	There are multiple challenges in realizing the potential of RF measurements for sleep staging.
+17	106	In particular, we must learn RF signal features that capture the sleep stages and their temporal progression, and the features should be transferable to new subjects and different environments.
+18	86	The problem is that RF signals carry much information that is irrelevant to sleep staging, and are highly dependent on the individuals and the measurement conditions.
+19	11	Specifically, they reflect off all objects in the environment including walls and furniture, and are affected by the subject’s position and distance from the radio device.
+20	64	These challenges were not addressed in past work which used hand-crafted signal features to train a classifier (Zaffaroni et al., 2014; Tataraidze et al., 2016b).
+21	56	The accuracy was relatively low (∼64%) and the model did not generalize beyond the environment where the measurements were collected.
+22	51	This paper presents a new model that delivers a significantly higher accuracy and generalizes well to new environments and subjects.
+23	55	The model adapts a convolutional neural network (CNN) to extract stage-specific features from RF spectrograms, and couples it with a recurrent neural network (RNN) to capture the temporal dynamics of sleep stages.
+24	22	However, a CNN-RNN combination alone would remain liable to distracting features pertaining to specific individuals or measurement conditions (i.e., the source domains), and hence would not generalize well.
+25	131	To address this issue, we introduce a new adversarial training regime that discards extraneous information specific to individuals or measurement conditions, while retaining all information relevant to the predictive task –i.e., the adversary ensures conditional independence between the learned representation and the source domains.
+26	29	Our training regime involves 3 players: the feature encoder (CNN-RNN), the sleep stage predictor, and the source discriminator.
+27	8	The encoder plays a cooperative game with the predictor to predict sleep stages, and a minimax game against the source discriminator.
+28	56	Our source discriminator deviates from the standard domain-adversarial discriminator in that it takes as input also the predicted distribution of sleep stages in addition to the encoded features.
+30	19	We analyze this game and demonstrate that at equilibrium, the encoded features discard all extraneous information that is specific to the individuals or measurement conditions, while preserving all information relevant to predicting the sleep stages.
+31	30	We also evaluate our model on a dataset of RF measurements and corresponding sleep stages1.
+32	75	Experimental results show that our model significantly improves the prediction accuracy of sleep stages.

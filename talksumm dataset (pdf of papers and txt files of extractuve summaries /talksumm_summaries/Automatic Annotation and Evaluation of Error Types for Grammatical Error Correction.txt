@@ -1,0 +1,30 @@
+5	58	This not only facilitates error type evaluation, but can also be used to provide detailed error type feedback to non-native learners.
+6	20	Given that different corpora are also annotated according to different standards, we also attempted to standardise existing datasets under a common error type framework.
+8	24	First, we automatically extract the edits between parallel original and corrected sentences by means of a linguistically-enhanced alignment algorithm (Felice et al., 2016) and second, we classify them according to a new, rule-based framework that relies solely on dataset-agnostic information such as lemma and part-of-speech.
+9	48	We demonstrate the value of our approach, which we call the ERRor ANnotation Toolkit (ERRANT)1, by carrying out a detailed error type analysis of each system in the CoNLL-2014 shared task on grammatical error correction (Ng et al., 2014).
+11	32	The first stage of automatic annotation is edit extraction.
+12	42	Specifically, given an original and corrected sentence pair, we need to determine the start and end boundaries of any edits.
+13	34	This is fundamentally an alignment problem: 793 The first attempt at automatic edit extraction was made by Swanson and Yamangil (2012), who simply used the Levenshtein distance to align parallel original and corrected sentences.
+14	35	As the Levenshtein distance only aligns individual tokens however, they also merged all adjacent nonmatches in an effort to capture multi-token edits.
+16	21	Most recently, Felice et al. (2016) proposed a new method of edit extraction using a linguistically-enhanced alignment algorithm supported by a set of merging rules.
+17	22	More specifically, they incorporated various linguistic information, such as part-of-speech and lemma, into the cost function of the Damerau-Levenshtein2 algorithm to make it more likely that tokens with similar linguistic properties aligned.
+22	22	Instead, a dataset-agnostic error type classifier is much more desirable.
+24	17	We then added another rule to similarly differentiate between Missing, Unnecessary and Replacement errors depending on whether tokens were inserted, deleted or substituted.
+46	50	We use spaCy3 v1.7.3 for all but the stemming, which is performed by the Lancaster Stemmer in NLTK.4 Since fine-grained POS tags are often too detailed for the purposes of error evaluation, we also map spaCy’s Penn Treebank style tags to the coarser set of Universal Dependency tags.5 We use the latest Hunspell GB-large word list6 to help classify non-word errors.
+48	16	The complete list of 25 error types in our new framework is shown in Table 2.
+52	55	One caveat concerning error scheme design is that it is always possible to add new categories for increasingly detailed error types; for instance, we currently label [could→ should] a tense error, when it might otherwise be considered a modal error.
+55	33	As our new error scheme is based solely on automatically obtained properties of the data, there are no gold standard labels against which to evaluate classifier performance.
+56	104	For this reason, we instead carried out a small-scale manual evaluation, where we simply asked 5 GEC researchers to rate the appropriateness of the predicted error types for 200 randomly chosen edits in context (100 from FCE-test and 100 from CoNLL-2014) as “Good”, “Acceptable” or “Bad”.
+67	51	Having described how to automatically annotate parallel sentences with ERRANT, we now also have a method to annotate system hypotheses; this is the first step towards an error type evaluation.
+71	20	Any edit with the same span and correction in both files is hence a true positive (TP), while unmatched edits in the hypothesis and references are false positives (FP) and false negatives (FN) respectively.
+95	29	The most surprising result is that five teams (AMU, IPN, PKU, RAC, UFC) failed to correct any unnecessary token errors at all.
+98	17	AMU’s result is especially remarkable given that their system still came 3rd overall despite this limitation.
+106	16	Other interesting observations we can make from this table include: • Despite the prevalence of spell checkers nowadays, many teams did not seem to employ them; this would have been an easy way to boost overall performance.
+107	16	• Although several teams built specialised classifiers for DET and PREP errors, CAMB’s hybrid MT approach still outperformed them.
+133	15	Nevertheless, a system’s ability to detect errors, even if it is unable to correct them, is still likely to be valuable information to a learner (Rei and Yannakoudakis, 2016).
+135	39	In this paper, we described ERRANT, a grammatical ERRor ANnotation Toolkit designed to au- tomatically annotate parallel error correction data with explicit edit spans and error type information.
+138	68	Our approach makes use of previous work to align sentences based on linguistic intuition and then introduces a new rule-based framework to classify edits.
+139	19	This framework is entirely dataset independent, and relies only on automatically obtained information such as POS tags and lemmas.
+140	39	A small-scale evaluation of our classifier found that each rater considered >95% of the predicted error types as either “Good” (85%) or “Acceptable” (10%).
+141	26	We demonstrated the value of ERRANT by carrying out a detailed evaluation of system error type performance for all teams in the CoNLL2014 shared task on Grammatical Error Correction.
+142	76	We found that different systems had different strengths and weaknesses which we hope researchers can exploit to further improve general performance.

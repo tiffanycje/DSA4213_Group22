@@ -1,0 +1,30 @@
+3	33	In another example, online deliberation has become a popular way of soliciting public opinions on new policies’ pros and cons (Albrecht, 2006; Park et al., 2012).
+4	58	Nonetheless, constructing persuasive arguments is a daunting task, for both human and computers.
+14	22	To address the above challenges, we present a neural network-based argument generation framework augmented with externally retrieved evidence.
+15	22	Our model is inspired by the observation that when humans construct arguments, they often collect references from external sources, e.g., Wikipedia or research papers, and then write their own arguments by synthesizing talking points from the references.
+31	23	Our argument generation pipeline, consisting of evidence retrieval and argument construction, is depicted in Figure 2.
+32	43	Given a statement, a set of queries are constructed based on its topic signature words (e.g., “government” and “national security”) to retrieve a list of relevant articles from Wikipedia.
+33	35	A reranking component further extracts sentences that may contain supporting evidence, which are used as additional input information for the neural argument generation model.
+35	19	Two decoders are designed: the keyphrase decoder first generates an intermediate representation of talking points in the form of keyphrases (e.g., “right to privacy”, “political corruption”), followed by a separate argument decoder which produces the final argument.
+37	23	Specifically, CMV is structured as discussion threads, where the original post (OP) starts with a viewpoint on a controversial topic, followed with detailed reasons, then other users reply with counter-arguments.
+38	21	Importantly, when a user believes his view has been changed by an argument, a delta is often awarded to the reply.
+39	36	In total, 26,761 threads from CMV are downloaded, dating from January 2013 to June 20173.
+95	20	Topic signatures (Lin and Hovy, 2000) are terms strongly correlated with a given post, measured by log-likelihood ratio against a background corpus.
+102	22	These paragraphs are further segmented into sentences, and reranked according to TF-IDF similarity again.
+104	128	To create training data for the keyphrase decoder, we use the following rules to identify keyphrases from evidence sentences that are reused by human writers for argument construction: • Extract noun phrases and verb phrases from evidence sentences using Stanford CoreNLP (Manning et al., 2014).
+113	29	For all models, we use a two-layer biLSTM as encoder and a two-layer unidirectional LSTM as decoder, with 200-dimensional hidden states in each layer.
+132	25	For test time, evidence sentences are retrieved with queries constructed from OP (System Retrieval).
+135	24	Human arguments are used as the gold-standard.
+137	30	We do not use multiple reference evaluation because the arguments are often constructed from different angles and cover distinct aspects of the issue.
+143	52	Interestingly, utilizing system retrieved evidence yields better BLEU scores than using oracle retrieval for testing.
+161	40	Intuitively, if an argument contains more topic relevant information, then the relevance estimation model will output a higher score for it; otherwise, the argument will receive a lower similarity score, and thus cannot be easily distinguished from negative samples.
+166	18	This further implies that our model generates more topic-relevant content.
+167	38	We also hire three trained human judges who are fluent English speakers to rate system arguments for the following three aspects on a scale of 1 to 5 (with 5 as best): Grammaticality—whether an argument is fluent, informativeness—whether the argument contains useful information and is not generic, and relevance—whether the argument contains information of a different stance or offtopic.
+169	18	Table 5 shows that our model with separate decoder and attention over keyphrases produce significantly more informative and relevant arguments than seq2seq trained without evidence.8 However, we also observe that human judges prefer the retrieved arguments over generation-based models, illustrating the gap between system arguments and human edited text.
+176	27	For instance, in the first sample argument by our model in Figure 4, keyphrases “the motive” and “russian” are generated.
+180	35	Meanwhile, our model also acquires argumentative style language, though there is still a noticeable gap between system arguments and human constructed arguments.
+182	22	For future work, generation models with a better control on linguistic style need to be designed.
+183	83	As for improving coherence, we believe that discourse-aware generation models (Ji et al., 2016) should also be explored in the future work to enhance text planning.
+197	31	We presented a neural argument generation framework enhanced with evidence retrieved from Wikipedia.
+198	188	Separate decoders were designed to first produce a set of keyphrases as talking points, and then generate the final argument.
+199	64	Both automatic evaluation against human arguments and human assessment showed that our model produced more informative arguments than popular sequence-to-sequence-based generation models.

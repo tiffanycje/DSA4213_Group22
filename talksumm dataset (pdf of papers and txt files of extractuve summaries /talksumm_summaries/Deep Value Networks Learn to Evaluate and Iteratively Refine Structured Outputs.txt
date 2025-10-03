@@ -1,0 +1,30 @@
+0	90	Structured output prediction is a fundamental problem in machine learning that entails learning a mapping from input objects to complex multivariate output structures.
+1	81	Because structured outputs live in a high-dimensional combinatorial space, one needs to design factored prediction models that are not only expressive, but also computationally tractable for both learning and inference.
+2	16	Due to computational considerations, a large body of previous work (e.g., Lafferty et al. (2001); Tsochantaridis et al. (2004)) has focused on relatively weak graphical models with pairwise or small clique potentials.
+3	47	Such models are not capable of learning complex correlations among the random variables, making them not suitable for tasks requiring complicated high level reasoning to resolve ambiguity.
+7	12	Moving beyond large margin training used by previous work (Belanger & McCallum, 2016), this paper presents a simpler and more effective objective inspired by value based reinforcement learning for training energy-based models.
+10	70	We exploit a loss function `(y,y∗) that compares an output y against a ground truth label y∗ to teach a DVN to evaluate different output configurations.
+11	83	The goal is to distill the knowledge of the loss function into the weights of a value network so that during inference, in the absence of the labeled output y∗, one can still rely on the value judgments of the neural net to compare outputs.
+12	32	To enable effective iterative refinement of structured outputs via gradient ascent on the score of a DVN, similar to Belanger & McCallum (2016), we relax the discrete output variables to live in a continuous space.
+14	23	For example, for multi-label classification, instead of enforcing each output dimension yi to be binary, we let yi ∈ [0, 1] and we generalize the notion of F1 score to apply to continuous predictions.
+15	52	For image segmentation, we use a similar generalization of intersection over union.
+16	37	Then, we train a DVN on many output examples encouraging the network to predict precise (negative) loss scores for almost any output configuration.
+17	78	Figure 1 illustrates the gradient based inference process on a DVN optimized for image segmentation.
+18	34	This paper presents a novel training objective for deep structured output prediction, inspired by value-based reinforcement learning algorithms, to precisely evaluate the quality of any input-output pair.
+22	43	For example, on the Weizmann horses dataset (Borenstein & Ullman, 2004), without any form of pre-training, we are able to optimize 2.5 million network parameters on only 200 training images with multiple crops.
+24	22	Our source code based on TensorFlow (Abadi et al., 2015) is available at https://github.com/gyglim/dvn.
+25	90	Structured output prediction entails learning a mapping from input objects x ∈ X (e.g., X ≡ RM ) to multivariate discrete outputs y ∈ Y (e.g., Y ≡ {0, 1}N ).
+34	83	The upper bound on the loss for an example (x,y∗) and the model’s prediction ŷ takes the form: `(ŷ,y∗) ≤ max y [ `(y,y∗)+s(x,y;θ) ]− s(x, ŷ;θ) (4a) ≤ max y [ `(y,y∗) + s(x,y;θ) ]− s(x,y∗;θ) .
+37	34	This paper is inspired by the structural SVM formulation above, but we give up the convexity of the objective to obtain more expressive models using a multi-layer neural networks.
+38	58	Specifically, we generalize the formulation above in three ways: 1) use a non-linear score function denoted v(x,y;θ) that fuses ψ(·, ·) and θ together and jointly learns the features.
+39	14	2) use gradient descend in y for iterative refinement of outputs to approximately find the best ŷ(x).
+45	23	We call our model a deep value network (DVN) to emphasize the importance of the notion of value in shaping our ideas, but the DVN architecture can be thought as an example of structured prediction energy network (SPEN) (Belanger & McCallum, 2016) with similar inference strategy.
+48	21	We propose a deep value network architecture, denoted v(x,y;θ), to evaluate a joint configuration of an input and a corresponding output via a neural network.
+52	24	During training, the goal is to optimize the parameters of a value network, denoted θ, to mimic the behavior of the oracle value function v∗(y,y∗) as much as possible.
+56	17	Since v(x,y;θ) represents a complex non-linear function of (x,y) induced by a neural network, finding ŷ is not straightforward, and approximate inference algorithms based on graph-cut (Boykov et al., 2001) or loopy belief propagation (Murphy et al., 1999) are not easily applicable.
+64	11	In the simplest case, where Y = [0, 1]M , the PY operator projects dimensions smaller than zero back to zero, and dimensions larger than one to one.
+66	16	Empirically, we find that for a trained DVN, the generated y(T )’s tend to become nearly binary themselves.
+71	22	Very much like Q-learning (Watkins & Dayan, 1992), this training set evolves over time, and one can make use of an experience replay buffer.
+74	13	More specifically, since both IOU and F1 scores lie between 0 and 1, we used a cross-entropy loss between oracle values vs. our DVN values.
+75	12	As such, our neural network v(x,y) has a sigmoid non-linearity at the top to predict a number between 0 and 1, and the loss takes the form, LCE(θ) = ∑ (x,y,v∗)∈D − v∗ log v(x,y;θ) − (1− v∗) log(1− v(x,y;θ)) (11) The exact form of the loss does not have a significant impact on the performance and other loss functions can be used, e.g., L2.
+78	15	Each training tuple comprises an input, an output, and a corresponding oracle value, i.e., (x,y, v∗).

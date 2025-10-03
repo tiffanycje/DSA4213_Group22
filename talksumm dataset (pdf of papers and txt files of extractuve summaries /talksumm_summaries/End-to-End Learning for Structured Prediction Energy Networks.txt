@@ -1,0 +1,30 @@
+0	32	In a variety of application domains, given an input x we seek to predict a structured output y.
+1	51	For example, given a noisy image, we predict a clean version of it, or given a sentence we predict its semantic structure.
+2	19	Often, it is insufficient to employ a feed-forward predictor y = F (x), since this may have prohibitive sample complexity, fail to model global interactions among outputs, or fail to enforce hard output constraints.
+3	66	Instead, it can be advantageous to define the prediction function implicitly in terms of energy minimization (LeCun et al., 2006): ŷ = argmin y E x (y), (1) where E x (·) depends on x and learned parameters.
+4	32	This approach includes factor graphs (Kschischang et al., 2001), e.g., conditional random fields (CRFs) (Lafferty et al., 2001), and many recurrent neural networks (Sec.
+5	38	Output constraints can be enforced using constrained optimization.
+6	13	Compared to feed-forward approaches, energy-based approaches often provide better opportunities to inject prior knowledge about likely outputs and often have more parsimonious models.
+7	27	On the other hand, energy-based prediction requires non-trivial search in the exponentially-large space of outputs, and search techniques often need to be designed on a case-by-case basis.
+8	77	Structured prediction energy networks (SPENs) (Belanger & McCallum, 2016) help reduce these concerns.
+9	72	They can capture high-arity interactions among components of y that would lead to intractable factor graphs and provide a mechanism for automatic structure learning.
+10	132	This is accomplished by expressing the energy function in Eq.
+11	34	(1) as a deep architecture and forming predictions by approximately optimizing y using gradient descent.
+12	30	While providing the expressivity and generality of deep networks, SPENs also maintain the useful semantics of energy functions: domain experts can design architectures to capture known properties of the data, energy functions can be combined additively, and we can perform constrained optimization over y.
+13	42	Most importantly, SPENs provide for black-box interaction with the energy, via forward and back-propagation.
+14	15	This allows practitioners to explore a wide variety of models without the need to hand-design corresponding prediction methods.
+17	45	SSVMs are unreliable when exact energy minimization is intractable, as loss-augmented inference may fail to discover margin violations (Sec.
+18	70	In response, we present end-to-end training of SPENs, where one directly back-propagates through a computation graph that unrolls gradient-based energy minimization.
+19	74	This does not assume that exact minimization is tractable, and instead directly optimizes the practical performance of a particular approximate minimization algorithm.
+20	60	End-to-end training for gradient-based prediction was introduced in Domke (2012) and applied to deep energy models by Brakel et al. (2013).
+22	21	The core contribution of this paper is a set of general-purpose solutions for overcoming these.
+23	63	4.1 alleviates the effect of vanishing gradients when training SPENs defined over the convex relaxation of discrete prediction problems.
+24	16	4.2 trains energies such that gradient-based minimization is fast.
+30	14	After that, we apply SPENs to semantic role labeling (SRL) on the CoNLL-2005 dataset (Carreras & Màrquez, 2005).
+31	44	The task is challenging for SPENs because the output is discrete, sparse, and subject to rigid non-local constraints.
+32	84	We show how to formulate SRL as a SPEN problem and demonstrate performance improvements over strong baselines that use deep features, but sufficiently simple energy functions that the constraints can be enforced using dynamic programming.
+33	17	Despite substantial differences between the two applications, learning and prediction for all models is performed using the same gradient-based prediction and end-to-end learning code.
+34	53	This black-box interaction with the model provides many opportunities for further use of SPENs.
+37	26	Differentiability necessitates that the energy is defined on continuous inputs.
+38	111	Going forward, y will always be continuous.
+41	47	Then, we present two families of methods for training energy-based structured prediction models that have been explored in prior work.

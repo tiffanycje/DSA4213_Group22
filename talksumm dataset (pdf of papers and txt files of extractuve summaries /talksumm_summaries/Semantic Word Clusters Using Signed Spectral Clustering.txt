@@ -1,0 +1,30 @@
+11	14	This paper formally improves on the discrete optimization problem of Yu and Shi (2003).
+13	48	This is because the- 939 sauri erroneously give equal weight to rare senses of a word – for example, “rich” as a rarely used synonym of “absurd”.
+14	25	Also, the overlap between thesauri is small, due to their manual creation.
+19	40	Overall, signed spectral clustering can augment methods using signed information and has broad application for many fields.
+20	47	Our main contributions are: the novel extension of signed clustering to the multiclass (K-cluster), and the application of this method to create semantic word clusters that are agnostic to vector space representations and thesauri.
+43	28	Weighted graphs for which the weight matrix is a symmetric matrix in which negative and positive entries are allowed are called signed graphs.
+46	27	Figure 1 shows a signed graph of word similarities with a thesaurus overlay.
+59	17	Given a partition of V into K clusters (A1, .
+62	21	The signed normalized cut sNcut(A1, .
+63	19	, AK) of the partition (A1, ..., AK) is defined as sNcut(A1, .
+65	32	It should be noted that this formulation differs significantly from Kunegis et al. (2010) and even more so from must-link / cannot-link clustering.
+67	17	, AK) minimizes the number of positive and negative edges between clusters and also the number of negative edges within clusters.
+71	31	We now formulate K-way clustering of a graph using normalized cuts.
+82	15	Since Q is of the form Q = RΛ whereR ∈ O(K) and Λ is a diagonal invertible matrix, we minimize ‖X − ZRΛ‖F .
+83	15	The matrix RΛ is not a minimizer of ‖X − ZRΛ‖F in general, but it is an improvement on R alone, and both stages can be solved quite easily.
+85	21	Algorithm 1 Signed Clustering 1: Input: W the weight matrix (without isolated nodes), K the number of clusters, and termination threshold .
+90	24	The main input to the spectral signed clustering algorithm is the similarity matrixW , which overlays both the distributional properties and thesaurus information.
+93	36	We represented the thesaurus as two matrices where T synij = { 1 if words i and j are synonyms 0 otherwise .
+96	32	The parameters γ, βsyn, and βant are tuned to the data target dataset using cross validation.
+97	17	The reader should note that σ and are not found using a target dataset, but instead using cross validation and grid search to minimize the number of negative edges within clusters and the number of disconnected components in the cluster.
+98	27	We evaluated the clusters using both intrinsic and extrinsic methods.
+145	36	In a perfect setting, all word pairs rated highly similar by human annotators would be in the same cluster, and all words which were rated dissimilar would be in different clusters.
+150	55	The MSW thesaurus has much lower coverage, but 100 % accuracy, which is why when combined with the signed clustering the performance is 0.95.
+155	34	However, the improvement using both signed clustering as well as thesaurus look is also larger.
+160	16	While the state-of-the art Convolutional Neural Network (CNN) (Kim, 2014) is at 0.881, our model performs quite well with much less information and complexity.
+163	24	Signed clustering using only thesaurus information (SC(Thes)) performed significantly worse than all other methods.
+175	23	Our signed spectral clustering method could be applied to a broad range of NLP tasks, such as prediction of social group clustering, identification of personal versus non-personal verbs, and analyses of clusters which capture positive, negative, and objective emotional content.
+176	19	It could also be used to explore multi-view relationships, such as aligning synonym clusters across multiple languages.
+177	63	Another possibility is to use thesauri and word vector representations together with word sense disambiguation to generate semantically similar clusters for multiple senses of words.
+179	49	Finally, we plan to extend the hard signed clustering presented here to probabilistic soft clustering.

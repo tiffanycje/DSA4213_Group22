@@ -1,0 +1,27 @@
+0	93	Many tasks in scientific and engineering applications can be framed as bandit optimisation problems, where we need to sequentially evaluate a noisy black-box function f : X → R with the goal of finding its optimum.
+1	29	Some applications include hyper-parameter tuning in machine learning (Hutter et al., 2011; Snoek et al., 2012), optimal policy search (Lizotte et al., 2007; Martinez-Cantin et al., 2007) and scientific experiments (Gonzalez et al., 2014; Parkinson et al., 2006).
+2	16	Typically, in such applications, each function evaluation is expensive, and conventionally, the bandit literature has focused on developing methods for finding the optimum while keeping the number of evaluations to f at a minimum.
+3	12	However, with increasingly expensive function evaluations, conventional methods have become infeasible as a significant cost needs to be expended before we can learn anything about f .
+7	38	For example, when optimising the configuration of an expensive real world robot, its performance can be approximated using cheaper computer simulations.
+8	32	The goal is to use the cheap approximations to guide search for the optimum of f , and reduce the overall cost of optimisation.
+9	40	However, most multi-fidelity work assume only a finite number of approximations.
+10	35	In this paper, we study multi-fidelity optimisation when there is access to a continuous spectrum of approximations.
+12	66	The algorithm is to be trained using N• data points via an iterative algorithm for T• iterations.
+13	52	However, we wish to use fewer training points N < N• and/or fewer iterations T < T• to approximate the validation accuracy.
+14	67	We can view validation accuracy as a function g : [1, N•] × [1, T•] × X → R where evaluating g(N,T, x) requires training the algorithm with N points for T iterations with the hyper-parameters x.
+15	40	If the training complexity of the algorithm is quadratic in data size and linear in the number of iterations, then the cost of this evaluation is λ(N,T ) = O(N2T ).
+16	116	Our goal is to find the optimum when N = N•, and T = T•, i.e. we wish to maximise f(x) = g(N•, T•, x).
+17	342	In this setting, while N,T are technically discrete choices, they are more naturally viewed as coming from a continuous 2 dimensional fidelity space, [1, N•] × [1, T•].
+18	50	One might hope that cheaper queries to g(N,T, ·) with N,T less than N•, T• can be used to learn about g(N•, T•, ·) and consequently optimise it using less overall cost.
+19	11	Indeed, this is the case with many machine learning algorithms where cross validation performance tends to vary smoothly with data set size and number of iterations.
+20	77	Therefore, one may use cheap low fidelity experiments with small (N,T ) to discard bad hyper-parameters and deploy expensive high fidelity experiments with large (N,T ) only in a small but promising region.
+21	19	The main theoretical result of this paper (Theorem 1) shows that our proposed algorithm, BOCA, exhibits precisely this behaviour.
+23	8	In fact, in many multi-fidelity papers, the finite approximations were obtained by discretising a continuous space (Huang et al., 2006; Kandasamy et al., 2016a).
+24	9	Here, we study a Bayesian optimisation technique that is directly designed for continuous fidelity spaces and is potentially applicable to more general spaces.
+25	46	Our main contributions are, 1.
+28	1	A theoretical analysis characterising the behaviour and regret bound for BOCA.
+31	37	While there are several techniques for BO (de Freitas et al., 2012; Hernández-Lobato et al., 2014; Jones et al., 1998; Mockus, 1994; Thompson, 1933), our work will build on the Gaussian process upper confidence bound (GP-UCB) algorithm of Srinivas et al. (2010).
+32	58	GP-UCB models f as a GP and uses upper confidence bound (UCB) (Auer, 2003) techniques to determine the next point for evaluation.
+33	3	BO techniques have been used in developing multi-fidelity optimisation methods in various applications such as hyperparameter tuning and industrial design (Forrester et al., 2007; Huang et al., 2006; Klein et al., 2015; Lam et al., 2015; Poloczek et al., 2016; Swersky et al., 2013).
+35	55	Further, none of them come with theoretical underpinnings.
+36	14	Recent work has studied multi-fidelity methods for specific problems such as hyperparameter tuning, active learning and reinforcement learning (Agarwal et al., 2011; Cutler et al., 2014; Li et al., 2016; Sabharwal et al., 2015; Zhang & Chaudhuri, 2015).

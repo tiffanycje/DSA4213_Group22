@@ -1,0 +1,30 @@
+19	3	We first prove the inconsistency of typical aggregation models, e.g., the overconfident or conservative prediction variances illustrated in Fig.
+20	12	3, using conventional disjoint or random data partition.
+21	24	Thereafter, we present a consistent yet efficient aggregation model for large-scale GP regression.
+26	6	The wellknown squared exponential (SE) covariance function is k(x,x′) = σ2f exp ( −1 2 d∑ i=1 (xi − x′i)2 l2i ) , (1) where σ2f is an output scale amplitude, and li is an input length-scale along the ith dimension.
+27	8	Given the noisy observation y(x) = f(x) + where the i.i.d.
+29	2	In order to train the GP on large-scale datasets, the aggregation models introduce a factorized training process.
+31	9	In data partition, we can assign the data points randomly to the experts (random partition), or assign disjoint subsets obtained by clustering techniques to the experts (disjoint partition).
+34	13	The factorization (2) degenerates the full covariance matrix K = k(X,X) into a diagonal block matrix diag[K1, · · · ,KM ], leading to K−1 ≈ diag[K−11 , · · · ,K −1 M ].
+35	12	Hence, compared to the full GP, the complexity of the factorized training process is reduced to O(nm20) given ni = m0 = n/M , 1 ≤ i ≤M .
+36	2	Conditioned on the related subset Di, the predictive distribution pi(y∗|Di,x∗) ∼ N (µi(x∗), σ2i (x∗)) ofMi has1 µi(x∗) = k T i∗[Ki + σ 2 I] −1yi, (3a) σ2i (x∗) = k(x∗,x∗)− kTi∗[Ki + σ2 I]−1ki∗ + σ2 , (3b) where ki∗ = k(Xi,x∗).
+38	4	The state-of-the-art aggregation methods include PoE (Hinton, 2002; Cao & Fleet, 2014), BCM (Tresp, 2000; Deisenroth & Ng, 2015), and nested pointwise aggregation of experts (NPAE) (Rullière et al., 2017).
+40	5	The predictions of the PoE family, which omit the prior precision σ−2∗∗ in (4b), are derived from the product of M experts as pA(y∗|D,x∗) = M∏ i=1 pβii (y∗|Di,x∗).
+42	3	On the contrary, the generalized PoE (GPoE) (Cao & Fleet, 2014) considers a varying βi = 0.5(log σ2∗∗ − log σ2i (x∗)), which represents the difference in the differential entropy between the prior p(y∗|x∗) and the posterior p(y∗|Di,x∗), to weigh the contribution ofMi at x∗.
+43	2	This varying βi brings the flexibility of increasing or reducing the importance of experts based on the predictive uncertainty.
+46	5	The BCM family, which is opposite to the PoE family, explicitly incorporates the GP prior p(y∗|x∗) when combining predictions.
+51	3	However, given M = 1, the predictions of RBCM as well as GPoE cannot recover the full GP predictions because usually β1 = 0.5(log σ2∗∗ − log σ21(x∗)) = 0.5(log σ 2 ∗∗ − log σ2full(x∗)) 6= 1.
+54	13	Thereafter, for the random vector [µ1, · · · , µM , y∗]T, the covariances are derived as cov[µi, y∗] = k T i∗K −1 i, ki∗, (7a) cov[µi, µj ] = { kTi∗K −1 i, KijK −1 j, kj∗, i 6= j, kTi∗K −1 i, Kij, K −1 j, kj∗, i = j, (7b) where Kij = k(Xi,Xj) ∈ Rni×nj , Ki, = Ki + σ2 I , Kj, = Kj + σ 2 I , and Kij, = Kij + σ 2 I .
+55	3	With these covariances, a nested GP training process is performed to derive the aggregated prediction mean and variance as µNPAE(x∗) = k T A∗K −1 A µ, (8a) σ2NPAE(x∗) = k(x∗,x∗)− kTA∗K−1A kA∗ + σ 2 , (8b) where kA∗ ∈ RM×1 has the ith element as cov[µi, y∗], KA ∈ RM×M has KijA = cov[µi, µj ], and µ = [µ1(x∗), · · · , µM (x∗)]T. The NPAE is capable of providing consistent predictions at the cost of implementing a much more time-consuming aggregation because of the inversion ofKA at each test point.
+60	3	Besides, the underlying function to be approximated has true continuous response µη(x) and true noise variance σ2η .
+81	2	The superiority of disjoint partition has been empirically confirmed in (Rullière et al., 2017).
+103	4	As for the size of Xc, more data points bring more informativeMc and better GRBCM predictions at the cost of higher computing complexity.
+141	7	The comparison includes all the aggregations except the expensive NPAE.8 Besides, we employ the fully independent training conditional (FITC) (Snelson & Ghahramani, 2006), the GP using stochastic variational inference (SVI)9 (Hensman et al., 2013), and the subset-of-data (SOD) (Chalupka et al., 2013) for comparison.
+154	2	To this end, we run them on the kin40k dataset with M respectively being 8, 16 and 64, and we run on the sarcos dataset with M respectively being 36, 72 and 288.
+160	4	But we observe that GPoE performs well on the sarcos dataset using random partition, which confirms the conclusions in Proposition 2.
+164	2	The song dataset is partitioned into 450000 training points and 65345 test points.
+173	4	Finally, GRBCM performs similarly to SVI on the song dataset; but GRBCM outperforms SVI on the electric dataset.
+174	26	To scale the standard GP to large-scale regression, we present the GRBCM aggregation model, which introduces a global communication expert to yield consistent yet efficient predictions when n → ∞.
+175	23	Through theoretical and empirical analyses, we demonstrated the superiority of GRBCM over existing aggregations on datasets with up to 1.8M training points.
+176	117	The superiority of local experts is the capability of capturing local patterns.
+177	108	Hence, further works will consider the experts with individual hyperparameters in order to capture non-stationary and heteroscedastic features.

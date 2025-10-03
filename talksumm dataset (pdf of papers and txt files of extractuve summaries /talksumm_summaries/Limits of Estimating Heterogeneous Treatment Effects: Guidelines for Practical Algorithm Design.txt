@@ -1,0 +1,30 @@
+22	1	Interestingly, it turns out that the optimal rate does not depend on selection bias, but rather on the smoothness and sparsity of the more “complex” of the functions E[Y (0)i |Xi = x ] and E[Y (1) i |Xi = x ].
+28	1	In Section 4, we build a practical CATE estimation algorithm guided by the results of the analyses in Section 3.
+30	1	We prove that this model structure can achieve the optimal rate of CATE estimation when tuned with the right hyperparameters.
+47	1	: X → R, w ∈ {0, 1}, is a totally bounded function that lives in a space of “smooth” or “regular” functions, with an unknown smoothness parameter αw.
+52	1	), i.e. f0, f1 ∼ Π(φ̄β0 , φ̄β1), (4) where φ̄βw = {φkβw} ∞ k=1, w ∈ {0, 1}, are complete orthonormal bases (indexed by a parameter βw > 0) with respect to Lebesgue measure in X , fw = ∑ k f̄ k w ·φkβw , and f̄kw = ⟨fw, φkβw⟩.
+53	1	Thus, for given bases φ̄β0 and φ̄β1 , Π places a probability distribution on the projections {f̄kw}k. Potential choices for the basis φ̄βw that would give rise to implementable Bayesian inference algorithms include regular wavelet basis (Zhang, 1997), radial basis for a reproducing kernel Hilbert space (RKHS) (van der Vaart et al., 2008), etc.
+54	1	In general, the parameter βw would determine the smoothness of the function space spanned by φ̄βw .
+55	1	To evaluate the predictive accuracy of the Bayesian inference procedure, we analyze the “frequentist” loss of point estimators T̂ (x) induced by the Bayesian posterior dΠn(T (x) | Dn), assuming that Dn is generated based on fixed, true response surfaces f1(x) and f0(x).
+56	1	(This type of analysis is sometimes referred to as the “FrequentistBayes” analysis (Sniekers et al., 2015).)
+61	1	Thus, standard supervised learning approaches based on empirical risk minimization cannot be used to learn a generalizable model for the CATE from samples in Dn.
+62	1	This gives rise to the following fundamental modeling questions that are peculiar to the CATE estimation problem: • [Q1]: How should the treatment assignment indicator Wi be incorporated into the learning model?
+63	1	• [Q2]: How should selection bias be handled?
+65	1	Addressing the modeling questions above requires a profound understanding of the fundamental limits of CATE estimation, in addition to an understanding of the impact of different modeling choices on the achievability of such limits.
+68	1	In this Section, we establish an information-theoretic limit on the performance of any CATE estimator.
+71	1	The “hardness” of a nonparametric estimation problem is typically characterized by its minimax risk (Stone, 1982), i.e. the minimum worst case risk achieved by any estimator when the estimand is known to live in a given function space (Yang et al., 2015).
+97	1	Remarks 1 and 2 posit an explanation for various recurrent (empirical) findings reported in previous literature.
+109	1	Since the minimax rate for standard nonparametric regression is ∥fw − f̂w∥22 ≍ Cw · n −2αw 2αw+dw (Stone, 1982), when d0/α0 >> d1/α1, the first-order Taylor approximation for the logarithm of the PEHE in (6) is given by: log(ψ(T̂ )) ≈D2(Q0∥Q)︸ ︷︷ ︸ Selection bias + log(C0)︸ ︷︷ ︸ Bias correction − 2α0 2α0 + d0︸ ︷︷ ︸ Learning rate log(n) +O ( n −2α1 2α1+d1 + 2α0 2α0+d0 ) .
+112	1	Selection bias adds a constant offset to log(PEHE), but does not affect its slope, which harms the performance only in the small-sample regime.
+115	1	In this Section, we build on the analyses conducted in Section 3 to design a practical algorithm for CATE estimation.
+116	2	We specify the prior Π(φ̄β0 , φ̄β1) as a Gaussian process (GP) over functions of the form g : X × {0, 1} → R, with a kernel Kβ , and a hyperparameter set β as follows: g ∼ GP (0,Kβ(z, z′)) , (8) where z = (x,w) ∈ X × {0, 1}, and fw(x) = g(x,w).
+117	1	The kernel Kβ specifies the bases φ̄β0 and φ̄β1 through its induced canonical feature map Kβ(., z) (Rasmussen & Williams, 2006; Alvarez et al., 2012).
+127	1	Suppose that the dw relevant features for fw are known a priori for w ∈ {0, 1}.
+138	1	Previous works tend to adjust for selection bias “mechanically” using variants of importance sampling approaches based on inverse-propensity-weighting (IPW) (Sugiyama et al., 2007; Shimodaira, 2000), and kernel mean matching (Huang et al., 2007), or by learning a “balanced representation” of treated and control populations (Li & Fu, 2017).
+139	1	We do not attempt to explicitly adjust for selection bias using ad-hoc approaches, and rather seek the “informationally optimal” estimator of the PEHE.
+146	1	When the propensity function p(.)
+157	1	To this end, we simulate the true response surfaces f0 ∈ Hα0 and f1 ∈ Hα1 as f0 ∼ Bα0− 12 , and f1 ∼ Bα1− 12 , where we set α0 = 2.5 and α1 = 5.5.
+184	2	Because the IHDP dataset has a “moderate” sample size, both selection bias and learning rate seem to impact the performance.
+191	21	To sum up, the results in Table 1 imply that selecting the right regression structure is crucial for rate-optimality in sufficiently large dataset, whereas handling selection bias provides an extra bonus.
+192	84	In Table 1, methods that address both [Q1] and [Q2] (NSGP, CMGP, and CFR.
+193	84	Wass and MMD) displayed a superior performance.

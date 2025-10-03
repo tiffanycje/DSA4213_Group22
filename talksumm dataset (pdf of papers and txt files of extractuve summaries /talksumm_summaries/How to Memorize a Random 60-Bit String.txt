@@ -1,0 +1,30 @@
+0	26	Passwords chosen by users (e.g., “Scarlet%2”) are easy to remember, but not secure (Florencio and Herley, 2007).
+1	78	A more secure method is to use a system-assigned 60-bit random password, such as 0010100010100...00101001.
+2	26	However, this string is hard to memorize.
+4	39	Our methods are inspired by an XKCD cartoon1 that proposes to convert a randomly-chosen 44-bit password into a short, nonsensical sequence of English words.
+5	36	The proposed system divides the 44-bit password into four 11-bit chunks, and each chunk provides an index into a 2048-word English dictionary.
+11	12	One source claims: As of 2011, available commercial products claim the ability to test up to 2,800,000,000 passwords a second on a standard desktop computer using a highend graphics processor.2 If this is correct, a 44-bit password would take one hour to crack, while a 60-bit password would take 11.3 years.
+25	78	The first row of Table 1 shows three sample XKCD passwords, along with other information, such as the average number of characters (including spaces).
+29	9	In our first sentence generation method (First Letter Mnemonic), we store our input 60-bit code in the first letters of each word.
+31	8	Every 4-bit sequence type corresponds to an English letter or two, per Table 2.
+35	51	To select the most fluent path, we train a 5-gram language model with the SRILM toolkit (Stolcke, 2002) on the English Gigaword corpus.3 SRILM also includes functionality for extracting the best path from a confusion network.
+39	81	We can easily reconstruct the original 60-bit code by extracting the first letter of each word and applying the Table 2 mapping in reverse.
+51	36	Sentence passwords from the previous method contain 70.8 characters on average (including spaces).
+53	7	This implies we might be able to produce shorter output (60 characters, including space) while maintaining normal English fluency.
+58	22	In ancient times, people recorded long, historical epics using poetry, to enhance memorability.
+60	24	Our format is the rhyming iambic tetrameter couplet: • The poem contains two lines of eight syllables each.
+63	10	• The two lines end in a pair of rhyming words.
+69	15	Here is a sample poem password: The le-gen-da-ry Ja-pan-ese ↓ ↑ ↓ ↑ ↓ ↑ ↓ ↑ Sub-si-di-ar-ies ov-er-seas ↓ ↑ ↓ ↑ ↓ ↑ ↓ ↑ Meter and rhyme constraints make it difficult to use the Moses machine translation toolkit to search for fluent output, as we did above; the decoder state must be augmented with additional short- and longdistance information (Genzel et al., 2010).
+70	23	Instead, we build a large finite-state acceptor (FSA) with a path for each legal poem.
+71	59	In each path, the second line of the poem is reversed, so that we can enforce rhyming locally.
+73	37	First, we create a finite-state transducer (FST) that maps each input English word onto four sequences that capture its essential properties, e.g.: create -> 0 1 create -> 0 1 EY-T create -> 1r 0r create -> EY-T 1r 0r Here, EY-T represents the rhyme-class of words like create and debate.
+74	34	The r indicates a stress pattern in the right-to-left direction.
+75	28	We then compose this FST with an FSA that only accepts sequences of the form: 0 1 0 1 0 1 0 1 X X 1r 0r 1r 0r 1r 0r 1r 0r where X and X are identical rhyme classes (e.g., EYT and EY-T).
+77	17	Let k be the integer representation of the 60-bit string.
+78	51	If the FSA contains exactly 260 paths, we can easily select the kth path using the following method.
+79	10	At each node N of the FSA, we store the total number of paths from N to the final state—this takes linear time if we visit states in reverse topological order.
+80	10	We then traverse the FSA deterministically from the start state, using k to guide the path selection.
+82	75	We can say that the information capacity of the English rhyming iambic tetrameter couplet is 79 bits!
+83	58	Some are very good: Sophisticated potentates misrepresenting Emirates.
+84	18	The supervisor notified the transportation nationwide.
+85	25	Afghanistan, Afghanistan, Afghanistan, and Pakistan.

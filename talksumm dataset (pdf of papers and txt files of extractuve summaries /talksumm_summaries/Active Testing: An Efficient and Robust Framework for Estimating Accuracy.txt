@@ -1,0 +1,14 @@
+19	1	In this work, we formalize such ad-hoc practices in a framework we term active testing, and show that significantly improved estimates of accuracy can be made through simple statistical models and active annotation strategies.
+60	1	We focus on metrics that only depend on the rank ordering of the confidence scores and denote such a metric generically as Q({zi}) where for simplicity we hide the dependence on s by assuming that the indices are always sorted according to si so that s1 ≥ · · · ≥ sN .
+81	1	Multi-label Tags: Multi-label tag prediction is a common task in video/image retrieval.
+88	1	It is well known that human annotation is prohibitively expensive – (Cordts et al., 2016) reports that an average of more than 1.5 hours is required to annotate a single image.
+89	1	Widely used benchmarks such as (Cordts et al., 2016) release small fraction of images annotated with high quality, along with a larger set of noisy or “coarse”-quality annotations.
+92	1	When computing Average Precision, a predicted instance segmentation is considered a true positive if it has sufficient intersection-over-union (IoU) overlap with a ground-truth instance.
+99	1	Nevertheless, we show that such estimators provide remarkably good estimates of performance.
+165	1	We plot the mean and the standard deviation over 50 simulation runs of each active testing approach.
+169	1	A ’random’ strategy with a ‘naive’ estimator follows a linear trend since each batch of vetted examples contributes on average the same reduction in estimation error.
+187	1	This follows a similar trend as the single model performance estimation plot.
+191	2	With 50% of the data vetted, standard approaches that evaluate on only vetted data (black curve) incorrectly rank algorithms 15% of the time, while our learned estimators with active vetting (red curve) reduce this error to 3% of the time.
+192	18	Conclusions We have introduced a general framework for active testing that minimizes human vetting effort by actively selecting test examples to label and using performance estimators that adapt to the statistics of the test data and the systems under test.
+193	82	Simple implementations of this concept demonstrate the potential for radically decreasing the human labeling effort needed to evaluate system performance for standard computer vision tasks.
+194	78	We anticipate this will have substantial practical value in the ongoing construction of such benchmarks.

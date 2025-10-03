@@ -1,0 +1,30 @@
+7	27	We refer to Kulis (2012) and Bellet et al. (2015) for detailed surveys on similarity and metric learning.
+9	28	This problem is motivated by many concrete applications: for instance, biometric identification aims to check the claimed identity of an individual by matching her biometric information (e.g., a photo taken at an airport) with a large reference database of authorized people (e.g., of passport photos) (Jain et al., 2011).
+10	54	Given a similarity function and a threshold, the database elements are ranked in decreasing order of similarity score with the query, and the matching elements are those whose score is above the threshold.
+11	35	In this context, performance criteria are related to the ROC curve associated with the similarity function, i.e., the relation between the false positive rate and the true positive rate.
+14	36	More local versions of the AUC (e.g., focusing on the top of the list) are difficult to optimize in practice and lead to complex nonconvex formulations (Clémençon & Vayatis, 2007; Huo et al., 2018).
+15	20	In contrast, the performance criterion we consider in this work is pointwise ROC optimization, which aims at maximizing the true positive rate under a fixed false positive rate.
+19	24	We derive statistical guarantees for the approach of solving the constrained optimization problem corresponding to the empirical version of our theoretical objective, based on a dataset of n labeled data points.
+53	21	In view of the objective formulated above, similarity learning can be seen as a bipartite ranking problem on the product space X × X where, given two independent realizations (X,Y ) and (X ′, Y ′) of P , the input r.v.
+55	12	One may refer to e.g. Clémençon & Vayatis (2009) and the references therein for a statistical learning view of bipartite ranking.
+60	52	Note that it corresponds to the type I error vs power plot of the statistical test I{S(X,X ′) > t} when the null hypothesis stipulates that X and X ′ have different marginal distribution (i.e., Y 6= Y ′).
+67	75	Restricting our attention to similarity functions bounded by 1, this corresponds to the unique solution of the following problem: max S:X 2→[0,1], borelian R+(S) subject to R−(S) ≤ α, (1) where R+(S) = E[S(X,X ′) | Z = +1] is referred to as positive risk and R−(S) = E[S(X,X ′) | Z = −1] as the negative risk.
+68	91	(UNCONSTRAINED FORMULATION) The superlevel setR∗α of the pairwise posterior probability η(x, x′) is the measurable subset R of X 2 that minimizes the costsensitive classification risk: p(1−Q∗α)P {(X,X ′) /∈ R | Z = +1}+ (1− p)Q∗αP {(X,X ′) ∈ R | Z = −1} , where p = P{Z = +1} = ∑Kk=1 p2k.
+70	85	For this reason, one typically considers the problem of maximizing R+(S)− λR−(S), (2) for different values of the constant λ > 0.
+74	14	(3) A large variety of practical similarity and distance metric learning algorithms have been proposed in the literature, all revolving around the same idea that a good similarity function should output large scores for pairs of points in the same class, and small scores for pairs with different label.
+75	14	They differ from one another by the class of metric/similarity functions considered, and by the kind of objective function they optimize (see Bellet et al., 2015, for a comprehensive review).
+83	28	We note that by choosing a bounded family of distance functions, one can use the same formulation to optimize the pointwise ROC curve.
+85	19	The major difference with the present framework lies in the pairwise nature of the quantities appearing in Problem (1) and, consequently, in the complexity of its empirical version.
+96	37	(Clémençon et al., 2008, Corollary 3) Assume that S0 is a VC-major class of functions with finite VC dimension V < +∞.
+100	74	This result can be established by combining Lemma 1 with the derivations of Clémençon & Vayatis (2010, Theorem 10 therein).
+104	40	For all δ ∈ (0, 1) and n > 1, set Φn,δ = 2Cκ −1 √ V n + 2κ−1(1 + κ−1) √ log(3/δ) n− 1 , and consider a solution Ŝn of the contrained minimization problem (6) with Φ = Φn,δ/2.
+109	25	Except for the minor condition stipulating that the probability of occurrence of “positive pairs” ∑K k=1 p 2 k stays bounded away from 0 and 1, the generalization bound stated in Theorem 1 holds whatever the probability distribution of (X,Y ).
+111	48	Such fast rates results exist for binary classification under the so-called Mammen-Tsybakov noise condition, see e.g. Bousquet et al. (2004) for details.
+118	35	(ON THE NA CONDITION) The noise condition is automatically fulfilled for any a ∈ (0, 1) when, for almost every point x with respect to the measure induced by X , η(x,X ′) has an absolutely continuous distribution and bounded density.
+120	62	The proof is based on the same argument as that of Clémençon & Vayatis (2010, Theorem 12 therein), except that it involves a sharp control of the fluctuations of the U -statistic estimates of the true positive rate excess ROCS∗(α)−R+(S) over the class S0.
+123	19	In the previous section, we analyzed the learning rates achieved by a minimizer of the empirical problem (6).
+127	15	In this regime, we are facing a highly imbalanced problem since the number of negative pairs becomes overwhelmingly large compared to the number of positive pairs.
+128	110	For instance, even for the MNIST dataset where the number of classes is only K = 10 and nk = 6000, there are already 10 times more negative pairs than positive pairs.
+129	40	A natural strategy, often used by metric learning practitioners (see e.g., Babenko et al., 2009; Wu et al., 2013; Xie & Xing, 2015), is to drastically subsample the negative pairs while keeping all positive pairs.
+132	16	Conditioned upon the nk’s, R̄−B(S) can be viewed as an incomplete version of the U -statistic R̂−n (S) consisting of B pairs (Blom, 1976; Lee, 1990).
+133	58	Despite the simplicity of the above approximation, we also consider an alternative sampling strategy, which consists in sampling a number B of K-tuples containing one random sample of each class.

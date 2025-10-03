@@ -1,0 +1,30 @@
+0	20	With the recent rapid advancements in social media technology, affective computing is now a popular task in human-computer interaction.
+1	51	Sentiment analysis and emotion recognition, both of which require applying subjective human concepts for detection, can be treated as two affective computing subtasks on different levels (Poria et al., 2017a).
+5	106	Our work is important and useful ∗ Equally Contribution because speech is the most basic and commonly used form of human expression.
+6	67	A basic challenge in sentiment analysis and emotion recognition is filling the gap between extracted features and the actual affective states (Zhang et al., 2017).
+7	29	The lack of high-level feature associations is a limitation of traditional approaches using low-level handcrafted features as representations (Seppi et al., 2008; Rozgic et al., 2012).
+9	41	However, not all parts of the text and vocal signals contribute equally to the predictions.
+10	69	A specific word may change the entire sentimental state of text; a different vocal delivery may indicate inverse emotions despite having the same linguistic content.
+16	31	Most previous works focused on combining multimodal information at a holistic level, such as integrating independent predictions of each modality via algebraic rules (Wöllmer et al., 2013) or fusing the extracted modality-specific features from entire utterances (Poria et al., 2016).
+17	37	They extract word-level features in a text branch, but process audio at the frame-level or utterance-level.
+18	18	These methods fail to properly learn the time-dependent interactions across modalities and restrict feature integration at timestamps due to the different time scales and formats of features of diverse modalities (Poria et al., 2017a).
+46	26	The model consists of three major parts: text attention module, audio attention module, and word- level fusion module.
+83	54	We form the word-level acoustic vector f Vi by taking a weighted sum of bidirectional contextual state f hij of the frame and the corresponding framelevel attention distribution f αij Specifically, f Vi = ∑ j f αijf hij (6) Word-level Attention aims to capture the word-level acoustic attention distribution w αi based on formed word vector f Vi.
+92	44	Algorithm 2 FUSION 1: procedure FUSION BRANCH 2: Horizontal Fusion (HF) 3: for i ∈ [1, N ] do 4: t Vi ← weighted(t αi, t hi) 5: w Vi ← weighted(w αi, w hi) 6: Vi ← dense([t Vi, w Vi]) 7: end for 8: Vertical Fusion (VF) 9: for i ∈ [1, N ] do 10: hi ← dense([t hi, w hi]) 11: s αi ← average([t αi, w αi]) 12: Vi ← weighted(hi, s αi) 13: end for 14: Fine-tuning Attention Fusion (FAF) 15: for i ∈ [1, N ] do 16: u ei ← getEnergies(hi) 17: u αi ← getDistribution(u ei, s αi) 18: Vi ← weighted(hi, u αi) 19: end for 20: Decision Making 21: E ← convNet(V1, V2, ..., VN ) 22: return E 23: end procedure Horizontal Fusion (HF) provides the shared representation that contains both the textual and acoustic information for a given word (Figure 2 (a)).
+101	30	The averaging of attention weights in vertical fusion potentially limits the representational power.
+103	19	The u αi can be understood as the sum of the fine-tuning score and the original shared attention distribution s αi; (iii) calculating the weight of u αi and hi to form the final shared context vector Vi.
+140	22	Utterance-level Fusion (UL-Fusion) focuses on fusing text and audio features from an entire utterance (Gu et al., 2017).
+166	27	Compared to C-MKL2 and SVM Trees that require feature selection before fusion and prediction, our model does not need an additional architecture to select features.
+171	101	Unlike utterancelevel fusion that ignores the time-scale-sensitive associations across modalities, word-level fusion combines the modality-specific features for each word by aligning text and audio, allowing associative learning between the two modalities, similar to what humans do in natural conversation.
+174	57	From Table 2, we see that textual information dominates the sentiment prediction on MOSI and there is an only 1.4% accuracy improvement from fusing text and audio.
+175	18	However, on IEMOCAP, audio-only outperforms text-only, but as expected, there is a significant performance improvement by combining textual and audio.
+176	92	The difference in modality performance might because of the more significant role vocal delivery plays in emotional expression than in sentimental expression.
+179	20	For emotion recognition generalization testing, we tested the model (trained on IEMOCAP) on EmotiW and achieves 61.4% accuracy.
+180	36	The potential reasons that may influence the generalization are: (i) the biased labeling for different datasets (five annotators of MOSI vs one annotator of Youtube); (ii) incomplete utterance in YouTube dataset (such as “about”, “he”, etc.
+181	21	); (iii) without enough speech information (EmotiW is a wild audiovisual dataset that focuses on facial expression).
+182	93	Our model allows us to easily visualize the attention weights of text, audio, and fusion to better understand how the attention mechanism works.
+183	29	We introduce the emotional distribution visualizations for word-level acoustic attention (w αi), word-level textual attention (t αi), shared attention (s αi), and fine-tuning attention based on the FAF structure (u αi) for two example sentences (Figure 3).
+185	28	Based on our visualization, the textual attention distribution (t αi) denotes the words that carry the most emotional significance, such as “hell” for anger (Figure 3 a).
+186	40	The textual attention shows that “don’t”, “like”, and “west-sider” have similar weights in the happy example (Figure 3 b).
+187	85	It is hard to assign this sentence happy given only the text attention.
+188	50	However, the acoustic attention focuses on “you’re” and “west-sider”, removing emphasis from “don’t” and “like”.

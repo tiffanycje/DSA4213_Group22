@@ -1,0 +1,30 @@
+0	44	The generative end-to-end dialog model (GEDM) is one of the most powerful methods of learning dialog agents from raw conversational data in both chat-oriented and task-oriented domains (Serban et al., 2016; Wen et al., 2016; Zhao et al., 2017).
+1	37	Its base model is an encoder-decoder network (Cho et al., 2014) that uses an encoder network to encode the dialog context and generate the next response via a decoder network.
+7	19	Humans exhibit incredible efficiency in achieving this type of adaptation.
+14	45	Building on zero-shot classification (Palatucci et al., 2009), we formalize ZSDG as a learning problem where the training data contains dialog data from source domains along with domain descriptions from both the source and tar- 2 get domains.
+59	27	For example, in a task-oriented weather domain, a seed response can be: The weather in New York is raining and the annotation is a semantic frame that contains domain general dialog acts and slot arguments, i.e. [Inform, loc=New York, type=rain].
+65	34	We denote the embedding space that zc resides in as the latent action space.
+83	31	For the first type of data, we update the parameters in R and Fd by minimizing the following loss function: Ldd(Fd,R) =− log pFd(x|R(a, d)) + λD[R(x, d)‖R(a, d)] (1) where λ is a constant hyperparameter and D is a distance function, e.g. mean square error (MSE), that measures the closeness of two input vectors.
+85	89	The second term in Ldd enforces the recognition network R to encode a response and its annotation to nearby vectors in the latent action space from all domains, i.e. zdx ≈ zda for d ∈ D. Moreover, just optimizing Ldd does not ensure that the zc predicted by the encoder Fe will be related to the zx or za encoded by the recognition networkR.
+86	22	So when we receive the second type of data (source dialogs), we add a second term to the standard maximum likelihood objective to train F andR.
+87	36	Ldialog(F ,R) =− log pFd(x|Fe(c, d)) + λD(R(x, d)‖Fe(c, d)) (2) The second term in Ldialog completes the loop by encouraging zdc ≈ zdx, which resembles the regularization term used in variational autoencoders (Kingma and Welling, 2013).
+110	25	Let the hidden state of the decoder at step t be st, then our attention mechanism computes the Softmax output via: αkj,t = softmax(mTkj tanh(Wαst)) (3) s̃t = ∑ kj αkj,tmkj (4) pvocab(wt|st) = softmax(MLP(st, s̃t)) (5) The second type is the LSTM-RNN with a copy mechanism that can directly copy words from the context as output (Gu et al., 2016).
+112	22	We implemented the Pointer Sentinel Mixture Model (PSM) (Merity et al., 2016) as our copy decoder.
+121	40	Data Details SimDial was used to generate dialogs for 6 domains: restaurant, movie, bus, restaurant-slot, restaurant-style and weather.
+146	22	Finally, in order to formulate a ZSDG problem, we use a leave-oneout approach with two domains as source domains and the third one as the target domain, which results in 3 possible configurations.
+156	19	KB F1 checks all the key words in a KB query that the system issues to the KB backend.
+157	36	Finally, we introduce BEAK = 4 √ bleu× ent× act× kb, the geometric mean of these four scores, to quantify a system’s overall performance.
+167	92	+Copy+AM also achieves competitive performance in terms of Entity F1 compared to the oracle scores, despite the fact that no target domain data was used in training.
+171	76	In this case, the +Copy decoder has no context to copy and thus cannot generate any novel responses.
+172	46	This is one limitation of +Copy decoder since in real interactive testing with humans, 8 each system utterance must be generated from the model instead of copied from the context.
+181	28	+Copy still performs well since it learns to copy entity-like words from the context, but the overall sentence is often incorrect, e.g. “Do you mean romance food”.
+182	42	The last one is unseen utterance where both +Attn and +Copy fail.
+184	30	Only the models trained with AM are able to infer that “Movie xx is a great movie” serves a function similar to “Bus xx can take you there”, and generates responses using the correct words from the target domain.
+185	48	Finally we investigate how the the size of SR affects AM performance.
+187	21	The number of seed responses varies from 0 to 200.
+194	20	Our assessment validates the AM framework’s effectiveness and the AM encoder decoders perform well in the ZSDG setting.
+199	33	In summary, solving ZSDG is an important step for future general-purpose conversational agents.
+201	25	First, we collect seed responses (including user/system utterances, KB queries and KB responses) from each source domain and annotate them with dialog acts, entity types and entity values.
+206	312	Then the expert can come up with a similar utterance from the target domain, e.g. “Alright, Pittsburgh.
+207	19	what type of movie do you like?
+210	109	Another advantage of this process is that human experts do not have to directly label whether two utterances from two domains are direct analogies; this could be ambiguous and challenging.

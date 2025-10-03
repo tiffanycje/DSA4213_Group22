@@ -1,0 +1,30 @@
+0	16	Deep learning has achieved impressive performance on a range of tasks (LeCun et al., 2015).
+4	13	Every winner of the ImageNet classification challenge since 2012 has used rectifiers which are not smooth (Krizhevsky et al., 2012; Zeiler & Fergus, 2014; Simonyan & Zisserman, 2015; Szegedy et al., 2015; He et al., 2015).
+13	26	1 shows a piecewiselinear (PL) function and its gradient.
+15	17	Shattering is problematic for accelerated and Hessian-based methods which speed up convergence by exploiting the relationship between gradients at nearby points (Sutskever et al., 2013).
+16	40	The success of these methods on rectifier networks, where the number of kinks grows exponentially with depth (Pascanu et al., 2014; Telgarsky, 2016), requires explanation since gradients at nearby points can be very different (Balduzzi et al., 2017).
+20	28	In fact, curvature-based explanations for RMS-normalization schemes do not tell the whole story even in smooth convex settings: Krummenacher et al. (2016) and Duchi et al. (2013) show that diagonal normalization schemes show no theoretical improvement over vanilla SGD when the coordinates are not axis-aligned or extremely sparse respectively.
+21	18	The only way an optimizer can estimate gradients of a shattered function is to compute them directly.
+28	23	A convex multi-layer architectures are developed in Aslan et al. (2014); Zhang et al. (2016).
+43	10	A partial explanation for the prevalence of “good enough” local optima is Choromanska et al. (2015).
+72	24	Consider a network with L 1 hidden layers and weight matrices W := {W1, .
+76	11	Suppose the loss `(f , y) is smooth and convex in the first argument.
+92	16	The Taylor approximation to neuron ↵ is T n ↵(V↵) := fWn(x n 0 ) + ⌦ G↵,V↵ Wn↵ ↵ .
+94	12	The following theorem provides convergence guarantees at mutiple spatial scales: network-wise, layer-wise and neuronal.
+98	33	Suppose, as in Theorem 1, the Taylor losses have bounded gradients and the weights of the neural network have bounded diameter during training.
+109	11	A convergence theorem for neural nets must also be applicable in such pathological cases.
+110	10	Theorem 2 still holds because the failure of gradients to propagate through the network results in Taylor losses with poor solutions.
+113	9	The theorem replaces a seemingly intractable problem – neither smooth nor convex – with a sequence of convex problems.
+116	9	This section empirically investigates the Taylor optimum and regret terms in theorem 2 on two tasks: Autoencoder trained on MNIST.
+117	22	Dense layers with architecture 784 !
+132	10	The regret is the difference between the observed training loss and the optimal Taylor loss.
+157	46	Introducing noise is not the only way to find better optima.
+173	29	The main implication is to factorize neural optimization into hard (finding “good” smooth regions) and easy (optimizing within a smooth region) subproblems that correspond, roughly, to finding “good” Taylor losses and optimizing them respectively.
+184	23	To adapt RProp to minibatches, Hinton and Tieleman suggested to approximate the signed gradient by normalizing with the root-mean-square: sign(r`) ⇡ PD d=1r `dpPD d=1(r `d)2 , where (r `d)2 is the square taken coordinatewise.
+185	11	Viewing the signed-gradient as changing weights – or exploring – maximally suggests the following hypothesis: Hypothesis 1 (RMS-normalization encourages exploration over activation configurations).
+186	18	Gradient descent with RMS-normalized updates (or running average of RMS) performs a broader search through the space of activation configurations than vanilla gradient descent.
+190	57	Figure 5 quantifies exploration in the space of activation configurations in three ways: 5(a): Hamming distance plots mink<n kAn Akk2F , the minimum Hamming distance between the current activation configuration and all previous configurations.
+195	23	The matrix A[ :, : ,m] specifies the rounds and datapoints that activate neuron m. The right column plots the log-product of A[ :, :,m]’s first 50 singular values for each neuron (sorted).3 It indicates the (log-)volume of configuration space covered by each neuron.
+197	28	RMSProp explores the space of activation configurations far more than SGD.
+228	18	Can exploring activation configurations help design better optimizers?
+229	18	The Taylor decomposition provides a useful tool for separating the convex and nonconvex aspects of neural optimization, and may also prove useful when tackling exploration in neural nets.

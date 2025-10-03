@@ -1,0 +1,30 @@
+5	25	Given their success, it is perhaps surprising that incorporating gazetteers or dictionaries into dis- criminative models (e.g. conditional random fields) may sometimes hurt performance.
+6	12	This phenomena is called weight under-training, in which lexical features—which detect whether a name is listed in the dictionary or gazetteer—are given excessive weight at the expense of other useful features such as spelling features that would generalize to unlisted names (Smith et al., 2005; Sutton et al., 2006; Smith and Osborne, 2006).
+27	17	We will later assume that Py is also used when generating mentions of these words or entities in text.
+49	19	For example, HLOC is used to choose new place names, so it describes what place names tend to look like in the language.
+53	19	These place names were randomly drawn from HLOC as part of the procedure for drawing Py.
+54	20	The expected value of Py is H (i.e., H is the mean of the PYP distribution), but if α and d are small, then a typical draw of Py will be rather different from H , with much of the probability mass falling on a subset of the strings.
+70	20	The discount and concentration parameters (d|u|, α|u|) are associated with the lengths of the contexts |u|, and should generally be larger for longer (more specific) contexts, implying stronger backoff from those contexts.3 Our inference procedure is largely indifferent to the form of Hy, so the SM is not the only option.
+81	10	For named-entity recognition, we say that each word token is labeled with a named entity type (LOC, PER, .
+87	28	.spoke to Washington yesterday .
+92	33	Here HCONTEXT is the base distribution over spellings of context words, and is learned just like the other Hy distributions in §2.4.
+99	13	Instead, we use sequential Monte Carlo (SMC)—sometimes called particle filtering—as a proposal distribution.
+109	21	At a high level, this procedure is analogous to other Gibbs samplers (e.g. for topic models), except that the conditional SMC (CSMC) kernel uses auxiliary variables (particles) in order to generate the new block variable assignments.
+116	23	The optimal proposal distribution is the one which minimizes the variance of the importance weights, and is given by q(yt | y1:t−1,x1:t) := p(yt | y1:t−1,x1:t) (8) = p(yt | y1:t−1)p(xt | yt) p(xt | y1:t−1) where p(xt | y1:t−1)= ∑ yt∈Y p(yt | y1:t−1)p(xt | yt) (9) Substituting this expression in equation (7) and simplifying yields the incremental weight update: w̃t := w̃t−1 · p(xt | y1:t−1) (10) Resampling.
+133	12	• E-y corresponds to the final word in a segment of type y.
+139	14	For the transition probabilities, we want to model the sequence of segment labels.
+143	14	Let s ≤ t be the starting position of the segment that contains t. If yt = E-y, then the emission probability is proportional to Py(xs xs+1 .
+144	53	If yt = I-y then the emission probability is proportional to the prefix probability ∑ x Py(x) where x ranges over all strings in Σ∗ that have xs xs+1 .
+145	16	Prefix probabilities in Hy are easy to compute because Hy has the form of a language model, and prefix probabilities in Py are therefore also easy to compute (using a prefix tree for efficiency).
+146	12	This concludes the description of the segmental sampler.
+154	37	If monthly is listed in (only) the adjective lexicon, this tells us that PADJ sometimes generates monthly and therefore that HADJ may also tend to generate other words that end with -ly.
+161	14	We evaluate our model on multi-lingual data released as part of the CoNLL 2007 and CoNLL-X shared tasks.
+184	25	We vary both the amount of supervision as well as the size of the lexical resources.
+195	28	Figure 1 shows that our generative model strongly beats the baseline in this low-data regime.
+196	16	In particular, when there is little annotated training data, our proposed generative model can compensate by exploiting the lexicon, while the discriminative baseline scores terribly.
+197	33	The performance gap decreases with larger supervised corpora, which is consistent with prior results comparing generative and discriminative training (Ng and Jordan, 2002).
+201	14	This paper has described a generative model for low-resource sequence labeling and segmentation tasks using lexical resources.
+203	28	There are many potential avenues for future work.
+204	26	Our model may be useful in the context of active learning where efficient re-estimation and performance in low-data conditions are important.
+205	96	It would also be interesting to explore more expressive parameterizations, such recurrent neural networks for Hy.
+206	30	In the space of neural methods, differentiable memory (Santoro et al., 2016) may be more flexible than the PYP prior, while retaining the ability of the model to cache strings observed in the gazetteer.

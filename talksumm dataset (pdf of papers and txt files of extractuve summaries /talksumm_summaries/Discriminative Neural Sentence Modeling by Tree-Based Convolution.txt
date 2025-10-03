@@ -1,0 +1,30 @@
+0	33	Discriminative sentence modeling aims to capture sentence meanings, and classify sentences according to certain criteria (e.g., sentiment).
+1	20	It is related to various tasks of interest, and has attracted much attention in the NLP community (Allan et al., 2003; Su and Markert, 2008; Zhao et al., 2015).
+2	55	Feature engineering—for example, n-gram features (Cui et al., 2006), dependency subtree features (Nakagawa et al., 2010), or more dedicated ones (Silva et al., 2011)—can play an important role in modeling sentences.
+3	41	Kernel machines, e.g., SVM, are exploited in Moschitti (2006) and Reichartz et al. (2010) by specifying a certain measure of similarity between sentences, without explicit feature representation.
+4	19	Recent advances of neural networks bring new techniques in understanding natural languages, and have exhibited considerable potential.
+6	27	Le and Mikolov (2014) extend such approaches to learn sentences’ and paragraphs’ representations.
+7	29	Compared with human engineering, neural networks serve as a way of automatic feature learning (Bengio et al., 2013).
+8	40	Two widely used neural sentence models are convolutional neural networks (CNNs) and recursive neural networks (RNNs).
+9	19	CNNs can extract words’ neighboring features effectively with short propagation paths, but they do not capture inherent sentence structures (e.g., parse trees).
+13	90	A curious question is whether we can combine the advantages of CNNs and RNNs, i.e., whether we can exploit sentence structures (like RNNs) effectively with short propagation paths (like CNNs).
+14	23	In this paper, we propose a novel neural architecture for discriminative sentence modeling, called the Tree-Based Convolutional Neural Network (TBCNN).1 Our models can leverage different sentence parse trees, e.g., constituency trees and dependency trees.
+47	15	Thus, RNNs bury illuminating information under a complicated neural architecture.
+48	20	Further, during back-propagation over a long path, gradients tend to vanish (or blow up), which makes training difficult (Erhan et al., 2009).
+51	27	In such models, meaningful tree structures are also lost, similar to CNNs.
+71	17	Particularly, Subsections 3.1 and 3.2 address the first and second problems; Subsection 3.3 deals with the third problem by introducing several pooling heuristics.
+73	20	Figure 2a illustrates an example of the constituency tree, where leaf nodes are words in the sentence, and non-leaf nodes represent a grammatical constituent, e.g., a noun phrase.
+80	18	Superscript (c) indicates that the weights are for cTBCNN.
+84	16	Hence, tree-based convolution, compared with “flat” CNNs, does not add to computational cost, provided the same amount of information to process at a time.
+97	24	Our generic design criteria for pooling include: (1) Nodes that are pooled to one slot should be “neighboring” from some viewpoint.
+105	14	If a tree has maximum depth d, we pool nodes of less than α · d layers to a TOP slot (α is set to 0.6); lower nodes are pooled to slots LOWER LEFT or LOWER RIGHT according to their relative position with respect to the root node.
+109	22	Different from constituency trees, nodes in dependency trees are one-one corresponding to words in a sentence.
+138	35	In our d-TBCNN model, the number of units is 300 for convolution and 200 for the last hidden layer.
+155	19	Such results show that structures are important when modeling sentences; tree-based convolution can capture these structural information more effectively than RNNs.
+209	28	The 2-layer windows corresponding to “visual will impress viewers,” “the stunning dreamlike visual,” say, are discriminative to the sentence’s sentiment.
+215	32	For example, the word stunning appears in two windows: (a) the window “stunning” itself, and (b) the window of “the stunning dreamlike visual,” with root node visual, stunning acting as a child.
+218	66	In this paper, we proposed a novel neural discriminative sentence model based on sentence parsing structures.
+219	28	Our model can be built upon either constituency trees (denoted as c-TBCNN) or dependency trees (d-TBCNN).
+220	42	Both variants have achieved high performance in sentiment analysis and question classification.
+221	127	d-TBCNN is slightly better than c-TBCNN in our experiments, and has outperformed previous stateof-the-art results in both tasks.
+222	46	The results show that tree-based convolution can capture sentences’ structural information effectively, which is useful for sentence modeling.

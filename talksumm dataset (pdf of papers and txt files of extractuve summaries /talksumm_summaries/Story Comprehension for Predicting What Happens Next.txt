@@ -1,0 +1,30 @@
+0	25	Narratives are a fundamental part of human language and culture.
+1	28	They serve as vehicles to share experiences, information and goals.
+10	100	Figure 1: Example from the story-cloze task: predict the correct ending to a given short story out of provided options.
+11	27	ing such as identifying character personas (Bamman et al., 2014; Valls-Vargas et al., 2015), interpersonal relationships (Chaturvedi, 2016), plotpatterns (Jockers, 2013), narrative structures (Finlayson, 2012).
+21	47	In this paper we explore three semantic aspects of story understanding: (i) the sequence of events described in the story, (ii) the evolution of sentiment and emotional trajectories, and (iii) topical consistency.
+60	19	3.1) and also 20 years of New York Times data1.
+71	150	With the goal of modeling such sentiment trajectories, we assumed that a story can be divided into the following narrative-segments: a beginning, a body, a climax, and an ending.
+74	38	We then assigned a positive, negative, or neutral sentiment to each segment, represented as S(segment) = sign(number of positive words - number of negative words) in the segment.
+100	28	.K}, which advises the model on the importance of these aspects for the given instance.
+101	102	Using these definitions and assumptions, the probability of an answer given the context and the ending-options can be modeled as: P (a|c, o1, o2) = K∑ z P (z|c, o1, o2)P (a|z, c, o1, o2) We parameterize P (z|c, o1, o2) as: P (z|c, o1, o2) = e ~−λz~φco∑ k e ~−λk~φco where, ~φco is the feature vector used for assigning a value to the hidden variable for an instance, and ~λz is the weight vector of the log-linear model for the zth aspect.
+108	27	In the M-step, given the expected assignments, we maximize the following expected log complete likelihood with respect to the model parameters using gradient ascent: < L > = N∑ n K∑ k < zkn > ( log e−~λk~φco∑K k′ e −~λk′ ~φco + log (e−~wk ~fkco)1−an 1 + e−~wk ~fkco ) Features: Our model uses two types of features: (i) for aspect-specific prediction model, ~fkco, and (ii) for hidden aspect assignment, ~φco.
+126	29	The dataset also contains an additional set of 3, 742 four-sentences long stories (context) with two ending options, only one of which is correct.
+138	43	2.1) as the Hidden Coherence model but clubs them all into one feature-vector.
+139	27	Majority Vote: This ensemble method uses the features extracted for each of the K = 3 aspects, to train K separate logistic regression models.
+153	20	This might happen because it takes a hard vote of individual classifiers, which might be detrimental to model performance if one of the classifiers is weak.
+168	35	Accordingly, our model also primarily used the aspect analyzing events in this story, which is indicated by the long light grey block in its weight bar.
+169	22	Also, we can see that the topic of both the options is consistent with the story, and the model gave a very small weight to the Topical Consistency aspect indicated by the almost indiscernible black block in its weight bar.
+171	27	There is a striking sentimental contrast between the two options (upset versus satisfied), and the model relies primarily on sentiments (dark grey).
+178	25	We believe that many of these stories require a deeper understanding of language and commonsense.
+180	46	To make the correct prediction in this story, the model not only needs to understand that if one does not dance well at a club they are likely to be not invited in the future, but also that staying home is the same as not getting invited.
+182	21	He later sees her with another guy and decides not to ask her out again.
+184	20	It also needs an understanding of inter-personal relationships, i.e. seeing a potential lover with another person leads to estrangement.
+186	44	We use a deterministic heuristic to identify romantic stories using lexical matches with a handcrafted list containing words like marry, proposal, girlfriend, ask out, etc.
+191	17	Expectedly, these rules had low coverage (of about 60 stories), but a considerably high accuracy (70%) when active.
+193	35	This indicates the utility of understanding semantics of social relationships for story comprehension and it could potentially be another aspect to consider while solving such tasks.
+194	62	Sentiment Analysis: We now explore the insights obtained by modeling sentiments in stories.
+195	41	Mostafazadeh et al. (2016) presented two baselines for this task whose outputs were simply the ending whose sentiment agreed with (i) the complete story, or (ii) the climax (last sentence of the story).
+196	39	While their performances were close to random, our sentiment based features yield a much higher accuracy of 64.5% (see Table 2).
+198	88	For instance, our language model of overall narrative sentiments indicates that while happy stories mostly have happy endings (with a conditional probability of 74%), the reverse is not true.
+200	27	We made similar observations regarding sentimental conformity between endings and climaxes.

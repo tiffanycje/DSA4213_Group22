@@ -1,0 +1,30 @@
+2	65	Deep learning techniques have shown promising performance on sentence modeling, via feedforward neural networks (Huang et al., 2013), recurrent neural networks (RNNs) (Hochreiter and Schmidhuber, 1997), convolutional neural networks (CNNs) (Kalchbrenner et al., 2014; Kim, 2014; Shen et al., 2014), and recursive neural networks (Socher et al., 2013).
+5	94	In this paper, in contrast, we are primarily interested in learning generic sentence representations that can be used across domains.
+14	46	Depending on the task, we propose three models: (i) CNNLSTM autoencoder: this model seeks to reconstruct the original input sentence, by capturing the intra-sentence information; (ii) CNN-LSTM future 2390 predictor: this model aims to predict a future sentence, by leveraging inter-sentence information; (iii) CNN-LSTM composite model: in this case, there are two LSTMs, decoding the representation to the input sentence itself and a future sentence.
+15	30	This composite model aims to learn a sentence encoder that captures both intra- and inter-sentence information.
+16	26	The proposed CNN-LSTM future predictor model only considers the immediately subsequent sentence as context.
+19	59	That is, instead of using the current word in a sentence to predict future words (sentence continuation), we encode a sentence to predict multiple future sentences (paragraph continuation).
+26	51	Inspired by the skip-thought model (Kiros et al., 2015), we have further explored different variants: (i) CNN is used as the sentence encoder rather than RNN; (ii) larger context windows are considered: we propose the hierarchical CNN-LSTM model to encode a sentence for predicting multiple future sentences.
+32	30	A sentence of length T (padded where necessary) is represented as a matrix X ∈ Rk×T , by concatenating its word embeddings as columns, i.e., the t-th column of X is xt.
+38	30	Further, pooling also guarantees that the extracted features are independent of the length of the input sentence.
+45	28	First, the sparse connectivity of a CNN, which indicates fewer parameters are required, typically improves its statistical efficiency as well as reduces memory requirements (Goodfellow et al., 2016).
+70	26	Inspired by the standard RNN-based language model (Mikolov et al., 2010) that uses the current word to predict future words, we propose a hierarchical encoder-decoder model that encodes the current sentence to predict multiple future sentences.
+71	21	An illustration of the hierarchical model is shown in Figure 1(right), with details provided in Figure 2.
+72	24	Our proposed hierarchical model characterizes the hierarchy word-sentence-paragraph.
+73	64	A paragraph is modeled as a sequence of sentences, and each sentence is modeled as a sequence of words.
+75	35	, sL), that consists of L sentences.
+101	20	We first provide qualitative analysis of our CNN encoder, and then present experimental results on 8 tasks: 5 classification benchmarks, paraphrase detection, semantic relatedness and image-sentence ranking.
+111	47	The first method learns a linear mapping between the word2vec embedding space Vw2v and the learned word embedding space Vcnn by solving a linear regression problem (Kiros et al., 2015).
+126	33	We first demonstrate that the sentence representation learned by our model exhibits a structure that makes it possible to perform analogical reasoning using simple vector arithmetics, as illustrated in Table 1.
+128	48	For instance, in the 3rd example, our encoder captures that the difference between sentence B and C is “you" and “him", so that the former word in sentence A is replaced by the latter (i.e., “you”-“you”+“him”=“him”), resulting in sentence D. Table 2 shows nearest neighbors of sentences from a CNN-LSTM autoencoder trained on the BookCorpus dataset.
+130	34	As can be seen, our encoder learns to accurately capture semantic and syntax of the sentences.
+138	44	First, the autoencoder performs better than the future predictor, indicating that the intra-sentence information may be more important for classification than the inter-sentence information.
+142	39	Further, using (fixed) pre-trained word embeddings consistently provides better performance than using the learned word embeddings.
+148	25	For the TREC dataset, the performance improves from 79.7% to 84.1% when only 10% sentences are labeled.
+175	88	We compute a feature vector representing the pair of sentences in the same way as on the MSRP dataset.
+176	41	We follow the method in Tai et al. (2015), and use the crossentropy loss for training.
+179	95	This suggests that CNN also provides competitive performance at matching human relatedness judgements.
+180	91	We presented a new class of CNN-LSTM encoderdecoder models to learn sentence representations from unlabeled text.
+181	32	Our trained convolutional encoder is highly generic, and can be an alternative to the skip-thought vectors of Kiros et al. (2015).
+182	29	Compelling experimental results on several tasks demonstrated the advantages of our approach.
+183	90	In future work, we aim to use more advanced CNN architectures (Conneau et al., 2016) for learning generic sentence embeddings.

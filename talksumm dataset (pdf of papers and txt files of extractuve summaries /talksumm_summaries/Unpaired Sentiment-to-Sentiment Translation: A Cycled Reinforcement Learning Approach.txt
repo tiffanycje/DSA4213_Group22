@@ -1,0 +1,30 @@
+0	82	Sentiment-to-sentiment “translation” requires the system to change the underlying sentiment of a sentence while preserving its non-emotional semantic content as much as possible.
+1	26	It can be regarded as a special style transfer task that is important in Natural Language Processing (NLP) (Hu et al., 2017; Shen et al., 2017; Fu et al., 2018).
+2	106	It has broad applications, including review sentiment transformation, news rewriting, etc.
+3	40	Yet the lack of parallel training data poses a great obstacle to a satisfactory performance.
+4	31	Recently, several related studies for language style transfer (Hu et al., 2017; Shen et al., 2017) have been proposed.
+5	46	However, when applied https://github.com/lancopku/unpaired-sentiment-translation to the sentiment-to-sentiment “translation” task, most existing studies only change the underlying sentiment and fail in keeping the semantic content.
+6	76	For example, given “The food is delicious” as the source input, the model generates “What a bad movie” as the output.
+8	29	The reason is that these methods attempt to implicitly separate the emotional information from the semantic information in the same dense hidden vector, where all information is mixed together in an uninterpretable way.
+11	17	The neutralization module is responsible for extracting non-emotional semantic information by explicitly filtering out emotional words.
+14	37	In cycled training, given an emotional sentence with sentiment s, we first neutralize it to the nonemotional semantic content, and then force the emotionalization module to reconstruct the original sentence by adding the sentiment s. Therefore, the emotionalization module is taught to add sentiment to the semantic context in a supervised way.
+17	21	Thus, we use policy gradient, one of the reinforcement learning methods, to reward the output of the neutralization module based on the feedback from the emotionalization module.
+19	17	The quality is evaluated by two useful metrics: one for identifying whether the generated text matches the target sentiment; one for evaluating the content preservation performance.
+56	16	The neutralization module Nθ is used for explicitly filtering out emotional information.
+62	22	Since cycled reinforcement learning requires the modules with initial learning ability, we propose a novel pre-training method to teach the neutralization module to identify non-emotional words.
+98	18	For pre-training the emotionalization module, we first generate a neutralized input sequence x̂ by removing emotional words identified by the proposed sentiment classifier.
+104	28	The neutralization module first neutralizes an emotional input to semantic content and then the emotionalization module is forced to reconstruct the original sentence based on the source sentiment and the semantic content.
+161	15	Following previous work (Shen et al., 2017; Hu et al., 2017), we instead use a stateof-the-art sentiment classifier (Vieira and Moura, 2017), called TextCNN, to automatically evaluate the transferred sentiment accuracy.
+167	15	To evaluate the overall performance, we use the geometric mean of ACC and BLEU as an evaluation metric.
+188	21	In comparison, our proposed method achieves the best overall performance on the two datasets, demonstrating the ability of learning knowledge from unpaired data.
+190	24	The BLEU score is largely improved from 1.64 to 22.46 and from 0.56 to 14.06 on the two datasets.
+191	21	The score improvements mainly come from the fact that we separate emotional information from semantic content by explicitly filtering out emotional words.
+193	18	Given the overall quality of transferred text as the reward, the neutralization module is taught to extract non-emotional semantic content better.
+229	20	Although the proposed method outperforms the state-of-the-art systems, we also observe several failure cases, such as sentiment-conflicted sentences (e.g., “Outstanding and bad service”), neutral sentences (e.g., “Our first time here”).
+230	38	Sentiment-conflicted sentences indicate that the original sentiment is not removed completely.
+231	45	This problem occurs when the input contains emotional words that are unseen in the training data, or the sentiment is implicitly expressed.
+233	49	Neutral sentences demonstrate that the decoder sometimes fails in adding the target sentiment and only generates text based on the semantic content.
+234	16	A better sentimentaware decoder is expected to be explored in future work.
+236	25	We conduct experiments on two review datasets.
+237	46	Experimental results show that our method substantially outperforms the state-of-the-art systems, especially in terms of semantic preservation.
+238	101	For future work, we would like to explore a fine-grained version of sentiment-to-sentiment translation that not only reverses sentiment, but also changes the strength of sentiment.

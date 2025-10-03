@@ -1,0 +1,30 @@
+0	38	Recently, morphological tasks such as inflection generation and lemmatization (Figure 1) have been successfully tackled with neural transitionbased models over edit actions (Aharoni and Goldberg, 2017; Robertson and Goldwater, 2018; Makarov and Clematide, 2018; Cotterell et al., 2017b).
+1	138	The model, introduced in Aharoni and Goldberg (2017), uses familiar inductive biases about morphological string transduction such as conditioning on a single input character and monotonic character-to-character alignment.
+3	25	Aharoni and Goldberg train the model by maximizing the conditional log-likelihood (MLE) of gold edit actions derived by an independent character-pair aligner.
+4	4	The MLE training procedure is therefore a pipeline, and the aligner is completely uninformed of the end task.
+5	27	This results in error propagation and the unwarranted dependence of the transducer on a single gold action sequence—in contrast to weighted finitestate transducers (WFST) that take into account all permitted action sequences.
+6	21	Although these problems—as well as the exposure bias and the loss-metric mismatch arising from this MLE training (Wiseman and Rush, 2016)—can be addressed by reinforcement learning-style methods (Ranzato et al., 2016; Bahdanau et al., 2017; Shen et al., 2016, RL), for an effective performance, all these approaches require warm-start initialization with an MLE-pretrained model.
+8	18	For example, it is easy to tell if inserting some character c at step t would render the entire output incorrect.
+9	14	Assigning individual blame to single actions directly— as opposed to scoring the entire sequence via a sequence-level objective—simplifies the learning problem.
+34	19	The system exhibits spurious ambiguity: Multiple action sequences lead to the same output string.
+38	4	One problem with the MLE approach is that the aligner is trained in a disconnect from the end task.
+39	11	As a result, alignment errors lead to the learning of a suboptimal transducer.
+43	6	We address this problem within the IL framework and train the model to imitate an expert policy (dynamic oracle), which is a map—on the training data—from configurations to sets of optimal actions.
+46	6	In this way, we obtain a sequence of configurations summarized as decoder outputs s1, .
+47	49	In the roll-out stage, we compute the sequence-level loss for every valid action a in each configuration st. To this end, we execute a and then either query the expert to obtain the loss for the optimal action sequence following a or run the model for the rest of the input and evaluate the loss of the resulting action sequence.
+50	9	The second term enforces that the task objective is reached with a minimum number of edits.
+52	5	Initially, we also experimented with only Levenshtein distance as loss, similar to previous work on character-level problems (Leblond et al., 2018; Bahdanau et al., 2017).
+54	23	Expert The expert policy keeps track of the prefix of the target y(l) in the predicted sequence y<t and returns actions that lead to the completion of the suffix of y(l) using an action sequence with the lowest edit cost.
+55	7	The resulting prediction y attains the minimum edit distance from y(l).
+60	9	Our initial experiments with cost-sensitive classification resulted in rather inefficient training and not very effective models.
+64	19	To include all the computed regrets into the loss, we also experiment with the cost-augmented version of this objective (Gimpel and Smith, 2010), where regrets function as costs.
+70	9	MED 91.5 95.8 98.8 98.5 95.5 98.9 96.8 91.5 99.3 89.0 95.6 SOFT 92.2 96.5 98.9 98.9 97.0 99.4 97.0 95.4 99.3 88.9 96.3 HA 92.2 96.6 98.9 98.1 95.9 98.0 96.2 93.0 98.8 88.3 95.6 HA* 92.0 96.3 98.9 97.9 95.8 97.6 98.8 92.1 95.1 87.8 95.2 CA 91.9 96.4 98.8 98.3 96.5 97.7 98.9 92.1 94.6 87.7 95.3 CA-D 92.4 96.6 98.9 98.7 97.2 98.5 99.3 95.2 96.5 89.2 96.2 CA-R 92.3 96.5 98.9 98.9 97.3 98.9 99.4 95.2 96.1 88.8 96.2 Table 1: Results on SIGMORPHON 2016 data.2 Model 13SIA 2PIE 2PKE rP Avg.
+73	4	Table 3: Lemmatization results.
+88	7	For comparison, we also train models with MRT (CA-MRT-A) as in Shen et al. (2016), using a global objective similar to our sequence-level loss (Eq.
+95	7	Generally, improvements are most pronounced in inflection generation, the only task where the model could profit from adjusting alignment to available feature information (cf.
+97	16	CA-RM makes the largest performance gains on languages with complex morphological phenomena (Semitic and Uralic languages, Navajo) and an above average number of unique morpho-syntactic descriptions.
+98	13	Khaling and Basque, outliers with 367 and 740 unique morpho-syntactic descriptions in the training data, are among the top five languages with the largest gains.
+99	5	The lowest gains and rare losses are made for Romance and Germanic languages and languages with many unique morpho-syntactic descriptions but regular morphologies (Quechua, Urdu/Hindi).
+109	5	We show that training to imitate a simple expert policy results in an effective neural transitionbased model for morphological string transduc- tion.
+110	12	The fully end-to-end approach addresses various shortcomings of previous training regimes (the need for an external character aligner, warmstart initialization, and MLE training biases), and leads to strong empirical results.
+111	11	We make our code and predictions publicly available.4

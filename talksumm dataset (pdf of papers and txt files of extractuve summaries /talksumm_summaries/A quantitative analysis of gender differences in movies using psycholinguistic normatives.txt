@@ -1,0 +1,30 @@
+3	20	The differences in depiction are a contentious subject, since aspects of these can be viewed as the result of stereotyping or gender bias, with the relative presence of women being a well investigated subject (Bielby and Bielby, 1996; Lincoln and Allen, 2004).
+4	17	We are interested in the existing gender depictions, re- gardless of relative frequencies, as well as any factors that may affect them.
+5	76	While popular tools such as the Bechdel test provide a test for detecting female presence in the movies, we hope to identify more subtle forms of gender differences across character gender from the dialogues.
+7	42	To analyze the dialogues we propose using a metric of language gender ladenness, a number representing a normative rating of the “perceived feminine or masculine association” (Paivio et al., 1968) of language.
+8	20	The metric, as originally defined, is meant to provide an indication of gender-specificity of individual words, with extreme values assigned to highly stereotypical concepts.
+10	14	Word based ratings such as the gender ladenness are referred to as linguistic norms (or psycholinguistic norms when corresponding to psychological constructs) and are popular in cognitive psychology (Clark and Paivio, 2004) and some computational disciplines, such as sentiment analysis (Nielsen, 2011) and opinion mining.
+11	14	To utilize gender ladenness, we follow an approach similar to simple sentiment analysis, with word-level norms automatically generated based on a small starting set of manually annotated norms and sentence (and higher) level norms estimated through word-level norm statistics.
+21	14	Figure 1 shows the average gender ladenness across all utterances for the major characters of a few movies.
+22	25	The annotations as a whole are reflective of stereotypical views of gender roles, e.g., words related to war and violence have a strong masculine association, whereas words related to family or positive emotions carry strong feminine associations.
+26	23	Solving the system via Least Squares Estimation (LSE) gives us the parameters θ and an equation that can be used to generate gender ladenness for any new set of words.
+36	11	Having achieved a one to one mapping between IMDb and Movie DiC, we assigned a gender label to each matched character, using the gender predictor (NamSor Applied Onomastics, 2015).
+38	12	Finally, we calculate a confidence score of our gender assignment per utterance for each movie, equal to the percentage of utterances with perfectly matched character name and a high confidence by the gender predictor.
+62	109	Ratings were generated at the utterance level, and collective ratings (per character, gender or movie) were calculated as utterance rating averages.
+63	15	To evaluate the word norm generation algorithm, we performed a 10-fold cross-validation experiment on the 925 manually annotated norms in (Paivio et al., 1968).
+64	28	The generated norms were evaluated against the ground truth and the method achieved a 0.801 Pearson correlation to the ground truth.
+70	20	Running nway ANOVA with the aggregate gender ladenness across both character genders as the dependent variable revealed significant differences between genres, with Action movies leaning towards the masculine (p = 0.013) compared to Non-Action movies, a not surprising result.
+78	27	The scores of male and female characters are correlated, which can be attributed to the underlying concepts in the utterances from these movies.
+79	25	The difference between genders is significant (p = 0.034), with male characters consistently using significantly more masculine language than their female counterparts, a finding that lends some credence to the metric used.
+80	13	Looking at the binary genre variables revealed that Action movies contained significantly more masculine language than Non-Action movies (p < 10−5) and the same holds for Crime movies (p < 10−5).
+81	22	Conversely, Romantic movies leaned towards the more feminine language than nonRomantic movies (p < 10−5) and similarly for Comedy movies compared to non-Comedy movies (p = 0.02).
+83	15	We include only the screenplay writer’s gender in our analysis, though both the directors and screenplay writers influence the dialog lines (utterances), since the writers are more likely to directly influence the actual language used.
+84	48	In addition, the very small number of female directors in the data, as seen in table 2, leads to a violation of ANOVA’s homoscedasticity assumption.
+85	51	Though the writer gender itself was not a significant factor, the interaction of writer’s gender with the Action genre was significant (p = 0.005).
+87	100	It appears that female script writers write more masculine utterances compared to their male colleagues, at least for Action movies.
+88	31	We also investigated interactions between the writer and character gender, but none proved significant.
+89	17	We used regression to extrapolate manually annotated psycholinguistic normatives to movie utterances and investigated the use of these metrics to describe gender depictions.
+90	10	The metric proved successful, showing significant differences between the genders and predictable patterns with respect to movie genres.
+91	58	Future work will include the use of further metrics, with those describing emotions being the first candidates.
+92	50	We also intend to collect more movie and character level metadata to be used in analysis.
+93	50	Finally, it is worth remembering that language provides only a partial description of de- picted characters, so we should aim to augment with aural/visual information.

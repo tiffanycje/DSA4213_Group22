@@ -1,0 +1,30 @@
+21	11	SAC also avoids the complexity and potential instability associated with approximate inference in prior off-policy maximum entropy algorithms based on soft Q-learning (Haarnoja et al., 2017).
+22	32	We present a convergence proof for policy iteration in the maximum entropy framework, and then introduce a new algorithm based on an approximation to this procedure that can be practically implemented with deep neural networks, which we call soft actor-critic.
+23	31	We present empirical results that show that soft actor-critic attains a substantial improvement in both performance and sample efficiency over both off-policy and on-policy prior methods.
+24	72	We also compare to twin delayed deep deterministic (TD3) policy gradient algorithm (Fujimoto et al., 2018), which is a concurrent work that proposes a deterministic algorithm that substantially improves on DDPG.
+53	56	We first introduce notation and summarize the standard and maximum entropy reinforcement learning frameworks.
+60	21	(1) The temperature parameter α determines the relative importance of the entropy term against the reward, and thus controls the stochasticity of the optimal policy.
+62	8	For the rest of this paper, we will omit writing the temperature explicitly, as it can always be subsumed into the reward by scaling it by α−1.
+63	6	This objective has a number of conceptual and practical advantages.
+64	5	First, the policy is incentivized to explore more widely, while giving up on clearly unpromising avenues.
+66	11	In problem settings where multiple actions seem equally attractive, the policy will commit equal probability mass to those actions.
+68	9	We can extend the objective to infinite horizon problems by introducing a discount factor γ to ensure that the sum of expected rewards and entropies is finite.
+74	14	We will first present this derivation, verify that the corresponding algorithm converges to the optimal policy from its density class, and then present a practical deep reinforcement learning algorithm based on this theory.
+75	22	We will begin by deriving soft policy iteration, a general algorithm for learning optimal maximum entropy policies that alternates between policy evaluation and policy improvement in the maximum entropy framework.
+77	15	We will show that soft policy iteration converges to the optimal policy within a set of policies which might correspond, for instance, to a set of parameterized densities.
+78	12	In the policy evaluation step of soft policy iteration, we wish to compute the value of a policy π according to the maximum entropy objective in Equation 1.
+80	53	We can obtain the soft value function for any policy π by repeatedly applying T π as formalized below.
+82	12	Consider the soft Bellman backup operator T π in Equation 2 and a mapping Q0 : S×A → R with |A| <∞, and defineQk+1 = T πQk.
+83	6	Then the sequence Qk will converge to the soft Q-value of π as k →∞.
+87	6	To account for the constraint that π ∈ Π, we project the improved policy into the desired set of policies.
+90	8	(4) The partition function Zπold(st) normalizes the distribution, and while it is intractable in general, it does not contribute to the gradient with respect to the new policy and can thus be ignored, as noted in the next section.
+93	25	Lemma 2 (Soft Policy Improvement).
+96	15	The full soft policy iteration algorithm alternates between the soft policy evaluation and the soft policy improvement steps, and it will provably converge to the optimal maximum entropy policy among the policies in Π (Theorem 1).
+97	21	Although this algorithm will provably find the optimal solution, we can perform it in its exact form only in the tabular case.
+100	23	Theorem 1 (Soft Policy Iteration).
+103	14	To that end, we will use function approximators for both the Q-function and the policy, and instead of running evaluation and improvement to convergence, alternate between optimizing both networks with stochastic gradient descent.
+105	11	For example, the value functions can be modeled as expressive neural networks, and the policy as a Gaussian with mean and covariance given by neural networks.
+106	20	We will next derive update rules for these parameter vectors.
+107	27	The state value function approximates the soft value.
+109	33	This quantity can be estimated from a single action sample from the current policy without introducing a bias, but in practice, including a separate function approximator for the soft value can stabilize training and is convenient to train simultaneously with the other networks.
+115	35	Finally, the policy parameters can be learned by directly minimizing the expected KL-divergence in Equation 4: Jπ(φ) = Est∼D [ DKL ( πφ( · |st) ∥∥∥∥ exp (Qθ(st, · ))Zθ(st) )] .

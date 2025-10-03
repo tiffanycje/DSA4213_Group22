@@ -1,0 +1,30 @@
+40	19	Hardt et al. (2016) establish stability bounds for stochastic gradient descent (SGD) in the convex, strongly convex, and non-convex case.
+41	13	Work by Lin et al. (2016) shows that stability of SGD can be controlled by forms of regularization.
+45	28	Stability is closely related to the notion of differential privacy (Dwork, 2006).
+47	31	It was later shown that differentially private algorithms generalize well (Dwork et al., 2015; Nissim & Stemmer, 2015).
+48	11	We first introduce some notation we will use in this paper.
+49	131	For w 2 Rm, we will let kwk denote the 2-norm of w. For a matrix A 2 Rn⇥m, we will let min(A) denote its minimum singular value, and kAk F denote its Frobenius norm.
+50	71	, zn} be a set of training data, where zi iid⇠ D. For a model w and a loss function `, let `(w; z) be the error of w on the training example z.
+53	107	Instead, we will measure the empirical risk of a model w on a set S, given by: R S [w] := 1 n nX i=1 `(w; z i ).
+54	12	The generalization of our model is measured by the generalization gap, ✏gen(w) := |RS [w] R[w]|.
+55	44	For our purposes, w will be the output of some (potentially randomized) learning algorithm A, trained on some data set S. We will denote this output by A(S).
+56	16	, zn}, where z0 i ⇠ D. We then have the following notion of uniform stability that was first introduced in (Bousquet & Elisseeff, 2002).
+59	14	The expectation is taken with respect to the randomness of the algorithm A. Bousquet and Elisseeff establish that uniform stability implies small generalization gap (Bousquet & Elisseeff, 2002).
+60	34	Suppose A is uniformly ✏-stable.
+62	21	The following notion of stability, while weaker, is still enough to control the generalization gap.
+65	31	Pointwise hypothesis stability is a weaker notion than uniform stability, but can still be used to establish non-trivial generalization bounds.
+66	11	Theorem 2 (Elisseeff et al. (2005)).
+68	40	For any , with probability at least 1 , R[A(S)]  R S [A(S)] + r M2 + 12Mn 2n .
+70	22	In the following, we derive stability bounds for models trained on empirical risk functions satisfying the PL and QG conditions.
+74	23	Notably, there are some non-convex functions that satisfy the PL condition.
+80	18	Note that for PL functions, every critical point is a global minimizer.
+82	33	Moreover, PL functions are in general non-convex (e.g., invex functions).
+83	22	We also consider a strictly larger family of functions that satisfy the quadratic growth condition.
+90	11	For example, Anitescu (2000) showed that local minima of non-linear programs satisfying the QG condition are actually isolated stationary points.
+96	55	Our stability results are “black-box” in the sense that our bounds are decomposed as a sum of two terms: a term concerning the convergence of the algorithm to a global minimizer, and a term relevant to the geometry of the loss function around the global minima.
+100	45	We will show that if f S satisfies the PL or QG condition, we will be able to quantify the stability of A.
+101	38	Although these conditions may at first seem unnatural, we show in Section 4 that they arise in a large number of machine learning settings, including in certain deep linear neural networks.
+102	16	Let Xmin denote the set of global minima of fS .
+105	12	Then A has pointwise hypothesis stability with parameter ✏stab satisfying the following conditions.
+109	21	Bousquet & Elisseeff (2002) considered the stability of empirical risk minimizers where the loss function satisfied strong convexity.
+113	180	For example, if we only know that EAkwS w⇤ S k  ✏A, we still establish pointwise hypothesis stability (in expectation with respect to A), with the same constant as above.

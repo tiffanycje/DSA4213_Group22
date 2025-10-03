@@ -1,0 +1,30 @@
+31	20	Special cases include models from population ecology (Royle, 2004; Gross et al., 2007; Dail & Madsen, 2011), branching processes (Watson & Galton, 1875; Heathcote, 1965), queueing theory (Eick et al., 1993), and integer-valued autoregressive models (McKenzie, 2003).
+48	15	This definition of offspring is flexible enough to model immediate offspring, surviving individuals, and descendants of more than one generation.
+60	32	Connections to Other Models This model specializes to capture many different models in the literature.
+62	25	It also captures a number of different AR(1) (first-order autoregressive) processes for integer variables (McKenzie, 2003); these typically assume Xk ⇠ Bernoulli( k), i.e., that the offspring process is binomial thinning of the current individuals.
+64	40	With Bernoulli offspring and time-homogenous Poisson immigration, the model is an M/M/1 queue (McKenzie, 2003); with time-varying Poisson immigration it is an Mt/M/1 queue (Eick et al., 1993).
+65	31	For each of these models, we contribute the first known algorithms for exact inference and likelihood calculations when the process is partially observed.
+66	17	This allows estimation from data that is noisy and has variability that should not be modeled by the latent process.
+67	21	Special cases of our model with noisy observations occur in statistical estimation problems in population ecology.
+68	14	When immigration is zero after the first time step and Xk = 1, the population size is a fixed random variable, and we recover the N -mixture model of Royle (2004) for estimating the size of an animal population from repeated counts.
+75	15	The standard approach for inference in HMMs is the forward-backward algorithm (Rabiner, 1989), which is a special case of more general propagation or messagepassing algorithms (Pearl, 1986; Lauritzen & Spiegelhalter, 1988; Jensen et al., 1990; Shenoy & Shafer, 1990).
+79	13	These satisfy the recurrence: k(nk) = X nk 1 ↵k 1(nk 1)p(nk |nk 1), (3) ↵k(nk) = k(nk)p(yk |nk).
+81	27	In finite models, the forward algorithm can compute the ↵k messages for k = 1, .
+85	19	Specifically, define the PGFs k(uk) and Ak(sk) of k(nk) and ↵k(nk), respectively, as: k(uk) := 1X nk=0 k(nk)u nk k , (5) Ak(sk) := 1X nk=0 ↵k(nk)s nk k .
+86	11	(6) The PGFs k and Ak are power series in the variables uk and sk with coefficients equal to the message entries.
+96	13	One key result of Winner & Sheldon (2016), which we generalize here, is the fact that there is also a recurrence relation among the PGFs.
+99	16	Then k and Ak satisfy the following recurrence: k(uk) = Ak 1 Fk(uk) ·Gk(uk) (10) Ak(sk) = (sk⇢k)yk yk!
+101	32	Equation (11) follows directly from general PGF operations outlined in (Winner & Sheldon, 2016).
+114	34	Instead of computing Ak symbolically, we will evaluate Ak and its derivatives at particular values of sk corresponding to the queries we wish to make (cf.
+120	15	Standard autodiff techniques cannot handle these recursively nested derivatives.
+124	52	We consider a procedure that assigns values to a sequence of variables v 0 , v 1 , .
+125	26	, vn, where v0 is the input variable, vn is the output variable, and each intermediate variable vj is computed via a function 'j(vi)i j of some subset (vi)i j of the variables v 0:j 1.
+128	12	, vn is a topological ordering of G. We will be concerned with the values of a variable v` and its derivatives with respect to some earlier variable vi.
+135	62	Let DRq be the set of dual numbers of order q.
+138	19	Our treatment of dual numbers and partial computations is more explicit than what is standard.
+154	16	, hxm, duiq of order q with respect to the same variable u, and returns the value⌦ f(x 1 , .
+155	15	Lifting is the basic operation of higher-order forward mode autodiff.
+157	47	Proposition 2 (Griewank & Walther, 2008).
+158	14	R be a function that consists only of the following primitive operations, where x and y are arbitrary input variables and all other numbers are constants: x + cy, x ⇤ y, x/y, xr, ln(x), exp(x), sin(x), cos(x).
+159	44	Then Lqf can be computed in time O(q2) times the running time of f .
+164	38	Say that variable vj separates vi from v` if all paths from vi to v` in G go through vj .

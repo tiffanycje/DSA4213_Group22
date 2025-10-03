@@ -1,0 +1,30 @@
+7	42	These different types of data can play a crucial role as extra pieces of evidence for knowledge base completion.
+10	21	Incorporating this information into existing approaches as entities, unfortunately, is challenging as they assign each entity a distinct vector and predict missing links (or attributes) by enumerating over the possible values, both of which are only possible if the entities come from a small, enumerable set.
+11	58	There is thus a crucial need for relational modeling that goes beyond just the link-based view of KB completion, by not only utilizing multimodal information for better link prediction between existing entities, but also being able to generate missing multimodal values.
+17	12	After learning the KB representation, neural decoders use entity embeddings to generate missing multimodal attributes, for example, generating the description of a person from their structured information in the KB.
+26	36	Factual statements in a knowledge base are represented using a triple of subject, relation, and object, 〈s, r, o〉, where s, o ∈ ξ, a set of entities, and r ∈ R, a set of relations.
+35	14	In this work we focus on DistMult because of its simplicity, popularity, and high accuracy, and ConvE because of its state-of-the-art results.
+37	28	Consider a set of all potential multimodal objects,M, i.e. possible images, text, numerical, and categorical values, and multimodal evidence triples, 〈s, r, o〉, where s ∈ ξ, r ∈ R, and o ∈ M. Our goals with incorporating multimodal information into KB remain the same: we want to be able to score the truth of any triple 〈s, r, o〉, where o is from ξ (link data) or fromM (multimodal data), and to be able to predict missing value 〈s, r, ?〉 that may be from ξ or M (depending on r).
+38	51	For the example in Figure 1, in addition to predicting that Carles Puyol plays for Barcelona from multimodal evidence, we are also interested in generating an image for Carles Puyol, if it is missing.
+56	25	As it shows, we use different encoder to embed each specific data type.
+57	32	Structured Knowledge Consider a triplet of information in the form of 〈s, r, o〉.
+63	16	Text Since text can be used to store a wide variety of different types of information, for example names versus paragraph-long descriptions, we create different encoders depending on the lengths of the strings involved.
+64	17	For attributes that are fairly short, such as names and titles, we use characterbased stacked, bidirectional GRUs to encode them, similar to Verga et al. (2016), using the final output of the top layer as the representation of the string.
+82	11	In this work, we use the adversarially regularized autoencoder (ARAE) (Zhao et al., 2017) to train generators that decodes text from continuous codes, however, instead of using the random noise vector z, we condition the generator on the entity embeddings.
+83	19	Images Similar to text recovery, to find the missing images we use conditional GAN structure.
+84	55	Specifically, we combine the BE-GAN (Berthelot et al., 2017) structure with pix2pix-GAN (Isola et al., 2017) model to generate high-quality images, conditioning the generator on the entity embeddings in the knowledge base representation.
+97	15	MovieLens already contains rich relational data about occupation, gender, zip code, and age for users and genre, release date, and the titles for movies.
+108	20	In this section, we evaluate the capability of MKBE in the link prediction task.
+114	29	We calculate our metrics by ranking the five relations that represent ratings instead of object entities.
+115	30	We label models that use ratings as R, movie-attributes as M, user-attributes as U, movie titles as T, and posters as P. As shown, the model R+M+U+T outperforms others with a considerable gap demonstrating the importance of incorporating extra information.
+118	23	YAGO-10 The result of link prediction on our YAGO dataset is provided in Table 3.
+120	28	We see that the model that encodes all type of information consistently performs better than other models, indicating that the model is effective in utilizing the extra information.
+147	61	To evaluate the quality of the generated descriptions, and whether they are appropriate for the entity, we conduct a user study asking participants if they can guess the realness of sentences and the occupation (entertainer, sportsman, or politician), gender, and age (above or below 35) of the subject entity from the description.
+148	12	We provide 30 examples for each model asking each question from 3 participants and calculate the accuracy of the majority vote.
+150	12	Examples of generated descriptions are provided in Table 8 (in addition to screenshots of user study, more examples of generated descriptions, and MovieLens titles are provided in supplementary materials).
+152	26	Similar to descriptions, we conduct a study asking users to guess the realness of images and the occupation, gender, and age of the subject.
+154	57	The results in Table 7 indicate that the images generated with embeddings based on all the information are more accurate for gender and occupation.
+155	53	Guessing age from the images is difficult since the image on DBpedia may not correspond to the age of the person, i.e. some of the older celebrities had photos from their youth.
+166	61	In future, we would like to (1) expand multimodal datasets to have more attributes (use many more entities from YAGO), and (2) instead of using learned embeddings to generate missing attributes, utilize the knowledge graph directly for generation.
+171	91	Further, we show that MKBE effectively incorporates relational information to generate high-quality multimodal attributes like images and text.
+172	16	We have release the datasets and the open-source implementation of our models at https://github.com/pouyapez/mkbe.

@@ -1,0 +1,30 @@
+0	39	The ability to generate sentences is core to many NLP tasks, including machine translation, summarization, speech recognition, and dialogue.
+1	67	Most neural models for these tasks are based on recurrent neural language models (NLMs), which generate sentences from scratch, often in a left-to-right manner (Bengio et al., 2003).
+2	71	It is often observed that such NLMs suffer from the problem of favoring generic utterances such as “I don’t know” (Li et al., 2016).
+4	65	Indeed, it is difficult even for humans to write complex text from scratch in a single pass; we often create an initial draft and incrementally revise it (Hayes and Flower, 1986).
+5	97	Inspired by this process, we propose a new unconditional generative model of text which we call the prototype-then-edit model, illustrated in Figure 1.
+6	103	It first samples a random prototype sentence from the training corpus, and then invokes a neural editor, which draws a random “edit vector” and generates a new sentence by attending to the prototype while conditioning on the edit vector.
+7	44	The motivation is that sentences from the corpus provide a high quality starting point: they are grammatical, naturally diverse, and exhibit no bias towards shortness or vagueness.
+8	68	The attention mechanism (Bahdanau et al., 2015) of the neural editor strongly biases the generation towards the prototype, and therefore it needs to solve a much easier problem than generating from scratch.
+9	103	We train the neural editor by maximizing an approximation to the generative model’s loglikelihood.
+12	77	similar sentence pairs in the training set, which we can scalably approximate using locality sensitive hashing.
+13	34	We also show empirically that most lexically similar sentences are also semantically similar, thereby endowing the neural editor with additional semantic structure.
+14	98	For example, we can use the neural editor to perform a random walk from a seed sentence to traverse semantic space.
+15	32	We compare our prototype-then-edit model to approaches that generate from scratch on both language generation quality and semantic properties.
+16	165	For the former, our model generates higher quality generations according to human evaluations, and improves perplexity by 13 points on the Yelp corpus and 7 points on the One Billion Word Benchmark.
+17	91	For the latter, we show that latent edit vectors outperform standard sentence variational autoencoders (Bowman et al., 2016) on semantic similarity, locally-controlled text generation, and a sentence analogy task.
+19	103	Select prototype: Given a training corpus of sentencesX , randomly sample a prototype sentence x′ from a prototype distribution p(x′) (in our case, uniform over X ).
+20	22	Edit: Sample an edit vector z (encoding the type of edit to be performed) from an edit prior p(z).
+23	48	This paper focuses on the unconditional case, proposing an alternative to LSTM based language models.
+26	126	For example, in the Yelp restaurant review corpus (Yelp, 2017) we find that 70% of the test set is within wordtoken Jaccard distance 0.5 of a training set sentence, even though almost no sentences are repeated verbatim.
+27	32	This implies that a neural editor which models lexically similar sentences should be an effective generative model for large parts of the test set.
+30	38	Consistent edit behavior: the edit vector z should model/control the variation in the type of edit that is performed.
+36	27	We lower bound the expectation over the edit prior (in Equation 2) using the evidence lower bound (ELBO) (Jordan et al., 1999; Doersch, 2016) which can be effectively approximated.
+40	42	Equation 1 defines the probability of generating a sentence x as the total probability of reaching x via edits from every prototype x′ ∈ X .
+42	29	Therefore, we approximate the summation over prototypes by only considering prototypes x′ that have high lexical overlap with x.
+43	42	To that end, define a lexical similarity neighborhood as: N (x) def= {x′ ∈ X : dJ(x, x′) < 0.5}, where dJ(x, x′) is the Jaccard distance between x and x′ (treating each as a set of word tokens).
+45	19	Recall that the distribution over prototypes is uniform (p(x′) = 1/|X |), and define R(x) = log(|N (x)|/|X |).
+52	23	Interlude: lexical similarity semantics.
+54	19	One can certainly construct sentences with small lexical distance that differ semantically (e.g., insertion of the word “not”).
+58	50	35.2% of the sentence pairs were judged to be exact paraphrases, while 84% of the pairs were judged to be at least roughly equivalent.
+62	61	But it does enable us to learn an edit model p(x|x′) that prefers semantically meaningful edits, which we explore in Section 4.3.

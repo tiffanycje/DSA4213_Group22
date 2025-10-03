@@ -1,0 +1,30 @@
+1	12	It is known that joint modeling can address the data scarcity problem.
+2	27	Key natural language processing technologies for spoken dialogue systems include utterance intent classification, which is needed to detect intent labels such as dialogue act (Stolcke et al., 2000; Khanpour et al., 2016), domain (Xu and Sarikaya, 2014), and question type (Wu et al., 2005) from input utterances (Ravuri and Stolcke, 2015a,b, 2016).
+3	57	One problem is that the training data are often limited or unbalanced among different tasks or different languages.
+4	17	Therefore, our motivation is to leverage both multi-task joint modeling and multi-lingual joint modeling to enhance utterance intent classification.
+5	26	The multi-task and multi-lingual joint modeling can be composed by introducing both task-specific networks, which are shared among different languages, and language-specific networks, which are shared among different tasks (Masumura et al., 2018; Lin et al., 2018).
+10	17	Our idea is to train language-specific networks so as to be insensitive to the target task, while training task-specific networks to be insensitive to language.
+11	165	To this end, we introduce multiple domain adversarial networks (Ganin et al., 2016), language-specific task adversarial networks, and task-specific language adversarial networks, into a state-of-the-art fully neural network based joint modeling; we adopt the bidirectional long short-term memory recurrent neural networks (BLSTM-RNNs) with attention mechanism (Yang et al., 2016; Zhou et al., 2016).
+25	7	This section details our adversarial training method for multi-task and multi-lingual joint modeling of utterance intent classification.
+28	32	In multi-task and multi-lingual joint modeling, {Θ(1,1), · · · ,Θ(I,J)} are jointly trained from I language and J task data sets.
+29	24	The proposed method is founded on a fully neural network that employs I language-specific networks, J task-specific networks, and J classification networks as well as Masumura et al. (2018).
+30	21	The language-specific network can be shared between multiple tasks, where words in the input utterance are converted into language-specific hidden representations.
+31	26	Each word in the i-th language input utterance W(i) is first converted into a continuous representation.
+37	8	Next, predicted probabilities of the j-th task intent labels, o(j) ∈ RK(j) , are given by: s(j) = ATTENSUM({h(i)1 , · · · ,h (i) T };θ (j) o ), (4) o(j) = SOFTMAX(s(j);θ(j)o ), (5) where ATTENSUM() is a weighted sum function with self-attention, SOFTMAX() is a transformational function with softmax activation, and θ(j)o is the trainable parameter for the j-th classification network.
+38	7	In the main joint networks of the proposal, Θ(i,j) corresponds to {θ(i)h , θ (j) u ,θ (j) o }.
+41	26	In order to efficiently use stochastic gradient descent based training for optimizing the adversarial networks, we use gradient reversal layers, which allow the input vectors during forward propagation, and sign inversion of the gradients during back propagation, to be utilized (Ganin et al., 2016).
+46	13	The proposed network structure shown in Figure 1 includes both joint networks and adversarial networks for two tasks and two languages.
+49	9	Our adversarial training proposal jointly optimizes all parameters in both the main joint networks and the adversarial networks by using all training data sets {D(1,1), · · · ,D(I,J)} where D(i,j) represents the sets of the input utterances and the reference.
+55	42	The individual learning rates fall when the validation loss of the target classification network increases.
+56	60	Our experiments employed Japanese and English data sets created for three different utterance intent classification tasks.
+57	11	The tasks, dialogue act (DA) classification, topic type (TT) classification, and question type (QT) classification, are intended to support spoken dialogue systems.
+65	8	We unified network configurations as follows.
+69	10	We used mini-batch stochastic gradient descent, in which initial learning rate was set to 0.1.
+70	18	We optimized hyper-parameters of adversarial training (α and β) for the validation sets by varying them from 0.001 to 1.0.
+72	9	Table 3 shows the results in terms of utterance classification accuracy.
+77	36	Line (6) shows multi-task and multi-lingual joint modeling results: adversarial training was suppressed by setting both α and β to 0.0.
+83	7	Next, line (6) shows that, relative to line 1, multi-task and multi-lingual joint modeling can improve the classification performance for Japanese TT, Japanese QT, and English TT, but classification performance was degraded for English DA and English QT.
+88	37	These results confirm that task adversarial networks and language adversarial networks well complement each other.
+89	37	Of particular benefit, the proposed method demonstrated greater classification performance improvements when the number of training utterances per label was small.
+91	36	Our adversarial training proposal utilizes both task adversarial networks and language adversarial networks for improving task-invariance in languagespecific networks and language-invariance in taskspecific networks.
+92	72	Experiments showed that the adversarial training proposal could well realize the benefits of joint modeling in all data sets.

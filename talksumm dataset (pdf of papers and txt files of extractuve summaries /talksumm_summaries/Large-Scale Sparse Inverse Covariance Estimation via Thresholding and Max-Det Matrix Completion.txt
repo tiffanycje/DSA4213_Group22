@@ -1,0 +1,30 @@
+16	9	Indeed, heuristics are often the only viable option once n exceeds the order of a few tens of thousands.
+26	16	Indeed, (Fattahi & Sojoudi, 2017) proves that they are automatically satisfied whenever λ is sufficiently large relative to the sample covariance matrix.
+32	7	The purpose of this paper is two-fold.
+33	18	First, we derive an extension of the guarantees derived by (Mazumder & Hastie, 2012; Sojoudi, 2016; Fattahi & Sojoudi, 2017; Fattahi et al., 2018) for a slightly more general version of the problem that we call restricted graphical lasso (RGL): X̂ = minimize X 0 trCX − log detX (5) + n∑ i=1 n∑ j=i+1 λi,j |Xi,j |.
+37	10	Including these neighborhood relationships into H can regularize the statistical problem, as well as reduce the numerical cost for a solution.
+41	9	Furthermore, we prove that the resulting estimator X can be recovered by solving the same MDMC problem (4) with Cλ appropriately modified.
+44	8	This way, the constraint X ∈ Sn G̃ is implicitly imposed, meaning that we simply ignore the nonzero elements not in G̃.
+45	8	Next, we solve an optimization problem on Sn G̃ using a custom Newton-CG method.
+46	15	The main idea is to use an inner conjugate gradients (CG) loop to solve the Newton subproblem of an outer Newton’s method.
+47	7	The actual algorithm has a number of features designed to exploit problem structure, including the sparse chordal property of G̃, duality, and the ability for CG and Newton to converge superlinearly; these are outlined in Section 3.
+48	9	Assuming that the chordal embedding is sparse with |G̃| = O(n) nonzero elements, we prove in Section 3.4, that our algorithm converges to an -accurate solution of MDMC (4) in O(n · log −1 · log log −1) time and O(n) memory.
+51	9	Both synthetic and real-life graphs are considered.
+80	9	For brevity, all proofs and remarks are omitted; these can be found in the supplementary materials.
+83	9	Then M is called inverse-consistent if there exists a matrix N ∈ Sn such that M +N 0 (8a) N = 0 ∀(i, j) ∈ GM (8b) (M +N)−1 ∈ SnGM (8c) The matrix N is called an inverse-consistent complement of M and is denoted by M (c).
+84	14	Furthermore, M is called sign-consistent if for every (i, j) ∈ GM , the (i, j)-th elements of M and (M +M (c))−1 have opposite signs.
+85	12	Moreover, we take the usual matrix max-norm to exclude the diagonal, as in ‖M‖max = maxi 6=j |Mij |, and adopt the β(G,α) function defined with respect to the sparsity pattern G and scalar α > 0 β(G,α) = max M 0 ‖M (c)‖max s.t.
+89	49	Then βH ≤ min (k,l)/∈GH λk,l − |(CH)k,l|√ (CH)k,k · (CH)l,l (9) Proof.
+91	43	Suppose that the conditions in Theorem 2 are satisfied.
+93	25	Standard manipulations show that (10) is the Lagrangian dual of (4), thus explaining the etymology of (4) as MDMC.
+94	10	This section describes an efficient algorithm to solve MDMC (4) in which the sparsity pattern G is nonchordal.
+96	32	The algorithm is fundamentally a Newton-CG method, i.e. Newton’s method in which the Newton search directions are computed using conjugate gradients (CG).
+97	30	It is developed from four key insights: 1.
+98	11	Chordal embedding is easy via sparse matrix heuristics.
+100	14	The optimal chordal embedding with the fewest number of nonzeros |G̃| is NP-hard to compute, but a good-enough embedding with O(n) nonzeros is sufficient for our purposes.
+101	60	Computing a good G̃ with |G̃| = O(n) is exactly the same problem as finding a sparse Cholesky factorization Cλ = LLT with O(n) fillin.
+102	18	Using heuristics developed for numerical linear algebra, we are able to find sparse chordal embeddings for graphs containing millions of edges and hundreds of thousands of nodes in seconds.
+104	21	Using log-det barriers for sparse matrix cones (Dahl et al., 2008; Andersen et al., 2010; 2013b; Vandenberghe et al., 2015), we can optimize directly in the space Sn G̃ , while ignoring all matrix elements outside of G̃.
+108	13	The primal problem starts with a feasible point X ∈ Sn G̃ and seeks to achieve first-order optimality.
+110	16	Feasibility is easier to achieve than optimality, so the dual problem is easier to solve than the primal.
+115	22	Finally, computing the Newton direction to high accuracy further allows the outer Newton method to also converge quadratically.

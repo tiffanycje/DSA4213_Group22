@@ -1,0 +1,30 @@
+11	13	As such, one needs to access all previous examples which leads to expensive space and per-iteration complexity of O(td) for ddimensional data at iteration t. The studies (Zhao et al., 2011; Kar et al., 2013) introduced the technique of buffering to alleviate the above hurdle which reduces the periteration space and time complexity toO(Bd).However, to achieve good generalization performance, the size B needs to be sufficiently large which is typically of O( √ T ) if the size T of the finite training data is known.
+12	52	The work (Gao et al., 2013) requires to update the covariance matrix of the training data with the space and per-iteration complexity O(d2) which is inefficient for high-dimensional data.
+13	14	The most recent work (Ying et al., 2016) reformulated the problem of AUC maximization with the least square loss as a stochastic saddle point problem (SPP).
+15	12	The convergence of such first-order primal-dual algorithms for solving stochastic SPPs is at most O( 1√ t ) as argued in (e.g. Chen et al. (2014)).
+16	14	This is, however, inferior to the optimal rate of O( 1t ), up to a logarithmic term, of SGDs for the accuracy as a performance measure (Rakhlin et al., 2012a; Shamir & Zhang, 2013).
+20	8	In particular, we show under the assumption of strong convexity that SPAM can achieve a convergence rate of O( log tt ).
+26	9	We validate the performance of our algorithm in Section 4.
+28	25	For a linear scoring function g(x) = w>x, its AUC score, denoted by AUC(w), is the probability of a random positive sample ranking higher than a random negative sample (Hanley & McNeil, 1982; Clémençon et al., 2008).
+33	32	Throughout the paper, we focus on the least square loss as the hinge loss is not statistically consistent (Gao & Zhou, 2015).
+42	38	The present proof is much simpler and more intuitive.
+43	29	The AUC optimization (2) in the linear case is equivalent to min w,a,b max α∈R { E[F (w, a, b, α; z)] + Ω(w) } , (3) where the expectation is with respect to z = (x, y), and F (w, a, b, α; z) = (1 − p)(w>x − a)2I[y=1] + p(w>x − b)2I[y=−1] + 2(1 + α)w>x(pI[y=−1] − (1 − p)I[y=1]) − p(1− p)α2.
+44	36	Specifically, the double integral mainly comes from the multiplication of two single integrals: E[(1−w>(x− x′))2|y = 1, y′ = −1] = 1− 2E[w>x|y = 1] + 2E[w>x′|y′ = −1] + (E[w>x|y = 1]− E[w>x′|y′ = −1])2 + Var[w>x|y = 1]) + Var[w>x′|y′ = −1]).
+45	27	(5) In addition, Var[w>x|y = 1] = min a E[(w>x− a)2|y = 1], (6) and Var[w>x′|y′ = −1] = min b E[(w>x′−b)2|y′ = −1].
+46	49	(7) It is easy to see that the optima for (6), (7), and (5) are respectively achieved at a(w) = w>E[x|y = 1], b(w) = w>E[x|y = −1], (8) α(w) = w>(E[x|y′ = −1]− E[x|y = 1]).
+48	17	for t = 1 to T do Receive sample zt = (xt, yt) Compute a(wt), b(wt), and α(wt) according to (8) and (9).
+49	28	ŵt+1 = wt − ηt∂1F (wt, a(wt), b(wt), α(wt); zt) wt+1 = proxηtΩ(ŵt+1) end for Putting the above observations together, one can see now that, for any w, there holds p(1− p)E[(1−w>(x− x′))2|y = 1, y′ = −1] = p(1− p) + min a,b max α E[F (w, a, b, α; z)].
+50	12	The problem (3) is a standard stochastic saddle point problem (see e.g. (Nemirovski et al., 2009)).
+53	55	The algorithm proposed in (Ying et al., 2016) essentially performs stochastic gradient descent on the primal variables w, a, and b and stochastic gradient ascent on the dual variable α.
+54	12	The critical observation in this paper is that, for fixed w, the optima for a, b, and α in saddle formulation (3) has the exact formulations as given by (8) and (9).
+55	41	This motivates us to conduct stochastic gradient descent only on w, while a, b, and α are then updated using equations (8) and (9), rather than doing stochastic gradient updates.
+56	8	More specifically, upon receiving data zt, we update w by wt+1 = wt − ηt∂1F (wt, a(wt), b(wt), α(wt); zt), (10) where ∂1F denotes the gradient with respect to the first argument and the ηt’s are the step sizes.
+58	9	Specifically, the proximal mapping associated with a convex function Ω : Rd → R is defined as proxηtΩ(u) = arg min{ 1 2 ‖u−w‖2 + ηtΩ(w)}.
+60	13	This new online algorithm has per-iteration and storage cost of one datum.
+63	43	Before we present the rigorous convergence rate of SPAM, let us briefly illustrate the intuition as to why it can be expected to achieve a faster rate ofO( 1t ) in contrast toO( 1√ t ) of SOLAM in (Ying et al., 2016).
+64	7	To see this, let us present a simple but critical lemma as follows.
+76	8	Likewise, the third and fourth terms on the righthand side of (12) equal to zero.
+77	26	This completes the proof of the lemma.
+78	24	The above lemma implies, conditioned on {z1, .
+79	37	, zt−1}, that ∂1F (wt, a(wt), b(wt), α(wt); zt) is an unbiased estimator of the true gradient ∂wf(wt).
+82	7	More related work: We should point out that our proposed algorithm has similar spirit to the online forward-backward splitting (Duchi & Singer, 2009) and stochastic proximal gradient methods (Rosasco et al., 2014).

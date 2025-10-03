@@ -1,0 +1,18 @@
+3	12	Many promising advances for achieving complex reasoning with neural networks have been obtained during the last years.
+4	84	Unlike symbolic approaches to complex reasoning, deep neural networks can learn representations from perceptual information.
+5	35	Because of that, they do not suffer from the symbol grounding problem (Harnad, 1999), and can generalize better than classical symbolic approaches.
+6	343	Most of these neural network models make use of an explicit memory storage and an attention mechanism.
+7	40	For instance, Memory Networks (MemNN), Dynamic Memory Networks (DMN) or Neural Turing Machines (NTM) (Weston et al., 2014; Kumar et al., 2016; Graves et al., 2014) build explicit memories from the perceptual inputs and access these memories using learned attention mechanisms.
+8	190	After that some memories have been attended, using a multi-step procedure, the attended memories are combined and passed through a simple output layer that produces a final answer.
+9	2	While this allows some multi-step inferential process, these networks lack a more complex reasoning mechanism, needed for more elaborated tasks such as inferring relations among entities (relational reasoning).
+10	164	On the contrary, Relation Networks (RNs), proposed in Santoro et al. (2017), have shown outstanding performance in relational reasoning tasks.
+11	7	Nonetheless, a major drawback of RNs is that they consider each of the input objects in pairs, having to process a quadratic number of relations.
+12	4	That limits the usability of the model on large problems and makes forward and backward computations quite expensive.
+13	78	To solve these problems we propose a novel Memory Network architecture called the Working Memory Network (W-MemNN).
+14	89	Our model augments the original MemNN with a relational reasoning module and a new working memory buffer.
+15	1	The attention mechanism of the Memory Network allows the filtering of irrelevant inputs, reducing a lot of the computational complexity while keeping the relational reasoning capabilities of the RN.
+16	6	Three main components compose the W-MemNN: An input module that converts the perceptual inputs into an internal vector representation and save these representations into a short-term storage, an attentional controller that attend to these internal representations and update a working memory buffer, and a reasoning module that operates on the set of objects stored in the working memory buffer in order to produce a final answer.
+19	85	While models such as EntNet (Henaff et al., 2016) have focused on the pertask training version of the benchmark (where a different model is trained for each task), we decided to focus on the jointly trained version of the task, where the model is trained on all tasks simultaneously.
+20	23	In the jointly trained bAbI-10k benchmark we achieved state-of-the-art performance, improving the previous state-of-the-art on more than 2%.
+21	49	Moreover, a simple ensemble of two of our models can solve all 20 tasks simultaneously.
+22	16	Also, we tested our model on the visual QA dataset NLVR.

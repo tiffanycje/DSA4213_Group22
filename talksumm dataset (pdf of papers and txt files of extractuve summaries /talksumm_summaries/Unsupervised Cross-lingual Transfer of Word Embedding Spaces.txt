@@ -1,0 +1,30 @@
+0	56	Word embeddings are well known to capture meaningful representations of words based on large text corpora (Mikolov et al., 2013; Pennington et al., 2014).
+1	16	Training word vectors using monolingual corpora is a common practice in various NLP tasks.
+3	28	Recently, increasing effort of research has been motivated to address this challenge.
+4	33	Successful cross-lingual word mapping will benefit many cross-lingual learning tasks, such as transforming text classification models trained in resourcerich languages to low-resource languages.
+6	46	Most methods for cross-lingual transfer of word embeddings are based on supervised or semi-supervised learning, i.e., they require cross-lingual supervision such as humanannotated bilingual lexicons and parallel corpora (Lu et al., 2015; Smith et al., 2017; Artetxe et al., 2016).
+7	20	Such a requirement may not be met for many language pairs in the real world.
+8	15	This paper proposes an unsupervised approach to the cross-lingual transfer of monolingual word embeddings, which requires zero cross-lingual supervision.
+9	27	The key idea is to optimize the mapping in both directions for each language pair (say A and B), in the way that the word embedding translated from language A to language B will match the distribution of word embedding in language B.
+11	25	A similar property holds for the other direction of the loop (from B to A and then from A back to B).
+12	10	Specifically, we use the Sinkhorn distance (Cuturi, 2013) to capture the distributional similarity between two set of embeddings after transformation, which we found empirically superior to the KL-divergence (Zhang et al., 2017a) and distance to nearest neighbor (Artetxe et al., 2017; Conneau et al., 2017) with regards to the quality of learned transformation as well as the robustness under different training conditions.
+15	27	• Unlike previous models which only consider cross-lingual transformation in a single direction, our model jointly learns the word embedding transfer in both directions for each language pair.
+57	43	To compute Sinkhorn distance, we firstly compute a distance matrix M (G) ∈ Rn×m between G(X) and Y where M (G)ij is the distance measure between G(xi) and yj .
+58	9	The superscript on M (G) indicates the distance that depends on a parameterized transformation G. For instance, if we choose Euclidean distance as a measure (see Section 3.1.3 for more discussions), we will have M (G) ij = ‖G(xi)− yj‖2.
+67	28	The first two constraints ensure that P has marginal distribution on G(X) as PG(X) and on Y as PY .
+69	29	An intuitive interpretation of equation (1) is that we are trying to find the optimal transport probability P under the entropy constraint such that the total distance to transport from G(X) to Y is minimized.
+70	11	3.1.2 Computing Sinkhorn Distance dsh(G) Cuturi (2013) showed that the optimal solution of formula (1) has the form P ∗ = diag(u)Kdiag(v) , where u and v are some nonnegative vectors and K(G) := e−λM (G) ; λ is the Lagrange multiplier for the entropic constraint in 2 and each α in Equation (1) has one corresponding λ.
+71	57	The Sinkhorn distance can be efficiently computed by a matrix scaling algorithm.
+78	26	Therefore, following the common practice, we normalize all word embedding vectors to have a unit L2 norm in the construction of M (G).
+86	20	To ensure that, we learn a meaningful translation and also to regularize the search space of possible transformations, we enforce the word embedding after the forward and the backward transformation should not diverge much from its original direction.
+87	16	We simply choose the back-translation loss based on the cosine similarity: dbt(G,F ) = ∑ i 1− cos(xi, F (G(xi)))+∑ j 1− cos(yi, G(F (yi))) (5) where cos is the cosine similarity.
+100	13	We implemented transformation G and F by a linear transformation.
+128	24	The supervised baselines include the methods of Shigeto et al. (2015); Zhang et al. (2016); Artetxe et al. (2016); Xing et al. (2015); Mikolov et al. (2013); Artetxe et al. (2017).7 We fed all the supervised methods with the bilingual dictionaries in the training portions of the LEX-Z and LEX-C datasets, respectively.
+131	18	After the query word and the target-language words are represented in the same embedding space (or after our system maps the query word from the source embedding space to the target embedding space), the k nearest target words are retrieved based on their cosine similarity scores with respect to the query vector.
+136	32	Languages are paired among English(en), Turkish (tr), Spanish (es), Chinese (zh) and Italian (it).
+138	9	The best score for each language pair is bold-faced for the supervised and unsupervised categories, respectively.
+166	18	The best score in the supervised and unsupervised category is bold-faced, respectively.
+174	41	We can see that the unsupervised methods, including ours, perform equally well as the supervised methods, which is highly encouraging.
+176	50	By simultaneously optimizing the bi-directional mappings w.r.t.
+177	131	Sinkhorn distances and back-translation losses on both ends, our model enjoys its prediction power as well as robustness, with the impressive performance on multiple evaluation benchmarks.
+178	155	For future work, we would like to extend this work in the semi-supervised setting where insufficient bilingual dictionaries are available.

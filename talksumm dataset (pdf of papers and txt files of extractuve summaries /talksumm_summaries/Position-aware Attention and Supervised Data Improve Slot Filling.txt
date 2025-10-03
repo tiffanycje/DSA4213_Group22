@@ -1,0 +1,30 @@
+11	41	We believe machine learning approaches have suffered from two key problems: (1) the models used have been insufficiently tailored to relation extraction, and (2) there has been insufficient annotated data available to satisfy the training of data-hungry models, such as deep learning models.
+13	69	We propose a new, effective neural network sequence model for relation classification.
+14	59	Its architecture is better customized for the slot filling task: the word representations are augmented by extra distributed representations of word position relative to the subject and object of the putative relation.
+16	41	Secondly, we markedly improve the availability of supervised training data by using Mechanical Turk crowd annotation to produce a large supervised training dataset (Table 1), suitable for the common relations between people, organizations and locations which are used in the TAC KBP evaluations.
+22	35	While this performance certainly does not solve the knowledge base population problem – achieving sufficient recall remains a formidable challenge – this is nevertheless notable progress.
+34	43	Next, as shown in Figure 2, we obtain hidden state representations of the sentence by feeding x into an LSTM: {h1, ...,hn} = LSTM({x1, ...,xn}) (2) We define a summary vector q = hn (i.e., the output state of the LSTM).
+54	33	We make use of Mechanical Turk to annotate each sentence in the source corpus that contains one of these query entities.
+65	60	Third, we fully annotate all negative instances that appear in our data collection process, to ensure that models trained on TACRED are not biased towards predicting false positives on realworld text.
+67	55	Due to space constraints, we describe the data collection and validation process, system interfaces, and more statistics and examples of TACRED in the supplementary material.
+69	22	In this section we evaluate the effectiveness of our proposed model and TACRED on improving slot filling systems.
+70	24	Specifically, we run two sets of experiments: (1) we evaluate model performance on the relation extraction task using TACRED, and (2) we evaluate model performance on the TAC KBP 2015 cold start slot filling task, by training the models on TACRED.
+72	32	To judge our proposed model against a strong baseline, we compare against Stanford’s top performing system on the TAC KBP 2015 cold start slot filling task (Angeli et al., 2015).
+73	23	At the core of this system are two relation extractors: a pattern-based extractor and a logistic regression (LR) classifier.
+76	102	It uses a comprehensive feature set similar to the MIML-RE system for relation extraction (Surdeanu et al., 2012), including lemmatized n-grams, sequence NER tags and POS tags, positions of entities, and various features over dependency paths, etc.
+87	32	[Lisa Dillman] We follow the SDP-LSTM model proposed by Xu et al. (2015b).
+93	27	We use the pre-trained GloVe vectors (Pennington et al., 2014) to initialize word embeddings.
+97	32	During training we also find a word dropout strategy to be very effective: we randomly set a token to be <UNK> with a probability p. We set p to be 0.06 for the SDP-LSTM model and 0.04 for all other models.
+100	29	This processing step helps (1) provide a model with entity type information, and (2) prevent a model from overfitting its predictions to specific entities.
+109	26	We observe that all neural models achieve higher F1 scores than the logistic regression and patterns systems, which demonstrates the effectiveness of neural models for relation extraction.
+111	46	Lastly, our proposed position-aware mechanism is very effective and achieves an F1 score of 65.4%, with an absolute increase of 3.9% over the best baseline neural model (LSTM) and 7.9% over the baseline logistic regression system.
+113	20	We find that different neural architectures show a different balance between precision and recall.
+118	32	A slot filling system is asked to answer a series of queries with two-hop slots (Figure 3): The first slot asks about fillers of a relation with the query entity as the subject (Mike Penner), and we term this a hop-0 slot; the second slot asks about fillers with the system’s hop-0 output as the subject, and we term this a hop-1 slot.
+122	39	To fairly evaluate each relation extraction model on this task, we use Stanford’s 2015 slot filling system as our basic pipeline.3 It is a very strong baseline specifically tuned for TAC KBP evaluation and ranked top in the 2015 evaluation.
+124	26	We find that: (1) by only training our logistic regression model on TACRED (in contrast to on the 2 million bootstrapped examples used in the 2015 Stanford system) and combining it with patterns, we obtain a higher hop-0 F1 score than the 2015 Stanford system, and a similar hop-all F1; (2) our proposed position-aware attention model substantially outperforms the 2015 Stanford system on all hop-0, hop-1 and hop-all F1 scores.
+125	26	Combining it with the patterns, we achieve a hop-all F1 of 26.7%, an absolute improvement of 4.5% over the previous state-of-the-art result.
+130	33	We find that: (1) At hop-0 level, precision increases as we provide more negative examples, while recall stays almost unchanged.
+142	55	Lastly, Figure 6 shows the visualization of attention weights assigned by our model on sampled sentences from the development set.
+143	63	We find that the model learns to pay more attention to words that are informative for the relation (e.g., “graduated from”, “niece” and “chairman”), though it still makes mistakes (e.g., “refused to name the three”).
+144	190	We also observe that the model tends to put a lot of weight onto object entities, as the object NER signatures are very informative to the classification of relations.
+156	50	We introduce a state-of-the-art position-aware neural sequence model for relation extraction, as well as TACRED, a large-scale, crowd-sourced dataset that is orders of magnitude larger than previous relation extraction datasets.

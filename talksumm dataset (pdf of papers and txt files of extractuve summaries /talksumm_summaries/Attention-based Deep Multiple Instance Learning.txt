@@ -1,0 +1,30 @@
+0	18	In typical machine learning problems like image classification it is assumed that an image clearly represents a category (a class).
+1	21	However, in many real-life applications multiple instances are observed and only a general statement of the category is given.
+2	19	This scenario is called multiple instance learning (MIL) (Dietterich et al., 1997; Maron & Lozano-Pérez, 1998) or, learning from weakly annotated data (Oquab et al., 2014).
+3	9	The problem of weakly annotated data is especially apparent in medical imaging (Quellec et al., 2017) (e.g., computational pathology, mammography or CT lung screening) where an image is typically described by a single label (benign/malignant) or a Region Of Interest (ROI) is roughly given.
+4	17	MIL deals with a bag of instances for which a single class label is assigned.
+6	18	An additional challenge is to discover key instances (Liu et al., 2012), i.e., the instances that trigger the bag label.
+10	8	However, it was shown that the instance level accuracy of such methods is low (Kandemir & Hamprecht, 2015) and in general there is a disagreement among MIL methods at the instance level (Cheplygina et al., 2015a).
+14	21	We show that the application of the Fundamental Theorem of Symmetric Functions provides a general procedure for modeling the bag label probability (the bag score function) that consists of three steps: (i) a transformation of instances to a low-dimensional embedding, (ii) a permutation-invariant (symmetric) aggregation function, and (iii) a final transformation to the bag probability.
+15	39	We propose to parameterize all transformations using neural networks (i.e., a combination of convolutional and fully-connected layers), which increases the flexibility of the approach and allows to train the model in an endto-end manner by optimizing an unconstrained objective function.
+16	6	Last but not least, we propose to replace widelyused permutation-invariant operators such as the maximum operator max and the mean operator mean by a trainable weighted average where weights are given by a two-layered neural network.
+53	3	On the other hand, the instance-level approach provides a score that can be used to find key instances i.e., the instances that trigger the bag label.
+75	6	Attention mechanism We propose to use a weighted average of instances (low-dimensional embeddings) where weights are determined by a neural network.
+77	3	The weighted average fulfills the requirements of the Theorem 1 where the weights together with the embeddings are part of the f function.
+79	4	Moreover, we utilize the hyperbolic tangent tanh(·) element-wise non-linearity to include both negative and positive values for proper gradient flow.
+80	5	The proposed construction allows to discover (dis)similarities among instances.
+89	7	Flexibility In principle, the proposed attention-based MIL pooling allows to assign different weights to instances within a bag and hence the final representation of the bag could be highly informative for the bag-level classifier.
+99	7	Therefore, the attention mechanism is potentially of great interest in practical applications.
+121	5	In the experiments we aim at evaluating the proposed approach: a MIL model parameterized with neural networks and a (gated) attention-based pooling layer (’Attention’ and ’Gated-Attention’).
+122	5	We evaluate our approach on a number of different MIL datasets: five MIL benchmark datasets (MUSK1, MUSK2, FOX, TIGER, ELEPHANT), an MNIST-based image dataset (MNIST-BAGS) and two reallife histopathology datasets (BREAST CANCER, COLON CANCER).
+126	3	In order to create test bags we solely sampled images from the MNIST test set.
+130	5	If an attention-based MIL pooling layer is used the number of parameters in V was determined using a validation set.
+134	4	Finally, all layers were initialized according to Glorot & Bengio (2010) and biases were set to zero.
+135	3	We compare our approach to various MIL methods on MIL benchmark datasets.
+148	2	For each category, positive bags are images that contain the animal of interest, and negative bags are images that contain other animals (Andrews et al., 2003).
+151	2	Results and discussion The results of the experiment are 3Learning a single MI-SVM took approximately one week due to the large number of patches.
+180	3	Since attention serves as a gradient update filter during backpropagation (Wang et al., 2017), instances with higher weights will contribute more to learning the encoder network of instances.
+185	3	In this example a bag consists of 13 images.
+232	11	Here we focused on a binary MIL problem, however, the multi-class MIL is more interesting and challenging (Feng & Zhou, 2017).
+233	76	Moreover, in some applications it is worth to consider repulsion points (Scott et al., 2005), i.e., instances for which a bag is always negative, or assume dependencies among instances within a bag (Zhou et al., 2009).
+234	77	We leave investigating these issues for future research.

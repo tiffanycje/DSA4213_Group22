@@ -1,0 +1,30 @@
+2	19	We call such relations naive physical action-effect relations.
+3	33	For example, given an image as shown in Figure 1, we would have no problem predicting what actions can cause the state of the world depicted in the image, e.g., slicing an apple will likely lead to the state.
+5	28	We can make such action-effect prediction because we have developed an understanding of this kind of basic action-effect relations at a very young age (Baillargeon, 2004).
+9	17	If artificial agents ever become capable of working with humans as partners, they will need to have this kind of physical action-effect understanding to help them reason, learn, and perform actions.
+11	64	This task supports both cause predic- tion: given an image which describes a state of the world, identify the most likely action (in the form of a verb-noun pair, from a set of candidates) that can result in that state; and effect prediction: given an action in the form of a verb-noun pair, identify images (from a set of candidates) that depicts the most likely effects on the state of the world caused by that action.
+21	15	First, it introduces a new task on physical actioneffect prediction, a first step towards an under- standing of causal relations between physical actions and the state of the physical world.
+22	21	Such ability is central to robots which not only perceive from the environment, but also act to the environment through planning.
+23	43	To our knowledge, there is no prior work that attempts to connect actions (in language) and effects (in images) in this nature.
+52	33	This dataset consists of actions expressed in the form of verbnoun pairs, effects of actions described in language, and effects of actions depicted in images.
+54	19	We selected 40 nouns that represent everyday life objects, most of them are from the COCO dataset (Lin et al., 2014), with a combination of food, kitchen ware, furniture, indoor objects, and outdoor objects.
+74	16	Positive images are those deemed to capture the resulting world state of the action.
+93	15	The first option is to directly use the action terms (i.e., verb-noun pairs) to search images and the downloaded web images are referred to as action web images.
+97	17	We first apply chunking (shallow parsing) using the SENNA software (Collobert et al., 2011) to break an effect description into phrases such as noun phrases (NP), verb phrases (VP), prepositional phrases (PP), adjectives (ADJP), adverbs (ADVP), etc.
+115	37	To do that, we applied a bootstrapping method to handle the noisy web images as described in Section 4.3.
+120	21	We first embed all images into feature vectors using pre-trained CNNs.
+165	26	Based on the matrix of prediction scores, we can evaluate action-effect prediction from two angles: (1) given an action class, rank all the candidate images; (2) given an image, rank all the candidate action classes.
+174	44	We further trained another multi-class classifier with web effect images, using their corresponding effect phrases as class labels.
+176	64	Figure 5 shows some example images, their predicted actions based on our bootstrapping approach and their predicted effect phrases based on the new classifier.
+197	17	For each unseen verb-noun pair, we collected its top five predicted effect phrases.
+198	14	Each predicted effect phrase was then used as query keywords to download web effect images.
+200	21	For each of the 28 test (i.e., new) verb-noun pairs, we use the same ratio 10% (about 3 examples) of the human annotated images as the seeding images, which were combined with downloaded web images to train the prediction model.
+208	18	From the results we can see that BS+Seed+Act+pEff achieves close performance compared with BS+Seed+Act+Eff, which uses human annotated effect phrases.
+209	50	Although in most cases, BS+Seed+Act+pEff outperforms the baseline, which seems to point to the possibility that semantic embedding space can be employed to extend effect knowledge to new verb-noun pairs.
+218	35	They need to understand the current state, to map their goals to the world state, and to plan for actions that can lead to the goals.
+220	106	To address this issue, this paper introduces a new task on action-effect prediction.
+221	19	Particularly, we focus on modeling the connection between an action (a verb-noun pair) and its effect as illustrated in an image and treat natural language effect descriptions as side knowledge to help acquiring web image data and bootstrap training.
+224	59	We also plan to incorporate action-effect prediction to humanrobot collaboration, for example, to bridge the gap of commonsense knowledge about the physical world between humans and robots.
+225	32	This paper presents an initial investigation on action-effect prediction.
+226	65	There are many challenges and unknowns, from problem formulation to knowledge representation; from learning and inference algorithms to methods and metrics for evaluations.
+227	50	Nevertheless, we hope this work can motivate more research in this area, enabling physical action-effect reasoning, towards agents which can perceive, act, and communicate with humans in the physical world.

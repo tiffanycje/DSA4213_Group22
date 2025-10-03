@@ -1,0 +1,30 @@
+9	17	This formulation keeps the simpleness and computability of DCS trees mostly unaffected; for example, our semantic calculation for DCS trees is parallel to the denotation computation in original DCS.
+10	32	An inference engine is built to handle inference on abstract denotations.
+11	69	Moreover, to compensate the lack of background knowledge in practical inference, we combine our framework with the idea of tree transformation (Bar-Haim et al., 2007), to propose a way of generating knowledge in logical representation from entailment rules (Szpektor et al., 2007), which are by now typically considered as syntactic rewriting rules.
+12	16	We test our system on FraCaS (Cooper et al., 1996) and PASCAL RTE datasets (Dagan et al., 2006).
+14	34	Our whole system is publicly released and can be downloaded from http://kmcs.nii.ac.
+15	46	In this section we describe the idea of representing natural language semantics by DCS trees, and achieving inference by computing logical relations among the corresponding abstract denotations.
+16	14	DCS trees has been proposed to represent natural language semantics with a structure similar to dependency trees (Liang et al., 2011) (Figure 1).
+31	16	In this way, we can perform inference over formulas of relational algebra, without computing database entries explicitly.
+33	37	For example, the semantics of “students read books” is given by the abstract denotation: F1 = read ∩ (studentSUBJ × bookOBJ), where read, student and book denote sets represented by these words respectively, and wr represents the set w considered as the domain of the semantic role r (e.g. bookOBJ is the set of books considered as objects).
+34	20	The operators∩ and× represent intersection and Cartesian product respectively, both borrowed from relational algebra.
+35	18	It is not hard to see the abstract denotation denotes the intersection of the “reading” set (as illustrated by the “read” table in Table 1) with the product of “student” set and “book” set, which results in the same denotation as computed by the DCS tree in Figure 1, i.e. {John reads Ulysses, .
+37	21	Formally, we introduce the following constants: • W : a universal set containing all entities.
+38	23	example phrase abstract denotation / statement compound noun pet fish pet ∩ fish modification nice day day ∩ (WARG × niceMOD) temporal relation boys study at night study ∩ (boySUBJ × nightTIME) relative clause books that book ∩ πOBJ(read students read ∩(studentSUBJ ×WOBJ)) quantification all men die man ⊂ πSUBJ(die) hypernym dog ⊂ animal derivation all criminals commit criminal ⊂ πSUBJ(commit∩ a crime (WSUBJ × crimeOBJ)) antonym rise ‖ fall negation no dogs are hurt dog ‖ πOBJ(hurt) An abstract denotation is then defined as finite applications of functions on either constants or other abstract denotations.
+45	21	To obtain DCS trees from natural language, we use Stanford CoreNLP5 for dependency parsing (Socher et al., 2013), and convert Stanford dependencies to DCS trees by pattern matching on POS tags and dependency labels.6 Currently we use the following semantic roles: ARG, SUBJ, OBJ, IOBJ, TIME and MOD.
+52	31	For example, the abstract denotation of H in Figure 2 is calculated from the leaf node Mary, and then: Node love (Mary loves): F2 = love ∩ (MarySUBJ ×WOBJ) Node animal (Animal that Mary loves): F3 = animal ∩ πOBJ(F2) Node have (Tom has an animal that Mary loves): F4 = have ∩ (TomSUBJ × (F3)OBJ).
+64	46	These are algebraic properties of abstract denotations, among which we choose a set of axioms that can be handled efficiently and enable most common types of inference seen in natural language.
+66	32	We built an inference engine to perform logical inference on abstract denotations as above.
+67	14	In this logical system, we treat abstract denotations as terms and statements as atomic sentences, which are far more easier to handle than first order predicate logic (FOL) formulas.
+73	19	This can be employed to represent linguistic phenomena such as downward monotonicity and generalized quantifiers.
+74	63	In the current system, we implement (i) superlatives, e.g. shighest(mountain∩ (WARG×AsiaMOD)) (the highest mountain in Asia) and (ii) numerics, e.g. stwo(pet ∩ fish) (two pet fish), where sf is a selection marker.
+78	14	Coreference We use Stanford CoreNLP to resolve coreferences (Raghunathan et al., 2010), whereas coreference is implemented as a special type of selection.
+89	20	As follows, our full system (Figure 4) additionally invokes linguistic knowledge on-the-fly: 4.
+128	20	For example, the similarity score of the path alignment “OBJ(blame)IOBJ-ARG(death) ≈ SUBJ(cause)OBJ-ARG(loss)MOD-ARG(life)” is calculated as the cosine similarity of vectors blame+death and cause+loss+life.
+137	18	To negate H, we use the root negation as described in §2.5.
+174	14	As shown in Figure 8, though the precision drops for Turian10, both curves show the pattern that our system keeps gaining recall while maintaining precision to a certain level.
+175	15	Not too much “magic” in Mikolov13 actually: for over 80% pairs, every node in DCS tree of H can be covered by a path of length ≤ 5 that has a corresponding path of length ≤ 5 in T with a similarity score > 0.4.
+176	21	We have presented a method of deriving abstract denotation from DCS trees, which enables logical inference on DCS, and we developed a textual inference system based on the framework.
+179	24	Description logic, being less expressive than FOL but featuring more efficient reasoning, is used as a theory base for Semantic Web (W3C, 2012).
+181	32	To our knowledge, however, their applications to logical inference beyond the use for database querying have not been much explored in the context of NLP.
+185	100	Much work has been done in mapping natural language into database queries (Cai and Yates, 2013; Kwiatkowski et al., 2013; Poon, 2013).

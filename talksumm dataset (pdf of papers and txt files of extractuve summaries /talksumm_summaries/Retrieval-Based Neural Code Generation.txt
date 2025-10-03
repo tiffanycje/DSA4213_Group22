@@ -1,0 +1,30 @@
+0	176	Natural language to code generation, a subtask of semantic parsing, is the problem of converting natural language (NL) descriptions to code (Ling et al., 2016; Yin and Neubig, 2017; Rabinovich et al., 2017).
+1	8	This task is challenging because it has a well-defined structured output and the input structure and output structure are in different forms.
+2	5	A number of neural network approaches have been proposed to solve this task.
+3	17	Sequential approaches (Ling et al., 2016; Jia and Liang, 2016; Locascio et al., 2016) convert the target code into a sequence of symbols and apply a sequence-tosequence model, but this approach does not ensure that the output will be syntactically correct.
+4	23	Tree-based approaches (Yin and Neubig, 2017; Rabinovich et al., 2017) represent code as Abstract Syntax Trees (ASTs), which has proven effective in improving accuracy as it enforces the well-formedness of the output code.
+5	13	However, representing code as a tree is not a trivial task, as the number of nodes in the tree often greatly exceeds the length of the NL description.
+6	29	As a result, tree-based approaches are often incapable of generating correct code for phrases in the corresponding NL description that have low frequency in the training data.
+7	25	In machine translation (MT) problems (Zhang et al., 2018; Gu et al., 2018; Amin Farajian et al., 2017; Li et al., 2018), hybrid methods combining retrieval of salient examples and neural models have proven successful in dealing with rare words.
+8	26	Following the intuition of these models, we hypothesize that our model can benefit from querying pairs of NL descriptions and AST structures from training data.
+9	24	In this paper, we propose RECODE, and adaptation of Zhang et al. (2018)’s retrieval-based approach neural MT method to the code generation problem by expanding it to apply to generation of tree structures.
+10	15	Our main contribution is to introduce the use of retrieval methods in neural code generation models.
+14	4	In this work, we start with the syntactic code gen- eration model by Yin and Neubig (2017), which uses sequences of actions to generate the AST before converting it to surface code.
+16	7	We have two types of actions to build an AST: APPLYRULE and GENTOKEN.
+17	5	APPLYRULE(r) expands the current node in the tree by applying production rule r from the abstract syntax grammar2 to the current node.
+18	30	GENTOKEN(v) populates terminal nodes with the variable v which can be generated from vocabulary or by COPYing variable names or values from the NL description.
+20	13	Figure 1 shows an action tree for the example code: the nodes correspond to actions per time step in the construction of the AST.
+21	23	Interested readers can reference Yin and Neubig (2017) for more detail of the neural model, which consists of a bidirectional LSTM (Hochreiter and Schmidhuber, 1997) encoder-decoder with action embeddings, context vectors, parent feeding, and a copy mechanism using pointer networks.
+23	15	Following Zhang et al. (2018)’s method for neural machine translation, these retrieved subtrees act as templates that bias the generation of output code.
+24	15	Our pipeline at test time is as follows: • retrieve from the training set NL descriptions that are most similar with our input sentence (§3.1), • extract n-gram action subtrees from these retrieved sentences’ corresponding target ASTs (§3.2), • alter the copying actions in these subtrees, by substituting words of the retrieved sentence with corresponding words in the input sentence (§3.3), and • at every decoding step, increase the probabil- ity of actions that would lead to having these subtrees in the produced tree (§3.4).
+33	11	Thus, we choose to exploit actions in the generation model rather than AST nodes themselves to be candidates for our retrieved pieces.
+36	56	As the node in the action tree holds structural information about its children, we set the subtrees to have a fixed depth, linear in the size of the tree.
+39	11	Using the retrieved subtree without modification is problematic if it contains at least one node corresponding to a COPY action because copied tokens from the retrieved sentence may be different from those in the input.
+41	70	The extracted action n-gram would contain the rule that copies the second word (“lst”) of the retrieved sentence while we want to copy the first word (“params”) from the input.
+42	31	By computing word-based edit distance between the input description and the retrieved sentence, we implement a one-to-one sentence alignment method that infers correspondences between uncommon words.
+43	30	For unaligned words, we alter all COPY rules in the extracted n-grams to copy tokens by their aligned counterpart, such as replace “params” with “lst”, and delete the n-gram subtree, as it is not likely to be relevant in the predicted tree.
+46	8	We normalize the scores for each input sentence by subtracting the average over the training dataset.
+47	28	At decoding time, incorporate these retrievalderived scores into beam search: for a given time step, all actions that would result in one of the retrieved n-grams u to be in the prediction tree has its log probability log(p(yt | yt−11 )) increased by λ ∗ score(u) where λ is a hyperparameter, and score(u) is the maximal sim(q, qm) from which u is extracted.
+49	11	We evaluate RECODE with the Hearthstone (HS) (Ling et al., 2016) and Django (Oda et al., 2015) datasets, as preprocessed by Yin and Neubig (2017).
+50	36	HS consists of Python classes that implement Hearthstone card descriptions while Django contains pairs of Python source code and English pseudo-code from Django web framework.
+52	25	For evaluation metrics, we use accuracy of exact match and the BLEU score following Yin and Neubig (2017).

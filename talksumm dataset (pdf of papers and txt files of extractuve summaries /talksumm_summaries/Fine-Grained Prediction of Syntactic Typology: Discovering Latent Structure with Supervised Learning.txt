@@ -1,0 +1,30 @@
+1	5	For instance, English is an SVO-type language because its basic clause order is Subject-Verb-Object (SVO), and also a prepositional-type language because its adpositions normally precede the noun.
+2	14	Identifying basic word order must happen early in the acquisition of syntax, and presumably guides the initial interpretation of sentences and the acquisition of a finer-grained grammar.
+3	53	In this paper, we propose a method for doing this.
+4	33	While we focus on word order, one could try similar methods for other typological classifications (syntactic, morphological, or phonological).
+5	10	The problem is challenging because the language’s true word order statistics are computed from syntax trees, whereas our method has access only to a POS-tagged corpus.
+7	45	We define the directionality to be a real number in [0, 1]: the fraction of tokens of this relation that are “right-directed,” in the sense that the child (modifier) falls to the right of its parent (head).
+8	37	For example, the dobj relation points from a verb to its direct object (if any), so a directionality of 0.9—meaning that 90% of dobj dependencies are right-directed—indicates a dominant verb-object order.
+9	80	(See Table 1 for more such examples.)
+11	6	We assume that all languages draw on the same set of POS tags and dependency relations that is proposed by the UD project (see §3), so that our predictor works across languages.
+12	40	Liu (2010) has argued for using these directionality numbers in [0, 1] as fine-grained and robust typological descriptors.
+16	12	In fact, some multilingual NLP systems already condition on typological properties looked up in the World Atlas of Language Structures, or WALS (Dryer and Haspelmath, 2013), as 147 Transactions of the Association for Computational Linguistics, vol.
+19	34	Our system provides an automatic alternative as well as a methodology for generalizing to new properties.
+20	9	More broadly, we are motivated by the challenge of determining the structure of a language from its superficial features.
+22	21	Here we investigate whether such a system can be tuned by gradient descent.
+27	5	We simply imitate how linguists have analyzed other languages.
+29	14	Their dependency annotations may reflect a cross-linguistic theory that considers semantic interpretability and equivalence, rare but informative phenomena, consistency across languages, a prior across languages, and linguistic conventions (including the choice of latent labels such as dobj).
+31	61	Being supervised, our objective should also suffer less from local optima.
+32	20	Indeed, we could even set up our problem with a convex objective, such as (kernel) logistic regression, to predict each directionality separately.
+34	24	Our setting presents unusually sparse data for supervised learning, since each training example is an entire language.
+37	87	Thus, we have many synthetic languages that are Object-Verb like Hindi but also Noun-Adjective like French.
+39	49	We will show that our system’s accuracy benefits from fleshing out the training set in this way, which can be seen as a form of regularization.
+40	42	A possible criticism of our work is that obtaining the input POS sequences requires human annotators, and perhaps these annotators could have answered the typological classification questions as well.
+41	43	Indeed, this criticism also applies to most work on grammar induction.
+42	36	We will show that our system is at least robust to noise in the input POS sequences (§7.4).
+51	13	(“u” stands for “unparsed.”) Output for language L: Our system predicts p(→| r, L), the probability that a token in language L of an r-labeled dependency will be right-oriented.
+54	31	Training: We set the parameters of our system using a collection of training pairs (u,p∗), each of which corresponds to some UD or GD training language L. Here p∗ denotes the true vector of probabilities as empirically estimated from L’s treebank.
+59	33	We took ε > 0 in order to forgive small errors: if some predicted directionality is already “in the ballpark,” we prefer to focus on getting other predictions right, rather than fine-tuning this one.
+63	15	Before launching into our full models, we warm up with a simple baseline heuristic called expected count (EC), which is reminiscent of Principles & Parameters.
+64	37	The idea is that if ADJs tend to precede nearby NOUNs in the sentences of language L, then amod probably tends to point leftward in L. After all, the training languages show that when ADJ and NOUN are nearby, they are usually linked by amod.
+67	40	Training: For any two tag types t, t′ in the universal POS tagset T , we simply use the training treebanks to get empirical estimates of p(· | t, t′), taking p( r→| t, t′) = ∑ L sL · countL(t r→ t′)∑ L sL · countL(t, t′) (5) and similarly for p( r←| t, t′).

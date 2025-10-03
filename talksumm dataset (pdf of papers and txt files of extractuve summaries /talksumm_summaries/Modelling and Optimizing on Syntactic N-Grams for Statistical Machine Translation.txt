@@ -1,0 +1,30 @@
+6	85	While language models that operate on words linked through a dependency chain – called syntactic n-grams (Sidorov et al., 2013) – can improve translation, some of the improvement is invisible to an n-gram metric such as BLEU.
+7	33	As a result, tuning to BLEU does not show the full value of a syntactic language model.
+15	57	As motivation, and working example for the model description, consider the dependency tree in Figure 1, which is taken from the output of our baseline string-to-tree SMT system.1 The output contains two errors: • a morphological agreement error between the subject Ergebnisse (plural) and the finite verb wird (singular).
+16	29	• a subcategorisation error: überraschen is transitive, but the translation has a prepositional phrase instead of an object.
+19	50	The dependency models proposed by Shen et al. (2010) and Zhang (2009) rely heavily on structural information such as the direction and distance of the dependent from the parent.
+21	28	Instead, we make dependency labels, which encode grammatical relations, a core element of our model.3 Shen et al. (2010) propose a model that estimates probability of each token given its parent and/or preceding siblings.
+42	44	Continuing the example for w4, these are: • l4 = attr • ls(4) = (det) • la(4) = (gmod, subj, vroot, sent) We predict both the terminal symbols S and dependency labels D. The latter lets us model subcategorisation by penalizing unlikely relations, e.g. objects whose parent is an intransitive verb.
+46	29	In the constituency representation shown in Figure 1, each non-terminal node in the tree that is not a preterminal has exactly one pre-terminal child.
+51	49	We also use special out-of-bound tokens (separate for hs, ha, ls and la) to fill up the context window if the window is larger than the number of siblings and/or ancestors.
+56	23	The model in equation 3 still assumes the topology of the dependency tree to be given, and we remedy this by also predicting pre-terminal nodes, and a virtual STOP node as the last child of each node.
+57	22	This models the position of the head in a subtree (through the prediction of pre-terminal nodes), and the probability that a word has no more dependents (by assigning probability mass to the STOP node).
+61	34	Note that T is encoded implicitly, and can be retrieved from D through a stack to which all nodes (except for preterminal and STOP nodes) are pushed after prediction, and from which the last node is popped when predicting a STOP node.
+63	22	Back-off smoothing schemes are unsatisfactory because it is unclear which part of the context should be forgotten first, and neural networks elegantly solve this problem.
+67	31	We use a single hidden layer with rectifiedlinear activation function, and noise-contrastive estimation (NCE).
+84	55	N-gram based metrics such as BLEU (Papineni et al., 2002) are still predominantly used to optimize the log-linear parameters of SMT systems, and (to a lesser extent) to evaluate the final translation systems.
+85	42	However, n-gram metrics are not well suited to measure fluency phenomena with string-level gaps, and there is a danger that BLEU underestimates the modelling power of dependency language models, resulting in a suboptimal assignment of loglinear weights.
+86	35	As an alternative metric that operates on the level of syntactic n-grams, we use a variant of the head-word chain metric (HWCM) (Liu and Gildea, 2005).
+98	32	We train all language models on the German side of the parallel text and the monolingual data.
+100	29	For a 5-gram Neural Network LM baseline (NNLM), and the dependency language models, we train feed-forward Neural Network language models with the NPLM toolkit.
+143	39	This reflects the fact that the dependency LMs improve fluency along the syntactic n-grams that HWCM measures, whereas NNLM only improves local fluency, to which BLEU is most sensitive.
+151	25	We hypothesize that the inclusion of HWCMf as a tuning metric reduces overfitting and encourages the production of more grammatically well-formed constructions, which we expect to be a robust objective across different texts, espe- cially when coupled with a strong dependency language model such as RDLM.
+158	22	Tuning on BLEU+HWCMf results in further improvements in HWCMf and TER.
+162	32	We can use their grammar to analyse the effect of different models on morphological agreement by counting the number of translations that violate at least one agreement constraint.
+191	73	The main contribution of this paper is the description of a relational dependency language model.10 We show that it is a valuable asset to a state-of-the-art SMT system by comparing perplexity values with other types of languages models, and by its integration into decoding, which results in improvements according to automatic MT metrics and reduces the number of agreement errors.
+195	32	Apart from showing improvements by tuning on HWCMf , our results also shed light on the interaction between models and tuning metrics.
+196	44	With n-gram language models, the choice of tuning metric only had a small effect on the English→German translation results.
+201	45	Now, we hypothesize that HWCM is well-suited to optimize dependency language models because both operate on syntactic ngrams, just like BLEU and n-gram models are natural counterparts.
+203	31	While we have no empirical data on the model’s effectiveness for other target languages, we suspect that syntactic n-grams are especially suited for modelling and evaluating translations into languages with inter-dependencies between distant words and relatively free word order, such as German, Czech, or Russian.
+204	43	In this work, we relied on parse hypotheses being provided by a string-to-tree SMT decoder, but other settings are conceivable for future work, such as performing n-best string reranking by coupling the relational dependency LM with a monolingual parse algorithm.
+206	31	Also, we believe that the model can benefit from further advances in neural network modelling, for instance recent findings that ensembles of networks outperform a single network (Mikolov et al., 2011; Devlin et al., 2014)

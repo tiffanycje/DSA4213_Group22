@@ -1,0 +1,30 @@
+1	67	One strategy to obtain transducer rules is by exhaustive enumeration; however, this method is ineffective when there is a high structural language variability and we wish to have an expressive model.
+2	46	Another strategy is to heuristically extract rules from a corpus of tree/string pairs and word-alignments, as GHKM algorithm does (Galley et al., 2004); however, word-alignments are difficult to estimate when the corpus is small.
+3	23	This would be the case, for example, of machine translation for low-resourced languages where there is often small numbers of parallel sentences, or in Question Answering (QA) tasks where the number of Knowledge Base (KB) identifiers (concepts) is much larger than QA datasets.
+4	89	Our main contribution is an algorithm that formulates the rule extraction as a cost minimization problem, where the search for the best rules is guided by an ensemble of cost functions over pairs of tree fragments.
+5	69	In GHKM, a tree fragment and a sequence of words are extracted together if they are minimal and their word alignments do not fall outside of their respective boundaries.
+6	28	However, given that alignment violations are not allowed, the quality of the extracted rules degrades as the rate of misaligned words increases.
+7	19	In our framework, we can mimic GHKM by assigning an infinite cost to pairs of tree fragments that violate such conditions on word alignments and by adding a cost regularizer on the size of the tree fragments.
+15	40	We show that a tree-to-tree transducer induced using our rule extraction and back-off scheme is accurate and generalizes well, which was not previously achieved with tree transducers in semantic parsing tasks such as QA over large KBs.
+42	34	Following the terminology of Graehl and Knight (2004), we define a tree-to-tree transducer as a 5- tuple (Q,Σ,∆, qstart,R) where Q is the set of states, Σ and ∆ are the sets of symbols of the input and output languages, qstart is the initial state, and R is the set of rules.
+46	33	A root-tofrontier transducer starts at the root of the source tree and searches R for a rule whose i) tree pattern ti on the lhs matches the root of the source tree, and ii) the state q of the rule is the initial state of the transducer.
+49	49	In Figure 1, the sequential application of rules r1 to r5 is a derivation that transforms the question s into the query t. For example, rule r1 consumes a tree fragment of s (e.g. “how”, “many”, “WRB”, etc.)
+51	29	Rules r2 and r3 only consume but do not produce symbols (other than variables).
+60	17	For that reason, we propose in Section 4 a novel rule back-off scheme to alleviate coverage problems.
+73	27	In the search of the best mapping, we need to explore the space of edit operations, which are substitutions of source by target tree fragments.
+84	32	These are the back-off functions described in Section 4, but instead of returning scores for every target tree fragment, they return a cost, e.g. cent : TΣ × T∆ → R≥0.
+114	20	However, an exact implementation needs to enumerate all pairs of source and target disjoint subpaths (p and p′), which has a computational complexity that grows combinatorially with |p| (variable permutations), and exponentially with the number of descendant nodes of ps and pt (powerset of variables).
+116	113	First, n-best solutions (pairs of disjoint paths) are computed for children; then those partial solutions are combined into their parent using the cross-product.
+118	98	In the pseudocode, we use a helper function, paths(s ↓ ps), which denotes the list of subtree paths in bottom-up order: from the leaves up to ps (including the latter).
+123	50	In this case, variables substitute entire subtrees rooted at paths pc and p′c on the source and target tree patterns, respectively.
+147	27	Then the cross-product C.A would be: C.A = {(p1 · p3,p′1 · p′3), (p2 · p3,p′2 · p′3)} where p1 · p3 = {(0, 1), (0, 2), (0, 3), (0, 4)} if p1 = {(0, 1), (0, 2)} and p3 = {(0, 3), (0, 4)}.
+154	20	This operation is implicit in lines 24, 30 and 35.
+155	95	Data The training data is a corpus of questions annotated with their logical forms that can be executed on Freebase to obtain a precise answer.
+156	17	For an unseen set of questions, the task is to obtain automatically their logical forms and retrieve the correct answer.
+157	82	Our objective is to evaluate the generalization capabilities of a transducer induced using our rule extraction on an unseen open-domain test set.
+158	25	We parsed questions from FREE917 into source constituent trees using the Stanford caseless model (Klein and Manning, 2003).
+161	26	Tree pairs (2.9%) for which the gold executable meaning representation did not retrieve valid results were filtered out.
+162	39	Baselines We compared to two baselines.
+164	16	For FREE917, SEMPRE uses a manually-created entity lexicon released by (Cai and Yates, 2013), but an automatically generated predicate lexicon.
+165	46	In- stead, our system and the second baseline use manually created entity and predicate lexicons, where the latter was created by selecting all words from every question that relate to the target predicate.
+166	32	For example, for the question “what olympics has egypt participated in”, we created an entry that maps the discontinuous phrase “olympics participated in” to the predicate OlympicsParticipatedIn.

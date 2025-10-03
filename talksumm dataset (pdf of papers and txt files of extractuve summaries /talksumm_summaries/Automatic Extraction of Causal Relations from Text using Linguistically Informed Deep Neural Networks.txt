@@ -1,0 +1,30 @@
+1	24	Curating causal relations from text documents help in automatically building causal networks which can be used for predictive tasks.
+4	67	Here, the effect “company recalled vehicle” is caused by the event “to fix loose bolts is not easy to extract.
+22	20	Beside SEMEVAL dataset we have also used another available dataset that has annotated data about drugs and their adverse effect extracted from Medline (Gurulingappa et al., 2012).
+25	22	Few of these are: detecting cause-effect relations in medical documents, learning about after effects of natural disasters, learning causes for safety related incidents etc..
+26	79	However to build a meaningful application that can detect an event from texts and predict its possible effects, there is a need to curate large volume of cause-effect event pairs.
+27	22	Further, similar events need to be grouped and generalized to super classes, over which the predictive framework can be built(Zhao et al., 2017).
+40	24	On the other hand in “Drive slowly.
+43	50	For example, “The burst has been caused by water hammer pressure” has both cause and effect stated explicitly.
+44	24	However, “The car ran over his leg” does not have the effect of the accident explicitly stated.
+45	56	Automatic extraction of cause-effect relations are primarily based on three different approaches namely, Linguistic rule based, supervised and unsupervised machine learning approaches.
+68	48	The overall architecture of our proposed approach is composed of three modules: a)Resource Creation b) Linguistic preprocessor and feature extractor, c) Classification model builder, and d) Prediction framework for cause/effect, built on the output of the classifier module.
+72	28	2) The adverse drug effect (ADE) dataset (Gurulingappa et al., 2012) composed of 1000 sentences consisting of information about consumption of different drugs and their associated side effects.
+97	35	The Annotation Process: The above sentences are presented to three expert annotators.
+132	28	Generating linguistic feature embeddings: Apart from the presence of causal connectives mentioned earlier, other features added to make our model linguistically informed are relevant lexical and syntactic features : Part of Speech(POS) tags (Manning et al., 2014), Universal Dependency relations (De Marneffe et al., 2006) and position in Verb/ Noun/ Prepositional Phrase structure.
+133	28	We have also used the semantic features as identified by Girju (Girju, 2003) - the nine Noun hierarchies (H(1) to H(9)) in WordNet namely, entity, psychological feature, abstraction, state, event, act, group, possession, and phenomenon.
+138	22	Further, we consider the dependency structure of the sentence, which gives us thatwi is dependent on word pi.
+140	26	If wi is not dependent on any other word in the sentence, then the parent features are the same as the word features.
+145	96	The dropout layer reduces the problem of overfitting often seen in trained models by dropping unit with connections to the neural network at random during the training process (Srivastava et al., 2014).
+170	25	The network itself is shown as a directed graph, with edges directed from Cause to Effect, as edge weights being computed as the fraction of total occurrences of the cause that lead to the effect.
+181	22	The F1 scores obtained by each system on the datasets by this model are reported in Table 4 for identified Cause, Effect and Causal Connec- tives.
+182	32	In Task-II, we combine all the five datasets together and divide the training set, development set and test sets into 80%, 10% and 10% respectively.
+187	35	We conducted the experiments using the designated training portions of each dataset of BBC news, Recall News, Analyst Reports and SemEval individually to train the model and then tested all the sets on each resultant model.
+189	54	From Table 4 we observe that in most of the Cause Identification Effect Identification cases Bi-directional LSTM model along with the additional layer of linguistic features significantly reduces the false negative score and achieved a high true positive score thereby achieving a high F-measure.
+190	21	For the project analyst report, BBC News, SEMEVAL and Recall news, we have achieved F-measures of around 66%, 73%, 79%, and 78% respectively which is best as compared to the other baseline methods.
+196	39	In fact, the system suffered when working with such sentences, even when there was just a single instances of causality present.
+216	32	We find that the bi-directional LSTM model along with an additional linguistic layer performs much better than existing baseline systems.
+228	27	The third sentence, on the other hand, shows an example of one of the more challenging scenarios of causality identification, i.e. in the absence of any explicit causal connective.
+230	51	Table 8 shows some common ambiguous causal connectives that identify sentences as causal even in the cases where they are not being used to identify causality.
+231	19	To further emphasize on their ambiguity, we show, in parallel, examples where the same connectives imply causality.
+232	20	Table 5 depicts a sample set of novel causal connectives identified by our system.

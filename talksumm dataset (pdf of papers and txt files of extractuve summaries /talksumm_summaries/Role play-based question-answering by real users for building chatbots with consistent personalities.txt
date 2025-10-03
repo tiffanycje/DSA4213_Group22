@@ -1,0 +1,30 @@
+0	63	Having a consistent personality is important for chatbots if we want them to be believable (Li et al., 2016; Gordon et al., 2016; Curry and Rieser, 2016; Sugiyama et al., 2017; Akama et al., 2017).
+4	24	In this study, our aim is to collect a large number of question-answer pairs for a particular character by using role play-based questionanswering (Higashinaka et al., 2013a) in which multiple users play the roles of certain characters and respond to questions by online users.
+6	54	The main idea is that role players collectively represent a single character and that a question is broadcast via a character to all role players.
+12	15	The other limitation was that the applicability of the collected data to the creation of chatbots was not verified.
+19	18	Our contributions are as follows: • We verified that role play-based question- answering works with real users, collecting a large number of question-answer pairs per character in a short period.
+36	16	According to Wikipedia, Yandere characters are mentally unstable, incredibly deranged, and use extreme violence or brutality as an outlet for their emotions.
+37	26	On the Japanese streaming service NICONICO Douga1, each character has a channel for their fans.
+44	25	The users can ask the characters questions by 1 http://www.nicovideo.jp/ means of a text-field interface, and users who want to play the role of the characters can post answers.
+46	26	In addition, a “like” button is placed beside each answer so that when a user thinks the answer sounds very much “like” the character in question, this opinion can be reflected in the number of “likes”.
+56	14	Table 2 shows the times when the number of question-answer pairs exceeded certain thresholds.
+57	36	We can see how fast we could collect a few thousand question-answer pairs.
+58	39	For both characters, it took just about a couple of days to reach 2,000 question-answer pairs.
+68	15	It consisted of three questions: (Q1) How do you rate the usability of the Web site?, (Q2) Would you be willing to use the Web site again?, and (Q3) Did you enjoy role playing on the Web site?
+95	45	The center-word score is 1.0 if one of the centerwords of Q is included in those of Q′; otherwise it is 0.0.
+111	19	One is a general question type.
+116	18	We trained a logisticregression-based classifier that classifies which of the named entity types is requested in a question.
+120	47	The qtypes match score is calculated as follows: if there is a match of the general question type between Q and Q′, the score of one is obtained.
+130	29	We trained the model by using the OpenNMT Toolkit3 with default settings.
+131	31	The translation model learns to translate a question into an answer.
+140	52	To have a wider coverage of questions, we extended our question-answer pairs by using Twitter.
+159	16	We compensated for their time by giving Amazon gift cards worth about 20 US dollars.
+161	21	Naturalness Not knowing who’s speaking, the answer is appropriate to the input question.
+168	22	Although this is a simple rule-based baseline, it is a competitive one because it uses one of the largest rule sets in Japanese.
+176	28	We used 10 for N for document retrieval.
+177	34	Proposed method 2 (PROP) The proposed method with extended question-answer pairs from Twitter, as described in Section 3.4.
+190	41	PROP was significantly better than PROP WO EXDB for naturalness but not for character-ness.
+191	14	These results indicate that simple text-based retrieval is not sufficient, and we need more elaborate methods.
+195	18	The High participants are likely to differentiate the answers more than Low participants.
+213	61	We also want to incorporate other pieces of information that may contribute to the ranking of answers, such as sentence embeddings (Kiros et al., 2015), discourse relations (Lin et al., 2009; Otsuka et al., 2017), and external knowledge about the characters.
+215	57	We also want to incorporate the chatbots into theWeb sites so that the users can feel they are training up the characters.

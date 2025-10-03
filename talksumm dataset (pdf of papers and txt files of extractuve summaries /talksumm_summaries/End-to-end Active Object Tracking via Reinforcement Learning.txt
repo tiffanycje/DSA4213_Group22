@@ -1,0 +1,26 @@
+20	1	While we are not pursuing a state-of-the-art passive tracker in this work, the experimental results do show that a passive tracker is not indispensable in active tracking.
+21	1	Alternatively, a direct end-to-end solution can be effective.
+52	1	To train the tracker, we employ a state-of-the-art reinforcement learning algorithm, A3C (Mnih et al., 2016).
+83	1	This kind of manythread training is reported to be fast yet stable, leading to improved generalization (Mnih et al., 2016).
+87	1	The FC6 and FC1 correspond to the 6-action policy π (·|st) and the value V (st), respectively.
+103	1	We further allow flipping left-right the screen frame (and accordingly the left-right action).
+153	1	2) The tracker is insensitive to background variations such as changing the ceiling and floor (FloorCeiling) or placing additional walls in the map (Corridor).
+159	1	It rediscovers the target (frame #1410), and continues to track steadily afterwards.
+162	1	4) The tracker is insensitive to a distracting object (Noise1), even when the “bait” is very close to the path (Noise2).
+164	1	Readers are encouraged to watch more result videos provided in our supplementary materials.
+185	1	RandomizedEnv versus SingleEnv.
+199	1	The results of the simulated active tracker also suggest that it is difficult to tune a unified camera-control module for them, even when a long term tracker is adopted (see the results of TLD).
+201	1	To evaluate how the active tracker performs in real-world scenarios, we take the network trained in a UE environment and test it on a few video clips from the VOT dataset (Kristan et al., 2016).
+202	1	Obviously, we can by no means control the camera action for a recorded video.
+203	1	However, we can feed in the video frame sequentially and observe the output action predicted by the network, checking whether it is consistent with the actual situation.
+205	1	The horizontal axis indicates the position of the target in the image, with a positive (negative) value meaning that a target in the right (left) part.
+207	1	Green and red dots indicate turn-left/turn-left-and-move-forward and turn-right/turn-right-and-move-forward actions, respectively.
+209	1	As the figure show, 1) When the target resides in the right (left) side, the tracker tends to turn right (left), trying to move the camera to “pull” the target to the center.
+223	1	It indicates that the tracker indeed learns how to find the target.
+224	1	We proposed an end-to-end active tracker via deep reinforcement learning.
+225	1	Unlike conventional passive trackers, the proposed tracker is trained in simulators, saving the efforts of human labeling or trail-and-errors in real-world.
+226	1	It shows good generalization to unseen environments.
+227	2	The tracking ability can potentially transfer to real-world scenarios.
+228	10	We appreciate the anonymous ICML reviews that improve the quality of this paper.
+229	66	Thank Jia Xu for his helpful discussion.
+230	65	Fangwei Zhong and Yizhou Wang were supported in part by the following grants 973-2015CB351800, NSFC61625201, NSFC-61527804.

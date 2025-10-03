@@ -1,0 +1,30 @@
+0	6	In any machine learning task, some examples are harder than others, and intuitively we should be able to get away with less computation on easier examples.
+2	41	Following the tremendous empirical success of deep learning, much recent work has focused on making deep neural networks adaptive, typically via an end-to-end training approach in which the network learns to make exampledependent decisions as to which computations are performed during inference.
+3	14	At the same time, recent work on neural architecture search has demonstrated that optimizing over thousands of candidate model architectures can yield results that improve upon state-of-the-art architectures designed by humans (Zoph et al., 2017).
+4	66	It is natural to think that combining these ideas should lead to even better results, but how best to do so remains an open problem.
+5	16	One of the motivations for our work is that for many problems, there are order-of-magnitude differences between the cost of a reasonably accurate model and that of a model with state-of-the-art accuracy.
+7	21	If we could identify the images on which the smaller model’s prediction is (with high probability) no less accurate than the larger one’s, we could use fewer multiplications on those images without giving up much accuracy.
+8	20	In this work, we present a family of algorithms that can be used to create a cascaded model with the same accuracy as a specified reference model, but potentially lower averagecase cost, where cost is user-defined.
+9	12	This family is defined by a meta-algorithm with various pluggable components.
+10	20	In its most basic instantiation, the algorithm takes a pool of pre-trained models as input and produces a cascaded model in two steps: 1.
+11	10	It equips each model with a set of possible rules for returning “don’t know” (denoted⊥) on examples where it is not confident.
+13	9	It selects a sequence of abstaining models to try, in order, when making a prediction (stopping once we find a model that does not return ⊥).
+15	9	We also discuss a variant that produces an adaptive policy tree rather than a fixed sequence of models.
+17	55	They also allow for computations performed by one stage of the cascade to be re-used in later stages when possible (e.g., if two successive stages of the cascade are neural networks that share the same first k layers).
+18	15	Our cascade-generation algorithm requires as input a set of abstaining models, which are prediction models that return “don’t know” (denoted ⊥) on certain examples.
+21	18	We assume our prediction model is a function p : X → Y , and that its performance is judged by taking the expected value of an accuracy metric q : Y × Y → R, where q(ŷ, y) is the accuracy of prediction ŷ when the true label is y.
+24	29	Typically, this model is based on the values of intermediate computations performed when evaluating p(x).
+26	11	We then return⊥ if the predicted accuracy falls below some threshold.
+27	127	As an example, for a multi-class classification problem, we might use the entropy of the vector of predicted class probabilities as a feature, and q̂ might be a one-dimensional isotonic regression that predicts top-1 accuracy as a function of entropy.
+30	24	Here and elsewhere, we distinguish between an algorithm’s parameters and its input variables.
+31	6	Specifying values for the parameters defines a function of the input variables, for example ConfidentModel(·; p, q̂, t) denotes the abstaining model based on prediction model p, accuracy model q̂, and threshold t. The accuracy model q̂ used in this approach is similar to the binary event forecaster used in the calibration scheme of Kuleshov and Liang (2015), and is interchangeable with it in the case where q(ŷ, y) ∈ {0, 1}.
+32	13	Algorithm 1 ConfidentModel(x; p, q̂, t) Parameters: prediction model p : X → Y , accuracy model q̂ : X → R, threshold t ∈ R Input: example x ∈ X return p(x) if q̂(x) ≥ t, else ⊥
+33	14	Having created a set of abstaining models, we must next select a sequence of abstaining models to use in our cascade.
+34	55	Our goal is to generate a cascade that minimizes average cost as measured on a validation set, subject to an accuracy constraint (e.g., requiring that overall accuracy match that of some existing reference model).
+35	42	We accomplish this using a greedy algorithm presented in §3.1.
+37	29	An accuracy constraint a(p,R) determines whether a prediction model p is sufficiently accurate on a set R ⊆ X × Y of labeled examples.
+41	52	§3.5 presents theoretical results about the performance of the greedy algorithm.
+44	8	As already mentioned, the goal of the algorithm is to produce a cascade that minimizes cost, subject to an accuracy constraint.
+45	26	The high-level idea of the algorithm is to find the abstaining model that maximizes the number of non-⊥ predictions per unit cost, considering only those abstaining models that satisfy the accuracy constraint on the subset of examples for which they return a prediction.
+46	19	We then remove from the validation set the examples on which this model returns a prediction, and apply the same greedy rule to choose the next abstaining model, continuing in this manner until no examples remain.
+48	9	Here and elsewhere, we use the shorthand mj:k to denote the sequence {mi}ki=j .

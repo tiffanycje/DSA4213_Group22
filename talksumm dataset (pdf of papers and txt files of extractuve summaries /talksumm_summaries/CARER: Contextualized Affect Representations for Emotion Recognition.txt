@@ -1,0 +1,30 @@
+0	30	Emotions reflect different users’ perspectives towards actions and events, therefore they are innately expressed in dynamic linguistic forms.
+1	36	Capturing these linguistic variations is challenging because it involves knowledge of linguistic phenomena such as slang and coded words.
+3	17	These methods construct features that rely on hand-crafted resources; thus, they cannot properly capture the evolving linguistic variability found in large-scale opinionated content.
+4	52	Consider the social posts “Thanks God for everything” and “Tnx mom for waaaaking me two hours early.
+13	19	Other advantages of the graph approach are that minimum domain knowledge and manual effort are required to capture important contextual and latent information, which are useful to disambiguate meaning in emotional expressions.
+17	24	Our main contributions are as follows: 1) A graph-based algorithm for automatic emotion-relevant feature extraction, 2) a set of emotion-rich feature representations enhanced through word embeddings, 3) and a comprehensive performance analysis of various con- ventional learning models and deep learning models used for text-based emotion recognition.
+18	47	The rest of the paper is organized as follows: Section 2 discusses the relevant literature and different aspects of emotion recognition research addressed in this work; then, Section 3 provides details of the proposed methodology for extracting contextualized emotion-relevant representations; next, Section 4 lists the constructed emotion recognition models and comparison models; later, Section 5 discusses the data collection and experimental results; and finally, Section 6 further explains key insights observed from the results.
+37	27	The structural descriptions offered by the graph are particularly efficient at automatically surfacing important information (i.e., contextual and latent information) from a large-scale emotion corpus.
+39	94	The patterns are further enriched using word embeddings so as to preserve semantic relationship between patterns.
+95	20	We use Ward’s method (Ward Jr, 1963) as the linkage criterion and cosine distance as the distance metric.
+97	23	Enriched-Pattern Construction: The purpose of the word clusters is to enrich the patterns by preserving the semantic relationship between them, which is useful for classification purposes.
+98	33	We achieve this by revising the universe of patterns obtained from the basic pattern extraction step, and check to see if the words represented by the sw component exist in any of the word embedding clusters.
+108	24	More details are provided in Appendix A. CARER: The proposed framework combines a multi-layer CNN architecture with a matrix form of the enriched patterns.
+109	33	The input X ∈ Rn×m denotes an embedding matrix where entry Xi,j represents the pattern score of enriched pattern i in emotion j.
+110	46	9 X is fed into two 1-D convolutional layers with filters of sizes 3 and 16.
+133	38	In the following section we evaluate the effectiveness of the enriched patterns on several emotion recognition tasks.
+135	29	Traditional Features: As shown in Table 4, TF-IDF models produce better results than basic count-based features for both character-level and word-level feature extractors.
+138	99	Both CARERβ and CARER, which use the enriched patterns, acquire better results than CNNBASIC and all the other conventional approaches.
+139	58	In fact, our method obtains the best F1-score on all eight emotions.
+150	32	Results with Deep Learning: We offer more comparison with other various deep learning models as evaluated on Ekman’s six basic emotions (i.e., sadness, disgust, anger, joy, surprise, and fear).
+162	18	For comparison, we obtained Chinese pre-trained word vectors computed through (Bojanowski et al., 2017), and trained a model (fastTextch) using the proposed CNN architecture.
+171	23	This model performs comparable to CARERβ (average F1-score of 65%), and it has the benefit of faster training time, making it suitable for the aforementioned experiment.
+184	51	Emotionrelevant verbs, such as “want” and “going” are also considered important context that help to convey and interpret emotion.
+187	25	The contextualized affect representations are further enriched with word embeddings and are used to train several deep learning-based emotion recognition models.
+190	46	For instance, short text is a challenging problem in emotion recognition and various natural language tasks; the proposed contextualized patterns show promising results in addressing this issue by helping the models to capture nuanced information which is useful to determine the overall emotion expressed in a piece of text.
+191	19	The proposed method paves the way for building more interpretable emotion recognition systems which have various implications when investigating human behavioural data (Saravia et al., 2015, 2016b; Chang et al., 2016) and building empathy-aware conversational agents.
+192	32	In the future work, we aim to investigate the graph-based patterns more in-depth and provide a more comprehensive and advanced theoretical discussion of how they are constructed.
+193	22	We also hope to keep improving the pattern weighting mechanism so as to improve the overall performance on emotion recognition tasks and minimize trade-off between pattern coverage and performance.
+194	51	We plan to employ transfer learning methods with the proposed enriched patterns and test on other emotion-related problems such as sentiment classification and sarcasm detection.
+195	31	The proposed methodology is also being expanded to support Spanish and Japanese emotion recognition tasks.

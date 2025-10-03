@@ -1,0 +1,30 @@
+0	23	Knowledge Graphs (KGs) are extremely useful resources for many AI-related applications, such as question answering, information retrieval and query expansion.
+1	18	Indeed, KGs are multi-relational directed graphs composed of entities as nodes and relations as edges.
+2	31	They represent information about real-world entities and relations in the form of knowledge triples, which is denoted as (h, r, t), where h and t correspond to the head and tail entities and r denotes the relation between them, e.g., (Donald Trump, presidentOf, USA).
+3	14	Large scale, collaboratively created KGs , such as Freebase (Bollacker et al., 2008), WordNet (Miller, 1994), Yago (Suchanek et al., 2007), Gene Ontology (Sherlock, 2009), NELL (Carlson et al., 2010) and Google’s KG1, have recently become available.
+5	19	This has motivated research in knowledge base completion task, which includes KGE methods aiming to embed entities and relations in KGs into low-dimensional embeddings.
+6	27	In the literature, there are a number of studies about KGE models.
+11	24	• Relation clusters: Semantically similar relations are often observed in Large-scales KGs.
+12	13	For example, the relation ’producerOf’ and ’directorOf’ may be semantically related if both of them describe a relation between a person and a film.
+17	47	For example, the relation partOf has at least two semantics: location-related as (New Y ork, partOf , USA) and composition-related as (monitor, partOf , television).
+25	16	In summary, we highlight our key contributions as follows, 1.
+39	61	TransH models the relation as a vector r on a hyperplane wr and assumes that h⊥ + r ≈ t⊥ when (h, r, t) holds, where h⊥ and t⊥ are the projection of h and t in the relationspecific hyperplane.
+67	13	In general, relations in KGs conform to a three-layer HRS, as shown in Figure 1.
+69	33	For a triple (h, r, t) in the HRS model, the embedding of r is comprised of three parts: the relation cluster embedding rc, relation-specific embedding r′ and sub-relation embedding rs, which is denotes as r = rc + r ′ + rs.
+71	15	The relation clusters and subrelations are determined by k-means algorithm based on the results of TransE: • Relation clusters.
+77	22	TransE assumes that t − h ≈ r when (h, r, t) holds.
+80	48	The loss of the extended HRS model is comprised of two parts, as is shown in Equation (5), LTotal = LOrig + LHRS , (5) where LOrig is the loss function of the original model, while LHRS is the loss function for the HRS information.
+95	11	For the extended models of TransH and DistMult, we initialize these parameters with the results of TransE.
+100	12	FB15k-237 and WN18 are used for the task of link prediction, FB13 and WN11 are used for the triple classification task, while FB15k is used for both tasks.
+101	16	The statistics of the five data sets are summarized in Table 1.
+114	17	For all the above models, the learning rate ς , batch size b and embedding size k are set as ς = 1e − 3, b = 4096, k = 100.
+134	28	In this case, the information learned from the top to the middle layer of the HRS may lead to worse results since for each relation, even though the information learned from semantically similar relations are useful, the information learned from unrelated relations may damage the results.
+139	21	We also provide some case studies on relation clusters and sub-relations.
+148	26	In this section, we study the performance affected by the number of relation clusters N1 as well as the number of sub-relations for each relation N2.
+149	17	The results in Figure 2 and 3 clearly show that there exists an optimal value of N1 and N2 for each dataset.
+156	17	In order to testify the discriminative capability of our models, we conduct a triple classification task aiming to predict the label (True or False) of a given triple (h, r, t).
+157	14	In this paper, we use three datasets WN11, FB13 and FB15k to evaluate our models.
+174	19	We can see that extended models significantly improve the original models in each relation classification task, which again validate the effectiveness of our models.
+177	16	The technique we used can be easily applied to extend other KGE models.
+180	43	The results show that our extended models achieve substantial improvements against the original models as well as other baseline competitors.
+181	89	In the future, we will utilize more sophisticated models to leverage the HRS information, e.g, (1) utilize the embeddings of the three layers in a more sophisticated way instead of sum them together; (2) determine the number of relation clusters and sub-relations automatically instead of manually.

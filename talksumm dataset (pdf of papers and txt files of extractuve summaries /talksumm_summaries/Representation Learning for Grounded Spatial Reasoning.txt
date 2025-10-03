@@ -1,0 +1,30 @@
+6	22	The optimal path from a common start position, denoted by a white dashed line, varies considerably with changes in the map layout.
+7	25	In this paper, we explore the problem of spatial reasoning in the context of interactive worlds.
+8	72	Specifically, we assume access to a simulated environment, in which an agent can take actions to interact with the world and is rewarded for reaching the location specified by the language instruction.
+10	49	The key modeling task here is to induce a representation that closely ties environment observations and linguistic expressions.
+59	21	(b) Text specifying a location using a single referent entity (e.g., “Reach the cell above the westernmost rock”).
+66	37	For example, in the case of (a) above, a local reference would describe a unique object3 (e.g., “Go to the circle”), whereas a global reference might require comparing the positions of all objects of a specific type (e.g., “Go to the northernmost tree”).
+70	59	Schaul et al. (2015) proposed a value function V (s, g) describing the expected reward from being in state s given goal g, capturing that state values are goal-dependent and that a single environment can offer many such goals.
+75	40	Second, it must be compositional; the representation of language should be generalizable even though each unique instruction will only be observed with a single map during training.
+77	41	To that end, our model combines the textual instructions with the map in a spatially localized manner, as opposed to prior work which joins goal representations and environment observations via simpler functions like an inner product (Schaul et al., 2015).
+86	24	The axis-aligned gradients are weighted by the elements of h1(x) and summed to give a final global gradient spanning the entire 2D space, analogous to how steerable filters can be constructed for any orientation using a small set of basis filters (Freeman and Adelson, 1991): (4)z2 = h1(x)[1] ·G1+h1(x)[2] ·G2+h1(x)[3] ·J in which J is the all-ones matrix also of the same dimensionality as the observed map.
+88	48	Reinforcement Learning Given our model’s V̂ (s, x) predictions, the resulting policy (Equation 2) can be enacted, giving a continuous trajectory of states {st, st+1, .
+91	27	The model is trained to produce an accurate value estimate by minimizing the following objective: (6) L(Θ) = Es∼D [ V̂ (s, x; Θ)− ( R(s, x) + γmax a ∑ s′ T (s′|s, a)V̂ (s′, x; Θ−) )]2 where s is a state sampled from D, γ is the discount factor, Θ is the set of parameters of the entire model, and Θ− is the set of parameters of a target network copied periodically from our model.
+93	22	Puddle world navigation data In order to study generalization across a wide variety of environmental conditions and linguistic inputs, we develop an extension of the puddle world reinforcement learning benchmark (Sutton, 1996; Mankowitz et al., 2016).
+95	39	We then populate the grass region with six unique objects which appear only once per map (triangle, star, diamond, circle, heart, and spade) and four non-unique objects (rock, tree, horse, and house) which can appear any number of times on a given map.
+106	112	It is plausible that a model designed to handle only local references could not handle global ones (consider our own model without the global gradient maps).
+118	39	As our goals are not observed directly but described in text, we replace the goal MLP with the same LSTM as in our model.
+141	26	Policy quality is normalized such that an optimal policy has a score of 1 and a uniform random policy has a score of 0.
+142	28	Intuitively, policy quality is the true normalized expectation of score over all maps in the dataset, instructions per map, and start states per map-instruction pair.
+146	23	Finally, given the nature of our environments, we can use the predicted value maps to infer a goal location by taking the position of the maximum value.
+148	48	The accuracy of our model’s goal predictions is more than twice that of the baselines on local references and roughly 45% better on global references.
+152	95	We also note that UVFA (pos) performs much worse than both CNN+LSTM and our model, showing the difficulty of environment generalization even when the goals are observed directly.
+160	40	In the first map (top), we have both instructions referring to the same location.
+162	27	On the vertical axis, we observe generalization across different maps with the same instructions.
+163	31	Our model is able to precisely identify the goals in each scenario in spite of significant variation in their locations.
+164	161	This proves harder for the other representations.
+165	30	Although our model is compositional in the sense that it transfers knowledge of spatial references between different environments, some types of instructions do prove challenging.
+167	167	We see that multiple levels of indirection (as in 7a, which references a location relative to an object relative to another object) or unnecessarily long instructions (as in 7b, which uniquely identifies a position by the eighth token but then proceeds with redundant information) are still a challenge.
+171	56	We also evaluate our model on the ISI Language Grounding dataset (Bisk et al., 2016), which contains human-annotated instructions describing how to arrange blocks identified by numbers and logos.
+174	39	For a policy to be derived from a value map with the same dimension as the state observation, it is implicitly assumed that there is a single controllable agent, whereas the ISI set allows multiple blocks to be moved.
+179	24	Our model outperforms both baselines by a greater margin in policy quality than on our own dataset.

@@ -1,0 +1,30 @@
+0	44	Aspect level sentiment classification is a fundamental task in the field of sentiment analysis (Pang and Lee, 2008; Liu, 2012; Pontiki et al., 2014).
+1	17	Given a sentence and an aspect occurring in the sentence, this task aims at inferring the sentiment polarity (e.g. positive, negative, neutral) of the aspect.
+2	53	For example, in sentence “great food but the service was dreadful!”, the sentiment polarity of aspect “food” is positive while the polarity of aspect “service” is ∗ Corresponding author.
+4	27	Representative approaches in literature include feature based Support Vector Machine (Kiritchenko et al., 2014; Wagner et al., 2014) and neural network models (Dong et al., 2014; Lakkaraju et al., 2014; Vo and Zhang, 2015; Nguyen and Shirai, 2015; Tang et al., 2015a).
+5	21	Neural models are of growing interest for their capacity to learn text representation from data without careful engineering of features, and to capture semantic relations between aspect and context words in a more scalable way than feature based SVM.
+12	22	214 In pursuit of this goal, we develop deep memory network for aspect level sentiment classification, which is inspired by the recent success of computational models with attention mechanism and explicit memory (Graves et al., 2014; Bahdanau et al., 2015; Sukhbaatar et al., 2015).
+15	24	Each layer is a content- and location- based attention model, which first learns the importance/weight of each context word and then utilizes this information to calculate continuous text representation.
+16	16	The text representation in the last layer is regarded as the feature for sentiment classification.
+29	22	Given a list of sentences and a question, the task aims to find evidences from these sentences and generate an answer, e.g. a word.
+42	15	Given a sentence s = {w1, w2, ..., wi, ...wn} consisting of n words and an aspect word wi 1 occurring in sentence s, aspect level sentiment classification aims at determining the sentiment polarity of sentence s towards the aspect wi.
+53	26	Context word vectors {e1, e2 ... ei−1, ei+1 ... en} are stacked and regarded as the external memory m ∈ Rd×(n−1), where n is the sentence length.
+56	20	In the first computational layer (hop 1), we regard aspect vector as the input to adaptively select important evidences from memory m through attention layer.
+70	20	The output vector is computed as a weighted sum of each piece of memory in m, namely vec = k∑ i=1 αimi (1) where k is the memory size, αi ∈ [0, 1] is the weight of mi and ∑ i αi = 1.
+80	22	Such location information is helpful for an attention model because intuitively a context word closer to the aspect should be more important than a farther one.
+81	17	In this work, we define the location of a context word as its absolute distance with the aspect in the original sentence sequence3.
+91	20	We feed location vector vi to a sigmoid function σ, and calculatemi with element-wise multiplication: mi = ei σ(vi) (8)
+102	22	We randomize other parameters with uniform distribution U(−0.01, 0.01), and set the learning rate as 0.01.
+123	18	We can find that feature-based SVM is an extremely strong performer and substantially outperforms other baseline methods, which demonstrates the importance of a powerful feature representation for aspect level sentiment classification.
+124	14	Among three recurrent models, TDLSTM performs better than LSTM, which indicates that taking into account of the aspect information is helpful.
+131	32	Among all our models from single hop to nine hops, we can observe that using more computational layers could generally lead to better performance, especially when the number of hops is less than six.
+136	21	The training time of each iteration on the restaurant dataset is given in Table 3.
+149	25	We also find that Model 4 is very sensitive to the choice of neural gate.
+151	14	We visualize the attention weight of each context word to get a better understanding of the deep memory network approach.
+153	16	From Table 4(a), we can find that in the first hop the context words “great”, “but” and “dreadful” contribute equally to the aspect “service”.
+154	14	While after the second hop, the weight of “dreadful” increases and finally the model correctly predict the polarity towards “service” as negative.
+157	16	As a result, the model incorrectly predicts the polarity towards “food” as negative.
+161	39	We believe that location-enhanced model captures both content and location information.
+163	15	We carry out an error analysis of our location enhanced model (Model 2) on the restaurant dataset, and find that most of the errors could be summarized as follows.
+168	95	The second factor is complex aspect expression consisting of many words, such as “ask for the round corner table next to the large window.” This model represents an aspect expression by averaging its constituting word vectors, which could not well handle this situation.
+178	119	Experts could design effective feature templates and make use of external resources like parser and sentiment lexicons (Kiritchenko et al., 2014; Wagner et al., 2014).

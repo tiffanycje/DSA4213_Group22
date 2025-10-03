@@ -1,0 +1,30 @@
+0	11	Optimization is one of the fundamental pillars of modern machine learning.
+1	44	Considering that most modern machine learning methods involve the solution of some optimization problem, it is not surprising that many recent breakthroughs in this area have been on the back of more effective techniques for optimization.
+2	8	A case in point is deep learning, whose rise has been mirrored by the development of numerous techniques like batch normalization.
+4	17	During the last decade, Bayesian optimization has emerged as a popular approach for optimizing black-box functions.
+6	10	In the past, these two problems have been addressed by assuming a simpler underlying structure of the black-box function.
+7	13	For instance, Djolonga et al. (2013) assume that the function being optimized has a low-dimensional effective subspace, and learn this subspace via low-rank matrix recovery.
+9	35	The subspace decomposition can be partially optimized by searching possible decompositions and choosing the one with the highest GP marginal likelihood (treating the decomposition as a hyper-parameter of the GP).
+11	47	Li et al. (2016) extended (Kandasamy et al., 2015) to functions with a projected-additive structure, and approximate the projective matrix via projection pursuit with the assumption that the projected subspaces have the same and known dimensions.
+12	11	The aforementioned approaches share the computational challenge of learning the groups of decomposed subspaces without assuming the dimensions of the subspaces are known.
+15	24	In this paper, we develop a new formulation of Bayesian optimization specialized for high dimensions.
+18	10	Prior work on latent decomposition of the feature space considers the setting where exploration/evaluation is performed once at a time.
+19	30	This approach makes Bayesian optimization time-consuming for problems where a large number of function evaluations need to be made, which is the case for high dimensional problems.
+22	42	In the past half century, a series of different acquisition functions was developed for sequential BO in relatively low dimensions (Kushner, 1964; Moc̆kus, 1974; Srinivas et al., 2012; Hennig & Schuler, 2012; Hernández-Lobato et al., 2014; Kawaguchi et al., 2015; Wang et al., 2016a; Kawaguchi et al., 2016; Wang & Jegelka, 2017).
+23	50	More recent developments address high dimensional BO by making assumptions on the latent structure of the function to be optimized, such as lowdimensional structure (Wang et al., 2016b; Djolonga et al., 2013) or additive structure of the function (Li et al., 2016; Kandasamy et al., 2015).
+26	32	For example, the UCB-PE algorithm (Contal et al., 2013) exploits that the posterior variance of a Gaussian Process is independent of the function mean.
+28	10	Similarly, B-UCB (Desautels et al., 2014) greedily chooses points with the highest UCB score computed via the out-dated function mean but up-to-date function variances.
+47	13	We take a Bayesian view on the task of learning the latent structure of the GP kernel.
+50	52	Each dimension j is assigned to one out of M groups via the decomposition assignment variable zj ∼ MULTI(θ).
+54	8	Given the observed data Dn = {(xt, yt)}nt=1, we obtain a posterior distribution over possible decompositions z (and mixing proportions θ) that we will include later in the BO process: p(z, θ | Dn;α) ∝ p(Dn | z)p(z | θ)p(θ;α).
+57	10	The Gibbs sampler repeatedly draws coordinate assignments zj according to p(zj = m | z¬j ,Dn; α) ∝ p(Dn | z)p(zj | z¬j) ∝ p(Dn | z)(|Am|+ αm) ∝ eφm , where φm = − 1 2 yT(K(zj=m)n + σ 2I)−1y − 1 2 log |K(zj=m)n + σ2I|+ log(|Am|+ αm) and K(zj=m)n is the gram matrix associated with the observations Dn by setting zj = m. We can use the Gumbel trick to efficiently sample from this categorical distribution.
+65	39	For batch selection (2), we need an efficient strategy that enourages observations that are both informative and non-redundant.
+68	23	For example, if each dimension has a finite number of possible values1, the cost of sampling batch points via a Determinantal Point Process (DPP), as proposed in (Kathuria et al., 2016), grows exponentially with the number of dimensions.
+69	37	The same obstacle arises with the approach by Contal et al. (2013), where points are selected greedily.
+92	15	We set both the acquisition function and quality function ψ(m)t to be (f (m) t ) + for group m at time t. To ensure that we select points with high acquisition function values, we follow (Contal et al., 2013; Kathuria et al., 2016) and define a relevance region R(m)t for each group m as R(m)t = {x ∈ Xm | µ (m) t−1(x) + 2 √ β (m) t+1σ (m) t−1(x) ≥ (y (m) t ) • } , where (y(m)t ) • = maxx(m)∈Xm(f (m) t ) −(x(m)).
+114	24	We compare Add-GP-UCB with known additive structure (Known), no partitions (NP), fully partitioned with one dimension for each group (FP) and the following methods of learning the decomposition: Gibbs sampling (Gibbs), randomly sampling the same number of decompositions sampled by Gibbs and select the one with the highest data likelihood (PL-1), randomly sampling 5 decompositions and selecting the one with the highest data likelihood (PL-2).
+120	28	3 (c) of (Kandasamy et al., 2015), where different decompositions than the ground truth may give better simple regret.
+133	45	We use add-GP-UCB with different ways of setting the additive structure to tune the parameters for the robot hand so as to push the object closer to the goal.
+137	26	Next, we probe the effectiveness of batch BO in high dimensions.
+138	12	In particular, we compare variants of the AddUCB-DPP-BBO approach outlined in Section 4, and a baseline: • Rand: All batch points are chosen uniformly at random from X .
+140	61	Exploration is done via PE or DPP with posterior covariance kernels for each group.

@@ -1,0 +1,30 @@
+12	64	Together, these problems suggest the need for an incremental dialogue act segmentation capability in which a continuous stream of captured user speech, including the intermittent pauses therein, is incrementally segmented into appropriate DA units for interpretation.
+15	41	When played by human players, as in Figure 1, the game creates a variety of fast-paced interaction patterns, such as question-answer exchanges.
+16	36	Our motivation is to eventually enable a future version of our automated RDG-Image agent (Paetzel et al., 2015) to participate in the most common interaction patterns in human-human gameplay.
+17	89	For example, in Figure 1, two fast-paced question-answer exchanges arise as the director D is describing the target image.
+18	97	In the first, the matcher M asks brown...brown seat?
+24	36	Second, we explore the performance of our approach using both existing and new performance metrics for DA segmentation.
+28	62	Third, while much of the prior work on DA segmentation has been corpus-based, we report here on an initial integration of our incremental DA segmenter into an implemented, high-performance agent for the RDG-Image game.
+38	35	Our work in this paper is based on the RDG-Image game (Paetzel et al., 2014), a collaborative, time constrained, fast-paced game with two players depicted in Figure 1.
+39	55	One player is assigned the role of director and the other the role of matcher.
+46	18	To support the experiments in this paper, a single annotator segmented and annotated the main game rounds from our lab-based RDG-Image corpus with a set of DA tags.2 The corpus includes gameplay between 64 participants (32 pairs, age: M = 35, SD = 12, gender: 55% female).
+54	34	Our DA label set includes Positive Feedback (PFB), Describe Target (D-T), Self-Talk (ST), Yes-No Question (Q-YN), Echo Confirmation (EC), Assert Identified (As-I), and Assert Skip (As-S).
+56	17	The complete list of 18 DA labels and their distribution are included in Tables 9 and 10 in the appendix.
+58	21	Summary statistics for the annotated corpus are as follows.
+60	30	The mean number of DAs per speech segment is 1.39.
+64	51	4% of DAs contain an internal pause and thus span multiple speech segments.
+68	41	We use Kaldi for ASR, and we adapt the work of Plátek and Jurčı́ček (2014) for incremental ASR using Kaldi.
+70	47	The input to the pipeline includes all the recognized speech from one speaker (including multiple IPUs) for one target image subdialogue.
+72	48	The segmenter tags each word as either the beginning (B) of a new DA segment or as a continuation of the current DA segment (I).3 Then, each resulting DA segment is classified into one of 18 DA labels using an SVM (Support Vector Machine) classifier implemented in Weka (Hall et al., 2009).
+74	40	The alignment between words and computed prosodic features is achieved using a forced aligner (Baumann and Schlangen, 2012) to generate wordlevel timing information.
+88	30	Another feature is added to assist with the Echo Confirmation (EC) DA, which applies when a speaker repeats verbatim a phrase recently spoken by the other interlocutor.
+95	28	In the second experiment, presented in Section 5.3, we report on a policy simulation that investigates the effect of our incremental DA segmentation pipeline on a baseline automated agent’s performance.
+96	74	For the first experiment, we use a hold-one-pairout cross-validation setup where, for each fold, the dialogue between one pair of players is held out for testing, while automated models are trained on the other pairs.
+100	43	Our reference annotation, described in Section 3.1, is notated HT-HS-HD (human transcript, human segment boundaries, human DA labels).
+133	40	DA multiset precision and recall metrics When ASR is used, the CER and LevenshteinLenient metrics give an indication of how well you are doing at replicating the ordered sequence of DA tags.
+157	19	The baseline agent’s design focuses on the most common DA types in our RDG-Image corpora: D-T for the director (constituting 60% of director DAs), and As-I for the matcher (constituting 46% of matcher DAs).
+162	17	For example, for the fully automated condition AT-AS-AD in Table 7, D-T has precision 0.79 and recall 0.88.
+171	44	We then compare the performance of our baseline and modified agent in a cross-validation setup, using an Eavesdropper simulation to train and test the agents.
+178	33	These encouraging results suggest that our incremental DA segmenter achieves a performance level that is sufficient for it to be integrated into our agent, enabling the incremental segmentation of other DA types without significantly compromising (or improving) the agent’s current performance level.
+181	19	In future work, the fully automated pipeline presented here will enable us to expand the agent’s dialogue policies to support additional patterns of interaction beyond its current skillset.
+183	123	By segmenting out and understanding the Q-YN got it?, the agent would be able to detect the question and answer with an A-Y like yeah.

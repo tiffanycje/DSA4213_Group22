@@ -1,0 +1,26 @@
+5	25	Problems like OCR that require joint processing of image and text data have recently seen increased research interest due to the refinement of deep neural models in these two domains.
+6	43	For instance, advances have been made in the areas of handwriting recognition (Ciresan et al., 2010), OCR in natural scenes (Jaderberg et al., 2015; 2016; Wang et al., 2012) and image caption generation (Karpathy & FeiFei, 2015; Vinyals et al., 2015).
+7	11	At a high-level, each of these systems learn an abstract encoded representation of the input image which is then decoded to generate a textual output.
+8	15	In addition to performing quite well on standard tasks, these models are entirely data driven, which makes them adaptable to a wide range of datasets without requiring heavy preprocessing or domain specific engineering.
+10	8	Second, the image captioning task theoretically allows for systems to focus their attention anywhere, and thus does not directly test a system’s ability to maintain consistent tracking with its attention.
+11	37	In this work, we explore the use of attention-based imageto-text models (Xu et al., 2015) for the problem of generating structured markup.
+13	4	Our model incorporates a multi-layer convolutional network over the image with an attention-based recurrent neural network decoder.
+15	23	Our modeling contributions are twofold.
+16	47	First, we show that assumptions like the left-to-right ordering inherent in CTC-based models are not required for neural OCR, since general-purpose encoders can provide the necessary track- ing for accurate attention (example shown in Figure 1).
+22	85	Experiments compare the output of the model with several research and commercial baselines, as well as ablations of these models.
+23	6	The full system for mathematical expression generation is able to reproduce the same image on more than 75% of real-world test examples.
+24	31	Additionally, the use of a multi-row encoder leads to a significant increase in performance.
+25	16	We also experiment with training on a simulated handwritten version of the dataset to recognize handwritten textual expressions.
+26	135	Even with only a small in-domain training set, the model is able to produce over 30% exact match output.
+27	91	All data, models, and evaluation scripts are publicly available at http: //lstm.seas.harvard.edu/latex/.
+28	20	We define the image-to-markup problem as converting a rendered source image to target presentational markup that fully describes both its content and layout.
+32	25	In practice this function may be quite complicated, e.g a browser, or ill-specified, e.g. the LaTeX language.
+33	17	The supervised task is to learn to approximately invert the compile function using supervised examples of its behavior.
+34	7	We assume that we are given instances (x,y), with possibly differing dimensions and that, compile(y) ≈ x, for all training pairs (x,y) (assuming possible noise).
+35	15	At test time, the system is given a raw input x rendered from ground-truth y.
+36	5	It generates a hypothesis ŷ that can then be rendered by the black-box function x̂ = compile(ŷ).
+37	5	Evaluation is done between x̂ and x, i.e. the aim is to produce similar rendered images while ŷ may or may not be similar to the ground-truth markup y.
+38	8	Contrary to most past work on neural OCR, our model uses a full grid encoder over the input image, so that it can support non left-to-right order in the generated markup.
+40	7	Notably, though, our model also includes a row encoder which helps the performance of the system.
+42	8	Each row is then encoded using a recurrent neural network (RNN).
+44	21	The decoder implements a conditional language model over the vocabulary, and the whole model is trained to maximize the likelihood of the observed markup.

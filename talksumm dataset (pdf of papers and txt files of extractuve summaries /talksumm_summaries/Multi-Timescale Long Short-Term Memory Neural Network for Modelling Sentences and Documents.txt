@@ -1,0 +1,30 @@
+25	38	Most of these models for distributed representations of sentences or documents can be classified into four categories.
+33	15	Topological models Topological models compose the sentence representation following a given topological structure over the words (Socher et al., 2011a; Socher et al., 2012; Socher et al., 2013).
+34	13	Recursive neural network (RecNN) adopts a more general structure to encode sentence (Pollack, 1990; Socher et al., 2013).
+39	85	Convolutional models Convolutional neural network (CNN) is also used to model sentences (Collobert et al., 2011; Kalchbrenner et al., 2014; Hu et al., 2014).
+40	17	It takes as input the embeddings of words in the sentence aligned sequentially, and summarizes the meaning of a sentence through layers of convolution and pooling, until reaching a fixed length vectorial representation in the final layer.
+47	14	Long short-term memory network (LSTM) was proposed by (Hochreiter and Schmidhuber, 1997) to specifically address this issue of learning longterm dependencies.
+57	13	In particular, these gates and the memory cell allow a LSTM unit to adaptively forget, memorize and expose the memory content.
+60	75	h1 h2 h3 h4 · · · hT softmax x1 x2 x3 x4 xT y (a) Unfolded LSTM LSTM can capture the long-term and short-term dependencies in a sequence.
+62	46	Some important information could be lost in transmission process for long texts, such as documents.
+63	24	Besides, the error signal is back-propagated through multiple time steps when we use the back-propagation through time (BPTT) (Werbos, 1990) algorithm.
+66	16	Inspired by the works of (El Hihi and Bengio, 1995) and (Koutnik et al., 2014), which use de- layed connections and units operating at different timescales to improve the simple RNN, we separate the LSTM units into several groups.
+67	8	Different groups capture different timescales dependencies.
+68	12	More formally, the LSTM units are partitioned into g groups {G1, · · · , Gg}.
+69	25	Each group Gk, (1 ≤ k ≤ g) is activated at different time periods Tk.
+70	16	Accordingly, the gates and weight matrices are also partitioned to maintain the corresponding LSTM groups.
+71	9	The MT-LSTM with just one group is the same to the standard LSTM.
+74	14	Here, we use the exponential series of periods: group Gk has the period of Tk = 2k−1.
+85	41	Therefore, we firstly define a fast to slow strategy, which updates the slower group using the faster group.
+89	15	Slow-to-Fast (S2F) Strategy Following the work of (Koutnik et al., 2014), we also investigate another update scheme from slow-speed group to fast-speed group.
+99	24	Thus, the slowest group is activated at least twice.
+104	17	The only difference is that the error propagates only from groups that were executed at time step t. The error of nonactivated groups gets copied back in time (similarly to copying the activations of nodes not activated at the time step t during the corresponding forward pass), where it is added to the backpropagated error.
+124	9	• PV Logistic regression on top of paragraph vectors (Le and Mikolov, 2014).
+135	13	The final hyper-parameters for the LSTM andMTLSTM are set as Figure 2.
+172	18	We sample three sentences from the SST-2 test dataset, and the dynamical changes of the predicted sentiment score over time are shown in Figure 6.
+175	12	Although the word “progress” is positive, our model can adjust the sentiment correctly after seeing the question mark “?”, and finally gets a correct prediction.
+187	21	MT-LSTM can well model both short and long texts.
+188	43	With the multiple different timescale memories.
+189	60	Intuitively, MTLSTM easily carries the crucial information over a long distance.
+190	78	Another advantage of MT-LSTM is that the training speed is faster than the standard LSTM (approximately three times faster in practice).
+191	150	In future work, we would like to investigate the other feedback mechanism between the short-term and long-term memories.

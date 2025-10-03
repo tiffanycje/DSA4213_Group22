@@ -1,0 +1,30 @@
+18	8	We also introduce a new optimization: heuristic backtracking with cutoff.
+22	54	In (Dyer et al., 2015), the stack and the buffer are encoded with Stack-LSTMs, and a third sequence with the history of actions taken by the parser is encoded with another Stack-LSTM.
+23	47	The three encoded sequences form the parser state pt defined as follows, pt = max {0,W[st;bt;at] + d} , (1) whereW is a learned parameter matrix, bt, st and at are the stack LSTM encoding of buffer, stack and the history of actions, and d is a bias term.
+25	99	The set A(S,B) represents the valid transition actions that may be taken in the current state.
+26	15	The objective function is: Lθ(w, z) = |z|∑ t=1 log p(zt | pt) (3) where z refers to parse transitions.
+27	74	Using the Stack-LSTM parsing model of Dyer et al. (2015) to predict each decision greedily yields very high accuracy; however, it can only explore one path, and it therefore can be improved by conducting a larger search over the space of possible parses.
+45	10	Here, let un indicate the ranking of the transition leading to the first unexplored child of a node n. Also, let V (n) represent the total score of all nodes in the history of n, i.e. the sum of all the scores of individual transitions that allowed us to get to n. To calculate the confidence of an individual node, Choi and McCallum (2013) simply found the score margin, or difference in probability between the topscoring transition and the second-highest scoring transition: C(n) = S1(n) − S2(n).
+46	48	In selectional branching, the only states for which the confidence was relevant were the states in the first greedy parse, i.e. states n1i for all i.
+47	15	For heuristic backtracking, we wish to generalize this to any state nji for all i and j.
+48	78	We do this in the following way: H(nji ) = (V (n 1 i )− V (nji )) + (S(u n j i )−1(n j i ) + S(u n j i )(n j i )) (4) Intuitively, this formula means that the node that will be explored first is the node that will yield a parse that scores as close to the greedy choice as possible.
+49	30	The first term ensures that it has a history of good choices, and the second term ensures that the new child node being explored will be nearly as good as the prior child.
+50	74	As discussed earlier, we use number of predictions made by the model as a proxy for the speed; execution speed may vary based on system and algorithmic implementation, but prediction count gives a good estimate of the overall work done by the algorithm.
+52	128	The number of predictions required for heuristic backtracking for b leaves is guaranteed to be less than or equal to a beam search with b beams.
+60	56	Assuming that all parts of a sentence have approximately equal score distributions, the average backtrack will be where i = l, and reduce predictions by 50%.
+61	18	An intuitive understanding of this difference can be gained by viewing the graphs of various decoding methods in Figure 1.
+62	13	Beam search has many nodes which never yield children that reach an end-state; dynamic beam search has fewer, but still several.
+63	27	Selectional branching has none, but suffers from the restriction that every parse candidate can be no more than one decision away from the greedy parse.
+65	29	Another inefficiency inherent to beam search is the fact that all b beams are always fully explored.
+67	23	However, with heuristic backtracking, the beams are calculated incrementally; this gives us the opportunity to cut off our search at any point.
+69	20	The cutoff model uses a single Stack-LSTM2 that takes as input the sequence of parser states (see Eq 1), and outputs a boolean variable predicting whether the entire parse is correct or incorrect.
+70	8	To train the cutoff model, we used stochastic gradient descent over the training set.
+72	7	Then, for as long as the parse has at least one mistake, we pass it to the cutoff model as a negative training example.
+80	10	We then try heuristic backtracking (see Section 3.1), and heuristic backtracking with cutoff (see Section 3.4).
+84	19	Each decoding technique was tested with varying numbers of beams; as b increased, both the predictions per sentence and accuracy trended upwards.
+86	27	We also report the results of the cutoff model in Table 2.
+88	59	In Table 1 we see that in both English and Chinese, the best heuristic backtracking performs approximately as well as the best beam search, while making less than half the predictions.
+89	17	This supports our hypothesis that heuristic backtracking can perform at the same level as beam search, but with increased efficiency.
+90	19	Dynamic beam search also performed as well as full beam search, despite demonstrating a reduction in predictions on par with that of heuristic backtracking.
+91	22	Since the implementation of dynamic beam search is very straightforward for systems which have already implemented beam search, we believe this will prove to be a useful finding.
+93	9	However, it increased accuracy slightly less than full heuristic backtracking.

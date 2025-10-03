@@ -1,0 +1,30 @@
+0	92	Entity Linking (EL) is the task of mapping mentions of an entity in text to the corresponding entity in Knowledge Graph (KG) (Hoffart et al., 2011; Dong et al., 2014; Chisholm and Hachey, 2015).
+1	32	EL systems primarily exploit two types of information: (1) similarity of the mention to the candidate entity string, and (2) coherence between the candidate entity and other entities mentioned in the vicinity of the mention in text.
+2	26	Coherence essentially measures how well the candidate entity is connected, either directly or indirectly, with other KG entities mentioned in the vicinity (Milne and Witten, 2008; Globerson et al., 2016).
+3	44	In the state- of-the-art EL system by (Yamada et al., 2016), coherence is measured as distance between embeddings of entities.
+6	15	This sentence has two mentions: Andrei Broder and WWW.
+8	23	Using a conventional EL system, the first mention Andrei Broder1 can be easily linked to Andrei Broder using string similarity between the mention and candidate entity strings.
+10	53	However, the second mention 1844 WWW has two candidates, World Wide Web and WWW conference, and hence is ambiguous.
+11	32	In such cases, coherence measure between the candidate entity and other unambiguously linked entity(ies) is used for disambiguation.
+12	38	State-of-the-art EL systems measure coherence as similarity between embeddings of entities.
+16	13	This leads to poor performance3 whereby WWW is erroneously linked to World Wide Web instead of linking to WWW conference.
+17	27	In this paper, we propose ELDEN, an EL system which increases nodes and edges of the KG by using information available on the web about entities and pseudo entities.
+19	12	Thus ELDEN uses a web corpus to find pseudo entities and refines the cooccurrences with Pointwise Mutual Information (PMI) (Church and Hanks, 1989) measure.
+20	65	ELDEN then adds edges to the entity from pseudo entities.
+22	16	So ELDEN adds edges from Program Committee to Andrei Broder and WWW conference, densifying neighborhood of the entities.
+52	35	In this section, we present a few definitions and formulate the EL problem.
+53	27	Knowledge Graph (KG): A Knowledge Graph is defined as G = (E,F ) with entities E as nodes and F as edges.
+55	14	ELDEN ultimately uses a densified version of this Wikipedia KG, as described in Section 4.
+61	14	β is a variable controlling inclusion of ψ in the assignment Λ.
+79	29	Even though this is a simple change, this results in improved EL performance.
+80	19	The method performs well even for sparsely connected entities.
+81	26	Overview : Overview of the ELDEN system is shown in Figure 2.
+85	10	Notation used is summarized in Table 1.
+88	29	There are no edges common between Andrei Broder and WWW conference.
+94	12	ELDEN processes Wikipedia text corpus and identifies phrases (unigrams and bi-grams) that occur frequently, i.e. more than 10 times in it.
+95	11	We denote these phrases as pseudo entities (S) and add them as nodes to the KG.
+97	114	ELDEN then adds edges connecting entities in E+ to entities in E. This is done by processing a web text corpus looking for mentions of entities in E+, and linking the mentions to entities in KG G ′ = (E+, F ).
+98	20	ELDEN uses Equation 1 with β = 0 for this entity linking, i.e. only mentionentity similarity φ(m, e) is used during this linking9.
+100	12	Each cell Mi,j is set to the PMI between Input KG Densified KG Entity Embeddings (V) the entities e and e ′ .
+101	29	Me,e′ = PMI(e, e ′ ) = log f(e, e ′ )×N f(e)× f(e′) where f(e) is the frequency of entity e in web corpus, f(e, e ′ ) is the sentence-constrained pair frequency of the entity pair (e, e ′ ) in web corpus, and N = ∑ e,e′∈E+ f(e, e ′ ).
+102	29	Please note that PMI, and there by M , are symmetric.

@@ -1,0 +1,30 @@
+0	13	Abstract Meaning Representation (AMR) (Banarescu et al., 2013) is a semantic formalism encoding the meaning of a sentence as a rooted, directed graph.
+1	13	AMR uses a graph to represent meaning, where nodes (such as “boy”, “want-01”) represent concepts, and edges (such as “ARG0”, “ARG1”) represent relations between concepts.
+3	20	AMR-to-text generation is challenging as function words and syntactic structures are abstracted away, making an AMR graph correspond to multiple realizations.
+5	71	Flanigan et al. (2016) transform a given AMR graph into a spanning tree, before translating it to a sentence using a tree-to-string transducer.
+13	4	As shown in Figure 1, we learn a synchronous node replacement grammar (NRG) from a corpus of aligned AMR and sentence pairs.
+14	7	At test time, we apply a graph transducer to collapse input 7 AMR graphs and generate output strings according to the learned grammar.
+17	9	A synchronous node replacement grammar (NRG) is a rewriting formalism: G = 〈N,Σ,∆, P, S〉, where N is a finite set of nonterminals, Σ and ∆ are finite sets of terminal symbols for the source and target sides, respectively.
+19	40	Each instance of P takes the form Xi → (〈F,E〉,∼), where Xi ∈ N is a nonterminal node, F is a rooted, connected AMR fragment with edge labels over Σ and node labels over N ∪ Σ, E is a corresponding target string over N ∪∆ and ∼ denotes the alignment of nonterminal symbols between F and E. A classic NRG (Engelfriet and Rozenberg, 1997, Chapter 1) also defines C, which is an embedding mechanism defining how F is connected to the rest of the graph when replacing Xi with F on the graph.
+24	32	Finally, rule (a) is used to generate “the boy” and its AMR counterpart from X3.
+28	15	Shown in Algorithm 1, the first step is to extract a set of initial rules from training 〈sentence, AMR, ∼〉2 pairs (Line 2) using the phrase-to-graph-fragment extraction algorithm of Peng et al. (2015) (Line 3).
+31	8	Here ri contains rj , if rj .F is a subgraph of ri.F and rj .E is a sub-phrase of ri.E.
+34	15	All initial and generated rules are stored in a rule list R (Lines 5 and 9), which will be further normalized to obtain the final induced rule set.
+35	9	In addition to induced rules, we adopt concept rules (Song et al., 2016) and graph glue rules to ensure existence of derivations.
+36	5	For a concept rule, F is a single node in the input AMR graph, and E is a morphological string of the node concept.
+38	6	We refer to the verbalization list3 and AMR guidelines4 for creating more complex concept rules.
+41	6	Three glue rules are defined for each type of edge label.
+57	10	In addition to p(F |E) and pw(F |E), we use features in the reverse direction, namely p(E|F ) and pw(E|F ), the definitions of which are omitted as they are consistent with Equations 2 and 3, respectively.
+62	44	The moving distance feature captures the distances between the subgraph roots of two consecutive rule matches in the decoding process, which controls a bias towards collapsing nearby subgraphs consecutively.
+72	7	The results are shown in Table 2.
+73	7	First, All outperforms all baselines.
+76	18	This observation is consistent with the observation of Song et al. (2016) for their TSP-based system.
+80	23	To our knowledge, this is the best result reported so far on the task.
+85	6	First of all, the percentage of rules containing nonterminals are much more than those without nonterminals, as we collapse each pair of initial rules (in Algorithm 1) and the results can be quadratic the number of initial rules.
+88	5	Statistics on the rules used for decoding In addition, we collect the rules that our well-tuned system used for generating the 1-best output on the testset, and categorize them into 3 types: (1) glue rules, (2) nonterminal rules, which are not glue rules but contain nonterminals on the righthand side and (3) terminal rules, whose right-hand side only contain terminals.
+89	34	Over the rules used on the 1-best result, more than 30% are non-terminal rules, showing that the induced rules play an important role.
+96	15	For the second rule, “(s3 / stay-01 :accompanier (i / i))” means “stay with me”, which is also covered by its phrase.
+97	20	Finally, we show an example in Table 5, where the top is the input AMR graph, and the bottom is the generation result.
+98	33	Generally, most of the meaning of the input AMR are correctly translated, such as “:example”, which means “such as”, and “thing”, which is an abstract concept and should not be translated, while there are a few errors, such as “that” in the result should be “what”, and there should be an “in” between “tmt” and “fairfax”.
+99	10	We showed that synchronous node replacement grammar is useful for AMR-to-text generation by developing a system that learns a synchronous NRG in the training time, and applies a graph transducer to collapse input AMR graphs and generate output strings according to the learned grammar at test time.
+100	8	Our method performs better than the previous systems, empirically proving the advantages of our graph-to-string rules.

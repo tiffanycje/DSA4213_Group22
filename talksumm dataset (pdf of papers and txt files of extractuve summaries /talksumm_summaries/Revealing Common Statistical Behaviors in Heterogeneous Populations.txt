@@ -1,0 +1,30 @@
+0	9	Revealing common statistical behaviors among a group of subjects is fundamental to neuroscience and bio-medical data analysis.
+1	9	For example, in functional magnetic resonance imaging (fMRI) research (Bullmore et al., 1996; Smith et al., 2011; Varoquaux & Craddock, 2013), group level analyses are used for detecting brain networks from resting-state recordings (Fox et al., 2005), for detecting activities of specific regions in response to various stimuli (Haxby et al., 2001), for studying the connectivity of a specific brain region to other regions through seed based analysis (Hagler et al., 2006), etc.
+2	17	Group analyses often rely on the assumption that all subjects in the group behave according to the same statistical model.
+3	6	For example, to estimate the covariance (or partial covariance) matrix of several variables, a popular approach is to average the covariance matrices estimated for each of the individual subjects in the group (Power et al., 2011).
+4	5	This is done using either the Euclidean mean (arithmetic average) or the intrinsic (Riemannian) mean (Förstner & Moonen, 2003), (Fletcher & Joshi, 2007), which respects the geometry of the manifold of positive definite matrices (Varoquaux et al., 2010a).
+6	9	Often times, each subject in a group deviates from the common model in a different way.
+7	4	For example, it has been shown that estimates of connectivity patterns from fMRI scans, tend to vary significantly between subjects (Moussa et al., 2012).
+10	13	This phenomenon is illustrated in Fig.
+12	9	In this example, the deviations from the common model are additive and have a different distribution for each subject.
+16	7	In (Marrelec et al., 2006), the authors assumed that each subject’s samples follow a Gaussian distribution with a covariance matrix that follows an inverse Wishart distribution around the group covariance.
+18	5	Similar lines of work include grouplevel independent component analysis (ICA) (Calhoun et al., 2001; Beckmann & Smith, 2005; Varoquaux et al., 2010c), dictionary learning (Varoquaux et al., 2011; Mensch et al., 2016), and causal structure estimation (Ramsey et al., 2010).
+25	6	Let u ∈ Rd be a random vector, which represents the common source of variability across a group of subjects.
+38	27	,m. We would like to estimate the covariance matrix Σu of the common component, given the covariance matrices {Σxj} of the subjects.
+67	7	Therefore, the minimum is attained at the minimum of one of those functions, each of which has a closed form.
+96	5	In this case, the minimum of ψ(q) over the unit circle is achieved at the points q1 and −q1.
+114	16	Since u and xj are statistically independent, we have that pxj (α) = ( pu ∗ pvj ) (α), (22) where ‘∗’ denotes convolution.
+119	6	Namely, at least one of the values {|ϕxj (t)|} is close to |ϕu(t)|, which justifies our estimator.
+122	8	(25) Algorithm 2 Common density estimation Input: Density functions px1 , .
+125	15	end for end for Set p̂u ← DFT{ϕ̂u}.
+136	4	We take the common component u to be a two-dimensional random vector with covariance matrix Σu = ( 1 0.5 0.5 1 ) .
+146	15	Figure 3 also indicates that our estimator is asymptotically (in the number of subjects) unbiased.
+152	5	Specifically, although our algorithm relies on the diversity of the noise covariances, it does not require their eigenvectors to be uniformly distributed on the unit sphere.
+160	7	We show results for three different common covariance matrices.
+171	4	1, using Geometric (Riemannian) mean (Varoquaux et al., 2010a), and using Euclidean mean.
+172	6	From the estimated covariances, we calculated correlation matrices.
+180	6	Note that the Euclidean mean estimator shows very low correlations within some of those regions.
+191	12	Our algorithms take advantage of the diversity of the subjectspecific noise distributions in order to efficiently suppress them.
+192	6	In contrast to previous approaches, we did not assume any parametric model for the underlying distributions.
+193	94	We proved that under rather mild assumptions, our common covariance estimate tends to the covariance of the common component as the number of subjects grows.
+194	80	We presented experiments on simulated and on real data, which confirmed the advantages of our methods over alternative approaches.

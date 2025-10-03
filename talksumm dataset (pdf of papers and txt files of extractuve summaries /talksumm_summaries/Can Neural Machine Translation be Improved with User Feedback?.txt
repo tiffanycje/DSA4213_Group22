@@ -1,0 +1,30 @@
+0	22	In commercial scenarios of neural machine translation (NMT), the one-best translation of a text is shown to multiple users who can reinforce highquality (or penalize low-quality) translations by explicit feedback (e.g., on a Likert scale) or implicit feedback (by clicking on a translated page).
+2	13	While bandit feedback1 in form of user clicks on displayed ads is the standard learning signal for response prediction in online advertising (Bottou et al., 2013), bandit learning for machine translation has so far been restricted to simulation experiments (Sokolov et al., 2016b; Lawrence et al., 2017b; Nguyen et al., 2017; Kreutzer et al., 2017; Bahdanau et al., 2017).
+3	84	The goal of our work is to show that the gold mine of cheap and abundant real-world human bandit feedback can be exploited successfully for machine learning in NMT.
+4	44	We analyze and utilize human reinforcements that have been collected from users of the eBay e-commerce platform.
+6	20	In contrast, we find that implicit task-based feedback that has been gathered in a cross-lingual search task can be used successfully to improve task-specific metrics and BLEU.
+7	38	Another crucial difference of our work to previous research is the fact that we assume a counterfactual learning scenario where human feedback has been given to a historic system different from the target system.
+8	15	Learning is done offline from logged data, which is desirable in commercial settings where system updates need to be tested before deployment and the risk of showing inferior translations to users needs to be avoided.
+19	16	More specifically, when users visit product pages with translated titles, they can inspect the source when hovering with the mouse over the title.
+27	13	To investigate the reliability and validity of these ratings, we employed three bilingual annotators (‘experts’) to independently re-evaluate and give five-star ratings for a balanced subset of 1,000 product title translations.
+29	12	The inter-annotator agreement between experts is relatively low with Fleiss’ κ = 0.12 (Fleiss, 1971).
+31	14	However, when we ask another three annotators to indicate whether they agree or disagree with a balanced subset of 2,000 user ratings, they agree with 42.3% of the ratings (by majority voting).
+39	51	Another form of collecting human reinforcement signals via the eBay e-commerce platform is to embed the feedback collection into a cross-lingual information retrieval task.
+40	28	The product title translation system is part of the search interaction of a user with the e-commerce platform in the following way: When a user enters a query in Spanish, it is first translated to English (query translation), then a search engine retrieves a list of matching products, and their titles are translated to Spanish and displayed to the user.
+41	16	As soon as the user clicks on one of the translated titles, we store the original query, the translated query, the source product title and its translation.
+43	49	In this way, we attempt to reduce the propagation of errors in query translation and search.
+44	13	This leaves us with a dataset of 164,065 tuples of Spanish queries, English product titles and their Spanish translations (15% of the original collection).
+45	24	Note that this dataset is more than twice the size of the explicit feedback dataset.
+47	119	The advantage of embedding feedback collection into a search task is that we can assume that users who formulate a search query have a genuine intent of finding products that fit their need, and are also likely to be satisfied with product title translations that match their query, i.e., contain terms from the query in their own language.
+49	85	For this purpose, we define a word-based matching function match(w,q) that evaluates whether a query q contains the word w: match(w,q) = { 1, ifw ∈ q 0, otherwise.
+50	25	(1) Based on this word-level matching, we compute a sequence-level reward for a sentence y of length T as follows: recall(y,q) = 1 T T∑ t=1 match(yt,q).
+51	18	In reinforcement and bandit learning, rewards received from the environment are used as supervision signals for learning.
+53	62	Direct User Reward: Explicit feedback, e.g., in the form of star ratings, can directly be used as reward by treating the reward function as a black box.
+56	23	This restricts the learning setup to offline learning from logged bandit feedback.
+65	17	(3) The MLE objective requires reference translations and is agnostic to rewards.
+71	33	The hyperparameter α controls the sharpness of q (see Shen et al. (2016)).
+79	31	Counterfactual learning attempts to improve a target MT system from a log of source sentences, translations produced by a historic MT system, and obtained feedback L = {(x(h),y(h),∆(y(h)))}Hh=1.
+80	20	For the special case of deterministically logged rewards Lawrence et al. (2017b) introduced the Deterministic Propensity Matching (DPM) objective with self-normalization as a multiplicative control variate (Swaminathan and Joachims, 2015):3 RDPM(θ) = 1 H H∑ h=1 ∆(y(h)) p̄θ(y (h)|x(h)), (6) where translation probabilities are reweighted over the current mini-batch B ⊂ H,B H: p̄θ(y (h)|x(h)) = pθ(y(h)|x(h))∑B b=1 pθ(y (b)|x(b)) .
+84	20	In addition to learning from the historic reward for the logging system, the reward for other translations is estimated by a parametrized regression model that is trained on the log ∆̂φ : Y → [0, 1].
+88	12	As a side effect, the current reward is relativized, such that the gradient step is not only determined by the magnitude of the current rewards, but is put into relation with previous rewards.
+94	13	The model is trained with MLE on 2.7M parallel sentences of out-of-domain data until the early stopping point which is determined on a small in-domain dev set of 1,619 product title translations.

@@ -1,0 +1,30 @@
+22	28	Specifically, we use the Beta distribution with shape parameters α,β as in (9) and call this the Beta policy.
+23	16	First, the Beta distrbution is finitesupport and does not suffer from the same boundary effects as the Gaussian does.
+24	19	Thus it is bias-free and converges faster, which means a faster training process and a higher score.
+26	20	We show that the Beta policy provides substantial gains in scores and training speed over the Gaussian policy on several continuous control environments, including two simple classical control problems in OpenAI Gym (Brockman et al., 2016), three multi-joint dynamics and control problems in MuJoCo (Todorov et al., 2012), and one all-terrainvehicle (ATV) driving simulation in an off-road environment.
+27	66	We model our continuous control reinforcement learning as a Markov decision process (MDP).
+28	14	An MDP consists of a state space S , an action space A, an initial state s0, and the corresponding state distribution p0(s0), a stationary transition distribution describing the environment dynamics p(st+1|st, at) that satisfies the Markov property, and a reward function r(s, a) : S × A → R for every state s and action a.
+31	45	A stochastic policy can be described as a probability distribution of taking an action a given a state s parameterized by a n-dimensional vector θ ∈ Rn, denoted as πθ(a|s) : S → A.
+60	14	The actor with policy πθ(a|s) and the critic withQθv (s, a) are trained simultaneously.
+63	36	One of the best known variance reduction technique for actor-critic without introducing any bias is to substract a baseline function B(s) from Qπ(s, a) in (4) (Greensmith et al., 2004).
+81	15	In general, for problem with higher degrees of freedom, all action dimensions are assumed to be mutually independent.
+96	18	We can see that as long as the action space A covers the support of the policy distribution (i.e. supp(πθ(a|s)) ⊂ A or as h→∞) the last two integrals immediately evaluate to zero.
+99	25	This effectively extends the domain of reward (or value) function to previously undefined region by extrapolating, or more precisely, the “replicated” padding, which results in artificially higher rewards outside the bounds and therefore bias the estimated policy distribution toward the boundary.
+108	49	Let us now consider the Beta distribution f(x;α,β) = Γ(α+ β) Γ(α)Γ(β) xα−1(1− x)β−1 , (9) where α and β are the shape parameters and Γ(·) is the Gamma function that extends factorial to real numbers, i.e. Γ(n) = (n−1)!
+109	24	for positive integer n. The beta distribution has a support x ∈ [0, 1] (as shown in Figure 3) and it is often used to describe the probability of success, where α− 1 and β − 1 can be thought of as the counts of successes and failures from the prior knowledge respectively.
+111	13	Since the beta distribution has finite support and no probability density falls outside the boundary, the Beta policy is bias-free.
+113	35	In this paper, we only consider the case where α,β > 1, in which the Beta distribution is concave and unimodal.
+114	59	One unfortunate property of the Gaussian policy is that the variance of policy gradient estimator is inversely proportional to σ2.
+121	13	A gradient vector consists of direction and length.
+138	13	For both policy distributions, we add the entropy of policy πθ(a|s) with a constant multiplier 0.001 encouraging exploration in order to prevent premature convergence to sub-optimal policies (Mnih et al., 2016).
+139	24	A discount factor γ is set to 0.995 across all tasks.
+141	11	For the actor, we only use low-dimensional physical state like joint velocities and vehicle speed.
+150	16	For the humanoid robot, the goal is to walk as fast as possible without falling 1k-step TD error = �k−1 i=0 � γirt+i + γ kVθ(st+k) � − Vθ(st) at the same time minimize actions to take and impacts of each joint.
+157	24	Asynchronous updates with four CPUs and nonprioritized experience replays of ratio 8 are used.
+173	21	Similar to the findings in evolution strategies (Salimans et al., 2017), humanoid robots under different stochastic policies also exhibit different gaits: those with Beta policies always walk sideways but those with Gaussian policies always walk forwards.
+181	12	Steering angle is constrained to [−30◦, 30◦] and speed is constrained to [6, 40] km/h.
+186	35	In all simulations, a constant timestep of 0.025 seconds is used to integrate ẋ, ẏ, ω̇ for generation of trajectories with a unicycle model.
+189	109	We found that higher replay ratio works better for the Beta but not for the Gaussian.
+191	65	Even with the help of Retrace, off-policy training with high experience replay ratio still destabilizes the Gaussian policy (Figure 6(d)).
+192	29	We introduce a new stochastic policy based on the Beta distribution for continuous control reinforcement learning.
+193	14	This method solves the bias problem due to boundary effects arising from the mismatch of infinite support of the commonly used Gaussian distribution and the bounded controls that can be found in most real-world problems.

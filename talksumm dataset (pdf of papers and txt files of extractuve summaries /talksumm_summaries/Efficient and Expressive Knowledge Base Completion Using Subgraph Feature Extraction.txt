@@ -1,0 +1,30 @@
+0	70	Knowledge bases (KBs), such as Freebase (Bollacker et al., 2008), NELL (Mitchell et al., 2015), and DBPedia (Mendes et al., 2012) contain large collections of facts about things, people, and places in the world.
+1	31	These knowledge bases are useful for various tasks, including training relation extractors and semantic parsers (Hoffmann et al., 2011; Krishnamurthy and Mitchell, 2012), and question answering (Berant et al., 2013).
+3	37	The task of knowledge base completion—filling in missing facts by examining the facts already in the KB, or by looking in a corpus—is one attempt to mitigate the problems of this knowledge sparsity.
+4	77	In this work we examine one method for performing knowledge base completion that is currently in use: the Path Ranking Algorithm (PRA) (Lao et al., 2011; Dong et al., 2014).
+5	50	PRA is a method for performing link prediction in a graph with labeled edges by computing feature matrices over node pairs in the graph.
+6	40	The method has a strong connection to logical inference (Gardner et al., 2015), as the feature space considered by PRA consists of a restricted class of horn clauses found in the graph.
+26	32	It is a two-step process for generating a feature matrix over node pairs in a graph.
+27	24	The first step finds a set of potentially useful path types that connect the node pairs, which become the columns of the feature matrix.
+30	26	More formally, consider a graph G with nodes N , edges E , and edge labels R, and a set of node pairs (sj , tj) ∈ D that are instances of some relationship of interest.
+38	120	Once a set of path features has been selected, the second step of PRA is to compute values for each cell in the feature matrix.
+39	24	Recall that rows in this matrix correspond to node pairs, and the columns correspond to the path types found in the first step.
+40	62	The cell value assigned by PRA is the probability of arriving at the target node of a node pair, given that a random walk began at the source node and was constrained to follow the path type: p(t|s, π).
+48	27	This does not reduce the time necessary to get an arbitrarily good approximation, but it does allow us to decrease computation time, even getting a fixed complexity, at the cost of accepting some error in our probability estimates.
+84	30	In contrast, if the features simply signify whether a particular path type exists in the graph, without any associated probability, these kinds of features are very easy to compute.
+93	36	We keep all of these (π, i) pairs as the characterization of the subgraph around n, and we will refer to this subgraph as Gn.
+121	28	The description above shows how to recreate the feature space used by PRA using our simpler subgraph feature extraction technique.
+123	26	Eliminating random walk probabilities allows us to extract a much richer set of features from the subgraphs around each node, and here we present the feature extractors we have experimented with.
+131	86	For any path π between a source node s and a target node t, we create a feature for each relation bigram in the path type.
+141	74	For example, if both the source and target nodes have an age or gender encoded in the graph, we might profitably use comparisons of these values to make better predictions.
+145	82	That is, if we see a common path type, such as -GENDER-, we will construct a feature representing a comparison between the intermediate node for the source and the target.
+154	45	We obtain vector representations of relations through factorization of the knowledge base tensor as did Gardner et al., and replace each edge type in a PRA-style path with edges that are similar to it in the vector space.
+201	32	The Any-Rel features were designed in part specifically for this path type, and they capture it exactly with a single feature.
+203	25	This is because, for the relations we experimented with, knowing that some relationship is expressed in text between a particular pair of KB entities is a very strong indication of a single KB relation.
+205	33	These features are much less informative between entity types where more than one relation is possible, such as between people.
+209	30	We believe this overfitting to be the main reason these features did not improve performance, along with the fact that the relations we tested do not need much domain or range modeling (as opposed to, e.g., SPOUSEOF or CITYCAPITALOFCOUNTRY).
+211	108	An analysis of several of these issues led us to propose a simpler algorithm, which we called subgraph feature extraction, which characterizes the subgraph around node pairs and extracts features from that subgraph.
+212	161	SFE is both significantly faster and performs better than PRA on this task.
+213	56	We showed experimentally that we can reduce running time by an order of magnitude, while at the same time improving mean average precision from .432 to .528 and mean reciprocal rank from .850 to .933.
+214	60	This thus constitutes the best published results for knowledge base completion on NELL data.
+215	40	The code and data used in the experiments in this paper are available at http://rtw.ml.cmu.edu/emnlp2015 sfe/.

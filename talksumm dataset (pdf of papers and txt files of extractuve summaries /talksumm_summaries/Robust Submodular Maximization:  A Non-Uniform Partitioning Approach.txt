@@ -1,0 +1,30 @@
+12	13	We answer this question in the affirmative, providing a new Partitioned Robust (PRO) submodular maximization algorithm that attains a constant-factor approximation guarantee; see Table 1 for comparison of different algorithms for robust monotone submodular optimization with a cardinality constraint.
+17	21	Let V be a ground set with cardinality |V | = n, and let f : 2V !
+18	16	R 0 be a set function defined on V .
+20	12	We use the following notation to denote the marginal gain in the function value due to adding the elements of a set Y to the set X: f(Y |X) := f(X [ Y ) f(X).
+23	49	The problem of maximizing a normalized monotone submodular function subject to a cardinality constraint, i.e., max S✓V,|S|k f(S), (1) has been studied extensively.
+25	46	In this paper, we consider the following robust version of (1), introduced in (Krause et al., 2008): max S✓V,|S|k min Z✓S,|Z|⌧ f(S \ Z) (2) We refer to ⌧ as the robustness parameter, representing the size of the subset Z that is removed from the selected set S. Our goal is to find a set S such that it is robust upon the worst possible removal of ⌧ elements, i.e., after the removal, the objective value should remain as large as possible.
+43	10	(Orlin et al., 2016) considers the formulation in (2), and provides the first constant 0.387-factor approximation result, valid for ⌧ = o( p k).
+51	29	For example, this problem appears in viral marketing, where companies wish to spread the word of a new product by targeting the most influential individuals in a social network.
+52	27	Due to poor incentives or dissatisfaction with the product, for instance, some of the users from the targeted set might make the decision not to spread the word about the product.
+53	39	For many of the existing diffusion models used in the literature (e.g., see (Kempe et al., 2003)), given the targeted set S, the expected number of influenced nodes at the end of the diffusion process is a monotone and submodular function of S (He & Kempe, 2016).
+56	91	For a set S, let N (S) denote all of its neighboring nodes.
+58	23	The non-robust version of this objective function has previously been considered in several different works, such as (Mirzasoleiman et al., 2015b) and (NorouziFard et al., 2016).
+86	27	While the earlier Algorithm 1 Partitioned Robust Submodular optimization algorithm (PRO) Require: Set V , k, ⌧ , ⌘ 2 N+, algorithm A Ensure: Set S ✓ V such that |S|  k 1: S0, S1 ; 2: for i 0 to dlog ⌧e do 3: for j 1 to d⌧/2ie do 4: B j A (2i⌘, (V \ S0)) 5: S0 S0 [Bj 6: S1 A (k |S0|, (V \ S0)) 7: S S0 [ S1 8: return S buckets have a smaller size, they also have a higher objective value per item due to diminishing returns, and our analysis quantifies and balances this trade-off.
+94	12	, vk) when applied to T , and define A i (T ) = {v1, .
+95	154	, vi} for i  k. We say that A satisfies the -iterative property if f(A i+1(T )) f(Ai(T )) 1 max v2T f(v|A i (T )).
+96	38	(6) Intuitively, (6) states that in every iteration, the algorithm adds an element whose marginal gain is at least a 1/ fraction of the maximum marginal.
+98	14	Besides the classic greedy algorithm, which satisfies (6) with = 1, a good candidate for our subroutine is THRESHOLDING-GREEDY (Badanidiyuru & Vondrák, 2014), which satisfies the -iterative property with = 1/(1 ✏).
+101	21	While it is unclear whether this algorithm satisfies the -iterative property, it requires an even smaller number of function eval- uations, namely, O(n log 1/✏).
+102	43	We will see in Section 5 that PRO performs well empirically when used with this subroutine.
+104	24	The following lemma generalizes a classical property of the greedy algorithm (Nemhauser et al., 1978; Krause & Golovin, 2012) to the class of algorithms satisfying the -iterative property.
+107	49	Let A l (T ) denote the set returned by the algorithm A(T ) after l iterations.
+108	17	(7) We will also make use of the following property, which is implied by the -iterative property.
+112	13	This is one of the rules used to define the -nice class of algorithms in (Mirrokni & Zadimoghaddam, 2015); however, we note that in general, neither the -nice nor -iterative classes are a subset of one another.
+118	13	In addition, if ⌧ = o ⇣ k ⌘ log k ⌘ and ⌘ log2 k, then we have the following as k !1: f(S \ E⇤ S ) ✓ 1 e 1/ 2 e 1/ + o(1) ◆ ⇥ f(OPT(k, V, ⌧) \ E⇤OPT(k,V,⌧)).
+120	48	This result solves an open problem raised in (Orlin et al., 2016), namely, whether a constant-factor approximation guarantee can be obtained for ⌧ = o(k) as opposed to only ⌧ = o p k .
+124	21	Here we provide a high-level overview of the main challenges.
+125	38	Let E denote a cardinality-⌧ subset of the returned set S that is removed.
+129	78	(12) The arguments to the first and third terms are trivially seen to be subsets of S \ E, and the second term represents the utility of the set S1 subsided by the utility of the elements removed from S1.
+130	18	The first two terms above are easily lower bounded by convenient expressions via submodular and the -iterative property.
+133	126	Intuitively, the first equation shows that the objective value from buckets i = 0, .

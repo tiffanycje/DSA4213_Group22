@@ -1,0 +1,30 @@
+2	20	Recent years have seen a huge proliferation of crowdfunding sites, with over 700 platforms in 2012 and an estimated 2000 in 2016.
+3	30	These platforms account for a significant amount of investment; the World Bank estimates that $90 billion will be raised through crowdfunding ventures alone in 2020 (Barnett, 2015).
+4	21	This includes non-profit micro-lending sites such as Kiva, charity organizations DonorsChoose and GoFundMe, and venture capital efforts such as Kickstarter and IndieGoGo.
+5	21	Crowdfunding platforms seeking to maximize the number of projects funded need to decide when and how to show projects to users visiting their sites.
+7	19	Naive strategies that do not prioritize the most likely projects to reach the reserve price within a reasonable amount of time are doomed to only partially fund many projects (that fail to fire), versus a preferred outcome of a moderate number fully funded to the reserve price (and fire).
+9	9	Then projects on the webpage can be prioritized by popularity.
+11	45	Simultaneously, we want to avoid prioritizing unpopular projects.
+12	18	Through personal correspondences with some of these popular platforms, we have learned that these companies rely on poorly motivated heuristics.
+15	8	Our paper seeks to bridge this gap and is organized as follows.
+20	10	Firstly, since the goal is to fund as many projects as possible, rather than just collect as many pledges as possible, we do not see a reward for an arm until the project has hit its reserve price.
+21	45	In addition, once funded, the project effectively exits the recommendation system.
+25	22	Thus, instead of worrying how much funding a project raises, we only focus on the number of pledges.
+26	26	This is actually a realistic assumption, since in many platforms, the majority of pledges are a single small amount such as $25 (see (Barnett, 2015)).
+27	18	With the above considerations in mind, we model each project as a biased coin with mean µ: showing the project to a lender is a flip of the coin, and µ is the expected proportion of times the project receives a pledge when shown.
+28	21	We assume at any time we can obtain a new project/coin whose mean is drawn i.i.d.
+29	17	from a reservoir distribution F defined on [0, 1].
+30	84	For a project to reach its reserve price, i.e. the coin to fire, we need the number of successes to reach a threshold of τ ∈ N in a sequence of flips from µ.
+40	13	Algorithm does one of the following: • Draw a new coin from F , flip it and add it to S. • Choose a coin from S and flip it.
+42	18	The implication of this is crucial: there exists an optimal policy that looks at coins one at a time, choosing only to keep flipping or discarding a coin based on its history of successeses.
+45	14	For example in the standard multi-armed bandit each arm gives rise to the policy that only pulls that arm in each round and the optimal policy corresponds to playing the arm with the highest mean.
+55	19	A policy is given by a non-decreasing function π(t), where µ is rejected at time t if X(t) ≤ π(t).
+59	21	The difficulty of finding the optimal policy is now apparent–it requires a search over the space of all non-decreasing functions.
+63	9	In this work we choose to study fixed budget policies, which correspond to vertical thresholds.
+68	18	This type of policy is appealing for a number of reasons: 1) it is intuitively fair to loan seeking applicants and simple to implement, 2) executing πB also simultaneously evaluates every πB′ for B′ ≤ B (we will expand on this later), and 3) leads to interpretable regret bounds.
+98	7	from F , let the random variable CB be the indicator that it fires under policy πB .
+104	16	The last coin we look at may be stopped prematurely, and we let 0 ≤ κ ≤ B denote the number of flips it was given.
+106	12	The rate at which coins fire is given by, E [ m(V )Ĉ(B,m(V )) V ] = E [ Ĉ(B,m(V )) N̂(B,m(V )) + κ/m(V ) ] V→∞ = P(CB = 1) E[NB ] The last line follows by the law of large numbers since m(V ) ≥ (V −B)/B.
+115	33	The regret expresses the number of coins fewer the algorithm fires relative to some policy B that satisfies ρ(B) = ρ∗.
+116	26	It’s important to mention that our notion of regret is not based on the optimal policy over all policies but rather the weaker notion of the optimal fixed budget policy.
+117	19	In general, the problem of identifying B with ρ(B) = ρ∗ is not well defined - there can be several such optimal policies B.

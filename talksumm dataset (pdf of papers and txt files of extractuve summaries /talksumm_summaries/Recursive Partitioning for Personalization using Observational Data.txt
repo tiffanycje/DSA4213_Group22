@@ -1,0 +1,30 @@
+5	54	Specifically, we consider the problem of learning how to assign the best of m treatments to an instance, given an observation of associated baseline covariates x ∈ Rd.
+10	18	,m} that, given an observation of covariates x, prescribes a treatment τ(x).
+11	48	Its (out-of-sample) personalization risk is its average causal effect in the population R(τ) = E [Y (τ(X))] (the expectation is taken with respect to the joint distribution of X,Y (1), .
+14	33	, (Xn, Tn, Yn)} , where the observed outcome Yi = Yi(Ti) corresponds only to the treatment Ti administered.
+15	19	This data is observational: we may not control the historic administration of treatment (as we would in a controlled experiment) and the values Yi(t) for t 6= Ti are missing data.
+23	25	In the context of personalized medicine, this assumption would be justified if the EMR contained all the patient information used by a doctor to prescribe treatment up to the vagaries and idiosyncrasies of individual doctors or hospitals.
+25	73	1 the optimal model τ∗ chooses a treatment by minimizing among m regression functions, one obvious approach to personalization is to estimate these regression functions, fitting each to the subset of the data that received each treatment, and then use these to predict outcomes and pick the smallest prediction.
+26	18	For example, in medicine, there is a vast literature on predicting patient-specific responses to treatment (Feldstein et al., 1978; Stoehlmacher et al., 2004) and picking the best by comparing (Qian & Murphy, 2011; Bertsimas et al., 2017).
+28	31	The standard solution is to fit m regression functions, and, for a new instance, predict m outcomes and pick the smallest prediction subject to cleverly ensuring sufficient exploration by, e.g., adding confidence bounds that vanish with n. The regression, assumed linear, is done using ridge regression as in Li et al. (2010) (LinUCB), ordinary least squares (OLS) as in Goldenshluger & Zeevi (2013), or LASSO as in Bastani & Bayati (2016).
+29	24	The regress and compare (R&C) approach to personalization from observational data can be summarized as: 1.
+32	37	Personalize by choosing the best predicted outcome: τ̂R&Cn (x) = arg mint∈[m] µ̂t,nt(x).
+38	43	In practice, however, R&C is not effective for personalization because it attempts to learn much more than it needs to, it splits the training data into m, and in training it addresses estimation or prediction risk rather than personalization risk.
+57	26	Using the GPS we can relate the personalization risk of a personalization model τ to its accuracy as a classification model for labels T , weighted by outcome and GPS.
+60	18	When Q is fully known as in the logged bandit setting, this approach is closely related to the approach taken by Beygelzimer & Langford (2009); Swaminathan & Joachims (2015a;b).
+61	39	In the observational setting, we explore estimating and imputing Q to use this approach in Sec.
+62	42	However, because estimating the GPS generally either relies heavily on model specification or, in nonparametric settings, can be biased and variable, this will lead to severe instability and limited practical use.
+63	26	Moreover, it does not address the personalization problem as a single learning task, rather as two: learning a propensity model task and then a weighted classification task.
+66	23	Impurities for classification include entropy and Gini and for regression include sum of squared errors.
+67	22	Athey & Imbens (2016) develop impurities for estimating heterogeneous effects.
+68	38	2, we develop an impurity for personalization leading to a recursive partitioning algorithm called personalization tree (PT).
+74	27	Note that the conditional independence in the condition (2), which requires that leaf membership be a balancing score as defined by Rosenbaum & Rubin (1983), holds trivially when we condition on X itself.
+81	33	The PT algorithm attempts to find a fine partition of the data to minimize the sum of within-partition personalization impurities.
+96	21	In this section we propose the optimal personalization tree (OPT) algorithm, which solves the global problem of finding partitions that minimize the sum of withinpartition personalization impurities: min X1∪···∪XL=Rd:(∗) L∑̀ =1 Ipers({(Xi, Ti, Yi) : Xi ∈ X`}), (3) where (∗) is the restriction that X1, .
+196	44	According to the International Warfarin Pharmacogenetics Consortium, “warfarin is the most widely used oral anticoagulant agent worldwide” and finding the appropriate dose is both difficult and important “because it can vary by a factor of 10 among patients” and “incorrect doses contribute to a high rate of adverse effects” (Consortium, 2009).
+199	18	The baseline data collected on each patient include demographic characteristics (sex, ethnicity, age, weight, height, and smoker), reason for treatment (e.g., atrial fibrillation), current medications, co-morbidities (e.g., diabetes), genotype of two polymorphisms in CYP2C9, and genotype of seven single nucleotide polymorphisms (SNPs) in VKORC1.
+204	99	As an example, we run the PT algorithm with ∆max = 5 on the whole data, generating the tree shown in Fig.
+216	45	It is evident that R&C approaches make inefficient use of the available data by splitting it and learning more than is necessary.
+219	24	1vA with CT-A and CT-H offers competitive performance for moderate n, but fails to achieve near-optimal risk even at n = 2500.
+231	23	This data is the standard benchmark in evaluation of causal methodologies for estimating an average treatment effect (Dehejia & Wahba, 2002).
+232	28	We consider an alternative setting where we give a personalized recommendation as to whether to enroll in the job training program, assuming enrollment costs $2,000.

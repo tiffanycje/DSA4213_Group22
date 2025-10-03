@@ -1,0 +1,30 @@
+0	33	Creating manually-annotated syntactic treebanks is an expensive and time consuming task.
+1	25	Recently there has been a great deal of interest in cross-lingual syntactic transfer, where a parsing model is trained for some language of interest, using only treebanks in other languages.
+2	6	There is a clear motivation for this in building parsing models for languages for which treebank data is unavailable.
+3	8	Methods ∗On leave at Google Inc. New York.
+4	19	for syntactic transfer include annotation projection methods (Hwa et al., 2005; Ganchev et al., 2009; McDonald et al., 2011; Ma and Xia, 2014; Rasooli and Collins, 2015; Lacroix et al., 2016; Agić et al., 2016), learning of delexicalized models on universal treebanks (Zeman and Resnik, 2008; McDonald et al., 2011; Täckström et al., 2013; Rosa and Zabokrtsky, 2015), treebank translation (Tiedemann et al., 2014; Tiedemann, 2015; Tiedemann and Agić, 2016) and methods that leverage cross-lingual representations of word clusters, embeddings or dictionaries (Täckström et al., 2012; Durrett et al., 2012; Duong et al., 2015a; Zhang and Barzilay, 2015; Xiao and Guo, 2015; Guo et al., 2015; Guo et al., 2016; Ammar et al., 2016a).
+5	29	This paper considers the problem of cross-lingual syntactic transfer with limited resources of monolingual and translation data.
+6	29	Specifically, we use the Bible corpus of Christodouloupoulos and Steedman (2014) as a source of translation data, and Wikipedia as a source of monolingual data.
+8	16	The Bible data contains a much smaller set of sentences (around 24,000) than other translation corpora, for example Europarl (Koehn, 2005), which has around 2 million sentences per language pair.
+9	11	This makes it a considerably more challenging corpus to work with.
+10	24	Similarly, our choice of Wikipedia as the source of monolingual data is motivated by the availability of Wikipedia data in a very broad set of languages.
+13	7	Submission batch: 5/2016; Revision batch: 10/2016; 2/2017; Published 8/2017.
+14	58	We introduce a set of simple but effective methods for syntactic transfer, as follows: • We describe a method for deriving crosslingual clusters, where words from different languages with a similar syntactic or semantic role are grouped in the same cluster.
+15	58	These clusters can then be used as features in a shiftreduce dependency parser.
+16	195	• We describe a method for transfer of lexical information from the target language into source language treebanks, using word-to-word translation dictionaries derived from parallel corpora.
+17	116	Lexical features from the target language can then be integrated in parsing.
+18	23	• We describe a method that integrates the above two approaches with the density-driven approach to annotation projection described by Rasooli and Collins (2015).
+19	207	Experiments show that our model outperforms previous work on a set of European languages from the Google universal treebank (McDonald et al., 2013).
+20	23	We achieve 80.9% average unlabeled attachment score (UAS) on these languages; in comparison the work of Zhang and Barzilay (2015), Guo et al. (2016) and Ammar et al. (2016b) have a UAS of 75.4%, 76.3% and 77.8%, respectively.
+21	36	All of these previous works make use of the much larger Europarl (Koehn, 2005) corpus to derive lexical representations.
+22	114	When using Europarl data instead of the Bible, our approach gives 83.9% accuracy, a 1.7% absolute improvement over Rasooli and Collins (2015).
+23	7	Finally, we conduct experiments on 38 datasets (26 languages) in the universal dependencies v1.3 (Nivre et al., 2016) corpus.
+24	33	Our method has an average unlabeled dependency accuracy of 74.8% for these languages, more than 6% higher than the method of Rasooli and Collins (2015).
+25	55	Thirteen datasets (10 languages) have accuracies higher than 80.0%.1
+26	13	This section gives a description of the underlying parsing models used in our experiments, the data 1 The parser code is available at https://github.
+28	29	sets used, and a baseline approach based on delexicalized parsing models.
+35	16	These features require access to a dictionary that maps each word in the sentence to an underlying cluster identity.
+58	14	These properties are shown in Table 1.
+59	15	The model for a target language is trained on treebank data from languages where at least 4 out of 6 WALS properties are common between the source and target language.3 This gives a slightly stronger baseline.
+68	8	Self-training in this way gives an improvement in labeled accuracy from 63.18% to 63.91%.
+70	38	(m + 1)} is to construct a translation dictionary t(w, i, j).

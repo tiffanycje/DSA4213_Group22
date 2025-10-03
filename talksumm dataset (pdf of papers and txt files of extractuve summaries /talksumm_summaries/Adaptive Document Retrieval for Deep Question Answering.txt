@@ -1,0 +1,30 @@
+0	32	Question-answering (QA) systems proceed by following a two-staged process (Belkin, 1993): in a first step, a module for document retrieval selects n potentially relevant documents from a given corpus.
+1	16	Subsequently, a machine comprehension module extracts the final answer from the previously-selected documents.
+6	9	This finding suggests that a static choice of n can result a suboptimal performance.
+11	27	Notably, the overall size of the corpus affects the optimal n considerably and, as a result, our system evinces as especially superior over a fixed n in settings where the corpus size is unknown or grows dynamically.
+24	23	For this purpose, we run a series of experiments in order to obtain a better understanding of the interplay between document retrieval and machine comprehension modules.
+25	96	That is, we specifically compare the recall of document retrieval to the end-toend performance of the complete QA system; see Fig.
+26	39	Our experiments study the sensitivity along two dimensions: on the one hand, we change the number of top-n documents that are returned during document retrieval and, on the other hand, we vary the corpus size.
+29	42	We vary the corpus between a small case (where each question-answer pair contains only one Wikipedia article with the correct answer plus 50 % articles as noise) and the complete Wikipedia dump containing more than five million documents.
+32	45	1 (a) shows the end-to-end performance across different top-n document retrievals as measured by the exact matches with ground truth.
+35	8	1 (b) and (c) shed light into the underlying reason by reporting how frequently the correct answer is returned and, as the correct an- swer might appear multiple times, how often it is included in the top-n. Evidently, the recall in (b) drops quickly for a top-1 system when augmenting the corpus.
+41	12	This effect is visualized in an additional experiment shown in Fig.
+42	10	We keep the corpus size fixed and vary only n, i.e. the number of retrieved documents.
+45	21	This logic motivates us in the following to introduce an adaptive ni that optimizes the number of documents retrievals in a top-n system independently for every query qi.
+47	33	Our methods differ from conventional document retrieval in which the number of returned documents is set to a fixed n. Conversely, we actively optimize the choice of ni for each document retrieval i.
+48	78	Formally, we select ni between 1 and a maximum τ (e. g. τ = 20), given documents [d (1) i , .
+54	13	Formally, the number ni of retrieved documents is given by ni = max k k∑ j=1 s (j) i < θ.
+57	16	We further implement a trainable classifier in the form of an ordinal ridge regression which is tailored to ranking tasks.
+59	17	The classifier then approximates ni with a prediction yi that denotes the position of the first relevant document containing the desired answer.
+65	20	The linear offset b is added in order to ensures that ni ≤ n̂i holds, i. e. reducing the risk that the first relevant document is not included.
+67	11	We first compare our QA system with adaptive document retrieval against benchmarks from the literature.
+71	11	For the ordinal regression approach, we choose τ = 20 and use the original SQuAD train-dev split from the full corpus also as the basis for training across all experiments.
+76	11	The results demonstrate the effectiveness of our adaptive scheme: it yields the best-performing system for three out of four datasets.
+90	23	To show the robustness of our approach, we repeat all experiments on a different QA system.
+93	71	We are testing two different configurations1 of this system: one that selects the top-50 paragraphs and one that selects the top-80 paragraphs against our approach as shown in Tab.
+94	60	We see that, owed to the paragraph-level information retrieval, the number of top-n passages gains even more importance.
+95	14	Both variations of the system outperform a system without adaptive retrieval, which confirms our findings.
+96	32	Our contribution is three-fold.
+97	12	First, we establish that deep question answering is subject to a noiseinformation trade-off.
+101	13	Third, we further demonstrate how crucial an adaptive document retrieval is in the context of different corpus sizes.
+102	18	Here our adaptive strategy presents a flexible strategy that can successfully adapt to it and, compared to a fixed document count, accomplishes the best performance in terms of regret.

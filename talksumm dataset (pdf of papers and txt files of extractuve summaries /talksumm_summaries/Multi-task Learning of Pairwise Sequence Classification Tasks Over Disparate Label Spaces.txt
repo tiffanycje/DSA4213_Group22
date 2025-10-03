@@ -1,0 +1,30 @@
+1	25	Applications of MTL in NLP, for example, include partial parsing (Søgaard and Goldberg, 2016), text normalisation (Bollman et al., 2017), neural machine translation (Luong et al., 2016), and keyphrase boundary classification (Augenstein and Søgaard, 2017).
+5	12	This paper sets out to build an architecture in which such synergies are exploited, ?The first two authors contributed equally.
+6	24	with an application to pairwise sequence classification tasks.
+7	15	Doing so, we achieve a new state of the art on topic-based sentiment analysis.
+8	75	For many NLP tasks, disparate label sets are weakly correlated, e.g. part-of-speech tags correlate with dependencies (Hashimoto et al., 2017), sentiment correlates with emotion (Felbo et al., 2017; Eisner et al., 2016), etc.
+14	16	We additionally augment the LTN with data-specific diversity features (Ruder and Plank, 2017) that aid in learning.
+15	22	Contributions Our contributions are: a) We model the relationships between labels by inducing a joint label space for multi-task learning.
+16	45	b) We propose a Label Transfer Network that learns to transfer labels between tasks and propose to use semi-supervised learning to leverage them for training.
+17	39	c) We evaluate MTL approaches on a variety of classification tasks and shed new light on settings where multi-task learning works.
+18	12	d) We perform an extensive ablation study of our model.
+35	34	In our multi-task learning scenario, we have access to labelled datasets for T tasks T1, .
+37	31	The training dataset for task Ti consists of Nk examples XTi = {xTi1 , .
+38	70	Our base model is a deep neural network that performs classic hard parameter sharing (Caruana, 1993): It shares its parameters across tasks and has task-specific softmax output layers, which output a probability distribution pTi for task Ti according to the following equation: pTi = softmax(WTih+ bTi) (1) where softmax(x) = ex/ ∑‖x‖ i=1 e xi , WTi ∈ RLi×h, bTi ∈ RLi is the weight matrix and bias term of the output layer of task Ti respectively, h ∈ Rh is the jointly learned hidden representation, Li is the number of labels for task Ti, and h is the dimensionality of h. The MTL model is then trained to minimise the sum of the individual task losses: L = λ1L1 + .
+39	23	.+ λTLT (2) where Li is the negative log-likelihood objec- tive Li = H(pTi ,yTi) = − 1N ∑ n ∑ j logp Ti j y Ti j and λi is a parameter that determines the weight of task Ti.
+42	89	In order to learn the relationships between labels, we propose a Label Embedding Layer (LEL) that embeds the labels of all tasks in a joint space.
+43	66	Instead of training separate softmax output layers as above, we introduce a label compatibility function c(·, ·) that measures how similar a label with embedding l is to the hidden representation h: c(l,h) = l · h (3) where · is the dot product.
+63	104	We train the target task model on the pseudolabelled data to minimise the squared error between the model predictions pTi and the pseudo labels zTi produced by the LTN: Lpseudo =MSE(pTT , zTT ) = ||pTT − zTT ||2 (7) We add this loss term to the MTL loss in Equation 2.
+67	10	When there is a domain shift between the datasets of different tasks as is common for instance when learning NER models with different label sets, the output label embeddings might not contain sufficient information to bridge the domain gap.
+68	13	To mitigate this discrepancy, we augment the LTN’s input with features that have been found useful for transfer learning (Ruder and Plank, 2017).
+70	11	We calculate each feature for each example.1 The features are then concatenated with the input of the LTN.
+72	15	For this reason, we propose several additional improvements that seek to alleviate this burden: We use skip-connections, which have been shown to be useful for multitask learning in recent work (Ruder et al., 2017).
+76	11	To the best of our knowledge, this is the first work on transfer learning between such pairwise sequence classification tasks.
+78	27	We use the following tasks and datasets for our experiments, show task statistics in Table 1, and summarise examples in Table 2: Topic-based sentiment analysis Topic-based sentiment analysis aims to estimate the sentiment of a tweet known to be about a given topic.
+99	30	An example for an instance would be the sentence pair “Fun for only children”, “Fun for adults and children”, which are in a “contradiction” relationship.
+103	36	We use BiLSTMs with one hidden layer of 100 dimensions, 100-dimensional randomly initialised word embeddings, a label embedding size of 100.
+104	42	We train our models with RMSProp, a learning rate of 0.001, a batch size of 128, and early stopping on the validation set of the main task with a patience of 3.
+107	9	On 7/8 tasks, at least one of our architectures is better than single-task learning; and in 4/8, all our architectures are much better than single-task learning.
+109	28	Our architectures, in contrast, have not been optimised to compare favourably against the state of the art, as our main objective is to develop a novel approach to multi-task learning leveraging synergies between label sets and knowledge of marginal distributions from unlabeled data.
+113	33	For this reason, we do not achieve good performance on these tasks as main tasks, but they are still useful as auxiliary tasks as seen in Table 4.
+115	67	In Figure 2, we visualise the label embeddings of an MTL+LEL model trained on all tasks, using PCA.

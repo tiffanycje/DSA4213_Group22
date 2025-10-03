@@ -1,0 +1,30 @@
+10	22	jects names are read and comprehended.
+11	90	Having both image- and text-based models of semantic representation, and neural activity patterns associated with concrete and abstract nouns, enables a natural test of Dual coding theory (Paivio, 1971).
+12	67	Dual coding posits that concrete concepts are represented in the brain in terms of a visual and linguistic code, whereas abstract concepts are only represented by a linguistic code.
+14	61	We extend previous work by applying image- and text-based computational semantic models to decode an fMRI data set spanning a diverse set of nouns of varying concreteness.
+20	19	In line with the previous results of Anderson et al. (2013) and Anderson et al. (2015), both visual and textual models decode the more concrete nouns.
+21	30	The image- and text-based computational models we use have recently been developed using neural networks (Mikolov et al., 2013; Jia et al., 2014).
+29	24	We reanalyze the fMRI data originally collected by Anderson et al. (2014), who investigated the relevance of different taxonomic categories and domains embedded in WordNet to the organization of conceptual knowledge in the brain.
+34	34	Six taxonomic categories that were heavily populated with abstract words, as well as one unambiguously concrete category, were chosen.
+45	11	We split the stimulus nouns into the 35 most concrete and 35 most abstract words according to the behavioural concreteness ratings from Anderson et al. (2014).
+67	17	Images from Google have been shown to yield representations that are competitive in quality compared to alternative resources (Bergsma and Van Durme, 2011; Fergus et al., 2005).
+68	106	Image representations are obtained by extracting the pre-softmax layer from a forward pass in a convolutional neural network (CNN) that has been trained on the ImageNet classification task using Caffe (Jia et al., 2014).
+80	11	For English, representations were built for the English translations of the 70 stimuli provided by Anderson et al. (2014).
+86	11	The result is two square matrices of word pair correlations: one for the fMRI data, another for the model.
+87	109	In the similarity space, each word is a vector of correlations with all other words, thereby allowing model and brain words (similarity vectors) to be directly matched to each other.
+88	45	In decoding, models were matched to fMRI data as follows (see Figure 2).
+89	76	The 500 voxels estimated to have the most stable signal were selected using the strategy described in Section 2.2.
+98	16	The two model similarity vectors were then compared to the two fMRI similarity vectors by correlation, resulting in four correlation values.
+99	13	These correlation values were transformed using Fisher’s r to z (arctanh).
+135	22	Dual coding theory (Paivio, 1971) leads to the following hypotheses: (1) The text-based models will decode the more abstract nouns’ neural activity patterns with higher accuracy than the image-based model; (2) both image and text-based models will decode the more concrete nouns’ neural activity.
+139	15	A second reason is that the experimental task required participants to imagine a situation associated with the noun, rather than think of object properties.
+150	46	With respect to hypothesis 1 (an advantage for the text-based models decoding abstract neural activity patterns), the key difference to observe in Figure 3 is the drop in relative decoding accuracy between the image-based model and text-based models when decoding the most abstract nouns.
+152	9	Combinations of image and textbased models (e.g. Img&TXen) were not directly relevant to this analysis (because they integrate visual and textual data) and consequently these models were excluded.
+154	14	The ANOVA indicated a statistically significant difference between models: F(3,24) = 5.06, p < .01.
+158	25	That both image- and text-based models significantly decoded the most concrete nouns is consistent with hypothesis 2.
+204	56	A second limitation of the current approach, as pointed out by a reviewer, is that the Google image search algorithm (the workings of which are unknown to the authors) may not perform as well for abstract words as it does for concrete words.
+207	27	Secondary results are that we have exploited rep- resentational similarity space to build group-level neural representations which better match our inherently group-level computational semantic models.
+208	22	In so doing, this exposes group-level commonalities in neural representation for both concrete and abstract words.
+209	44	Such group-level representations may prove both a useful test-bed for evaluating computational semantic models, as well as a potentially useful information source to incorporate into computational models (see Fyshe et al. (2014) for related work).
+211	10	That the English text-based model tended to return marginally higher results on our Italian brain data than the Italian model provides a cautionary note for future studies wishing to use semantic models from different languages to identify culturally specific aspects of neural semantic representation e.g., as a follow up to Zinszer et al. (2016).
+212	26	However we also note that the English Wikipedia data was larger than the corresponding Italian corpus.

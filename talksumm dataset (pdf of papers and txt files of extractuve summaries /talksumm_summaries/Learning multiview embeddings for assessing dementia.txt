@@ -1,0 +1,30 @@
+0	30	Alzheimer’s disease (AD) is a neurodegenerative progressive disease whose symptoms include memory loss, disorientation, and behavioral issues (Ballard et al., 2011).
+1	17	In 2017, 5.7 million Americans were living with AD, and the disease accounted for $11.4 billion in healthcare costs in the United States (Alzheimer’s Association, 2018).
+2	24	AD is diagnosed through clinician-administered questionnaires, such as the Mini-Mental State Examination (MMSE), which assigns a score between 0 and 30 based on responses to questions testing memory, recall, and orientation (Folstein et al., 1975).
+3	10	For context, a MMSE score of 23 and below is associated with cognitive decline.
+4	9	AD affects language and some of its symptoms include difficulties in word-finding and changes in the voice.
+17	58	We evaluate the utility of the multiview embedding in two downstream tasks: classification of AD vs non-AD participants, and clinical score prediction.
+18	28	We use the DementiaBank (DB) corpus (Becker et al., 1994), which consists of adults aged 44 and older, assigned to either the ‘Dementia’ (N = 167) or ‘Healthy’ (N = 97) group based on a battery of neuropsychological tests and on their medical histories.
+19	29	In DB, participants performed the “Cookie Theft” picture description task from the Boston Diagnostic Aphasia Examination (Goodglass and Kaplan, 1983), in which they verbally describe the contents of a picture.
+20	44	Additionally, participants in the ‘Dementia’ group completed the category fluency (i.e., naming words belonging to a given category), letter fluency (i.e., naming words that start with a given letter), sentence construction, and story recall tasks.
+21	29	The picture description and both fluency tasks were professionally transcribed and annotated with instances of filled pauses.
+23	14	From transcripts of the picture description, category fluency and letter fluency tasks, we extract 565 linguistic features1.
+24	32	We compute lexical features (e.g., the mean number of syllables per word, the vocabulary richness as measured by the type-token-ratio2), semantic features (e.g., the mean specificity of words as measured by their depth in WordNet3), and syntactic features (e.g., the proportion of various parts-of-speech tags, such as nouns and adjectives).
+26	11	Finally, we train an LDA model of 100 topics (Blei et al., 2003) using a Wikipedia snapshot, and compute the topic probabilities for each transcript.
+27	20	We apply generalized canonical correlation analysis (GCCA) to our dataset to obtain a multiview embedding.
+28	81	We use GCCA as described by Benton et al. 2016 to learn linear transformations Uj which project different views of our data into the embedding G. In our experiments, we consider the following views of DB: linguistic features of the picture description, category fluency and letter fluency tasks, and demographic information.
+31	20	We use GCCA to learn Uj from X ′PD, X ′CAT , X ′ LET , X ′ DEM , such that: minimize Uj ,G′ ∑ j∈J ||G′ − UTj X ′j ||2F Uj ∈ Rdj×k, G′ ∈ Rk×N ′ .
+32	22	We concatenate G to a subset of the picture description linguistic features, X∗PD, to obtain C = (X∗PD, G), where C ∈ R(k+d∗PD)×N .
+34	14	We run all experiments with 10-fold cross validation and test various settings of k, the dimension of the multiview embedding.
+35	63	We select the top n linguistic features, ordered through a one-way ANOVA and concatenate them with multiview embeddings of size k. The n + k features are then given as input to a random forest classifier with 100 decision trees, and we report the F1 scores in Figure 1.
+36	43	Our best classification result (F1 = 0.823 ± 0.032) is achieved with a multiview embedding of size k = 35 using the best n = 75 linguistic features.
+38	10	Next, we look at multiview embeddings generated from different combinations of DB views, and report our F1 scores in Table 1 for embeddings of size k = 35 and using the top n = 75 features.
+39	30	Adding multiview embeddings always improves classification, and we obtain our best results by learning an embedding from the picture description and category fluency views.
+42	14	Our lowest MAE of 3.412 ± 0.300 was obtained using a GCCA embedding of size k = 5 and retaining the top n = 75 linguistics features.
+53	31	In our experiments, we use GCCA to learn a multiview embedding and augment our existing set of features.
+54	9	The multiview embedding consists of a vector representation which encapsulates information from various sources of information (i.e., the picture description task, the category and letter fluency tasks, and demographic data).
+60	11	This embedding can subsequently be used to improve models for classification and regression.
+61	13	In our experiments, multiview embeddings allowed the use of both the category and letter fluency data in DB, even though they were only available for the ‘Dementia’ participants.
+63	25	Extracting acoustic features – such as pause ratio, pitch, and Mel-frequency cepstral coefficients (MFCCs) – and treating them as an additional view is part of our future work.
+64	92	Furthermore, we will look into other secondary datasets as well as different approaches of obtaining multiview embeddings.
+66	8	A possible alternative is deep generalized canonical correlation analysis (DGCCA), which makes use of neural networks to learn non-linear mappings to the embedding space (Benton et al., 2017).

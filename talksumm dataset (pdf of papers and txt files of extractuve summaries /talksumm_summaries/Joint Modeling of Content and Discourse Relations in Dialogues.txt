@@ -1,0 +1,30 @@
+0	26	Goal-oriented dialogues, such as meetings, negotiations, or customer service transcripts, play an important role in our daily life.
+2	74	We are interested in a specific type of dialogues — spoken meetings, which is a common way for collaboration and idea sharing.
+3	14	Previous work (Kirschner et al., 2012) has shown that discourse structure can be used to capture the main discussion points and arguments put forward during problem-solving and decision-making processes in meetings.
+4	42	Indeed, content of different speaker turns do not occur in isolation, and should be interpreted within the context of discourse.
+19	12	Combined with the predicted discourse structure, a visualization tool can be exploited to display conversation flow to support intelligent meeting assistant systems.
+52	13	Each discourse unit can be a complete speaker turn or a part of it.
+54	14	In this work, we consider the argumentative discourse structure by Twente Argument Schema (TAS) (Rienks et al., 2005).
+65	30	All candidate phrases in discussion x are represented as c. We then define a log-linear model with feature parameters w for the candidate phrases c and discourse relations d in x as: p(c,d|x,w) ∝ exp[w · Φ(c,d,x)] ∝ exp[w · n∑ i=1,<xi,xi′>∈t φ(ci, di, di′ ,x)] ∝ exp[ n∑ i=1,<xi,xi′>∈t (wc · mi∑ j=1 φc(ci,j ,x) + wd · φd(di, di′ ,x) + wcd · mi∑ j=1 φcd(ci,j , di,x))] (1) Here Φ(·) and φ(·) denote feature vectors.
+66	96	We utilize three types of feature functions: (1) content-only features φc(·), which capture the importance of phrases, (2) discourse-only features φd(·), which characterize the (potentially higherorder) discourse relations, and (3) joint features of content and discourse φcd(·), which model the interaction between the two.
+74	14	In general, the learning algorithm constructs a sequence of configurations for sample labels as a Markov chain Monte Carlo (MCMC) chain based on a task-specific loss function, where stochastic gradients are distributed across the chain.
+81	34	For the scorer ω, we use a weighted combination of F1 scores of phrase selection (F1c) and discourse relation prediction (F1d): ω(σ) = α · F1c + (1− α) · F1d.
+82	33	When discourse relations are treated as latent, we initialize discourse relations for each sample with a label in {1, 2, .
+84	35	Input : X = {x}: discussions in the training set, η: learning rate, : number of epochs, δ: number of sampling rounds, ω(·): scoring function, Φ(·): feature functions Output: feature weights 1|W| ∑ w∈W w Initialize w; W ← {w}; for e = 1 to do for x in X do // Initialize configuration for x Initialize c and d; σ = (c,d); for s = 1 to δ do // New configuration via local search d′ ∼ qd(·|x,d); c′ ∼ qd(·|x, c,d′); σ′ = (c′,d′); σ+ = arg maxσ̃∈{σ,σ′} ω(σ̃); σ− = arg minσ̃∈{σ,σ′} ω(σ̃); ∇̂ = Φ(σ+)− Φ(σ−); ∆ω = ω(σ+)− ω(σ−); // Update parameters if w · ∇̂ < ∆ω & ∆ω 6= 0 then w← w + η · ∇̂; Add w inW; end // Accept or reject new configuration if σ+ == σ′ then σ = σ′ end end end end Algorithm 1: SampleRank-based joint learning.
+85	17	Given a new sample x and learned parameters w, we predict phrase labels and discourse relations as arg maxc,d p(c,d|x,w).
+86	21	Dynamic programming can be employed to carry out joint inference, however, it would be time-consuming since our objective function has a large search space for both content and discourse labels.
+109	12	For modeling the interaction between content and discourse, the discourse relation is added to each content feature to compose a joint feature.
+125	14	The nodes of the tree contain partial or complete speaker turns, and discourse relation types are labeled on the links between the nodes.
+164	15	Following previous work on meeting summarization (Riedhammer et al., 2010; Wang and Cardie, 2013), we consider two dialogue act-level summarization baselines: (1) LONGEST DA in each discussion is selected as the summary, and (2) CENTROID DA, the one with the highest TF-IDF similarity with all DAs in the discussion.
+167	14	Top phrases, with the same number of phrases output by our model, are included into the summaries.
+194	13	For instance, “I wouldn’t choose a plastic case” should be labeled as OPTION EXCLUSION, if the previous turns talk about different options.
+198	20	In this section, we test whether our joint model can be utilized to predict the consistency among team members’ under- standing of their group decisions, which is defined as consistency of understanding (COU) in Kim and Shah (2016).
+199	24	Kim and Shah (2016) establish gold-standard COU labels on a portion of AMI discussions, by comparing participant summaries to determine whether participants report the same decisions.
+209	58	Intuitively, some discourse relations, e.g., ELABORATION followed by multiple POSITIVE feedback, imply consistent understanding.
+217	40	A majority class baseline is constructed as well.
+218	76	We also consider an SVM classifier trained with ngram features (unigrams and bigrams).
+219	35	Finally, we compare with the state-of-the-art method in Kim and Shah (2016), where discourse-relevant features and head ges- ture features are utilized in Hidden Markov Models to predict the consistency label.
+220	13	The results are displayed in Table 5.
+222	63	Especially, the discourse features, word entrainment feature, and the combination of the three, all significantly outperform the state-of-theart system by Kim and Shah (2016).6
+223	23	We presented a joint model for performing phraselevel content selection and discourse relation prediction in spoken meetings.
+224	43	Experimental results on AMI and ICSI meeting corpora showed that our model can outperform state-of-the-art methods for both tasks.

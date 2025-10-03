@@ -1,0 +1,30 @@
+37	1	The goal is to find the continuous path p∗ from θ1 to θ2 through parameter space with the lowest maximum loss: p(θ1, θ2) ∗ = arg min p from θ1 to θ2 { max θ∈p L(θ) } .
+39	1	The output and loss of neural networks are continuous functions of the parameters (Montúfar et al., 2014); only the derivative is discontinuous for the case of ReLU activations.
+43	1	We refer to the parameter set with the maximum loss on a path as the “saddle point” of the path because it is a true saddle point of the loss function.
+52	1	In the following, we present the mechanical model behind and the details of NEB.
+55	1	Using gradient descent, the path that minimises the following energy function is found: E(p) = N∑ i=1 L(pi) + N∑ i=0 1 2 k ‖pi+1 − pi‖2 (1) The problem with this energy formulation lies in the choice of the spring constant: If, on the one hand, k is too small, the distances between the pivots become larger in areas with high energy.
+57	1	If, on the other hand, k is chosen too large, it becomes energetically advantageous to shorten and hence straighten the path as the spring energy grows quadratically with the total length of the path.
+64	1	The spring force only redistributes pivots on the path, but does not straighten it.
+78	1	In this formulation, we use gradient descent to update the path.
+79	1	Any other gradient based optimiser can be used.
+99	1	Insert pivots where residuum is large.
+107	1	When AutoNEB finds a bad local MEP, this can be addressed by computing paths between other pairs of minima.
+122	1	else Compute new path pn using AutoNEB.
+132	1	For each minimum pair, AutoNEB (see Algorithm 2) is run for a total of 14 cycles of NEB.
+134	1	After each cycle, new pivots are inserted at positions where the loss exceeds the energy estimated by linear interpolation between pivots by at least 20% compared to the total energy difference along the path.
+135	1	Comparing to the total loss difference prioritises big errors which is beneficial as each additional pivot implies one more loss evaluations per iteration.
+138	1	The NEB cycles are configured with a learning rate decay: 1.
+141	1	The number of steps was increased as it did not prove necessary inserting new pivots after 1000 steps.
+150	1	ResNet We train ResNets on both CIFAR10 and CIFAR100 (ResNet-20, -32, -44 and -56) following the training procedure in (He et al., 2016).
+158	1	For the shallow CNNs on the one hand, the saddle loss is found quite close to the test loss.
+160	2	Further, we measure how late during training the learning curve crosses the saddle loss, as visualised in Figure 6.
+162	1	For the wider CNNs on CIFAR10 and the majority of ResNets and DenseNets, the losses meet even after the second decay, i.e. in the final phase of learning.
+164	1	The more complex dataset CIFAR100 raises the barriers.
+168	1	The local MEPs between the minima not only have very low loss, they also follow simple trajectories.
+180	1	Assume that by training, a parameter set with low loss has been identified.
+191	2	We can obtain an equivalent network by exchanging Alice and Bob (and permuting the weights of the neuron in the second hidden layer, not shown).
+209	3	When the hyperparameters of AutoNEB are further refined, we expect to find even lower paths up to the level where the true saddle points are recovered.
+211	3	This makes it possible to recursively form clusters of minima, i.e. using single-linkage clustering.
+212	23	In the traditional energy landscape literature, this kind of clustering is summarised in disconnectivity graphs (Wales et al., 1998) which can help visualise very high-dimensional surfaces.
+213	164	On the practical side, we envisage using the resulting paths as a large ensemble of neural networks (Garipov et al., 2018), especially given that we observe marginally lower test loss along the path.
+214	163	More importantly, we hope these observations will stimulate new theoretical work to better understand the nature of the loss surface, and why local optimisation on such surfaces results in networks that generalize so well.

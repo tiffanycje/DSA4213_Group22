@@ -1,0 +1,30 @@
+44	13	X , for some random variable X , if Xn converges in distribution to X .
+69	48	In this section, we first introduce the setup of our problem, then we present our proposed estimation method and hypothesis testing procedure.
+71	19	It is associated with an undirected graph G = (V,E) with vertex set V = (1, .
+72	16	, d) corresponding to random variables and edge set E = {(j, k) | j 6= k,⇥⇤jk 6= 0} describing the connections of nodes, where ⇥ ⇤ = ⌃ ⇤ 1 is the precision matrix.
+77	34	Clearly, a special case of the arbitrary corruption model is the outlier model where the corruption appears in n 2 observations.
+78	26	Under the arbitrary corruption model, n 2 is the upper bound on the number of corruptions for each variable, and under the outlier model, n 2 is the upper bound on the number of outliers.
+86	14	The truncated inner product hu,vin2 is defined as follows: given two n-dimensional vectors u,v 2 Rn, and the truncation number n 2 satisfying n 2  n, we first compute the quantity qi = uivi, for i = 1, .
+88	28	Let ⌦ be the set of selected indices with cardinality |⌦| = n n 2 , then we have the truncated inner product as hu,vin2 = P i2⌦ qi.
+89	20	The main idea of our estimation method is to use a robust covariance matrix estimator which can mitigate the impact of arbitrary corruptions.
+90	21	More specifically, given a data matrix X 2 Rn⇥d, which is arbitrarily corrupted, we obtain the robust covariance matrix estimator b⌃ through a truncation procedure that each element b⌃jk is calculated via truncated inner product hX⇤j ,X⇤kin2/n1.
+96	13	To estimate the precision matrix more efficiently, instead of solving (3.1), we can estimate each column of⇥⇤ as follows: b✓ = argmin ✓2Rd k✓k 1 subject to kb⌃✓ eik1  , (3.2) for i = 1, .
+99	12	, b✓1d] of (3.2) is equivalent to the solution of (3.1) (Cai et al., 2011).
+100	15	In addition, since b ⇥ 1 is not symmetric, we need the following symmetrization procedure to get our robust estimator b ⇥ = arginf ⇥2Sd++ k⇥ b⇥1k 1 , (3.3) where Sd ++ = {A 2 Rd⇥d | A = A>,A 0} denotes all d ⇥ d symmetric positive definite matrices.
+101	22	The symmetrization procedure in (3.3) can be solved by the projected gradient descent method, and in practice, we can use many simple symmetrization methods, such as the method provided in Cai et al. (2011).
+103	13	More specifically, we want to develop a procedure for the hypothesis test that H 0 : ⇥ ⇤ jk = 0 versus H1 : ⇥ ⇤ jk 6= 0.
+104	11	Let us assume that the k-th column of the precision matrix⇥⇤ to be the vector ✓⇤k = (↵ ⇤, ⇤>)> where ↵⇤ is the j-th element of the vector ✓⇤k and ⇤ 2 Rd 1 is the remaining (d 1)-dimensional vector.
+105	31	Thus it is equivalent to test the one dimensional component H 0 : ↵⇤ = 0 versus the non-restricted alternative H 1 : ↵⇤ 6= 0.
+107	38	To this end, we first introduce the following estimation equation projected (EEP) along the direction bw: bS(✓) = bw> b ⌃✓ ek , (3.4) where b⌃ is the the robust covariance matrix estimator and b w is the solution of the optimization problem (3.2) with i = j.
+108	28	The motivation of projecting the estimation equation to a sparse direction (3.4) is to help us construct a test statistic which has a tractable limiting distribution in the high-dimensional regime.
+118	23	Therefore, our asymptotic level-↵ test is given by n = ( 0 (⌘ accept H 0 ) if | bTn|  C↵, 1 (⌘ reject H 0 ) if | bTn| > C↵, (3.7) where C↵ = 1(1 ↵/2) is the (1 ↵/2)-quantile of the standard normal distribution N(0, 1).
+133	24	In addition, assume the upper bound on the number of corruptions n 2 satisfies n 2  a p n for some constant a 0.
+136	14	According to (4.1), the estimation error of our robust estimator consists of two terms.
+137	28	The first one O(s p log d/n) corresponds to the estimation error without corruptions.
+149	28	pn/plog d, then for the robust estimator b⇥ in (3.1), we have, with probability at least 1 C/d, that k b⇥ ⇥⇤k 2  C 1 M22s r log d n .
+153	13	Next, we present the asymptotic results of our proposed test statistics in (3.6), which verifies the effectiveness of our testing procedure.
+160	33	This requirement on sparsity matches the best-known results for edge testing in GGMs (Liu et al., 2013; Ren et al., 2015).
+163	33	Our comparisons focus on their performance in both graph recovery and parameter estimation.
+166	19	We conduct some simulations to investigate the performance of our proposed hypothesis testing procedure.
+167	71	Furthermore, we compare our method with GLasso on a gene expression data.
+168	19	In our numerical simulations, we consider the following two settings: (i) n = 100, d = 100; and (ii) n = 200, d = 400.

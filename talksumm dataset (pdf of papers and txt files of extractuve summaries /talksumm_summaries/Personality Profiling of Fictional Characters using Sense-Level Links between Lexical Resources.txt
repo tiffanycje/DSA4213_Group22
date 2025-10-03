@@ -1,0 +1,30 @@
+0	38	Recent progress in NLP has given rise to the field of personality profiling - automated classification of personality traits based on written, verbal and multimodal behavior of an individual.
+1	30	This research builds upon findings from classical personality psychology and has applications in a wide range of areas from medicine (suicide prevention) across security (forensics, paedophile detection, cyberbullying) to marketing and sales (recommendation systems, target group profiles).
+2	36	The gold standard labels for an objective evaluation of personality are mostly obtained by means of personality tests of the Five Factor Model (FFM) (McCrae and Costa, 1987; Goldberg, 1990), which is wellknown and widely accepted in psychology and other research fields.
+9	55	We therefore hypothesize that readers might have a preference for reading novels depicting fictional characters that are similar to themselves.
+10	27	Finding a direct link between reader’s and protagonist’s personality traits would advance the development of content-based recommendation systems.
+43	22	Our gold standard benefits from the fact that readers enjoy discussing the personality of their favourite book character online.
+47	40	Our data was collected from the collaboratively constructed Personality Databank2 where the readers can vote if a book character is, among other aspects, introverted or extraverted.
+50	12	First, the question is posed as dichotomic, while in reality the extraversion is a normally distributed trait in human population (Goldberg, 1990).
+57	32	The percentage agreement of voters in our data is 84.9%, calculated as: P = 1 N N∑ i=1 k∑ j=1 nij(nij − 1) n(n− 1) where k = 2 (introvert, extravert), N is the number of book characters and n the number of votes per character.
+76	12	Of those correctly identified as a Person in the adjacent indirect speech, 17% were not the speakers.
+78	26	With this method we retrieve 89% of known speakers, of which 92% is assigned correctly.
+81	66	All speech utterances of one book character are represented as one instance in our system.
+82	36	We use the leave-one-out classification setup due to the relatively small dataset size, using the support vector machines (SVM-SMO) classifier, which performs well on comparable tasks (Celli et al., 2013).
+84	24	Lexical features As a bottom-up approach we use the 1000 most frequent word uni-, bi- and trigrams, 1000 dependency word pairs, 1000 character trigrams and 500 most frequent verbs, adverbs, adjectives and interjections as binary features.
+87	15	We use the most frequent sense of WordNet (Miller, 1995) to annotate all verbs in the direct speech (a simple but well performing approach for books).
+88	19	We then label the disambiguated verbs with their semantic field given in WordNet (WordNet defines 14 semantic classes of verbs which group verbs by their semantic field) and we measure frequency and occurence of each of these classes (e.g. cognition, communication, motion, perception)5.
+89	24	Additionally, we use the lexical-semantic resource UBY (Gurevych et al., 2012) to access the WordNet and VerbNet information, and to exploit the VerbNet sense-level links which connects WordNet senses with the corresponding 273 main VerbNet classes (Kipper-Schuler, 2005).
+119	21	Another potential cause, based on the error analysis, is the different target of the same sentiment for extraverts and introverts.
+123	12	It is probable that these aspects were also impacted by our broad variety of author style (F. Dostoyevsky vs J. K. Rowling).
+143	38	Stylistic features reflect the complexity difference of the verb phrases (John jumped vs. John thought about it), extraverts being characterized by plain verbs.
+146	14	Extraverts in books also often bring or hold something.
+147	42	Introverts, on the other hand, seem to favor slow movements - while they are thinking, reflecting, creating, looking for explanations and find out solutions, they tend to lie down, sit or walk, eventually even sleep or snooze.
+148	305	The uncertainty typical for introverts is also notable in their actions, as they often hope or wish for something they might like to do.
+151	23	The classification model based on actions outperforms not only the direct speech model, but also the state-of-the-art systems predicting authors’ extraversion from the stream-of-consciousness essays (Mairesse et al., 2007; Celli et al., 2013; Neuman and Cohen, 2014).
+152	56	While surely not directly comparable, this result hints to the fact that the personality is easier to detect from behavior than from person’s verbal expression.
+153	130	This would correspond to the findings of Mairesse et al. (2007), Biel and Gatica-Perez (2013) and Aran and Gatica-Perez (2013) on multimodal data sets.
+154	25	Our third extraversion prediction system is subordinate to how fictional characters are described and to the manners in which they behave.
+155	146	We are not aware of a previous NLP work predicting extraversion using descriptive adjectives of the persons in question.
+156	18	We thus juxtapose the most predictive features of our system to the adjectival extraversion markers developed by Goldberg (1992).
+159	17	We extract data for 205 characters, with on average 43 words per character.

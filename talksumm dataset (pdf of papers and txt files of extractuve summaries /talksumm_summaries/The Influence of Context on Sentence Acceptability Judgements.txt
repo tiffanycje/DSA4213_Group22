@@ -1,0 +1,30 @@
+0	18	Sentence acceptability is defined as the extent to which a sentence is well formed or natural to native speakers of a language.
+1	13	It encompasses semantic, syntactic and pragmatic plausibility and other non-linguistic factors such as memory limitation.
+3	11	Grammaticality as characterised by formal linguists is a theoretical concept that is difficult to elicit from non-expert assessors.
+4	27	In the research presented here we are interested in predicting acceptability judgements.2 Lau et al. (2015, 2016) present unsupervised probabilistic methods to predict sentence acceptability, where sentences were judged independently of context.
+5	20	In this paper we extend this research to investigate the impact of context on human acceptability judgements, where context is defined as the full document environment surrounding a sentence.
+9	57	Showing a strong correlation between unsupervised language model sentence probability and acceptability supports the view that linguistic knowledge can be represented as a probabilistic system.
+10	12	This result addresses foundational questions concerning the nature of grammatical knowledge (Lau et al., 2016).
+15	22	We perform round-trip machine translation to generate sentences of varying degrees of well-formedness and ask crowdsourced workers to judge the acceptability of these sentences, presenting the sentences with and without their document environments.
+25	18	Our goal is to construct a dataset of sentences annotated with acceptability ratings, judged with and without document context.
+27	15	To generate a set of sentences with varying degrees of acceptability we used the Moses MT system (Koehn et al., 2007) to translate each sentence from English to 4 target languages — Czech, Spanish, German and French — and then back to English.3 We chose these 4 languages because preliminary experiments found that they produce sentences with different sorts of grammatical, semantic, and lexical infelicities.
+29	23	To gather acceptability judgements we used Amazon Mechanical Turk and asked workers to judge acceptability using a 4-point scale.4 We ran the annotation task twice: first where we presented sentences without context, and second within their document context.
+30	14	For the in-context experiment, the target sentence was highlighted in boldface, with one preceding and one succeeding sentence included as additional context.
+31	23	Workers had the option of revealing the full document context by clicking on the preceding and succeeding sentences.
+38	25	We found a strong correlation of Pearson’s r = 0.80 between the two sets of ratings.
+39	92	We see that adding context generally improves acceptability (evidenced by points above the diagonal), but the pattern reverses as acceptability increases, suggesting that context boosts sentence ratings most for ill-formed sentences.
+40	23	The trend persists throughout the whole range of acceptability, so that for the most acceptable sentences, adding context actually diminishes their rated acceptability.
+41	12	We can see this trend clearly in Figure 1, where the average difference between h− and h+ is represented by the distance between the linear regression and the diagonal.
+49	20	Adding context “compressess” the distribution of (mean) ratings, pushing the extremes to the middle (i.e. very ill/well-formed sentences are now less ill/well-formed).
+50	15	The net effect is that it lowers correlation, as the good and bad sentences are now less separable.
+57	17	We use: (1) a LSTM language model (lstm: Hochreiter and Schmidhuber (1997); Mikolov et al. (2010)), and (2) a topically driven neural language model (tdlm: Lau et al. (2017)).8 lstm is a standard LSTM language model, trained over a corpus to predict word sequences.
+63	38	Therefore we have 4 variants at test time: models that use only the sentence as input, lstm− and tdlm−, and models that use both sentence and context, lstm+ and tdlm+.9 lstm+ incorporates context by feeding it to the LSTM network and taking its final state10 as the initial state for the current sentence.
+65	43	To map sentence probability to acceptability, we compute several acceptability measures (Lau et al., 2016), which are designed to normalise sentence length and word frequency.
+73	38	Across all models (lstm and tdlm) and human ratings (h− and h+), using context at test time improves model performance.
+74	17	This suggests that taking context into account helps in modelling acceptability, regardless of whether it is tested against judgements made with (h+) or without context (h−).13 We also see that tdlm consistently outperforms lstm over both types of human ratings and test input variants, showing that tdlm is a better model at predicting acceptability.
+78	27	The SLOR correlation of lstm+/tdlm+ vs. h+ (0.546/568) is lower than that of lstm−/tdlm− vs. h− (0.584/0.640).
+80	19	It suggests that h+ ratings are more difficult to predict than h−.
+90	31	We found that (i) context positively influences acceptability, particularly for ill-formed sentences, but it also has the reverse effect for well-formed sentences (H1); (ii) incorporating context (during training or testing) when modelling acceptability improves model performance (H2); and (iii) prediction performance declines when tested on judgements collected with context, overturning our original hypothesis (H3).
+91	28	We discovered that human agreement decreases when context is introduced, suggesting that ratings are less predictable in this case.
+92	39	While it is intuitive that context should improve acceptability for ill-formed sentences, it is less obvious why it reduces acceptability for well-formed sentences.
+93	113	We will investigate this question in future work.

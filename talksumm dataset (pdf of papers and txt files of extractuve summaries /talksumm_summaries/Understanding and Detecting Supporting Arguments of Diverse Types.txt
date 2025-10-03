@@ -1,0 +1,30 @@
+10	38	In this work, we present a novel study on the task of sentence-level supporting argument detection from relevant documents for a user-specified claim.
+12	8	We define such tasks as supporting argument detection.
+13	50	Furthermore, another goal of 203 this work is to understand and characterize different types of supporting arguments.
+14	17	Indeed, human editors do use different types of information to promote persuasiveness as we will show in Section 3.
+17	28	After careful inspection on the supporting arguments, we propose to label them as STUDY, FACTUAL, OPINION, or REASONING.
+19	66	Based on the new corpus, we first carry out a study on characterizing arguments of different types via type prediction.
+25	21	The data collection and annotation process is described in Section 3, which is followed by argument type study (Section 4).
+33	59	We rely on data from idebate.org, where human editors construct paragraphs of arguments, either supporting or opposing claims under controversial topics.
+37	12	As shown in Figure 2, we first annotate which sentence(s) from a citation articles is used by the editor as supporting arguments.
+39	27	Two experienced annotators were hired to identify supporting arguments by reading through the whole cited article and locating the sentences that best match the reference human constructed argument.
+45	10	For argument type annotation, we achieve Cohen’s κ of 0.61 for STUDY, 0.75 for FACTUAL, 0.71 for OPINION, and 0.29 for REASONING3 Statistics.
+47	13	Among those, 95 (9.55%) are labeled as STUDY, 497 (49.95%) as FACTUAL, 363 (36.48%) as OPINION, and 40 (4.02%) as REASONING.
+58	12	We also compute number of positive, negative and neutral words in MPQA lexicon (Wilson et al., 2005), and number of words from a subset of semantic categories from General Inquirer (Stone et al., 1966).5 Discourse Features.
+64	41	From Table 2, we can see that Loglinear model trained with all features outperforms the ones trained with ngram features.
+66	18	As can be seen, arguments of STUDY and FACTUAL tend to contain more concrete words and named entities.
+68	35	We cast the sentence-level supporting argument detection problem as a ranking task.6 Features in Section 4 are also utilized here as “Sentence features” with additional features considering the sentence position in the article.
+69	27	We further employ features that measure similarity between claims and sentences, and the composite features that leverage argument type information.
+75	13	Given claim c and sentence s with any feature mentioned above, a composite feature function φM(type, feature)(s, c) is set to the actual feature value if and only if the argument type matches.
+78	33	Our model is evaluated by Mean Reciprocal Rank (MRR) and Normalized Discounted Cumulative Gain (NDCG) using 5-fold cross validation.
+80	20	Results in Table 3 show that using composite features with argument type information (Comp(type, Sen) + Comp(type, Simi)) can improve the ranking performance.
+83	11	And similarity features have similar performance as those baselines.
+87	21	We breakdown features according to their argument types and show top salient composite features in Table 4.
+88	56	For all sentences of type STUDY, relevant ones tend to contain more “percentage” and more concrete words.
+89	8	We also notice those sentences with more hedging words are more likely to be considered.
+91	15	For type OPINION, unlike all other types, position of sentence seems to be insignificant.
+92	88	As we could imagine, opinionated information might scatter around the whole documents.
+93	27	For sentences of REASONING, the ones that can be used as supporting arguments tend to be less concrete and less emotional, as opposed to opinion.
+94	37	We presented a novel study on the task of sentence-level supporting argument detection from relevant documents for a user-specified claim.
+95	47	Based on our newly-collected dataset, we characterized arguments of different types with a rich feature set.
+96	31	We also showed that leveraging argument type information can further improve the performance of supporting argument detection.

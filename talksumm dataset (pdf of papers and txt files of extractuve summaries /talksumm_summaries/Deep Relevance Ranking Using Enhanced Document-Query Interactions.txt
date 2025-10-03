@@ -1,0 +1,30 @@
+0	74	Document relevance ranking, also known as adhoc retrieval (Harman, 2005), is the task of ranking documents from a large collection using the query and the text of each document only.
+3	15	Examples include various domains in digital libraries, e.g., patents (Azzopardi et al., 2010) or scientific literature (Wu et al., 2015; Tsatsaronis et al., 2015); enterprise search (Hawking, 2004); and personal search (Chirita et al., 2005).
+4	109	We investigate new deep learning architectures for document relevance ranking, focusing on termbased interaction models, where query terms (qterms for brevity) are scored relative to a docu- ment’s terms (d-terms) and their scores are aggregated to produce a relevance score for the document.
+5	23	Specifically, we use the Deep Relevance Matching Model (DRMM) of Guo et al. (2016) (Fig.
+6	24	1), which was shown to outperform strong IR baselines and other recent deep learning methods.
+9	23	The histograms are fed to an MLP (dense layers of Fig.
+50	18	The crux of the original DRMM are the bucketed cosine similarity histograms (outputs of ⊗ nodes in Fig.
+52	16	In each histogram, each bucket counts the number of d-terms whose cosine similarity to the q-term is within a particular range.
+55	65	The fixed number of buckets leads to a fixed-dimension input for the dense layers and makes the model agnostic to different document and query lengths – one of DRMM’s main strengths.
+59	22	In PACRR (Hui et al., 2017), a query-document term similarity matrix sim is computed (Fig.
+65	12	The resulting matrices are concatenated into a single matrix where each row is a document-aware q-term encoding; the IDF of the q-term is also appended, normalized by applying a softmax across the IDFs of all the q-terms.
+77	42	In their original incarnations, DRMM and PACRR use pre-trained word embeddings that are insensitive to the context of a particular query or document where a term occurs.
+82	18	An advantage of neural network architectures like RNNs and CNNs is that they can capture both.
+90	15	Here we incorporate context directly into the term encodings; hence similarities in this space are already contextsensitive.
+104	26	Intuitively, if the document contains one or more terms dj that are similar to qi, the attention mechanism will have emphasized mostly those terms and, hence, dqi will be similar to c(qi), otherwise not.
+115	48	Ideally, we want models to reward both the maximum match between a q-term and a document, but also the average match (between several q-terms and the document) to reward documents that have a higher density of matches.
+125	31	First max-pooling, which returns the single best match of qi in the document.
+154	19	We implemented Pointer Networks – argmax over ABEL-DRMM attention to select the best d-term encoding – but empirically this was similar to ABEL-DRMM.
+158	25	The work of Pang et al. (2017) is highly related and investigates many different structures, specifically aimed at incorporating context-sensitivity.
+160	47	Multiple interaction matrices are then constructed for the entire query relative to each of these contexts.
+162	25	These interaction matrices can also be constructed using exact string match similar to POSIT-DRMM+MV.
+163	16	We experiment with ad-hoc retrieval datasets with hundreds of thousands or millions of documents.
+164	91	As deep learning models are computationally expensive, we first run a traditional IR system6 using the BM25 score (Robertson and Zaragoza, 2009) and then re-rank the top N returned documents.
+165	67	All systems use an extension proposed by Severyn and Moschitti (2015), where the relevance score is combined via a linear model with a set of extra features.
+166	15	We use four extra features: zscore normalized BM25 score; percentage of qterms with exact match in the document (regular and IDF weighted); and percentage of q-term bigrams matched in the document.
+167	32	The latter three features were taken from Mohan et al. (2017).
+169	111	These IR baselines are very strong and most recently proposed deep learning models do not beat them.7 DRMM and PACRR are also strong baselines and have shown superior performance over other deep learning models on a variety of data (Guo et al., 2016; Hui et al., 2017).8 All hyperparameters were tuned on development data and are available in Appendix A.
+171	48	As the datasets contain only documents marked as relevant, negative examples were sampled from the top N documents (returned by BM25) that had not been marked as relevant.
+173	256	We trained each model five times with different random seeds and report the mean and standard deviation for each metric on test data; in each run, the model selected had the highest MAP on the development data.
+176	31	Our first experiment used the dataset of the document ranking task of BIOASQ (Tsatsaronis et al., 2015), years 1–5.11 It contains 2,251 English biomedical questions, each formulated by a biomedical expert, who searched (via PubMed12) for, and annotated relevant documents.

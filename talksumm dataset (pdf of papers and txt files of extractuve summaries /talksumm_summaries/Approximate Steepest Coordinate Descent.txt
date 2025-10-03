@@ -1,0 +1,30 @@
+3	15	In many CD methods, the active coordinate is picked at random, according to a probability distribution.
+6	18	For instance in (Shalev-Shwartz & Zhang, 2013; Friedman et al., 2007; 2010; Shalev-Shwartz & Tewari, 2011) uniform sampling (UCD) is used, whereas other papers propose adaptive sampling strategies that change over time (Papa et al., 2015; Csiba et al., 2015; Osokin et al., 2016; Perekrestenko et al., 2017).
+7	80	A very simple deterministic strategy is to move along the direction corresponding to the component of the gradient with the maximal absolute value (steepest coordinate descent, SCD) (Boyd & Vandenberghe, 2004; Tseng & Yun, 2009).
+8	27	For smooth functions this strategy yields always better progress than UCD, and the speedup can reach a factor of the dimension (Nutini et al., 2015).
+10	18	Dhillon et al. (2011); Shrivastava & Li (2014)).
+11	9	In this paper we propose approximate steepest coordinate descent (ASCD), a novel scheme which combines the best parts of the aforementioned strategies: (i) ASCD maintains an approximation of the full gradient in each iteration and selects the active coordinate among the components of this vector that have large absolute values — similar to SCD; and (ii) in many situations the gradient approximation can be updated cheaply at no extra cost — similar to UCD.
+69	13	The ‘steepest’ direction is not always meaningful in this setting; consider for instance a constrained problem where this rule could yield no progress at all when stuck at the boundary.
+71	29	The GSs rule is defined to choose the coordinate with the most negative directional derivative (Wu & Lange, 2008).
+80	50	The application of coordinate descent methods is only justified if the complexity to compute one directional derivative is approximately n times cheaper than the computation of the full gradient vector (cf.
+91	34	With these updates, the use of coordinate descent is still justified in case d = Ω(n).
+112	20	Definition 3.1 (δ-gradient oracle).
+118	9	In ASCD the initial estimate g̃0 of the gradient is just arbitrarily set to 0, with uncertainty r0 = ∞.
+124	10	First observe that if in Algorithm 1 the gradient oracle is always exact, i.e. δij ≡ 0, and if g̃0 is initialized with ∇f(x0), then in each iteration |∇itf(xt)| = ‖∇f(xt)‖∞ and ASCD identical to SCD.
+125	28	Let imax := arg maxi∈[n] |∇if(xt)|.
+135	9	In this section we argue that for a large class of objective functions of interest in machine learning, the change in the gradient along every coordinate direction can be estimated efficiently.
+136	7	Consider F : Rn → R as in (17) with twice-differentiable f : Rd → R. Then for two iterates xt,xt+1 ∈ Rn of a coordinate descent algorithm, i.e. xt+1 = xt + γteit , there exists a x̃ ∈ Rn on the line segment between xt and xt+1, x̃ ∈ [xt,xt+1] with ∇iF (xt+1)−∇iF (xt) = γt〈ai,∇2f(Ax̃)ait〉 ∀i 6= it (22) where ai denotes the i-th column of the matrix A.
+137	7	For coordinates i 6= it the gradient (or subgradient set) of Ψi([xt]i) does not change.
+148	28	If this matrix is not available, then the computation of each scalar product takes time O(d).
+152	27	The oracle g2 can for instance be realized by lowdimensional embeddings, such as given by the JohnsonLindenstrauss lemma (cf.
+155	8	Updating the gradient of the active coordinate.
+162	25	If we assume that the Hessian of f is bounded, i.e. ∇2f(Ax) M · In for a constant M ≥ 0, ∀x ∈ Rn, then it is easy to see that the following holds : −M‖ai‖‖aj‖ ≤ 〈ai,∇2f(Ax̃)ait〉 ≤M‖ai‖‖aj‖ .
+164	15	The quality can be improved, if we have access to local bounds on ∇2f(Ax).
+165	107	By design, ASCD is robust to high errors in the gradient estimations – the steepest descent direction is always contained in the active set.
+166	12	However, instead of using only the very crude oracle g4 to approximate all scalar products, it might be advantageous to compute some scalar products with higher precision.
+167	57	We propose to use a caching technique to compute the scalar products with high precision for all vectors in the active set (and storing a matrix of size O(It × n)).
+168	71	This presumably works well if the active set does not change much over time.
+169	137	The key ingredients of ASCD are the coordinate-wise upper and lower bounds on the gradient and the definition of the active set It which ensures that the steepest descent direction is always kept and that only provably bad directions are removed from the active set.
+170	44	These ideas can also be generalized to the setting of composite functions (2).
+171	104	We already discussed some popular GS-∗ update rules in the introduction in Section 2.3.
+173	8	Here we exemplary detail the modification for the GS-q rule (16), which turns out to be the most evolved (the same reasoning also applies to the GSL-q rule from (Nutini et al., 2015)).

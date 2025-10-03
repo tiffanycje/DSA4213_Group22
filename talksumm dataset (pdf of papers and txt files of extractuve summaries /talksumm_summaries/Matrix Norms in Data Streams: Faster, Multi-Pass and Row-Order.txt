@@ -1,0 +1,30 @@
+27	5	A detailed comparison of the bounds is given in Table 1, and the results themselves appear in Section 3.
+31	5	To see why this is useful, denote the eigenvalues of A by λ1 ≥ · · · ≥ λn, and observe that if A is PSD (or alternatively if p is even), then tr(Ap) = ∑ i λ p i =∑ i σi(A) p = ||A||pSp .
+40	9	While using independent N(0, 1/t) Gaussians entries works, there is a construction with only O( −1 log(1/δ)) non-zero entries per column (Kane & Nelson, 2014).
+52	5	Now using E[GTi Gi] = I together with linearity of trace and of expectation, we obtain that E[X] = tr(Ap).
+65	7	As mentioned before, if p is even then the algorithms extends to arbitrary A ∈ Rm×n by a standard argument.
+68	4	However, the hard distribution used by (Li & Woodruff, 2016a) is not over PSD matrices, leaving open the possibility that PSD matrices admit algorithms that use storage O(nc) for c < 1 independent of .
+69	4	We close this gap in Section 4, by adapting the lower bound of (Li & Woodruff, 2016a) to PSD matrices, to show, for every non-integer p > 0, a storage lower bound of Ω(n1−g ′( )) for some function g′( ) → 0 as → 0 (again, in the one-pass entry-wise model and even for a sparse matrix).
+71	4	This models applications where the matrix resides in external memory and is being streamed through main memory; in such a model multiple updates to an entry may not appear.
+118	3	The query time is dominated by multiplying a matrix of size t×n with one of size n× t, and thus takes O(tω ·n/t) = Õ(nω/ 2(ω−1)) time.
+119	14	Now we prove Theorem 3.1, for which we need the following lemma.
+122	4	Thus tr(GAGT ) = tr(G′ΛG′T ) = tr( √ ΛG′TG′ √ Λ) = n∑ i=1 λie T i G ′TG′ei = n∑ i=1 λi||G′ei||22.
+123	4	By the JLT guarantee and a union bound, with probability at least 1−δ, for all i ∈ [n] we have ||G′ei||22 ∈ [1− , 1+ ], in which case tr(GAGT ) ∈ (1± ) tr(A).
+130	12	Schatten p-norm Using Gaussians We now design a sketch for Schatten-p norm that uses column-normalized Gaussian matrices.
+137	5	Thus, the sketch has dimension Op( −2t2).
+141	5	The second part (for general matrices), follows by using the same sketch for the symmetric matrix B = ( 0 A AT 0 ) , because the nonzero singular values of B are those of A repeated twice and ||B||pSp = 2||A|| p Sp = 2 tr(Ap), where the last equality uses the assumption that p is even.
+158	4	We now generalize the proof to relax these requirements (e.g., to 4-wise independence) and obtain a multi-pass algorithm.
+164	8	We can now use the above sketch to approximate the Schatten p-norm using Õ(n1−1/(p−1)) bits of space with dp/2e passes over the input.
+168	5	We take G1 ∈ R1×n and G2, G3, .
+182	3	Notice that each column of G has a single non-zero entry, which is actually a random sign, and the n columns are four-wise independent.
+193	14	For example, for the Schatten 3-norm, one cannot bound ∑ i1,i2,...i6∈[n] ∏6 j=1 λij by O(‖A‖6S3).
+200	5	The case p = 1 is useful to illustrate the technique, even though Schatten 1-norm approximation can be easily accomplished in other ways.
+201	7	LetG ∈ Rt×n be the sparse JLT matrix and let A ∈ Rn×n be PSD.
+202	4	The sketch is GAGT and tr(GAGT )− tr(A) = ∑ i 6=j ai,j〈gi, gj〉.
+204	4	However the summands are subtly dependent.
+209	3	The same process can be repeated for gj : j ∈ V̄ , and replace every vector gi : i ∈ [n] by independent Gaussian vectors.
+227	4	Suppose that p > 0 andX ∈ Rn×n is a PSD matrix given in the entry-wise streaming model.
+240	4	Our estimators are comparably or a little less accurate than theirs but are two orders of magnitude faster in terms of update time.
+241	39	In Figure 2, we used our ZD sketch from Definition 3.7.
+242	168	Since each update only updates a single entry to the matrix, the update time is almost 0.
+243	177	On the other hand, the dense Gaussian sketch requires at least Θ(n2−4/p) operations.

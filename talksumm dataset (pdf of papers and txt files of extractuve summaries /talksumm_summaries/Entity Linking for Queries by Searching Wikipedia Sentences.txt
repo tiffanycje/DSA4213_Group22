@@ -1,0 +1,30 @@
+1	64	A key part of this problem is entity linking, which aims to annotate the entities in the query and link them to a knowledge base such as Freebase and ∗Contribution during internship at Microsoft Research.
+3	22	The mainstream methods of entity linking for queries can be summed up in three steps: mention detection, candidate generation, and entity disambiguation.
+5	29	The most common method to detect mentions is to search a dictionary collected by the entity alias in a knowledge base and the human-maintained information in Wikipedia (such as anchors, titles and redirects) (Laclavik et al., 2014).
+6	25	The second step is to generate candidates by mapping mentions to entities.
+15	20	However, it can also be linked to “Austin, Western Australia”, “Austin, Quebec”, “Austin (name)”, “Austin College”, “Austin (song)” and 31 other entities in the Wikipedia page of “Austin (disambiguation)”.
+21	17	The common methods usually define a feature called “link-probability” as the probability that a mention is annotated in all documents.
+24	29	“Her (film)” is a film while its surface name is usually used as a possessive pronoun.
+26	34	In this paper, we propose a novel approach to generating candidates by searching sentences from Wikipedia articles and directly using the humanannotated entities as the candidates.
+29	34	Below we show a sentence in the Wikipedia page of “Austin (song)”.
+73	24	First, we search the query in all Wikipedia articles to obtain the similar sentences.
+75	15	We keep the entities whose corresponding anchor texts occur in the query as candidates, and treat others as related entities.
+77	15	Finally, we use a regression based model to rank the candidate entities.
+88	19	We use the Stanford CoreNLP toolkit (Manning et al., 2014) to do the coreference resolution.
+98	23	We back-map anchors and corresponding entities extracted in sentences to generate candidates.
+101	15	First, we only keep the pair whose corresponding anchor text a occurs in the query as a candidate, which has been used in previous work (Ferragina and Scaiella, 2010).
+115	22	The negative sample is set to the maximum score of overlapping ratio of tokens between its text and each gold answer.
+134	22	Feature 9 is the context matching score calculated by tokens.
+141	21	Relatedness Features of Candidate Entities This set of features measures how much an entity is supported by other candidates.
+150	16	ERD143 is a benchmark dataset in the ERD Challenge (Carmel et al., 2014), which contains both long-text track and short-text track.
+154	23	This dataset can be evaluated by both Freebase and Wikipedia as the ERD Challenge Organizers provide the Freebase Wikipedia Mapping with one-to-one correspondence of entities between two knowledge bases.
+172	14	NTUNLP (Chiu et al., 2014) searches the query to match Freebase surface forms.
+176	19	It generates candidates from the snippets of search results returned by the Bing search engine.
+190	17	Unlike the work on entity linking for documents (Eckhardt et al., 2014; Witten and Milne, 2008) that features derived from entity relations get promising results, the context features play a more important role than the relatedness features on entity linking for queries as search queries are short and contain fewer entities than documents.
+197	15	The main difference between our method and most previous work is that we generate candidates by searching Wikipedia sentences instead of searching entities.
+218	61	Moreover, the right columns (the number of candidates is more than 10) show that the F1 score using entity search gradually decreases with the incremental candidates.
+219	32	However, our method based on sentence search takes advantage of context information to keep a small set of candidates, which keeps a consistent result and outperforms the baseline.
+221	23	We introduce a novel approach to generating candidate entities by searching sentences in the Wikipedia to the query, then we extract the human-annotated entities as the candidates.
+222	40	We implement a regression model to rank these candidates for the final output.
+223	40	Two experiments on the ERD dataset and the GERDAQ dataset show that our approach outperforms the baseline systems.
+224	49	In this work we directly use the default ranker in Lucene for similar sentences, which can be improved in future work.

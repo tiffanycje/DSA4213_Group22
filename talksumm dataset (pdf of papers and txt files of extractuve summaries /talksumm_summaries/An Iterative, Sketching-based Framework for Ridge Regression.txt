@@ -1,0 +1,30 @@
+1	22	Formally, let A ∈ Rn×d be the design matrix and let b ∈ Rn be the response vector.
+2	22	Then, the linear algebraic formulation of the ridge regression problem is as follows: Z∗ = min x∈Rd { ‖Ax− b‖22 + λ‖x‖22 } , (1) where λ > 0 is the regularization parameter.
+14	19	For simplicity of exposition, we will assume that the rank of A is equal to n.1 In the context of ridge regression, a much more important quantity than the rank of the design matrix is the effective degrees of freedom: dλ = n∑ i=1 σ2i σ2i + λ ≤ n, (4) where σi are the singular values of A.
+33	19	(6) is that all known constructions for S that satisfy the constraint need a number of columns s that is proportional to n. As a result, the running time of any algorithm that computes the sketch AS is also proportional to n. It would be much better to design algorithms whose running time depends on the degrees of freedom dλ, which is upper bounded by n, but could be significantly smaller depending on the distribution of the singular values and the choice of λ.
+35	36	We define a diagonal matrix Σλ ∈ Rn×n whose i-th diagonal entry is given by (Σλ)ii = √ σ2i σ2i + λ , i = 1, .
+36	23	Our second structural condition is given by ‖ΣλVTSSTVΣλ −Σ2λ‖2 ≤ ε 4 √ 2 .
+39	15	Indeed, it follows that by sampling-and-rescaling O(dλ ln dλ) predictor variables from the design matrix A (using either exact or approximate ridge leverage scores (Alaoui & Mahoney, 2015; Cohen et al., 2017) we can satisfy the constraint of eqn.
+40	12	Similarly, oblivious sketching matrix constructions for S can be used to satisfy eqn.
+45	14	(9) Here Uk,⊥ ∈ Rn×(n−k) denotes the matrix of the bottom n − k left singular vectors of the design matrix A.
+46	26	In words, we achieve an additive-relative error approximation, where the additive error part depends on the norm of the “piece” of the response vector b that lies on the regularized component of the design matrix A.
+48	11	The error decreases exponentially fast with the number of iterations.
+49	27	Another contribution of our work is Theorem 4, which proves that the mean-square-error (MSE) of the approximate solution x̂∗ is a relative error approximation to the MSE of x∗, under the structural assumptions of eqns.
+50	18	(6) or (8), even after a single iteration.
+51	76	To the best of our knowledge, our bounds are a first attempt to provide general structural results that guarantee highquality approximations to the optimal solution vector of ridge regression.
+52	58	Our first structural result can be satisfied by sampling with respect to the leverage scores or by the use of oblivious sketching matrices whose size depends on the rank of the design matrix and guarantees relative error approximations.
+54	35	Interestingly, the ridge leverage scores have been used in a number of applications involving matrix approximation, cost-preserving projections, clustering, etc.
+55	7	(Cohen et al., 2017), but their performance in the context of ridge regression has not been analyzed in prior work.
+56	63	Our work here argues that the second structural condition can be satisfied by sampling with respect to the ridge leverage scores.
+57	30	The number of predictor variables to be sampled depends on the degrees of freedom of the ridge-regression problem rather than the dimensions of the design matrix, and results in a relative-additive error guarantee.
+59	12	The work more closely related to ours is Chen et al. (2015), which (in our notation) returns an approximation x̂∗ to x∗ that satisfies (with high probability) a relative error guarantee of the form ‖x∗ − x̂∗‖2 ≤ ε‖x∗‖2.
+65	11	We should also mention that prior to Chen et al. (2015); Lu et al. (2013) proposed a fast approximation algorithm for the computation of the kernel matrix using the sub-sampled randomized Hadamard transformation (SRHT).
+66	22	Recently, Wang et al. (2017) presented many results on ridge-regression problems assuming n d. In this setting, the main motivation for ridge regression is to deal with the potential ill-conditioning of the design matrix A. Wang et al. (2017) presented sketching-based approaches that guarantee relative error approximations to the value of the objective Z∗, as opposed to the actual solution vector.
+68	15	However, recent work by Avron et al. (2017a;b) also focused on d n: for example, Theorem 17 of Avron et al. (2017b) presents structural conditions under which the value of the objective Z∗ can be estimated up to relative error accuracy, but no bounds are presented for the approximate solution vector.
+69	26	This last result seems to necessitate two structural conditions: the first one is identical to the condition of eqn.
+72	12	Indeed, the authors provide strong motivation that clarifies the need for algorithms for regression problems whose running times depends on ln(1/ε) in order to achieve ε-relative-error approximations.
+75	33	Similarly, the only result that we know for under-constrained regression problems (λ = 0, n d) appeared in Section 6.2 of Drineas et al. (2012).
+78	19	The number of sampled predictor variables (columns of A) is proportional to O(dλ ln dλ).
+80	16	We also note a recent application of ridge leverage scores (Calandriello et al., 2017a;b) where the authors presented a row sampling algorithm in order to construct a kernel sketch which is eventually used in a second-order gradient-based method for online kernel convex optimization.
+89	8	We refer the reader to Golub & Van Loan (1996) for properties of norms that will be quite useful in our work.
+90	12	For a matrix A ∈ Rn×d with d > n of rank n, its (thin) Singular Value Decomposition (SVD) is equal to the product UΣVT, with U ∈ Rn×n (the matrix of the left singular vectors), V ∈ Rd×n (the matrix of the right singular vectors), and Σ ∈ Rn×n a diagonal matrix whose diagonal entries are the singular values of A. Computation of the SVD takes, in this setting, O(n2d) time.

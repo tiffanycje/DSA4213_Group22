@@ -1,0 +1,30 @@
+15	23	We build upon recent work in distributional reinforcement learning (Dabney et al., 2018a), which has begun to bridge the gap between approaches in reinforcement learning and unsupervised learning.
+37	13	The generator is an implicit latent variable model that reparameterizes samples, typically from an isotropic Gaussian distribution, into values in X .
+38	13	The original formulation of GANs, arg min G sup D [ E X log(D(X)) + E Z log(1−D(G(Z))) ] , can be seen as minimizing a lower-bound on the JensenShannon divergence (Goodfellow et al., 2014; Bousquet et al., 2017).
+48	28	Theis et al. (2015) emphasized that an improvement of log-likelihood does not necessarily translate to higher perceptual quality, and that the KL loss is more likely to produce atypical samples than some other training criteria.
+49	91	We offer an alternative perspective: a good model should encode assumptions about the data distribution, whereas a good loss should encode the notion of similarity, that is, the underlying metric on the data space.
+51	53	The optimal transport metrics Wc, for underlying metric c(x, x′), and in particular the p-Wasserstein distance, when c is an Lp metric, have frequently been proposed as being well-suited replacements to KL (Bousquet et al., 2017; Genevay et al., 2017).
+58	14	Recent work in distributional reinforcement learning has proposed the use of quantile regression as a method for minimizing the 1-Wasserstein in the univariate case when approximating using a mixture of Dirac functions (Dabney et al., 2018b).
+68	26	A more effective approach is to provide the desired quantile τ as an additional input to the network, and train it to output the corresponding value of F−1Z (τ).
+69	50	The implicit quantile network (IQN) model (Dabney et al., 2018a) reparameterizes a sample τ ∼ U([0, 1]) through a deterministic function to produce samples from the underlying data distribution.
+71	46	An IQN Qθ can be trained by stochastic gradient descent on the quantile regression loss, with u = z −Qθ(τ) and training samples (z, τ) drawn from z ∼ Z and τ ∼ U([0, 1]).
+73	16	This increases gradient variance and can negatively impact the final model’s sample quality.
+75	24	Alternatively, we can smooth the gradients as the model converges by allowing errors, under some threshold κ, to be scaled with their magnitude, reverting to an expectile loss.
+79	32	First, suppose we use the same quantile target, τ ∈ [0, 1], for every output dimension.
+113	91	The Gated PixelCNN takes as input an image x ∼ X , sampled from the training distribution at training time, and potentially all zeros or partially generated at generation time, as well as a location-dependent context s. The model consists of a number of residual layer blocks, whose structure is chosen to allow each output pixel to be a function of all preceding input pixels (in a raster-scan order).
+115	38	See Figure 2 for a full schematic depiction of a Gated PixelCNN layer block.
+124	29	In PixelCNN training is done by passing the training image through the network, and training each output softmax distribution using the KL divergence between the training image and the approximate distribution,∑ i DKL(δxi , p(·|x1, .
+126	14	The output values Qx(τ) ∈ R3n 2 are interpreted as the approximate quantile function at τ , Qx(τ)i = QX(τi|xi−1, .
+138	22	For subjective evaluations, we give samples from both models in Figure 3.
+151	57	We note that the model consistently generates plausible completions with significant diversity between different completion samples for the same input image.
+152	40	Meanwhile, WGAN-GP has been seen to produce deterministic completions (Bellemare et al., 2017).
+153	16	Following (van den Oord et al., 2016b), we also trained a class-conditional PixelIQN variant, providing to the model the one-hot class label corresponding to a training image (in addition to a τ sample).
+156	39	To generate each sample for the computation of these scores, we sample one of 1000 class labels randomly, then generate an image conditioned on this label via the trained model.
+157	20	Finally, motivated by the very long training time for the large PixelCNN model (approximately 1 day per 100K training steps, on 16 NVIDIA Tesla P100 GPUs), we also trained smaller 15-layer versions of the models (same as the ones used on CIFAR-10) on the small ImageNet dataset.
+158	31	For comparison, these take approximately 12 hours for 100K training steps on a single P100 GPU, or less than 3 hours on 8 P100 GPUs.
+160	113	Astonishingly, little PixelIQN on this dataset reaches Inception score 7.3 and FID 38.5, see Figure 4 (right).
+161	59	It thereby not only outperforms the little PixelCNN, but also the larger 20-layer version!
+163	64	Most existing generative models for images belong to one of two classes.
+164	49	The first are likelihood-based models, trained with an elementwise KL reconstruction loss, which, while perceptually meaningless, provides robust optimization properties and high sample diversity.
+168	93	By using a quantile regression loss instead of KL divergence, they combine some of the best properties of the two model classes.
+170	38	The inevitable approximation trade-offs a generative model makes when constrained by capacity or insufficient training can vary significantly depending on the loss used.

@@ -1,0 +1,30 @@
+1	19	This is because RNNs are well suited for sequential data as they process inputs one element at a time and store relevant information in their hidden state.
+2	48	In practice, however, training simple RNNs (sRNN) can be challenging due to the problem of exploding and vanishing gradients (Hochreiter et al., 2001).
+3	32	It has been shown that exploding gradients can occur when the transition matrix of an RNN has a spectral norm larger than one (Glorot & Bengio, 2010).
+5	19	On the other hand, when the spectral norm of the transition matrix is less than one, the information at one time step tend to vanish quickly after a few time steps.
+7	38	Different methods have been suggested to solve either the vanishing or exploding gradient problem.
+13	22	Furthermore, if exploding gradients can occur within some parameter search space, the associated error surface will still have steep walls.
+15	40	Another way to approach this problem is to improve the shape of the error surface directly by making it smoother, which can be achieved by constraining the spectral norm of the transition matrix to be less than or equal to one.
+17	34	A good choice of the activation function between hidden states is also crucial in this case.
+19	56	In particular, the unitary RNN (Arjovsky et al., 2016) uses a special parametrisation to constrain the transition matrix to be unitary, and hence, of norm one.
+21	29	The main contributions of this work are as follows: • We first show that constraining the search space of the transition matrix of an RNN to the set of unitary matrices U(n) is equivalent to limiting the search space to a subset of O(2n) (O(2n) is the set of 2n× 2n orthogonal matrices) of a new RNN with twice the hidden size.
+78	35	The discussion above shows that using a complex, unitary transition matrix in Cn×n is equivalent to using an orthogonal matrix, belonging to a subset of O(2n), in a new RNN with twice the hidden size.
+80	22	Before discussing the details of our parametrisation, we first introduce a few notations.
+82	33	For u ∈ Rk, Hk(u) is the Householder Matrix in O(n) representing the reflection about the hyperplane orthogonal to the vector (0′n−k,u ′)′ ∈ Rn and passing through the origin, where 0n−k denotes the zero vector in Rn−k.
+90	14	The image ofM1 includes the set of all n×n orthogonal matrices, i.e. O(n) ⊂M1[R× · · · × Rn].
+92	35	In fact, in the twodimensional case, for instance, the matrix ( 1 0 0 −1 ) cannot be expressed as the product of exactly two standard Householder matrices.
+95	35	It is also flexible - a good trade-off between expressiveness and speed can be found by tuning the number of reflection vectors.
+96	26	The time and space complexities involved in one gradient calculation are, in the worst case, the same as that of the sRNN with the same number of hidden units.
+109	26	Before describing the algorithm to compute the backpropagated gradients ∂L ∂U(t) and ∂L ∂h(t−1) , we first derive their expressions as a function of U , h(t−1) and ∂L ∂C(t) using the compact WY representation (Joffrain et al., 2006) of the product of Householder reflections.
+127	14	This reduces the flop count at the remaining time steps to (11n + 3)m. The fact that the matrix U has all zeros in its upper triangular part can be used to further reduce the total flop count to (11n− 3m+ 5)m; (4n−m+2)m for the one-step FP and (7n− 2m+ 3)m for the one-step BP.
+129	16	Note that if the values of the matrices H , defined in Algorithm 1, are first stored during a “global” FP (i.e. through all time steps), then used in the BP steps, the time complexity† for a global FP and BP using one input sequence of length T are, respectively, ≈ 3n2T and ≈ 5n2T , when m ≈ n and n 1.
+131	50	Hence, when m ≈ n, the FP and BP steps using our parametrisation require only about twice more flops than the sRNN case with the same number of hidden units.
+132	86	Note, however, that storing the values of the matrices H at all time steps requires the storage of mnT values for one sequence of length T , compared with nT when only the hidden states {h(t)}t=1 are stored.
+182	15	This is in line with the results of the unitary RNN (Arjovsky et al., 2016).
+191	17	In this experiment, we tested the oRNN on the task of character level prediction using the Penn Tree Bank Corpus.
+211	31	In order to explore whether the poor performance of the oRNN was only due to the activation function, we tested the same activation as the uRNN (i.e. the real representation of modReLU defined in Equation (4)) on the oRNN.
+213	24	In this work, we presented a new parametrisation of the transition matrix of a recurrent neural network using Householder reflections.
+214	16	This method allows an easy and computationally efficient way to enforce an orthogonal constraint on the transition matrix which then ensures that exploding gradients do not occur during training.
+218	19	In fact, if B is the mini-batch size and T is the average length of the input sequences, then a network with n hidden units trained using other methods (Vorontsov et al., 2017; Wisdom et al., 2016; Hyland & Rätsch, 2017) that enforce orthogonality (see Section 2), would have time complexityO(BTn2+n3).
+220	15	In contrast with the case of fully connected deep forward networks with no weight sharing between layers (# layer = L), the time complexity using our method is O(BLnm) whereas other methods discussed in this work (see Section 2) would have time complexity O(BLn2 + Ln3).
+222	50	From a performance point of view, further experiments should be performed to better understand the difference between the unitary versus orthogonal constraint.

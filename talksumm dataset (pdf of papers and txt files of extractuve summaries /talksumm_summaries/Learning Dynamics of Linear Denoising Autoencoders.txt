@@ -1,0 +1,30 @@
+21	20	Given training data consisting of pairs {(x̃i,xi), i = 1, ..., N}, where x̃ represents a corrupted version of the training data x ∈ RD, the reconstruction loss for a single hidden layer DAE with activation function φ is given by L = 1 2N N∑ i=1 ||xi −W2φ(W1x̃i)||2.
+23	23	The learned feature representations correspond to the latent variable z = φ(W1x̃).
+28	19	Restricting our scope to linear neural networks, with φ(a) = a, the loss in expectation over the noise distribution is E [L] = 1 whitece+ s2 2 tr(W2W1WT1 W T 2 ), (1) See the supplementary material for the full derivation.
+34	9	To circumvent this issue and make the analysis tractable, we follow the methodology introduced in Saxe et al. (2013a), which is to: (1) decompose the input covariance matrix using an eigenvalue decomposition; (2) rotate the weight matrices to align with these computed directions of variation; and (3) use an orthogonal initialisation strategy to diagonalise the composite weight matrix W = W2W1.
+37	8	Consider a continuous time limit approach to studying the learning dynamics of linear DAEs.
+38	7	This is achieved by choosing a sufficiently small learning rate α for optimising the loss in (1) using gradient descent.
+39	10	The update for W1 in a single gradient descent step then takes the form of a time-dependent differential equation τ d dt W1 = N∑ i=1 WT2 ( xix T i −W2W1xixTi ) whitesp− εWT2 W2W1 = WT2 (Σxx −W2W1Σxx)− εWT2 W2W1.
+57	7	Here θ0 depends on the initial weights w1 and w2 through the relationship θ0 = sinh−1(2w/c0).
+62	30	Since the expression for the learning dynamics of a linear DAE in (5) evolve independently for each direction of variation in the input, it is enough to study the effect that noise has on learning for a single eigenvalue λ.
+63	15	To do this we trained a scalar linear DAE to minimise the loss `λ = λ 2 (1−w2w1) 2+ ε2 (w2w1) 2 with λ = 1 using gradient descent.
+71	16	The loss surfaces in Figure 1 each have an unstable saddle point at w2 = w1 = 0 (red star) with all remaining fixed points lying on a minimum loss manifold (cyan curve).
+72	19	This manifold corresponds to the different possible combinations ofw2 and w1 that minimise `λ.
+73	8	The paths that gradient descent follow from various initial starting weights down to points situated on the manifold are represented by dashed orange lines.
+74	21	For a fixed value of λ, adding noise warps the loss surface making steeper slopes and pulling the minimum loss manifold in towards the saddle point.
+75	21	Therefore, steeper descent directions cause learning to converge at a faster rate to fixed points that are smaller in magnitude.
+76	19	This is the result of a sharper curving loss surface and the minimum loss manifold lying closer to the origin.
+78	15	This solution reveals the interaction between the input variance associated with λ and the noise ε.
+79	27	For large eigenvalues for which λ ε, the fixed point will remain relatively unaffected by adding noise, i.e., w∗ ≈ 1.
+81	27	This means that over a distribution of eigenvalues, an appropriate amount of noise can help a DAE to ignore low variance directions in the input data while learning the reconstruction.
+84	42	Therefore, to further understand the role of noise in linear DAEs we compare the dynamics of noise to those of explicit regularisation in the form of weight decay (Krogh & Hertz, 1992).
+85	12	The reconstruction loss for a linear weight decayed autoencoder (WDAE) is given by 1 where γ is the penalty parameter that controls the amount of regularisation applied during learning.
+93	35	In other words, starting from small weights, noise injected learning is capable of providing an equivalent regularisation mechanism to that of weight decay in terms of a constrained fixed point mapping, but with zero time delay.
+95	12	We therefore consider the impact on training time when using optimised learning rates for each approach.
+100	9	This leads to the following two observations.
+124	10	This means that the second phase of weight decay (where the invariance of the loss function would be exploited to reduce the regularisation penalty), is not only no longer necessary, but also does not result in a norm that is appreciably smaller than that obtained by learning with added noise.
+128	14	To verify the dynamics of learning on real-world data sets we compared theoretical predictions with actual learning on MNIST and CIFAR-10.
+130	8	For MNIST, we trained each autoencoder with small randomly initialised weights, using N = 50000 training samples for 5000 epochs, with a learning rate α = 0.01 and a hidden layer width ofH = 256.
+138	12	Next, we investigated whether these dynamics are at least also qualitatively present in nonlinear autoencoder networks.
+144	19	Both noise and weight decay result in a shrinkage of the identity mapping associated with each eigenvalue.
+147	15	Similar results were observed when using a tanh nonlinearity and are provided in the supplementary material.

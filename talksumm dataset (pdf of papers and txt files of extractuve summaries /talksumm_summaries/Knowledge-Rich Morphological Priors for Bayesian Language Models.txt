@@ -1,0 +1,30 @@
+0	40	Despite morphological phenomena’s salience in most human languages, many NLP systems treat fully inflected forms as the atomic units of language.
+1	31	By assuming independence of lexical stems’ various surface forms, this avoidance approach exacerbates the problem of data sparseness.
+5	16	Much linguistic knowledge is encoded in such FSTs.
+12	23	If analyzers exist in such settings, they tend to be highly ambiguous, and annotated data for learning to disambiguate are also likely to be scarce or non-existent.
+18	23	Our work relies extensively on Pitman-Yor processes, which provide a flexible framework for expressing backoff and interpolation relationships and extending standard models with richer word distributions (Pitman and Yor, 1997).
+19	55	They have been shown to match the performance of state-of-the-art language models and to give estimates that follow appropriate power laws (Teh, 2006).
+28	59	This model could be used directly to generate observed tokens.
+39	46	For example, the number of possible patterns can practically be considered finite in Russian, but this assumption is not valid for languages with more extensive derivational morphology like Turkish.
+40	13	For most applications, rather than directly generating from a model using the processes outlined above, we seek to infer posterior distributions over latent parameters and structures, given a sample of data.
+43	25	When working with the morphology models we are proposing, we also need to marginalize the different latent forms (stems s and patterns p) that may have given rise to a given word w. Thus, we require that the inverse relation of GENERATE is available to compute the marginal base word distribution: p(w | G0w) = ∑ GENERATE(s,p)=w p(s | Gs) p(p | Gp) Since our approach encodes morphology using FSTs, which are invertible, this poses no problem.
+44	23	To illustrate, consider the Russian word прочим, which may be analyzed in several ways: прочий +Adj +Sg +Neut +Instr прочий +Adj +Sg +Masc +Instr прочий +Adj +Pl +Dat прочить +Verb +Pl +1P прочее +Pro +Sg +Ins Because the set of possible analyses is in general small, marginalization is fast and complex blocked sampling is not necessary.
+47	42	Given a rule-based morphological analyzer encoded as an unweighted FST and a corpus on which the analyzer has been run – possibly generating multiple analyses for each token – we can use our unigram model to learn a probabilistic model of disambiguation in an unsupervised setting (i.e., without annotated examples).
+56	35	A guesser was developed in three hours; it is prone to over-generation and produces ambiguous analyses for most words but covers a large number of morphological phenomena (gender, case, tense, etc.).
+62	84	Considering the amount of effort put in developing the guesser, the baseline POS tagging accuracy is relatively good.
+72	14	We define perplexity of a held-out test corpus in the standard way: ppl = exp ( − 1 N N∑ i=1 log p (wi | wi−n+1 · · ·wi−1) ) but compared to the common practice, we do not need to discount OOVs from this sum since the model vocabulary is infinite.
+73	18	Note that we also marginalize by summing over all the possible analyses for a given word when computing its base probability according to the MP.
+75	48	Our baseline is a hierarchical PY trigram model with a trigram character model as the base word distribution.
+76	24	We compare it with our model using the same character model for the base stem distribution.
+78	14	We ran a similar experiment on the Turkish version of this corpus (1.6M words) with a highquality analyzer (Oflazer, 1994) and obtain even larger gains (Table 3).
+80	17	It is difficult to know whether a decrease in perplexity, as measured in the previous section, will result in a performance improvement in downstream applications.
+81	14	As a confirmation that correctly modeling new words matters, we consider a predictive task with a truly open vocabulary and that requires only a language model: predictive text input.
+82	29	Given some text, we encode it using a lossy deterministic character mapping, and try to recover the original content by computing the most likely word sequence.
+92	28	We measure word and character error rate (WER, CER) on the predicted word sequence and observe large improvements in both of these metrics by modeling morphology, both at the unigram level and when context is used (Table 4).
+95	16	In this regard, our model is a minor variant on traditional ngram models that work with “opaque” word forms.
+101	14	Our alignment model is based on a simple variant of IBM Model 2 where the alignment distribution is only controlled by two parameters, λ and p0 (Dyer et al., 2013).
+105	12	Note that this is effectively a unigram distribution over target words, albeit conditioned on the source word fj .
+110	17	The stem and the pattern models are also given PY priors with uniform base distribution (G0s = U(S)).
+113	33	We compare to alignments inferred using IBM Model 4 trained with EM (Brown et al., 1993),10 a version of our baseline model (described above) without PY priors (learned using EM), and the PY-based baseline.
+123	15	As an example of how our model generalizes better, consider the sentence pair in Fig.
+142	43	We described a generative model which makes use of morphological analyzers to produce richer word distributions through sharing of statistical strength between stems.

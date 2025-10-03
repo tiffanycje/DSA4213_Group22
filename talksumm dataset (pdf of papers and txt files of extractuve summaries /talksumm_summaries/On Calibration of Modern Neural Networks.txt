@@ -1,0 +1,30 @@
+28	19	Finally, we compare various postprocessing calibration methods on state-of-the-art neural networks, and introduce several extensions of our own.
+31	18	The problem we address in this paper is supervised multiclass classification with neural networks.
+32	19	,K} are random variables that follow a ground truth joint distribution π(X,Y ) = π(Y |X)π(X).
+33	117	Let h be a neural network with h(X) = (Ŷ , P̂ ), where Ŷ is a class prediction and P̂ is its associated confidence, i.e. probability of correctness.
+35	81	For example, given 100 predictions, each with confidence of 0.8, we expect that 80 should be correctly classified.
+36	36	More formally, we define perfect calibration as P ( Ŷ = Y | P̂ = p ) = p, ∀p ∈ [0, 1] (1) where the probability is over the joint distribution.
+41	40	These diagrams plot expected sample accuracy as a function of confidence.
+42	35	If the model is perfectly calibrated – i.e. if (1) holds – then the diagram should plot the identity function.
+44	28	To estimate the expected accuracy from finite samples, we group predictions into M interval bins (each of size 1/M ) and calculate the accuracy of each bin.
+47	26	Basic probability tells us that acc(Bm) is an unbiased and consistent estimator of P(Ŷ = Y | P̂ ∈ Im).
+50	20	Note that reliability diagrams do not display the proportion of samples in a given bin, and thus cannot be used to estimate how many samples are calibrated.
+54	49	One notion of miscalibration is the difference in expectation between confidence and accuracy, i.e. Ê P [∣∣∣P ( Ŷ = Y | P̂ = p ) − p ∣∣∣ ] (2) Expected Calibration Error (Naeini et al., 2015) – or ECE – approximates (2) by partitioning predictions into M equally-spaced bins (similar to the reliability diagrams) and taking a weighted average of the bins’ accuracy/confidence difference.
+74	17	Although increasing depth and width may reduce classification error, we observe that these increases negatively affect model calibration.
+80	15	Batch Normalization (Ioffe & Szegedy, 2015) improves the optimization of neural networks by minimizing distribution shifts in activations within the neural network’s hid- den layers.
+95	33	While the model exhibits both over-regularization and under-regularization with respect to classification error, it does not appear that calibration is negatively impacted by having too much weight decay.
+103	31	Both error and NLL immediately drop at epoch 250, when the learning rate is dropped; however, NLL overfits during the remainder of training.
+106	85	This phenomenon renders a concrete explanation of miscalibration: the network learns better classification accuracy at the expense of well-modeled probabilities.
+115	23	For simplicity, throughout this subsection, we assume the model outputs only the confidence for the positive class.1 Given a sample xi, we have access to p̂i – the network’s predicted probability of yi = 1, as well as zi ∈ R – which is the network’s non-probabilistic output, or logit.
+156	21	This extension can be applied to histogram binning, isotonic regression, and BBQ.
+162	103	Temperature scaling, the simplest extension of Platt scaling, uses a single scalar parameter T > 0 for all classes.
+163	32	Given the logit vector zi, the new confidence prediction is q̂i = max k σSM(zi/T ) (k).
+221	22	The only dataset that temperature scaling does not calibrate is the Reuters dataset.
+237	49	Each of the bins are well calibrated, which is remarkable given that all the probabilities were modified by only a single parameter.
+239	17	All methods scale linearly with the number of validation set samples.
+248	15	In Torch7 (Collobert et al., 2011), for example, we implement temperature scaling by inserting a nn.MulConstant between the logits and the softmax, whose parameter is 1/T .
+249	27	We set T =1 during training, and subsequently find its optimal value on the validation set.
+251	76	We have demonstrated that recent advances in neural network architecture and training – model capacity, normalization, and regularization – have strong effects on network calibration.
+252	75	It remains future work to understand why these trends affect calibration while improving accuracy.
+253	19	Nevertheless, simple techniques can effectively remedy the miscalibration phenomenon in neural networks.
+254	49	Temperature scaling is the simplest, fastest, and most straightforward of the methods, and surprisingly is often the most effective.

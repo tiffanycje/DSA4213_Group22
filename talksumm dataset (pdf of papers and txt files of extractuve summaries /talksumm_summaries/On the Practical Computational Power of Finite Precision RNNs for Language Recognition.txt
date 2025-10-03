@@ -1,0 +1,30 @@
+5	28	Instead, RNNs are often used by feeding an input sequence into the RNN one item at a time, each immediately returning a statevector that corresponds to a prefix of the sequence and which can be passed as input for a subsequent feed-forward prediction network operating in constant time.
+6	14	The amount of tape used by a Turing machine under this restriction is linear in the input length, reducing its power to recognition of context-sensitive language.
+9	26	This allows pushing roughly 15 zeros before reaching the limit of the 32bit floating point precision.
+11	146	In this work we restrict ourselves to inputbound recurrent neural networks with finiteprecision states (IBFP-RNN), trained using backpropagation.
+12	21	This class of networks is likely to coincide with the networks one can expect to obtain when training RNNs for NLP applications.
+20	35	Interestingly, the SRNN with ReLU activation followed by an MLP classifier also has power similar to a k-counter machine.
+36	12	Long Short Term Memory (LSTM) In the LSTM (Hochreiter and Schmidhuber, 1997), R uses a different gating component configuration: ft = σ(W fxt + U fht−1 + b f ) (8) it = σ(W ixt + U iht−1 + b i) (9) ot = σ(W oxt + U oht−1 + b o) (10) c̃t = tanh(W cxt + U cht−1 + b c) (11) ct = ft ◦ ct−1 + it ◦ c̃t (12) ht = ot ◦ g(ct) (13) where g can be either tanh or the identity.
+39	22	This is easily achieved by setting the matricesW andU to 0, and the biases b to the (constant) desired gate values.
+42	13	Counting languages and kcounter machines are discussed in depth in (Fischer et al., 1968).
+43	58	When unbounded computation is allowed, a 2-counter machine has Turing power.
+45	62	In particular, real-time counting languages cut across the traditional Chomsky hierarchy: real-time k-counter machines can recognize at least one context-free language (anbn), and at least one context-sensitive one (anbncn).
+46	49	However, they cannot recognize the context free language given by the grammar S → x|aSa|bSb (palindromes).
+48	28	A counter is a device which can be incremented by a fixed amount (INC), decremented by a fixed amount (DEC) or compared to 0 (COMP0).
+51	10	In what follows, we consider the effect on the state-update equations on a single dimension, ht[j].
+55	12	In counting steps, the counter direction (+1 or -1) is set in c̃t (equation 11) based on the input xt and state ht−1.
+63	14	Practically, this makes the counting behavior inherently unstable, and bounded to a relatively narrow region.
+66	66	This requires representing each counter as two dimensions, and implementing INC as incrementing one dimension, DEC as incrementing the other, and COMP0 as comparing their difference to 0.
+69	32	Coupling the input and the forget gates (it = 1 − ft) (Greff et al., 2017) removes the single-dimension unbounded counting ability, as discussed for the GRU.
+72	12	GRU Finite-precision GRUs cannot implement unbounded counting on a given dimension.
+73	13	The tanh in equation (6) combined with the interpolation (tying zt and 1 − zt) in equation (7) restricts the range of values in h to between -1 and 1, precluding unbounded counting with finite precision.
+74	14	Practically, the GRU can learn to count up to some bound m seen in training, but will not generalize well beyond that.4 Moreover, simulating forms of counting behavior in equation (7) require consistently setting the gates zt, rt and the proposal h̃t to precise, non-saturated values, making it much harder to find and maintain stable solutions.
+77	113	Can the LSTM indeed learn to behave as a kcounter machine when trained using backpropagation?
+79	93	These LSTMs generalize to much higher n than seen in the training set (though not infinitely so).
+81	18	The GRU can also be trained to recognize anbn and anbncn, but they do not have clear counting dimensions, and they generalize to much smaller n than the LSTMs, often failing to generalize correctly even for n within their training domain.
+82	26	Trained LSTM networks outperform trained GRU networks on random test sets for the languages anbn and anbncn.
+84	57	We train 10-dimension, 1-layer LSTM and GRU networks to recognize anbn and anbncn.
+85	77	For anbn the training samples went up to n = 100 and for anbncn up to n = 50.6 Results On anbn, the LSTM generalizes well up to n = 256, after which it accumulates a deviation making it reject anbn but recognize anbn+1 for a while, until the deviation grows.7 The GRU does not capture the desired concept even within its training domain: accepting anbn+1 for n > 38, and also accepting anbn+2 for n > 97.
+87	43	On anbncn the LSTM recognizes well until n = 100.
+91	18	Figure 1a plots the activations of the 10 dimensions of the anbn-LSTM for the input a1000b1000.
+92	23	While the LSTM misclassifies this example, the use of the counting mechanism is clear.

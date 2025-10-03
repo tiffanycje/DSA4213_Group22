@@ -1,0 +1,30 @@
+1	61	Milton (1644) used the “marketplace of ideas” metaphor to argue that the truth will win out when ideas freely compete; Dawkins (1976) similarly likened the evolution of ideas to natural selection of genes.
+2	23	We propose a framework to quantitatively characterize competition and cooperation between ideas in texts, independent of how they might be represented.
+3	41	By “ideas”, we mean any discrete conceptual units that can be identified as being present or absent in a document.
+4	60	In this work, we consider representing ideas using keywords and topics obtained in an unsupervised fashion, but our way of characterizing the relations between ideas could be applied to many other types of textual representations, such as frames (Card et al., 2015) and hashtags.
+5	37	What does it mean for two ideas to compete in texts, quantitatively?
+8	25	One is “illegal aliens”, who “steal” jobs and deny opportunities to legal immigrants; the other is “undocumented immigrants”, who are already part of the fabric of society and deserve a path to citizenship (Merolla et al., 2013).
+11	24	In the example above, these narratives are used by distinct groups of people with different ideologies.
+12	23	The fact that they don’t cooccur is one clue that they may be in competition with each other.
+17	31	Building on these insights, we propose a framework that combines cooccurrence within documents and prevalence correlation over time.
+21	53	Friendship (correlated over time, likely to cooccur).
+22	38	The “immigrant, undocumented” topic tends to cooccur with “obama, president” and both topics have been rising during the period of our dataset, likely because the “undocumented immigrants” narrative was an important part of Obama’s framing of the immigration issue (Haynes et al., 2016).
+26	39	Tryst (anti-correlated over time, likely to cooccur).
+29	77	This possibly relates to the promises to overhaul the immigration detention system (Kalhan, 2010).2 Arms-race (correlated over time, unlikely to cooccur).
+31	27	Note that our terminology describes the relations between ideas in texts, not necessarily between the entities to which the ideas refer.
+32	27	For example, we find that the relation between “Israel” and “Palestine” is “friendship” in news articles on terrorism, based on their prevalence correlation and cooccurrence in that corpus.
+34	24	We operationalize ideas using topics (Blei et al., 2003) and keywords (Monroe et al., 2008).
+87	62	In most exploratory studies, however, we are most interested in pairs that exemplify each type of relation, i.e., the most extreme points in each quadrant.
+91	40	3 shows three examples: two from news articles and one from research papers.
+94	20	Cooccurrence tends to be unimodal but not normal.
+103	21	This suggests that there are more friendship and head-to-head relations than tryst and arms-race relations.
+117	17	We also see that topics show greater strength in our scientific article collections, while keywords dominate in news, especially in friendship.
+123	30	As a showcase, we consider a topic which encompasses much of the U.S. government’s response to terrorism: “federal, state”.5 We observe two topics engaging in an “arms race” with this one: “afghanistan, taliban” and “pakistan, india”.
+139	20	Table 1 shows the results for three pairs above.
+140	96	If we had looked at only cooccurrence or prevalence correlation, we would probably have missed these interesting pairs.
+157	47	But such transitivity does not hold for tryst: although the prevalence of “rule, forest methods” is anti-correlated with both “machine translation” and “sentiment analysis”, “sentiment analysis” seldom cooccurs with “rule, forest methods” because “sentiment analysis” is seldom built on parsing algorithms.
+173	18	We illustrate our computational method by exploratory studies on news corpora and scientific research papers.
+177	21	Our method is entirely observational.
+178	34	It remains as a further stage of analysis to understand the underlying reasons that lead to these relations be- tween ideas.
+182	38	For instance, we assume that both ideas and relations are statically grounded in keywords or topics.
+184	39	Similarly, new ideas show up and even the same idea may change over time and be represented by different words.
