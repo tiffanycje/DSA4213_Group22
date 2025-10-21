@@ -1,0 +1,30 @@
+0	21	Most of the world’s languages are dying out and have little recorded data or linguistic documentation (Austin and Sallabank, 2011).
+1	29	It is important to adequately document languages while they are alive so that they may be investigated in the future.
+2	12	Language documentation traditionally involves one-onone elicitation of speech from native speakers in order to produce lexicons and grammars that describe the language.
+4	26	This is a critical bottleneck since it takes a trained linguist about 1 hour to transcribe the phonemes of 1 minute of speech (Do et al., 2014).
+5	29	Smartphone apps for rapid collection of bilingual data have been increasingly investigated (De Vries et al., 2011; De Vries et al., 2014; Reiman, 2010; Bird et al., 2014; Blachon et al., 2016).
+6	33	It is common for these apps to collect speech segments paired with spoken translations in another language, making spoken translations quicker to obtain than phonemic transcriptions.
+7	22	We present a method to improve automatic phoneme transcription by harnessing such bilingual data to learn a lexicon and translation model directly from source phoneme lattices and their written target translations, assuming that the target side is a major language that can be efficiently transcribed.1 A Bayesian non-parametric model expressed with a weighted finite-state transducer (WFST) framework represents the joint distribution of source acoustic features, phonemes and latent source words given the target words.
+9	9	Importantly, the model assumes no prior lexicon or translation model.
+10	29	This method builds on work on phoneme translation modeling (Besacier et al., 2006; Stüker et al., 2009; Stahlberg et al., 2012; Stahlberg et al., 2014; Adams et al., 2015; Duong et al., 2016), speech translation (Casacuberta et al., 2004; Matusov et al., 2005), computer-aided translation, (Brown et al., 1994; Vidal et al., 2006; Khadivi and Ney, 2008; Reddy and Rose, 2010; Pelemans et al., 2015), translation modeling from automatically transcribed 2377 speech (Paulik and Waibel, 2013), word segmentation and translation modeling (Chang et al., 2008; Dyer, 2009; Nguyen et al., 2010; Chen and Xu, 2015), Bayesian word alignment (Mermer et al., 2013; Zezhong et al., 2013) and language model learning from lattices (Neubig et al., 2012).
+18	28	Figure 1 uses a toy German–English error resolution example to illustrate the components of the framework: a phoneme lattice representing phoneme uncertainty according to P (x|φ); a lexicon that transduces phoneme substrings φs of φ to source tokens f according to P (φs|f); and a lexical translation model representing P (f |e) for each e in the written translation.
+19	27	The composition of these components is also shown at the bottom of Figure 1, illustrating how would-be transcription errors can be resolved.
+21	50	Because we do not have knowledge of the source language, we must learn the lexicon and translation model from the phoneme lattices and their written translation.
+23	6	Let A be both the transcription of each source utterance f and its word alignments to the translation e that generated them.
+27	29	This 〈unk〉 token is consumed by a designated arc in the translation model WFST with probability αcA(e)+α , yielding a composed probability of αP0(f)cA(e)+α .
+28	8	Other arcs in the translation model express the probability cA(f,e) cA(e)+α of entries already in the lexicon.
+34	62	In order to determine the translation model parameters as described above, we require the alignments A.
+36	6	This is achieved using blocked Gibbs sampling, with each utterance constituting one block.
+38	106	We evaluate the lexicon and translation model by their ability to improve phoneme recognition, measuring phoneme error rate (PER).
+39	10	We used less than 10 hours of English–Japanese data from the BTEC corpus (Takezawa et al., 2002), comprised of spoken utterances paired with textual translations.
+41	7	We used acoustic models similar to Heck et al. (2015) to obtain source phoneme lattices.
+43	42	We run experiments in both directions: English– Japanese and Japanese–English (en–ja and ja–en), while comparing against three settings: the ASR 1- best path uninformed by the model (ASR); a monolingual version of our model that is identical except without conditioning on the target side (Mono); and the model applied using the source language sentence as the target (Oracle).
+46	9	Figure 2 shows improvements of ja–en over both the ASR baseline and the Mono method as the training data increases, with translation modeling gaining an increasing advantage with more training data.
+52	8	In this case, fine-grained Japanese is also used as the target which results in most lexical entries arising from uninformative alignments between single English phonemes and Japanese syllables, such as [t]⇔す.
+55	37	Some have segmentation errors [li:z]⇔くださ (‘please’); some are correctly segmented but misaligned to commonly co-occurring words [w2t]⇔時 (‘what’ aligned to ‘time’); others do not constitute individual words, but morphemes aligned to common Japanese syllables [i:N]⇔く (‘-ing’); others still align multi-word units correctly [haUm2tS]⇔いく ら (‘how much’).
+56	11	Note though that entries such as those listed above capture information that may nevertheless help to reduce phoneme transcription errors.
+57	48	We have demonstrated that a translation model and lexicon can be learnt directly from phoneme lattices in order to improve phoneme transcription of those very lattices.
+58	49	One of the appealing aspects of this modular framework is that there is much room for extension and improvement.
+60	20	We assume a good acoustic model with phoneme error rates between 20 and 25%.
+61	13	In a language documentation scenario, acoustic models for the lowresource source language won’t exist.
+62	55	Future work should use a universal phoneme recognizer or acoustic model of a similar language, thus making a step towards true generalizability.

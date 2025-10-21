@@ -1,0 +1,30 @@
+0	61	The proliferation of machine learning, and more recently deep learning, in real-world applications has been made possible by an exponential increase in compute capabilities, largely driven by advancements in hardware design.
+2	73	Prefetching is a canonical example of this, where instructions or data are brought into much faster storage well in advance of their required usage.
+3	18	Prefetching addresses a critical bottleneck in von Neumann computers: computation is orders of magnitude faster than accessing memory.
+4	93	This problem is known as the memory wall (Wulf & McKee, 1995), and modern applications can spend over 50% of all compute cycles waiting for data to arrive from memory (Kozyrakis et al., 2010; Ferdman et al., 2012; Kanev et al., 2015).
+5	55	To mitigate the memory wall, microprocessors use a hierarchical memory system, with small and fast memory close to the processor (i.e., caches), and large yet slower memory farther away.
+6	30	Prefetchers predict when to fetch what data into cache to reduce memory latency, and the key towards effective prefetching is to attack the difficult problem of predicting memory access patterns.
+7	109	Predictive optimization such as prefetching is one form of speculation.
+8	40	Modern microprocessors leverage numerous types of predictive structures to issue speculative requests with the aim of increasing performance.
+10	52	That is, future events are expected to correlate with past history tracked in lookup tables (implemented as memory arrays).
+23	19	Discretization makes prefetching more analogous to neural language models, and we leverage it as a starting point for building neural prefetchers.
+26	53	We also find that our results are interpretable.
+28	33	Prefetchers are hardware structures that predict future memory accesses from past history.
+31	35	For example, given an access pattern that adds four to a memory address every time (0, 4, 8, 12), a stride prefetcher will learn that delta and try to prefetch ahead of the demand stream, launching parallel accesses to potential future address targets (16, 20, 24) up to a set prefetch distance.
+36	26	Deep learning has become the model-class of choice for many sequential prediction problems.
+56	25	However, one concern quickly becomes apparent: the address space of an application is extremely sparse.
+110	76	We hypothesize that much of the interesting interaction between addresses occurs locally in address space.
+111	30	As one example, data structures like structs and arrays tend to be stored in contiguous blocks, and accessed repeatedly.
+113	32	By looking at narrower regions of the address space, we can see that there is indeed rich local context.
+114	32	We took the set of addresses from omnetpp and clustered them into 6 different regions using k-means.
+116	84	To assess the relative accuracy of modeling local addressspace regions, we first cluster the raw address space using k-means.
+124	22	This allows us to further reduce the size of the model, as we do not need to keep around a large matrix of embeddings.
+125	27	Importantly, we still treat next-delta prediction as a classification problem, as we found that regression is still too inaccurate to be practical 3.
+152	52	Therefore, the bandwidth required to make a prediction is nearly identical between the two LSTM variants.
+155	29	We simulate a hardware structure that supports up to 10 simultaneous streams to maintain parity between the ML and traditional predictors.
+175	55	A different cluster consists only of pointer dereferences, as the application traverses a linked list.
+229	19	While it is unclear if DNNs can meet the latency demands required for a hardware accelerator, neural networks also significantly compress learned representations during training, and shift the problem to a compute problem rather than a memory capacity problem.
+232	30	Branch prediction is the process of predicting the direction of branches that an application will take.
+235	42	One consequence of replacing microarchitectural heuristics with learned systems is that we can introspect those systems in order to better understand their behavior.
+237	46	Recent work has also identified timing based attacks as a vulnerability for speculative systems (Kocher et al., 2018; Lipp et al., 2018), security implications and adversarial attacks are an open problem.
+239	18	A trace representation is necessarily different from e.g., input-output pairs of functions, as in particular, traces are a representation of an entire, complex, human-written program.

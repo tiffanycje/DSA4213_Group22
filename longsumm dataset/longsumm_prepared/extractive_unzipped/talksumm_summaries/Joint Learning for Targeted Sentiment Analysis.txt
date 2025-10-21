@@ -1,0 +1,30 @@
+0	54	Targeted sentiment analysis (TSA) aims to extract targets in a text and simultaneously predict their sentiment classes (Hu and Liu, 2004; Jin et al., 2009; Li et al., 2010; Yang and Cardie, 2013).
+1	37	For example, given a sentence “ESPN poll says Michael Jordan is the greatest basketball athlete”, the targets are ESPN and Michael Jordan and their sentiment classes are Neutral and Positive respectively.
+2	82	Targeted sentiment analysis can be seen as two tasks: target extraction and sentiment classification.
+3	56	Some researchers have tackled two tasks separately, e.g., target extraction (Liu et al., 2013; Wang et al., 2016a; Yin et al., 2016) and sentiment classification (Tang et al., 2016; Wang et al., 2016b; Ruder et al., 2016).
+4	2	Recently, some researches have attempted to conduct the two tasks jointly and generally see them as sequence labeling problems, where the B/I/O labels indicate target boundaries and the Positive/Neutral/Negative labels denote sentiment classes (Klinger and Cimiano, 2013; Yang and Cardie, 2013).
+5	71	Mitchell et al. (2013) explore labeling targets and their sentiment classes simultaneously by using the Conditional Random Fields (CRF) approach with traditional manual discrete features, and present three models: pipeline, joint and collapsed, according to different labeling processes of the two tasks.
+6	5	They find that the pipeline method outperforms the joint model on tweet dataset.
+8	10	With the success of deep learning techniques, neural networks have demonstrated their capability of sequence labeling (Collobert et al., 2011; Pei et al., 2014; Chen et al., 2015).
+9	13	However, Zhang et al. (2015) only use word embeddings to enrich features without taking full advantages of neural networks’ potential in automatically capturing important sequence labeling features like long distance dependencies and character-level features.
+10	12	To make better use of neural networks to explore appropriate character-level features and high-level semantic features for the two tasks, we design a hierarchical multi-layer bidirectional gated recurrent units networks (HMBiGRU) which uses a multi-layer Bi-GRU to automatically learn character features (e.g. capitalization, noun suffix, etc) on letter sequence and model long distance dependencies between words on the concatenation of word embedding and its character features.
+11	5	The learned character features can also address out-of-vocabulary word problems.
+28	8	GRU is good at modeling a sequence with the benefits of avoiding the gradient vanishing and exploding problems.
+33	17	⊕ indicates the operation of concatenating two vectors.
+34	15	With the matrix of character embeddings Ci as inputs, we utilize a MBi-GRU to learn characterlevel abstract features for word wi based on its character embeddings.
+40	17	After learning the final representations for sentence, we first project the features: tfi = h′ M i of each word into target label space by: yit = f(tfi ·W tp + btp) (5) where W tp and b t p are weight matrix and bias.
+41	13	As we know, the boundary of a target should be the same as that of its sentiment in sequence label.
+43	24	To learn this kind of consistency, we introduce the target label information into predicting sentiment label by: yis = f(sfi ·W sp + bsp) (6) where sfi = h′ M i ⊕ yit, W ts and bts are weight matrix and bias respectively.
+51	6	Next, we normalize the target label scores over all possible labeling paths of target (i.e., Yt) by a softmax function: pt(yt|x) = es(yt,x,θt)∑ ŷt∈Yt e s(ŷt,x,θt) ; (8) We can also use Eq.
+56	17	To validate the effectiveness of our model, we conduct experiments on two datasets, consisting of English tweets and Spanish tweets, which are constructed by Mitchell et al. (2013)1.
+57	9	Table 2 depicts the statistics of data, which contains sentence number, target number and the number of positive target, negative target and neutral target.
+59	45	In our experiments, we evaluate the performance of detecting targets (DT) and targeted sentiment analysis (TSA) which a target is taken as correct only when the boundary and the sentiment are both correctly recognized.
+60	52	We also adopt Precision, Recall and F-measure used in Zhang et al. (2015) to evaluate our model.
+70	15	To investigate the performance of our joint model, we compare it with several baselines as follows: • Discrete uses traditional discrete features as 
+71	12	html  inputs and multi-label CRF which contains two separate output clique potentials and two separate edge clique potentials for target extraction and sentiment classification respectively.
+95	9	Compared with No-Target, our model introduces target label information into predicting sentiment label and improves about 0.66%, 1.44% in TSA and 0.59%, 0.91% in DT on both datasets.
+97	24	It is noticed that the results of our model in DT are also improved compared with No-Target.
+100	16	Character-level features play great roles in DT and TSA, and HMBiGRU is good at learning multi-level features.
+101	22	It is useful to learn boundary consistence by introducing target label information into predicting sentiment label.
+102	50	Here, we use a tweet from English Dataset as a case study, and the tweet is “Congratulations to our Champ Roger Federer ...”.
+103	9	We apply NoTarget and our model on the tweet.

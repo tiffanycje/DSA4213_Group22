@@ -1,0 +1,30 @@
+0	64	Machine reading comprehension (MRC), empowering computers with the ability to acquire knowledge and answer questions from textual data, is believed to be a crucial step in building a general intelligent agent (Chen et al., 2016).
+2	21	With the release of various datasets, the MRC task has evolved from the early cloze-style test (Hermann et al., 2015; Hill et al., 2015) to answer extraction from a single passage (Rajpurkar et al., 2016) and to the latest more complex question answering on web data (Nguyen et al., 2016; Dunn et al., 2017; He et al., 2017).
+5	38	However, this success on single Wikipedia passage is still not adequate, considering the ultimate goal of reading the whole web.
+6	19	Therefore, several latest datasets (Nguyen et al., 2016; He et al., 2017; Dunn et al., 2017) attempt to design the MRC tasks in more realistic settings by involving search engines.
+7	23	For each question, they use the search engine to retrieve multiple passages and the MRC models are required to read these passages in order to give the final answer.
+8	53	One of the intrinsic challenges for such multipassage MRC is that since all the passages are question-related but usually independently written, it’s probable that multiple confusing answer candidates (correct or incorrect) exist.
+13	30	In this paper, we propose to leverage the answer candidates from different passages to verify the final correct answer and rule out the noisy incorrect answers.
+27	17	Figure 1 gives an overview of our multi-passage MRC model which is mainly composed of three modules including answer boundary prediction, answer content modeling and answer verification.
+33	29	The final answer is determined by not only the boundary but also the answer content and its verification score (Section 2.5).
+42	15	The similarity matrix S ∈ R|Q|×|Pi| between the question and passage i is changed to a simpler version, where the similarity between the tth word in the question and the kth word in passage i is computed as: St,k = u Q t ᵀ · uPik (3) Then the context-to-question attention and question-to-context attention is applied strictly following Seo et al. (2016) to obtain the questionaware passage representation {ũPit }.
+59	15	The boundary model and the content model focus on extracting and modeling the answer within a single passage respectively, with little consideration of the cross-passage information.
+63	21	Given the representation of the answer candidates from all passages {rAi}, each answer candidate then attends to other candidates to collect supportive information via attention mechanism: si,j = { 0, if i = j, rAi ᵀ · rAj , otherwise (13) αi,j = exp(si,j)/ ∑n k=1 exp(si,k) (14) r̃Ai = ∑n j=1 αi,jr Aj (15) Here r̃Ai is the collected verification information from other passages based on the attention weights.
+87	17	Therefore, we also report the proportion of questions that have multiple answer spans to match with the human-generated answers.
+89	15	From these statistics, we can see that the phenomenon of multiple answers is quite common for both MS-MARCO and DuReader.
+110	19	If we ensemble the models trained with different random seeds and hyper-parameters, the results can be further improved and outperform the ensemble model in Tan et al. (2017), especially in terms of the BLEU-1.
+123	19	From Table 5, we can see that the answer verification makes a great contribution to the overall improvement, which confirms our hypothesis that cross-passage answer verification is useful for the multi-passage MRC.
+124	26	For the ablation of the content model, we analyze that it will not only affect the content score itself, but also violate the verification model since the content probabilities are necessary for the answer representation, which will be further analyzed in Section 4.3.
+125	17	Another discovery is that jointly training the three models can provide great benefits, which shows that the three tasks are actually closely related and can boost each other with shared representations at bottom layers.
+129	17	For each answer candidate, we list three scores predicted by the boundary model, content model and verification model respectively.
+133	227	On the other hand, we also see that the verification score can really make a difference here when the boundary model makes an incorrect decision among the confusing answer candidates ([1], [3], [4], [6]).
+134	19	Besides, as we expected, the verification model tends to give higher scores for those answers that have semantic commonality with each other ([3], [4], [6]), which are all valid answers in this case.
+136	18	In our model, we compute the answer representation based on the content probabilities predicted by a separate content model instead of directly using the boundary probabilities.
+137	72	We argue that this content model is necessary for our answer verification process.
+138	29	Figure 2 plots the predicted content probabilities as well as the boundary probabilities for a passage.
+139	29	We can see that the boundary and content probabilities capture different aspects of the answer.
+140	86	Since answer candidates usually have similar boundary words, if we compute the answer representation based on the boundary probabilities, it’s difficult to model the real difference among different answer candidates.
+141	30	On the contrary, with the content probabilities, we pay more attention to the content part of the answer, which can provide more distinguishable information for verifying the correct answer.
+142	35	Furthermore, the content probabilities can also adjust the weights of the words within the answer span so that unimportant words (e.g. “and” and “.”) get lower weights in the final answer representation.
+163	22	In this paper, we propose an end-to-end framework to tackle the multi-passage MRC task .
+166	18	The experimental results demonstrate that our model outperforms the baseline models by a large margin and achieves the state-of-the-art performance on two challenging datasets, both of which are designed for MRC on real web data.

@@ -1,0 +1,18 @@
+0	90	Answer sentence selection is a crucial subtask of the open-domain question answering (QA) problem, with the goal of extracting answers from a set of pre-selected sentences (Heilman and Smith, 2010; Yao et al., 2013; Severyn and Moschitti, 2013).
+1	54	In order to conduct research on this important problem, Wang et al. (2007) created a dataset, which we refer to by QASENT, based on the TREC-QA data.
+2	16	The QASENT dataset chose questions in TREC 8-13 QA tracks and selected sentences that share one or more non-stopwords from the questions.
+3	6	Although QASENT has since become the benchmark dataset for the answer selection problem, its creation process actually introduces a strong bias in the types of answers that are included.
+5	18	One significant concern with this approach is that the lexical overlap will make sentence selection easier for the QASENT dataset and might inflate the performance of existing systems in more natural settings.
+7	3	We explore this possibility in Section 3.
+8	32	A second, more subtle challenge for question answering is that it normally assumes that there is at least one correct answer for each question in the candidate sentences.
+10	141	We present WIKIQA, a dataset for opendomain question answering.2 The dataset contains 3,047 questions originally sampled from Bing query logs.
+11	46	Based on the user clicks, each question is associated with a Wikipedia page presumed to be the topic of the question.
+12	216	In order to eliminate answer sentence biases caused by keyword matching, we consider all the sentences in 2013 the summary paragraph of the page as the candidate answer sentences, with labels on whether the sentence is a correct answer to the question provided by crowdsourcing workers.
+13	18	Among these questions, about one-third of them contain correct answers in the answer sentence set.
+14	93	We implement several strong baselines to study model behaviors in the two datasets, including two previous state-of-the-art systems (Yih et al., 2013; Yu et al., 2014) on the QASENT dataset as well as simple lexical matching methods.
+15	185	The results show that lexical semantic methods yield better performance than sentence semantic models on QASENT, while sentence semantic approaches (e.g., convolutional neural networks) outperform lexical semantic models on WIKIQA.
+16	41	We propose to evaluate answer triggering using question-level precision, recall and F1 scores.
+17	10	The best F1 scores are slightly above 30%, which suggests a large room for improvement.
+19	23	In order to reflect the true information need of general users, we used Bing query logs as the question source.
+20	38	Taking the logs from the period of May 1st, 2010 to July 31st, 2011, we first selected question-like queries using simple heuristics, such as queries starting with a WH-word (e.g., “what” or “how”) and queries ending with a question mark.
+21	10	In addition, we filtered out some entity queries that satisfy the rules, such as the TV show “how I met your mother.” In the end, approximately 2% of the queries were selected.

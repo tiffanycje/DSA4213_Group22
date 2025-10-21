@@ -1,0 +1,30 @@
+0	21	Natural language understanding (NLU) is a key component of dialog systems for commercial personal digital assistants (PDAs) such as Amazon Alexa, Google Home, Microsoft Cortana and Apple Siri.
+1	17	The task of the NLU component is to map input user utterances into a semantic frame consisting of domain, intent and slots (Kurata et al., 2016).
+2	38	The semantic frame is used by the dialog manager for state tracking and action selection.
+3	26	Slot tagging can be formulated as a sequence classification task where each input word in the user utterance must be classified as belonging to one of the slot types in a predefined schema (Sarikaya et al., 2016).
+4	8	In a standard NLU architecture, each new domain defines a new domainspecific schema for its slots.
+5	34	Figure 1 shows examples of annotated queries from three different domains relevant to a typical commercial digital assistant.
+11	7	However, since both the input distribution and the label distribution are different across domains, we must use domain adaptation methods to train on the joint data (Daume, 2007; Kim et al., 153 2016c; Blitzer et al., 2006).
+12	63	In this data-driven adaptation approach, we build a repository of annotated data containing date, time, location and other reusable slots.
+13	12	We then combine relevant data from the reusable repository with the domain specific data during model training.
+14	13	Figure 2(a) shows an example of this architecture where reusable date/time data is used for training travel domain.
+17	24	This increase in training time makes iterative refinement difficult in the initial design of new domains, which is when the ability to deploy new models quickly is crucial.
+18	10	An alternative strategy is to use model-driven adaptation approaches (Kim et al., 2017b) as shown in Figure 2(b).
+20	26	Using model-driven adaptation ensures that model training time is proportional to the data size of new target domains, as opposed to the large data size for reusable slots, allowing for faster training.
+21	6	In this paper, we present a model-driven adaptation approach for slot tagging called Bag of Experts (BoE).
+24	11	Using this data, we conduct experiments comparing the BoE models with their non-expert counterparts, and show that BoE models can lead to significant F1-score improvements.
+31	21	For every input word wi, let fCi and b C i be the outputs of the forward and backward character level LSTMs respectively, and let mi be the word embedding (initialized either randomly or with pretrained embeddings).
+36	6	To avoid overfitting, we also use dropout on top of mi and hi layers, with a default dropout keep probability of 0.8.
+46	14	Conditional Random Fields (CRF) are a popular family of models that have been proven to work well in a variety of sequence tagging NLP applications (Lafferty et al., 2001).
+48	6	In particular, for each token, we use unigram, bigram and trigram features, along with previous and next unigrams, bigrams, and trigrams for context length of up to 3 words.
+52	9	Similar to the LSTM-BoE model, we first train a CRF model cj for each of the reusable expert domains ej ∈ E. When training on a target domain, for every query word wi, a one-hot label vector l j i is emitted by each expert CRF model cj .
+58	36	The annotated data is therefore prepared in two steps.
+60	12	Next, the generated utterances are annotated by a different set of crowd workers, using the slot schema for each domain.
+71	7	The data for the reusable domains is sampled from other domains available to the digital assistant, not including our target domains.
+72	12	Grouping the reusable slots into domains in this way provides additional opportunities for a commercial system: the trained reusable domain models can be used in other related products which need to identify time and location related entities.
+74	88	We want to verify if BoE models can improve slot tagging performance by using the information from reusable domains.
+75	15	To simulate the low data scenario for the initial model training, we create three training datasets by sampling 2000, 1000 and 500 training examples from every domain.
+76	30	We use stratified sampling to maintain the input distribution of the intents across the three training datasets.
+77	27	For each training dataset, we train the four models as described in Section 2 and compute the precision, recall and F1-score on the test data.
+83	13	For each of the 10 domains, we trained using each variant with 10 different seeds, and computed the mean F1-score for each domain.
+84	20	For comparing two variants, we computed the mean difference in the F1-scores over the 10 domains and its p-value.

@@ -1,0 +1,30 @@
+4	62	In fact, the potential use of such knowledge about everyday actions and objects can go beyond language understanding and reasoning.
+9	29	In particular, we focus on acquiring relative physical knowledge of actions and objects organized along five dimensions: size, weight, strength, rigidness, and speed.
+11	27	While natural language text is a rich source to obtain broad knowledge about the world, compiling trivial commonsense knowledge from unstructured text is a nontrivial feat.
+12	90	The central challenge lies in reporting bias: people rarely states the obvious (Gordon and Van Durme, 2013; Sorower et al., 2011; Misra et al., 2016; Zhang et al., 2017), since it goes against Grice’s conversational maxim on the quantity of information (Grice, 1975).
+13	22	In this work, we demonstrate that it is possible to overcome reporting bias and still extract the unspoken knowledge from language.
+17	41	Thus, our work provides unique value to complement recent attempts to acquire commonsense knowledge from web images (Izadinia et al., 2015; Bagherinezhad et al., 2016; Sadeghi et al., 2015).
+36	25	For example, consider an action frame “x threw y.” In general, following implications are likely to be true: “x threw y” =⇒ x >size y “x threw y” =⇒ x >weight y “x threw y” =⇒ x <speed y Again, in order to cope with exceptions and uncertainties, we assume a probability distribution associated with each implication.
+37	23	More formally, we define a random variable F av to denote the implication of the action verb v when applied over its arguments x and y with respect to a knowledge dimension a so that: P(F sizethrew = >) := P(“x threw y”⇒ x >size y) P(Fwgtthrew = >) := P(“x threw y”⇒ x >wgt y) where the range of F sizethrew is {>, <,'}.
+53	59	To enumerate action frame relations for each verb, we use syntactic patterns based on dependency parse by extracting the core components (subject, verb, direct object, prepositional object) of an action, then map the subject to an agent, the direct object to a theme, and the prepositional object to a goal.3 For those frames that involve an argument in a prepositional phrase, we create a separate frame for each preposition based on the statistics observed in the Google Syntax Ngram corpus.
+54	19	Because the syntax ngram corpus provides only tree snippets without context, this way of enumerating potential frame patterns tend to overgenerate.
+61	111	Crowd workers are given with a frame template such as “x threw y,” and then asked to list a few plausible objects (including people and animals) for the missing slots (e.g., x and y).4 We then ask them to rate the general relationship that the arguments of the frame exhibit with respect to all knowledge dimensions (size, weight, etc.).
+65	28	We reserve 50% of the data as a test set, and split the remainder up either 5% / 45% or 20% / 30% (seed / development) to investigate the effects of different seed knowledge sizes on the model.
+67	20	About 90% of the frames as well as object pairs had 2/3 agreement between workers.
+78	25	Each frame node is a random variable F avt .
+82	54	For a frame node F avt , the value represents the belief about the relation along the attribute a between any two objects that might be used in the frame vt. We denote the sets of all object pair and frame random variables O and F , respectively.
+91	45	Cross-Verb Frame Similarity: We add a group of factors ψv between two verbs v and u (to connect a specific frame of v with a corresponding frame of u) based on the verb-level similarities.
+103	35	For two such attributes a and b, if the same frame F avi and F b vi exists in both graphs, we add a factor ψa between them to push them towards taking the same value.
+127	105	factors (ψs) are picked by using a threshold (also tuned on the development set) of pointwise mutual information (PMI) between the frames and the object pairs’ occurrences in the Google Syntax Ngram corpus.
+136	31	Inferring Knowledge of Objects: Our second experiment is to predict the correct relations of new object pairs.
+142	107	One example from the development set is “x contained y.” While x and y can be real objects, more abstract senses of “contained” could involve y as a “forest fire” or even a “revolution.” In these instances, x >size y is plausible as an abstract notion: if some entity can contain a revolution, we might think that entity as “larger” or “stronger” than the revolution.
+143	19	Error analysis: Examples 6–10 in Figure 4 highlight failure cases for the model.
+146	27	One crowd worker provided the example, “PERSON stopped the fly with {the jar / a swatter},” where fly <weight {jar, swatter}.
+147	37	However, two crowd workers provided examples like “PERSON stopped their car with the brake,” where clearly car >weight brake.
+148	21	This example illustrates complex underlying physics we do not model: a brake—the pedal itself—is used to stop a car, but it does so by applying significant force through a separate system.
+149	26	The next two examples are cases where the model nearly predicts correctly (8, e.g., “She lived at the office.”) and is just clearly wrong (9, e.g., “He snipped off a locket of hair”).
+150	33	Example 10 demonstrates a case of polysemy where the model picks the wrong side.
+151	15	In the phrase, “She caught the runner in first,”, it is correct that she >speed runner.
+152	35	However, the sense chosen by the crowd workers is that of, “She caught the baseball,” where indeed she <speed baseball.
+171	46	We presented a novel take on verb-centric frame semantics to learn implied physical knowledge latent in verbs.
+172	146	Empirical results confirm that by modeling changes in physical attributes entailed by verbs together with objects that exhibit these properties, we are able to better infer new knowledge in both domains.

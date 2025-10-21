@@ -1,0 +1,28 @@
+0	6	Residual networks (He et al., 2016) are deep neural networks in which, roughly, subnetworks determine how a feature transformation should differ from the identity, rather than how it should differ from zero.
+1	21	After enabling the winning entry in the ILSVRC 2015 classification task, they have become established as a central idea in deep networks.
+2	24	Hardt & Ma (2017) provided a theoretical analysis that shed light on residual networks.
+3	62	They showed that (a) any linear transformation with a positive determinant and a bounded condition number can be approximated by a “deep linear network” of the form f(x) = ΘLΘL−1...Θ1x, where, for large L, each layer Θi is close to the identity, and (b) for networks that compose near-identity transformations this way, if the excess loss is large, then the gradient is steep.
+4	19	Bartlett et al. (2018a) extended both results to the nonlinear case, showing that any smooth, bi-Lipschitz map can be represented as a composition of near-identity functions, and that a suboptimal loss in a composition of near-identity functions implies that the functional gradient of the loss with respect to a function in the composition cannot be small.
+5	78	These results are interesting because they suggest that, in many cases, this non-convex objective may be efficiently optimized through gradient descent if the layers stay close to the identity, possibly with the help of a regularizer.
+6	36	This paper describes and analyzes such algorithms for linear regression with d input variables and d response variables with respect to the quadratic loss, the same setting analyzed by Hardt and Ma.
+7	30	We abstract away sampling issues by analyzing an algorithm that performs gradient descent with respect to the population loss.
+11	19	For the nonconvex problem of this paper, we show that if gradient descent starts at the identity in each layer, and if the excess loss of that initial solution is bounded by a constant, then the Hessian remains well-conditioned enough throughout training for successful learning.
+12	15	Specifically, there is a constant c0 such that, if the excess loss of the identity (over the least squares linear map) is at most c0, then back-propagation initialized at the identity in each layer achieves loss within at most of optimal in time polynomial in log(1/ ), d, and L (Section 3).
+14	134	We also show that if the least squares matrix Φ is symmetric positive definite then gradient descent with identity initialization achieves excess loss at most in a number of steps bounded by a polynomial in log(d/ ), L and the condition number of Φ (Section 4).
+16	30	This holds for step-andproject algorithms, and also algorithms that initialize to the identity and regularize by early stopping or penalizing∑ i ||Θi − I||2F (Section 6).
+17	15	Both this and the previous impossibility result can be proved using a least squares matrix Φ with a positive determinant and a good condition number.
+19	16	In Section 5 we provide a convergence guarantee for a least squares matrix Φ that may not be symmetric, but satisfies the positivity condition u>Φu > γ for some γ > 0 that appears in the bounds.
+21	23	Such Φ include rotations by acute angles.
+22	31	In this case, we consider an algorithm that regularizes in addition to a near-identity initialization.
+23	9	After the gradient update, the algorithm performs what we call power projection, projecting its hypothesis ΘLΘL−1...Θ1 onto the set of γ-positive matrices.
+24	17	Second, it “balances” Θ1, ...,ΘL so that, informally, they contribute equally to ΘLΘL−1...Θ1.
+26	20	We view this regularizer as a theoretically tractable proxy for regularizers that promote positivity and balance between layers by adding penalties.
+34	6	For an interesting survey on the rich literature on these algorithms, please see Ge et al. (2017a); successful algorithms have included a regularizer that promotes balance in the sizes of U and V .
+42	23	Our three upper bound analyses combine a new upper bound on the operator norm of the Hessian of a deep linear network with the result of Hardt and Ma that gradients are lower bounded in terms of the loss for near-identity matrices.
+43	24	They otherwise have different outlines.
+44	194	The bound in terms of the loss of the initial solution proceeds by showing that the distance from each layer to the identity grows slowly enough that the loss is reduced before the layers stray far enough to harm the conditioning of the Hessian.
+45	101	The bound for symmetric positive definite matrices proceeds by showing that, in this case, all of the layers are the same, and each of their eigenvalues converges to the Lth root of a corresponding eigenvalue of Φ.
+46	9	As mentioned above, the bound for γ-positive matrices Φ is for an algorithm that achieves favorable conditioning through regularization.
+48	104	One potential avenue for this arises from the fact that the leverage provided by regularizing toward the identity appears to already be provided by a weaker policy of promoting the property that the composition of layers is (potentially asymmetric) positive definite.
+49	39	Also, balancing singular values of the layers of the network aided our analysis; an analogous balancing of Jacobians associated with various layers may improve conditioning in practice in the non-linear case.
+52	48	This assumption is without loss of generality: if Φ is the least squares matrix (so that f defined by f(X) = ΦX minimizes `P (f) among linear functions), for any linear g we have `P (g) = E‖g(X)− f(X)‖2/2 + E‖f(X)− Y ‖2/2 + E ((g(X)− f(X))(f(X)− Y )) = E‖g(X)− f(X)‖2/2 + E‖f(X)− Y ‖2/2 = E‖g(X)− ΦX)‖2/2 + E‖ΦX − Y ‖2/2, since f is the projection of Y onto the set of linear functions of X .

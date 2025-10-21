@@ -1,0 +1,30 @@
+2	68	The fundamental tasks in temporal processing, as identified in the TE workshops, are 1) time expression (the so-called “timex”) extraction and normalization and 2) temporal relation (also known as TLINKs (Pustejovsky et al., 2003a)) extraction.
+6	15	The task is challenging because it often requires global considerations – considering the entire graph, the TLINK annotation is quadratic in the number of nodes and thus very expensive, and an overwhelming fraction of the temporal relations are missing in human annotation.
+10	34	In the common formulations, temporal relations are categorized into three types: the E-E TLINKs (those between a pair of events), the T-T TLINKs (those between a pair of timexes), and the E-T TLINKs (those between an event and a timex).
+13	66	We want to construct a temporal graph as in Fig.
+15	22	tons of earth cascaded down a hillside, ripping two houses from their foundations.
+16	18	No one was hurt, but firefighters ordered the evacuation of nearby homes and said they’ll monitor the shifting ground.. .
+23	89	Even if we only look at main events in consecutive sentences and at events in the same sentence, there are still quite a few missing TLINKs, e.g., the one between hurt and cascaded and the one between monitor and ordered.
+27	22	Integer linear programming (ILP) methods (Roth and Yih, 2004) were used in this domain to enforce global consistency by several authors including Bramsen et al. (2006); Chambers and Jurafsky (2008); Do et al. (2012), which formulated TLINK extraction as an ILP and showed that it improves over local methods for densely connected graphs.
+28	17	Since these methods perform inference (“I”) on top of pre-trained local classifiers (“L”), they are often referred to as L+I (Punyakanok et al., 2005).
+41	14	Existing corpora for temporal processing often follows the interval representation of events proposed in Allen (1984), and makes use of 13 relation types in total.
+52	17	For example, if system 1 produces ripping is before hurt and hurt is before monitor, and system 2 adds ripping is before monitor on top of system 1.
+61	53	In a document with n pairs of events, let φi ∈ X ⊆ Rd be the extracted d-dimensional feature and yi ∈ Y be the temporal relation for the i-th pair of events, i = 1, 2, .
+70	63	Specifically, let Ir(ij) ∈ {0, 1} be the indicator function of relation r for event i and event j and fr(ij) ∈ [0, 1] be the corresponding soft-max score.
+77	24	Many participating systems in TE3 (UzZaman et al., 2013) have used this pre-filtering strategy to balance the trade-off between confidence in fr(ij) and global constraints.
+99	37	CoDL improves the model learned from a small amount of labeled data by repeatedly generating feedback through labeling unlabeled examples, which is in fact a semi-supervised version of IBT.
+103	17	While some of these missing TLINKs can be inferred from existing ones, the vast majority still remain unknown as shown in Table 1.
+106	33	We could simply use these unknown pairs (or some filtered version of them) to design rules or train classifiers to identify whether a TLINK is vague or not.
+109	91	First, it is believed that a lot of the unknown pairs are not really vague but rather pairs that the annotators failed to look at (Bethard et al., 2007; Cassidy et al., 2014; Chambers et al., 2014).
+111	133	It is hard to exclude this noise in the data during training.
+112	41	Second, compared to the overwhelmingly large number of unknown TLINKs (89.5% as shown in Table 1), the scarcity of non-vague TLINKs makes it hard to learn a good vague classifier.
+116	38	Fourth, without the vague classifier, the predicted temporal graph tends to become more densely connected, thus the global transitivity constraints can be more effective in correcting local mistakes (Chambers and Jurafsky, 2008).
+118	43	To handle this, we take a closer look at the vague TLINKs.
+120	94	One is that an annotator looks at this pair of events and decides that multiple relations can exist, and the other one is that two annotators disagree on the relation (similar arguments were also made in Cassidy et al. (2014)).
+121	54	In both situations, the annotators first try to assign all possible relations to a TLINK, and then change the relation to vague if more than one can be assigned.
+124	45	Specifically, we take each TLINK produced by ILP and determine whether it is vague using its relative entropy (the Kullback-Leibler divergence) to the uniform distribution.
+125	74	Let {rm}Mm=1 be the set of relations that the i-th pair of events can take, we filter the i-th TLINK given by ILP by: δi = M∑ m=1 frm(φi) log (Mfrm(φi)), where frm(φi) is the soft-max score of rm, obtained by the local classifier for rm.
+126	20	We then compare δi to a fixed threshold τ to determine the vagueness of this TLINK; we accept its originally predicted label if δi > τ , or change it to vague otherwise.
+127	14	Using relative entropy here is intuitively appealing and empirically useful as shown in the experiments section; better metrics are of course yet to be designed.
+128	23	The TempEval3 (TE3) workshop (UzZaman et al., 2013) provided the TimeBank (TB) (Pustejovsky et al., 2003b), AQUAINT (AQ) (Graff, 2002), Silver (TE3-SV), and Platinum (TE3-PT) datasets, where TB and AQ are usually for training, and TE3-PT is usually for testing.
+129	32	The TE3-SV dataset is a much larger, machine-annotated and automatically-merged dataset based on multiple systems, with the intention to see if these “silver” standard data can help when included in training (although almost all participating systems saw performance drop with TE3-SV included in training).

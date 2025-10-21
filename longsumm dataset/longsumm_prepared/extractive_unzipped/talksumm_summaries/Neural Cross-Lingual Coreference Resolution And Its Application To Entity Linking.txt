@@ -1,0 +1,26 @@
+12	51	Consider the sentence, “(U.S. president Barack Obama who started ((his) political career) in (Illinois)), was born in (Hawaii).” The bracketing represents the Ontonotes style noun phrases and underlines represent the phrases that should be linked to Wikipedia by an EL system.
+13	85	Note that mentions like “U.S.” and “Barack Obama” do not align with any noun phrase.
+14	82	Therefore, in this work, we focus on coreference on mentions that arise in our end task of entity linking and conduct experiments on TAC TriLingual 2015 data sets consisting of English, Chinese and Spanish.
+15	22	Each mention has a mention type (m type) of either name or nominal and an entity type (e type) of Person (PER) / Location (LOC) / GPE / facility (FAC) / organization (ORG) (following standard TAC (Ji et al., 2015) notations).
+17	35	We gradually merge the mentions in the given document to form entities.
+19	11	Suppose, the sorted order of mentions are m1, .
+20	15	, mN1+N2 where N1 and N2 are respectively the number of the named and nominal mentions.
+21	5	A singleton entity is created from each mention.
+30	16	Since each entity represents a set of mentions, the entity-pair embedding is obtained from the embeddings of mention pairs generated from the cross product of the entity pair.
+32	22	For each (mi,mj) ∈ M(e1, e2), a feature vector φmi,mj is computed.
+33	6	Then, every feature in φmi,mj is embedded as a vector in the real space.
+36	15	Word embeddings are pre-trained.
+37	65	vmi,mj includes the following language independent features: String match: whether mi is a substring or exact match of mj and vice versa (e.g. mi = “Barack Obama” and mj = “Obama”) Distance: word distance and sentence distance between mi and mj discretized into bins m type: concatenation of m types for mi and mj e type: concatenation of e types for mi and mj Acronym: whether mi is an acronym of mj or vice versa (e.g. mi = “United States” and mj = “US”) First name mismatch: whether mi and mj belong to e type of PERSON with the same last name but different first name (e.g. mi=“Barack Obama” and mj = “Michelle Obama”) Speaker detection: whether mi and mj both occur in the context of words indicating speech e.g. “say”, “said” In addition, vmi,mj includes the average of the word embeddings of mi and average of the word embeddings of mj .
+40	11	Relu Layer: vrmi,mj = max(0,W (1)vmi,mj ) Attention Layer: To generate the entity-pair embedding, we need to combine the embeddings of mention pairs generated from the entity-pair.
+43	9	Since the named mention pair (Obama, Clinton) has no string overlap, e1 and e2 should not be coreferenced even though the nominal mention pair (President1, President2) has full string overlap.
+46	5	We introduce 4 parameters aname,name, aname,nominal, anominal,nominal and anominal,name as weights for mention pair embeddings with m types of (name, name), (name, nominal), (nominal, nominal) and (nominal, name) respectively.
+48	4	Sigmoid Layer: vse1,e2 = σ(W (2)vae1,e2) Output Layer: P (y12 = 1|e1, e2) = 1 1 + e−w s.vse1,e2 The training objective is to maximize L. L = ∏ d∈D ∏ (e1,e2,y12)∈Sd P (y12|e1, e2;W (1),W (2), a, ws) (1) Here D is the corpus and Sd is the training triplets generated from document d. Decoding proceeds similarly to training algorithm, except at each of the three steps, for each entity ei, the highest scoring antecdent ej is selected and if the score is above a threshold, ei and ej are merged.
+49	11	We use our recently proposed cross-lingual EL model, described in (Sil et al., 2018), where our target is to perform “zero shot learning” (Socher et al., 2013; Palatucci et al., 2009).
+56	98	The model achieves state-of-the-art (SOTA) results on English benchmark EL datasets and also performs surprisingly well on Spanish and Chinese.
+57	74	However, although the EL model is “zeroshot”, the within-document coreference resolution in the system is a language-dependent SOTA coreference system that has won multiple TACKBP (Ji et al., 2015; Sil et al., 2015) evaluations but is trained on the target language.
+58	98	Hence, our aim is to apply our proposed coreference model to the EL system to perform an extrinsic evaluation of our proposed algorithm.
+60	83	It contains mentions annotated with their grounded Freebase 1 links (if such links exist) or corpus-wide clustering information for 3 languages: English (henceforth, En), Chinese (henceforth, Zh) and Spanish (henceforth, Es).
+61	32	Table 1 shows the size of the training and test sets for the three languages.
+62	7	The documents come from two genres of newswire and discussion forums.
+63	23	The mentions in this dataset are either named entities or nominals that belong to five types: PER, ORG, GPE, LOC and FAC.
+64	12	Hyperparameters: Every feature is embedded in a 50 dimensional space except the words which reside in a 300 dimensional space.

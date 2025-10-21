@@ -1,0 +1,30 @@
+0	28	Data-driven statistical spoken dialogue systems (SDS) (Lemon and Pietquin, 2012; Young et al., 2013) are a promising approach for realizing spoken dialogue interaction between humans and machines.
+4	21	The goal of this paper is to propose a new dialogue model—the conversational entity dialogue model (CEDM)—which offers an intuitive way of modelling dialogues and complex dialogue structures inside the dialogue system.
+30	25	This uncertainty is modelled in the belief state b(s) representing a probability over all states s. Reinforcement learning (RL) is used in such a sequential decision-making process where the decision-model (the policy π) is trained based on sample data and a potentially delayed objective signal (the reward r) (Sutton and Barto, 1998).
+31	34	The policy selects the next action a ∈ A based on the current system belief state b to optimise the accumulated future reward Rt at time t: Rt = ∞∑ k=0 γkrt+k+1 .
+39	104	Most current dialogue models are built around domains which encapsulate all relevant information as a section of the dialogue state that belongs to a given topic, e.g., finding a restaurant or hotel.
+41	43	To overcome this limitation, we propose the conversational entity dialogue model which will be described in detail in the following section.
+44	17	Objects are entities of a certain object type (e.g., Restaurant or Hotel) where each type defines a set of attributes (see Fig.
+49	21	An example is shown in Figure 3: the two objects obj1 and obj2 of types Hotel and Restaurant respectively are connected through the attribute area with the equals relation.
+58	18	Derived from the object type definition, a conversational object comprises an internal state that consists of the user goal belief su and the context state sc as shown in the example in Figure 4.
+60	32	While the user goal belief models the system’s belief of what the user wants based on the user input, the context state models information that the system has shared with the user.
+85	90	On the entity level, the system talks to the user to acquire information about the concrete entity the user is talking about, e.g., to find a matching entity in the knowledge base.
+90	27	Using F may also prevent the system from acting in parts of the belief state that are completely irrelevant to the current part of the conversation.
+91	119	The functionality and the modelling possibilities of the proposed CEDM go beyond (and thus include) the possibilities of the multi-domain dialogue model (MDDM).
+101	21	For this, we built upon the mapping to the multi-domain dialogue model (MDDM) as described in Section 4.4 and extend it with conversational relations.
+105	36	The main challenge for policy implementation is to integrate both the state of the object in F as well as the states of all corresponding relations into the dialogue decision.
+106	18	To achieve this, a hierarchical policy model based on feudal reinforcement learning (Dayan and Hinton, 1993) has been implemented following the approach of Casanueva et al. (2018).
+108	29	A respective sub-policy is then invoked in a second step where each object type and each relation type are modelled by an individual policy.
+122	46	This example also shows that conflicts which may exists between the state of the conversational object and the state defined by the relation are visible at this level.
+126	19	The corresponding conversational world consists of two conversational objects of types hotel and restaurant and one conversational relation.
+128	19	Using a simulated environment, the goals of the simulated user were generated so that at least one of these two slots is related (i.e., contains the same value).
+129	27	To test the influence of the user addressing the relation instead of the correct value (e.g., ”restaurant in the same area as the hotel” vs. ”restaurant in the centre”), we have extended the simulated agenda-based user (Schatzmann and Young, 2009) with a probability r of the user addressing the relation instead of the value.
+138	21	All dialogues follow the same structure: the user and the system first talk about one conversational object before moving on to the second object.
+161	29	1 is the way the simulated error model of the simulated user operates.
+164	25	The performance of the hand-crafted hotel policy was similar for all r in Env.
+167	17	Experiment 2 The results shown in Table 1 and Figure 7 on the right show the performance of the conversational object policies when the respective object was the second one in the dialogue (where relations occur).
+174	117	In this paper, we have presented a novel dialogue model for statistical spoken dialogue systems that is centred around objects and relations (instead of domains) thus offering a new way of modelling statistical dialogue.
+176	81	By assigning a part of the belief state not only to each object but to each relation as well, the system is able to address the relations in a system response.
+179	35	However, only a small part of the proposed dialogue model has been evaluated in this paper.
+182	203	Moreover, relations other than equals need to be investigated.
+183	89	Finally, the challenges of identifying all conversational entities in the dialogue and assigning the correct one to each user action as well as finding suitable belief-tracking approaches for the proposed multi-layered architecture along with effective policy models need to be addressed.

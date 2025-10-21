@@ -1,0 +1,30 @@
+28	1	More closely related to our work, Schaul et al. (2015) and Loshchilov & Hutter (2015) use the loss to create the sampling distribution.
+32	1	In comparison to all the above methods, our importance sampling scheme based on an upper bound to the gradient norm has a solid theoretical basis with clear objectives, very easy to choose hyperparameters, theoretically guaranteed speedup and can be applied to any type of network and loss function.
+34	1	In addition, Fan et al. (2017) use reinforcement learning to train a neural network that selects samples for another neural network in order to optimize the convergence speed.
+38	1	Contrary to the aforementioned algorithms, our proposed importance sampling does not improve the asymptotic convergence of SGD but results in pragmatic improvements in all the metrics given a fixed time budget.
+42	1	Let xi, yi be the i-th input-output pair from the training set, Ψ(·; θ) be a Deep Learning model parameterized by the vector θ, and L(·, ·) be the loss function to be minimized during training.
+43	1	The goal of training is to find θ∗ = arg min θ 1 N N∑ i=1 L(Ψ(xi; θ), yi) (1) where N corresponds to the number of examples in the training set.
+44	2	We use an SGD procedure with learning rate η, where the update at iteration t depends on the sampling distribution pt1, .
+46	2	Let It be the data point sampled at that step, we have P (It = i) = pti and θt+1 = θt − ηwIt∇θtL(Ψ(xIt ; θt), yIt) (2) Plain SGD with uniform sampling is achieved with wti = 1 and pti = 1 N for all t and i.
+57	1	As a result, the variation of the gradient norm is mostly captured by the gradient of the loss function with respect to the pre-activation outputs of the last layer of our neural network.
+77	1	Computing τ from equation 26 allows us to have guaranteed speedup when B + 3b < 3τb.
+80	1	θ0 denotes the initial parameters of our deep network.
+81	1	We would like to point out that in line 15 of the algorithm, we compute gi for free since we have done the forward pass in the previous step.
+83	1	We provide a small ablation study for B in the supplementary material.
+85	1	In the first subsection, we compare the variance reduction achieved with our upper bound to the theoretically maximum achieved with the true gradient norm.
+88	1	In all the subsequent sections, we use uniform to refer to the usual training algorithm that samples points from a uniform distribution, we use loss to refer to algorithm 1 but instead of sampling from a distribution proportional to our upperbound to the gradient norm Ĝi (equations 8 and 20), we sample from a distribution proportional to the loss value and finally upper-bound to refer to our proposed method.
+89	1	All the other baselines from published methods are referred to using the names of the authors.
+91	1	In all cases, SGD with uniform sampling performs significantly better.
+96	1	This means that adding a single line of code to call this wrapper before actually fitting the model is sufficient to switch from the standard uniform sampling to our importance-sampling scheme.
+100	1	For completeness, in the supplementary material we include a theoretical analysis that explains why sampling based on the loss also achieves variance reduction during the late stages of training.
+102	1	Subsequently, we sample 1, 024 images uniformly at random from the dataset.
+105	1	Figure 1 depicts the variance reduction achieved with every sampling scheme in comparison to uniform.
+109	1	This can also be deduced by observing figure 2, where the probabilities proportional to the loss and the upper-bound are plotted against the optimal ones (proportional to the gradient-norm).
+112	1	Furthermore, we observe that sampling hard examples (with high loss), increases the variance, especially in the beginning of training.
+119	1	Our method does not have this limitation since it can work on infinite datasets in a true online fashion.
+127	3	We perform 3 independent runs and report the average.
+130	1	However, for the more complicated CIFAR100, only sampling with our proposed upper-bound to the gradient norm reduces the variance of the gradients and provides faster convergence.
+133	2	At this point, we would also like to discuss the performance of the loss compared to other methods that also select batches based on this metric.
+167	8	The two most important ones that were not investigated in this work are automatically tuning the learning rate based on the variance of the gradients and decreasing the batch size.
+168	141	The variance of the gradients can be kept stable by increasing the learning rate proportionally to the batch increment or by decreasing the number of samples for which we compute the backward pass.
+169	141	Thus, we can speed up convergence by increasing the step size or reducing the time per update.

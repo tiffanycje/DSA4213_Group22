@@ -1,0 +1,30 @@
+9	19	However, they are different from the learning theoretic viewpoint—weakly-supervised classification methods are justified as supervised learning methods, while semi-supervised clustering methods are still evaluated as unsupervised learning (see Table 1).
+10	11	Indeed, weaklysupervised learning methods based on empirical risk minimization (du Plessis et al., 2014; 2015; Niu et al., 2016; Sakai et al., 2017) were shown that their estimation errors achieve the optimal parametric convergence rate, while such generalization guarantee is not available for semi-supervised clustering methods.
+11	24	The goal of this paper is to propose a novel weaklysupervised learning method called SU classification, where only similar (S) data pairs (two examples belong to the same class) and unlabeled (U) data points are employed, in order to bridge these two different paradigms.
+13	15	However, our proposed method gives an inductive model, which learns decision functions from training data and can be applied for out-of-sample prediction (i.e., prediction of unseen test data).
+14	9	Furthermore, the proposed method can not only separate two classes but also identify which class is positive (class identification) under certain conditions.
+15	66	SU classification is particularly useful to predict people’s sensitive matters such as religion, politics, and opinions on racial issues—people often hesitate to give explicit answers to these matters, instead indirect questions might be easier to answer: “Which person do you have the same belief as?”1 For this SU classification problem, our contributions in this paper are three-fold: 1.
+17	18	This enables us to obtain an inductive classifier.
+21	17	Related problem settings are summarized in Figure 1.
+22	11	In this section, we propose a learning method to train a classifier from pairwise similarity and unlabeled data.
+23	52	We formulate the standard binary classification problem briefly.
+24	12	Let X ⇢ Rd be a d-dimensional example space and Y = {+1, 1} be a binary label space.
+27	28	The goal of binary classification is to obtain a classifier f : X !
+29	9	The loss function `(z, t) measures how well the true class label t 2 Y is estimated by an output of a classifier z 2 R, generally yielding a small/large value if t is well/poorly estimated by z.
+30	9	In standard supervised classification scenarios, we are given positive and negative training data independently following p(x, y).
+31	12	Then, based on these training data, the classification risk (1) is empirically approximated and the empirical risk minimizer is obtained.
+34	33	First, we discuss underlying distributions of similar data pairs and unlabeled data points, in order to perform the empirical risk minimization.
+35	14	Pairwise Similarity: If x and x0 belong to the same class, they are said to be pairwise similar (S).
+37	8	(2) means that we draw two labeled data independently following p(x, y), and we accept/reject them if they belong to the same class/different classes.
+50	9	According to Theorem 1, the following is a natural candidate for an unbiased estimator of the classification risk (1): bRSU,`(f) = ⇡S nS nSX i=1 LS,`(f(xS,i)) + LS,`(f(x0S,i)) 2 + 1 nU nUX i=1 LU,`(f(xU,i)) = ⇡S 2nS 2nSX i=1 LS,`(f(exS,i)) + 1 nU nUX i=1 LU,`(f(xU,i)), (5) where in the last line we use the decomposed version of similar pairs eDS instead of DS, since the loss form is symmetric.
+54	10	The first term of RSU,`(f), i.e., ⇡S E (X,X0)⇠pS  LS,`(f(X)) + LS,`(f(X 0)) 2 , (6) can be equivalently expressed as ⇡S E (X,X0)⇠pS [↵LS,`(f(X)) + (1 ↵)LS,`(f(X 0))] , where ↵ 2 [0, 1] is an arbitrary weight.
+66	9	We formulate SU classification as the following empirical risk minimization problem using Eq.
+73	18	However, the next theorem, inspired by Natarajan et al. (2013) and du Plessis et al. (2015), states that a certain loss function will result in a convex objective function.
+77	16	The detailed derivations are given in Appendix E. Squared Loss: The squared loss is `SQ(z, t) = 14 (tz 1)2.
+83	11	Double-Hinge Loss: Since the hinge loss `H(z, t) = max(0, 1 tz) does not satisfy the conditions in Theorem 3, the double-hinge loss `DH(z, t) = max( tz,max(0, 12 1 2 tz)) is proposed by du Plessis et al. (2015) as an alternative.
+85	19	⇠ 0, ⇠ 1 2 1+ 1 2 XUw, ⇠ XUw, ⌘ 0, ⌘ 1 2 1 1 2 XUw, ⌘ XUw, where for vectors denotes the element-wise inequality.
+92	9	The solution does not only separate data but also identifies classes, i.e., determine which class is positive.
+101	15	3.2 always gives an estimate of the classprior of the larger class, the positive class-prior is given as ⇡+ = 1 b⇡.
+103	12	Remark: In all of the three cases above, our proposed method gives an inductive model, which is applicable to out-of-sample prediction without any modification.
+105	52	We propose a class-prior estimation algorithm only from SU data.
+106	41	First, let us begin with connecting the pairwise marginal distribution p(x,x0) and pS(x,x0) when two examples x and x0 are drawn independently: p(x,x0) = p(x)p(x0) = ⇡2+p+(x)p+(x 0 ) + ⇡2 p (x)p (x 0 ) ⇡+⇡ p+(x)p (x0) + ⇡+⇡ p (x)p+(x0) = ⇡SpS(x,x 0 ) + ⇡DpD(x,x 0 ), (11) Algorithm 1 Prior estimation from SU data.

@@ -1,0 +1,30 @@
+0	38	Generative models of texts are currently at the cornerstone of natural language understanding enabling recent breakthroughs in machine translation (Bahdanau et al., 2014; Wu et al., 2016), dialogue modelling (Serban et al., 2016), abstractive summarization (Rush et al., 2015), etc.
+1	27	Currently, RNN-based generative models hold state-of-the-art results in both unconditional (Józefowicz et al., 2016; Ha et al., 2016) and conditional (Vinyals et al., 2014) text generation.
+3	26	Variational autoencoders (VAE), recently introduced by (Kingma and Welling, 2013; Rezende et al., 2014), offer a different approach to generative modeling by integrating stochastic latent variables into the conventional autoencoder architecture.
+15	21	To the best of our knowledge, this paper is the first work that successfully applies deconvolutions in the decoder of a latent variable generative model of natural text.
+48	71	The prior is typically chosen to be also a Gaussian with zero mean and unit variance, such that the KL term between posterior and prior can be computed in closed form (Kingma and Welling, 2013).
+49	75	The total VAE cost is composed of the reconstruction term, i.e., negative log-likelihood of the data, and the KL regularizer: Jvae = KL(q(z|x)||p(z)) −Eq(z|x)[log p(x|z)] (1) Kingma and Welling (2013) show that the loss function from Eq (1) can be derived from the probabilistic model perspective and it is an upper bound on the true negative likelihood of the data.
+53	107	The additional KL term in Eq (1) prevents this behavior and forces the model to find a solution with, on one hand, low reconstruction error and, on the other, predicted posterior distributions close to the prior.
+54	58	Thus, the decoder part of the VAE is capable of reconstructing a sensible data sample from every point in the latent space that has non-zero probability under the prior.
+61	28	Two training tricks are required to mitigate this issue: (i) KL-term annealing where its weight in Eq (1) gradually increases from 0 to 1 during the training; and (ii) applying dropout to the inputs of the decoder to limit its expressiveness and thereby forcing the model to rely more on the latent variables.
+71	17	Our model uses a similar approach but is instead trained with the VAE objective.
+89	23	Note that the feed-forward part of our model is different from the existing fully convolutional approaches of Dauphin et al. (2016) and Kalchbrenner et al. (2016) in two respects: firstly, while being fully parallelizable during training, these models still require predictions from previous time steps during inference and thus behave as a variant of recurrent networks.
+105	31	We have found the following heuristic to work well: we first run a model with KL weight fixed to 0 to find the number of iterations it needs to converge.
+107	22	While helping to regularize the latent vector, input dropout tends to slow down convergence.
+117	18	We note that this trick comes at a cost of worse result on the density estimation task, since part of the parameters of the full model are trained to optimize an objective that does not capture all the dependencies that exist in the textual data.
+118	62	However, the gap between purely deterministic LM and our model is small and easily controllable by the α hyperparameter.
+154	35	The bits-per-character scores on differently sized text samples are presented in Figure 4.
+156	20	We observe that the amount of information stored in the latent vector by our model and the LSTM VAE is comparable when we train on short samples and largely depends on hyper-parameters α and p. When the length of a text fragment increases, LSTM VAE is able to put less information into the latent vector (i.e., the KL component is small) and for texts longer than 48 characters, the KL term drops to almost zero while for our model the ratio between KL and reconstruction terms stays roughly constant.
+171	36	Without KL term annealing and input dropout, the RNN decoder in LSTM VAE tends to completely ignore information stored in the latent vector and essen- tially falls back to an RNN language model.
+172	23	To have a full control over the receptive field size of the recurrent component in our decoder, we experiment with masked convolutions (Figure 2(c)), which is similar to the decoder in ByteNet model from Kalchbrenner et al. (2016).
+180	23	Using the auxiliary reconstruction term, however, helps to find solutions with nonzero KL term component irrespective of receptive field size.
+184	47	We use 1M tweets2 to train our model and test it on a held out dataset of 10k samples.
+186	44	We use 5 convolutional layers with the ReLU non-linearity, kernel size 3 and stride 2 in the encoder.
+191	77	The baseline LSTM VAE model contained two distinct LSTMs both with 1000 cells.
+192	29	The models have comparable number of parameters: 10.5M for the LSTM VAE model and 10.8M for our hybrid model.
+198	20	LSTM VAE produces very limited range of tweets and tends to repeat ”@userid” sequence, while our model produces much more diverse samples.
+203	24	Additionally, we propose an efficient way to encourage the model to rely on the latent vector by introducing an additional cost term in the training objective.
+204	85	We observe that it works well on long sequences which is hard to achieve with purely RNN-based VAEs using the previously proposed tricks such as KL-term annealing and input dropout.
+205	64	Finally, we have extensively evaluated the trade-off between the KLterm and the reconstruction loss.
+206	30	In particular, we investigated the effect of the receptive field size on the ability of the model to respect the latent vector which is crucial for being able to generate realistic and diverse samples.
+207	77	In future work we plan to apply our VAE model to semi-supervised NLP tasks and experiment with conditioning generation on text attributes such as sentiment and writing style.

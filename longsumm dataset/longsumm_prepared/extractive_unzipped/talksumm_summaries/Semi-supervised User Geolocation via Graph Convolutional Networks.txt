@@ -1,0 +1,30 @@
+0	139	User geolocation, the task of identifying the “home” location of a user, is an integral component of many applications ranging from public health monitoring (Paul and Dredze, 2011; Chon et al., 2015; Yepes et al., 2015) and regional studies of sentiment, to real-time emergency awareness systems (De Longueville et al., 2009; Sakaki et al., 2010), which use social media as an implicit information resource about people.
+2	15	Third-party service providers don’t have easy access to such information, and have to rely on public sources of geolocation information such as the profile location field, which is noisy and difficult to map to a location (Hecht et al., 2011), or geotagged tweets, which are publicly available for only 1% of tweets (Cheng et al., 2010; Morstatter et al., 2013).
+3	58	The scarcity of publicly available location information motivates predictive user geolocation from information such as tweet text and social interaction data.
+4	17	Most previous work on user geolocation takes the form of either supervised text-based approaches (Wing and Baldridge, 2011; Han et al., 2012) relying on the geographical variation of language use, or graph-based semi-supervised label propagation relying on location homophily in user–user interactions (Davis Jr et al., 2011; Jurgens, 2013).
+6	14	Some users post a lot of local content, but their social network is lacking or is not representative of their location; for them, text is the dominant view for geolocation.
+10	45	Given that the 1% of geotagged tweets is often used for supervision, it is crucial for geolocation models to be able to leverage unlabelled data, and to perform well under a minimal supervision scenario.
+36	28	We use three existing Twitter user geolocation datasets: (1) GEOTEXT (Eisenstein et al., 2010), (2) TWITTER-US (Roller et al., 2012), and (3) TWITTER-WORLD (Han et al., 2012).
+39	23	Each user is represented by the concatenation of their tweets, and labelled with the latitude/longitude of the first collected geotagged tweet in the case of GEOTEXT and TWITTER-US, and the centre of the closest city in the case of TWITTER-WORLD.
+41	22	The labels are the discretised geographical coordinates of the training points using a k-d tree following Roller et al. (2012), with the number of labels equal to 129, 256, and 930 for GEOTEXT, TWITTER-US, and TWITTER-WORLD, respectively.
+52	24	We evaluate the models using Median error, Mean error, and Acc@161, accuracy of predicting a user within 161km or 100 miles from the known location.
+55	25	Note that for unlabelled samples, the predicted labels are used for input after training accuracy reaches 0.2.
+56	121	MLP-TXT+NET is a simple transductive supervised model based on a single layer multilayer perceptron where the input to the network is the concatenation of the text view X , the user content’s bag-of-words and Â (Equation 1), which represents the network view as a vector input.
+74	28	When all the training samples of the two larger datasets (95% and 98% for TWITTER-US and TWITTERWORLD, respectively) are available to the models, MLP-TXT+NET outperforms GCN.
+77	39	Adding more layers to GCN expands the graph neighbourhood within which the user features are averaged, and so might introduce noise, and consequently decrease accuracy as shown in Figure 5 when no gates are used.
+78	51	We see that by adding highway network gates, the performance of GCN slightly improves until three layers are added, but then by adding more layers the performance doesn’t change that much as gates are allowing the layer inputs to pass through the network without much change.
+79	18	The performance peaks at 4 layers which is compatible with the distribution of shortest path lengths shown in Figure 6.
+82	83	MLP-TXT+NET and GCN outperform all the text- or network-only models, and also the hybrid model of Rahimi et al. (2017b), indicating that joint modelling of text and network features is important.
+84	59	However, it’s difficult to make a fair comparison as they use timezone data in their feature set.
+86	14	In a scenario with little supervision (1% of the total samples are labelled) DCCA and GCN clearly outperform MLP-TXT+NET, as they have fewer pa- rameters.
+91	17	GCN outperforms DCCA and MLP-TXT+NET using 1% of data, however, the distribution of errors in the development set of TWITTER-US indicates higher error for smaller states such as Rhode Island (RI), Iowa (IA), North Dakota (ND), and Idaho (ID), which is simply because the number of labelled samples in those states is insufficient.
+96	62	The non-uniformity in local discussions results in lower geolocation performance in less densely populated areas like Midwest U.S., and higher performance in densely populated areas such as NYC and LA as shown in Figure 7.
+97	22	The geographical distribution of error for GCN, DCCA and MLP-TXT+NET under the minimal supervision scenario is shown in the supplementary material.
+98	34	To get a better picture of misclassification between states, we built a confusion matrix based on known state and predicted state for development users of TWITTER-US using GCN using only 1% of labelled data.
+99	34	There is a tendency for users to be wrongly predicted to be in CA, NY, TX, and surpris- ingly OH.
+100	21	Particularly users from states such as TX, AZ, CO, and NV, which are located close to CA, are wrongly predicted to be in CA, and users from NJ, PA, and MA are misclassified as being in NY.
+101	21	The same goes for OH and TX where users from neighbouring smaller states are misclassified to be there.
+103	119	Interestingly, there are a number of misclassifications to FL for users from CA, NY, and TX, which might be the effect of users vacationing or retiring to FL.
+105	16	In Table 2, local terms of a few regions detected by GCN under minimal supervision are shown.
+108	44	The convolution over the social graph is able to utilise such terms that don’t exist in the labelled data.
+122	42	We proposed GCN, DCCA and MLP-TXT+NET, three multiview, transductive, semi-supervised geolocation models, which use text and network information to infer user location in a joint setting.

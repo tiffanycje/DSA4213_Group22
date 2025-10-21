@@ -1,0 +1,30 @@
+0	51	Neural Machine Translation (NMT) (Bahdanau et al., 2015) has achieved remarkable translation quality in various on-line large-scale systems (Wu et al., 2016; Devlin, 2017) as well as achieving state-of-the-art results on Chinese-English translation (Hassan et al., 2018).
+1	53	With such large systems, NMT showed that it can scale up to immense amounts of parallel data in the order of tens of millions of sentences.
+2	17	However, such data is not widely available for all language pairs and domains.
+4	30	Our approach utilizes multi-lingual neural translation system to share lexical and sentence level representations across multiple source languages into one target language.
+9	13	This allows the system to translate from any language even with tiny amount of parallel resources.
+20	12	Multi-lingual NMT Lee et al. (2017) and Johnson et al. (2017) have shown that NMT is quite efficient for multilingual machine translation.
+21	39	Assuming the translation from K source languages into one target language, a system is trained with maximum likelihood on the mixed parallel pairs {X(n,k), Y (n,k)}n=1...Nkk=1...K , that is L (θ) = 1 N K∑ k=1 Nk∑ n=1 log p ( Y (n,k)|X(n,k); θ ) (3) where N = ∑K k=1Nk.
+23	25	In practice, it is essential to shuffle the multilingual sentence pairs into mini-batches so that different languages can be trained equally.
+39	24	2, we introduce two components to extend the conventional multi-lingual NMT system (Johnson et al., 2017): Universal Lexical Representation (ULR) and Mixture of Language Experts (MoLE) to enable both word-level and sentence-level sharing, respectively.
+40	52	As we highlighted above, it is not straightforward to have a universal representation for all languages.
+42	26	Alternatively, we could train monolingual embeddings in a shared space and use these as the input to our MT system.
+46	42	We propose a novel representation for multilingual embedding where each word from any language is represented as a probabilistic mixture of universal-space word embeddings.
+47	36	In this way, semantically similar words from different languages will naturally have similar representations.
+50	52	In principle, this could correspond to any human or symbolic language, but all experiments here use English as the basis for the universal token space.
+59	13	That is, q(u|x) is a distribution based on the distance Ds(u, x) between u and x as: q(ui|x) = eD(ui,x)/τ∑ uj eD(uj ,x)/τ (5) where τ is a temperature and D(ui, x) is a scalar score which represents the similarity between source word x and universal token ui: D(u, x) = EK(u) ·A · EQ(x)T (6) where EK(u) is the “key” embedding of word u, EQ(x) is the “query” embedding of source word x.
+60	11	The transformation matrixA, which is initialized to the identity matrix, is learned during NMT training and shared across all languages.
+75	28	This motivates an interpolated ex where embeddings for very frequent words are optimized directly and not through the universal tokens: α(x)EI(x) + β(x) M∑ i=1 EU (ui) · q(ui|x) (8) Where EI(x) is a language-specific embedding of word x which is optimized during NMT training.
+77	61	It is worth noting that we do not use an absolute frequency cutoff because this would cause a mismatch between highresource and low-resource languages, which we want to avoid.
+78	50	An Example To give a concrete example, imagine that our target language is English (En), our high-resource auxiliary source languages are Spanish (Es) and French (Fr), and our low-resource source language is Romanian (Ro).
+82	44	We first train word2vec embeddings on monolingual corpora from each of the four languages.
+83	28	We next align the Es-En, Fr-En, and Ro-En parallel corpora and extract a seed dictionary of a few hundred words per language, e.g., gato → cat, chien → dog.
+84	45	We then learn three matrices O1, O2, O3 to project the Es, Fr and Ro embeddings (EQ1 , EQ2 , EQ3), into En (EK) based on these seed dictionaries.
+86	62	As we paved the road for having a universal embedding representation; it is crucial to have a languagesensitive module for the encoder that would help in modeling various language structures which may vary between different languages.
+87	22	We propose a Mixture of Language Experts (MoLE) to model the sentence-level universal encoder.
+88	11	2, an additional module of mixture of experts is used after the last layer of the encoder.
+90	63	More precisely, we have a set of expert networks as f1(h), ..., fK(h) where for each expert, a two-layer feed-forward network which reads the output hidden states h of the encoder is utilized.
+93	65	In other words, we train to only use expert fi when training on a parallel sentence from auxiliary language i.
+94	17	Assume the language 1...K− 1 are the auxiliary languages.
+95	44	That is, we have a multi-task objective as: Lgate = K−1∑ k=1 Nk∑ n=1 log [softmax (g(h))k] (10) We do not update the MoLE module for training on a sentence from the low-resource language.
+96	24	Intuitively, this allows us to represent each token in the low-resource language as a context-dependent mixture of the auxiliary language experts.

@@ -1,0 +1,30 @@
+0	16	The study of conversational dialogue systems (also known as non-task-oriented or chat-oriented dialogue systems) has a long history.
+5	112	To tackle this problem, some studies extract correct sentences as utterances for dialogue systems from web data (Inaba et al., 2014; Higashinaka et al., 2014)．These studies focus solely on extraction and do not indicate how replies are generated using extracted sentences.
+32	15	, ul) Each ui(i = 1, 2, ..., l) denotes an utterance in the context, and l denotes the number of utterances.
+42	15	In these studies, the encoder reads as input a variable-length word sequence and outputs a fixed-length vector.
+43	15	Next, another RNN decodes a given fixedlength vector, producing an objective variablelength word sequence.
+48	15	Our model first converts word sequence w = (w1, w2, .
+58	41	In the following experiments, we used twolayer long short-term memory (LSTM) (Hochreiter and Schmidhuber, 1997) networks as our RNN encoders.
+60	13	Therefore, our NUR model has two RNN encoders, one for user utterances, the other for system utterances, as illustrated in Figure 1
+63	26	Thus, this RNN reads encoded utterance sequences and outputs scores.
+64	31	To select suitable responses, we not only must evaluate suitability of utterances based on the last utterance in the given context, but also must consider prior dialogue.
+73	68	The Plackett-Luce model transforms a score list for ranking into a probability distribution wherein higher scores in the given list are allocated higher probabilities.
+75	24	, t c m) ranked on the top is calculated by the Plackett-Luce model as follows: p(tci ) = exp(tci )∑m k=1 exp(t c k) Using the same equation, the output scores of our NUR model are transformed into probability distributions.
+76	36	We use cross-entropy between probability distributions as our loss function.
+80	27	We released a conversational dialogue system called KELDIC on Twitter (screen name: @KELDIC)b. KELDIC selects an appropriate response from candidates extracted by the utterance acquisition method of (Inaba et al., 2014) using ListNet(Cao et al., 2007).
+81	24	The utterance acquisition method extracted suitable sentences for system utterances related to given keywords from Twitter data by filtering inappropriate sentences.
+88	36	(PB) Possible breakdown It is difficult to continue the conversation smoothly.
+96	15	In our evaluation, we regard candidates with 50% or more annotators decided as NB as correct utterances and others as incorrect.
+97	44	We used 1581 data points (i.e., 1581 contexts and 17533 candidate utterances), each evaluated by three or more annotators.
+106	18	To validate our NUR model, we conducted experiments with the following two settings:.
+107	19	Proposed using limited context To verify the effectiveness of context sequence processing by the ranking RNN, this setting causes our system to only use the last user utterance as context, discarding the rest.
+108	17	Proposed using MSE To verify the effectiveness of the PlackettLuce model, this setting causes our system to learn using the MSE of utterance scores instead of the Plackett-Luce model.
+111	13	The input vector is made by concatenating three BoW vectors, i.e., candidate utterance, last user utterance in the given context, and the given context without the last user utterance.
+120	18	To evaluate ranking performance, we used mean average precision (MAP) and mean reciprocal rank (MRR) measures.
+124	17	BoW + DNN did not provide strong performance results, because it could not handle the order relation of utterances in context and syntax due to the use of BoW features.
+127	16	Since the top-ranked utterance is selected as a response in dialogue systems, it was found that our proposed method correctly replied with a probability of approximately 60%.
+131	17	In the previous section, since test data must contain correct candidate utterances, the ability of our NUR model in terms of actual dialogue is uncertain, thus we developed a conversational dialogue system based on our proposed method and conducted dialogue experiments with human subjects.
+134	13	When a system speaks 11 times, the dialogue is finished.
+138	14	We again recruited subjects and annotators via CrowdWorks.
+156	36	The Breakdown ratio (B) and (PB + B) values are calculated by the labels of majority vote in 34 (proposed) or 30 (DBDC) annotators in each system’s utterance.
+162	106	These results are important for system evaluation, because if a system always use innocuous responses, such as “I don’t know” or “That’s true”, it is relatively easy to avoid dialogue breakdown.

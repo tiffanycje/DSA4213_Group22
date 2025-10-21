@@ -1,0 +1,30 @@
+0	15	It is now well known that modern convolutional neural networks (e.g. Krizhevsky et al. 2012, Simonyan & Zisserman 2015, He et al. 2016, Szegedy et al. 2016) can achieve remarkable performance on large-scale image databases, e.g. ImageNet (Deng et al. 2009) and Places 365 (Zhou et al. 2017), but it is really dissatisfying to see the vast amounts of data, computing time and power consumption that are necessary to train deep networks.
+9	12	This paper copes with the inconsistency that still prevails in transfer learning scenarios, where the model is initialized with some parameters, while the abuse of L2 regularization encourages departing from these initial values.
+20	17	Shrinking towards zero is the most common form of shrinkage, but shrinking towards adaptively chosen targets has been around for some time, starting with Stein shrinkage (see e.g. Lehmann & Casella 1998, chapter 5), where it can be related to empirical Bayes arguments.
+22	9	These approaches were shown to outperform standard L2 regularization with limited labeled data in the target task (Aytar & Zisserman 2011, Tommasi et al. 2014).
+38	7	Besides image classification, many procedures for object detection (Girshick et al. 2014, Redmon et al. 2016, Ren et al. 2015) and image segmentation (Long et al. 2015a, Chen et al. 2017, Zhao et al. 2017) have been proposed relying on fine-tuning to improve over training from scratch.
+40	6	The success of transfer learning with convolutional networks relies on the generality of the learned representations that have been constructed from a large database like ImageNet.
+58	6	For convex optimization problems, this is equivalent to finetuning with L2-SP, but we are obviously not in that situation.
+60	31	We will show that using the starting point as an initialization of the fine-tuning process and as the reference in the regularizer improves results consistently upon the standard fine-tuning process.
+62	8	Parameter regularization is critical when learning from small databases.
+65	6	Hence, the network capacity has not to be restricted blindly: the pre-trained model sets a reference that can be used to define the functional space effectively explored during finetuning.
+66	9	Since we are using early stopping, fine-tuning a pre-trained model is an implicit form of inductive bias towards the initial solution.
+68	8	Section 4 shows that all such schemes get an edge over the standard approaches that either use weight decay or freeze part of the network for preserving the low-level representations that are built in the first layers of the network.
+71	18	In our experiments, J is the negative log-likelihood, so that the criterion J̃ could be interpreted in terms of maximum a posteriori estimation, where the regularizer Ω(w) would act as the log prior of w. More generally, the minimizer of J̃ is a trade-off between the data-fitting term and the regularization term.
+83	8	(5) The usual L1 penalty encourages sparsity; here, by using w0S as a reference in the penalty, L 1-SP encourages some components of the parameter vector to be frozen, equal to the pre-trained initial values.
+88	26	, p}, that is, I = ⋃G g=0 Gg, with Gg ∩ Gh = ∅ for g 6= h. In our setup, G0 = S̄, and for g > 0, Gg is the set of fan-in parameters of channel g. Let pg denote the cardinality of group g, and wGg ∈ Rpg be the vector (wj)j∈Gg .
+89	13	Then, the GL-SP penalty is: Ω(w) = α G∑ g=1 sg ∥∥∥wGg −w0Gg∥∥∥ 2 + β 2 ‖wS̄‖ 2 2 , (6) where w0G0 = w 0 S̄ 4 = 0, and, for g > 0, sg is a predefined constant that may be used to balance the different cardinalities of groups.
+90	41	In our experiments, we used sg = p 1/2 g .
+91	6	Our implementation of Group-Lasso-SP can freeze feature extractors at any depth of the convolutional network, to preserve the pre-trained feature extractors as a whole instead of isolated pre-trained parameters.
+92	10	The group Gg of size pg = hg × wg × dg gathers all the parameters of a convolution kernel of height hg, width wg, and depth dg.
+97	13	Conventionally, if the target task is also a classification task, the training process starts by replacing the last layer with a new one, randomly generated, whose size depends on the number of classes in the target task.
+98	8	For comparing the effect of similarity between the source problem and the target problem on transfer learning, we chose two source databases: ImageNet (Deng et al. 2009) for generic object recognition and Places 365 (Zhou et al. 2017) for scene classification.
+113	8	Then, under the best configuration, we repeat five times the learning process to obtain an average classification accuracy and standard deviation.
+114	18	All the experiments are performed with Tensorflow (Abadi et al. 2015).
+122	7	Each plot corresponds to one of the four target databases listed in Table 1.
+123	6	The light red points mark the accuracies of transfer learning when using Places 365 as the source database, whereas the dark blue points correspond to the results obtained with ImageNet.
+132	6	Stochastic gradient descent does not handle well these penalties whose gradient is discontinuous at the starting point where the optimization starts.
+134	16	In the end, we used plain stochastic gradient descent on a smoothed version of the penalties eliminating the discontinuities of their gradients, but some instability remains.
+138	11	Table 3 confirms that L2-SP-Fisher is indeed a better approach in the situation of lifelong learning, where accuracies on the source tasks matter.
+139	7	It reports the drop in performance when the fine-tuned models are applied on the source task, without any retraining, simply using the original classification layer instead of the classification layer learned for the target task.
+141	45	In comparison, L2 fine-tuning results in catastrophic forgetting: the performance on the source task is considerably affected by fine-tuning.

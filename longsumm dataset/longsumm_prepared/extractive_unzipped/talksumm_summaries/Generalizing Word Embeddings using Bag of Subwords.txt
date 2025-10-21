@@ -1,0 +1,30 @@
+0	8	Word embeddings have been an essential part of neural-network based approaches for natural language processing tasks (Goldberg, 2016).
+1	18	However, many popular word embeddings techniques have a fixed vocabulary (Mikolov et al., 2013; Pennington et al., 2014), i.e., they can only provide vectors over a finite set of common words that appear frequently in a given corpus.
+2	42	Such methods fail to generate vectors for rare words and words not present in the training corpus, but appearing in the test corpus or downstream task texts, raising difficulty for any methods relying on word vectors to efficiently extract useful features from text.
+3	44	This is often referred to as the out-ofvocabulary (OOV) word problem.
+8	18	In some field such as chemistry and agglutinative languages such as Turkish, there exists a systematic way of composing words from morphemes.
+11	16	For instance, one can guess that “preEMNLP” means “before EMNLP”, even without the presence of any context, suggesting that it is part of our implicit linguistic knowledge to infer meaning of an unseen word solely from its lexical form.
+12	9	This observation, together with the morpheme decomposition of many rare words, implies the feasibility of inferring their vectors from those for common words, and also raises the algorithmic question of how to compute them efficiently.
+17	40	A common workaround is to view all OOV words as a special UNK token and use the same vector for all of them.
+25	12	Once trained, our embedding model takes the characters n-grams in a word as input and gives its word vector as output.1 Our experiments on word similarity tasks in English and POS tagging in a variety of languages suggests that the proposed word embedder is able to mimic and generalize consistently the word vectors from in-vocabulary words to out-of-vocabulary words, and achieves state-ofthe-art scores for the tasks compared to previous subword-level word embedders trained under the same setting.
+27	23	Related work There exist a large body of works that try to incorporate morphological information into word representations, e.g., (Alexandrescu and Kirchhoff, 2006; Luong et al., 2013a; Qiu et al., 2014; Botha and Blunsom, 2014; Cotterell and Schütze, 2015; Soricut and Och, 2015).
+34	13	Our Bag-of-Substring (BoS) word vector generation model views a word as a bag of its substrings, or character n-grams.
+36	16	A word vector is then formed as the average of vectors of all its substrings with lengths in the range.
+43	11	Training Given pre-trained vectors for a set of common words, our model views them as targets and is trained to fit these targets.
+47	12	After training, one can use the learned V and Eqn (1) to compute the vector for any given word, even if it is OOV.
+51	8	The dimension of the word vectors is not a hyperparameters here as it needs to agree with the target vector.
+58	15	WS is composed of mostly common words and we use it to test if our subword-level models successfully mimic the target vectors.
+62	14	Statistics of the processed vectors are summarized in Table 1, along with their word similarity task scores (for in-vocabulary words only) and OOV rate over the aforementioned evaluation sets.
+63	12	Baselines We compare the scores with other subword-level models (fastText and MIMICK) and word similarity induced by non-parametric edit distance (EditDist).
+64	21	fastText (Bojanowski et al., 2017) uses the same subword-level character n-gram model but is to be trained via context prediction over large text corpora (here English Wikipedia dump 4).
+70	47	When trained over Polyglot vectors, our BoS model works better than EditDist and MIMICK.
+71	40	When trained on Google vectors, the correlation scores are almost as good as those of fastText, the state-of-the-art subword level word embedder.
+74	50	Comparing to MIMICK, our model is able to fill up 81% (14 to 36 against 41) and 73% (12 to 36 against 45) of the gaps in scores over RW and WS respectively.
+75	51	This improvement is more significant on RW with most (58%) of its words are OOV for the PloyGlot vectors, suggesting our model’s power in generating consistent word vectors for OOV words.
+78	33	As a sanity check, we see that all of the embedder models scores obviously better than EditDist when evaluated over common words (WS), showing that all of them are able to at least remember or mimic the word vectors for in-vocabulary words.
+79	41	Also note that our model is fast to train.
+80	26	With a naive single-thread CPU-only Python implementation, it can finish 100 epochs of training over English PolyGlot vectors within 352 seconds on a machine with an Intel Core i7-6700 (3.4 GHz) CPU, 32GB memory and 1TB SSD.
+81	45	Compared to fastText which, with a fast multithread C++ implementation, takes hours to be trained over giga bytes of text corpus, our method provides a cheap way to generalize reasonably good word vectors for OOV words.
+82	38	Besides word similarity, we try to access our embedders’ ability of capturing words’ syntactic and semantic features by evaluating with the task of predicting part-of-speech (POS) tags and morphosyntactic attributes for words in a sentence.
+84	15	Dataset We use Universal Dependencies (UD) dataset (Petrov et al., 2012) for this task.
+85	9	UD is an open-community effort to build consistent annotated treebank cross many languages.

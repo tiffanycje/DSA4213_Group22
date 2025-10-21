@@ -1,0 +1,30 @@
+5	23	To introduce more flexibility, one option is to consider the general single-index models (SIMs) (Ichimura, 1993; Horowitz & Hardle, 1996), E[y|x] = f∗(⟨θ∗,x⟩) , (1) where f∗ : R 7→ R is an unknown univariate transfer function (a.k.a.
+7	21	Given the measurement vector x, one can generate y from the Bernoulli model, y + 1 2 ∼ Ber ( f∗(⟨θ∗,x⟩) + 1 2 ) .
+9	35	• Generalized Linear Models: In generalized linear models (GLMs) (McCullagh, 1984), the transfer function is assumed to be monotonically increasing and conditional distribution of y|x belongs to exponential family.
+13	14	• Noise in Monotone Transfer: Instead of having the general expectation form of y as GLMs, one could directly introduce the noise inside monotone transfer f̃ to model the randomness of y (Plan et al., 2016), y = f̃ (⟨θ∗,x⟩+ ϵ) .
+25	17	Kalai & Sastry (2009) and Kakade et al. (2011) investigated the low-dimensional SIMs with monotone transfers, and they proposed perceptron-type algorithms to estimate both f∗ and θ∗, with provable guarantees on prediction error.
+26	29	In high dimension, general SIMs were studied by Alquier & Biau (2013) and Radchenko (2015), in which only unstructured sparsity of θ∗ is considered.
+42	14	First our results work for general structure, with error bound characterized by Gaussian width and some other easy-to-compute geometric measures.
+71	27	For SIM (1), we additionally assume that the distribution of y depends on x only through the value of ⟨θ∗,x⟩, i.e., the distribution of y|x is fixed if ⟨θ∗,x⟩ is given (no matter what the exact x is).
+79	17	Lemma 1 Suppose the distribution of y in model (1) depends on x through ⟨θ∗,x⟩ and we define accordingly bi (z1, .
+82	15	Note that Lemma 1 is true for all choices of qi, and the proof is given in the supplement.
+87	15	Roughly speaking, w(A)measures the scaled width of set A averaged over each direction.
+88	22	Inspired by Lemma 1, we define the vector û for the observed data {(xi, yi)}ni=1, û = (n−m)!
+91	15	In highdimensional setting, θ∗ is often structured, but the naive estimator fails to take such information into account, which would lead to large error.
+94	40	(9) Here the set K can be non-convex, as long as the optimization can be solved globally.
+97	17	Regularized Estimator: If we assume that the structure of θ∗ can be captured by certain norm ∥ · ∥, we may alternatively use the regularized estimator to find θ∗, θ̂ = argmin θ∈Rp − ⟨û,θ⟩+ λ∥θ∥ s.t.
+110	16	Remark: The geometry of the regularized estimator is slightly different from the constrained one.
+137	41	To move one step further, it is equivalent to sign(yi − yj) = sign(ri−rj) = sign(⟨θ∗,xi−xj⟩+ϵi−ϵj) based on model assumption.
+138	13	Hence the information contained in sample {(xi, yi)}ni=1 can be interpreted from the perspective of 1- bit CS, where sign(yi − yj) reflects the perturbed sign of linear measurement ⟨θ∗,xi − xj⟩.
+142	13	Remark: The scalar √ 2β′ serves as the role of β in Lemma 1, and β′ is always guaranteed to be strictly positive regardless how the noise is distributed, which keeps θ∗ distinguishable all the time.
+149	19	∥θ∥0 ≤ s, ∥θ∥2 = 1 (23) which enjoys O (√ s log p/n ) error rate as shown in Corollary 1.
+150	20	The regularized estimator can also be obtained with the same ĥ according to (17).
+193	14	The problem dimension is fixed as p = 1000, and the sparsity of θ∗ is set to 10.
+201	13	The original SILO use the constraint set {θ | ∥θ∥1 ≤ √ s, ∥θ∥2 ≤ 1}, which is computationally less efficient and statistically no better than K = {θ | ∥θ∥0 ≤ s} ∩ Sp−1 (Zhang et al., 2014; Chen & Banerjee, 2015a).
+202	13	Hence we also use K in SILO for a fair comparison.
+209	33	To better demonstrate the robustness of our estimator to heavy-tailed noise, instead of Gaussian noise, we sample ϵ from the Student’s t distribution with degrees of freedom equal to 3.
+210	14	We repeat the experiments for f̃(z) = z3, and obtain the plots in Figure 2.
+212	19	For SILO and iSILO, the errors are relatively large, and unable to shrink for large σ even when more data are provided.
+214	13	We propose two classes of robust estimators, which generalize previous works in two aspects.
+218	18	With limited assumption on the noise, we can show that the estimation error can be bounded by simple geometric measures under Gaussian measurement, which subsumes the existing results for specific settings.
+219	18	The experiment results also validate our theoretical analyses.

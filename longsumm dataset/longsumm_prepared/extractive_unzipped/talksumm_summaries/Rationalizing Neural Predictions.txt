@@ -1,0 +1,30 @@
+3	37	In many applications, such as medicine, predictions are used to drive critical decisions, including treatment options.
+5	97	Ideally, complex neural models would not only yield improved performance but would also offer interpretable justifications – rationales – for their predictions.
+6	41	In this paper, we propose a novel approach to incorporating rationale generation as an integral part of the overall learning problem.
+9	30	First, the selected words represent short and coherent pieces of text (e.g., phrases) and, second, the selected words must alone suffice for prediction as a substitute of the original text.
+10	21	More concretely, consider the task of multi-aspect sentiment analysis.
+11	33	Figure 1 illustrates a product review along with user rating in terms of two categories or aspects.
+14	45	We therefore assume that our model with rationales is trained on the same data as the original neural models, without access to additional rationale annotations.
+81	29	To this end, we also introduce a dependent selection of words, p(z|x) = l∏ t=1 p(zt|x, z1 · · · zt−1) which can be also expressed as a recurrent neural network.
+97	26	Since the selections are not provided during training, we minimize the expected cost: min θe,θg ∑ (x,y)∈D Ez∼gen(x) [cost(z,x,y)] where θe and θg denote the set of parameters of the encoder and generator, respectively, and D is the collection of training instances.
+98	21	Our joint objective encourages the generator to compress the input text into coherent summaries that work well with the associated encoder it is trained with.
+99	22	Minimizing the expected cost is challenging since it involves summing over all the possible choices of rationales z.
+106	27	Therefore, we can simply sample a few rationales z from the generator gen(x) and use the resulting average gradient in an overall stochastic gradient method.
+107	56	A sampled approximation to the gradient with respect to the encoder parameters θe can be derived similarly, ∂Ez∼gen(x) [cost(z,x,y)] ∂θe = ∑ z ∂cost(z,x,y) ∂θe · p(z|x) = Ez∼gen(x) [ ∂cost(z,x,y) ∂θe ] Choice of recurrent unit We employ recurrent convolution (RCNN), a refinement of local-ngram based convolution.
+111	32	We evaluate the proposed joint model on two NLP applications: (1) multi-aspect sentiment analysis on product reviews and (2) similar text retrieval on AskUbuntu question answering forum.
+137	34	Our joint model gets performance close to the best encoder run (with full text) when few words are extracted.
+177	36	For comparison we use the bigram SVM model and implement an attention-based neural network model.
+186	40	Figure 4 further shows the precision when different amounts of text are extracted.
+188	23	As shown in the table and the figure, our encoder-generator networks extract text pieces describing the target aspect with high precision, ranging from 80% to 96% across the three aspects appearance, smell and palate.
+190	18	The attention-based model achieves reasonable but worse performance than the rationale generator, suggesting the potential of directly modeling rationales as explicit extraction.
+191	32	113 Figure 5 shows the learning curves of our model for the smell aspect.
+193	25	After a few epochs of exploration however, the models start to achieve high accuracy.
+195	23	Finally we conduct a qualitative case study on the extracted rationales.
+196	19	Figure 3 presents several reviews, with highlighted rationales predicted by the model.
+205	60	Therefore, we will evaluate rationales based on the accuracy of the question retrieval task, assuming that better rationales achieve higher performance.
+212	22	The first one achieves the highest MAP on the development set, The second run is selected to compare the models when they use roughly 10% of question text (7 words on average).
+215	93	The models also outperform the baseline of using the noisy question bodies, indicating the the models’ capacity of extracting short but important fragments.
+217	354	Interestingly, the model does not always select words from the question title.
+218	59	The reasons are that the question body can contain the same or even complementary information useful for retrieval.
+220	104	although i do n't remember directly uninstalling the centre , i think dele9ng one of those packages might have triggered it .
+225	38	to clarify , when you boot up to an ubuntu livecd , it 's got the installer program available so that you can install ubuntu to a drive .

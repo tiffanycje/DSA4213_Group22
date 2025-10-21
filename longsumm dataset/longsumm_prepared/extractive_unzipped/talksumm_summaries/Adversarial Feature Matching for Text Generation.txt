@@ -1,0 +1,30 @@
+17	14	The Generative Adversarial Network (GAN) (Goodfellow et al., 2014) is an appealing and natural answer to the above issues.
+18	10	GAN matches the distributions of synthetic and real data by introducing an adversarial game between a generator and a discriminator.
+19	31	The GAN objective seeks to constitute a generator, that functionally maps samples from a given (simple) prior distribution, to synthetic data that appear to be realistic.
+23	69	Effort has also been made to generate realistic-looking sentences via adversarial training.
+34	10	Note that the first term of (1) does not depend on G(·).
+39	13	Therefore, a procedure to iteratively update D(·) and G(·) is often applied.
+48	10	We denote the synthetic sentences as s̃ , G(z), where z ∼ pz(·).
+51	55	The generator G(·) attempts to adjust itself to produce synthetic sentence s̃, with features f̃ , encoded by D(·), to mimic the real sentence features f (also encoded by D(·)).
+54	22	The MMD metric characterizes the differences between X and Y over a Reproducing Kernel Hilbert Space (RKHS), H, associated with kernel function k(·) : Rd × Rd 7→ R. The kernel can be written as an inner product overH: k(x, x′) = 〈k(x, ·), k(x′, ·)〉H, and φ(x) , k(x, ·) ∈ H is denoted as the feature mapping (Gretton et al., 2012).
+56	14	Note that LMMD2 reaches its minimum when the two empirical distributions X and Y (in general) match exactly.
+57	32	For example, with a polynomial kernel, k(x, y) = (xT y + c)L, minimizing LMMD2 can be understood as matching moments of two empirical distributions up to order L. With a universal kernel like the Gaussian kernel, k(x, y) = exp(− ||x−y|| 2 2σ ), with bandwidth σ, minimizing the MMD objective will match moments of all orders (Gretton et al., 2012).
+58	17	Here, we use MMD to match the empirical distribution of f̃ and f using a Gaussian kernel.
+59	31	The adversarial discriminator D(·) associated with the loss in (2) aims to produce sentence features that are most discriminative, representative and challenging.
+60	31	These aims are explicitly represented as the three components of (2), namely, (i) LGAN requires f̃ and f to be discriminative of real and synthesized sentences; (ii) Lrecon requires f̃ and f to preserve maximum reconstruction information for the latent code z that generates synthetic sentences; and (iii) LMMD2 forces D(·) to select the most challenging features for the generator to match.
+68	14	The loss in (3), on the other hand, forces the generator to produce highly diverse sentences to match the variation of real sentences, by latent moment matching, thus alleviating the mode-collapsing problem.
+76	29	In (4), we are essentially employing a Neural Network (NN) embedding via Gaussian kernel for matching s and s̃, i.e., ks(s, s ′) = φ(g(s))Tφ(g(s′)), where g(·) denotes the NN embedding that maps from the data to the feature domain.
+88	17	To alleviate this issue, we consider two strategies.
+99	14	By setting Σ̃ = Σ = I, (5) reduces to the first-moment feature matching technique from Salimans et al. (2016).
+101	12	The feature vectors used in (5) are the neural net outputs before applying any non-linear activation function.
+109	20	As shown in Figure 2(top), a convolution operation involves a filter Wc ∈ Rk×h, applied to a window of h words to produce a new feature.
+114	21	Further, this pooling scheme also guarantees that the extracted features are independent of the length of the input sentence.
+115	14	The above process describes how one feature is extracted from one filter.
+118	26	Assume we have m window sizes, and for each window size, we use p filters, then we obtain a mp-dimensional vector f to represent a sentence.
+133	12	Details are provided in the Supplementary Material.
+140	11	Pre-training Previous literature (Goodfellow et al., 2014; Salimans et al., 2016) has discussed the fundamental difficulty of training GANs using gradient-based methods.
+144	13	For the discriminator/encoder initialization, we use a permutation training strategy.
+149	19	We empirically found this provides a better initialization (compared to no pre-training) for the discriminator to learn good features.
+184	11	Provided that the LSTM generator typically involves more parameters and is more difficult to train than the CNN discriminator, we perform one optimization step for the discriminator for every K = 5 steps of the generator.
+190	44	The dimensionality of z and ẑ is also 900.
+193	15	For the LSTM sentence generator, we use one hidden layer of 500 units.

@@ -1,0 +1,30 @@
+1	67	One well-studied domain that requires reasoning is question answering, where simply memorizing and looking up information is often not enough to correctly answer a question.
+2	39	For example, given the very simple scenario in Table 1, searching for the word “Mary” and returning a nearby word is not a correct strategy; instead, a model needs to recognize that Mary is currently at the second location (office and not the bathroom).
+4	48	As a benchmark to evaluate these models, Weston et al. (2016) released a dataset – Facebook bAbi – that provides a set of toy tasks, each examining a specific type of reasoning.
+20	30	More importantly, similarly to the bAbi dataset, success in each task is defined as correctly answering one question.
+30	62	Developmental psychologists have designed various experimental paradigms to examine to what extent children are able to reason about others’ mental states.
+36	19	After Sally’s departure, Anne moves the marble to her box.
+39	44	Interestingly, most children before the age of 3 answer this question incorrectly and say that Sally will look at the box (where the marble really is) instead of the basket (where Sally thinks the marble is).
+40	35	These children are not able to reason about Sally’s belief which is different from the reality of the world.
+43	56	People are also able to reason about beliefs about beliefs, for example, Anne thinks that Sally believes that the marble is in basket.
+49	24	The participants are then asked the following secondorder question: “Where does John think Mary goes to get icecream?” Note that John does not know that Mary has been told about the new location of the icecream van; he has a second-order false belief about Mary’s belief.
+50	23	The participants are also asked a few control questions (e.g., “does Mary know that the van is in the church?”) to ensure that they do not correctly answer the secondorder question by chance.
+51	20	Perner and Wimmer (1985) found that 6- and 7-year old children are able to answer the second-order questions, suggesting that reasoning about higher-order beliefs (as compared to a first-order belief) is a harder cognitive task.
+54	27	In the true-belief task, Sally observes the world and as a result she has a first-order true belief about the location of the milk – her belief matches reality.
+55	27	In the falsebelief task, Sally’s first-order belief differs from reality (i.e., she has a false belief ) because she was absent when the state of the world changed.
+58	29	As a result, Anne has a false belief about Sally’s beliefs.
+62	21	This prevents models from simply learning to produce a specific answer for a task type when a sentence like “Sally looks inside the pantry” is present in the story.
+71	32	Each dataset contains a training set with 10 000 examples with each of the 12 combinations of task and question types.
+97	35	To address this, Grant et al. (2017) propose the Multiple Observer model that integrates MemN2N with individual memory modules for each agent in the story.
+102	21	Second, instead of keeping a whole sentence embedding in a memory slot, their model can learn the important entities of a story (e.g., a person) and their properties (e.g., location) through a set of gated recurrent units and two weight matrices.
+158	30	We examine to what extent each model’s architecture is sensitive to the position of sentences in each story.
+159	20	We do so by adding a novel sentence at random locations in each story at test time.
+167	33	In the experiments of Sukhbaatar et al. (2015) the memory size is fixed to 50, which is necessary to capture the entire story in memory (e.g. the answer to the memory question in ToM may rely on information at the beginning of a story).
+168	58	We observed that smaller memory sizes artificially improved the performance of the MemN2N and Multiple Observer model on ToM tasks.
+169	210	For example, using a memory size of 10, our best MemN2N model performance boosts on the hardest task of ToM (FB task with first order belief question) from 5.1% to 97.5% and on the easiest task from 98.3% to 100.0% (SOFB task with reality question).
+170	28	This result is not surprising because given a small memory size, ToM and ToM-easy are very similar tasks; the memory size of 10 allows for at most two full tasks in memory.
+187	20	We find that none of the models are able to succeed fully on a suite of tasks that requires keeping track of inconsistent beliefs or states of the world.
+188	29	These inconsistencies arise from differences between the past and the present, as well as the mental states of agents who may have false beliefs about the world or about the mental states of other agents.
+189	40	The purpose of the dataset introduced in this work is not to test advanced language fluency; instead, consistency in the linguistic structure of the tasks allows us to isolate the performance of the models’ reasoning capabilities.
+190	111	Even though the language is simple, the models struggle to achieve good performance.
+191	62	Furthermore, we note that the proposed dataset should be treated as a diagnostic tool and that good performance on similar toy tasks is not sufficient for reasoning capabilities.

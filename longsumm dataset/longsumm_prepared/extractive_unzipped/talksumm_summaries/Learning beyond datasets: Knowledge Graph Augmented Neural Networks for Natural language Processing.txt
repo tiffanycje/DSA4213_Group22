@@ -1,0 +1,30 @@
+14	32	For the example of a Natural Language Inference (NLI) problem (MacCartney, 2009), consider the two following statements, A: The couple is walking on the sea shore and B: The man and woman are wide awake.
+15	49	Here, for a learning model to infer B from A, it should have access to the common knowledge that “The man and woman and The couple means the same” since this information may not be specific for a particular inference.
+16	26	Further, it is not possible for a model to learn all such correlations from just the labeled training data available for the task.
+18	64	We cannot classify it as a political news unless we know the facts <Donald Trump, president, United States> and <Texas, state, United States>.
+19	46	We posit that machine learning models, apart from training them on data with the ground-truth can also be trained to fetch relevant information from structured knowledge bases in order to enhance their performance.
+20	23	In this work, we propose a deep learning model that can extract relevant support facts on demand from a knowledge base (Mitchell et al., 2015) and incorporate it in the feature space along with the features learned from the training data (shown in Figure 1).
+31	33	Variants of the TransE (Bordes et al., 2013) model uses translation of the entity vectors over relation specific subspaces.
+33	39	Similar work utilizing only the structure of the graph include ManifoldE (Xiao et al., 2015b), TransG (Xiao et al., 2015a), TransD (Ji et al., 2015), TransM (Fan et al., 2014), HolE (Nickel et al., 2016b) and ProjE (Shi and Weninger, 2017).
+37	45	DKRL (Xie et al., 2016) is a KG representation technique which also takes into account the descriptive nature of text keeping the simple structure of TransE model.
+38	21	Pretrained word2vec (Mikolov et al., 2013) is used to form the entity representation by passing through a Convolutional Neural Network (CNN) (Kim, 2014) architecture constraining the relationships to hold.
+39	13	In our experiments we have used the DKRL (Xie et al., 2016) encoding scheme as it emphasizes on the semantic description of the text.
+42	93	Conventional supervised learning models with parameters Θ, given training data x and label y, tries to maximize the following function max Θ P (y|x,Θ) The optimized parameters Θ are given as, Θ = argmax Θ logP (y|x,Θ) In this work, we propose to augment the supervised learning process by incorporation of world knowledge features xw.
+66	15	Thus the fact triplet retrieved is F = [e, r, e + r], where F ∈ R3m.
+68	25	The final classification label y is computed as follows, F ′ = ReLU(FTV ) y = softmax([F ′ : C]TU) where, V ∈ R3m×u and U ∈ R2u×u are model parameters to be learned.
+72	71	While jointly training the attention mechanism tunes itself to retrieve relevant facts that are required to do the final classification.
+73	17	The vanilla model attends over the entire entity/relation space which is not a good approach as we observe that the gradient for each attention value gets saturated easily.
+74	90	While training the classification and retrieval module together, the model tends to ignore the KG part and gradient propagates only through the classification module.
+83	13	In this section, we propose a mechanism to reduce the large number of entities/relationships over which attention has to be generated in the knowledge graph.
+106	12	Our experiments were designed to analyze whether a deep learning model is being improved when it has access to KG facts from a relevant source.
+111	24	Datasets and Relevant Knowledge Graphs In our experiments, we have mainly used the popular text classification dataset 20Newsgroups (Lichman, 2013) and the Natural Language Inference dataset, Stanford Natural Language Inference (SNLI) corpus (Bowman et al., 2015).
+113	40	These datasets are chosen as they share domain knowledge with two most popular knowledge bases, Freebase (FB15k) (Bollacker et al., 2008) and WordNet (WN18) (Bordes et al., 2013).
+115	12	Freebase (FB15k) (Bollacker et al., 2008) contains facts about people, places and things (contains 14904 entities, 1345 relations & 4.9M fact triples), which is useful for text classification in 20Newsgroups (Lichman, 2013) dataset.
+124	31	The models were implemented using TensorFlow (Abadi et al., 2015).
+139	21	This is quite intuitive as complex models are selfsufficient in learning from the data by itself and therefore the room available for further improvement is relatively less.
+140	11	The improvement as observed in the experiments is significant in weaker learning models, however it is also capable of improving stronger baselines as is evident from the results of DBPedia dataset.
+143	24	From the plot, we observe that KG augmented LSTM with 70% data outperforms the baseline model with full dataset support, thereby reducing the dependency on labeled data by 30%.
+146	25	Even with just 70% of the data, KG augmented model is able to achieve better accuracy compared to the vanilla LSTM model trained on the full data.
+148	29	Also note that training loss is substantially less for KG LSTM compared to normal LSTM when the dataset size is reduced.
+149	26	This result is very promising, to reduce the large labeled training data requirement of large deep learning models, which is hard to come by.
+152	18	In this work, they first obtain labels of the input data (using a different model), use these labels to populate features from the KG and in turn use these features back for the final classification.

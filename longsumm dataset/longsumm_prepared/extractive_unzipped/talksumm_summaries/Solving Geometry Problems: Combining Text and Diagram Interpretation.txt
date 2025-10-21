@@ -1,0 +1,30 @@
+0	51	This paper introduces the first fully-automated system for solving unaletered SAT-level geometric word problems, each of which consists of text and the corresponding diagram (Figure 1).
+1	23	The geometry domain has a long history in AI, but previous work has focused on geometric theorem proving (Feigenbaum and Feldman, 1963) or geometric analogies (Evans, 1964).
+2	33	Arithmetic and algebraic word problems have attracted several NLP researchers (Kushman et al., 2014; Hosseini et al., 2014; Roy et al., 2015), but geometric word problems were first explored only last year by Seo et al. (2014).
+9	67	For example, in the sentence “In the diagram, the longer line is tangent to the circle”, resolving the referent of the phrase “longer line” is challenging.
+15	37	For example, in sentence “Lines AB and CD are perpendicular to EF”, the parser has to determine what is perpendicular to EF—line AB?
+17	24	This paper introduces GEOS, a system that maps geometry word problems into a logical representation that is compatible with both the problem text and the accompanying diagram (Figure 1).
+56	73	More formally, the goal is to find γ∗ = arg maxγ∈Γ score(γ; t, d, cm) where Γ is the set of all logical formulas in Ω and score measures the interpretation score of the formula according to both text and diagram.
+58	21	GEOS efficiently searches this combinatorial space taking advantage of a submodular set function that scores a subset of literals using both text and diagram.
+74	22	The concept identification stage maps words or phrases to their corresponding concepts in the geometry language.
+78	25	GEOS builds a lexicon from training data that maps stemmed words and phrases to the concepts in the geometry language Ω.
+84	26	A relation is a directed hyperedge between concept nodes.
+88	35	The weight of the corresponding hyperedge is the relation’s affinity score.
+143	23	For example, in Figure 2, Parallel(AC, DB) has a very low diagram score, 0.02, and is apparently false in the diagram.
+146	36	Hence, GEOS adds both text and diagram scores in order to score literals (Section 6).
+150	19	This kind of information is confidently parsed with the diagram parser by Seo et al. (2014).
+152	23	Here, we describe the details of the objective function (Equation 1) and how to efficiently maximize it.
+153	21	The integrated affinity score of a set of literals L′ (the first term in Equation 1) is defined as: A(L′, t, d) = ∑ l′j∈L′ [Atext(l′j , t) +Adiagram(l′j , d)] where Atext and Adiagram are the text and diagram affinities of l′j , respectively.
+156	45	Maximizing the objective function in Equation 1 is an NP-hard combinatorial optimization problem.
+159	20	GEOS greedily maximizes Equation 1 by starting from an empty set of literals and adding the next literal lj that maximizes the gain of the objective function until the gain becomes negative (details of the algorithm and the gain function are explained in Figure 3 step 3).
+160	32	We now have the best set of literals L∗ from the optimization, and the high-confidence visual literals L∆ from the diagram parser.
+178	20	For optimization, we tune the parameters λ to 0.5, based on the training examples.4 Dataset: We built a dataset of SAT plane geometry questions where every question has a textual description in English accompanied by a diagram and multiple choices.
+179	33	Questions and answers are compiled from previous official SAT exams and practice exams offered by the College Board (Board, 2014).
+191	50	GEOS without diagram parsing solves geometry questions only relying on the literals interpreted from the text.
+192	30	It outputs all literals whose text scores are higher than a tuned threshold, 0.6 on the training set.
+193	47	GEOS without relation completion solves geometry questions when text parsing does not use the intermediate representation and does not include the relation completion step.
+196	113	SAT’s grading scheme penalizes a wrong answer with a negative score of 0.25.
+197	131	We report the SAT score as the percentage of correctly answered questions penalized by the wrong answers.
+222	23	For example, in “AB is perpendicular to CD at E”, the Stan- ford dependency parser predicts that “E” depends on “CD”, while GEOS predicts the correct parse in which “E” depends on “perpendicular”.
+223	209	This paper introduced GEOS, an automated system that combines diagram and text interpretation to solve geometry problems.
+225	21	The first is in designing methods for grounded language acquisition to map text to a restricted formalism (instead of a full, domain independent representation).

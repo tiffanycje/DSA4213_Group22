@@ -1,0 +1,21 @@
+4	12	They serve to reduce sparsity of character ngrams, allowing, for example, “猫(cat)躺(lie)在(in)墙角(corner)” to be connected with “狗(dog) 蹲(sit) 在(in) 墙 角(corner)” (Zheng et al., 2013), which is infeasible by using sparse one-hot character features.
+5	41	In addition to character embeddings, distributed representations of character bigrams (Mansur et al., 2013; Pei et al., 2014) and words (Morita et al., 2015; Zhang et al., 2016b) have also been shown to improve segmentation accuracies.
+7	39	For structured learning and inference, CRF has been used for character sequence labelling models (Pei et al., 2014; Chen et al., 2015b) and structural beam search has been used for word-based segmentors (Cai and Zhao, 2016; Zhang et al., 2016b).
+8	18	Previous research has shown that segmentation accuracies can be improved by pretraining character and word embeddings over large Chinese texts, which is consistent with findings on other NLP tasks, such as parsing (Andor et al., 2016).
+10	93	On the other hand, statistical segmentation research has exploited raw texts for semi-supervised learning, by collecting clues from raw texts more thoroughly such as mutual information and punctuation (Li and Sun, 2009; Sun and Xu, 2011), and making use of selfpredictions (Wang et al., 2011; Liu and Zhang, 2012).
+11	9	It has also utilised heterogenous annotations such as POS (Ng and Low, 2004; Zhang and Clark, 2008) and segmentation under different 839 standards (Jiang et al., 2009).
+12	48	To our knowledge, such rich external information has not been systematically investigated for neural segmentation.
+15	67	Different from previous work, we make our model conceptually simple and modular, so that the most important sub module, namely a five-character window context, can be pretrained using external data.
+16	27	We adopt a multi-task learning strategy (Collobert et al., 2011), casting each external source of information as a auxiliary classification task, sharing a five-character window network.
+17	95	After pretraining, the character window network is used to initialize the corresponding module in our segmentor.
+18	93	Results on 6 different benchmarks show that our method outperforms the best statistical and neural segmentation models consistently, giving the best reported results on 5 datasets in different domains and genres.
+19	22	Our implementation is based on LibN3L1 (Zhang et al., 2016a).
+20	26	Code and models can be downloaded from http://gitHub.
+35	13	Our segmentor works incrementally from left to right, as the example shown in Table 1.
+36	217	At each step, the state consists of a sequence of words that have been fully recognized, denoted as W = [w−k, w−k+1, ..., w−1], a current partially recognized word P , and a sequence of next incoming characters, denoted as C = [c0, c1, ..., cm], as shown in Figure 1.
+37	15	Given an input sentence, W and P are initialized to [ ] and φ, respectively, and C contains all the input characters.
+38	6	At each step, a decision is made on c0, either appending it as a part of P , or seperating it as the beginning of a new word.
+40	22	Formally, the process can be regarded as a state-transition process, where a state is a tuple S = 〈W,P,C〉, and the transition actions include SEP (seperate) and APP (append), as shown by the deduction system in Figure 22.
+43	75	Similar to Zhang et al. (2016b) and Cai and Zhao (2016), our model is a global structural model, using the overall score to disambiguate states, which correspond to sequences of inter-dependent transition actions.
+44	13	Different from previous work, the structure of our scoring network is shown in Figure 1.
+48	121	On top of the representation layer, we use a hidden layer to merge XW , XP and XC into a single vector h = tanh(WhW ·XW +WhP ·XP +WhC ·XC+bh) (1) The hidden feature vector h is used to represent the state S = 〈W,P,C〉, for calculating the scores of the next action.

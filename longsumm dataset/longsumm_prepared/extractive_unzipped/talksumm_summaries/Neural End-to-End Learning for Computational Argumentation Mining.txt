@@ -1,0 +1,30 @@
+33	2	Finally, (5) we show that a multi-task learning setup where natural subtasks of the full AM problem are added as auxiliary tasks improves performance.1
+44	1	The corpus has a special structure, illustrated in Figure 1.
+45	3	First, major claims relate to no other components.
+47	1	Thus, the argument structure in each essay is—almost—a tree.
+51	1	There is another peculiarity of this data.
+52	1	Each essay is divided into paragraphs, of which there are 2235 in total.
+56	1	The same is true for component classification: a paragraph can never contain premises only, for example, since premises link to other components.
+58	1	Sequence Tagging is the problem of assigning each element in a stream of input tokens a label.
+62	1	In addition to considering a left-to-right flow of information, bidirectional LSTMs (BL) also capture information to the right of the current input token.
+64	1	This class of models is called BiLSTM- CRF (BLC) (Huang et al., 2015).
+65	2	The model of Ma and Hovy (2016) adds convolutional neural nets (CNNs) on the character-level to BiLSTMCRFs, leading to BiLSTM-CRF-CNN (BLCC) models.
+66	1	The character-level CNN may address problems of out-of-vocabulary words, that is, words not seen during training.
+67	1	AM as Sequence Tagging: We frame AM as the following sequence tagging problem.
+69	4	,⊥}, s ∈ {Supp,Att, For,Ag,⊥}}.
+70	2	(1) In other words, Y consists of all four-tuples (b, t, d, s) where b is a BIO encoding indicating whether the current token is non-argumentative (O) or begins (B) or continues (I) a component; t indicates the type of the component (claim C, premise P, or major claim MC for our data).
+72	1	We encode the same d value for each token in a given component.
+110	1	LSTM-ER Miwa and Bansal (2016) present a neural end-to-end system for identifying both entities as well as relations between them.
+112	1	This relation module is a TreeLSTM model that makes use of dependency tree information.
+114	1	To adapt LSTM-ER for the argument structure encoded in the PE dataset, we model three types of entities (premise, claim, major claim) and four types of relations (for, against, support, attack).
+116	1	This system solves the subtasks of AM—component segmentation, component classification, relation detection and classification— independently.
+121	1	Modularity: Our dependency parsing framing and LSTM-ER are more modular than STagT because they de-couple relation information from entity information.
+160	1	We believe that this is due to a mixture of the following: (1) ‘capacity’, i.e., model complexity, of the parsers— that is, risk of overfitting; and (2) few, but very long sequences on essay level—that is, little training data (trees), paired with a huge search space on each train/test instance, namely, the number of possible trees on n tokens.
+161	1	See also our discussions below, particularly, our stability analysis.
+163	1	Again, we observe that paragraph level is considerably easier than essay level; e.g., for relations, there is ∼5% points increase from essay to paragraph level.
+175	1	In contrast, when we include the ‘natural subtasks’ “C” (label set YC consists of the projection on the coordinates (b, t) in Y) and/or “R” (label set YR consists of the projection on the coordinates (d, s)), performance increases typically by a few percentage points.
+179	1	Moreover, we find that the C task is consistently more helpful as an auxiliary task than the R task.
+241	21	Xingxing Zhang, Jianpeng Cheng, and Mirella Lapata.
+242	18	Dependency parsing as head selection.
+243	177	In Proceedings of EACL 2017 (long papers).
+244	171	Association for Computational Linguistics.

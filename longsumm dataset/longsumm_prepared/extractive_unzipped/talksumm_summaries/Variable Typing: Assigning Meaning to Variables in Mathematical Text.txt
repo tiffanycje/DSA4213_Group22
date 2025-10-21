@@ -1,0 +1,30 @@
+23	2	We also demonstrate that our variable typing task and data are useful in MIR in our extrinsic evaluation (Section 7).
+72	1	We identified 28.6 million sentences that contain variables.
+83	1	Then, all technical terms in the seed dictionary (the known types) are placed onto the known types suffix trie (KTST).
+101	1	In this case, agreement is substantial (Cohen’s K = 0.80, N = 182, k = 2, n = 2).
+105	1	In the last case where both annotators agree that a variable is not a type (i.e., is assigned one of the six fixed labels), agreement has been found to be moderate (Fleiss’ K = 0.61, N = 123, k = 2, n = 6).
+114	1	We say that an edge is positive if it connects a variable to a type in the sentence and negative otherwise.
+118	1	The type embedding space is constructed using the process described by Stathopoulos and Teufel (2016): occurrences of extended dictionary type phases in the MREC are substituted with unique atomic lexical units before the text is passed on to word2vec.
+125	1	Extended Support Vector Machine (SVM+) We have extended the SVM proposed by Kristianto et al. (2012) with the features that are type and variable-centric, such as the ‘base symbol of a candidate variable’ and ‘first letter in the candidate type’.
+141	2	Bidirectional LSTM (BiLSTM) The architecture takes as input a sequence of words, which are then mapped to word embeddings.
+154	1	This representation is then combined with a regular word embedding by dynamically predicting element-wise weights for a weighted sum, allowing the model to choose for each feature whether to take the value from the word-level or characterlevel representation.
+159	1	We measure performance using precision, recall and F1-score.
+160	1	We use the non-parametric paired randomisation test to detect significant differences in performance across classifiers.
+163	1	Table 5 shows the performance results of all classifiers considered.
+164	1	All three proposed models have significantly outperformed the NT baseline and Kristianto et al.’s (Kristianto et al., 2014) state-of-the-art SVM.
+165	1	The best performing model is the bidirectional LSTM (F1 = 78.98%) which has significantly outperformed all other models (α = 0.01).
+169	1	In contrast, no man- ual feature engineering has been performed on the Convnet model (or indeed on any of the deep neural network models).
+170	1	The nearest type (NT) baseline demonstrates high recall but low precision.
+172	1	We demonstrate that our data set and variable typing task are useful using a mathematical information retrieval (MIR) experiment.
+174	1	In order to motivate the second hypothesis, consider the following natural language query: Let x be a vector.
+176	1	In the context of MIR, mathematical expressions are represented using SLTs (Pattaniyil and Zanibbi, 2014) that are constructed by parsing presentation MathML.
+183	1	As a result, documents where both variables are integers might also be returned.
+186	2	Four MIR retrieval models are introduced in Section 7.3 designed to control for text indexing/retrieval so that the effects of type-aware vs type-agnostic formula indexing and scoring can be isolated.
+187	1	These models make use of the Tangent formula indexing and scoring functions (Pattaniyil and Zanibbi, 2014), which we have implemented.
+188	1	We use the Cambridge University Math IR Test Collection (CUMTC) (Stathopoulos and Teufel, 2015) which is composed of 120 research-level mathematical information needs and 160 queries.
+193	1	Given a mathematical formula, the Tangent indexing algorithm starts from the root node of an SLT and generates symbol pair tuples in a depth-first manner.
+194	1	Symbol pair tuples record parent/child relationships between SLT nodes, the distance (number of edges) and vertical offset between them.
+195	2	At each step in the traversal, the index is updated to record one tuple representing the relationship between the current node and every node in the path to the SLT root.
+238	17	This model is then evaluated in an extrinsic downstream task–MIR, where we augmented Tangent formula indexing with variable typing.
+239	171	A retrieval model employing the typed Tangent index outperforms all considered retrieval models demonstrating that our variable typing task, data and trained model are useful in downstream applications.
+240	174	We make our variable typing data set available through the Open Data Commons license.

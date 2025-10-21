@@ -1,0 +1,26 @@
+1	38	Vectors are assumed to be distributed throughout a K-dimensional space, with specific regions devoted to specific concepts.
+2	78	We find that vectors trained with the skip-gram with negative sampling (SGNS) algorithm (Mikolov et al., 2013) are not only influenced by semantics but are also strongly influenced by the negative sampling objective.
+3	130	In fact, far from spanning the possible space, they exist only in a narrow cone in RK .
+4	56	Nevertheless, SGNS vectors have become a foundational tool in NLP and perform as well or better than numerous methods with similar objectives (Turian et al., 2010; Dhillon et al., 2012; Pennington et al., 2014; Luo et al., 2015) with respect to evaluations of intrinsic and extrinsic quality (Schnabel et al., 2015).
+5	69	SGNS works by training two sets of embeddings: the “official” word embeddings and a second set of context embeddings, with one K-dimensional vector in each set for each word in the vocabulary.
+6	165	The objective tries to make the word vector and context vector closer for a pair of words that actually occur together than for randomly sampled “negative” words.
+8	67	Any difference between these two sets of vectors is puzzling, since the sliding window used in training is symmetrical: a word and its context word reverse roles almost immediately.
+9	82	Indeed, the superficially similar GloVe algorithm (Pennington et al., 2014) also defines word and context vectors and by default returns the mean of these two vectors.
+10	10	Previous work has analyzed what the algorithm might be doing in theory, as an approximation to a matrix factorization (Levy and Goldberg, 2014).
+11	28	Other work has considered the empirical effects of some of the more arbitrary-seeming algorithmic choices (Levy et al., 2015).
+14	55	Although the word vectors appear to span K-dimensional space, we find that the SGNS objective results in vectors that are narrowly clustered in a single orthant, and can be made non-negative without significant loss.
+17	11	We 2873 show that this effect is due to negative sampling and not the general embedding objective.
+19	34	The SGNS algorithm defines two sets of parameters, K-dimensional word vectors wi and context vectors ci for each word i.
+20	34	We define a weight between a word i and a context word j as σij = exp(wTi cj) 1+exp(wTi cj) .
+21	35	For each observed pair i, j we sample S “negative” context words from a modified unigram distribution p(w)0.75.
+22	6	The stochastic gradient update for one parameter wik is then d` dwik = (1− σij)cjk + S∑ s=1 −σiscsk, (1) suppressing for clarity a learning rate parameter λ.
+24	16	The impact of the update is to push the vector wi closer to the context vector of the observed context word cj and away from the context vectors of the negatively sampled words.
+27	10	We first present a series of empirical observations based on vectors trained from a corpus of Wikipedia articles that is commonly distributed with word embedding implementations.1 We then evaluate the sensitivity of these properties to different algorithmic parameters.
+29	26	To determine whether observed properties are due to SGNS specifically or to embeddings in general, we compare SGNS-trained vectors to vectors trained by the GloVe algorithm (Pennington et al., 2014).
+31	2	We then evaluate sensitivity to negative samples, window size, and dimension.
+33	23	Following Zipf’s law, words in natural language tend to sort into ranges of frequent words (the majority of tokens) and rare words (the majority of types), with a large class of intermediate-frequency terms in the middle.
+36	11	We define four categories of words by ranked frequency: the top 100 words (ultra-high frequency), the 100–500th ranked words (high frequency), the 500–5000th ranked words (moderate frequency) and the remaining (low frequency) words.
+37	7	SGNS vectors are arranged along a primary axis.
+38	14	Our first observation is that SGNS-trained vectors all point in roughly the same direction.
+39	65	We can define a mean vector w̄ by averaging the vectors of the complete vocabulary w. We sample a balanced set of 400 total words with 100 each from the four frequency categories.
+41	64	All vectors have a large, positive inner product with the mean, indicating that they are not evenly dispersed through the space.

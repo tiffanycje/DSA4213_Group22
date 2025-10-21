@@ -1,0 +1,30 @@
+0	15	Human reasoning is lazy and biased but it perfectly serves its purpose in the argumentative context (Mercier and Sperber, 2017).
+1	15	When challenged by genuine back-and-forth argumentation, humans do better in both generating and evaluating arguments (Mercier and Sperber, 2011).
+3	101	Not only sketches this theory an ideal normative model of argumentation but also distinguishes the wrong argumentative moves, fallacies (van Eemeren and Grootendorst, 1987).
+16	34	We experiment with various neural architectures and ex- Godwin’s_law), if a discussion goes on long enough, sooner or later someone will compare someone or something to Adolf Hitler.
+18	17	Furthermore, we propose a list of potential linguistic and rhetorical triggers of ad hominem based on interpreting parameters of trained neural models.2 This article thus presents the first NLP work on multi-faceted ad hominem fallacies in genuine dialogical argumentation.
+32	17	In contrast to our data under investigation (Change My View debates), Wikipedia talk pages do not adhere to strict argumentation rules with manual moderation and have a different pragmatic purpose.
+40	31	Change My View (CMV) is an online ‘place to post an opinion you accept [...] in an effort to un- derstand other perspectives on the issue’, in other words an online platform for ‘good-faith’ argumentation hosted on Reddit.4 A user posts a submission (also called original post(er); OP) and other participants provide arguments to change the OP’s view, forming a typical tree-form Web discussion.
+42	16	Unlike the vast majority of internet discussion forums, CMV enforces obeying strict rules (such as no ‘low effort’ posts, or accusing of being unwilling to change view) whose violation results into deleting the comment by moderators.
+45	34	For our experiments, we scraped, in cooperation with Reddit, the complete CMV including the content of the deleted comments so we could fully reconstruct the fallacious discussions, relying on the rule violation labels provided by the moderators.
+74	19	This means that the ad hominem labels from CMV moderators are quite reliable.
+82	18	While binary classification of ad hominem as presented above might be sufficient for the purpose of red-flagging arguments, theories provide us with a much finer granularity (recall the typology in section 2).
+85	24	The Mechanical Turk workers were shown this last ad hominem argument as well as the preceding one.
+98	16	The existing theoretical typology of ad hominem arguments, as presented for example in most textbooks, provides only a very simplified view.
+100	46	On the other hand, some ad hominem insults typical to online argumentation (illiteracy insults, condescension) are not present in studies on ad hominem.
+101	28	Hence, we claim that any potential typology of ad hominem arguments should be multinomial rather than categorical, as we found multiple different spans in a single argument.
+104	31	However, 897 submissions (original posts; OPs) have at least one intermediate ad hominem (in other words, the original post is directly attacked).
+125	24	So far we explored what makes an ad hominem argument and whether debated topic influences the number of intermediate attacks.
+129	69	Negative samples are drawn similarly from threads in which the argument is awarded with ∆ as shown in Figure 2.10 Each instance consists of the three concatenated arguments delimited by a special OOV token.
+134	88	To make the attention even more interpretable, we replaced the final non-linear MLP layers with a single linear classifier (softmax).
+135	23	By summing over one dimension of the attention embedding matrix, each word from the input sequence gets associated with a single attention weight that gives us insights into the classifier’s ‘features’ (still indirectly, as the true representation is a matrix; see the original paper).11 The learning objective is to recognize whether the thread ends up in an ad hominem argument or a delta point.
+137	33	During testing the model, we projected attention weights to the original texts as heat maps and manually analyzed 191 true positives (ad hominem threads recognized correctly), as well as 77 false positives (ad hominem threads misclassified as delta) and 84 false negatives (delta as ad hominem), in total about 120k tokens.
+141	26	The identified phenomena have few interesting properties in common.
+143	22	Second, many of them deal with meta-level argumentation, i.e., arguing about argumentation (such as missing support or fallacy accusations).
+154	28	We then looked into the dynamics of argumentation to examine the relation between the quality of the original post and immediate ad hominem arguments (4.2).
+155	20	Finally, we exploited the learned representation of Self-Attentive Embedding Neural Network to search for features triggering ad hominem in one-to-one discussions.
+157	15	There are several points that deserve further investigation.
+158	57	First, we have ignored metainformation of the debate participants, such as their overall activity (i.e., whether they are spammers or trolls).
+159	36	Second, the proposed typology of ad hominem causes has not yet been post-verified empirically.
+161	45	We leave these points for future work.
+162	80	We believe that our findings will help gain better understanding of, and hopefully keep restraining from, ad hominem fallacies in good-faith discussions.

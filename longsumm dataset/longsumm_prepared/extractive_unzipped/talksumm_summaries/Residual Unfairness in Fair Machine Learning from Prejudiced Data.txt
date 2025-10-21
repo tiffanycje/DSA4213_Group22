@@ -1,0 +1,30 @@
+0	23	The spread of data-driven decision making to civic institutions, spurred by the empirical success of machine learning and the growing availability of individual-level data, raises This material is based upon work supported by the National Science Foundation under Grant No.
+1	21	Angela Zhou is supported through the National Defense Science & Engineering Graduate Fellowship Program.
+2	18	new questions about the possible harms of learning from data which is subject to historical bias.
+3	20	Unlike clean-cut prediction problems in other domains, datasets of individuals and their historical outcomes may reflect systematic bias due to previously prejudiced decisions (Barocas & Selbst, 2014).
+4	30	Recent work on fairness in machine learning proposes and analyzes competing criteria for assessing the fairness of machine learning algorithms, where some adjustments attempt to equalize accuracy metrics across groups (Corbett-Davies et al., 2017; Kleinberg et al., 2017; Hardt et al., 2016).
+6	10	We consider a model of biased data where systematic censoring affects whether or not entire observations appear in the training dataset.
+7	14	In such cases, the available data are not representative of the eventual realworld “test” population to which any resulting learned policy will be applied.
+10	14	(2) Arrest data help build predictive policing models but these data are disproportionately collected on individuals in highly patrolled areas and may be subject to further prejudice at the individual level, including racial (Lum & Isaac, 2016).
+14	10	In these applications, systematic censoring screens out ob- servations of individuals and their outcomes from a training dataset.
+15	7	Such censoring may reflect historical decisions made with limited access to information, heterogeneous decision-makers, or the application of statistically discriminatory rules (Arrow, 1973).
+17	36	We formalize this mechanism as a data setting (Fig.
+18	9	1) where a historical decision policy Z 2 {0, 1} specifies whether an instance will be included in the dataset.
+19	46	Systematic censoring may induce covariate shift on population-level estimands, such as true positive rate, as outcomes are observed in the training data only where Z = 1.
+21	29	Our contributions are as follows: • We characterize when systematic censoring induces residual unfairness in terms of the distributions of the conditional Bayes-optimal risk score across censored and target groups.
+22	25	• When benchmark data is available, we show how to use sample re-weighting techniques to estimate accuracy metrics to adjust for fairness on the target population.
+46	9	(1) on the true positive rate and/or false positive rate across groups while optimizing a given classification loss.
+48	9	For a given true positive rate ⇢, the corresponding derived equal opportunity classifier at rate ⇢ is given by Ŷ = I[R̂ > ✓ A ], where ✓ a = (F a ) 1(1 ⇢) is the threshold corresponding to group a so that it has true positive rate ⇢.
+64	6	We show that the residual unfairness that remains even after adjustment will disadvantage the same group that was prejudiced against before, in the training data.
+95	17	This may occur if the censoring mechanism subjects the disadvantaged group to harsher screening than the advantaged group, so that disadvantaged screened-in individuals have higher probabilities of being positive (e.g., innocent or creditworthy) given the observables X,A.
+99	10	We first state a simple rephrasing of the residual inequity of opportunity left by a fairness adjustment.
+117	11	Thus, the condition says that positive group-a members received more benefit of the doubt when fiers that are optimal with respect to some trade off between type-I and -II errors is exactly equal to the set of all such thresholding classifiers requires only that we assume that, in each group A = a, R̂ is not worse than random guessing and that the ROC is convex.
+122	8	(2) means that the logging policy (i.e., historical loan approval practice) effectively dug deeper into the pile of creditworthy group-a applicants than for group-b applicants, giving the former more benefit of the doubt as to their creditworthiness based on their credit scores than it gave the latter.
+132	10	Then every nontrivial derived equal opportunity classifier will have strictly positive inequity of opportunity disadvantaging group b relative to group a.
+144	10	Note that, since A (0) = A (1) = 0, we have that eq.
+148	7	4 in the synthetic loan application example from the beginning of this section.
+161	7	So, whereas our notion of disparate benefit of the doubt corresponds to the phenomenon of “driving while black” (Lamberth, 1998), our notion of disparate suspicion would correspond to the phenomenon of “criming while white” (Goldfarb, 2014).
+194	28	But, if we have an unlabeled dataset from the target population, then we can separately estimate the distribution of X,A in the training and target distributions.
+220	20	For the equal-opportunity-adjusted classifier, whereas only 11% of white-non-Hispanic innocents are wrongly targeted, up to 20% of white-Hispanic, 16% of other, and 14–15% of black innocents are wrongly targeted and harassed.
+223	12	In all cases, after fairness adjustment, non-white individuals were still unfairly disadvantaged in practice relative to white individuals, thus perpetuating the same biases that SQF is notorious for under the guise of a policy adjusted to be fair.
+226	7	We prove that the same prejudices will be reflected in the supposedly-fairness-adjusted policy.

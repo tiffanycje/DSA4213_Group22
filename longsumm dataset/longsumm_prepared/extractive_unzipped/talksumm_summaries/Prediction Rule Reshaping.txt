@@ -1,0 +1,30 @@
+0	17	Shape constraints like monotonicity and convexity arise naturally in many real-world regression and classification tasks.
+1	28	For example, holding all other variables fixed, a practitioner might assume that the price of a house is a decreasing function of neighborhood crime rate, that an individual’s utility function is concave in income level, or that phenotypes such as height or the likelihood of contracting a disease are monotonic in certain genetic effects.
+11	21	These methods blend the performance of machine learning methods with the classical least-squares approach to nonparametric shape-constrained regression.
+12	21	In Section (2.1), we describe black box reshaping, which takes any pre-trained prediction rule and reshapes it on a set of test inputs to enforce shape constraints.
+14	14	Section (2.2) presents a second method designed specifically to reshape random forests (Breiman, 2001).
+15	15	This approach reshapes each individual decision tree based on its split rules and estimated leaf values.
+40	12	Let f̂ : Rd → R denote an arbitrary prediction rule fit on a training set and assume we have a candidate set of shape constraints with respect to variablesR ⊆ [d].
+41	61	For example, we might require that the function be monotone increasing in each variable v ∈ R. Let F denote the class of functions that satisfy the desired shape constraints on each predictor variable v ∈ R. We aim to find a function f∗ ∈ F that is close to f̂ in the L2 norm: f∗ = arg min f∈F ‖f − f̂‖2 (1) where the L2 norm is with respect to the uniform measure on a compact set containing the data.
+42	23	We simplify this infinite-dimensional problem by only considering values of f̂ on certain fixed test points.
+44	19	, tn of test points, each in Rd, that differ only in their v-th coordinate so that tik = t i′ k for all k 6= v. These points can be ordered by their v-th coordinate, allowing us to consider shape constraints on the vector (f(t1), f(t2), ..., f(tn)) ∈ Rn.
+49	10	From each xi, we construct a sequence of test points that can be ordered according to their v-th coordinate in the following way.
+50	10	Let xi,k,v denote the observed vector xi with its v-th coordinate replaced by the v-th coordinate of xk, so that xi,k,v = (xi1, x i 2, .
+51	13	(2) This process yields n points from xi that can be ordered by their v-th coordinate, xi,1,v, xi,2,v, .
+53	46	, f(xi,n,v)) ∈ Sv where Sv ⊂ Rd is the appropriate convex cone that enforces the shape constraint for variable v ∈ R, for example the cone of monotone increasing or convex sequences.
+54	16	Take the i-th observed data point xi as a test point.
+63	18	Letting Fi,k,v denote the value of f evaluated on test point xi,k,v, we relax (3) to obtain the solution F ∗ = (F ∗i,k,v)v∈R,i∈[n],k∈[n] of the optimization: arg min F ∑ i,k,v (Fi,k,v − f̂(xi,k,v))2 subject to (Fi,1,v, ..., Fi,n,v) ∈ (Sv)v∈R, ∀ i ∈ [n] (4) However, this leads to ill-defined predictions on the original data points x1, ..., xn, since for each v, xi,i,v = xi, but we may obtain different values F ∗i,i,v for various v ∈ R. We avoid this issue by adding a consistency constraint (7) to obtain our final black box reshaping optimization (BBOPT): arg min F ∑ i,k,v (Fi,k,v − f̂(xi,k,v))2 (5) subject to (Fi,1,v, ..., Fi,n,v) ∈ (Sv)v∈R, ∀ i ∈ [n] (6) and Fi,i,v = Fi,i,w ∀ v, w ∈ R,∀ i ∈ [n] (7) We then take the reshaped predictions to be f∗(xi) = F ∗i,i,v for any v ∈ R. Since the constraints depend on each xi independently, BBOPT decomposes into n optimization problems, one for each observed value.
+89	12	Given the monotone tails, we can write a closed-form expression for the IISO objective function in terms of the value at the point of intersection.
+91	9	For a fixed c, we can solve IISO by applying Lemma (2.1) to each sequence separately.
+102	9	In this section, we describe a framework for reshaping a random forest to ensure monotonicity of its predictions in a subset of its predictor variables.
+108	8	The second step is to reshape the leaf values to enforce monotonicity.
+110	19	Let T (x) be a regression tree andR ⊆ [d] a set of predictor variables to be reshaped.
+115	18	Let p1 be the closest ancestor node to `1 that splits on v and assume it has split rule {xv ≤ t1}.
+116	33	Holding all other coordinates constant, increasing xv until it is greater than t1 would create a new point that drops down to a different leaf `2 in the right subtree of p1.
+117	9	If `1 and `2 both share another ancestor p2 farther up the tree with split rule {xv ≤ t2}, increasing xv beyond t2 would yield another leaf `3.
+118	31	Assume these leaves have no other shared ancestors that split on v. Denoting the value of leaf ` as µ`, in order to ensure monotonicity in v for this point x, we require µ`1 ≤ µ`2 ≤ µ`3 .
+120	41	Each leaf ` in a decision tree is a cell (or hyperrectangle) C` which is an intersection of intervals C` = d⋂ j=1 {x : xj ∈ I`j} When we split on a shape-constrained variable v with splitvalue t, each cell in the left subtree is of the form Cl = C̄l ∩{x : xv ≤ t} and each cell in the right subtree is of the form Cr = C̄r ∩ {x : xv > t}.
+121	38	For cells l in the left subtree and r in the right subtree, our goal is to constrain the corresponding leaf values µl ≤ µr only when C̄l ∩ C̄r 6= ∅.
+126	9	This is an instance of L2 isotonic regression on a directed acyclic graph where each leaf value µ` is a node, and each constraint in E is an edge.
+128	9	With a corresponding change to the constraints in Equa- tion (12), this approach extends naturally to convex regression trees.
+131	61	In our experiments below, we find that computing this estimator is always faster.

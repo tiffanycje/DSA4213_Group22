@@ -1,0 +1,17 @@
+15	4	Inference in SPENs is performed by gradient descent in the energy, back-propagated to cause steps in a relaxed y space.
+21	37	Belanger and McCallum (2016) separate the energy function into global and local terms.
+22	23	The role of the local terms is to capture the dependency among input x and each individual output variable yi, while the global term aims to capture long-range dependencies among output variables.
+29	30	Margin-based training enforces the energy of the ground truth structure to be lower than the energy of every incorrect structure by a margin, which is calculated as the Hamming loss between the two structures.
+30	35	End-to-end learning unrolls the energy minimization into a differentiable computation graph to output the predicted structure.
+31	13	It then trains the model by directly minimizing the loss between the predicted and ground-truth structures.
+32	4	Finally, the value matching approach trains SPENs such that the energy value matches the value of a given target function, such as the L2 distance between the ground-truth and predicted structures.
+33	7	All of these methods strongly depend on the existence of the ground truth values either as labeled data or as the value of a function applied to it.
+34	23	While dependence of the margin-based and endto-end learning approaches on the labeled data is explicit, this dependency in the case of valuematching may not be obvious.
+35	3	In the absence of labeled data, we have to use the model’s predictions instead, for training.
+38	3	This requires matching several incorrect structures for a given input, which hinders gradient descent inference from finding the exact solution by introducing many local optima.
+40	41	In general, if SPEN ranks every pair of output structures identical to the score function, the optimum points of the score function match those of SPEN.
+41	40	However, forcing the ranking constraint for every pair of output structures is not tractable, so we need to approximate it by sampling some candidate pairs.
+43	29	Consider two candidate output structures y1 and y2 for the given input x.
+44	17	We define yh and yl based on the score function as the following: yh = argmax y∈{y1,y2} V (y,x), yl = argmin y∈{y1,y2} V (y,x).
+45	50	(1) We expect that these two structures have the same ranking with respect to Ew(.,x), which can be described as: α(V (yh,x) − V (yl,x)) < Ew(yh,x)−Ew(yl,x), where α is a tunable positive scalar.
+52	69	2, we need to find configurations yi and yj such that both are candidate solutions for argminy∈Y Ew(y,x).

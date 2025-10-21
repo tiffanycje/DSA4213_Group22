@@ -1,0 +1,30 @@
+1	50	In the first architectures that surpassed the quality of phrase-based MT, both the encoder and decoder were implemented as Recurrent Neural Networks (RNNs), interacting via a soft-attention mechanism (Bahdanau et al., 2015).
+4	31	such as GPUs and Tensor Processing Units (TPUs) (Jouppi et al., 2017).
+6	63	The ConvS2S model was shown to outperform the original RNMT architecture in terms of quality, while also providing greater training speed.
+7	38	Most recently, the Transformer model (Vaswani et al., 2017), which is based solely on a selfattention mechanism (Parikh et al., 2016) and feed-forward connections, has further advanced the field of NMT, both in terms of translation quality and speed of convergence.
+8	130	In many instances, new architectures are accompanied by a novel set of techniques for performing training and inference that have been carefully optimized to work in concert.
+22	26	Inspired by our understanding of the relative strengths and weaknesses of individual model architectures, we propose new model architectures that combine components from the RNMT+ and the Transformer model, and achieve better results than both individual architectures.
+34	29	In this paper, we adopt GNMT as the starting point for our proposed RNMT+ architecture.
+35	22	In the most successful convolutional sequence-tosequence model (Gehring et al., 2017), both the encoder and decoder are constructed by stacking multiple convolutional layers, where each layer contains 1-dimensional convolutions followed by a gated linear units (GLU) (Dauphin et al., 2016).
+36	25	Each decoder layer computes a separate dotproduct attention by using the current decoder layer output and the final encoder layer outputs.
+41	24	The Transformer model (Vaswani et al., 2017) is motivated by two major design choices that aim to address deficiencies in the former two model families: (1) Unlike RNMT, but similar to the ConvS2S, the Transformer model avoids any sequential dependencies in both the encoder and decoder networks to maximally parallelize training.
+53	33	A fixed and narrow receptive field for each convolutional layer limits their capacity when the architecture is shallow.
+69	23	We refrain from using checkpoint averaging (exponential moving averages of parameters) (JunczysDowmunt et al., 2016) or checkpoint ensembles (Jean et al., 2015; Chen et al., 2017) to focus on evaluating the performance of individual models.
+70	26	The newly proposed RNMT+ model architecture is shown in Figure 1.
+71	44	Here we highlight the key architectural choices that are different between the RNMT+ model and the GNMT model.
+76	25	Inspired by the Transformer model, pergate layer normalization (Ba et al., 2016) is applied within each LSTM cell.
+80	36	Similar to GNMT, we use the bottom decoder layer and the final encoder layer output after projection for obtaining the recurrent attention context.
+111	25	RNMT+ is slightly better than the Transformer Big model in terms of its mean BLEU score.
+128	31	We also computed the number of floating point operations (FLOPs) in the model’s forward path as well as the number of total parameters for all architectures (cf.
+142	43	For RNMT+, it results in a significant quality drop, while for the Transformer Big model, it causes the model to become unstable.
+145	33	In this section, we explore hybrid architectures that shed some light on the salient behavior of each model family.
+160	21	Using a pre-trained encoder avoids optimization difficulties while significantly enhancing encoder capacity.
+163	29	(2) Multi-Column Encoder: As illustrated in Fig.
+169	59	As shown in Table 6, the multi-column encoder followed by an RNMT+ decoder achieves better results than the Transformer and the RNMT model on both WMT’14 benchmark tasks.
+170	37	In this work we explored the efficacy of several architectural and training techniques proposed in recent studies on seq2seq models for NMT.
+171	35	We demonstrated that many of these techniques are broadly applicable to multiple model architectures.
+175	50	We hope that our work will motivate NMT researchers to further investigate generally applicable training and optimization techniques, and that our exploration of hybrid architectures will open paths for new architecture search efforts for NMT.
+176	72	Our focus on a standard single-language-pair translation task leaves important open questions to be answered: How do our new architectures compare in multilingual settings, i.e., modeling an interlingua?
+177	30	Which architecture is more efficient and powerful in processing finer grained inputs and outputs, e.g., characters or bytes?
+178	127	How transferable are the representations learned by the different architectures to other tasks?
+179	127	And what are the characteristic errors that each architecture makes, e.g., linguistic plausibility?

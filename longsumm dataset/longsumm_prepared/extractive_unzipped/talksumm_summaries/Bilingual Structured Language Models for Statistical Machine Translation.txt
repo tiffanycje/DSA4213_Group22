@@ -1,0 +1,30 @@
+15	21	Their approach uses a target side parser as a language model: one of the reasons why it fails is that a parser assumes its input to be grammatical and chooses the most likely parse for it.
+19	43	Crego and Yvon (2010), Niehues et al. (2011), Garmash and Monz (2014) model target sequences as strings of tokens built from the target POS tag and the POS tags of the source words related to it through alignment and the source parse.
+20	34	In this paper, we define a target-side syntactic language model that takes structural constraints from the source sentence, but uses the words from the target side (as ‘building blocks’).
+22	31	Our contributions can be summarized as follows: • we propose a novel method to adapt monolingual structured language models (Chelba and Jelinek, 2000) (Section 3) to a PBSMT system (Section 4), which does not require an external on-the-fly parser, but only uses the given source-side syntactic analysis to infer structural relations between target words; • building on the existing literature, we propose a set of deterministic rules that incrementally build up a parse of a target translation hypothesis based on the source parse (Section 4); • we evaluate our models in a series of rescoring experiments and achieve statistically significant improvements of up to 0.7 BLEU for Chinese-English (Section 5).
+26	61	In this work, we choose a dependency structure over a constituency structure because the former is more primitive.1 A dependency parse D is a dependency tree analysis of a sentence W , and we will think of it as a relation between words of W , such that D(w, v) if w is a parent (head) of v (v being a child/modifier).
+30	25	A dependency parse D of a sentence W = w1, .
+35	31	It states that close translation equivalents in different languages have the same dependency structure.
+74	19	Another potential benefit is that SLMs can capture longdistance reordering: If president had as its modifier a relative clause (Figure 3(c)) then a simple n-gram LM would be conditioned on days before (assuming n = 3), while an SLM would condition met on yesterday president.
+78	21	In this section, we combine the direct correspondence assumption (Section 2) and SLMs (Section 3), and define bilingual structured language models (BiSLMs) for PBSMT.
+91	63	Since word alignment is monotonic in Figure 4(a), it is straightforward to project the source dependencies onto the target side.
+93	42	For example, when the target word likes is produced its exposed heads are said and he (Figure 4(b)), since Putin is a modifier of said.
+94	19	Likewise, the exposed heads for women are said likes all Russian (Figure 4(c)).
+99	35	Adoption of DCA (Section 2) allows to build up a target dependency tree from a source tree by projecting the latter through word alignments.
+100	48	The definition of DCA can be rephrased as requiring a one-to-one correspondence map between words of a sentence pair, allowing one to unambiguously map dependencies: Given a source parse, if t1 is the head of t2, then map(t1) is the head of map(t2).
+110	22	DS(sk, sl) and align1−1(sk) = ti and align1−1(sl) = tj ; see Figures 5(a)-5(c); (R2) if ∃s ∈ S s.t.
+129	24	We also consider an alternative to incorporating noncohesive alignments by relaxing the definition of completeness for subtrees: A projected subtree sub is weakly source-complete if all descendants of all source word(s) which are aligned to the root of sub have been translated and, only if the definition of reduce applies, reduced; see Figure 6(b).
+130	22	One of the problems with SLMs in general is that at time steps i and j the sets of exposed heads for ti and tj can differ in size, which may imply different predictive power.
+132	24	We use the following labelings: Reduction labeling: if a subtree is adjoint to sub from the left, then label root(sub) with LR.
+152	26	As a comparison model, we implemented six features from Cherry (2008) and Bach et al. (2009)9 and added them to the log-linear interpolation used 8The standard LDC corpora were used for training.
+167	25	Second, we investigate whether to adjoin unaligned target words to a preceding head (Section 4.1; unalign-adjoin+/-).
+168	28	Third, we compare several target-side labeling methods (Section 4.3): plain (just target words), reduce (LR or RR) or reduce-POS (LR POS or RR POS, where POS is the tag of the root of the reduced subtree).
+170	38	The results show statistically significant improvement over the baseline of up to 0.7 BLEU (for all of the employed BiSLM variants except one).
+177	18	Experimental results on ArabicEnglish could indicate what kind of translation aspect benefits from BiSLMs.
+178	86	We see that for Arabic-English, just as for the cohesion constraint, BiSLM have little effect on BLEU scores, or even decrease them.
+184	22	In order to compute alignments for test sets which are needed to compute the score we concatenated the parallel text with an additional 250K lines of parallel text from the training data to ensure better generalization of the alignment algorithm (GIZA++).
+186	24	The results are provided in Tables 6 and 7.
+190	108	In this paper we proposed a novel way to adapt structured language models to phrase-based SMT.
+194	18	For Arabic-English, we did not observe any improvements, suggesting that our models indeed mainly improve reordering aspects.
+195	28	Improvements in rescoring are a positive indication that our model may be a strong feature during decoding.
+196	45	As future work, we will fully integrate our model into a PBSMT decoder and evaluate it on other language pairs with different reordering distributions.

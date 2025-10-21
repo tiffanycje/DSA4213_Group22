@@ -1,0 +1,21 @@
+0	12	Amazon has developed Alexa, a voice assistant that has been deployed across millions of devices and processes voice requests in multiple languages.
+1	10	This paper addresses improvements to the Alexa voice service, whose core capabilities (as measured by the number of supported intents and slots) has expanded more than four-fold over the last two years.
+2	2	In addition more than ten thousand voice skills have been created by third-party developers using the Alexa Skills Kit (ASK).
+4	6	However, as the number of features has expanded, adding new features has become increasingly difficult for four primary reasons.
+6	20	For example, similar linguistic phrases such as “order me an echo dot” (e.g., for Shopping) have a similar form to phrases used for a ride-hailing feature such as, “Alexa, order me a taxi”.
+7	36	The second challenge is that a fixed flat structure is unable to easily support certain features (Gupta et al., 2006b), such as cross-domain queries or complex utterances, which cannot be clearly categorized into a given domain.
+8	26	For example, “Find me a restaurant near the sharks game” contains both local businesses and sporting events and “Play hunger games and turn the lights down to 3” requires a representation that supports assigning an utterance to two intents.
+9	20	The third challenge is that there is no mechanism to represent ambiguity, forcing the choice of a fixed interpretation for ambiguous utterances.
+10	40	For example, “Play Hunger Games” could refer to an audiobook, a movie, or a soundtrack.
+12	23	In order to address these challenges and make Alexa more capable and accurate, we have developed two key components.
+14	121	Actions represent a predicate that determines what the agent should do, roles express the arguments to an action, types categorize textual mentions and properties are relations between type mentions.
+15	22	The second component is the Alexa Meaning Representation Language (AMRL), a graph-based domain and language independent meaning representation that can capture the meaning of spoken language utterances to intelligent assistants.
+19	17	Examples of AMRL and the SLU representations can be seen in Figure 1.
+20	8	The AMRL has been released via Alexa Skills Kit (ASK) built-in intents and slots in 2016 at a developers conference, offering coverage for eight of the ∼20 SLU domains 1.
+21	1	In addition to these domains, we have demonstrated that the AMRL can cover a wide range of additional utterances by annotating a sample from all first and thirdparty applications.
+22	16	We have manually annotated data for 20k examples using the Alexa ontology.
+26	10	These two components are described in the following sections.
+27	24	The Alexa ontology provides a common semantics for SLU.
+29	11	This hierarchy is a rooted tree, with finergrained types at deeper levels.
+30	237	Coarse types that are children of THING include PERSON, PLACE, INTANGIBLE, ACTION, PRODUCT, CREATIVEWORK, EVENT and ORGANIZATION.
+31	49	Fine-grained types include MUSICRECORDING and RESTAURANT.

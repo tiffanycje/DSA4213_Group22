@@ -1,0 +1,30 @@
+1	55	Recently, they have been successfully applied to enhancing the power of many deep neural networks, e.g., 80% of top-5 best-performing teams on ILSVRC challenge 2016 (Krizhevsky et al., 2012) employ ensemble methods.
+3	40	While there exists a long history on ensemble methods, the progress on developing more advanced ensembles specialized for deep neural networks has been slow.
+4	30	Despite continued efforts that apply various ensemble methods such as bagging and boosting to deep models, it has been observed that traditional independent ensembles (IE) which train models independently with random initialization achieve the best performance (Ciregan et al., 2012; Lee et al., 2015).
+5	32	In this paper, we focus on developing more advanced ensembles for deep models utilizing the concept of multiple choice learning (MCL).
+6	20	The MCL concept was originally proposed in (GuzmanRivera et al., 2012) under the scenario when inference procedures are cascaded: (a) First, generate a set of plausible outputs.
+11	27	It trains an ensemble of multiple models by minimizing the so-called oracle loss, only focusing on the most accurate prediction produced by them.
+12	28	Consequently, it makes each model specialized for a certain subset of data, not for the entire one similarly as mixture-of-expert schemes (Jacobs et al., 1991).
+15	47	Namely, the oracle error/loss of MCL is low, but its top-1 error rate might be very high.
+16	15	To address the issue, we develop the concept of confident MCL (CMCL) that does not lose any benefit of the original MCL, while its target loss and architecture are redesigned for making the second stage (b) easier.
+17	15	Specifically, it targets to generate a set of diverse/plausible confident predictions from which one can pick the correct one using a simple average/voting scheme.
+18	36	To this end, we first propose a new loss function, called confident oracle loss, for relaxing the overconfidence issue of MCL.
+22	24	Despite the new components, we note that the training complexity of CMCL is almost same to that of MCL or IE.
+39	36	On the other hand, the oracle loss makes the most accurate model optimize the loss function ` (y, f (x)) for each data x.
+42	23	To address the issue, (GuzmanRivera et al., 2012) proposed an iterative block coordinate decent algorithm and (Dey et al., 2015) reformulated this problem as a submodular optimization task in which ensemble models are trained sequentially in a boosting-like manner.
+44	30	Recently, (Lee et al., 2016) overcame this issue by proposing a stochastic gradient descent (SGD) based algorithm.
+52	17	In the case of MCL, most models become specialists for certain classes (see Figure 1(a)), while they are generalized in the case of traditional IE as shown in Figure 1(c).
+68	15	In order to minimize the confident oracle loss (3) efficiently, we use the following procedure (Guzman-Rivera et al., 2012), which optimizes model parameters {θm} and assignment variables {vmi } alternatively: 1.
+99	28	Then, the `-th hidden feature of model m with sharing (`− 1)-th hidden features is defined as follows: h`m (x) = φ W`m h`−1m (x) + ∑ n 6=m σ`nm ?
+101	19	Figure 2(d) illustrates the proposed feature sharing scheme in an ensemble of deep neural networks.
+113	15	In other words, 5θlogPθ (ys | x) is the gradient of the cross entropy loss under assigning a random label to x.
+116	27	We evaluate our algorithm for both classification and foreground-background segmentation tasks using CIFAR10 (Krizhevsky & Hinton, 2009), SVHN (Netzer et al., 2011) and iCoseg (Batra et al., 2010) datasets.
+123	16	For evaluation, we measure the top-1 and oracle error rates on the test dataset.
+136	18	As a natural extension of CMCL, we also consider picking K specialized models instead of having only one specialized model, which was investigated for original MCL (Guzman-Rivera et al., 2012; Lee et al., 2016).
+139	44	Table 2 compares the performance of various ensemble methods with varying values of K. Under the choice of K = 4, CMCL of 10 CNNs provides 9.13% relative reduction in the top-1 error rates from the corresponding IE.
+153	31	To tackle the problem, we design fully convolutional networks (FCNs) model (Long et al., 2015) based on the decoder architecture presented in (Radford et al., 2016).
+168	21	This paper proposes CMCL, a novel ensemble method of deep neural networks that produces diverse/plausible confident prediction of high quality.
+169	31	To this end, we address the over-confidence issues of MCL, and propose a new loss, architecture and training method.
+170	18	In our experiments, CMCL outperforms not only the known MCL, but also the traditional IE, with respect to the top-1 error rates in classification and segmentation tasks.
+171	28	The recent trend in the deep learning community tends to make models bigger and wider.
+172	129	We believe that our new ensemble approach brings a refreshing angle for developing advanced large-scale deep neural networks in many related applications.

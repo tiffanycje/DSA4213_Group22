@@ -1,0 +1,30 @@
+41	8	Other work introduces auxiliary latent variables that enable RNNs to capture the high variability of complex sequential data such as music, audio, and text (Bayer & Osendorfer, 2014; Chung et al., 2015; Fraccaro et al., 2016; Goyal et al., 2017).
+42	46	Consider a sequence of observations, x1:T = (x1, ...,xT ).
+43	10	An RNN factorizes its joint distribution according to the chain rule of probability, p(x1:T ) = TY t=1 p(xt|x1:t 1).
+44	7	(1) To capture dependencies, the RNN expresses each conditional probability as a function of a low-dimensional recurrent hidden state, ht = fW (xt 1,ht 1) and p(xt|x1:t 1) = p(xt|ht).
+47	9	The hidden state ht at time t is a parametric function fW (ht 1,xt 1) of the previous hidden state ht 1 and the previous observation xt 1; the parameters W are shared across all time steps.
+62	11	However, LSTMs have a high model complexity and, consequently, they easily memorize data.
+65	10	There are several advantages to injecting noise into the hidden states of RNNs.
+70	18	We will study many types of noise distributions.
+71	43	The noisy hidden state zt is a parametric function gW of the previous observation xt 1, the previous noisy hidden state zt 1, and the noise ✏t.
+73	10	The function gW determines the noise-injected RNN.
+74	9	In this paper, we propose functions gW that meet the criterion described below.
+75	36	Injecting noise at each time step limits the amount of information carried by hidden states.
+76	22	In limiting their capacity, noise injection is some form of regularization.
+77	24	In Section 4 we show that noise injection under exponential family likelihoods corresponds to explicit regularization under some unbiasedness condition.
+78	17	We define two flavors of unbiasedness: strong unbiasedness and weak unbiasedness.
+79	44	Let zt(✏1:t) denote the unrolled recurrence at time t; it is a random variable via the noise ✏1:t. Under the strong unbiasedness condition, the transition function gW must satisfy the relationship Ep(zt(✏1:t) | zt 1) [zt(✏1:t)] = ht (11) where ht is the hidden state of the underlying RNN.
+80	10	This is satisfied by injecting the noise at the last layer of the RNN.
+85	9	13 the noise has mean zero whereas in Eq.
+99	32	However, dropout has been widely successfully used in practice and has many nice properties.
+121	20	Noisin is amenable to any RNN and any noise distribution.
+123	11	Certain noise distributions have bounded variance; for example the Bernoulli and the Beta distributions.
+126	8	Table 2 shows the expression of the variance of the original noise and its scaled version for several distributions.
+137	8	Assume without loss of generality that we observe one sequence x1:T .
+142	13	However, under the strong unbiasedness condition, this term corresponds to a valid regularization term and simplifies to Reg = 1 2 TX t=1 tr Ep(✏1:t)Cov(B >zt | zt 1(✏1:t 1)) , where the matrix B = V p r2A(V >ht) is the prediction matrix of the underlying RNN rescaled by the square root of r2A(V >ht)—the Hessian of the log-normalizer of the likelihood.
+146	20	Minimizing Reg induces robustness—it is equivalent to penalizing hidden units that are too sensitive to noise.
+165	34	We use language modeling as a testbed.
+166	16	Regularization is crucial in language modeling because the input and prediction matrices scale linearly with the size of the vocabulary.
+167	42	This results in networks with very high capacity.
+169	39	We found that additive noise uniformly performs worse than multiplicative noise for the LSTM.
+177	24	Another interesting finding is that Noisin when applied to the dropout-LSTM performs better than the original dropoutLSTM.

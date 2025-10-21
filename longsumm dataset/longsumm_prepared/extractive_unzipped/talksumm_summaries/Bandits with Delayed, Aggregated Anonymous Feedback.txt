@@ -1,0 +1,30 @@
+4	44	Here, the arms correspond to adverts, and the feedback would correspond to conversions, that is users buying a product after seeing an advert.
+6	26	A similar challenge is encountered in many other applications, e.g., in personalized treatment planning, where the effect of a treatment on a patient’s health may be delayed, and it may be difficult to determine which out of several past treatments caused the change in the patient’s health; or, in content design applications, where the effects of multiple changes in the website design on website traffic and footfall may be delayed and difficult to distinguish.
+7	57	In this paper, we propose a new bandit model to handle online problems with such ‘delayed, aggregated and anonymous’ feedback.
+10	82	At the same time, a nonnegative random integer-valued delay is also generated i.i.d.
+13	26	At the end of each round, the player observes only the sum of all the rewards that arrive in that round.
+14	80	Crucially, the player does not know which of the past plays have contributed to this aggregated reward.
+15	16	We call this problem multi-armed bandits with delayed, aggregated anonymous feedback (MABDAAF).
+16	37	As in the standard MAB problem, in MABDAAF, the goal is to maximize the cumulative reward from T plays of the bandit, or equivalently to minimize the regret.
+24	20	For delay distributions with a finite expected delay, E[τ ], the worst case regret scales with O( √ KT log T + KE[τ ]).
+36	31	Hence, asymptotically, the delayed, aggregated anonymous feedback problem is no more difficult than the standard multi-armed bandit problem.
+37	15	We now consider what sort of algorithm will be able to achieve the aforementioned results for the MABDAAF problem.
+46	31	The general idea of these rarely switching algorithms is to gradually eliminate suboptimal arms by playing arms in phases and comparing each arm’s upper confidence bound to the lower confidence bound of a leading arm at the end of each phase.
+47	20	Generally, this sort of rarely switching algorithm switches arms onlyO(log T ) times.
+82	11	, then the observation received at the end of the tth play is Xt = t∑ l=1 K∑ j=1 Rl,j × I{l + τl,j = t, Jl = j}.
+98	42	Assumptions on delay distribution For our algorithm for MABDAAF, we need some assumptions on the delay distribution.
+112	13	This separation tolerance is decreased exponentially over phases, so that it is very small in later phases, eliminating all but the best arm(s) with high probability.
+113	17	An alternative formulation of the algorithm is that at the end of a phase, any arm with an upper confidence bound lower than the best lower confidence bound is eliminated.
+158	22	The expected value of observations from this period would be (nm − nm−1)µj but for the rewards entering and leaving this period due to delay.
+173	31	If the delay is bounded by some constant d ≥ 0 and a single arm is played repeatedly for long enough, we can restrict the number of arms corrupting the observation Xt at a given time t. In fact, if each arm j is played consecutively for more than d rounds, then at any time t ∈ Tj(m), the observation Xt will be composed of the rewards from at most two arms: the current arm j, and previous arm j′.
+175	44	We can then recursively use the confidence bounds for arms j and j′ from the previous phase to bound |µj − µj′ |.
+178	22	This choice of nm means that for large d, we essentially revert back to the choice of nm from (2) for the unbounded case, and we gain nothing by using the bound on the delay.
+209	40	If the delay is unbounded but well behaved in the sense that we know (a bound on) the variance, then we can obtain similar regret bounds to the bounded delay case.
+210	31	Intuitively, delays from the previous phase will only corrupt observations in the current phase if their delays exceed the length of the bridge period.
+216	12	Theorem 8 Under Assumption 1 and Assumption 3 of known (bound on) the expectation and variance of the delay, and choice of nm from (7), the expected regret of Algorithm 1 can be upper bounded by, E[RT ] ≤ K∑ j=1:µj 6=µ∗ O ( log(T∆2j ) ∆j + E[τ ] + V(τ) ) .
+220	13	Thus, it is sufficient to know a bound on variance to obtain regret bounds similar to those in bounded delay case.
+221	16	Note that this approach is not possible just using knowledge of the expected delay since we cannot guarantee that the reward entering phase i is from an arm active in phase i− 1.
+229	51	In the first case, we considered bounded delay distributions whereas in the second case, the delays were unbounded.
+230	59	3a, we plotted the ratios of the regret of ODAAF and ODAAF-B (with knowledge of d, the delay bound) to the regret of QPM-D. We see that in all cases the ratios converge to a constant.
+241	61	We have studied an extension of the multi-armed bandit problem to bandits with delayed, aggregated anonymous feedback.
+242	16	Here, a sum of observations is received after some stochastic delay and we do not learn which arms contributed to each observation.

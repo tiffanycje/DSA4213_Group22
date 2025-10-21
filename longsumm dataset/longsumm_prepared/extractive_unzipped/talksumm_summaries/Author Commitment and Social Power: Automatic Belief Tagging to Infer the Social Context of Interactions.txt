@@ -1,0 +1,30 @@
+55	14	The focus of our study is to investigate whether the level of commitment participants express in their contributions in an interaction is related to the power relations they have with other participants, and how it can help in the problem of predicting social power.
+57	27	In order to model manifestations of power relations in interactions, we use our interaction analysis framework from (Prabhakaran and Rambow, 2014), where we introduced the problem of predicting organizational power relations between pairs of participants based on single email threads.
+60	14	We use the same dataset we used in (Prabhakaran and Rambow, 2014), which is a version of the Enron email corpus in which the thread structure of email messages is reconstructed (Yeh and Harnly, 2006), and enriched by Agarwal et al. (2012) with gold organizational power relations, manually determined using information from Enron organizational charts.
+65	26	Our first objective in this paper is to perform a large scale computational analysis of author com- mitment and power relations.
+66	42	Specifically, we want to investigate whether the commitment authors express towards their contributions in organizational interactions is correlated with the power relations they have with other participants.
+67	25	Sociolinguistics studies have found some evidence to suggest that lack of commitment expressed through hedges and hesitations is associated with lower power status (O’Barr, 1982).
+69	34	We use the committed belief analysis framework introduced by (Diab et al., 2009; Prabhakaran et al., 2015) to model different levels of beliefs expressed in text.
+70	100	Specifically, in this paper, we use the 4-way belief distinction — COMMITTEDBELIEF, NONCOMMITTEDBELIEF, REPORTEDBELIEF, and NONAPPLICABLE— introduced in (Prabhakaran et al., 2015).2 (Prabhakaran et al., 2015) presented a corpus of online discussion forums with over 850K words, annotating each propositional head in text with one of the four belief labels.
+73	114	Committed belief (CB): the writer strongly believes that the proposition is true, and wants the reader/hearer to believe that.
+105	21	We exclude the instances for which a feature value is undefined.3 In order to test whether superiors and subordinates use different types of beliefs, we used a linear regression based analysis.
+124	21	The finding that superiors use more NAs confirms our hypothesis H.4.
+125	19	As discussed earlier, this is expected since superiors issue more requests (as found by (Prabhakaran and Rambow, 2014)), the propositional heads of which would be tagged as NA by the belief tagger.
+127	20	Being a superior or subordinate does not affect how often their messages contain CB, which suggests that power differences are manifested only in terms of lack of commitment.
+132	40	None of the features used in POWERPREDICTOR use information from the parse trees of sentences in the text However, in order to accurately obtain the belief labels, deep dependency parse based features are critical (Prabhakaran et al., 2010).
+137	39	Second, we had to exclude 117 threads (0.3%) from the corpus for which the Stanford CoreNLP failed to parse some sentences, resulting in the removal of 11 data points (0.2%), only one of which was in the test set.
+139	26	In order to better interpret how the commitment features help in power prediction, we use a linear kernel SVM in our experiments.
+146	24	Lexical features are very useful for the task of power prediction.
+161	25	In Table 3, we show the results obtained by incorporating the belief tags in this manner to the LEXICAL features of the original baseline feature set.
+169	21	The second best performing configuration of using the Append version of both word and mixed ngrams obtained only a small improvement upon the baseline in the test set.
+170	14	We inspect the feature weights assigned to the LNCBApnd version of lemma ngrams in our best performing model.
+178	48	For example, propositional heads such as know, need, hold, mean and want are indicators of power when they occur in CB contexts (e.g., i need ...), whereas their usages in NA contexts (e.g., do you need?, if i need..., etc.)
+179	21	are indicators of lack of power.
+180	31	In contrast, the CB version of attend, let, plan, could, check, discuss, and feel (e.g., i will attend/check/plan ...) are strongly associated with lack of power, while their NA versions (e.g., can you attend/check/plan?)
+185	14	They also report others’ beliefs more often than superiors.
+186	27	Second, we investigated different ways of incorporating the belief tag information into the machine learning system that automatically detects the direction of power between pairs of participants in an interaction.
+187	38	We devised a sophisticated way of incorporating this information into the machine learning framework by appending the heads of propositions in lexical features with corresponding belief tags, demonstrating its utility in distinguishing social meanings expressed through the different belief contexts.
+189	16	Our findings on the correlation between author commitment and power may be reflective of the work culture that prevailed in that organization at the time when the emails were exchanged.
+190	68	It is important to replicate this study on emails from multiple organizations in order to assess whether these results generalize across board.
+191	49	It is likely that behavior patterns are affected by factors such as ethnic culture (Cox et al., 1991) of the organization, and the kinds of conversations interactants engage in (for instance, co-operative vs. competitive behavior (Hill et al., 1992)).
+192	70	We intend to explore this line of inquiry in future work.

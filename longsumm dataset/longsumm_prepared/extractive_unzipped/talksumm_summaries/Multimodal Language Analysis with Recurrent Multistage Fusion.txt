@@ -1,0 +1,30 @@
+0	53	Computational modeling of human multimodal language is an upcoming research area in natural language processing.
+2	26	The multimodal temporal signals include the language (spoken words), visual (facial expressions, gestures) and acoustic modalities (prosody, vocal expressions).
+6	26	Cross-modal interactions refer to interactions between modalities.
+10	21	At later stages of cognitive processing, higher level semantic meaning is extracted from phrases, facial expressions, and tone of voice, eventually leading to the formation of higher level crossmodal concepts (Parisi et al., 2017; Taylor et al., 2015).
+13	35	This decreases the burden on each stage of multimodal fusion and allows each stage of fusion to be performed in a more specialized and effective manner.
+14	25	In this paper, we propose the Recurrent Multistage Fusion Network (RMFN) which automatically decomposes the multimodal fusion problem into multiple recursive stages.
+19	57	Overall, RMFN jointly models intra-modal and cross-modal interactions for multimodal language analysis and is differentiable end-to-end.
+40	24	The Multistage Fusion Process uses a recursive approach to fuse all unimodal representations hmt into a cross-modal representation zt which is then fed back into each intra-modal recurrent network.
+45	26	The HIGHLIGHT module identifies a subset of multimodal signals from[hlt,hvt ,hat ] that will be used for that stage of fusion.
+46	33	The FUSE module then performs two subtasks simultaneously: a local fusion of the highlighted features and integration with representations from previous stages.
+53	32	The local fusion at this stage interprets it as an expression of emphasis and is fused with the previous fusion results to represent a strong negative emotion.
+71	32	SUMMARIZE: After completing K recursive stages of HIGHLIGHT and FUSE, the SUMMARIZE operation generates a cross-modal representation using all final fusion representations s[1∶K]t .
+73	25	To integrate the cross-modal representations zt with the temporal intra-modal representations, we employ a system of Long Short-term Hybrid Memories (LSTHMs) (Zadeh et al., 2018b).
+110	23	We achieve state-of-the-art or competitive results for all domains, highlighting RMFN’s capability in human multimodal language analysis.
+128	26	Q3: To compare multistage against independent modeling of cross-modal interactions, we pay close attention to the performance comparison with respect to MARN which models multiple crossmodal interactions all at once (see Table 5).
+134	27	Using an attention assignment mechanism during the HIGHLIGHT process gives more interpretability to the model since it allows us to visualize the attended multimodal signals at each stage and time step (see Figure 3).
+135	33	Using RMFN trained on the CMU-MOSI dataset, we plot the attention weights across the multistage fusion process for three videos in CMU-MOSI.
+136	40	Based on these visualizations we first draw the following general observations on multistage fusion: Across stages: Attention weights change their behaviors across the multiple stages of fusion.
+141	30	As soon as new multimodal information comes in, the highlighting mechanism in RMFN adapts to these new inputs.
+142	38	Priors: Based on the distribution of attention weights, we observe that the language and acoustic modalities seem the most commonly highlighted.
+143	24	This represents a prior over the expression of sentiment in human multimodal language and is closely related to the strong connections between language and speech in human communication (Kuhl, 2000).
+144	33	Inactivity: Some attention coefficients are not active (always orange) throughout time.
+149	29	We also notice that the highlighting of the acoustic features lasts longer across the 3 stages since it may take multiple stages to interpret all the new acoustic behaviors (elongated tone of voice and phonological emphasis).
+151	29	We observe that the circled attention units in the visual and acoustic features correspond to the asynchronous presence of a smile (t = 2 ∶ 5) and phonological emphasis (t = 3) respectively.
+153	32	We further note the coupling of attention weights that highlight the language, visual and acoustic features across stages (t = 3 ∶ 5), further emphasizing the coordination of all three modalities during multistage fusion despite their asynchronous occurrences.
+155	21	The disappointed tone and soft voice provide the nonverbal information useful for sentiment inference.
+157	23	This paper proposed the Recurrent Multistage Fusion Network (RMFN) which decomposes the multimodal fusion problem into multiple stages, each focused on a subset of multimodal signals.
+158	33	Extensive experiments across three publicly-available datasets reveal that RMFN is highly effective in modeling human multimodal language.
+159	35	In addition to achieving state-of-the-art performance on all datasets, our comparisons and visualizations reveal that the multiple stages coordinate to capture both synchronous and asynchronous multimodal interactions.
+160	38	In future work, we are interested in merging our model with memory-based fusion methods since they have complementary strengths as discussed in subsection 5.1.

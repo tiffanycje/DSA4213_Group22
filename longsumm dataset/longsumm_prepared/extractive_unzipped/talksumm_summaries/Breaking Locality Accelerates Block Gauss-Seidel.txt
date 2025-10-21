@@ -1,0 +1,30 @@
+24	26	As an example, for a kernel ridge regression (KRR) task in machine learning on the augmented CIFAR10 dataset (n = 250, 000), acceleration with random coordinate sampling performs up to 1.5× faster than acceleration with a fixed partitioning to reach an error tolerance of 10−2, with the gap substantially widening for smaller error tolerances.
+27	30	We also fix an integer p which denotes a block size.
+28	14	Under the assumption of A being positive definite, the function f(x) = 12x TAx− xTb is strongly convex and smooth.
+31	84	We first describe the sketching framework of (Qu et al., 2015; Gower & Richtárik, 2015) and show how it yields rates on Gauss-Seidel when blocks are chosen via a fixed partition or randomly at every iteration.
+32	50	While we will only focus on the special case when the sketch matrix represents column sampling, the sketching framework allows us to provide a unified analysis of both cases.
+33	116	To be more precise, let D be a distribution over Rn×p, and let Sk ∼ D be drawn iid from D. If we perform block coordinate descent by minimizing f along the range of Sk, then the randomized block Gauss-Seidel update is given by xk+1 = xk − Sk(STkASk)†STk (Axk − b) .
+34	143	Every index set J ⊆ 2[n] with |J | = p induces a sketching matrix S(J) = (eJ(1), ..., eJ(p)) where ei denotes the i-th standard basis vector in R n, and J(1), ..., J(p) is any ordering of the elements of J .
+35	70	By equipping different probability measures on 2[n], one can easily describe fixed partition sampling as well as random coordinate sampling (and many other sampling schemes).
+40	22	Thus, (1) achieves a linear rate of convergence to the true solution, with the rate governed by the µ quantity shown above.
+42	20	We first consider the case when the sampling distribution corresponds to fixed partitioning.
+78	36	Hence as β −→ ∞, the gap between random coordinate and fixed partitioning can be made arbitrarily large.
+80	24	Motivated by our findings, our goal is to understand the behavior of accelerated Gauss-Seidel under random coordinate sampling.
+81	50	In order to do this, we establish a general framework from which the behavior of accelerated GaussSeidel with random coordinate sampling follows immediately, along with rates for accelerated randomized Kaczmarz (Liu & Wright, 2016) and the accelerated coordinate descent methods of (Nesterov & Stich, 2016) and (AllenZhu et al., 2016).
+82	14	For conciseness, we describe a simpler version of our framework which is still able to capture both the GaussSeidel and Kaczmarz results, deferring the general version to the full version of the paper.
+96	38	Note that G = E[S(STAS)†ST] is positive definite iff λmin(E[PA1/2S ]) > 0, and is hence satisfied for both fixed partition and random coordinate sampling (c.f.
+99	29	All the hypotheses of Theorem 3.4 are thus satisfied, and the conclusion is Theorem 3.5, which characterizes the rate of convergence for accelerated Gauss-Seidel (Algorithm 1).
+129	27	That is, the iteration complex- ity to reach tolerance ε is O ( √ νµ−1rand log(1/ε) ) , and the only new term here is ν.
+132	17	Note that κeff,J(A) ≤ κ(AJ) always.
+135	49	Lemma 3.8 states that if the p × p sub-blocks of A are well-conditioned as defined by the effective block condition number κeff,J(A), then the speed-up of accelerated Gauss-Seidel with random coordinate selection over its non-accelerate counterpart parallels the case of fixed partitioning sampling (i.e. the rate described in (6) versus the rate in (2)).
+136	15	This is a reasonable condition, since very illconditioned sub-blocks will lead to numerical instabilities in solving the sub-problems when implementing GaussSeidel.
+138	17	Our numerically experiments in Section A.7.2 suggest that in many cases the ν parameter behaves closer to the lower bound n/p than Lemma 3.8 suggests.
+194	41	Results from running 500 iterations of random coordinate sampling and fixed partitioning algorithms are shown in Figure 2.
+196	69	However we also see that using acceleration with random sampling can further improve the convergence rates, especially to achieve errors of 10−3 or lower.
+198	24	Fixed partitioning has better performance in practice random access is expensive in multi-core systems.
+201	21	In comparison we see that random coordinate sampling achieves a similar error in around 4500 seconds and is thus 1.5× faster.
+210	16	To understand this performance difference, we recall that our matrices A are fully dense, and hence each iteration of CG takes O(n2).
+220	20	Figure 4 shows the wall clock time to converge to 10−5 error as we vary the block size from p = 50 to p = 1000.
+221	14	Increasing the block-size improves the amount of progress that is made per iteration but the time taken per iteration increases as O(p3) (Line 5, Algorithm 1).
+222	173	However, using efficient BLAS-3 primitives usually affords a speedup from systems techniques like cache blocking.
+223	24	We see the effects of this in Figure 4 where using p = 500 performs better than using p = 50.

@@ -1,0 +1,19 @@
+0	106	The Poisson process is an important model for point data in which samples of the process are locally finite subsets of some domain such as time or space.
+1	172	The process is parametrised by an intensity function, the integral of which gives the expected number of points in the domain of integration — for a gentle introduction we recommend (Baddeley, 2007).
+2	74	In the typical case of unknown intensity function we may place a non-parametric prior over it via e.g. the Gaussian Process (GP) and perform Bayesian inference.
+3	12	Inference under such models is challenging due to both the GP prior and the non factorial nature of the Poisson process likelihood (1), which includes an integral of the intensity function.
+4	87	One may resort to discretising the domain (Rathbun & Cressie, 1994; Møller et al., 1998; Rue et al., 2009) or performing Monte Carlo approximations (Adams et al., 2009; Diggle et al., 2013).
+5	23	Fast Laplace approximates were studied in (Cunningham et al., 2008; Illian et al., 2012; Flaxman et al., 2015) and variational methods were applied in (Lloyd et al., 2015; Kom Samo & Roberts, 2015).
+6	23	To satisfy non-negativity of the intensity function one transforms the GP prior.
+7	55	The log-Gaussian Cox Process, with GP distributed log intensity, has been the subject of much study; see e.g. (Rathbun & Cressie, 1994; Møller et al., 1998; Illian et al., 2012; Diggle et al., 2013), Alternative formulations for introducing a GP prior exist, e.g. (Adams et al., 2009).
+9	6	In section 2 we introduce the Poisson and permanental processes, and place our work in the context of existing literature.
+10	5	Section 3 reviews Flaxman et al. (2017), slightly recasting it as regularised maximum likelihood for the permanental process.
+14	11	The number N(X ) of elements in some X ⊆ Ω is assumed to be distributed as Poisson(Λ(X , µ)), where Λ(S, µ) :=∫ x∈S λ(x)dµ(x) gives the mean of the Poisson distribution.
+15	10	It turns out that this implies the likelihood function p ({xi}mi=1 |λ,Ω) = m∏ i=1 λ(xi) exp (−Λ(Ω)) .
+17	9	To ensure that λ is non-negative valued we include a deterministic “link” function g : R → R+ so that we have the prior over λ defined by λ = g ◦ f and f ∼ GP(k), where k is the covariance function for f .
+19	2	Recently Adams et al. (2009) employed the transformation g(z) = λ∗(1 + exp(−z))−1 , which permits efficient sampling via thinning (Lewis & Shedler, 1979) due to the bound 0 ≤ λ(x) ≤ λ∗.
+21	2	Two recent papers have demonstrated the analytical and computational advantages of this link function.
+23	6	The present work generalises their result, providing probabilistic predictions and Bayesian model selection.
+24	12	Our derivation is by necessity entirely different to Flaxman et al. (2017), as their representer theorem (Schölkopf et al., 2001) argument is insufficient for our probabilistic setting (see e.g. subsubsection 4.1.6).
+25	2	(Lloyd et al., 2015) derived a variational approximation to a Bayesian model with the squared link function, based on an inducing variable scheme similar to (Titsias, 2009), and exploiting the tractability of certain required integrals.
+30	62	To satisfy for arbitrary f = ∑ i wiφi the reproducing property (Aronszajn, 1950)〈 k(x, ·), ∑ i wiφ(·)i 〉 H(k) := f(x) = ∑ i wi, φi(x) (4) we let φi be orthogonal in H(k), obtaining 〈φi, φj〉 = δijλ −1 i .

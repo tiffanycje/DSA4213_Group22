@@ -1,0 +1,30 @@
+0	36	Knowledge graphs (KGs) are used to organize, manage, and retrieve structured information.
+2	10	A KG is of the form G = (E , R), where E is a set of entities and, R is a set of relation types or predicates.
+3	21	One can represent G as a set of triples of the form (subject, predicate, object), denoted as (s, p, o).
+4	16	The link prediction problem seeks the most probable completion of a triple (s, p, ?)
+5	34	or (?, p, o) (Nickel et al., 2016).
+6	20	We focus on temporal KGs where some triples are augmented with time information and the link prediction problem asks for the most probable completion given time information.
+7	59	More formally, a temporal KG G = (E , R, T ) is a KG where facts can also have the form (subject, predicate, object, timestamp) or (subject, predicate, object, time predicate, timestamp), in addition to (s, p, o) triples.
+8	23	For instance, facts such as (Barack Obama, born, US, 1961) or (Barack Obama, president, US, occursSince, 2009-01) express temporal information about the facts associated with Barack Obama.
+10	16	Most approaches to link prediction are characterized by a scoring function that operates on the entity and relation type embeddings of a triple (Bordes et al., 2013; Yang et al., 2014; Guu et al., 2015).
+12	10	It is possible, however, to turn time expressions into sequences of tokens expressing said temporal information.
+33	19	(1) • DISTMULT (Yang et al., 2014): f(s, p, o) = (es ◦ eo)eTp , (2) where es, eo ∈ Rd are the embeddings of the subject and object entities, ep ∈ Rd is the embedding of the relation type predicate, and ◦ is the elementwise product.
+34	16	These scoring functions do not take temporal information into account.
+36	23	Moreover, for each triple we can extract a sequence of predicate tokens that always consists of the relation type token and, if available, a temporal modifier token such as “since” or “until.” We refer to the concatenation of the predicate token sequence and (if available) the sequence of temporal tokens as the predicate sequence pseq.
+39	14	We use the suffix y, m and d to indicate whether the digit corresponds to year, month or day information.
+41	11	A long short-term memory (LSTM) is a neural network architecture particularly suited for modeling sequential data.
+55	9	These political events relate entities (e.g. countries, presidents...) to a number of other entities via logical predicates (e.g. ’Make a visit’ or ’Express intent to meet or negotiate’).
+58	20	We created two temporal KGs out of this repository, i) a short-range version that contains all events in 2014, and ii) a long-range version that contains all events occurring between 2005-2015.
+65	15	Finally, we augment this collection of facts with time information from the “yagoDateFacts”3 dump.
+66	14	Contrary to the 2/yago-naga/yago3.1/yagoDBpediaInstances.ttl.7z 3/yago-naga/yago3.1/yagoDateFacts.ttl.7z ICEWS data sets, YAGO15K does contain temporal modifiers; namely, ’occursSince’ and ’occursUntil’.
+67	38	Contrary to previous work (Leblay and Chekol, 2018), all facts maintain time information in the same level of granularity as one can find in the original dumps these data sets come from.
+69	22	Only information regarding the year is available for these facts, since the authors discarded information of finer granularity.
+95	33	Mean rank is a metric that is very susceptible to outliers and hence these improvements are not consistent.
+98	42	This explains that TTRANSE is only competitive in YAGO15K, wherein the number of distinct timestamps is very small (see #Distinct TS in Table 2) and thus enough training examples exist to learn robust timestamp embeddings.
+100	17	Similarly, TTRANSE can learn robust timestamp representations because of the small number of distinct timestamps of this data set.
+101	27	Figure 3 shows a comparison of the training loss of TRANSE and TA-TRANSE for YAGO15K.
+102	77	Under the same set-up, TA-TRANSE’s ability to learn from time information leads to a training loss lower than that of TRANSE.
+103	94	Figure 2 shows a t-SNE (Maaten and Hinton, 2008) visualization of the embeddings learned for the predicate sequence pseq = [playsFor, occursSince, date], where date corresponds to the date token sequence.
+104	69	This illustrates that the learned relation type embeddings carry temporal information.
+105	19	We propose a digit-level LSTM to learn representations for time-augmented KG facts that can be used in conjunction with existing scoring functions for link prediction.
+106	38	Experiments in four temporal knowledge graphs show the effectiveness of the approach.

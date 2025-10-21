@@ -1,0 +1,30 @@
+39	37	The motivating intuition is that while such initial “word-by-word” translation may be poor if languages or corpora are not closely related, it still preserves some of the original semantics.
+45	24	This turns the daunting unsupervised problem into a supervised learning task, albeit with noisy source sentences.
+68	13	This ensures that the benefits of language modeling, implemented via the denoising autoencoder objective, nicely transfer to translation from noisy sources and eventually help the NMT model to translate more fluently.
+75	26	When translating from x to y, a PBSMT system scores y according to: argmaxy P (y|x) = argmaxy P (x|y)P (y), where P (x|y) is derived from so called “phrase tables”, and P (y) is the score assigned by a language model.
+76	22	Given a dataset of bitexts, PBSMT first infers an alignment between source and target phrases.
+78	33	In the unsupervised setting, we can easily train a language model on monolingual data, but it is less clear how to populate the phrase tables, which are a necessary component for good translation.
+79	20	Fortunately, similar to the neural case, the principles of Section 2 are effective to solve this problem.
+80	51	Initialization: We populate the initial phrase tables (from source to target and from target to source) using an inferred bilingual dictionary built from monolingual corpora using the method proposed by Conneau et al. (2018).
+82	125	Phrase tables are populated with the scores of the translation of a source word to: p(tj |si) = e 1 T cos(e(tj),We(si)) ∑ k e 1 T cos(e(tk),We(si)) , (3) where tj is the j-th word in the target vocabulary and si is the i-th word in the source vocabulary, T is a hyper-parameter used to tune the peakiness of the distribution3, W is the rotation matrix mapping the source embeddings into the target embeddings (Conneau et al., 2018), and e(x) is the embedding of x.
+85	49	Iterative Back-Translation: To jump-start the iterative process, we use the unsupervised phrase tables and the language model on the target side to construct a seed PBSMT.
+92	91	As long as that happens, the translation improves, and with that also the phrase tables at the next round.
+94	28	We first describe the datasets and experimental protocol we used.
+95	41	Then, we compare the two proposed unsupervised approaches to earlier attempts, to semi-supervised methods and to the very same models but trained with varying amounts of labeled data.
+98	39	The first two pairs are used to compare to recent work on unsupervised MT (Artetxe et al., 2018; Lample et al., 2018).
+99	34	The last three pairs are instead used to test our PBSMT unsupervised method on truly low-resource pairs (Gu et al., 2018) or unrelated languages that do not even share the same alphabet.
+100	95	For English, French, German and Russian, we use all available sentences from the WMT monolingual News Crawl datasets from years 2007 through 2017.
+101	42	For Romanian, the News Crawl dataset is only composed of 2.2 million sentences, so we augment it with the monolingual data from WMT’16, resulting in 2.9 million sentences.
+102	29	In Urdu, we use the dataset of Jawaid et al. (2014), composed of about 5.5 million monolingual sentences.
+103	27	We report results on newstest 2014 for en− fr, and newstest 2016 for en− de, en− ro and en− ru.
+123	25	The PBSMT uses Moses’ default smoothed ngram language model with phrase reordering disabled during the very first generation.
+126	19	Except for initialization, we use phrase tables with phrases up to length 4.
+130	32	It turns out that with only 100 labeled sentences in the validation set, PBSMT would overfit to the validation set.
+132	33	Therefore, unless otherwise specified, all PBSMT models considered in the paper use default hyperparameter values, and do not use any parallel resource whatsoever.
+133	55	For the NMT, we also consider two model selection procedures: an unsupervised criterion based on the BLEU score of a “round-trip” translation (source → target → source and target → source → target) as in Lample et al. (2018), and crossvalidation using a small validation set with 100 parallel sentences.
+134	70	In our experiments, we found the unsupervised criterion to be highly correlated with the test metric when using the Transformer model, but not always for the LSTM.
+153	55	On Russian, our unsupervised PBSMT model obtains a BLEU score of 16.6 on ru→ en, showing that this approach works reasonably well on distant languages.
+155	72	In a supervised mode, PBSMT using the noisy and outof-domain 800,000 parallel sentences from Tiedemann (2012) achieves a BLEU score of 9.8.
+156	52	Instead, our unsupervised PBSMT system achieves 12.3 BLEU using only a validation set of 1800 sentences to tune Moses hyper-parameters.
+157	192	In Figure 3 we report results from an ablation study, to better understand the importance of the three principles when training PBSMT.
+158	20	This study shows that more iterations only partially compensate for lower quality phrase table initialization (Left), language models trained over less data (Middle) or less monolingual data (Right).

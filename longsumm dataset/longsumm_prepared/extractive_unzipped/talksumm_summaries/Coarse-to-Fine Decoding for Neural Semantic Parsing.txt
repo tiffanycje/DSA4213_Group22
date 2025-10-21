@@ -1,0 +1,30 @@
+0	52	Semantic parsing maps natural language utterances onto machine interpretable meaning representations (e.g., executable queries or logical forms).
+5	15	The first decoder focuses on predicting a rough sketch of the meaning representation, which omits low-level details, such as arguments and variable names.
+8	17	Specifically, the sketch constrains the generation process and is encoded into vectors to guide decoding.
+10	38	Firstly, the decomposition disentangles high-level from low-level semantic information, which enables the decoders to model meaning at different levels of granularity.
+11	29	As shown in Table 1, sketches are more compact and as a result easier to generate compared to decoding the entire meaning structure in one go.
+12	33	Secondly, the model can explicitly share knowledge of coarse structures for the examples that have the same sketch (i.e., basic meaning), even though their actual meaning representations are different (e.g., due to different details).
+13	14	Thirdly, after generating the sketch, the decoder knows what the basic meaning of the utterance looks like, and the model can use it as global context to improve the prediction of the final details.
+47	29	Then, a decoder learns to compute p (a|x) and generate the sketch a conditioned on the encoding vectors.
+63	28	If yt−1 is determined by ak in the sketch (i.e., there is a one-toone alignment between yt−1 and ak), we use the corresponding token’s vector vk as input to the next time step.
+64	34	The sketch constrains the decoding output.
+66	26	In some cases, sketch tokens will indicate what information is missing (e.g., in Figure 1, token “flight@1” indicates that an argument is missing for the predicate “flight”).
+73	17	Because probabilities p (a|x) and p (y|x, a) are factorized as shown in Equations (2)–(3), we can obtain best results approximately by using greedy search to generate tokens one by one, rather than iterating over all candidates.
+74	29	In order to show that our framework applies across domains and meaning representations, we developed models for three tasks, namely parsing natural language to logical form, to Python source code, and to SQL query.
+82	15	function SKETCH(t) if t is leaf then No nonterminal in arguments return “%s@%d” % (t.pred,len(t.args)) if t.pred is λ operator, or quantifier then e.g., count Omit variable information defined by t.pred t.pred← “%s#%d” % (t.pred,len(variable)) for c ← argument in t.args do if c is nonterminal then c← SKETCH(c) else c← “?” Placeholder for terminal return t The first element between a pair of brackets is an operator or predicate name, and any remaining elements are its arguments.
+84	19	We strip off arguments and variable names in logical forms, while keeping predicates, operators, and composition information.
+102	31	Sketches were extracted by substituting the original tokens with their token types, except delimiters (e.g., “[”, and “:”), operators (e.g., “+”, and “*”), and built-in keywords (e.g., “True”, and “while”).
+115	30	SELECT identifies the column that is to be included in the results after applying the aggregation operator agg op2 to column agg col. WHERE can have zero or multiple conditions, which means that column cond col must satisfy the constraints expressed by the operator cond op3 and the condition value cond.
+118	33	The generation of SQL queries differs from our previous semantic parsing tasks, in that the table schema serves as input in addition to natural language.
+127	39	Finally, the concatenated vectors are used as the encoding vectors {ck}Mk=1 for table columns.
+130	26	At each time step t, we use an attention mechanism towards table column vectors {ck}Mk=1 to obtain the most relevant columns for et.
+135	33	SELECT Clause We feed the question vector ẽ into a softmax classifier to obtain the aggregation operator agg op.
+138	22	As the number of sketches in the training set is small (35 in total), we model sketch generation as a classification problem.
+144	15	For the k-th column in the table, we compute p (cond colyt = k|y<t, x, a) as in Equation (14), but use different parameters and compute the score via σ([hattt , ck]).
+180	30	Compared with previous neural models that utilize syntax or grammatical information (SEQ2TREE, ASN; the second block in Table 2), our method performs competitively despite the use of relatively simple decoders.
+203	14	Performance improvements on this task are mainly due to the fine meaning decoder.
+204	20	We conjecture that by decomposing decoding into two stages, COARSE2FINE can better match table columns and extract condition values without interference from the prediction of condition operators.
+207	90	We first generate meaning sketches which abstract away from low-level information such as arguments and variable names and then predict missing details in order to obtain full meaning representations.
+208	40	The proposed framework can be easily adapted to different domains and meaning representations.
+209	89	Experimental results show that coarseto-fine decoding improves performance across tasks.
+210	284	In the future, we would like to apply the framework in a weakly supervised setting, i.e., to learn semantic parsers from question-answer pairs and to explore alternative ways of defining meaning sketches.

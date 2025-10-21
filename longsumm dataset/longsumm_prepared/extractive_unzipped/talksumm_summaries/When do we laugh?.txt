@@ -1,0 +1,30 @@
+5	17	We first briefly discuss previous studies on laughter in interaction; we then argue for a semantic/pragmatic account in which we treat laughter as a gestural event anaphora referring to a laughable.
+7	34	In (Provine, 1993), the researcher observed natural conversations, and “when an observer heard laughter, she recorded in a notebook the comment immediately preceding the laughter and if the speaker and/or the audience laughed, the gender, and the estimated age of the speaker and the audience [...].
+11	29	They found that “Only about 10-20% of episodes were estimated by the observers to be humorous” (Provine, 1993), and thus derived the conclusion which is now widely adopted in the literature: laughter is, for the most part, not related to humour but about social interaction.
+13	65	Similarly, (Vettin and Todt, 2004) used exclusively timing parameters – i.e., what precedes and what follows the laugh (within a threshold of 3s) – to distinguish 6 different contexts (see table 1) for laughter occurrence to support claims about situations that elicit laughter.
+14	130	In (Provine, 1993), the author assumed that laughter always immediately follows the laughable.
+16	34	In addition, even when the com- 360 ment that immediately precedes laughter is the actual trigger for a laugh, and it is not “amusing” in itself (i.e. it is a “banal comment”), it doesn’t necessarily entail that the laughable is not humourous.
+17	23	The funniness might arise from the “banal comment” in relation to the previous utterance, the context of the interaction, shared experiences between the speakers, world knowledge and cultural conventions.
+20	135	(1) A: Do you remember that time?
+22	39	B: < laughter/ > Laughable= “I want another bathroom” (Vettin and Todt, 2004) is methodologically more precise than (Provine, 1993), and they allow for the possibility that in addition to laughter occurring after the laughable, a laughter may precede an utterance, or occur during an exophoric situation.
+25	32	Crucially, the conclusion is also drawn assuming an adjacency relationship between laughter and laughable.
+26	101	We argue that previous studies have ignored analysing the laughable because they did not attempt to integrate their account with an explicit semantic/pragmatic module on the basis of which content is computed.1 The sole recent exception to this, as far as we are aware, is the account of (Ginzburg et al., 2015), which sketches an information state–based account of the meaning and use of laughter in dialogue.
+27	40	Taking this as a starting point, we argue that laughter is a gestural event anaphor, whose meaning contains two dimensions: one dimension about the arousal and the other about the trigger or the laughable.
+28	46	In line with (Morreall, 1983) we think that laughter effects a “positive psychological shift”, and the “arousal” dimension signals the amplitude in the shift.2.
+29	33	The positive psychological shift is triggered by an appraisal of an event - the laughable l, and the second dimension communicates the type of the appraisal.
+30	177	(Ginzburg et al., 2015) propose two basic types of meaning in the laughable dimension: the person laughing may express her perception of the laughable l as being incongruous, or just that l is enjoyable (playful).
+31	20	We propose that in addition, certain uses of laughter in dialogue may suggest the need for a third possible type: expressing that l is a socially close ingroup situation.
+32	84	Here we sketch a formal semantic and pragmatic treatment of laughter.
+80	22	The formal and contextual level analysis include whether a laughter overlaps speech (speech laugh), whether it co-occurs with or immediately follows a partner’s laughter (dyadic/ antiphonal laughter), and its position in relation to the laughable.
+121	30	Metalinguistic (1% in both languages) laughables are rare, so we grouped them with described events in the current analysis.
+123	54	Interestingly, 3% of the laughables are jointly produced (one person finishing the other’s sentence, or both saying roughly the same thing at the same time) (see (8)).
+124	28	With the former two categories, we also coded whether the laughable is produced by the laugher or her partner, which allow us to compare our results with studies of “speaker” or “audience” laughter.
+125	41	(8) (totally overlapping turns are italicized) B: c’est une personne qui est aux toilettes dans < laughter > des toilettes publiques A: < laughter > X ah: oui: oui un mec qui parle a cute‘ < laughter/ > B: dans < laughter > des toilettes publiques voila sauf que l’autre il est au telephone et l’autre il lui croit qu’il parle .
+128	42	With partner-produced laughables, the average gap between the end of laughable and start of laughter is -0.02s in French and -0.3s in Chinese, while with self-produced laughables, the average gap is -0.7s in French and -1.3s in Chinese.
+129	31	Laughter frequently overlaps with speech.
+131	42	Speech laughter is on average 0.3 seconds longer than stand alone laughter bouts.
+132	16	Speech laughs overlap with the laughable more than laughter bouts.
+134	45	In comparison, 33% of laughter bouts in French and 34% in Chinese overlap with the laughable.
+135	82	The reason why speech laugh more often overlap with the laughables is likely to do with the difference in function between speech laugh and laughter bouts.
+136	50	Laughters that mark an upcoming laughable most frequently overlaps with speech, and these laughter events are also ones that tend to stretch until the middle or the end of the laughable.
+145	32	We found that 51.8% of laughter bouts in French and 56.7% of laughter bouts in Chinese start during the partner’s utterances (not necessarily laughables), for example: (10) B: pour faire un mur de son quoi < laughspeech > en fait c’est une < english > ra:ve < /english > notre appartement < /laughspeech > A: < laughter/ > (Translation) B: to create a sound barrier which < laughspeech > in fact it is a rave, our apartment < /laughspeech > A:< laughter/ > Laughable= “in fact it is a rave, our apartment” Does laughter interrupt one’s own utterances?

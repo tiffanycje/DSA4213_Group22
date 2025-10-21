@@ -1,0 +1,30 @@
+17	16	Since it operates directly on the 3D surfaces, an added benefit is that it can leverage training data produced using any kind of parameterization and not only the specific one used to perform the shape optimization.
+20	20	We demonstrate that our method outperforms GP approaches, widely used in the industry, both in terms of regression accuracy and optimization capacity.
+21	31	Not only do we improve upon GP optimization by 5% to 20% for a lift maximization task on 2D NACA airfoils involving few parameters, but we can also deliver results on fully 3D shapes for which our baselines perform poorly.
+31	20	A popular and relatively easy to implement approach to shape optimization relies on genetic algorithms (Gosselin et al., 2009) to explore the space of possible shapes.
+32	30	However, since genetic algorithms require many evaluation of the fitness function, a naive implementation would be inefficient because each one requires an expensive CFD simulation.
+33	21	This can be avoided using Adjoint Differentiation (Allaire, 2015; Gao et al., 2017) instead.
+34	18	It involves approximating the solution of a so-called adjoint form of the NSE to compute the gradient of the fitness function with respect to the 3D simulation mesh parameters.
+35	26	This allows the use of gradient-based optimization techniques but is still very expensive because it requires a new simulation to be run at each iteration (Alexandersen et al., 2016).
+50	39	Let us assume we are given a set of meshes Mm = (Xm, Em), m = 1, .
+53	16	Given M such triplets (Mm,Ym, Zm), we want to train a regressor Fω :M→ RN × R such that Fω(Mm) = (F y ω(Mm), F z ω(Mm)) ≈ (Ym, Zm) , (1) where ω comprises the trainable parameters, which will be optimized to minimize our training loss L(ω)= ∑ m ‖F yω(Mm)−Ym‖2+λ (F zω(Mm)−Zm)2 , (2) where λ is a scaling parameter that ensures that both terms have roughly the same magnitude.
+54	21	Standard CNNs implicitly rely on their input, images usually, having a regular Euclidean geometry.
+62	24	We describe the geometric convolution operation that is used at each vertex, where a mixture of gaussians is used to interpolate the features computed at neighbouring vertices into a common predefined basis.
+64	48	, fN ) defined at each one of the N vertices Xi1≤i≤N of mesh M. For each i, let N i = {j : E(i, j) = 1}, that is the set of indices j such that Xi and Xj are neighbors.
+65	18	Let K, where K = 32 in all our experiments, be a predefined number of gaussian parameters αk ∈ R2, Σk ∈ R2, which are vertex independent.
+77	23	A sparse representation would solve the memory problem but would be equally impractical because, unlike by Monti et al. (2016), the geodesic distances change at every iteration and have to be recomputed.
+86	39	1 that our regressor must predict a vector of local values Y = F yω(M) and a global scalar value Z = F zω(M) given a mesh M, whose shape and topology are defined by a vector of 3D vertex coordinates X and a set of edges E .
+87	18	Our Network architecture Fω, depicted in Fig.
+89	24	F yω is another Geodesic-Convolutional branch that returns Y ∈ RN while F zω regresses the scalar value Z ∈ R by average pooling followed by two dense layers.
+90	17	Effectively, our shared convnet Fω therefore takes as input this vector X to predict the desired vector Y and scalar value Z. Interestingly, as shown in the experiments, we noticed that by learning to predict more physical quantities than actually needed, through additional branches, as by Caruana (1997); Ramsundar et al. (2015) we favour the emergence intermediate-level features that are more robust and less overfitting prone.
+93	29	In practice, we first map a reference shape on a cube such as the one depicted at the bottom right of Fig.
+95	36	Then, X becomes the set of 3D coordinates assigned to each vertex of the resulting regular vertex grid, which we then use to reconstruct either identical or modified versions of the 3D shape, such as the one shown at the bottom left of Fig.
+96	31	To increase the receptive field of our convolutions without needlessly increasing the number of parameters or reducing the resolution of our input, we use dilated convolutions (Yu & Koltun, 2016), along with several convolutional blocks with pass-through residual connections (He et al., 2016).
+98	52	Not only is it fast, but it is also differentiable with respect to the X coordinates that control the shape.
+100	23	Formally, this can be expressed by treating Fω as a function of X and looking for X∗ = argmin X G (Fω(X)) s.t C(X) ≤ 0, (5) where G is a fitness function, such as the negative Lift-toDrag ratio in the case of a wing or simply the drag in the case of the car, and C represents the set of constraints that a shape must satisfy to be feasible.
+120	38	Since performing even a single simulation is much slower than running many ADAM optimization steps, we alternate between the following two-steps.
+121	60	We run project gradient steps as discussed above using the current Fω GCNN regressor until convergence.
+122	26	We run a new simulation for the obtained shape, add this new sample to the training set and fine tune the Fω GCNN regressor with this new training sample.
+123	50	Note that in an industrial setting, the randomly chosen set of initial samples could be replaced by all the shapes that have been simulated in the past.
+126	114	It is designed to handle 3D shapes but can also handle 2D ones by simply considering the 2D equivalent of a surface mesh, which is a discretized 2D contour.
+130	21	We will quantify the accuracy of various regressors in terms of the standard L2 mean percentage error over a test set Sv , that is, Ay = 1.0− En∈Sv [‖yn−ŷn‖2‖yn‖2 ] , (7) where y denotes either a ground truth local quantity Yi or the global one Zi.

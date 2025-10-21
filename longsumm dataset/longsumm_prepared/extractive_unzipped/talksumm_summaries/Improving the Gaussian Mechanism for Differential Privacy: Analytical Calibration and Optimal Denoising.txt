@@ -1,0 +1,30 @@
+15	10	Since DP is preserved by post-processing and the distribution of the perturbation added to the desired outcome is known, this allows a mechanism to achieve the desired privacy guarantee while increasing the accuracy of the released value.
+17	7	Results presented in this section are not new: they are the product of a century’s worth of research in statistical estimation.
+19	23	Let X be an input space equipped with a symmetric neighbouring relation x ' x′.
+20	65	Let ε ≥ 0 and δ ∈ [0, 1] be two privacy parameters.
+21	30	A Y-valued randomized algorithm M : X → Y is (ε, δ)-DP (Dwork et al., 2006) if for every pair of neighbouring inputs x ' x′ and every possible (measurable) output set E ⊆ Y the following inequality holds: P[M(x) ∈ E] ≤ eεP[M(x′) ∈ E] + δ .
+22	65	(1) The definition of DP captures the intuition that a computation on private data will not reveal sensitive information about individuals in a dataset if removing or replacing an individual in the dataset has a negligible effect in the output distribution.
+23	7	In this paper we focus on the family of so-called output perturbation DP mechanisms.
+24	40	An output perturbation mechanism M for a deterministic vector-valued computation f : X → Rd is obtained by computing the function f on the input data x and then adding random noise sampled from a random variable Z to the output.
+25	24	The amount of noise required to ensure the mechanism M(x) = f(x) + Z satisfies a given privacy guarantee typically depends on how sensitive the function f is to changes in the input and the specific distribution chosen for Z.
+26	37	The Gaussian mechanism gives a way to calibrate a zero mean isotropic Gaussian perturbation Z ∼ N (0, σ2I) to the global L2 sensitivity ∆ = supx'x′ ‖f(x)− f(x′)‖ of f as follows.
+31	7	This section addresses both these questions.
+32	41	First we show that the value of σ given in Theorem 1 is suboptimal in the high privacy regime ε → 0.
+33	23	Then we show that this problem is in fact inherent to the usual proof strategy used to analyze the Gaussian mechanism.
+34	13	We conclude the section by showing that for large values of ε the standard deviation of a Gaussian perturbation that provides (ε, δ)-DP must scale like Ω(1/ √ ε).
+41	12	This shows that our example is not a corner case, but a fundamental limitation of trying to establish (ε, δ)-DP through said sufficient condition.
+43	12	The privacy loss function of M on a pair of neighbouring inputs x ' x′ is defined as `M,x,x′(y) = log ( pM(x)(y) pM(x′)(y) ) .
+44	7	The privacy loss random variable LM,x,x′ = `M,x,x′(Y ) is the transformation of the output random variable Y = M(x) by the function `M,x,x′ .
+45	9	For the particular case of a Gaussian mechanism M(x) = f(x) + Z with Z ∼ N (0, σ2I) it is well-known that the privacy loss random variable is also Gaussian (Dwork & Rothblum, 2016).
+48	13	(2) Since Lemma 3 shows the privacy loss LM,x,x′ of the Gaussian mechanism is a Gaussian random variable with mean ‖f(x)− f(x′)‖2/2σ2, we have P[LM,x,x′ > 0] ≥ 1/2 for any pair of datasets with f(x) 6= f(x′).
+53	19	We show this is not the case by providing the following lower bound.
+54	91	Let f : X → Rd have global L2 sensitivity ∆.
+55	4	Note that as ε → ∞ the upper bound on δ in Theorem 4 converges to 1/2.
+58	39	Note this provides an interesting contrast with the Laplace mechanism, which can achieve ε-DP with standard deviation Θ(1/ε) in the low privacy regime.
+59	36	The limitations of the classical Gaussian mechanism described in the previous section suggest there is room for improvement in the calibration of the variance of a Gaussian perturbation to the corresponding global L2 sensitivity.
+60	33	Here we present a method for optimal noise calibration for Gaussian perturbations that we call analytic Gaussian mechanism.
+61	57	To do so we must address the two sources of slack in the classical analysis: the sufficient condition (2) used to reduce the analysis to finding an upper bound for P[N (η, 2η) > ε], and the use of a Gaussian tail approximation to obtain such upper bound.
+62	56	We address the first source of slack by showing that the sufficient condition in terms of the privacy loss random variable comes from a relaxation of a necessary and sufficient condition involving two privacy loss random variables.
+63	57	When specialized to the Gaussian mechanism, this condition involves probabilities about Gaussian random variables, which instead of approximating by a tail bound we represent explicitly in terms of the CDF of the standard univariate Gaussian distribution: Φ(t) = P[N (0, 1) ≤ t] = 1√ 2π ∫ t −∞ e−y 2/2dy .
+65	11	We discuss how to solve this optimization at the end of this section.
+66	16	The first step in our analysis is to provide a necessary and sufficient condition for differential privacy in terms of privacy loss random variables.

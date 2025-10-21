@@ -1,0 +1,30 @@
+11	44	A computational system that can effectively deal with ellipsis involves three subtasks (Nielsen, 2005): ellipsis detection, in which a case of ellipsis is identified, antecedent selection, in which the antecedent for a case of ellipsis is found, and ellipsis resolution, where the content of the ellipsis is filled in with reference to the antecedent and the context of the ellipsis.
+12	24	Here, we focus on antecedent selection for sluicing.
+13	86	In addressing this problem of antecedent selection, we make use of a newly available annotated corpus of sluice occurrences (Anand and McCloskey, 2015).
+14	21	This corpus consists of 4100 automatically parsed and annotated examples from the New York Times subset of the Gigaword Corpus, of which 2185 are 1234 publicly available.
+24	121	Sluicing is formally defined in theoretical linguistics as ellipsis of a question, leaving only a WHphrase remnant.
+25	31	While VPE is licensed only by a small series of auxiliaries (e.g., modals, do, see Lobeck (1995)), sluicing can occur wherever questions can, both in unembedded ‘root’ environments (e.g., Why?)
+26	37	or governed by the range of expressions that embed questions, like know in (2).
+28	23	In some cases, this manifests as a correlate, an overt indefinite expression whose value is not further specified, like one of the candidates in (3).
+31	63	However, the annotated sluices in (Anand and McCloskey, 2015) have correlates only 22% of the time, making this process considerably harder.
+60	21	We make use of the annotation of the antecedent and remnant tags.
+77	27	We define TOKF as the harmonic mean of Token-Based Precision and Recall; for (5), TokF is .57.
+85	27	We consider four principle kinds of proxies: measures of candidate-sluice distance, measures of candidatesluice containment, measures of candidate ‘main point’, and candidate-sluice discourse relation markers.
+88	23	The positive integer-valued feature DISTANCE tracks these notions of recency, where DISTANCE is 1 if the candidate is the candidate immediately preceding or following the sluice site (DISTANCE is defined to be 0 only for infinitival Ss like S0 in (7) below).
+92	163	One might have thought that we want to always exclude the entire sentence (here, S-4) as well, but there are several cases where the smallest sentence-level constituent containing the annotated antecedent dominates the sluice, including: parenthetical sluices inside the antecedent (8), sluices in subordinating clauses (9), or sluice VPs coordinated with the antecedent VP (10).
+94	48	(7) [S−4 [S−3 I have concluded that [S−2 I can not support the nomination ] , and [S−1 I need [S0 to explain why ] ]. ]
+109	29	By this logic, S-4 in (7) is meaningful because it contains concluded, but S-1 is not, because there is no verbal material remaining.
+110	22	It has often been suggested (Asher, 1993; Hardt, 1997; Hardt and Romero, 2004) that the antecedent selection process is very closely tied to discourse relations, in the sense that there is a strong preference or even a requirement for a discourse relation between the antecedent and ellipsis.
+112	51	We begin with features indicating that a discourse relation is not present: the theoretical linguistics literature on sluicing has noted that antecedents not in the ‘main point’ of an assertion (e.g., ones in appositives (AnderBois, 2014) or relative clauses (Cantor, 2013)) are very poor antecedents for sluices, presumably because their content is not very salient.
+113	60	The boolean features CANDINPARENTHETICAL (determined as for the sluice above) and CANDINRELCLAUSE mark these patterns.2 We also define features that would tend to indicate the presence of a discourse relation.
+114	35	These have to do with antecedents that occur after the sluice.
+116	45	(11) “ I do n’t know why , but I like Jimmy Carter .
+121	28	For a given a sluice type, some predications might fit more naturally than others.
+142	23	To find overt WH-constructions, we extracted all instances where a WH-phrase is: a) a dependent (to exclude cases like Who?)
+143	21	and b) not at the right edge of a VP (to exclude sluices like know who, per Anand and McCloskey (2015)).
+165	33	We trained a maxent classifier on the features in Table 1 for the binary antecedent-not antecedent task.
+167	32	We then constructed an antecedent selector that chose the candidate with the highest classifier score.
+190	26	When Containment features were omitted, reason sluices performed 10% better than expected, while extent ones were 10% worse.
+199	140	These features constitute a quite limited view of discourse struc- ture, and we suspect that a better representation of discourse structure might well lead to further improvements.
+200	41	One potential path would be to leverage data where discourse relations are explicitly annotated, such as that in the Penn Discourse Treebank (Prasad et al., 2008).
+203	269	In closing, we would like to return to the larger question of effectively handling ellipsis.

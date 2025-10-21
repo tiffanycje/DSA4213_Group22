@@ -1,0 +1,30 @@
+61	1	the parameters: maximum number of missing/determined entries per row or column.
+81	1	The treewidth of a graph G, denoted by tw(G), is the width of an optimal tree decomposition of G. We will assume that the tree T of a tree-decomposition is rooted and we will denote by Tt the subtree of T rooted at t and write χ(Tt) for the set ⋃ t′∈V (Tt) χ(t ′).
+109	1	During the second step, the algorithm determines whether a signature S is valid or not, and in the end, after going through all signatures, selects an arbitrary valid signature S = (I,D) with minimum |I|.
+115	1	RMC[row] and RMC[col] are in XP.
+121	1	Let EQi be a linear equation in Υ, and let x be a variable which occurs in EQi (with a non-zero coefficient).
+131	1	If n ≥ `(` + 3)/2, then Υ can be solved in randomized time O(2`n3`(log p)2) (Miura et al., 2014).
+134	1	We begin by using Proposition 1 to compute the sets R and C containing the indices of the covering rows and columns, respectively; let |R| = r and |C| = c, and recall that the parameter value is k = r + c. Since the existence of a solution for p-RMC does not change if we permute rows and columns of M, we permute the rows of M so that the rows in R have indices 1, .
+136	1	, c. Before we proceed, let us give a high-level overview of our strategy.
+142	1	For the first step, let us define the notion of signature that will be used in this proof.
+143	1	A signature S is a tuple (IR, DR, IC , DC) where: 1.
+144	1	DR is a mapping from R \ IR to (IR → GF(p)); 3.
+146	1	We say that a matrix M′ compatible with the incomplete matrix M matches a signature (IR, DR, IC , DC) if: ◦ for each row d ∈ R \ IR, there exist coefficients adr+1, .
+147	1	, a d m ∈ GF(p) such that d = adr+1M′[r + 1, ∗] + · · ·+ admM′[m, ∗] + ∑ i∈IR DR(d)(i) · i; and ◦ for each column h ∈ C \ Ic, there exist coefficients bhc+1, .
+163	1	Let (p,M, t) be an instance of DRMC.
+166	1	See Figure 2 for an illustration.
+177	1	Note that the above theorem also implies that the wellknown COLORING problem is FPT parameterized by the treewidth of the complement of the input graph.
+178	1	The theorem below follows immediately from Lemmas 8 and 9.
+179	1	DRMC and p-DRMC are in FPT when parameterized by the treewidth of the compatibility graph.
+182	1	Let R and C be the set of rows and columns of M, respectively.
+192	1	To make our reduction easier to follow, we will divide the reduction into two steps.
+197	1	We first construct the instance G of PIT such that G does not contain a clique of size four.
+198	1	For every variable xi of φ, let G(xi) be the graph illustrated in Figure 3, and for every clause Cj of φ, let G(Cj) be the graph illustrated in Figure 4.
+203	1	This completes the construction of G. The following claim concludes the first step of our reduction.
+222	1	Observe that since each vertex in G has n− 4 neighbors, the number of missing entries in any row and any column of M is 3.
+225	3	For the bounded domain case, we painted a positive picture by showing that the two problems are in FPT (resp.
+226	4	For the unbounded domain case, we characterized the parameterized complexity of DRMC by showing that it is in FPT parameterized by row, and paraNP-hard parameterized by col (and hence by comb).
+229	3	◦ Can we improve our XP (resp.
+230	27	XPR) results for RMC to FPT (resp.
+231	132	◦ Does a hardness result, similar to the one given in Theorem 14 for p-DRMC, hold for p-RMC?
+232	130	Robert Ganian is also affiliated with FI MU, Czech Republic.

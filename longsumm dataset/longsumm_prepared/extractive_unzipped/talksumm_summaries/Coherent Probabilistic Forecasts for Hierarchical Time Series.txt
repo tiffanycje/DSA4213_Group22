@@ -1,0 +1,30 @@
+9	35	Unfortunately, independently forecasting each time series within each level is very unlikely to deliver coherent forecasts.
+11	26	Recent work in this area (Wickramasuriya et al., 2015; van Erven & Cugliari, 2015) has focused on a two-stage approach in which base forecasts are first produced independently for each series in the hierarchy; these are then combined to generate coherent revised forecasts (see Section 2).
+14	23	This contrasts with the shift in the forecasting literature over the past two decades towards probabilistic forecasting (Gneiting & Katzfuss, 2014).
+24	28	Finally, the algorithm computes sparse forecast combinations for all series in the hierarchy, where the combination weights are estimated by solving a possibly highdimensional LASSO problem (see Section 3.2).
+31	15	Let at be an r-vector containing the observations at the different levels of aggregation at time t, bt be an m-vector with the observations at the bottom level only, and yt = (at bt) ′ be an n-vector that contains the observations of all series in the hierarchy with n = r + m. For the ex- ample in Figure 1, we have at = (yt, yA,t, yB,t)′, bt = (yAA,t, yAB,t, .
+34	28	Under mean squared error (MSE) loss, the optimal h-period-ahead forecasts are given by the conditional mean (Gneiting, 2011), i.e. E[yT+h|y1, .
+38	19	This approach is very flexible since we can use different forecasting methods for each series and aggregation level.
+40	20	The coherency errors of the h-period-ahead base forecasts ŷT+h = (âT+h b̂T+h)′ are given by r̂T+h = âT+h − Sab̂T+h.
+45	41	Hyndman et al. (2011) proposed coherent hierarchical mean forecasts of the following form: ỹT+h = SP ŷT+h, (2) for some appropriately chosen matrix P ∈ Rm×n, and where ŷT+h are some base forecasts.
+57	27	WhenA = I and B = ∅, the problem reduces to finding the closest reconciled forecasts to the base forecasts in terms of sum of squared errors (SSE).
+69	22	In fact, hierarchical probabilistic forecasts are coherent if the predictive distribution of each aggregate series is equal to the distribution of the sum of the children series.
+73	25	Since each aggregate series is the sum of a subset of bottom series, bottom-up probabilistic forecasting is harder to compute than mean forecasting because we need to compute the joint distribution of the component random variables.
+88	19	However, since the marginals and the copula completely specify the joint distribution, the following procedure allows us to compute the marginal predictive distributions of all aggregates using three lower-dimensional copulas in a hierarchal manner: 1.
+106	22	We can then compute the samples for the sum {x1, .
+109	64	Since we are interested in multivariate forecasting, we will need another version of Sklar’s theorem for conditional joint distributions proposed by Patton (2006): If yt|Ft−1 ∼ F (·|Ft−1), with yit|Ft−1 ∼ Fi(·|Ft−1), i = 1, .
+110	44	As in Patton (2012), we will assume the following structure for our series: yit = µi(yt−1,yt−2, .
+112	134	See Fan & Patton (2014) for a review on copulas in econometrics.
+114	15	(Bottom-up Probabilistic Forecasting) 1.
+115	28	For all series in the hierarchy, as defined in (5), model the conditional marginal distributions; i.e. compute µ̂i and σ̂i for i = 1, .
+118	36	(b) Extract a discrete sample of size K = T , say xi1, .
+119	35	, i(nc) be the nc children series of the aggregate series i.
+120	38	(b) Recursively compute xik = x i(1) (pi(1)(k)) + · · ·+ xi(nc)(pi(nc)(k)), where xi(k) denotes the kth order statistics of {xi1, .
+122	16	Furthermore, the samples of each aggregate are computed using only the predictive distributions of the bottom series.
+123	40	However, Algorithm 1 has two main advantages compared to a classical bottom-up algorithm: (1) instead of estimating a highdimensional copula for the dependence between all the bottom series, we only need to specify the joint dependence between the child series of each aggregate series, and (2) since each copula is estimated at different aggregate levels, we can benefit from better estimation since the series are smoother, and easier to model and forecast.
+126	89	In order to further improve the accuracy of our probabilistic forecasts, we add a mean forecast combination step, which allows to exploit possibly better mean forecasts from higher levels.
+127	13	Forecast combination is known to improve forecasts in many cases (Timmermann, 2006; Genre et al., 2013).
+128	45	We could adjust the means of our predictive distributions using the MinT revised forecasts.
+129	28	However, as van Erven & Cugliari (2015), we propose to first combine the mean forecasts, and then apply a reconciliation step.
+132	43	Since the combined mean forecasts y̆t are not necessarily coherent, we also apply a reconciliation step using the GTOP approach described in Section 2.2.
+133	15	More precisely, we solve the quadratic optimization problem in (3), and obtain reconciled forecasts ỹt.

@@ -1,0 +1,30 @@
+15	24	We propose a model for learning many-to-many mappings between domains from unpaired data.
+22	8	(iii) We show that our model can learn mappings across substantially different domains, and we apply it in a semi-supervised setting for mapping between faces and attributes with competitive results.
+27	7	The CycleGAN model (Zhu et al., 2017a) estimates these conditionals using two mappings GAB : A 7→ B and GBA : B 7→ A, parameterized by neural networks, which satisfy the following constraints: 1.
+29	16	Cycle-consistency: Mapping an element from one domain to the other, and then back, should produce a sample close to the original element.
+33	10	A similar adversarial loss LAGAN(GBA, DA) is defined for marginal matching in the reverse direction.
+44	7	In CycleGAN, and in other similar models (Kim et al., 2017; Yi et al., 2017), the conditionals between domains correspond to delta functions: p̂(a|b) = δ(GBA(b)) and p̂(b|a) = δ(GAB(a)), and cycleconsistency forces the learned mappings to be inverses of each other.
+45	25	When faced with complex cross-domain relationships, this results in CycleGAN learning an arbitrary one-toone mapping instead of capturing the true, structured conditional distribution more faithfully.
+46	30	Deterministic mappings are also an obstacle to optimizing cycle-consistency when the domains differ substantially in complexity, in which case mapping from one domain (e.g. class labels) to the other (e.g. real images) is generally one-to-many.
+54	6	(4) Cycle-consistency starting from A is now given by: LACYC(GAB , GBA) = E a∼pd(a) z1,z2∼p(z) ∥∥GBA(GAB(a, z1), z2)− a∥∥1 (5) The full training loss is similar to the objective in Eqn.
+57	10	However, Stochastic CycleGAN suffers from a fundamental flaw: the cycle-consistency in Eq.
+60	18	5 forces the mapping GBA to be manyto-one when cycling A→ B → A′, since any b generated for a given a must map to a′ = GBA(b, z) ≈ a, for all z.
+62	10	The only way for to GBA and GAB to be both many-to-one and mutual inverses is if they collapse to being (roughly) one-to-one.
+67	19	For example, when generating a female face (b ∈ B) which resembles a male face (a ∈ A), the latent code zb ∈ Zb can capture female face variations (e.g. hair length or style) independent from a.
+70	15	By learning to map a pair (a, zb) ∈ A × Zb to (b, za) ∈ B × Za, we can (i) learn a stochastic mapping from a to multiple items in B by sampling different zb ∈ Zb, and (ii) infer latent codes za containing information about a not captured in the generated b, which allows for doing proper reconstruction of a.
+84	7	Similarly, given a pair (b, za) ∼ pd(b)p(za), we generate a pair (ã, z̃b) as follows: ã = GBA(b, za), z̃b = EB(b, ã).
+102	8	Thanks to the encoder EA, the model is able to reconstruct a because it can recover information loss in generated b̃ through z̃a.
+140	8	Specifically, given a trained model with mapping GAB and an edgeshoe pair (a, b) in the test set, we solve the optimization task z∗b = arg minzb ‖GAB(a, zb)−b‖1 and compute reconstruction error ‖GAB(a, z∗b ) − b‖1.
+141	6	Optimization is done with RMSProp as in (Xiang & Li, 2017).
+156	10	A good model of the true conditionals p(b|a), p(a|b) should reproduce the hidden joint distribution and consequently the marginals by alternatively sampling from conditionals.
+159	8	In StochCGAN, the mapping GBA(ã, zb) collapses to a deterministic function generating a single shoe for every zb.
+161	6	In AugCGAN, on the other hand, the mapping seem to closely capture the diversity in the conditional distribution of shoes given edges.
+162	12	8, we run a Markov chain by generating from the learned mappings multiple times, starting from a real shoe.
+167	11	We study another image translation task of translating between male and female faces.
+169	36	Several key features distinguish this task from other image-translation tasks: (i) there is no predefined correspondence in real data of each domain, (ii) the relationship is many-to-many between domains, as we can map a male to female face, and vice-versa, in many possible ways, and (iii) capturing realistic variations in generated faces requires transformations that go beyond simple color and texture changes.
+171	10	9 shows results of applying our model to this task on 128 × 128 resolution CelebA images.
+173	9	10 we show 64 × 64 generated samples in both domains from our model ((a) and (b)), and compare them to both: (c) our model but with noise injected noise only in last 3 layers of the GAB’s network, and (d) StochCGAN with the same architecture.
+180	12	In this task, we make use of the CelebA dataset in order map from descriptive facial attributes A to images of faces B and vice-versa.
+190	13	This model can learn stochastic mappings which leverage auxiliary noise to capture multimodal conditionals.
+191	12	Our experimental results verify quantitatively and qualitatively the effectiveness of our approach in image translation tasks.
+192	16	Furthermore, we apply our model in a challenging task of learning to map across attributes and faces, and show that it can be used effectively in a semi-supervised learning setting.

@@ -1,0 +1,30 @@
+25	36	Many cognitive models of the word learning problem draw on Brent (1999), which used a simple unigram model of the lexicon to discover repeated patterns in phonemically transcribed input.
+38	30	Baddeley et al. (1998) claim that the phonological loop functions in word learning as well as processing by proficient listeners, aiding in the acquisition of unfamiliar words.
+44	64	The model attempts to reconstruct its input from memory; chunks that are easy to reconstruct (and that make the context reconstructible) are good candidate words.
+45	35	The working memory model accounts for the two types of bias normally found in Bayesian segmenters.
+49	98	As stated above, traditional segmentation models operate on phonemic transcriptions and must be adapted to cope with phonetic or acoustic input.
+82	24	Even outside the domain of segmentation, neural networks have been most successful for supervised problems, and are not widely used for unsupervised learning of discrete structures (trees, clusters, segment boundaries).
+87	28	Both models use multiscale autoencoding to learn a sequence model with unknown segment boundaries.
+91	44	In a typical encoder-decoder, the input is fed into an LSTM sequence model (Hochreiter and Schmidhuber, 1997) which represents it as a latent numeric embedding.
+93	48	Our two-level model performs this process in stages, first encoding every word, character-by-character, and then encoding the word sequence, vector-by-vector.
+98	76	The encoder-decoder does not predict segment boundaries directly, but gives an objective function (reconstruction loss) which can be used to guide segmentation.
+99	30	Because the segment boundary decisions are hard (there are no “partial” boundaries), the loss function is not differentiable as a function of the boundary indicators.
+100	26	We use sampling to estimate the gradient, as in previous work (Mnih et al., 2014; Xu et al., 2015).
+101	41	Our sampling system works as follows: we begin with a proposal distribution Pseg over sequences of segment boundaries for the current utterance x.
+103	97	Each boundary sequence splits the utterance into words.
+104	74	We use the autoencoder network to encode and decode the words, and obtain the loss (the cross-entropy of the reconstructed input) for each sequence, L1:m. We can use the cross-entropy to estimate the posterior probability of the data given a breakpoint sequence (Eq.
+106	61	We then treat each breakpoint t in the utterance independently: for each one, we use the losses and the proposal probabilities to compute an importance weight wti for sample i and position t (Eq.
+113	31	Thus, the proposal learns to predict segment boundaries that are likely to result in low reconstruction loss for the main network.
+133	37	Each subplot shows a particular dropout setting, Dp/Du; the cells within represent settings of Hp (rows) and Hu (columns), where darker cells have higher boundary F-score.
+135	40	For low levels of dropout, the best systems tend to have small numbers of hidden units (dark regions in the lower left); for larger dropout, more hidden units can be useful.
+136	28	For instance, compare the top left subplot, with 0 dropout and good performance with Hp = 20, Hu = 100, to subplot 3,3, with optimal performance at Hp = 80, Hu = 200.
+155	59	Precision initially exceeds recall (that is, the system proposes too few boundaries) but recall climbs over time as the system exploits known words as “anchors” to discover new ones, a pattern consistent with the infant data (Bortfeld et al., 2005).
+172	125	Fourth, we discovered in practice that the assumption of independence between samples made by the importance scoring scheme as implemented for symbolic mode was distortionary in acoustic mode, such that the “best” segmentation discovered through sampling often contained many times more segments than any of its component samples.3 To prevent this from happening, we simply used 1-best rather than importance sampling for acoustic segmentation.
+178	38	However, since the challenge concluded, Räsänen et al. (under review) have modified their system and improved their segmentation score,4 and Kamper et al. (2016) have established a new state of the art for this task.
+179	42	While our system currently remains far from these newer benchmarks, we expect that with systematic parameter tuning and investigation into appropriate sampling procedures for acoustic input, we might be able to improve substantially on the results presented here.
+180	82	We believe that the results of this preliminary investigation into the acoustic domain are promising, and that they bear out our claims about the flexibility of our general architecture.
+181	84	This work presented a new unsupervised LSTM architecture for discovering meaningful segments in representations of continuous speech.
+183	59	By varying the size of the LSTM’s hidden state, we showed that word segmentation performance on the Brent corpus is driven by memory limitations, with performance improving (up to a point) as we constrain the system’s memory capacity.
+185	27	In the future we hope to pursue a number of lines of inquiry.
+187	81	We also intend to introduce additional layers into the autoencoder network so as to allow for joint acquisition of phone-like, morph-like, and/or word-like units in the acoustic signal; this may benefit from the alternate model structure of Chung et al. (2017).
+188	65	And we plan to explore clustering techniques that would allow our system to discover categories in addition to probable segmentation points.

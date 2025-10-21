@@ -1,0 +1,30 @@
+14	10	Very little is known about the use of p-Laplacians for hypergraph clustering and their spectral properties.
+16	63	The only other line of work trying to mitigate the projection problem is due to Louis (Louis, 2015), who used a natural extension of 2-Laplacians for homogeneous hypergraphs, derived quadratically-optimal Cheeger-type inequalities and proposed a semidefinite programing (SDP) based algorithm whose complexity scales with the size of the largest hyperedge in the hypergraph.
+19	14	Submodular hypergraphs allow one to perform hyperedge partitionings that depend on the subsets of elements involved in each part, thereby respecting higherorder and other constraints in graphs (see (Li & Milenkovic, 2017; Arora et al., 2012; Fix et al., 2013) for applications in food network analysis, learning to rank, subspace clustering and image segmentation).
+20	27	Second, we define p-Laplacians for submodular hypergraphs and generalize the corresponding discrete nodal domain theorems (Tudisco & Hein, 2016; Chang et al., 2017) and higher-order Cheeger inequalities.
+21	19	Even for homogeneous hypergraphs, nodal domain theorems were not known and only one low-order Cheeger inequality for 2-Laplacians was established by Louis (Louis, 2015).
+22	18	An analytical obstacle in the development of such a theory is the fact that p-Laplacians of hypergraphs are operators that act on vectors and produce sets of values.
+24	62	Third, based on the newly established spectral hypergraph theory, we propose two spectral clustering methods that learn the second smallest eigenvalues of 2- and 1-Laplacians.
+26	20	The algorithm for 1-Laplacian eigenvalue computation is based on the inverse power method (IPM) (Hein & Bühler, 2010) that only has convergence guarantees.
+28	13	Although without performance guarantees, given that the 1-Laplacian provides the tightest approximation guarantees, the IPM-based algorithm – as opposed to the clique expansion method (Li & Milenkovic, 2017) – performs very well empirically even when the size of the hyperedges is large.
+29	11	This fact is illustrated on several UC Irvine machine learning datasets available from (Asuncion & Newman, 2007).
+30	11	The paper is organized as follows.
+31	10	Section 2 contains an overview of graph Laplacians and introduces the notion of submodular hypergraphs.
+33	27	Section 3 presents the funda- mental results in the spectral theory of p-Laplacians, while Section 4 introduces two algorithms for evaluating the second largest eigenvalue of p-Laplacians needed for 2-way clustering.
+34	13	Section 5 presents experimental results.
+40	13	Whenever clear from the context, for e = (uv), we write we instead of wuv.
+41	17	Note that in this setting, the vertex weight values µu are determined based on the weights of edges we incident to u.
+42	16	Clearly, one can use a different choice for these weights and make them independent from the edge weights, which is a generalization we pursue in the context of submodular hypergraphs.
+47	21	Here, A stands for the adjacency matrix of the graph, D denotes the diagonal degree matrix, while I stands for the identity matrix.
+48	27	The graph Laplacian is an operator4(g)2 (Chung, 1997) that satisfies 〈x,4(g)2 (x)〉 = ∑ (uv)∈E wuv(xu − xv)2.
+49	11	A generalization of the above operator termed the pLaplacian operator of a graph 4(g)p was introduced by Amghibech in (Amghibech, 2003), where 〈x,4(g)p (x)〉 = ∑ (uv)∈E wuv|xu − xv|p.
+50	30	The well known Cheeger inequality asserts the following relationship between h2 and λ, the second smallest eigenvalue of the normalized Laplacian4(g)2 of a graph: h2 ≤ √ 2λ ≤ 2 √ h2.
+52	52	Hence, spectral clustering provides a quadratically optimal graph partition.
+53	25	A weighted hypergraph G = (V,E,w) is an ordered pair of two sets, the vertex set V = [N ] and the hyperedge set E ⊆ 2V , equipped with a weight function w : E → R+.
+54	11	The relevant notions of cuts, boundaries and volumes for hypergraphs can be defined in a similar manner as for graphs.
+56	11	For a ground set Ω, a set function f : 2Ω → R is termed submodular if for all S, T ⊆ Ω, one has f(S) + f(T ) ≥ f(S ∪ T ) + f(S ∩ T ).
+59	33	In this case, we(·) ∈ [0, 1]; 2) Symmetric, so that we(S) = we(e\S) for any S ⊆ e; The submodular hyperedge weight functions are summarized in the vector w , {(we, ϑe)}e∈E .
+60	14	We omit the designation homogeneous whenever there is no context ambiguity.
+62	39	We define the degree of a vertex v as dv = ∑ e∈E: v∈e ϑe, i.e., as the sum of the max weights of edges incident to the vertex v. Furthermore, for any vector y ∈ RN , we define the projection weight of y onto any subset S ⊆ V as y(S) = ∑ v∈S yv.
+63	13	The volume of a subset of vertices S ⊆ V equals vol(S) = ∑ v∈S µv.
+64	12	For any S ⊆ V , we generalize the notions of the boundary of S and the volume of the boundary of S according to ∂S = {e ∈ E|e ∩ S 6= ∅, e ∩ S̄ 6= ∅}, and vol(∂S) = ∑ e∈∂S ϑewe(S) = ∑ e∈E ϑewe(S), (1) respectively.

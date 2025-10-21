@@ -1,0 +1,30 @@
+13	22	The resulting algorithm, which we call PILQR, combines the efficiency of model-based learning with the generality of model-free updates and can solve complex continuous control tasks that are infeasible for either linear-Gaussian models or PI2 by itself, while remaining orders of magnitude more efficient than standard model-free RL.
+32	42	The goal of policy search methods is to optimize the parameters ✓ of a policy p(u t |x t ), which defines a probability distribution over actions u t conditioned on the system state x t at each time step t of a task execution.
+33	12	,xT ,uT ) be a trajectory of states and actions.
+35	112	The policy is optimized with respect to the expected cost of the policy J(✓) = E p [c(⌧)] = Z c(⌧)p(⌧)d⌧ , where p(⌧) is the policy trajectory distribution given the system dynamics p (x t+1|xt,ut) p(⌧) = p(x1) TY t=1 p (x t+1|xt,ut) p(ut|xt) .
+40	15	The model-based method we use is based on the iterative linear-quadratic regulator (iLQR) and builds on prior work (Levine & Abbeel, 2014; Tassa et al., 2012).
+42	110	We use samples to fit a TVLG dynamics model p(x t+1|xt,ut) = N (fx,txt + fu,tut,Ft) and assume a twice-differentiable cost function.
+50	41	PI2 is a model-free RL algorithm based on stochastic optimal control.
+57	15	The intuition is that the trajectories with lower costs receive higher probabilities, and the policy distribution shifts towards a lower cost trajectory region.
+67	12	The temperature ⌘ t now corresponds to the dual variable of the KL-divergence constraint.
+77	19	We can rewrite the PI2 policy update rule from Eq.
+79	89	(6) Hence, by decomposing the cost into its approximation and the residual approximation error, the PI2 update can be split into two steps: (1) update using the approximated costs ĉ(x t ,u t ) and samples from the old policy p(i 1) (u t |x t ) to get p̂ (u t |x t ); (2) update p(i) (u t |x t ) using the residual costs c̃(x t ,u t ) and samples from p̂ (u t |x t ).
+83	24	Thus, the policy p̂ (u t |x t ) can be updated using any algorithm that can solve this optimization problem.
+88	22	We can use a PI2 optimization on the residuals to correct for this bias.
+106	30	(1) based inversely on the proportion of the residual costs-to-go to the sampled costs-to-go (line 5).
+107	16	In particular, if ratio between the residual cost and the overall cost is sufficiently small or large, we increase or decrease, respectively, the KL-step ✏ t .
+108	23	We then continue with optimizing for the temperature ⌘ t using the dual function from Eq.
+109	17	Finally, we perform an LQR-FLM update on the cost approximation (line 7) and a subsequent PI2 update using the cost residuals (line 8).
+113	50	In this work, we employ mirror descent guided policy search (MDGPS) (Montgomery & Levine, 2016) in order to use PILQR to train parametric policies, such as neural networks.
+114	24	Instead of directly learning the parameters of a high-dimensional parametric or “global policy” with RL, we first learn simple TVLG policies, which we refer to as “local policies” p(u t |x t ) for various initial conditions of the task.
+116	21	,K} do 2: Generate trajectories D = {⌧ i } by running the current linear-Gaussian policy p(k 1) (u t |x t ) 3: Fit TVLG dynamics p̂ (x t+1|xt,ut) 4: Estimate cost approximation ĉ(x t ,u t ) using fitted dynamics and compute cost residuals: c̃(x t ,u t ) = c(x t ,u t ) ĉ(x t ,u t ) 5: Adjust LQR-FLM KL step ✏ t based on ratio of residual costs-to-go ˜S and sampled costs-to-go S 6: Compute ⌘ t using dual function from Eq.
+117	14	(4) 7: Perform LQR-FLM update to compute p̂ (u t |x t ): min p (i) E p (i) [Q(x t ,u t )] s.t.
+142	18	Figure 3 details performance of each method on the most difficult condition for the gripper pusher task.
+144	25	While PI2 improves in performance as we provide more samples, LQR-FLM is bounded by its ability to model the dynamics, and thus predict the costs, at the moment when the gripper makes contact with the block.
+146	30	On the door opening task, PILQR trains TVLG policies that succeed at opening the door from each of the four initial robot positions.
+150	15	MDGPS with LQR-FLM and MDGPS with PILQR perform competitively in terms of the final distance from the end effector to the target, which is unsurprising given the simplicity of the task, whereas MDGPS with PI2 is again not able to make much progress.
+151	14	On the reacher task, DDPG and TRPO use 25 and 150 times more samples, respectively, to achieve approximately the same performance as MDGPS with LQR-FLM and PILQR.
+160	41	The hockey task requires using a stick to hit a puck into a goal 1.4m away.
+167	19	Our TVLG policies consist of 100 time steps and we control our robot at a frequency of 20 Hz.
+170	14	In contrast to prior works (Daniel et al., 2013) that use kinesthetic teaching to initialize a policy that is then finetuned with model-free methods, our method does not require any human demonstrations.
+171	45	The policies are randomly initialized using a Gaussian distribution with zero mean.

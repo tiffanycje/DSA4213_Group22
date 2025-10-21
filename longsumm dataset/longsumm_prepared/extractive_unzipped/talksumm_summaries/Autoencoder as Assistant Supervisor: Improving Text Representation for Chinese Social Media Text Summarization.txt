@@ -1,0 +1,30 @@
+2	28	Recently, most models for abstractive text summarization are based on the sequence-to-sequence model, which encodes the source texts into the semantic representation with an encoder, and generates the summaries from the representation with a decoder.
+3	17	The contents on the social media are long, and contain many errors, which come from spelling mistakes, informal expressions, and grammatical mistakes (Baldwin et al., 2013).
+4	23	Large amount of errors in the contents cause great difficulties for text summarization.
+6	14	Compared with the source content, it is easier to encode the representations of the summaries, which are short and manually selected.
+7	14	Since the source content and the summary share the same points, it is possible to supervise the learning of the semantic representation of the source content with that of the summary.
+10	55	Then, we supervise the internal representation of Seq2Seq with that of autoencoder by minimizing the distance between two representations.
+12	30	Following the previous work (Ma et al., 2017), We evaluate our proposed model on a Chinese social media dataset.
+22	22	Then both zt and zs are fed into a LSTM decoder to generate the summary.
+29	13	1, we use a fixed hyper-parameter as a weight to measure the strength of the supervision of the autoencoder.
+30	21	However, in the case when the source content and summary have high relevance, the strength of the supervision should be higher, and when the source content and summary has low relevance, the strength should be lower.
+31	13	In order to determine the strength of supervision more dynamically, we introduce the adversarial learning.
+33	13	A model is trained to discriminate between the gold and fake representations, which is called a discriminator.
+35	13	On the contrary, the supervision, which minimizes the distance of the representations and makes them similar, tries to prevent the discriminator from making correct predictions.
+36	23	In this way, when the discriminator can distinguish the two representations (which means the source content and the summary has low relevance), the strength of supervision will be decreased, and when the discriminator fails to distinguish, the strength of supervision will be improved.
+51	45	The dataset consists of more than 2,400,000 text-summary pairs, constructed from a famous Chinese social media website called Sina Weibo.2 It is split into three parts, with 2,400,591 pairs in PART I, 10,666 pairs in PART II and 1,106 pairs in PART III.
+54	15	Following the previous work (Hu et al., 2015), we use PART I as training set, PART II as validation set, and PART III as test set.
+56	28	The metrics compare an automatically produced summary with the reference summaries, by computing overlapping lexical units, including unigram, bigram, trigram, and longest common subsequence (LCS).
+65	18	We compare our model with the following stateof-the-art baselines.
+66	25	• RNN and RNN-cont are two sequence-tosequence baseline with GRU encoder and decoder, provided by Hu et al. (2015).
+75	25	Table 1 summarizes the results of our superAE model and several baselines.
+78	11	Moreover, we compare our model with the recent summarization systems, which have been evaluated on the same training set and the test sets as ours.
+80	11	It shows that our superAE outperforms all of these models, with a relative gain of 2.2 ROUGE-1, 1.8 ROUGE-2, and 2.0 ROUGE-L. We also perform ablation study by removing the adversarial learning component, in order to show its contribution.
+84	15	We want to analyze whether the internal text representation is improved by our superAE model.
+85	16	Since the text representation is abstractive and hard to evaluate, we translate the representation into a sentiment score with a sentiment classifier, and evaluate the quality of the representation by means of the sentiment accuracy.
+87	31	The Amazon dataset contains users’ rating labels as well as the summary for the reviews, making it possible to train a classifier to predict the sentiment labels and a seq2seq model to generate summaries.
+89	17	Then, we transfer the encoders to a sentiment classifier, and train the classifier with fixing the parameters of the encoders.
+92	21	As shown in Table 2, the seq2seq model achieves 80.7% and 65.1% accuracy of 2-class and 5-class, respectively.
+93	36	Our superAE model outperforms the baselines with a large margin of 8.1% and 6.6%.
+106	96	We propose a novel model, in which the autoencoder is a supervisor of the sequence-to-sequence model, to learn a better internal representation for abstractive summarization.
+108	16	Experimental results show that our model outperforms the sequence-to-sequence baseline by a large margin, and achieves the state-of-the-art performances on a Chinese social media dataset.

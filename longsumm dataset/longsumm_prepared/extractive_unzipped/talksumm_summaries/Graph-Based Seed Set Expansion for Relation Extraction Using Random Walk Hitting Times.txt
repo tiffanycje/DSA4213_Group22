@@ -1,0 +1,19 @@
+1	16	A widely employed approach to relation extraction is based on iterative bootstrapping (Brin, 1998; Agichtein and Gravano, 2000; Pasca et al., 2006; Pantel and Pennacchiotti, 2006), which can be applied with only small amounts of supervision and which scales well to very large datasets.
+2	9	A well-known problem with iterative bootstrapping is a phenomenon known as semantic drift (Curran et al., 2007): as bootstrapping proceeds it is likely that unreliable patterns will lead to false extractions.
+7	9	They have shown that iterative bootstrapping without pruning corresponds to an eigenvector computation and thus as the number of iterations increases the resulting ranking will always converge towards the same static ranking of tuples, regardless of the particular choice of seed instances.
+11	7	From a given corpus, we extract a dataset consisting of tuples and patterns.
+12	13	Tuples are pairs of co-occurring strings in the corpus, such as (Bill Gates, Microsoft), which potentially belong to a particular relation of interest.
+14	55	We represent all the tuple types1 X and all the extraction pattern types Y contained in a given corpus through an undirected, weighted, bipartite graph G = (V,E) with vertices V = X ∪ Y and edges E ⊂ X × Y , where an edge (x, y) ∈ E indicates that tuple x occurrs with pattern y somewhere in the corpus.
+15	4	Edge weights are defined through a weight matrix W which holds the weight Wi,j = w(vi, vj) for edges (vi, vj) ∈ E. Specifically, we use the count of how many times a tuple occurs with a pattern in the corpus and weights for unconnected vertices are zero.
+16	37	Our goal is to compute a score vector σ holding a score σi = σ(xi) for each tuple xi ∈ X, which quantifies how well the tuple matches the seed tuples.
+18	25	We define scores of tuples based on their distance2 to the seed tuples in the graph.
+22	6	The distance of two vertices is measured in terms of the average time of a random walk be1Note that we are using tuple and pattern types rather than particular mentions in the corpus.
+24	15	Specifically, we adopt the notion of T-truncated hitting time (Sarkar and Moore, 2007) defined as the expected number of steps it takes until a random walk of at most T steps starting at vi reaches vj for the first time: hT (vj |vi) = { 0 iff.
+26	30	tm} are the sampled first-hit times of random walks which reach vj within T steps (Sarkar et al., 2008).
+34	20	The first one (IB1) does not employ pruning and corresponds to the algorithm described in Komachi et al. (2008).
+40	18	In contrast, pruning helps avoid semantic drift for IB2, which attains an optimal score after 2 iterations and achieves relatively constant scores for several iterations.
+45	6	The figure shows that, if T is large enough (> 5), the PRM is relatively constant and there is no phenomenon comparable to semantic drift, which causes instability in the produced rankings.
+51	7	For a majority of the relations (12/16) HT attains the best, i.e. lowest, PRM, which confirms that hitting times constitute an accurate way of measuring the distance of tuples to the seed set.
+52	32	IB1 and IB2 each perform best on 2/16 of the relations.
+53	53	A sign test on these results yields that HT is better than both IB1 and IB2 at significance level α < 0.01.
+55	39	In contrast, when semantic drift occurs, the performance of IB1 and IB2 can deteriorate drastically, e.g. for the worksAt relation, where both IB1 and IB2 produce rankings that are a lot worse than the one produced by HT.

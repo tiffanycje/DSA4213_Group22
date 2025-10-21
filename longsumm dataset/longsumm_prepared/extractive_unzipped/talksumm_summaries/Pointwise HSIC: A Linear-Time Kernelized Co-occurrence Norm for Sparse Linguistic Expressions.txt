@@ -1,0 +1,30 @@
+0	77	Computing the co-occurrence strength between two linguistic expressions is a fundamental task in natural language processing (NLP).
+1	71	For example, in collocation extraction (Manning and Schütze, 1999), word bigrams are collected from corpora and then strongly co-occurring bigrams (e.g., “New York”) are found.
+2	35	In dialogue response selection (Lowe et al., 2015), pairs comprising a context and its response sentence are collected from dialogue corpora and the goal is to rank the candidate responses for each given context sentence.
+4	21	Pointwise mutual information (PMI) (Church and Hanks, 1989) is frequently used to model the co-occurrence strength of linguistic expression pairs.
+7	17	This is easy to compute and is commonly used to measure co-occurrence between words, such as in collocation extraction1; however, when data D is sparse, i.e., when x or y is a phrase or sentence, this approach is unrealistic.
+8	15	The second method uses recurrent neural networks (RNNs).
+9	14	Li et al. (2016) proposed to em1 In collocation extraction, simple counting c(x, y) ∝ P̂(x, y), rather than PMI, ranks undesirable function-word pairs (e.g., “of the”) higher (Manning and Schütze, 1999).
+11	34	They estimated P(y) and P(y|x) using RNN language models and estimated PMI as follows: P̂MIRNN(x, y;D) = log P̂RNN(y|x) P̂RNN(y) .
+12	10	(2) This way of estimating PMI is applicable to sparse language expressions; however, learning RNN language models is computationally costly.
+13	41	To eliminate this trade-off between robustness to data sparsity and learning time, in this study we propose a new kernel-based co-occurrence measure, which we call the pointwise Hilbert–Schmidt independence criterion (PHSIC) (see Table 1).
+31	25	Both the mutual information and the Hilbert– Schmidt independence criterion, to be described below, are such dependence measures.
+33	64	The mutual information (MI)3 between two random variables X and Y is defined by MI(X,Y ) := KL[PXY ‖PXPY ] (4) (Cover and Thomas, 2006), where KL[·‖·] denotes the Kullback–Leibler (KL) divergence.
+36	10	(5) The shaded part in Equation (5) is actually the pointwise mutual information (PMI) (Church and Hanks, 1989): PMI(x, y;X,Y ) := log PXY (x, y) PX(x)PY (y) .
+37	18	(6) Therefore, PMI(x, y) can be thought of as the contribution of (x, y) to MI(X,Y ).
+39	31	As seen in the previous section, PMI can be derived from MI.
+42	15	Let k : X × X → R and ` : Y × Y → R denote positive definite kernels on X and Y , respectively (intuitively, they are similarity functions between linguistic expressions).
+43	16	The Hilbert– Schmidt independence criterion (HSIC) (Gretton et al., 2005), a kernel-based dependence measure, is defined by HSIC(X,Y; k, `) :=MMD2k,`[PXY ,PXPY ], (7) where MMD[·, ·] denotes the maximum mean discrepancy (MMD) (Gretton et al., 2012), which measures the difference between random variables on a kernel-induced feature space.
+45	20	Analogous to MI in Equation (5), HSIC can be represented in the form of the expectation on PXY by a simple deformation: HSIC(X,Y ; k, `) = E (x,y) [ (φ(x)−mX)>CXY (ψ(y)−mY ) ] (8) = E (x,y) [ E (x′,y′) [k̃(x, x′)˜̀(y, y′)] ], (9) where φ(x) := k(x, ·), ψ(y) := `(y, ·), (10) mX := Ex[φ(x)], mY := Ey[ψ(y)], (11) CXY := E (x,y) [ (φ(x)−mX)(ψ(y)−mY )> ] , (12) k̃(x, x′) := k(x, x′)−Ex′ [k(x, x′)] −Ex[k(x, x′)] +Ex,x′ [k(x, x′)].
+46	64	(13) At first glance, these equations are somewhat complicated; however, the estimators of PHSIC we actually use are reduced to a simple matrix calculation in Section 5.
+47	53	Unlike MI in Equation (5), HSIC has two representations: Equation (8) is the representation in feature space and Equation (9) is the representation in data space.
+50	26	In summary, we define PHSIC such that “MI:PMI = HSIC:PHSIC” holds (see Table 2).
+60	11	Therefore, PHSIC is expected to be robust to data sparsity and can be applied to phrases and sentences.
+61	12	Available Kernels for PHSIC In NLP, a variety of similarity functions (i.e., positive definite kernels) are available.
+62	27	We can freely utilize such resources, such as cosine similarity between sentence embeddings.
+63	11	For a more detailed discussion, see Appendix A.
+66	14	When using the linear kernel or cosine similarity (e.g., cosine similarity between sentence embeddings), PHSIC can be efficiently estimated in feature space (Section 5.1).
+72	12	When estimating PHSIC(x, y), computing φ(x), ψ(y) ∈ Rd and Equation (18) takes O(d2) time (constant; does not depend on the size of the input, n).
+78	43	• In the ranking/classification scenario (measuring the co-occurrence strength of new data pairs with reference to observed pairs), PHSIC is applied 6 One of the characteristics of kernel methods is that an intractable estimation in feature space is replaced with an efficient estimation in data space.
+79	49	as a criterion for the dialogue response selection task (Section 6.2).
+80	24	• In the data selection/filtering scenario (ordering the entire set of observed data pairs according to the co-occurrence strength), PHSIC is also applied as a criterion for data selection in the context of machine translation (Section 6.3).

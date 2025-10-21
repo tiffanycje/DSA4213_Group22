@@ -1,0 +1,30 @@
+0	10	With the rapid growth of products reviews at the web, it has become common for people to read reviews before making a purchase decision.
+1	10	The reviews usually contain abundant consumers’ personal experiences.
+3	13	Existing studies have shown that an extra halfstar rating on Yelp causes restaurants to sell out 19% points more frequently (Anderson and Magruder, 2012), and a one-star increase in Yelp rating leads to a 5-9 % increase in revenue (Luca, 2011).
+6	8	The news from BBC has shown that around 25% of Yelp reviews could be fake.1 Therefore, it is urgent to detect review spam, to ensure that the online review continues to be trusted.
+7	9	Jindal and Liu (2008) make the first step to detect review spam.
+8	41	Most efforts are devoted to exploring effective linguistic and behavioral features by subsequent work to distinguish such spam from the real reviews.
+9	27	However, to notice such patterns or form behavioral features, developers should take a long time to observe the data, because the features are based on statistics.
+11	11	It usually takes several months to count the difference of timestamps between the last and first reviews for reviewers.
+14	8	It is a coldstart problem which is the focus of this paper.
+15	21	In this paper, we assume that we must identify fake reviews immediately when a new reviewer posts just one review.
+16	7	Unfortunately, it is very difficult because the available information for detecting fake reviews is very poor.
+18	19	The more behavioral information obtained, the more effective the traditional behavioral features are (see experiments in Section 3 ).
+19	7	In the scenario of cold-start, a new reviewer only has a behavior: post a review.
+20	38	As a result, we can not get effective behavioral features from the data.
+21	10	Although, the linguistic features of reviews do not need to take much time to form, Mukherjee et al. (2013c) have proved that the linguistic features are not effective enough in detecting real-life fake reviews from the commercial websites, where we also obtain the same observation (the details are shown in Section 3).
+22	26	366 Therefore, the main difficulty of the cold-start spam problem is that there are no sufficient behaviors of the new reviewers for constructing effective behavioral features.
+23	24	Nevertheless, there is ample textual and behavioral information contained in the abundant reviews posted by the existing reviewers (Figure 1).
+24	17	We could employ behavioral information of existing similar reviewers to a new reviewer to approximate his behavioral features.
+25	46	We argue that a reviewer’s individual characteristics such as background information, motivation, and interactive behavior style have a great influence on a reviewer’s textual and behavioral information.
+26	39	So the textual information and the behavioral information of a reviewer are correlated with each other (similar argument in Li et al. (2016)).
+28	7	But the financial analysts on a business trip may tend to choose the business hotel, the environment and service are what they care about in their reviews.
+29	8	To augment the behavioral information of the new reviewers in the cold-start problem, we first try to find the textual information which is similar with that of the new reviewer, from the existing reviews.
+30	14	There are several ways to model the textual information of the review spam, such as Unigram (Mukherjee et al., 2013c), POS (Ott et al., 2011) and LIWC (Linguistic Inquiry and Word Count) (Newman et al., 2003).
+31	105	We employ the CNN (Convolutional Neural Network) to model the review text, which has been proved that it can capture complex global semantic information that is difficult to express using traditional discrete manual features (Ren and Zhang, 2016).
+32	52	Then we employ the behavioral information which is correlated with the found textual information to approximate the behavioral information of the new reviewer.
+33	10	An intuitive approach is to search the most similar existing review for the new review, then take the found reviewer’s behavioral features as the new reviewers’ features (detailed in Section 5.3).
+34	5	However, there is abundant behavioral information in the review graph (Figure 1), it is difficult for the traditional discrete manual behavioral features to record the global behavioral information (Wang et al., 2016).
+36	26	So, we propose a neural network model to jointly encode the textual and behavioral information into the review embeddings for detecting the review spam in the cold-start problem.
+37	6	By encoding the review graph structure (Figure 1), the proposed model can record the global footprints of the existing reviewers in an unsupervised way, and further record the reviewers’ latent characteristic information in the footprints.
+38	9	The jointly learnt review embeddings can model the correlation of the reviewers’ textual and behavioral information.

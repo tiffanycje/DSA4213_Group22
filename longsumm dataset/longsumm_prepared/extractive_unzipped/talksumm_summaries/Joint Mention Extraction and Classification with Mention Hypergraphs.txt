@@ -1,0 +1,30 @@
+1	49	An important step towards such a goal is the development of practical systems that can efficiently extract useful shallow semantic information such as entities and at the same time identify their semantic classes (e.g., person, organization, etc).
+3	38	While such a task focuses on the extraction and classification of entities in the texts which are named, recently researchers also showed interest in a closely related task – mention extraction and classification/typing.
+4	20	Unlike a named entity, a mention is typically defined as a reference to an entity in natural language text that can be either named, nominal or pronominal (Florian et al., 2004).
+7	29	In fact, one can view these problems as instances of the more general problem of semantic tagging – the task of assigning appropriate semantic tags to certain text spans for a given input sentence.
+10	53	Second, the mentions can overlap with one another.
+15	37	We make the following major contributions in this work: • We propose a model that is able to effectively 857 handle overlapping mentions with unbounded lengths.
+16	71	• The learning and inference algorithms of our proposed model have a time complexity that is linear in the number of words in the input sentence and also linear in the number of possible semantic classes/types, making our model scalable to extremely large datasets.
+38	19	Typically, a mention that appears in a natural language sentence consists of a contiguous sequence of natural language words.
+40	101	A mention m can be uniquely represented with a tuple 〈bm, em, τ〉, where bm and em are the indices of the first and last word of the mention, respectively, and τ is its semantic class (type).
+41	34	We can see that for a given sentence consisting of n words, there are altogether tn(n + 1)/2 possible different mention candidates, where t is the total number of possible mention types.
+47	31	Central to our approach is the introduction of the novel mention hypergraphs that allow us to compactly represent exponentially many possible combinations of potentially overlapping, lengthunbounded mentions of different types.
+56	39	Specifically, each A node at position k (the k-th word), or Ak, is used to compactly represent all such mentions in the sentence whose left boundaries are exactly at or strictly after k. • E nodes.
+65	56	For example, as shown in Figure 1, the hyperedge connecting the parent node Ak and the child nodes Ek,Ak+1 explains the fact that any mention covered by Ak either has a left boundary that is “exactly at k” (Ek), or “exactly at or strictly after k + 1” (Ak+1).
+66	16	Similarly, for each I node, there exist 3 hyperedges that connect it to other child nodes.
+67	39	The top hyperedge (in green) encodes the fact that the current word appears in the middle of a mention; the bottom hyperedge (in yellow) encodes the fact that the current word appears in a mention as the last word; the middle hyperedge (in brown) encodes the fact that both cases can occur at the same time (i.e., the current word belongs to multiple overlapping mentions of the same type).
+68	71	We have the following theorem: Theorem 3.1 Any combination of mentions in a sentence can be represented with exactly one subhypergraph of the complete mention hypergraph.
+76	15	We note that the converse of Theorem 3.1 is not true.
+92	19	The objective function defined in Equation 2 can be optimized with standard gradient-based methods.
+113	37	The idea is to replace the I nodes with three different types of nodes, namely Ij–B nodes (used to represent words that appear within a mention of type j and before its head), Ij–W nodes (used to represent words that appear within the head of a mention of type j), and Ij–A nodes (used to represent words that appear within a mention of type j and after its head).
+115	36	Since in such a new hypergraph, at each time step, only a constant number (2) of additional nodes are involved, the time complexity for learning and inference with such a model remains the same, which is in O(mn).
+159	15	The results of these two models are reported in the fourth and fifth row of Table 2, respectively.
+162	16	When the model is further augmented with the F measure optimization step described in Sec 3.7 (MH (F )) it consistently yields the best results in terms of both recall score and F measure across these two datasets.
+174	36	We empirically captured the relationship between the speed of each system (average number of words processed per second) and the number of mention types.
+180	103	We compared our system’s results with those of several baseline approaches based on CRF where the cascaded BILOU approach described above was always used.
+184	18	We can observe that always predicting the last word as the head gives the best performance.
+186	129	When making predictions, we always regarded the last word of each predicted mention as its head.
+201	37	We compared our model’s performance with that of a model based on a constituency parser proposed by (Finkel and Manning, 2009), as well as the semi-CRF model reported there.
+209	32	To understand how well our model works on datasets where mentions or entities do not overlap with one another, we conducted additional experiments on the standard dataset used in the CONLL 2003 shared task (Tjong Kim Sang and De Meulder, 2003), where the named entities strictly do not overlap with one another.
+215	21	This additional experiment showed that while our model is designed for handling more realistic scenarios where mentions can overlap, it yields a performance competitive to a state-of-theart system which only handles datasets with nonoverlapping mentions.
+217	22	Unlike many previous research efforts for mention extraction and classification, our novel mention hypergraph representations for compactly representing exponentially many possible mentions enables a mention’s boundaries, type and head information to be jointly learned in a single framework.

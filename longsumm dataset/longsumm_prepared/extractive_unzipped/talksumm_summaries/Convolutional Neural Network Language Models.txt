@@ -1,0 +1,30 @@
+0	27	Convolutional Neural Networks (CNNs) are the family of neural network models that feature a type of layer known as the convolutional layer.
+4	35	Examples of this are sentence or document classification for tasks such as Sentiment Analysis or Topic Categorization (Kalchbrenner et al., 2014; Kim, 2014), sentence matching (Hu et al., 2014), and relation extraction (Nguyen and Grishman, 2015).
+7	37	Statistical language models are a crucial component in many NLP applications, such as Automatic Speech Recognition, Machine Translation, and Information Retrieval.
+8	40	Here, we study the problem under the standard formulation of learning to predict the upcoming token given its previous context.
+10	24	However, since each individual word is treated independently of the others, n-gram models fail to capture semantic relations between words.
+12	35	Both feed-forward (Schwenk, 2007) and recurrent neural networks (Mikolov et al., 2010) have been shown to outperform n-gram models in various setups (Mikolov et al., 2010; Hai Son et al., 2011).
+14	23	Recurrent networks take one token at a time together with a hidden “memory” vector as input and produce a prediction and an updated hidden vector for the next time step.
+15	15	In contrast, feed-forward language models take as input the last n tokens, where n is a fixed window size, and use them jointly to predict the upcoming word.
+16	14	In this paper we define and explore CNN-based language models and compare them with both feedforward and recurrent neural networks.
+46	37	Highway layers improve the gradient flow of the network by computing as output a convex combination between its input (called the carry) and a traditional non-linear transformation of it (called the transform).
+59	48	We tie the number of learned kernels to be the same as the embedding dimensionality k, such that the output of this stage will be another matrix of dimensions n × k containing the activations for each kernel at each time step.
+65	68	After this initial convolutional layer, the network proceeds identically to the FFNN by feeding the produced features into a highway layer, and then, to a softmax output.
+73	41	Second, we explore stacking convolutional layers on top of each other (Multi-layer CNN or MLCNN) to connect the local features into broader regional representations, as commonly done in computer vision.
+75	33	It is important to note that, in ML-CNN experiments, we stack convolutions with the same kernel size and number of kernels on top of each other, which is to be distinguished from the MLPConv that refers to the deeper structure in each CNN layer mentioned above.
+100	11	For k = 256, we only explore the former three alternatives (i.e. all but the ML-CNN).
+109	10	Our own models are also implemented in Torch7 for easier comparison.1 Finally, we selected the best performing convolutional and recurrent language models on Europarl-NC and the Baseline FFLM to be evaluated on the ukWaC corpus.
+118	32	A final (smaller) improvement comes from combining kernels of size 3 and 5, which can be attributed to a more expressive model that can learn patterns of n-grams of different sizes.
+119	43	In contrast to the successful two variants above, the multi-layer CNN did not help in better capturing the regularities of text, but rather the opposite: the more convolutional layers were stacked, the worse the performance.
+121	14	Deep convolution for text representation is in contrast rather rare, and to our knowledge it has only been successfuly applied to sentence representation (Kalchbrenner et al., 2014).
+122	18	We conjecture that the reason why deep CNNs may not be so effective for language could be the effect of the convolution on the data: The convolution output for an image is akin to a new, more abstract image, which yet again can be subject to new convolution operations, whereas the textual counterpart may no longer have the same properties, in the relevant aspects, as the original linguistic input.
+123	27	Regarding the comparison with a stronger LSTM, our models can perform competitively under the same embedding dimension (e.g. see k = 256 of k = 512) on the first two datasets.
+134	12	This is borne out in the analysis: The kernels specialize in distinct features of the data, including more syntactic-semantic constructions (cf.
+137	12	the “ending-in-month-name” kernel).
+138	15	Even in the more lexicalized features, however, we see linguistic regularities at different levels being condensed in a single kernel: For instance, the “spokesman” kernel detects phrases consisting of an indefinite determiner, a company name (or the word company itself) and the word “spokesman”.
+144	9	Thus, output units of the above mentioned mapping predicate over an ensemble of kernel activations for each time step.
+154	14	To lesion the network we manually masked the weights of the mapping that focus on times outside of the target range by setting them to zero.
+169	13	The convolution creates sort of abstract images that still retain significant properties of images.
+170	40	When applied to language, it detects important textual features but distorts the input, such that it is not text anymore.
+171	55	As for recurrent models, even if our model outperforms RNNs, it is well below state-of-the-art LSTMs.
+172	28	Since CNNs are quite different in nature, we believe that a fruitful line of future research could focus on integrating the convolutional layer into a recurrent structure for language modeling, as well as other sequential problems, perhaps capturing the best of both worlds.

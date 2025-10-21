@@ -1,0 +1,30 @@
+0	23	Deep neural networks (DNNs) have been widely used for machine learning applications due to their powerful capacity for modeling complex input patterns.
+4	27	In applications such as object detection in the context of autonomous driving, the vast majority of the training data is composed of standard vehicles but models also need to recognize rarely seen classes such as emergency vehicles or animals with very high accuracy.
+7	15	To train a reasonable supervised deep model, we ideally need a large dataset with high-quality labels, which require many passes of expensive human quality assurance (QA).
+8	9	Although coarse labels are cheap and of high availability, the presence of noise will hurt the model performance, e.g. Zhang et al. (2017) has shown that a standard CNN can fit any ratio of label flipping noise in the training set and eventually leads to poor generalization performance.
+9	53	Training set biases and misspecification can sometimes be addressed with dataset resampling (Chawla et al., 2002), i.e. choosing the correct proportion of labels to train a network on, or more generally by assigning a weight to each example and minimizing a weighted training loss.
+10	63	The example weights are typically calculated based on the training loss, as in many classical algorithms such as AdaBoost (Freund & Schapire, 1997), hard negative mining (Malisiewicz et al., 2011), self-paced learning (Kumar et al., 2010), and other more recent work (Chang et al., 2017; Jiang et al., 2017).
+12	30	In noisy label problems, we prefer examples with smaller training losses as they are more likely to be clean images; yet in class imbalance problems, algorithms such as hard negative mining (Malisiewicz et al., 2011) prioritize examples with higher training loss since they are more likely to be the minority class.
+19	11	Different from existing training loss based approaches, we follow a meta-learning paradigm and model the most basic assumption instead: the best example weighting should minimize the loss of a set of unbiased clean validation examples that are consistent with the evaluation procedure.
+20	26	Traditionally, validation is performed at the end of training, which can be prohibitively expensive if we treat the example weights as some hyperparameters to optimize; to circumvent this, we perform validation at every training iteration to dynamically determine the example weights of the current batch.
+50	16	We assume that there is a small unbiased and clean validation set {(xvi , yvi ), 1 ≤ i ≤M}, and M N .
+60	10	The motivation of our approach is to adapt online w through a single optimization loop.
+66	14	We want to understand what would be the impact of training example i towards the performance of the validation set at training step t. Following a similar analysis to Koh & Liang (2017), we consider perturbing the weighting by i for each training example in the mini- batch, fi, (θ) = ifi(θ), (4) θ̂t+1( ) = θt − α∇ n∑ i=1 fi, (θ) ∣∣∣ θ=θt .
+67	10	(5) We can then look for the optimal ∗ that minimizes the validation loss fv locally at step t: ∗t = arg min 1 M M∑ i=1 fvi (θt+1( )).
+87	16	In more general networks, we can leverage automatic differentiation techniques to compute the gradient of the validation loss wrt.
+89	45	As shown in Figure 1, to get the gradients of the example weights, one needs to first unroll the gradient graph of the training batch, and then use backward-on-backward automatic differentiation to take a second order gradient pass (see Step 5 in Figure 1).
+91	12	This implementation can be generalized to any deep learning architectures and can be very easily implemented using popular deep learning frameworks such as TensorFlow (Abadi et al., 2016).
+99	11	Here, we show theoretically that our method converges to the critical point of the validation loss function under some mild conditions, and we also give its convergence rate.
+115	11	More specifically, min 0<t<T E [ ‖∇G(θt)‖2 ] ≤ C√ T , (15) where C is some constant independent of the convergence process.
+116	12	To test the effectiveness of our reweighting algorithm, we designed both class imbalance and noisy label settings, and a combination of both, on standard MNIST and CIFAR benchmarks for image classification using deep CNNs.
+117	29	We use the standard MNIST handwritten digit classification dataset and subsample the dataset to generate a class imbalance binary classification task.
+118	25	We select a total of 5,000 images of size 28×28 on class 4 and 9, where 9 dominates the training data distribution.
+128	16	• BACKGROUNDFLIP: All label classes can flip to a single background class.
+136	9	We compare numbers reported in their paper with a base model that achieves similar test accuracy under 0% noise.
+172	52	Note that here “S-Model” knows the oracle noise ratio in each class, and this information is not available in our method.
+174	15	Shown in Figure 5, our method only drops 6% accuracy when the noise ratio increased from 0% to 50%; whereas the baseline has dropped more than 40%.
+179	13	Figure 4 plots the classification performance when we varied the size of the clean validation on BACKGROUNDFLIP.
+181	36	In comparison, we observe a significant drop in performance when only fine-tuning on these 15 validation images for the baselines, and the performance catches up around using 1,000 validation images (100 per class).
+182	32	This phenomenon suggests that in our method the clean validation acts more like a regularizer rather than a data source for parameter finetuning, and potentially our method can be complementary with fine-tuning based method when the size of the clean set grows larger.
+183	11	In this work, we propose an online meta-learning algorithm for reweighting training examples and training more robust deep learning models.
+186	26	Validating on every training step is a novel setting and we show that it has links with model regularization, which can be a fruitful future research direction.

@@ -1,0 +1,30 @@
+16	25	We induce a forest by alternating between learning local edge probabilities using a log-linear model, and enforcing global constraints with the ILP-based decoder.
+19	23	The last task has been extensively studied in recent literature, providing us with the opportunity to compare the model with multiple unsupervised techniques.
+22	14	Similarly, our model exhibits superior performance on the other two tasks.
+38	24	Let F = (V,E) be a directed graph where each word corresponds to a node v ∈ V .
+39	15	A directed edge e = (vc, vp) ∈ E encodes a single morphological derivation from a parent word vp to a child word vc.
+41	19	Note that the root of a tree is always marked with a self-directed (i.e. vc = vp) edge associated with the label stop.
+51	16	Based on these properties, we formulate an objective function S(F ) over a forest F : S(F ) = − ∑ e∈E log Pr(e) |E| +α|Affix|+β |F | |V | , (1) where |·| denotes set cardinality, Affix = {ak}Kk=1 is the set of all affixes, and |F | is the number of trees in F .
+54	26	By minimizing this objective, we encourage assignments with high edge probabilities (first term), while limiting the number of affixes and morphological families (second and third terms, respectively).
+59	12	Following prior work (Narasimhan et al., 2015), we model this probability using a log-linear model: Pr(w, z) ∝ exp(θ · φ(w, z)), (2) where θ is the set of parameters to be learned, and φ(w, z) is the feature vector extracted from w and z.
+66	11	Space of Possible Candidates We only consider assignments where the parent word is strictly shorter than the child word to prevent cycles of length two or more.
+71	25	We allow parents to be words outside V , since many legitimate word forms might never appear in the corpus.
+74	20	Affix features are automatically extracted from the corpus based on string difference and are thresholded based on frequency.
+75	29	We also include an additional sibling feature that counts how many words are siblings of word w in its tree.
+77	19	Minimizing the objective in Equation (1) is challenging because the second and third terms capture discrete global properties of the forest, which prevents us from performing gradient descent directly.
+82	30	Without loss of generality, we assume the first candidate edge is always the self-edge (or stop case), i.e., z1i = (vi, stop).
+83	37	We also use a set of binary variables {yk} to indicate whether affix ak is used at least once in F (i.e. required to explain a morphological change).
+87	23	(5) Constraint 4 states that exactly one of the candidate edges should be chosen for each word.
+93	21	The feedback from solving ILP with the global constraints can help us refine the learning of local probabilities by removing incorrect affixes (line 5).
+101	11	We evaluate our model on three tasks: segmentation, morphological family clustering, and root detection.
+115	28	Alternating training for T iterations 3: ptij ← ContrastiveEstimation(W,Affix) .
+116	11	Compute local probabilities, cf.
+148	28	Compared to NBJ’15, our model has a higher F1 score by 3.7%, 4.4%, 2.9% and 27.7% on English, Turkish, Arabic and German, respectively.
+154	20	While the value of β also affects the F1 score, its role is secondary in achieving optimal performance.
+165	11	Robustness We also investigate how robust our model is to the choice of hyperparameters.
+170	43	In fact, it scores 83.0% with K = 40, 000 on English, a 6.0% increase in absolute value over the baseline.
+172	15	We present them in three categories (top to bottom) based on the component of our model that contributes to the successful segmentation.
+174	151	This leads to correct stopping as in the case of knuckle or induction of the right suffix, as in divergence.
+175	14	Further, a smaller affix set also leads to more concentrated weights for the remaining affixes.
+182	64	Our model shows consistent improvements over the baseline on all three languages.
+183	25	We also include the results on the test set of two supervised systems: Morfette (Chrupala et al., 2008) and Chipmunk (Cotterell et al., 2015).

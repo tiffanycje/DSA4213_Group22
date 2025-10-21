@@ -1,0 +1,30 @@
+3	20	This approach represents word pairs as the vector offsets of their word embeddings.
+5	32	As a pioneer work, Turney (2005) introduced latent relational analysis (LRA), based on the latent relation hypothesis.
+6	11	It states that word pairs that co-occur in similar lexico-syntactic patterns tend to have similar semantic relations (Turney, 2008b; Turney and Pantel, 2010).
+7	79	LRA is expected to complement the vector offset model because word embeddings do not contain information on lexico-syntactic patterns that connect word pairs in a corpus (Shwartz et al., 2016).
+8	12	However, LRA cannot obtain the representations of word pairs that do not co-occur in a corpus.
+9	23	Even with a large corpus, observing a cooccurrence of all semantically related word pairs is nearly impossible because of Zipf’s law, which states that most content words rarely occur.
+12	26	NLRA unsupervisedly learns the embeddings of target word pairs and co-occurring patterns from a corpus.
+18	8	This method regards relational information as the change in multiple topicality dimensions from one word to the other in the word embedding space (Zhila et al., 2013).
+19	17	Meanwhile, it does not contain the information of lexico-syntactic patterns that were shown to capture complementary information with word embeddings in previous studies on the lexical semantic relation detection (Levy et al., 2015; Shwartz et al., 2016).
+20	22	LRA takes a set of word pairs as input and generates the distributed representations of those word pairs based on their co-occurring patterns.
+23	10	Then, those patterns are generalized by replacing any or all or none of the intervening words with wildcards.
+26	8	Then, the 2n × 2m matrix M is constructed.
+37	13	Through this learning, the word pairs that co-occur in similar patterns have similar embeddings.
+41	27	NLRA encodes a word pair (a, b) into a dense vector as follows: h(a,b) =MLP ([va;vb;vb − va]) (2) where [va;vb;vb − va] is the concatenation of the word embeddings of a and b and their vector offsets; MLP is a multilayer perceptron with nonlinear activation functions.
+53	17	For each relation, there are a few prototypical word pairs and a set of several dozen target word pairs.
+54	21	The task is to rank the target pairs based on the extent to which they exhibit the relation.
+55	31	In our experiment, we calculated the score of a target word pair with the average cosine similarity between it and each prototypical word pair.
+56	12	The models are evaluated in terms of the MaxDiff accuracy and Spearman’s correlation.
+57	16	Following previous works (Rink and Harabagiu, 2012; Zhila et al., 2013), we used the test set that includes 69 semantic relations to evaluate the performance.
+63	8	When searching for patterns, the left word and right word adjacent to the patterns were lemmatized to ignore their inflections.
+68	16	For MLP , we used three affine transformations followed by the batch normalization (Ioffe and Szegedy, 2015) and tanh activation.
+77	10	These results indicate that generalizing patterns with LSTM is better than by using wildcards.
+78	8	Moreover, NLRA can successfully calculate the relational similarity for the word pairs that do not co-occur in the corpus.
+79	27	Table 2 shows an example of the Reference–Express relation, where the middle-score pair handshake:cordiality and the low-score pair friendliness:wink have no co-occurring pattern.
+82	28	NLRA+VecOff vs. Other Models Second, NLRA+VecOff outperformed the other models.
+83	14	These differences were statistically significant (the correlation difference between NLRA+Vecoff and NLRA: p < 0.05; the other differences: p < 0.01).
+84	13	These results indicate that lexico-syntactic patterns and the vector offset of word embeddings capture complementary information for measuring relational similarity.
+86	12	That work combined heterogeneous models, such as the vector offset model, patternbased model, etc., and stated that the pattern-based model was less significant than the vector offset model, based on their ablation study.
+87	78	We believe that this was because their pattern-based model did not generalize patterns with wildcards nor select useful features.
+97	47	Turney (2013) extracts the statistical features of two word pairs from a word-context co-occurrence matrix and trains the classifier with additional semantic relational data to assign a relational similarity for two word pairs.

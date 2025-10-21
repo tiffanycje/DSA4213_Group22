@@ -1,0 +1,30 @@
+8	23	Then, the user can ask for more information about a given result or request other possibilities.
+9	39	As a consequence, the tasks and methods that were based on these datasets were defined according to this sequential slot-filling process We propose the Frames dataset to study more complex dialogue flows and decision-making behaviour.
+10	38	Our motivation comes from user studies in e-commerce which show that several informationseeking behaviours are exhibited by users who may come with a very well defined item in mind, but may also visit an e-commerce website with the intent to compare items and explore different possibilities (Moe and Fader, 2001; Saha et al., 2017).
+14	26	If a user wants to compare different items using a dialogue system, then this system should be able to separately recall properties pertaining to each item.
+16	58	Wizards were given access to a database of vaca- 207 tion packages containing round-trip flights and a hotel.
+23	34	We collected the Frames data over a period of 20 days with 12 participants, who worked either for one day, one week, or 20 days.
+25	71	Due to this rotation, we can assume that we deal with returning users who know how to use the system, and focus on the decision making process, skipping the phase where the user learns about the system capabilities.
+28	25	Our setting is slightly different from the usual WOz setting because, in our case, users did not believe they were interacting with a dialogue system; they knew they were conversing with fellow humans.
+37	29	For example, if 20 tasks were generated at probability 0.5, about 10 tasks would be generated with successful database queries and the other 10 would be generated such that the database returned no results for the constraints.
+39	42	If a task was unsuccessful, the user either ended the dialogue or got an alternative task such as: “If nothing matches your constraints, try increasing your budget by $200.” We wrote 38 templates.
+40	43	14 were generic like the one presented above and the other 24 included a background story to encourage role-playing from users and to keep them engaged.
+42	40	The generic templates were also important for the users to create their own character and personality.
+63	24	The average number of turns is 15, for a total of 19986 turns in the dataset.
+65	58	Turns always alternate between user and wizard.
+67	39	About 25% of the dialogue turns have more than one dialogue act.
+68	71	The turns without dialogue acts are turns where the user asked for something that the wizard could not provide, e.g., because it was not part of the database.
+90	24	In DSTC, a semantic frame contains the constraints set by the user, the user requests, and the user’s search method (e.g., by constraints or alternatives).
+101	38	The comparison requests and the binary questions were added after analysing the dialogues.
+110	28	An example is given in Table 1: the frame number changes when the user modifies several slot values, namely, the destination city, the number of adults for the trip, and the budget.
+112	56	Though frames are created for each offer or suggestion made by the wizard, the active frame can only be changed by the user so that the user has control over the dialogue.
+113	32	When creating frames, the annotator can explicitly mark which frame the new frame is derived from, which heuristically copies some of its content to the new frame.
+118	30	We introduced specific slot types for recording the creation and modification of frames.
+121	86	Switching User Changing the value of a slot (it causes the dialogue to switch to that frame) 50% 2092 Considering a wizard offer or suggestion 39% 1635 Switching to an earlier frame by mentioning its slot values 11% 458 this frame when the user decides to do so.
+129	30	The slot types read and write only occur inside a wizard’s inform act and are used by wizards to provide relations between offers or suggestions: read is used to indicate which frame the values come from (and which slots are used to refer to this frame, if any), while write indicates the frame where the slot values are to be written (and which slot values are used to refer to this frame, if any).
+135	43	The average number of frames created per dialogue is 6.71 and the average number of frame switches is 3.58.
+137	25	Five trained experts annotated the dataset according to the above rules.
+138	24	To measure inter-annotator agreement, the experts annotated the same randomly chosen 10 dialogues.
+242	31	For an act a(k=v) in frame f , the following rules are used: • Create and switch to a new frame if f [k] is set and a is inform, but v does not match f [k].
+257	40	In terms of frame creation, the baseline has very poor performance in correctly predicting that a frame is created because the user changes the value of a previously set slot.
+267	82	all for $2000 User ahh I can’t leave until august 26 though Wizard then i guess you might have to choose the Regal resort User yeah.

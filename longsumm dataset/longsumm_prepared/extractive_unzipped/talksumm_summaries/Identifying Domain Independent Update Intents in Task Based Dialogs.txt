@@ -1,0 +1,30 @@
+1	19	(The dialog state reflects the user goals specified as slot-value pairs.)
+4	42	However, currently used dialog acts do not capture the update intended by the user in the following cases: 1.
+5	47	Implicit denials: User denials for slot-values are expressed using the “deny” and “negate” dialog acts.
+8	18	Consider utterances 8 and 9 in Table 1 where a user adds and removes people from a slot, PNAMES, which contains names of people going to an event.
+14	33	Preference for slot values: The “inform” dialog act specifies values for slots but does not take into account the preferences for any particular slot value(s).
+34	20	Contributions: 1) We propose a new semantic class of slot-specific user intents (UI’s) which are directly related to the update a user intends to perform for a slot.
+72	16	Append: A user specifies a value or multiple values for a multi-value slot.
+77	18	Replace: A user specifies a preference for a slot value in case of multi-value slots.
+80	51	For example, in the utterance “I would prefer San Jose over Gilroy” the UI for San Jose is replace, whereas for Gilroy it is remove.
+83	19	IncreaseBy: A user specifies a value by which a particular numeric slot’s value is to be increased.
+85	31	Table 1 shows examples of the above five UI’s.
+100	44	Even if the values are listed, it may not be practical to generate a training data containing all the values, if there are too many values for the slot.
+107	36	Delexicalization with slot names is helpful in generalizing to slot-values not seen in the training data in one domain.
+112	29	A numeric slot is a single value slot, i.e., “appending” and “removing” (multiple) values are not allowed for numeric slots.
+115	19	In a restaurant search domain, examples of DMV slots are location and cuisine.
+133	18	To evaluate our approach, we needed dialogs containing numeric, CMV, and DMV slots in the domain ontology along with the proposed update intents expressed in user utterances.
+148	28	), we did not build our own custom slot-tagger and, instead, asked the editors to annotate the slot-values with the corresponding slot name in addition to the update intents.
+149	24	Here is a sample annotation for the task “restaurant reservation”.
+153	43	The distribution of utterances among editors is 96, 110, 212, 79, 176, 258, 211 and 166 for the shopping domain.
+165	24	Therefore, we split our data into eight folds corresponding to the eight editors, i.e., each fold contains examples from only one of the editors.
+182	16	We use two approaches for segmentation based on the k words window approach: a) hard segmentation, b) soft segmentation.
+189	15	In soft segmentation, we do not perform a hard assignment of the words, between the two values to the context of one of the values.
+195	15	For both the domains, our model achieves more than 90% overall F-1 scores.
+203	28	For the other delexicalized slot-values, the model discriminates between Append, Remove and Replace, where the majority class has a much higher number of examples than the minority Remove class.
+207	18	We see that the proposed model significantly outperforms the two baselines.
+215	17	Combined-training: In this setting, we start by training our model on the entire out-domain data and then, incrementally, add a fraction (10%) of the in-domain data (left after taking out the test data) to the current training data, retrain the model (from scratch) on the combined data.
+219	26	For Figure 2, the model trained only on the out-domain (restaurant) data achieves F-1 score of more than 80% on the in-domain test set.
+221	199	With only 30% of the in-domain data, we get 89% F-1 score.
+229	38	The UI’s address user intents containing implicit denials, numeric updates and preferences for slot-values, which are not handled by the currently used dialog acts.
+231	26	We also proposed a method to transfer learning of UI’s across domains by delexicalizing slot-values with their slot types.

@@ -1,0 +1,30 @@
+0	8	Recently, various knowledge bases (KBs), such as Freebase (Bollacker et al., 2008), WordNet (Miller, 1995), Yago (Hoffart et al., 2013), have been built, and researchers begin to explore how to make use of structural information to promote performances of several inference-based NLP applications, such as text entailment, knowledge base completion, question and answering.
+1	46	Creating useful formulas is one of the most important steps in inference, and an accurate and high coverage formula set will bring a great promotion for an inference system.
+2	12	For example, Nationality(x, y) ∧ Nationality(z, y) ∧ Language(z, w)⇒ Language(x, w) is a high-quality formula, which means people with the same nationality probably speak the same language.
+3	13	However, it is a challenge to create formulas for open-domain KBs, where there are a great variety of relation types and it is impossible to construct a complete formula set by hand.
+4	11	Several data-driven methods, such as Inductive Logic Programming (ILP) (Muggleton and De Raedt, 1994) and Markov Logic Network (MLN) (Richardson and Domingos, 2006), have been proposed to mine formulas automatically from KB data, which transform frequent sub-structures of KBs, e.g., paths or loops, into formulas.
+6	21	However, the running time of these traditional probabilistic inference methods is unbearable over large-scale KBs.
+7	14	For example, MLN needs grounding for each candidate formula, i.e., it needs to enumerate all paths.
+10	10	However, random walk is inefficient to find useful structures due to its completely randomized mechanism.
+11	10	For example in Fig- 1379 ure 1.b, the target path (yellow one) has a small probability to be visited, the reason is that the algorithm may select all the neighboring entity to transfer with an equal probability.
+12	11	This phenomenon is very common in KBs, e.g., each entity in Freebase has more than 30 neighbors in average, so there will be about 810,000 paths with length 4, and only several are useful.
+14	10	1) Increasing rounds of random walks.
+16	21	For example, the loop in Figure 1.c exists in Freebase, but it produces a false formula, Gender(x, y) ∧ Gender(z, y) ∧ Language(z, w)⇒ Language(x, w), which means people with the same gender speak the same language.
+24	17	Oppositely, formulas with low scores in PRA are not always useless.
+27	16	In this paper, we propose a Goal-directed Random Walk algorithm to resolve the above problems.
+36	13	• Compared with the heuristic methods, our approach can learn the strategy of random walk automatically and dynamically adjust the strategy for different inference targets, while the heuristic methods need to write heuristic rules by hand and follow the same rule all the time.
+42	14	Mining frequent patterns from source data is a problem that has a long history, and for different specific tasks, there are different types of source data and different definitions of pattern.
+44	8	For each relation type R, the algorithm enumerates paths from entity H to entity T for each triplet R(H,T ).
+49	9	Enumerating paths is a time consuming process and does not apply to large-scale KBs.
+54	24	Random walk maintains a state transition probability matrix P , and Pij means the probability of jumping from entity i to entity j.
+55	32	To make the confidence C ′ f as close to the true confidence Cf as pos- sible, the algorithm sets P as follows, Pij = { 1/di, j ∈ Adj(i) 0, j /∈ Adj(i) (2) where di is the out-degree of the entity i, Adj(i) is the set of adjacent entities of i, and ∑N j=1 Pij = 1.
+58	57	The goalless mechanism causes the inefficiency of mining useful structures.
+59	42	When we want to mine paths for R(H,T ), the algorithm cannot arrive at T from H in the majority of rounds.
+61	14	To solve the above problem, several methods direct random walks by statically modifying P .
+64	16	We propose to use the inference target, ρ = R(H,T ), to direct random walks.
+74	17	a, b, c are three 0-1 variables corresponding to the above categories a), b), c).
+75	27	Only one in a, b, c can be 1 when PHt belongs to the corresponding category.
+76	10	We then transform maximizing PP to minimizing Lrw = − logPP and employ SGD to train it.
+78	85	Ltrw is the loss of that t 6= T , and Linfrw is the loss of that pHT generates a noisy formula leading to a wrong inference.
+83	37	To obtain the best Φ, we compute gradients of Lrw as follows, ∇Lrw(p) = (∇Lrw(r12),∇Lrw(r23), ...) ∇Lrw(rij) = ( ∂Lrw(rij) ∂Φrij , ∂Lrw(rij) ∂Φrik1 , ∂Lrw(rij) ∂Φrik2 , ...) ∂Lrw(rij) ∂Φrij = (Pp − y) · (1− Prij ) Φrij · (1− Pp) ∂Lrw(rij) ∂Φrik = − (Pp − y) · Prij Φrij · (1− Pp) (6) where ∇Lrw(rij) is the component of ∇Lrw(p) at rij .
+86	44	After updating Φrij and Φrik by the gradient ofL inf rw , random walk is more likely to find high-quality paths but not noise.

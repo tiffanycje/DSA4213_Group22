@@ -1,0 +1,30 @@
+10	62	b. Bo didn’t remember to leave.
+11	79	Accurately capturing such interactions – e.g. between clause-embedding verbs, negation, and embedded clause type – is important for any system that aims to do general natural language inference (MacCartney et al. 2008 et seq; cf.
+12	43	Dagan et al. 2006) or event extraction (see Grishman and Sundheim 1996 et seq), and it seems unlikely to be a trivial phenomenon to capture, given the complexity and variability of the inferences involved (see, e.g., Karttunen, 2012, 2013; Karttunen et al., 2014; van Leusen, 2012; White, 2014; Baglini and Francez, 2016; Nadathur, 2016, on implicatives).
+13	52	In this paper, we investigate how well current state-of-the-art neural systems for a subtask of general event extraction – event factuality prediction (EFP; Nairn et al., 2006; Saurı́ and Pustejovsky, 2009, 2012; de Marneffe et al., 2012; Lee et al., 2015; Stanovsky et al., 2017; Rudinger et al., 2018) – capture inferential interactions between lexical items and syntactic context – lexicosyntactic inferences – when trained on current event factuality datasets.
+14	50	Probing these particular systems is useful for understanding neural systems’ behavior more generally because (i) the best performing neural models for EFP (Rudinger et al., 2018) are simple instances of common baseline models; and (ii) the task itself is relatively constrained.
+18	25	We furthermore release MegaVeridicality2 at MegaAttitude.io as a benchmark for probing the ability of neural systems – whether for factuality prediction or for general natural language inference – to capture lexicosyntactic inference.
+19	39	We substantially extend the MegaVeridicality1 dataset (White and Rawlins, 2018), which contains factuality judgments for all English clauseembedding verbs that take tensed subordinate clauses.
+21	30	Someone {knew, didn’t know} that a par- ticular thing happened.
+26	51	First, all lexical items besides the embedding verbs are semantically bleached to ensure that the measured lexicosyntactic inferences are only due to interactions between the embedding predicate – e.g. know or tell – and the syntactic context.
+27	29	Second, the matrix polarity – i.e. the presence or absence of not as a direct dependent of the embedding verb – is manipulated to create two sentences for each verb-context pair.
+28	26	Our extension, MegaVeridicality2, includes judgments for a variety of infinitival subordinate clause types, exemplified in (6).1 We investigate infinitival clauses because they can give rise to different lexicosyntactic inferences than finite subordinate clauses – e.g. compare (3) and (4).
+31	15	c. Someone {wanted, didn’t want} a particu- lar person to have a particular thing.
+32	25	d. A particular person {was, wasn’t} over- joyed to do a particular thing.
+37	128	for (6b), (6d), and (6f); and did that person have that thing?
+38	100	Table 1 shows the number of verb types for each syntactic context.
+39	16	With the polarity manipulation, this yields a total of 3,938 sentences.
+40	29	To build a factuality prediction test set from these sentences, we combine MegaVeridicality1 with our dataset and replace each instance of a particular person or a particular thing with someone or something (respectively).
+41	36	Then, following White and Rawlins, we normalize the 10 responses for each sentence to a single real value using an ordinal mixed model-based procedure.
+45	16	In the case of the H-biLSTM, the output state of both the L- and T-biLSTMs are simply concatenated and passed through the regression.2 Following the multi-task training regime described by Rudinger et al. (2018), we train these models on four standard factuality datasets – FactBank (Saurı́ and Pustejovsky, 2009, 2012), UW (Lee et al., 2015), MEANTIME (Minard et al., 2016), and UDS (White et al., 2016; Rudinger et al., 2018) – with tied biLSTM weights but regression parameters specific to each dataset.
+46	9	We then use these trained models to predict the factuality of the embedded predicate in our dataset.
+54	6	Figure 1 shows the mean correlation between model predictions and true factuality on the outer fold test sets of the nested cross-validation described in §3.
+61	29	This indicates that each model captures similar amounts of information about lexicosyntactic inference, but this information is captured in the models’ parameterizations in different ways.
+64	42	Interestingly, however, even this ensemble performs more than 10 points worse than each model alone on FactBank, UW, and UDS.
+65	4	This raises the question of which lexicosyntactic inferences these models are missing – investigated below.
+69	9	There are two interesting things to note about these sentences.
+70	9	First, most of them involve negative lexicosyntactic inferences that the model predicts to be either positive or near zero.
+71	77	Second, when the true inference is not positive, the matrix polarity of the original sentence is negative.
+73	7	One question that arises here is whether this inability affects all contexts equally.
+74	19	To answer this, we regress the absolute error of the predictions from this same ensemble (logged and standardized) against true factuality, matrix polarity, and context (as well as all of their two- and three-way interactions).3 We find that the three-way interactions in this regression are reliable ( 2(8)=27.97, p < 0.001) – suggesting that there are nontrivial differences in these state-of-the-art factuality systems’ ability to capture inferential interactions across verbs and syntactic contexts.
+76	13	plots the factuality predicted by this ensemble against the true factuality from MegaVeridicality2.

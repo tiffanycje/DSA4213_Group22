@@ -1,0 +1,26 @@
+0	117	Experimental design is an important problem in statistics and machine learning research (Pukelsheim, 2006).
+1	63	Consider a linear regression model y = Xβ0 +w, (1) where X ∈ Rn×p is a pool of n design points, y is the response vector, β0 is a p-dimensional unknown regression model and w is a vector of i.i.d.
+2	71	noise variables satisfying Ewi = 0 and Ew2i < ∞.
+3	66	The experimental design problem is to select a small subset of rows (i.e., design points) XS from the design pool X so that the statistical power of estimating β0 is maximized from noisy response yS on the selected designs XS .
+4	53	As an example, consider a material synthesis application where p is the number of variables (e.g., temperature, pressure, duration) that are hypothesized to affect the quality of the synthesized material and n is the total number of combinations of different parameters of experimental conditions.
+5	3	As experiments are expensive and time-consuming, *Author names listed in alphabetic order.
+9	12	We review some optimality criteria in Sec.
+11	8	6 of (Pukelsheim, 2006) for a comprehensive review.
+12	118	Typically, an optimality criterion is a function f : S+p → R that maps from the p-dimensional positive definite cone to a real number.
+13	18	The experimental design problem can then be formulated as a combinatorial optimization problem: S∗(k) = arg min S∈S(n,k) f(X>SXS), (2) where S is either a set or a multi-set of size k, and XS ∈ Rk×p is formed by stacking the rows of X that are in S. The constraint set S1/2(n, k) is defined as follows: 1.
+17	8	The “with replacement” setting is classical in statistics literature, where the multiple measurements in y with respect to the same design point lead to different values with statistically independent noise.
+18	44	The “without replacement” setting, on the other hand, is more relevant in machine learning applications, because labels are not likely to change if the same data point (e.g., the same image) is considered twice.
+19	6	Finally, it is worth pointing out that the “with replacement” setting is easier, because it can be reduced (in polynomial time) to the “without replacement” setting by replicating each row of X for k times.
+20	31	For many popular choices of f , the exact optimization problem in Eq.
+21	7	(2) is NP-hard (Çivril & Magdon-Ismail, 2009; Černỳ & Hladı́k, 2012).
+22	4	In this paper, we propose a computationally tractable algorithm that approximately computes Eq.
+31	41	• Under a very mild condition of k > 2p, our polynomialtime algorithm finds a set Ŝ ⊂ [n] of size k, with objective value f(X> Ŝ XŜ) being at most O(1) a constant times the optimum.
+32	5	• If replacement (b = 1) or over-sampling (k > r) is allowed, the approximation ratio can be tightened to 1+ ε for arbitrarily small ε > 0.
+33	30	• In all of the three cases, we only require k to grow linearly in p. Recall that k ≥ p is necessary to ensure the singularity of X> Ŝ XŜ .
+34	127	In contrast, no polynomial- time algorithm has achieved O(1) approximation in the regime k = O(p) for non-submodular optimality criteria (e.g., A- and V-optimality) under the without replacement setting.
+35	11	• Our algorithm works for any regular optimality criterion.
+36	80	To the best of our knowledge, no known polynomial-time algorithm can achieve a (1 + ε) approximation for the D- and T-optimality criteria, or even an O(1) approximation for the E- and G-optimality criteria.
+37	29	The key idea behind our proof of Theorem 1.1 is a regret minimization characterization of the least eigenvalue of positive semidefinite (PSD) matrices.
+38	35	Similar ideas were developed in (Allen-Zhu et al., 2015; Silva et al., 2016) to construct efficient algorithms for linear-sized graph sparsifiers.
+39	87	In this paper we adopt the regret minimization framework and present novel potential function analysis for the specific application of experimental design.
+41	28	For symmetric matrices A and B, we write A B if v>(A − B)v ≥ 0 for all v ∈ Rp.

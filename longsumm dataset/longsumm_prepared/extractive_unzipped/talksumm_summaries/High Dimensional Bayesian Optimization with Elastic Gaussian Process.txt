@@ -1,0 +1,30 @@
+0	7	Bayesian optimization method has established itself as an efficient way to optimize black-box functions (Jones et al., 1998) which are also expensive to evaluate.
+5	4	A GP is specified by a mean function and a covariance function.
+8	117	The posterior of a Gaussian process is analytically tractable and is used to estimate both the mean and the variance of the estimation at unobserved locations.
+9	25	Next, a cheap surrogate function is built that seeks the location where lies the highest possibility of obtaining a higher response.
+11	23	Typical acquisition functions include Expected Improvement (EI) (Mockus, 1994) and GP-UCB (Srinivas et al., 2010).
+15	16	This makes it difficult to scale Bayesian optimization to high dimensions.
+16	31	Generic global optimization algorithms such as DIRECT (Jones et al., 1993) or simplex-based methods such as Nelder-Mead (Olsson and Nelson, 1975) or genetic algorithm based methods (Runarsson and Yao, 2005; Beyer and Schwefel, 2002) perform reasonably when the dimension is low, but at higher dimensions they can become extremely inefficient and actually become infeasible within the practical limitation of resource and time.
+17	55	Multi-start based method start from multiple initializations to achieve local maxima and then choose the best one.
+18	10	However, the multi-start method may not be able to find the non-flat portion of the acquisition function by random search.
+19	12	A related discussion for high dimensional Bayesian optimization concerns with the usefulness of Gaussian process for high dimensional modeling.
+20	46	Fortunately, Srinivas et al. (2010) showed that Gaussian process (GP) can handle “curse of dimensionality” to a good extent.
+21	7	Limited work has addressed the issue of highdimensionality in Bayesian optimization.
+26	3	The objective function is assumed to be the sum of a set of low-dimensional functions with disjoint feature dimensions.
+28	8	Li et al. (2016a) further generalized the AddGP-UCB by eliminating an axis-aligned representation.
+29	6	However, none of them are not applicable if the underlying function does not have assumed structure, that is, if the dimensions are not correlated or if the function is not decomposable in some predefined forms.
+35	6	However, we theoretically prove that for a location where the gradient is currently insignificant it is possible to find a large enough kernel length-scale which when used to build a new GP can make the derivative of the new acquisition function becomes significant.
+38	28	Next, we theoretically prove that the difference in the acquisition func- tions is smooth with respect to the change in length-scales, which implies that the extremums of the consecutive acquisition functions are close if the difference in the lengthscales is small.
+40	8	In the first part of our algorithm we search for a large enough length-scale for which a randomly selected location in the domain starts to have significant gradients.
+42	97	We solve a sequence of local optimization problems wherein we begin with a very gross approximation of the function and then the extrema of this approximation is used as the initial point for the optimization of the next approximation which is a little bit finer.
+46	36	Since in our algorithm we use Gaussian processes with large to small length-scales akin to fitting an elastic function, we denote our method as Elastic Gaussian Process (EGP) method.
+50	43	We demonstrate our algorithm on two synthetic examples and two real-world applications involving one of training cascaded classifier and the other involving optimization of an alloy based on thermodynamic simulation.
+51	66	We compare with the the state-of-the-art additive model (Kandasamy et al., 2015), high dimensional optimization using random embedding (Wang et al., 2013), a vanilla multi-start method and 2x random search.
+52	64	All the methods are given equal computational budget to have a fair comparison.
+55	13	We briefly review Gaussian process (Rasmussen and Williams, 2005) here.
+57	17	and covariance kernel function k(., .).
+59	21	... k(xt,x1) · · · k(xt,xt)  (2.2) where k is a kernel function.
+60	5	If the observations are contaminated with noise, K should include the noise variance.
+63	16	The predictive distribution of GP is tractable analytically.
+65	10	We simplify the problem by using m(x1:t) = 0.
+66	14	The predictive distribution of ft+1 can be represented by ft+1 | f1:t ∼ N (µt+1(xt+1 | x1:t, f1:t), σ2t+1(xt+1 | x1:t, f1:t)) (2.3) with µt+1(.)

@@ -1,0 +1,30 @@
+13	13	We experiment on frame-semantic parsing (Gildea and Jurafsky, 2002; Das et al., 2010), a span-based semantic role labeling (SRL) task (§2.1), and on a dependency-based minimum recursion semantic parsing (DELPH-IN MRS, or DM; Flickinger et al., 2012) task (§2.2).
+21	26	Our approach results in a new state-of-the-art in frame-semantic parsing, improving prior work by 0.8% absolute F1 points (§6), and achieves competitive performance on semantic dependency parsing.
+34	10	In this work, we assume gold targets and LUs are given, and parse each target independently, following the literature (Johansson and Nugues, 2007; FitzGerald et al., 2015; Yang and Mitchell, 2017; Swayamdipta et al., 2017, inter alia).
+45	17	The same set of labels are available for all arcs, in contrast to the frame-specific roles in FrameNet.
+57	10	Our goal is to jointly predict a frame-semantic parse and a semantic dependency graph by selecting the highest scoring candidates: (ŷ, ẑ) = arg max (y,z)∈Y(x,t,`)×Z(x) S(y, z,x, t, `).
+60	10	For clarity, we omit the dependence on the input sentence, target, and lexical unit, whenever the context is clear.
+62	50	The score of a framesemantic parse consists of • the score for a predicate part, sf (p) where each predicate is defined as a combination of a target t, the associated LU, `, and the frame evoked by the LU, f ∈ F`; • the score for argument parts, sf (a), each as- sociated with a token span and semantic role fromRf .
+63	24	Together, this results in a set of frame-semantic parts of size O(n2 |F`| |Rf |).5 The score for a frame semantic structure y is the sum of local scores of parts in y: Sf(y) = ∑ yi∈y sf(yi).
+68	15	Following Martins and Almeida (2014), we consider three types of parts in a semantic dependency graph: semantic heads, unlabeled semantic arcs, and labeled semantic arcs.
+69	40	Analogous to Equation 3, the score for a dependency graph z is the sum of local scores: Sd(z) = ∑ zj∈z sd(zj), (4) The computation of sd is described in §4.3.
+71	65	Each cross-task part relates an argument part from y to an unlabeled dependency arc from z.
+75	16	The cross-task score is given by Sc(y, z) = ∑ (yi,zj)∈(y×z)∩C sc(yi, zj).
+82	16	Scoring frames and arguments is detailed in §4.2, that of dependency structures in §4.3, and §4.4 shows how to capture interactions between arguments and dependencies.
+87	45	The representations of tokens and spans are formed using biLSTMs followed by MLPs.
+88	46	Contextualized token representations.
+93	19	Concretely, given a target t and its associated argument a = (i, j, r) with boundary indices i and j, we compute three features φt(a) based on the length of a, and the distances from i and j to the start of t. We concatenate the token representations at a’s boundary with the discrete features φt(a).
+98	10	A candidate argument consists of a span and its role label, which in turn depends on the frame, target and LU.
+100	15	Local scores for dependencies are implemented with two-layer tanh-MLPs, followed by a final linear layer reducing the represenation to a single scalar score.
+101	14	For example, let u = i→j denote an unlabeled arc (ua).
+110	27	We optimize the latent structured hinge loss (Yu and Joachims, 2009), which gives a subdifferentiable upper-bound on δ: L (y∗) = max (y,z)∈Y×Z {S (y, z) + δ (y,y∗)} −max z∈Z {S (y∗, z)} .
+111	13	(13) Following Martins and Almeida (2014), we use a weighted Hamming distance as the cost function, where, to encourage recall, we use costs 0.6 for false negative predictions and 0.4 for false positives.
+113	48	Training then aims to minimize the average loss over all training instances.8 Another potential approach to training a model on disjoint data would be to marginalize out the latent structures and optimize the conditional loglikelihood (Naradowsky et al., 2012).
+117	18	When decoding semantic dependency graphs, we enforce the determinism constraint (Flanigan et al., 2014), where certain labels may appear on at most one arc outgoing from the same token.
+123	13	It is important to note that by promoting sparsity this way, we do not prune out any candidate solutions.
+132	75	For semantic dependencies, we use the English DM dataset from the SemEval 2015 Task 18 closed track (Oepen et al., 2015).10 DM contains instances from the WSJ corpus for training and both in-domain (id) and out-of-domain (ood) test sets, the latter from the Brown corpus.11 Table 1 summarizes the sizes of the datasets.
+133	60	We compare FN performance of our joint learning model (FULL) to two baselines: BASIC: A single-task frame SRL model, trained using a structured hinge objective.
+134	11	NOCTP: A joint model without cross-task parts.
+135	69	It demonstrates the effect of sharing parameters in word embeddings and LSTMs (like in FULL).
+137	13	We also compare semantic dependency parsing performance against the single task model by Peng et al. (2017), denoted as NeurboParser (BASIC).
+138	18	To ensure fair comparison with our FULL model, we made several modifications to their implementation (§6.3).

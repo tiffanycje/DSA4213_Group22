@@ -1,0 +1,30 @@
+2	13	An alternative for tasks involving similarity is SimRank (Jeh and Widom, 2002).
+3	113	SimRank is based on the simple intuition that nodes in a graph should be considered as similar to the extent that their neighbors are similar.
+5	43	This paper introduces CoSimRank,1 a new graph-theoretic algorithm for computing node similarity that combines features of SimRank and PageRank.
+6	30	Our key observation is that to compute the similarity of two nodes, we need not consider all other nodes in the graph as SimRank does; instead, CoSimRank starts random walks from the two nodes and computes their similarity at each time step.
+7	15	This offers large savings in computation time if we only need the similarities of a small subset of all n2 node similarities.
+8	38	These two cases – computing a few similarities and computing many similarities – correspond to two different representations we can compute CoSimRank on: a vector representation, which is fast for only a few similarities, and a matrix representation, which can take advantage of fast matrix multiplication algorithms.
+9	73	CoSimRank can be used to compute many variations of basic node similarity – including similarity for graphs with weighted and typed edges and similarity for sets of nodes.
+11	68	The extension of CoSimRank to similarity across graphs is important for the application of bilingual lexicon extraction: given a set of correspondences between nodes in two graphsA andB (corresponding to two different languages), a pair of nodes (a ∈ A, b ∈ B) is a good candidate for a translation pair if their node similarity is high.
+14	26	Section 2 discusses related work.
+61	13	We first first give an intuitive introduction of CoSimRank as a Personalized PageRank (PPR) derivative.
+68	46	To visualize this formula, one can imagine a random surfer starting at node i and following one of the links with probability d or jumping back to the starting node i with probability (1− d).
+72	46	p(k) = Ap(k−1) (2) Note that the personalization vector p(0) was eliminated, but is still present as the starting vector of the iteration.
+74	79	The cosine of two vectors u and v is computed by dividing the inner product 〈u, v〉 by the lengths of the vectors.
+76	25	This is potentially problematic as the example in Figure 1 shows.
+77	29	The PPR vectors of suit and dress will have some weight on tailor, which is good.
+121	52	As a result, time and space complexities are much improved.
+127	53	We often want to compute the similarity of nodes in two different graphs with a known node-node correspondence; this is the scenario we are faced with in the lexicon extraction task (see Section 6).
+129	24	We will now present an equivalent method for CoSimRank.
+131	34	We compute PPR vectors p ∈ R|U | and q ∈ R|V | for each graph.
+132	91	Let S(0) ∈ R|U |×|V | be the known node-node correspondences.
+133	27	4) for two graphs is then: s(i, j) = ∞∑ k=0 ck ∑ (u,v)∈S(0) p(k)u (i)q (k) v (j) (9) The matrix formulation (cf.
+136	124	A similar approach for word embeddings was published by Mikolov et al. (2013).
+138	39	To be able to directly compare to prior work in our experiments, we also present a method to integrate a set of typed edges T in the CoSimRank calculation.
+139	155	For this we will compute a similarity matrix for each edge type τ and merge them into one matrix for the next iteration: S(k) = ( c |T | ∑ τ∈T AτS (k−1)BTτ ) + S(0) (11) This formula is identical to the random surfer model where two surfers only meet iff they are on the same node and used the same edge type to get there.
+142	24	CoSimRank can also be used to compute the similarity s(V,W ) of two sets V and W of nodes, e.g., short text snippets.
+144	31	For a set V , the initial PPR vector is given by: p (0) i (V ) = { 1 |V | , if i ∈ V 0, else We then reuse Eq.
+145	58	4 to compute s(V,W ): s(V,W ) = ∞∑ k=0 ck〈p(k)(V ), p(k)(W )〉 In summary, modifications proposed for SimRank (weighted and typed edges, similarity across graphs) as well as modifications proposed for PageRank (sets of nodes) can also be applied to CoSimRank.
+146	35	This makes CoSimRank a very flexible similarity measure.
+149	52	We use the basic version of CoSimRank (Eq.
+150	20	4) for synonym extraction and the two-graph version (Eq.

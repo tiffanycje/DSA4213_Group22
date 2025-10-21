@@ -1,0 +1,30 @@
+32	1	Experiments are reported in Section 4 and future work is discussed in the last section.
+42	1	The concept of sharp and flat minima has been first discussed in (Hochreiter & Schmidhuber, 1997a; Haussler et al., 1997).
+48	1	Chaudhari et al. (2016) propose a new objective function considering the local entropy and push the model to be optimized towards a wide valley.
+50	1	Recurrent neural networks process an input sequence {x1, x2, .
+52	2	In single-layer recurrent neural networks, the hidden states {h1, h2, .
+63	2	With the above notations, an LSTM is formally defined as it = σ(Wxixt +Whiht−1 + bi), (2) ft = σ(Wxfxt +Whfht−1 + bf ), (3) ot = σ(Wxoxt +Whoht−1 + bo), (4) gt = tanh(Wxgxt +Whght−1 + bg), (5) ct = ft ct−1 + it gt, (6) ht = ot tanh(ct), (7) where σ(·) represents the sigmoid function and is the element-wise product.
+79	2	Since σ−1(x) = log ( x 1−x ) , we have P (G(α, τ) ≥ 1− ) = P ( α+ logU − log(1− U) τ ≥ log(1/ − 1) ) = P (eα−τ log(1/ −1) ≥ (1− U)/U) = P ( U ≥ 1 1 + eα−τ log(1/ −1) ) = σ(α− τ log(1/ − 1)).
+82	2	We can see from the above proposition, the distribution of G(α, τ) can be considered as an approximation of Bernoulli distribution B(σ(α)).
+88	2	By this way, we can optimize towards the binary-valued gates.
+92	3	We call our proposed learning method Gumbel-Gate LSTM (G2-LSTM), which works as follows during training: it = G(Wxixt +Whiht−1 + bi, τ) (11) ft = G(Wxfxt +Whfht−1 + bf , τ) (12) ot = σ(Wxoxt +Whoht−1 + bo) (13) gt = tanh(Wxgxt +Whght−1 + bg) (14) ct = ft ct−1 + it gt (15) ht = ot tanh(ct).
+95	1	In the backward pass, as G is continuous and differentiable with respect to the parameters and the loss is continuous and differentiable with respect to G, we can use any standard gradient-based method to update the model parameters.
+97	2	Language modeling is a very basic task for LSTM.
+100	2	A model is evaluated by the prediction perplexity: smaller the perplexity, better the prediction.
+104	1	We added neural cache model (Grave et al., 2016) on the top of our trained language model to further improve the perplexity.
+105	1	We used two datasets for experiments on neural machine translation (NMT): (1) IWSLT’14 German→English translation dataset (Cettolo et al., 2014), which is widely adopted in machine learning community (Bahdanau et al., 2016; Wiseman & Rush, 2016a; Ranzato et al., 2015).
+113	1	We set the size of word embedding and hidden state to 256.
+118	1	The mini-batch size was 32/64 for German→English/English→German respectively.
+126	1	From the results, we can see that our learned models are competitive or better than all baseline models.
+132	1	On the contrary, the performances are even better.
+134	1	We also list the performance of previous works in literature, which may adopt different model architectures or settings.
+141	1	Doing so the model can be compressed to a relatively small size.
+143	3	(18) We tested two settings of low-precision compression.
+153	4	From Table 3, we can see that for language modeling both the baseline and our learned model are quite robust to low-precision compression, but our model is much more robust and significantly outperforms the baseline with low-rank approximation.
+154	7	Even setting rank = 64 (roughly 12× compression rate of the gates), we still get 56.0 perplexity, while the perplexity of the baseline model increases from 52.8 to 65.5, i.e., becoming 24% worse.
+160	2	We show the value distribution of the gates trained using classic LSTM and G2-LSTM.
+164	5	From the figures, we can see that although both LSTM and G2-LSTM work reasonably well in practice, the output values of the gates are very different.
+166	2	In contrast, the values of the input gates of G2-LSTM are concentrated in the region close to 1, which suggests that our learned model tries to keep most information from the input words; the values of the forget gates are concentrated in the boundary regions (i.e., either the region close to 0 or the region close to 1).
+181	23	First, we will apply our algorithm to deeper models (e.g., 8+ layers) and test on larger datasets.
+182	173	Second, we have considered the tasks of language modeling and machine translation.
+183	176	We will study more applications such as question answering and text summarization.

@@ -1,0 +1,30 @@
+3	11	Imagine a dialogue system that assists a novice student in solving a programming problem.
+5	23	This process is illustrated in Figure 1, which shows an excerpt from a corpus of tutorial dialogue situated in an introductory computer programming task in the Java programming language.
+6	16	The arrows link referring expressions in the situated dialogue to their referents in the environment.
+12	10	However, these prior approaches have employed relatively simple semantic information from the referring expressions, such as a manually created lexicon, or have operated within an environment with a limited set of pre-defined objects.
+13	61	Besides reference resolution in situated dialogue, there is also a research direction in which machine learning models are used to learn the semantics of noun phrases in order to map noun phrases to objects in a related environment (Kennington and Schlangen, 2015; Liang et al., 2009; Naim et al., 2014; Kushman et al., 2014).
+14	17	However, these prior approaches operated at the granularity of single of the corpus utilized in this work.
+19	55	We evaluate this approach on the JavaTutor corpus, a corpus of textual tutorial dialogue collected within an online environment for computer programming.
+20	24	The results show that our approach achieves substantial improvement over two existing state-of-the-art approaches, with existing approaches achieving 55.2% accuracy at best, and the new approach achieving 68.5% accuracy.
+43	18	This section describes a new approach to reference resolution in situated dialogue.
+50	45	As Section 3.2 describes, dialogue and task history are used to filter the objects in the environment to build a candidate list of referents, and then as Section 3.3 describes, a ranking-based classification approach is used to select the best matching referent.
+54	72	For example, in situated dialogues about programming, we can find all of the objects and extract their attributes using a source code parser.
+60	48	We treat the set of all possible attributes of objects as a vector, and for each object oi in the environment we instantiate and populate an attribute vector Att V eci.
+61	21	For example, the attribute vector for a two-dimensional array in a computer program could be [CATEGORY = ‘array, DIMENSION = ‘2, LINE = ‘30, NAME = ‘table, ...].
+63	24	Since a referring expression describes its referents either implicitly or explicitly, the attributes expressed in it should match the attributes of its referent.
+64	29	We segment referring expressions and label the semantics of each segment using the CRF and the result is a set of segments, each of which represents some attribute of its referent.
+66	32	After segmenting and labeling attributes in the referring expressions, the attribute values are extracted from each semantic segment using regular expressions (Figure 2 (b)), e.g., value 2 is extracted from 2 dimensional to fill in the ARRAY DIM element in an empty Att V ec.
+87	47	Similarly, TH =< Ob, Tb >, which is all of the objects in Et that were ever manipulated by the user, will be added into the candidate list.
+94	12	For a given referring expression Rk and its candidate referent list Ck = {o1, o2, ..., oNk}, in which each oi is an object identified as a candidate referent, we compute the probability of each candidate oi being the true referent of Rk, p(Rk, oi) = f(Rk, oi), where f is the classification function.
+140	22	The data from the six manually labeled Java tutoring sessions were split into a training set and a test set.
+142	11	In each fold, annotated referring expressions from one of the tutoring sessions were taken as the test set, and data from the other five sessions were the training set.
+143	28	We tested logistic regression, decision tree, naive Bayes, and neural networks as classifiers to compute the p(Rk, oi) for each (referring expression, candidate) pair for the ranking-based model.
+146	20	First, we compare against a rankingbased model that uses dialogue history and task history features (Iida et al., 2010).
+147	16	This model uses semantics from a domain-specific lexicon instead of a semantic parser.
+164	15	• Iida Baseline Condition: Features including dialogue history, task history, and semantics from a handcrafted lexicon (Iida et al., 2010).
+166	19	• Proposed approach: Features including dialogue history, task history, and learned semantics from CRF.
+195	10	There are several important future research directions in reference resolution for situated dialogues.
+196	37	First, models should incorporate more semantic information from discourse structure and utterance understanding besides semantics from referring expressions.
+197	49	This is illustrated by the observation that the reference resolution accuracy using gold-standard semantic information from referring expressions is still substantially lower than the agreement rate between human annotators.
+198	109	Another research direction that holds promise is to use an unsupervised approach to extract semantic information from referring expressions.
+199	37	It is hoped that this line of investigation will enable rich natural language dialogue interactions to support users in a wide variety of complex situated tasks.

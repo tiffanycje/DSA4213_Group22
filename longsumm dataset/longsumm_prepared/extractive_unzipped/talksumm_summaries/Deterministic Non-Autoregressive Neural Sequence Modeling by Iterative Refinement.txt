@@ -1,0 +1,30 @@
+0	59	Conditional neural sequence modeling has become a de facto standard in a variety of tasks (see, e.g., Cho et al., 2015, and references therein).
+1	16	Much of this recent success is built on top of autoregressive sequence models in which the probability of a target sequence is factorized as a product of conditional probabilities of next symbols given all the preceding ones.
+15	37	When this is conditioned on an extra variable X , it becomes a conditional sequence model log p(Y |X) which serves as a basis on which many recent advances in, e.g., machine translation (Bahdanau et al., 2014; Sutskever et al., 2014; Kalchbrenner and Blunsom, 2013) and speech recognition (Chorowski et al., 2015; Chiu et al., 2017) have been made.
+20	14	As a solution to this issue of slow decoding, two recent works have attempted non-autoregressive sequence modeling.
+21	24	Gu et al. (2017) have modified the Transformer (Vaswani et al., 2017) for non-autoregressive machine translation, and Oord et al. (2017) a convolutional network (Oord et al., 2016) for non-autoregressive modeling of waveform.
+22	42	Non-autoregressive modeling factorizes the distribution over a target sequence given a source into a product of conditionally independent perstep distributions: p(Y |X) = TY t=1 p(yt|X), breaking the dependency among the target variables across time.
+23	43	This allows us to trivially find the most likely target sequence by taking argmaxyt p(yt|X) for each t, effectively bypassing the computational overhead and suboptimality of decoding from an autoregressive sequence model.
+26	57	Similarly to two recent works (Oord et al., 2017; Gu et al., 2017), we introduce latent variables to implicitly capture the dependencies among target variables.
+27	17	We however remove any stochastic behavior by interpreting this latent variable model, introduced immediately below, as a process of iterative refinement.
+38	63	This constraint allows us to view each conditional p(Y l| ˆY l 1, X) as a single-step of refinement of a rough target sequence ˆY l 1.
+67	20	Other than this replacement, the cost function in Eq (4) and the model architecture remain unchanged.
+109	18	The encoder is identical to that from the original Transformer (Vaswani et al., 2017).
+114	22	We compare the proposed non-autoregressive model against the autoregressive counterpart both in terms of generation quality, measured in terms of BLEU (Papineni et al., 2002), and generation efficiency, measured in terms of (source) tokens and images per second for translation and image captioning, respectively.
+132	17	The average of these vectors is copied as many times to match the length of the target sentence (reference during training and predicted during evaluation) to form the initial input to Decoder 1.
+140	20	See Appendix A for an analysis on our length prediction model.
+141	23	Training and Inference We use Adam (Kingma and Ba, 2014) and use L = 3 in Eq.
+152	55	We plot the average seconds per sentence in Fig.
+161	31	The results of our model decoded with adaptive decoding scheme are comparable to the results from (Gu et al., 2017), without relying on any external tool.
+162	38	On WMT’14 En-De, the proposed model outperforms the best model from (Gu et al., 2017) by two points.
+167	22	First, we observe that it is beneficial to use multiple iterations of refinement during training.
+169	19	We also notice that it is necessary to use the proposed hybrid learning strategy to maximize the improvement from more iterations during training (itrain = 4 vs. itrain = 4, pDAE = 1.0 vs. itrain = 4, pDAE = 0.5.)
+171	14	Finally, we see that removing repeating consecutive symbols improves the quality of the best trained models (itrain = 4, pDAE = 0.5) by approximately +1 BLEU.
+187	18	Iter 1 he looked very happy , which was pretty unusual the , because the news was were usually depressing .
+210	51	We observe that each iteration captures more and more details of the input image.
+217	40	We designed a learning algorithm specialized to the proposed approach by interpreting the entire model as a latent variable model and each refinement step as denoising.
+219	19	On both tasks, we were able to show that the proposed nonautoregressive model performs closely to the autoregressive counterpart with significant speedup in decoding.
+220	24	Qualitative analysis revealed that the iterative refinement indeed refines a target sequence gradually over multiple steps.
+221	29	Despite these promising results, we observed that proposed non-autoregressive neural sequence model is outperformed by its autoregressive counterpart in terms of the generation quality.
+223	32	First, we should investigate better approximation to the marginal logprobability.
+225	76	Lastly, further work on sequence-to-sequence model architectures could yield better results in non-autoregressive sequence modeling.

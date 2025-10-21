@@ -1,0 +1,30 @@
+4	18	This has led to the development of multimodal representation models that utilize both textual and perceptual information (e.g., images, sounds).
+12	38	This is inconsistent with many psychological findings that information from different modalities contributes differently to the meaning of words (Paivio, 1990; Anderson et al., 2017).
+13	88	In this work, we introduce the associative multichannel autoencoder (AMA), a novel multimodal word representation model that addresses all the above issues.
+14	17	Our model is built upon the stacked autoencoder (Bengio et al., 2007) to learn semantic representations by integrating textual and perceptual inputs.
+37	20	Lazaridou et al. (2015) propose MMSkip model, which injects visual information in the process of learning textual representations by adding a max-margin objective to minimize the distance between textual and visual vectors.
+39	13	These methods can implicitly propagate perceptual information to word representations and at the same time learn multimodal representations.
+40	19	However, they utilize raw text corpus in which words having perceptual information account for a small portion.
+41	13	This weakens the effect of introducing perceptual information and consequently leads to the slight improvement of textual vectors.
+43	31	It has been proven to be effective in learning multimodal representations (Bruni et al., 2014; Hill et al., 2014; Collell et al., 2017).
+45	20	There is also work using deep learning methods to project different modality inputs into a common space, including restricted Boltzman machines (Ngiam et al., 2011; Srivastava and Salakhutdinov, 2012), autoencoders (Silberer and Lapata, 2014; Silberer et al., 2016), and recursive neural networks (Socher et al., 2013).
+47	21	An empirically superior model addresses this problem by predicting missing perceptual information firstly.
+54	55	However, existing models ignore either the associative relations among modalities, associative relations among relative words, or the different contributions of each modality.
+63	14	(2) The model is trained to reconstruct the hidden representations of the three modalities from the multimodal representation hm: [ĥt; ĥv; ĥa] = g(W ′mhm + bm̂), (3) and finally to reconstruct the original embeddings of textual, visual and auditory inputs: x̂t = g(W ′t ĥt + bt̂) x̂v = g(W ′vĥv + bv̂) x̂a = g(W ′aĥa + bâ), (4) where x̂t, x̂v, x̂a are the reconstruction of input vectors xt, xv, xa, and ĥt, ĥv, ĥa are the reconstruction of hidden representations ht, hv, ha.
+68	17	Autoencoders can be stacked to create deep networks.
+73	37	Here we employ a neural-network mapping function to incorporate this modality association module into multimodal models.
+78	16	The set of visual representations along with their corresponding textual representations image2vec ... word2vec sound2vec ... ...Multimodal representations dog ... ... ...... ......... ...... ... ...... ... ... ... ...
+81	15	are used to learn the mapping function.
+84	21	Word associations are a proxy for an aspect of human semantic memory that is not sufficiently captured by the usual training objectives of multimodal models.
+85	15	Therefore we assume that incorporating the objective of word associations helps to learn better semantic representations.
+92	32	Considering that the meaning of each word has different dependencies on textual and perceptual information, we propose the sample-specific gate to assign different weights to each modality according to different words.
+109	16	To extract auditory features, we use the VGG-net model which is pretrained on Audioset5.
+112	18	This dataset includes mostly words with similar meaning (e.g., occasionally & sometimes, adored & loved, supervisor & boss) and related words (e.g., eruption & volcano, cortex & brain, umbrella & rain).
+133	14	This method calculates the correlation coefficients between model predictions and subject ratings, in which the model prediction is the cosine similarity between semantic representations of two words.
+155	16	(5) Our implementation of trimodal baseline models with textual, visual and auditory inputs (TVA).
+176	25	Our multimodal models With either bimodal or trimodal inputs, the proposed AMA-M model outperforms all baseline models by a large margin.
+183	16	We find that the decrease of association data has no discernible effect on model performance: when using 100%, 80%, 60%, 40%, 20% of the data, the average results are 0.6479, 0.6409, 0.6361, 0.6430, 0.6458 in bimodal model.
+185	14	We have proposed a cognitively-inspired multimodal model — associative multichannel autoencoder — which utilizes the associations between modalities and related words to learn multimodal word representations.
+186	18	Performance improvement on six benchmark tests shows that our models can efficiently fuse different modality inputs and build better semantic representations.
+187	51	Ultimately, the present paper sheds light on the fundamental questions of how to learn word meanings, such as the plausibility of reconstructing per- ceptual information, associating related concepts and grounding word symbols to external environment.
+188	84	We believe that one of the promising future directions is to learn from how humans learn and store semantic word representations to build a more effective computational model.

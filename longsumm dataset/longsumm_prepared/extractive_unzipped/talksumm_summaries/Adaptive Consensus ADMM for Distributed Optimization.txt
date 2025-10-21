@@ -1,0 +1,30 @@
+4	23	The consensus problem (2) coincides with (1) by defining u = (u1; .
+11	21	A more recent approach, AADMM (Xu et al., 2017a), achieves impressive practical convergence speed on many applications, including consensus problems, with adaptive penalty parameters by estimating the local curvature of the dual functions.
+14	17	Consensus residual balancing (CRB) (Song et al., 2016) extends residual balancing to consensusbased ADMM for distributed optimization by balancing the local primal and dual residuals on each node.
+21	45	Instead of estimating one global penalty parameter for all workers, different local penalty parameters are estimated using the local curvature of subproblems on each node.
+34	56	The residuals in (6) and stopping criterion in (7) are adopted from the general problem (Boyd et al., 2011) to the consensus problem.
+35	40	The observation that residuals rk, dk can be decomposed into “local residuals” rki , d k i has been exploited to generalize the residual balancing method (He et al., 2000) for distributed consensus problems (Song et al., 2016).
+38	36	The issue of how to automatically tune penalty parameters effectively will be discussed in Section 5.
+63	51	The adaptivity of the diagonal penalty matrix T k = diag(τki , .
+75	24	We further exploit Assumption 1 and Lemma 3 to prove Lemma 4, and combine VI (16), Lemma 2, and Lemma 4 to prove the O(1/k) convergence rate in Theorem 2.
+85	20	We derive our method from the dual interpretation of ADMM – Douglas-Rachford splitting (DRS) – using a diagonal penalty matrix.
+89	22	It is known that ADMM steps for the primal problem (1) are equivalent to performing Douglas-Rachford splitting (DRS) on the dual problem (42) (Eckstein & Bertsekas, 1992; Xu et al., 2017a).
+94	31	We now present generalized spectral stepsize rules that can accomodate consensus problems.
+96	93	Suppose the generalized DRS steps (43, 44) are used, and assume the subgradients are locally linear, ∂f̂(λ̂) = Mα λ̂+ Ψ and ∂ĝ(λ) = Mβ λ+ Φ.
+103	34	We now show that the generalized spectral stepsizes can be estimated from the ADMM iterates for the primal consensus problem (2), without explicitly supplying the dual functions.
+104	20	The subgradients of dual functions ∂f̂ , ∂ĝ can be computed from the ADMM iterates using the identities derived from (8, 9), Auk+1 − b ∈ ∂f̂(λ̂k+1) and Bvk+1 ∈ ∂ĝ(λk+1).
+107	44	We select stepsizes with a two step procedure, which follows the spectral stepsize literature.
+109	26	Second, we plug these curvature estimates into the formula τki = 1/ √ αi βi.
+120	17	The final safeguarded ACADMM rule is τ̂k+1i =  √ α̂ki β̂ k i if α k cor,i > cor and βkcor,i > cor α̂ki if α k cor,i > cor and βkcor,i ≤ cor β̂ki if α k cor,i ≤ cor and βkcor,i > cor τki otherwise, τk+1i = max{min{τ̂ k+1 i , (1 + Ccg k2 )τki } , τki 1 + Ccg/k2 }.
+121	43	(54) The complete adaptive consensus ADMM is shown in Algorithm 1.
+125	23	Linear regression with elastic net regularizer.
+136	45	Synthetic1 contains samples from a normal distribution, and Synthetic2 contains samples from a mixture of 10 random Gaussians.
+137	43	Synthetic2 is heterogeneous because the data block on each individual node is sampled from only 1 of the 10 Gaussians.
+142	21	Consensus ADMM (CADMM) (Boyd et al., 2011), residual balancing (RB-ADMM) (He et al., 2000), adaptive ADMM (AADMM) (Xu et al., 2017a), and consensus residual balancing (CRB-ADMM) (Song et al., 2016) are implemented and reported for comparison.
+146	25	These experiments are performed with 128 cores on a Cray XC-30 supercomputer.
+154	43	1a shows that the practical convergence of ADMM is sensitive to the choice of penalty parameter.
+159	18	RB and CRB are more stable than AADMM, but cannot compete with ACADMM.
+160	18	1c (bottom) presents the acceleration in (wall-clock secs) achieved by increasing the number of workers.
+162	38	Though tuning these parameters may further improve the performance, the fixed default values generally perform well in our experiments and enable ACADMM to run without user oversight.
+166	68	We also prove a O(1/k) convergence rate for ADMM with adaptive penalties under mild conditions.
+167	175	By automating the selection of algorithm parameters, adaptive methods make distributed systems more reliable, and more accessible to users that lack expertise in optimization.

@@ -1,0 +1,18 @@
+30	1	We can optimize the speech enhancement component with noisy signals and their transcripts.
+59	1	The main difference between them is how to compute the filter coefficient gt,f,c.
+71	1	The first issue is the high flexibility of the estimated filters {gt,f,c}T,F,Ct=1,f=1,c=1, which are composed of a large number of unconstrained variables (2TFC) estimated from few observations.
+72	1	This causes problems such as training difficulties and over-fitting.
+75	1	The key point of the mask estimation network approach is that it constrains the estimated filters based on wellfounded array signal processing principles.
+76	1	Here, the network estimates the time-frequency masks, which are used to compute the time-invariant filter coefficients {gf,c}F,Cf=1,c=1 based on the MVDR formalizations.
+79	1	Therefore, this paper proposes to use a maskbased MVDR beamformer, where overall procedures are formalized as a differentiable network for the subsequent end-to-end speech recognition system.
+84	1	Note that although the formula contains a matrix inverse, the number of channels is relatively small, and so the forward pass and derivatives can be efficiently computed.
+107	1	Similarly, the reference selection network is also independent of channels, and the beamformer deals with input signals with arbitrary number and order of channels without re-training or re-configuration of the network.
+114	1	In this work, we use a normalized log Mel filterbank transform to obtain ôt ∈ RDO computed from the enhanced STFT coefficients x̂t ∈ CF as an input of attention-based encoder-decoder: pt = {<(x̂t,f )2 + =(x̂t,f )2}Ff=1, (32) ôt = Norm(log(Mel(pt))), (33) where pt ∈ RF is a real-valued vector of the power spectrum of the enhanced signal at a time step t, Mel(·) is the operation of DO × F Mel matrix multiplication, and Norm(·) is the operation of global mean and variance normalization so that its mean and variance become 0 and 1.
+116	1	(7), (8), and (9), respectively, with the sequence of the enhanced log Mel filterbank like features Ô as an input.
+145	1	After every BLSTM layer, we used a linear projection layer with 320 units to combine the forward and backward LSTM outputs.
+164	1	All the above networks are implemented by using Chainer (Tokui et al., 2015).
+196	1	It can jointly optimize the overall inference in multichannel speech recognition (i.e., from speech enhancement to speech recognition) based on the end-to-end ASR objective, and it can generalize to different numbers and configurations of microphones.
+197	1	Our proposed architecture will potentially expand the scope of application of existing single-channel sequence-to-sequence problems to multichannel sequence-to-sequence problems.
+199	12	The current system still has data sparseness issues due to the lack of lexicon and language models, unlike the conventional hybrid approach.
+200	163	Therefore, the results reported in the paper did not reach the state-of-the-art performance in these benchmarks, but they are still convincing to show the effectiveness of the proposed framework.
+201	164	Our most important future work is to overcome these data sparseness issues by developing adaptation techniques of an end-to-end framework with the incorporation of linguistic resources.

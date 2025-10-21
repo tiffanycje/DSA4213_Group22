@@ -1,0 +1,30 @@
+0	17	Identifying and understanding entities is a central component in knowledge base construction (Roth et al., 2015) and essential for enhancing downstream tasks such as relation extraction com/MurtyShikhar/Hierarchical-Typing (Yaghoobzadeh et al., 2017b), question answering (Das et al., 2017; Welbl et al., 2017) and search (Dalton et al., 2014).
+5	20	For example, FIGER (Ling and Weld, 2012), the de facto standard fine grained entity type dataset, contains only 113 types in a hierarchy only two levels deep.
+7	55	By using this additional information, we learn a richer, more robust representation, gaining statistical efficiency when predicting similar concepts and aiding the classification of rarer types.
+18	35	Our models even provide benefits for shallow hierarchies allowing us to match the state-of-art results of Shimaoka et al. (2017) on the FIGER (GOLD) dataset without requiring hand-crafted features.
+36	22	TypeNet was created by manually aligning Freebase types (Bollacker et al., 2008) to noun synsets from the WordNet hierarchy (Fellbaum, 1998), naturally producing a hierarchical type set.
+38	45	This is done to eliminate types that are either very specific or very rare.
+42	24	If no match was found, the annotator manually formulated queries for the online WordNet API until an appropriate synset was found.
+51	29	The conditional probability P(t2 | t1) of a Freebase type t2 given another Freebase type t1 was calculated as #(t1,t2)#t1 .
+65	18	Each sentence is made up of s tokens which are mapped to dw dimensional word embeddings.
+72	17	ci = tanh(b+ w∑ j=0 W [j]M [i− bw 2 c+ j]) mCNN = max 0≤i≤n−w+1 ci Each W [j] ∈ Rd×d is a CNN filter, the bias b ∈ Rd, M [i] ∈ Rd is a token representation, and the max is taken pointwise.
+89	41	Given a large corpus of entity linked data, one can compute conditional probabilities from mention strings to entities (Spitkovsky and Chang, 2012).
+104	22	This model is equivalent to RESCAL (Nickel et al., 2011) with a single IS-A relation type.
+109	25	The score of a hypernym link between (c1, c2) in the ComplEx model is defined as: s(c1, c2) = Re(< c1, rIS-A, c2 >) = Re( ∑ k c1krk c̄2k) = 〈Re(c1),Re(rIS-A),Re(c2)〉 + 〈Re(c1), Im(rIS-A), Im(c2)〉 + 〈Im(c1),Re(rIS-A), Im(c2)〉 − 〈Im(c1), Im(rIS-A),Re(c2)〉 where c1, c2 and rIS-A are complex valued vectors representing c1, c2 and the IS-A relation respectively.
+117	58	We encourage the model to output high scores for positive links, and low scores for negative links via a binary cross entropy (BCE) loss: Lstruct = − log σ(s(c1i, c2i)) + ∑ N log(1− σ(s(c1i, c′2i))) L = Ltype/link + γLstruct 1This step makes the scoring function technically not bilinear, as it commutes with addition but not complex multiplication, but we term it bilinear for ease of exposition.
+121	17	We perform three sets of experiments: mentionlevel entity typing on the benchmark dataset FIGER, entity-level typing using Wikipedia and TypeNet, and entity linking using MedMentions.
+131	30	The most widely used type system for fine-grained entity typing is FIGER which consists of 113 types organized in a 2 level hierarchy.
+135	48	In Table 5 we see that our base CNN models (CNN and CNN+Complex) match LSTM models of Shimaoka et al. (2017) and Gupta et al. (2017), the previous state-of-the-art for models without handcrafted features.
+136	20	When incorporating structure into our models, we gain 2.5 points of accuracy in our CNN+Complex model, matching the overall state of the art attentive LSTM that relied on handcrafted features from syntactic parses, topic models, and character n-grams.
+146	80	Table 6 shows the results for entity level typing on our Wikipedia TypeNet dataset.
+160	32	We see that incorporating structure information results in a 1.1% reduction in absolute error, corresponding to a ~6% reduction in relative error on this large-scale dataset.
+161	21	Table 8 shows qualitative predictions for models with and without hierarchy information incorporated.
+162	85	Each example contains the sentence (with target entity in bold), predictions for the baseline and hierarchy aware models, and the ancestors of the predicted entity.
+167	193	A possible explanation is that UMLS is a far larger/deeper ontology than even TypeNet, and the additional ability of complex embeddings to model intricate graph structure is key to realizing gains from hierarchical modeling.
+179	36	We demonstrate that explicitly incorporating and modeling hierarchical information leads to increased performance in experiments on entity typing and linking across three challenging datasets.
+180	111	Additionally, we introduce two new humanannotated datasets: MedMentions, a corpus of 246k mentions from PubMed abstracts linked to the UMLS knowledge base, and TypeNet, a new hierarchical fine-grained entity typeset an order of magnitude larger and deeper than previous datasets.
+181	54	While this work already demonstrates considerable improvement over non-hierarchical modeling, future work will explore techniques such as Box embeddings (Vilnis et al., 2018) and Poincaré embeddings (Nickel and Kiela, 2017) to represent the hierarchical embedding space, as well as methods to improve recall in the candidate generation process for entity linking.
+203	18	From these sentences, we considered all entities annotated with a cross-link in Wikipedia that we could link to Freebase and assign types in TypeNet.
+207	16	For each mention, In our experiments we consider the top 100 most similar entities as the candidate set.
+209	25	We pre-process each string by lowercasing and removing stop words.
+212	22	In our experiments we consider the top 100 most similar entities as the candidate set.

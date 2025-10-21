@@ -1,0 +1,30 @@
+0	38	As the general quality of machine translation (MT) increases, there is a growing interest in improving the translation of specific linguistic phenomena.
+2	30	In the simplest case, translating anaphoric pronouns requires the generation of corresponding word forms respecting the grammatical constraints on agreement in the target language, as in the following English-French example, where the correct form of the pronoun in the second sentence varies depending on which of the (equally correct) translations of the word bicycle was used in the first: (1) a. I have a bicycle.
+3	24	[MT] However, the problem is more complex in practice because there is often no 1 : 1 correspondence between pronouns in two languages.
+4	27	This is easily demonstrated at the corpus level by observing that the number of pronouns varies significantly across languages in parallel texts (Mitkov and Barbu, 2003), but it tends to be difficult to predict in individual cases.
+6	12	Attempting to create a similar framework for efficient research, researchers have proposed automatic reference-based evaluation metrics specifically targeting pronoun translation: AutoPRF (Hardmeier and Federico, 2010) and APT (Miculicich Werlen and PopescuBelis, 2017).
+13	16	Two reference-based automatic metrics of pronoun translation have been proposed in the literature.
+16	19	The scoring process relies on a word alignment between the source and the MT output, and between the source and the reference translation.
+17	74	For each input pronoun, it computes a clipped count (Papineni et al., 2002) of the overlap between the aligned tokens in the reference and the MT output.
+19	32	The final metric is then calculated as the precision, recall and F-score based on these clipped counts.
+20	18	Miculicich Werlen and Popescu-Belis (2017) propose a metric called Accuracy of Pronoun Translation (APT) that introduces several innovations over the previous work.
+21	31	It is a variant of accuracy, so it counts, for each source pronoun, whether its translation can be considered correct, without considering multiple alignments.
+22	20	Since word alignment is problematic for pronouns, the authors propose an heuristic procedure to improve alignment quality.
+23	31	Finally, it introduces the notion of pronoun equivalence, assigning partial credit to pronoun translations that differ from the reference translation in specific ways deemed to be acceptable.
+24	10	In particular, it considers six possible cases when comparing the translation of a pronoun in MT output and the reference.
+25	64	The pronouns may be: (1) identical, (2) equivalent, (3) different/incompatible, or there may be no translation in: (4) the MT output, (5) the reference, (6) either the MT output or the reference.
+27	54	We study the behaviour of the two automatic metrics using the PROTEST test suite (Guillou and Hardmeier, 2016).
+28	29	The test suite comprises 250 hand-selected personal pronoun tokens taken from the DiscoMT2015.test dataset of TED talk transcriptions and translations (Hardmeier et al., 2016) and annotated according to the ParCor guidelines (Guillou et al., 2014).
+29	12	It is structured according to a linguistic typology motivated by work on func- tional grammar by Dik (1978) and Halliday (2004).
+32	21	They are then subcategorised according to morphosyntactic criteria, whether the antecedent is a group noun, whether the ancedent is in the same or a different sentence, and whether an addressee reference pronoun refers to one or more specific people (deictic) or to people in general (generic).
+33	39	Our dataset contains human judgements on the performance of nine MT systems on the translation of the 250 pronouns in the PROTEST test suite.
+34	25	The systems include five submissions to the DiscoMT 2015 shared task on pronoun translation (Hardmeier et al., 2015) – four phrase-based SMT systems AUTO-POSTEDIT (Guillou, 2015), UU-HARDMEIER (Hardmeier et al., 2015), IDIAP (Luong et al., 2015), UU-TIEDEMANN (Tiedemann, 2015), a rule-based system ITS2 (Loáiciga and Wehrli, 2015), and the shared task baseline (also phrase-based SMT).
+35	15	Three NMT systems are included for comparison: LIMSI (Bawden et al., 2017), NYU (Jean et al., 2014), and YANDEX (Voita et al., 2018).
+36	22	Manual evaluation was conducted using the PROTEST graphical user interface and accompanying guidelines (Hardmeier and Guillou, 2016).
+38	13	The annotations were carried out by two bilingual English-French speakers, both of whom are native speakers of French.
+68	11	However, these small improvements are not sufficient to affect the system rankings.
+91	18	SOURCE: so what these two clips show is not just the devastating consequence of the disease, but they also tell us something about the shocking pace of the disease.
+103	27	they 22 – 3 22 singular they 40 – – 18 group it/they 21 – – 10 Event it – 16 – 44 Pleonastic it – 11 – 35 V: Valid alternative translation I: Impersonal translation E: Incorrect equivalence O: Other Table 4: Common cases of disagreement for anaphoric, pleonastic, and event reference pronouns As with anaphoric pronouns, APT incorrectly marks some pleonastic and event translations as equivalent, in disagreement with the human judges.
+112	26	Comparison with human judgements shows that APT identifies good translations with relatively high precision, but fails to reward important patterns that pronoun-specific systems must strive to generate.
+113	46	Instead of relying on fully automatic evaluation, our recommendation is to emphasise high precision in the automatic metrics and implement semiautomatic evaluation procedures that refer negative cases to a human evaluator, using available tools and methods (Hardmeier and Guillou, 2016).
+114	38	Fully automatic evaluation of a very restricted scope may still be feasible using test suites designed for specific problems (Bawden et al., 2017).

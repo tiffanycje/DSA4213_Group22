@@ -1,0 +1,30 @@
+0	9	One of the most wide-spread techniques for sketching graph-structured data is coarsening.
+1	35	As with most sketching methods, instead of solving a large graph problem in its native domain, coarsening involves solving an akin problem of reduced size at a lower cost; the solution can then be inexpensively lifted and refined in the native domain.
+2	47	The benefits of coarsening are well known both in the algorithmic and machine learning communities.
+3	41	There exists a long list of algorithms that utilize it for partitioning (Hendrickson & Leland, 1995; Karypis & Kumar, 1998a; Kushnir et al., 2006; Dhillon et al., 2007; Wang et al., 2014) and visualizing (Koren, 2002; Walshaw, 2006) large graphs in a computationally efficient manner.
+4	33	In addition, it has been frequently used to create multi-scale representations of graph-structured data, such as coarse-grained diffusion maps (Lafon & Lee, 2006), multi-scale wavelets (Gavish et al., 2010) and pyramids (Shuman et al., 2016).
+5	19	More recently, coarsening is employed as a component of graph convolutional networks analogous to pooling (Bruna et al., 2014; Defferrard et al., 2016; Bronstein et al., 2017; Simonovsky & Komodakis, 2017).
+8	11	The majority of theoretical work has so far focused on constructing fast linear solvers using multigrid techniques.
+10	8	Multigrids were also adapted to arbitrary graphs by Koutis et al. (2011) and later on by Livne and Brandt (2012).
+13	33	Despite this progress, with the exception of certain interlacing results (Chung, 1997; Chen et al., 2004), it is currently an open question how coarsening affects the spectrum of a general graph.
+15	10	The absence of a fundamental understanding of what and how much information is lost also hinders our ability to design efficient learning algorithms for graph-structured data: e.g., coarsening is the least studied (and less optimized) component of graph convolutional networks.
+18	10	Key to our argument is the introduced restricted spectral similarity (RSS) property, asserting that the Laplacian of the coarsened and actual graphs behave similarly (up to some constants) with respect to an appropriate set of vectors.
+21	14	We utilize the RSS property to provide spectrum approximation guarantees.
+34	14	, vN} and the smaller vertex set Vc = {v′1, .
+35	9	In other words, the coarse graph Gc = (Vc, Ec) has m = |Ec| and contains every edge (i, j) ∈ E for which ϕ(vi) 6= ϕ(vj).
+40	8	, cj(nj)] is the length nj coarsening weight vector associated with the j-th vertex v′j of Vc.
+52	14	We write x̃ = C>xc to do an approximate inverse mapping from Vc to V , effectively lifting the dimension from Rn back to RN .
+75	31	Suppose that there exists an integer K and positive constants k, such that for every k ≤ K, (1− k)λk ≤ u>k L̃uk ≤ (1 + k)λk.
+79	13	On the hand, for k > 0, Cuk is not an eigenvector of Lc, but matrices L and L̃ alter the length of vectors in the span of uk in a similar manner (up to 1± k).
+82	31	In particular, we will prove that the spectrum of Lc approximates that of L (up to lifting) when the constants k are sufficiently small.
+83	10	This line of thinking will be developed in Section 4.
+84	32	A uniform RSS constant = maxk≤K k is sufficient to guarantee spectrum preservation, however, individual constants { k}Kk=1 lead to tighter bounds.
+85	10	This section proposes an algorithm for coarsening a graph that provably produces coarsenings with bounded RSS con- Algorithm 1 Randomized Edge Contraction (REC) 1: input: G = (V, E), T, φ 2: output: Gc = (Vc, Ec) 3: C ← E , Gc ← G 4: Φ←∑eij∈E φij , t← 0.
+94	8	REC is equivalent to the O(M) complexity algorithm that samples from C directly in line 7 by updating Φ at every iteration such that its value is ∑ eij∈C φij .
+119	15	Such graphs are especially common in machine learning, where often the connecticity of each vertex is explicitly constructed such that all degrees are close to some target value (e.g., using a k-nearest neighbor graph construction (Muja & Lowe, 2014)).
+120	15	As a proof of concept, Figure 2 compares the actual constants k with the bound of Theorem 3.1 when utilizing REC with a heavy-edge potential to coarsen the following benchmark graphs: (i) a point cloud representing a bunny obtained by re-sampling the Stanford bunny 3Dmesh (Turk & Levoy, 1994) and applying a k-nn construction (N = 1000, r = 0.4, k = 30), (ii) a k-nn similarity graph capturing the geometry of a 2D manifold usually referred to as Swiss roll (N = 1000, r = 0.4, k = 10), (iii) A network describing the interaction of yeast proteins (Rossi & Ahmed, 2015) (N = 1458, r = 0.25, davg = 2, dmax = 56), and (iv) a d-regular graph (N = 400, r = 0.4, d = 20).
+129	10	Before delving into our main results, let us first consider the spectrum of a coarsened Laplacian which does not (necessarily) meet the RSS property.
+130	9	W.l.o.g., let G be connected and sort its eigenvalues as 0 = λ1 < λ2 ≤ .
+133	12	Inequality λk ≤ λ̃k holds for all k ≤ n. We remark the similarity of the above to a known result in spectral graph theory (Chung, 1997) (Lemma 1.15) assering that, if νk is the k-th eigenvalue of the normalized Laplacian ofG and ν̃k is the k-th eigenvalue of the normalized Laplacian of a graph Gc obtained by edge contraction, then νk ≤ ν̃k for all k = 1, 2, .
+146	25	We also analyze the angle between principal eigenspaces of L and Lc.
+168	67	Let L be the combinatorial Laplacian of the graph and write Ψ = UK ∈ RN×K to denote the matrix of its first K eigenvectors.

@@ -1,0 +1,30 @@
+3	31	We consider the problem of constructing a Single-Linkage Clustering for large-scale data.
+6	19	, Ck such that the smallest distance between two vectors in different clusters is maximized.
+7	18	Formally, for i 6= j let the single-linkage distance between two clusters Ci and Cj under `p distance be dp(Ci, Cj) = minva∈Ci,vb∈Cj ‖va − vb‖p where ‖x‖p = ( ∑ i |xi|p)1/p is the standard p-norm.
+9	110	It is well-known that k-SLC can be constructed from the Minimum Spanning Tree (MST) of the underlying metric by taking as clusters connected components resulting from removal of k−1 longest MST edges (see Figure 1 for an example).
+14	30	We present analysis of performance of our algorithms in the Massively Parallel Computation model (MPC) which is the most commonly used theoretical model of computation on synchronous large-scale data processing platforms such as MapReduce and Spark.
+16	102	MPC model has attracted a lot of interest recently.
+17	17	It has emerged through a sequence of papers (Feldman et al., 2008; Karloff et al., 2010; Goodrich et al., 2011; Beame et al., 2013; Andoni et al., 2014) and has been analyzed extensively (Fish et al., 2015; Roughgarden et al., 2016).
+18	16	While several variations of this basic model exist here we follow the strictest known version of the model used in (Andoni et al., 2014) and hence our algorithmic results hold in other versions as well.
+19	31	In the MPC model we are given access to m identical processors with local RAM space s on each.
+21	26	The computation is performed in synchronous rounds.
+22	131	In each round each machine: 1) performs a local computation on its data (under its local space restriction of s), 2) sends and receives messages of total length at most s to other machines which are received before the next round begins1 (see Figure 2).
+23	73	Furthermore, we assume that the most time/space-efficient known algorithm for local subproblems (in our case almost linear-time and space) is used on each machine during the round.
+24	96	In this setup the key complexity measure of performance in such computation is the number of rounds it takes to complete it as other characteristics such as time and communication depend directly on it.
+25	112	The parameter s is set to nα for some fixed constant α < 1, see (Karloff et al., 2010; Andoni et al., 2014) for more details.
+26	33	In this setting of parameters sorting can be done in O(1) rounds (Goodrich et al., 2011) while sparse graph connectivity takes O(log n)(Rastogi et al., 2013; Kiveris et al., 2014) which is conjectured to be optimal (Karloff et al., 2010; Beame et al., 2013; Rastogi et al., 2013; Roughgarden et al., 2016).
+27	25	It is folklore that an O(log n)-round algorithm for MST in sparse graphs can be obtained via a simulation of Boruvka’s algorithm in MPC.
+31	25	For other recent work on geometric data structures and algorithms in the MPC model see (Agarwal et al., 2016; Nath et al., 2016) and results on distributed constructions of coresets (Agarwal et al., 2005; Indyk et al., 2014; Bateni et al., 2014).
+32	35	In (Andoni et al., 2014) it is shown that a (1 + )- approximate MST under `2 can be constructed in O(1) rounds of MPC for constant dimension.
+35	17	For example, consider an input corresponding to a set of points on the line shown in Figure 3 and k = 2.
+41	24	Perhaps most interestingly, while an arbitrarily good MST approximation can be computed inO(1) rounds of MPC (for fixed dimension) our algorithms for k-SLC run in O(log n) rounds.
+43	36	We justify it through a number of hardness results.
+44	16	Our results show that even for k = 2 assuming two most popular conjectures in the MPC literature regarding complexity of sparse connectivity no o(log n)round algorithm can compute k-SLC for sufficiently large dimension of the data with better than some fixed constantfactor approximation that depends on the distance metric used.
+45	23	See Table 1 for a summary of these results4.
+46	25	In order to complete the picture of approximability of kSLC under the most frequently used `p distances we also give algorithms and hardness results under Hamming distance (commonly referred to as `0).
+47	17	In contrast to other distances studied in this paper we are able to completely resolve approximability of the k-SLC problem for constantdimensional data in this case.
+55	79	Hardness In fact, we make the above observation formal by giving reductions from two most popular problems conjectured to require Ω(log n) rounds in the MPC model: sparse connectivity (Conjecture 3.1) and a stronger “one cycle vs. two cycles” problem (Conjecture 3.2).
+56	52	Our reductions follow the same general strategy – we introduce a vector vi ∈ Rn for each vertex in the input graph.
+59	25	This ensures that the for pairs of points which are connected by an edge the distance between their correponding vectors is different from the distance between points which are not connected by an edge.
+72	16	At a high level our k-SLC algorithm for `2 is very simple and can be described as follows: Algorithm 1 Simplified k-SLC Algorithm for `2 Input: vectors v1, .
+73	45	, vn ∈ Rd E′ = ∅ Repeat O(log n) times sequentially: E = set of edges of a (1 + )-approximate MST E′ = E ∪ E′ Run Boruvka’s MST algorithm on E′ and remove k − 1 longest edges to obtain the clustering.

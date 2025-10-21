@@ -1,0 +1,30 @@
+17	1	We find that the proposed innovations consistently improve upon the compactness of the models learned without sacrificing predictive performance.
+33	1	When, τ 2 klυ 2 l ≪ c2, τ̃2kl → τ2klυ2l , recovering the original horseshoe prior.
+37	1	In the experimental section, we find that the regularized HSBNN does indeed improve generalization over HS-BNN.
+53	1	Thus, we also adopt non-centered parameterizations for the regularized Horseshoe BNNs.
+73	1	We call this the tied-factorized approximation.
+75	1	We take a step towards a more structured variational approximation by using a layer-wise matrix variate Gaussian variational distribution for the non-centered weights and retaining the form of all the other factors from Equation 5.
+100	1	Variational distribution on pre-activations The “local” re-parametrization is straightforward for all the approximations except the structured approximation.
+109	1	We compute the necessary gradients through reverse mode automatic differentiation tools (Maclaurin et al., 2015).
+111	1	Conditioned on these, the optimal variational posteriors of the auxiliary variables ϑl, λkl, and ρκ follow Inverse Gamma distributions.
+119	1	Thus the structured approximation is only marginally more expensive.
+125	1	One could first summarize the inferred posterior distributions using a point estimate and then use the summary to define a thresholding rule (Louizos et al., 2017).
+128	1	Since, both τkl and υl are constrained to the log-Normal variational family, their product follows another log-Normal distribution, and implementing the thresholding rule simply amounts to computing the cumulative distribution function of the log-Normal distribution.
+129	1	To see why this rule is sensible, recall that for units which experience strong shrinkage the regularized Horseshoe tends to the Horseshoe.
+131	1	Therefore, under our thresholding rule, we prune away nodes whose posterior scales, place probability greater than p0 below a sufficiently small threshold δ.
+154	1	In all experiments, we use a learning rate of 0.005, the global horseshoe scale bg = 10−5, a batch size of 128, ca = 2, and cb = 6.
+163	1	As expected, the gains are more prominent for the smaller datasets for which the regularization afforded by the regularized Horseshoe is crucial for avoiding overfitting.
+166	1	Next, we evaluate the effect of utilizing structured variational approximations.
+168	1	In this section we only report results comparing models employing these two variational families.
+173	1	Furthermore, we observe that the structured approximation best alleviates the under-fitting issues.
+179	1	For all but the ‘year‘ dataset, we report results from five trials each trained on a random 90/10 split of the data.
+182	1	Comparison against Factorized approximations.
+183	1	The factorized and structured variational approximations have similar predictive performance.
+185	1	Figure 2 demonstrates this effect on several UCI datasets, with more in the supplement.
+188	1	Further, the degree of shrinkage from the factorized approximation varies significantly between random initializations.
+194	1	We compare the reg-HS model with structured variational approximation against the variational matrix Gaussian (VMG) approach of (Louizos & Welling, 2016), which has previously been shown to outperform other variational approaches to learning BNNs.
+204	1	HS-BNNs improve reinforcement learning performance.
+217	9	We demonstrated that the regularized horseshoe prior, combined with a structured variational distribution, is a computationally efficient tool for model selection in Bayesian neural networks.
+218	28	By retaining crucial posterior dependencies, the structured approximation provided, to our knowledge, state of the art shrinkage for BNNs while being competitive in predictive performance to existing approaches.
+219	131	We found, model re-parameterizations— decomposition of the Half-Cauchy priors into inverse gamma distributions and non-centered representations essential for avoiding poor local optima.
+220	125	There remain several interesting follow-on directions, including, modeling enhancements that use layer, node, or even weight specific weight decay c, or layer specific global shrinkage parameter bg to provide different levels of shrinkage to different parts of the BNN.

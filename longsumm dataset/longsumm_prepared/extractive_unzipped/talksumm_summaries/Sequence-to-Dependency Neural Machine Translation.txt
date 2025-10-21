@@ -1,0 +1,30 @@
+24	22	Experimental results show that our model significantly improves translation accuracy over the conventional NMT and SMT baseline systems.
+25	17	As a new paradigm to machine translation, NMT is an end-to-end framework (Sutskever et al., 2014; Bahdanau et al., 2015) which directly models the conditional probability P (Y |X) of target translation Y = y1,y2,...,yn given source sentence X = x1,x2,...,xm.
+26	39	An NMT model consists of two parts: an encoder and a decoder.
+28	12	The encoder bidirectionally encodes a source sentence into a sequence of hidden vectorsH = h1,h2,...,hm with a forward RNN and a backward RNN.
+29	33	Then the decoder predicts target words one by one with probability P (Y |X) = n∏ j=1 P (yj|y<j, H) (1) Typically, for the jth target word, the probability P (yj |y<j , H) is computed as P (yj|y<j, H) = g(sj, yj−1, cj) (2) where g is a nonlinear function that outputs the probability of yj , and sj is the RNN hidden state.
+30	15	The context cj is calculated at each timestamp j based on H by the attention network cj = m∑ k=1 ajkhk (3) ajk = exp(ejk)∑m i=1 exp(eji) (4) ejk = v T a tanh(Wasj−1 + Uahk) (5) where va, Wa, Ua are the weight matrices.
+31	69	The attention mechanism is effective to model the correspondences between source and target.
+32	29	We use a shift-reduce transition-based dependency parser to build the syntactic structure for the target language in our work.
+43	11	An SD-NMT model is an extension to the conventional NMT model augmented with syntactic structural information of target translation.
+44	7	Given a source sentenceX = x1,x2,..,xm, its target translation Y = y1,y2,..,yn and Y ’s dependency parse tree T , the goal of the extension is to enable us to compute the joint probability P (Y, T |X).
+53	43	For notational clarity, we introduce a virtual translation sequence Ŷ =ŷ1,ŷ2,..,ŷj ,..,ŷl for WordRNN which has the same length l with transition action sequence.
+63	22	At timestamp j during decoding, our model first predicts an action aj by Action-RNN, then WordRNN checks the condition gate δ according to aj .
+64	7	If aj = SH, the Word-RNN will generate a new state (solid arrow) and predict a new target word yvj , otherwise it just copies previous state (dashed arrow) to the current state.
+71	12	In our model, the syntactic context Kj at timestamp j is defined as a vector which is computed by a feed-forward network based on current parsing configuration of Action-RNN.
+75	10	The bigram features are w0w0l, w0w0r, w1w1l and w1w1r.
+78	15	Figure 2 (b) gives an overview of the construction of Kj .
+82	30	For SD-NMT model, we use the sum of loglikelihoods of word sequence and action sequence as objective function for training algorithm, so that the joint probability of target translations and their parsing trees can be maximized: J(θ) = ∑ (X,Y,A)∈D log P (A|X, Ŷ<l)+ log P (Ŷ |X,A≤l) (14) We also use mini-batch for model training.
+83	56	As the target dependency trees are known in the bilingual corpus during training, we pre-compute the partial tree state and syntactic context at each time stamp for each training instance.
+84	72	Thus it is easy for the model to process multiple trees in one batch.
+85	62	In the decoding process of an SD-NMT model, the score of each search path is the sum of log probabilities of target word sequence and transition action sequence normalized by the sequence length: score = 1 l l∑ j=1 log P (aj |a<j , X, Ŷ<j)+ 1 n l∑ j=1 δ(SH, aj) log P (ŷj |ŷ<j , X,A≤j) (15) where n is word sequence length and l is action sequence length.
+86	21	The experiments are conducted on the ChineseEnglish task as well as the Japanese-English translation tasks where the same data set from WAT 2016 ASPEC corpus (Nakazawa et al., 2016) 3 is used for a fair comparison with other work.
+87	41	In addition to evaluate translation performance, we also investigate the quality of dependency parsing as a by-product and the effect of parsing quality against translation quality.
+88	31	In the Chinese-English task, the bilingual training data consists of a set of LDC datasets, 4 which has around 2M sentence pairs.
+90	21	All English words are lowercased.
+91	26	In the Japanese-English task, we use top 1M sentence pairs from ASPEC Japanese-English corpus.
+92	27	The development data contains 1,790 sentences, and the test data contains 1,812 sentences with single reference per source sentence.
+94	185	As there is no golden annotation of parse trees over the target training data, we use pseudo parsing results as the target dependency references, which are got from an in-house developed arc-eager dependency parser based on work in (Zhang and Nivre, 2011).
+95	12	In the neural network training, the vocabulary size is limited to 30K high frequent words for both source and target languages.
+96	36	All low frequent words are normalized into a special token unk and post-processed by following the work in (Luong et al., 2015b).
+97	40	The size of word embedding and transition action embedding is set to 512.

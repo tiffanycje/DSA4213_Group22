@@ -1,0 +1,30 @@
+0	27	People have systematic intuitions about which sequences of sounds would constitute likely or unlikely words in their language: Although blick is not an English word, it sounds like it could be, while bnick does not (Chomsky and Halle, 1965).
+2	13	Phonotactic restrictions mean that each language uses only a subset of the logically, or even articulatorily, possible strings of phonemes.
+7	10	In this paper, by contrast, we adopt a generative approach to modeling phonotactic structure.
+9	16	Such approaches explicitly attempted to model the 73 Transactions of the Association for Computational Linguistics, vol.
+12	14	redudancy within the set of allowable lexical forms in a language.
+16	18	By contrast, our model is built around three representational assumptions inspired by the generative phonology literature.
+24	17	In short, we view the problem of learning the phoneme inventory as one of concentrating probability mass on the segments which have been observed before, and the problem of phonotactic generalization as learning which (sub-)segments are likely in particular tierbased phonological contexts.
+26	15	Most formal models of phonology posit that segments are grouped into sets, known as natural classes, that are characterized by shared articulatory and acoustic properties, or phonological features (Trubetzkoy, 1939; Jakobson et al., 1952; Chomsky and Halle, 1968).
+28	10	Similarly, /m/ and /p/ can be classified using the labial value of a PLACE feature, PLACE:labial.
+29	14	These features allow compact description of many phonotactic generalizations.2 From a probabilistic structure-building perspective, we need to specify a generative procedure which assembles segments out of parts defined in terms of these features.
+30	10	In this section, we will build up such a procedure starting from the simplest possible procedure and progressing towards one which is more phonologically informed.
+32	14	The simplest procedure for generating a segment from features is to specify each feature independently.
+34	41	In a naive generative procedure, one could generate an instance of /t/ by independently choosing values for each feature in the set {NASALITY, PLACE, ...}.
+37	60	NASALITY ... PLACE This generative procedure is equivalent (ignoring order) to a PCFG with rules: SEGMENT→ NASALITY ... PLACE NASALITY→ + NASALITY→ - PLACE→ bilabial PLACE→ alveolar ... Not all combinations of feature-value pairs correspond to possible phonemes.
+39	11	In order to concentrate probability mass on real segments, our process should optimally assign zero probability mass to these incoherent phonemes.
+40	15	We can avoid specifying a LATERAL feature for vowels by structuring the generative process as below, so that the LATERAL or-node is only reached for consonants: VOCALIC A LATERAL ... B HEIGHT ... consonant vowel Beyond generating well-formed phonemes, a basic requirement of a model of phonotactics is that it concentrates mass only on the segments in a particular language’s segment inventory.
+42	12	So our generative procedure for a phoneme must be able to learn to generate only the licit segments of a language, given some probability distributions at the and- and or-nodes.
+48	29	Following Johnson et al. (2007) and Goodman et al. (2008), we use a distribution for probabilistic memoization known as the Dirichlet Process (DP) (Ferguson, 1973; Sethuraman, 1994).
+55	13	This process induces a bias to reuse items from f which have been frequently generated in the past.
+69	15	And-node C is a class node bundling together the oral features of vowel segments.
+110	9	First, in Section 3.1, we formalize the generative process for a segment in isolation.
+200	17	We are interested in discovering the extent to which each model component described above— feature dependency graphs (Section 2.1), class node structure (Section 2.2), and tier-based conditioning (Section 2.4)— contributes to the ability of the model to explain wordforms.
+201	13	To evaluate the contribution of feature dependency graphs, we compare our models with a baseline N-gram model, which represents phonemes as atomic units.
+203	23	To evaluate feature dependency graphs with and without articulated class node structure, we compare models using the graph shown in Figure 3 (the minimal structure required to produce wellformed phonemes) to models with the graph shown in Figure 2, which includes phonologically motivated “class nodes”.5 To evaluate tier-based conditioning, we compare models with the conditioning described in Sections 2.4 and 3.3 to models where all decisions are conditioned on the full featural specification of the previous n − 1 phonemes.
+228	11	When exposed to data that explicitly does not have autosegmental structure, the model is not more accurate than a plain sequence model for almost all languages.
+231	9	Here we provide a comparison with Hayes and Wilson (2008)’s Phonotactic Learner, which outputs a phonotactic grammar in the form of a set of weighted constraints on feature co-occurrences.
+276	20	We have presented a probabilistic generative model for sequences of phonemes defined in terms of phonological features, based on representational ideas from generative phonology and tools from Bayesian nonparametric modeling.
+277	31	We consider our model as a proof of concept that probabilistic structure-building models can include rich featural interactions.
+278	49	Our model robustly outperforms an Ngram model on simple metrics, and learns to generate forms consisting of highly productive parts.
+279	80	We also view this work as a test of the scientific hypotheses that phonological features can be organized in a hierarchy and that they interact along tiers: in our model evaluation, we found that both concepts were necessary to get an improvement over a baseline N-gram model.

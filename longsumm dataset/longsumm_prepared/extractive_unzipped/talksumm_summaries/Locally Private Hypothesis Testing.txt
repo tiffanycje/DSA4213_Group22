@@ -1,0 +1,30 @@
+5	15	This model, which alleviates trust (each user can run the mechanism independently on her own and release the noisy signal from the mechanism), has gained much popularity in recent years, especially since it was adopted by Google’s Rappor (Erlingsson et al., 2014) and Apple (Apple, 2017).
+6	5	And yet, despite its popularity, and the fact that recent works (Bassily & Smith, 2015; Bassily et al., 2017) have shown the space of possible locally-private mechanism is richer than what was originally thought, little is known about private hypothesis testing in the local-model.
+10	9	For example, a surveyer might unify rarely occurring types under the category of “other”, or perhaps users report their types over noisy channels, etc.
+11	6	We differentiate between two types of signaling schemes: the symmetric (or index-oblivious) variety, and the nonsymmetric (index-aware) type.
+13	7	A classic example of such a mechanism is randomized-response — that actually dates back to before differential privacy was defined (Warner, 1965) and was first put to use in differential privacy in (Kasiviswanathan et al., 2008) — where each user / datum x draws her own signal from the set S = X skewing the probability ever-so-slightly in favor of the original type.
+15	6	This question was recently answered in the affirmative by the works of Bassily and Smith (2015) and Bassily et al (2017), whose mechanisms are not symmetric.
+16	34	In fact, both of them work by presenting each user i with a mapping fi : X → S (the mapping itself is chosen randomly, but it is public, so we treat it as a given), and the user then runs the standard randomized response mechanism on the signals using fi(x) as the more-likely signal.
+17	22	(In fact, in both schemes, S = {1,−1}: in (Bassily & Smith, 2015) fi is merely the j-th coordinate of a hashing of the types where j and the hashing function are publicly known, and in (Bassily et al., 2017) fi maps a u.a.r chosen subset of X to 1 and its complementary to −1.2) So given fi, the user then tosses her own private random coins to determine what signal she broadcasts.
+18	98	Therefore, each user’s mechanism can be summarized in a |S| × |X |-matrix, where Mi(s, x) is the probability a user of type x sends the signal s. For example, using the mechanism of (Bassily et al., 2017), each user whose type maps to 1 sends “signal 1” with probability e 1+e and “signal −1” with probability 1 1+e .
+19	19	Namely, Mi(fi(x), x) = e 1+e andMi(−fi(x), x) = 1 1+e , where fi is the mapping X → {1,−1} set for user i.
+20	99	This work initiates (to the best of our knowledge) the theory of differentially private hypothesis testing in the local model.
+21	8	First we survey related work and preliminaries.
+22	44	Then, in Section 3, we examine the symmetric case and show that any mechanism (not necessarily a differentially private one) yields a distribution on the signals for which finding a maximum-likelihood hypothesis is feasible, assuming the set of possible hypotheses is convex.
+23	13	Then, focusing on the classic randomized-response mechanism, we show that the problem of maximizing the likelihood of the observed signals is strongly-convex and thus simpler than the original problem.
+24	50	More importantly, in essence we give a characterization of hypothesis testing under randomized response: the symmetric locally-private mechanism translates the original null hypothesis H0 (and the alternative H1) by a known affine translation into a different set ϕ(H0) (and resp.
+25	11	Hence, hypothesis testing under randomized-response boils to discerning between two different (and considerably closer in total-variation distance) sets, but in the exact same model as in standard hypothesis testing as all signals were drawn from the same hypothesis in ϕ(H0).
+27	6	(The latter requires some manipulations and far less straightforward than the former.)
+29	7	In Section 4 we move to the non-symmetric local-model.
+32	13	We then give a simple identity tester under this scheme whose sample complexity is proportional to T 2, and is thus more efficient than any tester under standard randomized-response.
+47	6	So 1 denotes the number, 1 denotes the all-1 vector, and 1X×X denotes the all-1 matrix over a domain X .
+53	6	For a matrix, ‖M‖1 denotes (as usual) the maximum absolute column sum.
+54	34	We identify a distribution p over a domain X as a T -dimensional vector with non-negative entries that sum to 1.
+55	19	This defines the total variation distance between two distributions: dTV(p,q) = 12‖p − q‖1.
+58	7	We also use the χ2-divergence to measure difference between two distributions: dχ2(p,q) = ∑ x (p(x)−q(x))2 p(x) = (∑ x (q(x))2 p(x) ) − 1.
+62	45	The unacquainted reader is referred to the Dwork-Roth monograph (Dwork & Roth, 2014) as an introduction to the rapidly-growing field of differential privacy.
+63	8	The problem of hypothesis testing is to test whether a given set of samples was drawn from a distribution satisfying the null-hypothesis or the alternativehypothesis.
+65	38	Hypothesis tests boils down to estimating a teststatistic θ whose distribution has been estimated under the null-hypothesis.
+67	16	We call an algorithm a tester if the acceptance (in the completeness case) or rejection (in the soundness case) happen with probability ≥ 2/3.
+68	48	Standard amplification techniques (return the median of independent tests) reduce the error probability from 1/3 to any β > 0 at the expense of increasing the sample complexity by a factor of O(log(1/β)); hence we focus on achieving a constant error probability.
+69	18	One of the most prevalent and basic tests is the identity-testing, where the null-hypothesis is composed of a single distribution H0 = {p} and our goal is to accept if the samples are drawn from p and reject if they were drawn from any other α-far (in dTV) distribution.

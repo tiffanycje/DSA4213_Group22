@@ -1,0 +1,30 @@
+1	12	The issue arises in the context of the exploration–exploitation dilemma (Thrun, 1992), non-stationary decision problems (Sutton, 1990), and when interpreting observed decisions (Baker et al., 2007).
+2	47	In reinforcement learning, an approach to addressing the tension is the use of softmax operators for value-function optimization, and softmax policies for action selection.
+4	19	An ideal softmax operator is a parameterized set of operators that: 1. has parameter settings that allow it to approximate maximization arbitrarily accurately to perform reward-seeking behavior; 2. is a non-expansion for all parameter settings ensuring convergence to a unique fixed point; 3. is differentiable to make it possible to improve via gradient-based optimization; and 4. avoids the starvation of non-maximizing actions.
+5	36	We define the following operators: max(X) = max i∈{1,...,n} xi , mean(X) = 1 n n∑ i=1 xi , eps (X) = mean(X) + (1− ) max(X) , boltzβ(X) = ∑n i=1 xi e βxi ∑n i=1 e βxi .
+6	59	The first operator, max(X), is known to be a non-expansion (Littman & Szepesvári, 1996).
+8	38	The next operator, mean(X), computes the average of its inputs.
+9	117	It is differentiable and, like any operator that takes a fixed convex combination of its inputs, is a non-expansion.
+10	24	However, it does not allow for maximization (Property 1).
+11	63	The third operator eps (X), commonly referred to as epsilon greedy (Sutton & Barto, 1998), interpolates between max and mean.
+12	27	The operator is a non-expansion, because it is a convex combination of two non-expansion operators.
+13	33	But it is non-differentiable (Property 3).
+14	58	The Boltzmann operator boltzβ(X) is differentiable.
+15	75	It also approximates max as β → ∞, and mean as β → 0.
+49	10	The MDP presented in Figure 1 is the first example where, as shown in Figure 4, GVI under boltzβ has two distinct fixed points.
+53	22	When the learning algorithm performs a sequence of noisy updates, it moves from a fixed point to the other.
+54	13	As we will show later, planning will also progress extremely slowly near the fixed points.
+55	20	The lack of the non-expansion property leads to multiple fixed points and ultimately a misbehavior in learning and planning.
+88	14	Note that this optimization problem is convex and can be solved reliably using any numerical convex optimization library.
+89	28	One way of finding the solution, which leads to an interesting policy form, is to use the method of Lagrange multipliers.
+97	12	Therefore, we can find β easily using any root-finding algorithm.
+105	10	Note also that, similar to other variants of SARSA, the algorithm simply bootstraps using the value of the next state while implementing the new policy.
+113	16	The first experiment investigates the behavior of GVI with the softmax operators on randomly generated MDPs.
+132	25	Note also that Boltzmann softmax performs remarkably well on this domain, outperforming sophisticated Bayesian reinforcement-learning algorithms (Dearden et al., 1998).
+149	49	Solving the domain is defined as maintaining mean episode return higher than 200 in 100 consecutive episodes.
+150	17	The policy in our experiment is represented by a neural network with a hidden layer comprised of 16 units with RELU activation functions, followed by a second layer with 16 units and softmax activation functions.
+177	11	Arguably, mellowmax could be used in place of Boltzmann throughout reinforcement-learning research.
+180	69	An important future work is to expand the scope of our theoretical understanding to the more general function approximation setting, in which the state space or the action space is large and abstraction techniques are used.
+181	47	Note that the importance of non-expansion in the function approximation case is well-established.
+182	27	(Gordon, 1995) Finally, due to the convexity of mellowmax (Boyd & Vandenberghe, 2004), it is compelling to use it in a gradient-based algorithm in the context of sequential decision making.
+183	47	IRL is a natural candidate given the popularity of softmax in this setting.

@@ -1,0 +1,30 @@
+0	40	Intuitively, a man can swallow a candy or paintball but not a desk.
+2	25	What kinds of semantic knowledge are necessary for distinguishing a physically plausible event (or event sequence) from an implausible one?
+3	84	Semantic plausibility stands in stark contrast to the familiar selectional preference (Erk and Padó, 2010; Van de Cruys, 2014) which is concerned with the typicality of events (Table 1).
+4	37	For example, candy is a typical entity for man-swallow-* but paintball is not, even though both events are plausible physically.
+8	41	Semantic plausibility is pertinent and crucial in a multitude of interesting NLP tasks put forth previously, such as narrative schema (Chambers, 2013), narrative interpolation (Bowman et al., 2016), story understanding (Mostafazadeh et al., 2016), and paragraph reconstruction (Li and Jurafsky, 2017).
+23	34	In creating physical events, we work with a fixed vocabulary of 150 concrete verbs and 450 concrete nouns from Brysbaert et al. (2014)’s word list, with a concreteness threshold of 4.95 (scale: 0-5).
+24	86	We take the following steps: (a) Have Turkers write down plausible or implausible S-V and V-O selections; (b) Randomly generate S-V-O triples from collected S-V and V-O pairs; (c) Send resulting S-V-O triples to Turkers to filter for ones with high agreement (by majority vote).
+28	26	For (c), 5 Turkers provide labels, and we only keep the ones that have ≥ 3 majority votes, resulting with 3,062 triples (of 4,000 annotated triples, plausibleimplausible balanced), with 100% ≥ 3 agreement, 95% ≥ 4 agreement, and 90% 5 agreement.
+29	29	To empirically show the failure of distributiononly methods, we run Van de Cruys (2014)’s neural net classifier (hereforth NN), which is one of the strongest models designed for selectional preference (Figure 1, left-box).
+32	34	The model achieves an accuracy of 68% (logistic regression baseline: 64%) after finetuning, verifying the intuition that distributional data alone cannot satisfactorily capture the semantics of physical plausibility.
+33	35	Recognizing that a distribution-alone method lacks necessary information, we collect a set of world knowledge features.
+35	85	Previously, Forbes and Choi (2017) proposed a three level (3-LEVEL) featurization scheme, where an object-pair can take 3 values for, e.g. relative size: {−1, 0, 1} (i.e. lesser, similar, greater).
+36	22	This method, however, does not explain many cases we observed.
+42	21	The features2 are listed with their landmarks as follows: • SENTIENCE: rock, tree, ant, cat, chimp, man.
+49	28	for man-hug-cat/ant, man, cat and ant fall in the 4th, 3rd and 1st bin, which suffices to explain why man-hug-cat is plausible while man-hug-ant is not.
+51	42	Each entity only needs one assignment in comparison to the landmarks to be located in a “global scale” (e.g. from the smallest to the largest objects), and even for extreme granularity, it only takes O(k log k) comparisons.
+52	27	It is also intuitive: differences in bins capture the intuition that one can hug smaller objects as long as those objects are not too small.
+54	22	(ii) Can we minimize effort in knowledge feature annotation by learning from a small amount of training data?
+59	24	Finally, let aNN,aWK be the penultimate-layer vectors of NN and WK (see Figure 1), we affine transform their concatenation to predict label ŷ with argmax on the final softmax layer: ŷ = argmax y softmax(σ(W [aNN;aWK] + b)) (4) where σ is a ReLU nonlinearity.
+72	27	We compare our three models in the 3-LEVEL and BIN-DIFF schemes, with NN + WK-PROP evaluated in 5% and 20% training conditions.
+74	28	Summarizing our findings: (i) world knowledge undoubtedly leads to a strong performance boost (∼8%); (ii) BIN-DIFF scheme works much better than 3-LEVEL — it manages to outperform the latter even with much weaker propagation accuracy; (iii) the accuracy loss with propagated features seems rather mild with 20% labeled training and the best scheme.
+76	20	The percentage statistics below are from counting the error cases.
+77	40	In the cases where NN misclassifies while NN + WK-GOLD correctly classifies, 60% relates to SIZE and WEIGHT (e.g. missing man-hug-ant (bad) or dog-pull-paper (good)).
+78	18	PHASE takes up 18% (e.g. missing monkey-puff-smoke (good)).
+87	60	Turkers of- ten think creating natural objects like moon or mountain is implausible but creating an equally big (but artificial) object like skyscraper is plausible.
+88	40	plane-contain-shell and purse-contain-scissors are plausible, but the hollow-object-can-contain-things attribute is failed to be captured.
+90	108	Obviously the dexterity of the forefoot of the agent matters here.
+94	58	We collected a high-quality dedicated dataset, showed empirically that the conventional, distribution data only model fails on the task, and that clever world knowledge injection can help substantially with little annotation cost, which lends initial empirical support for the scalability of our approach in practical applications, i.e. labeling little but propagating well approximates performance with full annotation.
+95	65	Granted that annotation-based injection method does not cover the full spectrum of leverageable world knowledge information (alternative/complementary sources being images and videos, e.g. Bagherinezhad et al. 2016), it is indeed irreplaceable in some cases (e.g. features such as WEIGHT or RIGIDITY are not easily learnable through visual modality), and in other cases presents a low-cost and effective option.
+96	24	Finally, we also discovered the limitation of existing methods through a detailed error analysis, and thereby invite cross-area effort (e.g. multimodal knowledge features) in the future exploration in automated methods for semantic plausibility learning.

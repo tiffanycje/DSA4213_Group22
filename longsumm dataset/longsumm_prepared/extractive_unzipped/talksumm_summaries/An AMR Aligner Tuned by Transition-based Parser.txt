@@ -1,0 +1,30 @@
+0	31	Abstract Meaning Representation (AMR) (Banarescu et al., 2013) is a semantic representation which encodes the meaning of a sentence in a rooted and directed graph, whose nodes are abstract semantic concepts and edges are semantic relations between concepts (see Figure 1 for an example).
+1	25	Parsing a sentence into its AMR graph has drawn a lot of research attention in recent years with a number of parsers being developed (Flanigan et al., 2014; Wang et al., 2015b; Pust et al., 2015; Artzi et al., 2015; Peng et al., 2015; Zhou et al., 2016; Goodman et al., 2016; Damonte et al., 2017; Ballesteros and Al-Onaizan, 2017; Foland and Martin, 2017; Konstas et al., 2017).
+2	10	The nature of abstracting away the association between a concept and a span of words complicates the training of the AMR parser.
+4	50	alignment output is then used as reference to train the AMR parser.
+5	35	In previous works, such alignment is extracted by either greedily applying a set of heuristic rules (Flanigan et al., 2014) or adopting the unsupervised word alignment technique from machine translation (Pourdamghani et al., 2014; Wang and Xue, 2017).
+9	12	Taking the sentence-AMR-graph pair in Figure 1 for example, the JAMR aligner doesn’t distinguish between the two “nuclear”s in the sentence and can yield sub-optimal alignment in which the first “nuclear” is aligned to the nucleus˜2 concept.
+10	10	The second challenge is recalling more semantically matched word-concept pair without harming the alignment precision.
+11	11	The JAMR aligner adopts a rule that aligns the word-concept pair which at least have a common longest prefix of 4 characters, but omitting the shorter cases like aligning the word “actions” to the concept act-01 and the semantically matched cases like aligning the word “example” to the concept exemplify-01.
+16	10	In this paper, we propose a novel method to solve these challenges and improve the word-toconcept alignment, which further improves the AMR parsing performance.
+32	9	We also propose a new transition system for AMR parsing (§4.1) and use its oracle (§4.2) to pick the alignment that leads to the highest-scored achievable AMR graph (§4.3).
+67	44	In this paper, we use two kinds of semantic resources to recall more alignments, which include the similarity drawn from Glove embedding (Pennington et al., 2014)3 and the morphosemantic database (Fellbaum et al., 2009) in the WordNet project4.
+88	22	This stops the deterministic parsers which build AMR graph only from the derived concepts5 from being used because they do not distinguish alignments that yields to the same set of concepts.6 This discussion shows that to evaluate the quality of an alignment, we need a deterministic (oracle) parser which builds the AMR graph from the raw sentence.
+90	12	A transition system which extends the swap-based dependency parsing system to handle AMR non-projectivities (Damonte et al., 2017) was proposed in their work.
+104	14	Given an alignment and the gold standard AMR graph, we can build the best AMR graph by repeatedly applying one of these actions and this is what we called oracle parser.
+111	55	If b0 is a concept and its head concept c has the same alignment as b0, perform NEW(c).
+117	24	It cannot correctly generate entity names when they require derivation,8 or where tokenization errors exist.9
+118	17	Using our oracle parser, we tune the aligner by picking the alignment which leads to the highestscored AMR graph from the set of candidates (see Figure 2 for the workflow).
+119	41	When more than one alignment achieve the highest score, we choose the one with the smallest number of actions.
+121	70	Based on our aligner and transition system, we propose a transition-based parser which parse the 7 Since some alignments in hand-align were created on incorrect AMR annotations, we filter out them and only use the correct subset which has 136 pairs of alignment and AMR graph.
+122	49	This data is also used in our intrinsic evaluation.
+123	35	8e.g., “North Koreans” cannot be parsed into (name :op1 "North" :op2 "Korea") 9e.g., “Wi Sung - lac” cannot be parsed into (name :op1 "Wi" :op2 "Sung-lac") 10e.g. the first “nuclear” aligned to nucleus˜1 in Fig.
+125	13	In this paper, we follow Ballesteros and Al-Onaizan (2017) and use StackLSTM (Dyer et al., 2015) to model the states.
+126	17	The score of a transition action a on state s is calculated as p(a|s) = exp{ga · STACKLSTM(s) + ba}∑ a′ exp{ga′ · STACKLSTM(s) + ba′} , where STACKLSTM(s) encodes the state s into a vector and ga is the embedding vector of action a.
+128	53	Ensemble has been shown as an effective way of improving the neural model’s performance (He et al., 2017).
+130	23	In this paper, we ensemble the parsers trained with different initialization by averaging their probability distribution over the actions.
+131	11	We evaluate our aligner on the LDC2014T12 dataset.
+144	52	We address this observation to that alignment noise is introduced by the semantic matching especially by the word embedding similarity component.
+146	9	We use the same settings in our aligner extrinsic evaluation for the experiments on our transitionbased parser.
+149	61	Word embedding from Ling et al. (2015) is used in the same way with Ballesteros and Al-Onaizan (2017).
+152	30	When compared with our transition-based counterpart (Ballesteros and AlOnaizan, 2017), our word-only model outperforms theirs using the same JAMR alignment.

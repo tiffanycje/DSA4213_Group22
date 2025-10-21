@@ -1,0 +1,30 @@
+82	6	Thus the inductive bias corresponding to SGD with initialization at zero, is consistent with that of the minimum norm solution.
+84	20	Despite a number of recent attempts (see, e.g., (Neyshabur et al., 2017)), it is unclear how best to construct a norm for deep networks similar to the RKHS norm for kernels.
+85	15	Still, it is likely that similarly to kernels, the structure of neural networks in combination with algorithms, such as SGD, introduce an inductive bias3.
+87	63	Finally, we note that the experiments shown in this paper, particularly fitting noisy labels with Gaussian kernels, would be difficult without fast kernel training algorithms (we used EigenPro-SGD (Ma & Belkin, 2017), which provided 10-40x acceleration over the standard SGD/Pegasos (Shalev-Shwartz et al., 2011)) combined with modern GPU hardware.
+88	57	By a remarkably serendipitous coincidence, small mini-batch SGD can be shown to be exceptionally effective (nearly O(n) more effective than GD) for interpolated classifiers (Ma et al., 2017).
+91	10	Thus, we argue that more complex deep networks are unlikely to be amenable to analysis unless simpler and analytically more tractable kernel methods are better understood.
+93	18	We recall some properties of kernel methods used in this paper.
+94	50	Let K(x,z) : Rd × Rd → R be a positive definite kernel.
+95	8	Then there exists a corresponding Reproducing Kernel Hilbert Space H of functions on Rd, associated to the kernel K(x, z).
+103	9	1 is to observe that f∗ minimizes ∑ l(f(xi), yi) for any non-negative loss function l(ỹ, y), such that l(y, y) = 0.
+107	14	We also recall that the RKHS norm of an arbitrary function of the form f(·) =∑ αiK(xi, ·) is simply ‖f‖2H = 〈α,Kα〉 = ∑ ij αiKijαj .
+109	28	We use both direct linear systems solvers and fast iterative methods.
+112	8	Pegasos (Shalev-Shwartz et al., 2011)).
+113	11	This provides a highly efficient implementation of kernel methods and, additionally, a setting parallel to neural net training using SGD.
+118	13	For comparison, we also show the performance of interpolating solutions given by Eq.
+121	12	Remarkably, we see that in all cases performance of the interpolated solution on test is either optimal or close to optimal both in terms of both regression and classification error.
+122	31	Performance of overfitted/interpolated kernel classifiers closely parallels behaviors of deep networks noted in (Zhang et al., 2016) which fit the data exactly (only the classification error is reported there, other references also report MSE (Chaudhari et al., 2016; Huang et al., 2016; Sagun et al., 2017; Bartlett et al., 2017)).
+136	86	This condition is necessary as zero classification loss classifiers with arbitrarily small norm can be obtained by simply scaling any interpolating solution.
+137	17	The margin condition is far weaker than interpolation, which requires h(xi) = yi for all data points.
+140	43	Then, with high probability, any h that t-overfits the data, satisfies ‖h‖H > AeB n 1/d for some constants A,B > 0 depending on t. See the proof in the full version (https://arxiv.org/ abs/1802.01396) of this paper.
+141	22	1 applies to any t-overfitted classifier, independently of the algorithm or loss function.
+142	5	We will now briefly discuss the bounds available for kernel methods.
+143	125	Most of the available bounds for kernel methods (see, e.g., (Steinwart & Christmann, 2008; Rudi et al., 2015)) are of the following (general) form:∣∣∣∣∣ 1n∑ i l(f(xi), yi)− EP [l(f(x), y)] ∣∣∣∣∣ ≤ C1 + C2 ‖f‖αH nβ , C1, C2, α, β ≥ 0 Note that the regularization bounds, such as those for Tikhonov regularization, are also of similar form as the choice of the regularization parameter implies an upper bound on the RKHS norm.
+144	29	We see that our superpolynomial lower bound on the norm ‖f‖H in Theorem 1 implies that the right hand of this inequality diverges to infinity for any overfitted classifiers, making the bound trivial.
+145	28	There are some bounds logarithmic in the norm, such as the bound for the fat shattering in (Belkin, 2018) (used above) and eigenvalue-dependent bounds, which are potentially logarithmic, e.g., Theorem 13 of (Goel & Klivans, 2017).
+148	27	We do not know of any complexity-based bounds with this property.
+149	44	It is not clear such bounds exist.
+150	15	A potential explanation for the disparity between the consequences of lower norm bound in Theorem 1 for classical generalization results and the performance observed in actual data, is the possibility that the error rate of the Bayes optimal classifier (the “label noise”) is zero (e.g., (Soudry et al., 2017)).
+152	11	1 does not hold if y is a deterministic function of x.
+154	43	For example, if two classes are linearly separable, the classical bounds (including those for the Perceptron algorithm) apply to linear classifiers with zero loss.

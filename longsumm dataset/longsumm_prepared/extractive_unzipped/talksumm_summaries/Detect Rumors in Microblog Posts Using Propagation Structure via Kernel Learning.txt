@@ -1,0 +1,30 @@
+32	1	Since a rumor often begins as unverified and later turns out to be confirmed as true or false, or remains unverified (Zubiaga et al., 2016), here we consider a set of more practical, finer-grained classes: false rumor, true rumor, unverified rumor, and non-rumor, which becomes an even more challenging problem.
+51	1	Once a user has posted a tweet, all his followers will receive the tweet.
+56	1	In this section, we describe our rumor detection model based on propagation trees using kernel method called Propagation Tree Kernel (PTK).
+64	1	Following Collins and Duffy (2001), given two parse trees T1 and T2, the kernel function K(T1, T2) is defined as: ∑ vi∈V1 ∑ vj∈V2 ∆(vi, vj) (1) where V1 and V2 are the sets of all nodes respectively in T1 and T2, and each node is associated with a production rule, and ∆(vi, vj) evaluates the common subtrees rooted at vi and vj .
+65	1	∆(vi, vj) can be computed using the following recursive procedure (Collins and Duffy, 2001): 1) if the production rules at vi and vj are different, then ∆(vi, vj) = 0; 2) else if the production rules at vi and vj are same, and vi and vj have only leaf children (i.e., they are pre-terminal symbols), then ∆(vi, vj) = λ; 3) else ∆(vi, vj) = λ ∏min(nc(vi),nc(vj)) k=1 (1 + ∆(ch(vi, k), ch(vj , k))).
+73	1	The user-based similarity is defined as an Euclidean distance E(ui, uj) = ||ui − uj ||2, where ui and uj are the user vectors of node vi and vj and || • ||2 is the 2-norm of a vector.
+78	1	commonly occurring in rumors but not in non-rumors.
+83	1	One defect of PTK is that it ignores the clues outside the subtrees, e.g., how the information propagates from source post to the current subtree.
+87	1	cPTK evaluates the similarity between two trees T1(r1) and T2(r2) as follows: ∑ vi∈V1 L r1 vi −1∑ x=0 Λx(vi, v ′ i) + ∑ vj∈V2 L r2 vj −1∑ x=0 Λx(v ′ j , vj) (3) where Λx(v, v′) measures the similarity of subtrees rooted at v[x] and v′[x] for context-sensitive evaluation, which is computed as follows: 1) if x > 0, Λx(v, v′) = f(v[x], v′[x]), where v[x] and v′[x] are the x-th ancestor nodes of v and v′ on the respective propagation path.
+97	1	To our knowledge, there is no public large dataset available for classifying propagation trees, where we need a good number of source tweets, more accurately, the tree roots together with the corresponding propagation structure, to be appropriately annotated with ground truth.
+98	1	We constructed our datasets based on a couple of reference datasets, namely Twitter15 (Liu et al., 2015) and Twitter16 (Ma et al., 2016).
+100	1	First, we extracted the popular source tweets2 that are highly retweeted or replied.
+110	1	DTC and SVM-RBF: The Twitter information credibility model using Decision Tree Classifier (Castillo et al., 2011) and the SVM-based 7ewzdrbelpmrnxu/rumdetect2017.zip?dl=0 model with RBF kernel (Yang et al., 2012), respectively, both using hand-crafted features based on the overall statistics of the posts.
+118	1	Table 2 shows that our proposed methods outperform all the baselines on both datasets.
+119	1	Among all baselines, GRU performs the best, which learns the low-dimensional representation of responsive tweets by capturing the textual and temporal information.
+124	1	SVM-TS and RFC are comparable because both of them utilize an extensive set of features especially focusing on temporal traits.
+136	1	Over all classes, cPTK achieves the highest accuracies on both datasets.
+138	1	This is because the features of existing methods were defined for a binary (rumor vs. non-rumor) classification problem.
+139	1	So, they do not perform well for finer-grained classes.
+140	1	Our ap- proach can differentiate various classes much better by deep, detailed comparison of different patterns based on propagation structure.
+141	1	Detecting rumors at an early stage of propagation is very important so that preventive measures could be taken as quickly as possible.
+147	1	Our analysis shows that rumors typically demonstrate more complex propagation substructures especially at early stage.
+148	1	Figure 5 shows a detected subtree of a false rumor spread in its first few hours, where influential users are somehow captured to boost its propagation and the information flows among the users with an obvious unpopular-to-popular-to-unpopular trend in terms of user popularity, but such pattern was not witnessed in non-rumors in early stage.
+150	1	Our method can learn such structures and patterns naturally, but it is difficult to know and hand-craft them in feature engineering.
+151	1	We propose a novel approach for detecting rumors in microblog posts based on kernel learning method using propagation trees.
+153	2	Enlightened by tree kernel techniques, our kernel method learns discriminant clues for identifying rumors of finer-grained levels by directly measuring the similarity among propagation trees via kernel functions.
+154	3	Experiments on two Twitter datasets show that our approach outperforms stateof-the-art baselines with large margin for both general and early rumor detection tasks.
+155	13	Since kernel-based approach covers more structural information than feature-based methods, it allows kernel to further incorporate information from a high dimensional space for possibly better discrimination.
+156	87	In the future, we will focus on improving the rumor detection task by exploring network representation learning framework.
+157	88	Moreover, we plan to investigate unsupervised models considering massive unlabeled rumorous data from social media.

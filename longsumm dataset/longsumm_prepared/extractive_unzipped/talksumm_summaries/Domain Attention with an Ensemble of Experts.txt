@@ -1,0 +1,30 @@
+1	16	In spoken language understanding, new domains of interest for categorizing user utterances are added on a regular basis1.
+4	34	Domain adaptation offers a balance between these extremes by using all data but simultaneously distinguishing domain types.
+5	73	A common approach for adapting to a new domain is to retrain a global model across all K + 1 domains using well-known techniques, for example the feature augmentation method of Daumé III (2009) which trains a single model that has one domaininvariant component along with K + 1 domainspecific components each of which is specialized in a particular domain.
+6	22	While such a global model is effective, it requires re-estimating a model from scratch on all K + 1 domains each time a new domain is added.
+7	34	This is burdensome particularly in our scenario in which new domains can arise frequently.
+8	30	In this paper, we present an alternative solution based on attending an ensemble of domain experts.
+31	20	See Hochreiter and Schmidhuber (1997) for a detailed description.
+46	17	We introduce a single-layer feedforward network gi : R200 → R|I| whose parameters are denoted by Θi.
+56	20	Denote these domain experts by Θ(1) .
+57	22	We now describe our model for a new domain K + 1.
+65	11	a (1) i are obtained by using a softmax layer ai,k = exp(qi,k)∑K k=1 exp(qi,k) (10) The weighted combination of the experts’ feedback is given by hexpertsi = K∑ k=1 ai,kh (k) i (11) and the model makes predictions by using h̄1 .
+68	14	Label Embedding In addition to the state vectors h(1) .
+72	19	Note that this makes the objective a function of discrete decision and thus non-differentiable, but we can still optimize it in a standard way treating it as learning a stochastic policy.
+77	27	In order to fully assess the contribution of our approach, we also consider several baselines and variants besides our primary expert model.
+82	21	Then the goal of the first task would be to classify this utterance as “make reservation” intent given the places domain, and the goal of the second task would be to tag “joeys grill” as restaurant, “thursday” as date, “seven pm” as time, and “five” as number people.
+101	15	Baselines: All models below use same underlying architecture described in Section 3.1 • TARGET: a model trained on a targeted domain without DA techniques.
+105	17	We have two feedback from domain experts: (1) feature representation from LSTM, and (2) label embedding from feedfoward described in Section 4.1 and Section 4.2, respectively.
+107	24	It uses the unweighted combination of first feedback from experts like bag-of-word model.
+125	11	The baseline which trained only on the target domain (TARGET) shows a reasonably good performance, yielding on average 87.7% on the intent classification and 83.9% F1-score on the slot tagging.
+137	11	The training time for DES2 stays almost constant as the number of source domains increases.
+140	35	When training with full 25 source domains, DES2 took 3 minutes per epoch while DA took 30 minutes per epoch.
+142	39	We also measured the performance of our methods as a function of the number of domain experts.
+146	46	With ten or more expert domains added, our method starts to get saturated achiev- ing more than 90% in accuracy across all seven domains.
+147	24	From the heatmap shown in Figure 5, we can see that the attention strength generally agrees with common sense.
+149	16	The results in Table 5 show the intent classification accuracy of DE2 when we already have the same domain expert in the expert pool.
+151	21	In both ALARM and HOTEL domains, the trained models only on the 1,000 training utterances (TARGET) achieved only 70.1%and 65.2% in accuracy, respectively.
+155	17	The rationale behind DES2 is to alleviate the downside of soft attention, namely distributing probability mass over all items even if some are bad items.
+163	17	In both intent classification and slot tagging tasks, the model significantly outperformed baselines that do not use domain adaptation and also performed better than the full re-training approach.
+164	28	This approach enables creation of new virtual domains through a weighted combination of domain experts’ feedback reducing the need to collect and annotate the similar intent and slot types multiple times for different domains.
+165	32	Future work can include an extension of domain experts to take into account dialog history aiming for a holistic framework that can handle contextual interpretation as well.

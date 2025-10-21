@@ -1,0 +1,30 @@
+0	64	As a popular algorithm for the estimation of latent variable models, the expectation-maximization (EM) algorithm (Dempster et al., 1977; Wu, 1983) has been widely used in machine learning and statistics (Jain et al., 1999; Tseng, 2004; Han et al., 2011; Little & Rubin, 2014).
+10	36	Instead of using a full gradient at each iteration as in existing gradient EM algorithms, we significantly reduce the computational cost by utilizing stochastic variance-reduced gradient, which is inspired by recent advances in stochastic optimization (Roux et al., 2012; Johnson & Zhang, 2013; Shalev Shwartz & Zhang, 2013; Defazio et al., 2014; Zhang & Gu, 2016).
+13	36	In particular, we summarize our major contributions as follows: • We propose a novel high-dimensional EM algorithm by incorporating variance reduction into the stochastic gradient method for EM.
+16	15	• We prove that our proposed algorithm converges at a linear rate to the unknown model parameter and achieves the best-known statistical rate of convergence with a mild condition on the initialization.
+62	42	Let Y ∈ Y be the observed random variable and Z ∈ Z be the latent random variable with joint distribution fβ(y, z) and conditional distribution pβ(z|y), with the model parameter β ∈ Rd.
+65	14	For example, in the standard gradient ascent implementation of EM algorithm, the M-step is given by β(l+1) = β(l) + η∇1Q̄N (β(l);β(l)), where∇1Q̄N (·; ·) denotes the gradient on the first variable and η is the learning rate.
+78	22	Since our algorithm is based on stochastic gradient, we divide theN samples into nmini-batches {Di}ni=1, and define function {qi}ni=1 on these mini-batches, i.e., qi(β;β′) = 1/b ∑ j∈Di ∫ Z pβ′(z|yj) · log fβ(yj , z) dz, where we let b be the mini-batch size, and N = nb.
+79	16	Note that in Algorithm 1, to ensure the sparsity of the output estimator , we use the hard thresholding operator (Blumensath & Davies, 2009),Hs(v) = vsupp(v,s), which only keeps the largest s entries in magnitude of a vector v ∈ Rd.
+101	13	Before we present the main results, we introduce three conditions that are essential for our analysis.
+105	25	For all β,β1,β2 ∈ B(p‖β∗‖2;β∗), where p ∈ (0, 1) is a model-dependent constant, the function Qn(·; ·) satisfies the strong concavity condition with parameter µ:[ ∇1Qn(β1;β)−∇1Qn(β2;β) ]> (β1 − β2) ≤ −µ‖β2 − β1‖22.
+108	23	Condition 4.3 (First-order stability).
+109	15	For the true model parameter β∗ and any β ∈ B(p‖β∗‖2;β∗), where p ∈ (0, 1) is a model-dependent constant, Qn ( ·; · ) satisfies the first-order stability with parameter γ:∥∥∇1Qn(β∗;β)−∇1Qn(β∗;β∗)∥∥2 ≤ γ∥∥β − β∗∥∥2.
+117	16	With the above conditions on qi(·; ·) and Qn(·; ·), we have the following theorem to characterize the estimation error of our estimator β̃(r) returned by the resampling version of Algorithm 1.
+120	20	As suggested in Theorem 4.4 that by choosing an appropriate learning rate η, a sufficiently large number of inner iterations T , and sparsity parameter s such that ρ < 1, we can achieve a linear convergence rate.
+132	14	Nevertheless, for the state-of-the-art gradient based high-dimensional EM algorithm (Wang et al., 2014), its gradient complexity is O ( κN log(1/ ) ) .
+133	47	As long as κ ≤ N/b, the gradient complexity of our algorithm is less than that of Wang et al. (2014).
+135	25	The second term on the right-hand side of (4.1) stands for the upper bound of the statistical error, which depends on specific models as we will introduce later.
+137	14	The next corollary gives the implication of our main theory for sparse Gaussian mixture models.
+150	13	Therefore, from Corollary 4.7, we know that after O ( log ( N/(s∗ log d logN) )) number of iterations, the output of our algorithm attainsO( √ s∗ log d · logN/N) statistical error, which matches the best-known error bound (Wang et al., 2014; Yi & Caramanis, 2015) for Gaussian mixture model up to a logarithmic factor logN .
+161	16	In this section, we present experiment results to validate our theory.
+163	20	• (HDREM) High-Dimensional Regularized EM algorithm proposed in Yi & Caramanis (2015): the method based on decaying regularization.
+165	35	For each latent variable model, we compare both the optimization error ‖β̃(l) − β̂‖2 featuring the convergence of the estimator to the local optima, and the overall estimation error ‖β̃(l)−β∗‖2 featuring the overall estimation accuracy with regard to the true model parameter β∗.
+184	22	We show the results in Figures 3 and 4.
+185	33	From Figures 3(a) and 4(a), we can see that VRSGEM achieves linear convergence which is consistent with Corollary 4.9, and our algorithm significantly outperforms the baselines in terms of optimization error.
+186	25	In terms of overall estimation error shown in Figures 3(b) and 4(b), VRSGEM is as good as HDGEM and beats HDREM by a remarkable margin.
+187	27	Our algorithm also beats the baselines in time consumption for convergence as we can see in Figures 3(c), 3(d), 4(c) and 4(d).
+188	17	Overall, VRSGEM achieves the best performance among all the methods.
+189	14	In addition, from Figure 5(b), we can see that for MLR, the statistical error of VRSGEM is of order √ s∗ log d/N , which supports Corollary 4.9.
+190	15	We propose a novel accelerated stochastic gradient EM algorithm based on a uniquely constructed semi-stochastic variance reduced gradient.
+196	14	We also plan to extend our algorithm to the estimation of high-dimensional latent variable models with low-rank parameters (Yi & Caramanis, 2015).

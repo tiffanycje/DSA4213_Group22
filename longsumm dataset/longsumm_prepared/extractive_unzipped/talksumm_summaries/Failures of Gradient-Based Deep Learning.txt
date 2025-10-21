@@ -1,0 +1,30 @@
+12	26	We start off in Section 2 by discussing a class of simple learning problems for which the gradient information, central to deep learning algorithms, provably carries negligible information on the target function which we attempt to learn.
+16	26	See command lines in Appendix D. Next, in Section 3, we tackle the ongoing dispute between two common approaches to learning.
+17	33	Most, if not all, learning and optimization problems can be viewed as some structured set of sub-problems.
+28	10	This yields an optimization problem of the form min w F h (w).
+30	13	w,rF h (w), contains useful information regarding the target function h, and will help us make progress.
+39	12	Figure 1 illustrates the results.
+43	10	As we will see later, this variance correlates with the difficulty of solving (1) using gradient-based methods2.
+49	10	The proof is given in Appendix B.1.
+53	11	These are binary functions, which are easily seen to be mutually orthogonal: Indeed, for any v,v0, E x h ( 1)hx,vi( 1)hx,v0i i = E x h ( 1)hx,v+v0i i = dY i=1 E h ( 1)xi(vi+v0i) i = dY i=1 ( 1)vi+v0i + ( 1) (vi+v0i) 2 which is non-zero if and only if v = v0.
+54	58	Therefore, by Theorem 1, we get that Var(H, F,w)  G(w)2/2d – that is, exponentially small in the dimension d. By Chebyshev’s inequality, this implies that the gradient at any point w will be extremely concentrated around a fixed point independent of h. This phenomenon of exponentially-small variance can also be observed for other distributions, and learning problems other than parities.
+55	24	Indeed, in (Shamir, 2016), it was shown that this also holds in a more general setup, when the output y corresponds to a linear function composed with a periodic one, and the input x is sampled from a smooth distribution: Theorem 2 (Shamir 2016) Let be a fixed periodic function, and let H = {x 7!
+57	24	Var(H, F,w)  O (exp( ⌦(d)) + exp( ⌦(r))) .
+58	77	The condition on the Fourier transform of the density is generally satisfied for smooth distributions (e.g. arbitrary Gaussians whose covariance matrices are positive definite, with all eigenvalues at least ⌦(1/r)).
+59	12	Thus, the bound is extremely small as long as the norm r and the dimension d are moderately large, and indicates that the gradients contains little signal on the underlying target function.
+62	9	We emphasize that these results hold regardless of which class of predictors we use (e.g. they can be arbitrarily complex neural networks) – the problem lies in using a gradientbased method to train them.
+69	13	Many practical learning problems, and more generally, algorithmic problems, can be viewed as a structured composition of sub-problems.
+79	36	Helping the SGD process by decomposing the problem leads to much faster training.
+84	18	The y values of the top and bottom rows are 1 and 1, respectively.
+87	9	Let X denote the space of 28 ⇥ 28 binary images, with a distribution D defined by the following sampling procedure: • Sample ✓ ⇠ U([0,⇡]), l ⇠ U([5, 28 5]), (x, y) ⇠ U([0, 27])2.
+94	8	,xk) of k images sampled i.i.d.
+98	55	• Concatenate the “scores” of a tuple’s entries, transform them to the range [0, 1] using a sigmoid function, and feed the resulting vector into another network, N (2) w2 , of a similar architecture to the one defined in Section 2, outputting a single “tuple-score”, which can then be thresholded for obtaining the binary prediction.
+107	12	Empirically, when comparing performances based on the “primary” objective, we see that the end-to-end approach is significantly inferior to the decomposition approach (see Figure 3).
+137	16	We indeed see that when k 3, the SNR appears to approach extremely small values, where the estimator’s noise, and the additional noise introduced by a finite floating point representation, can completely mask the signal, which can explain the failure in this case.
+151	14	We experiment with architectures that contain activation functions with flat regions, which leads to the well known vanishing gradient problem.
+153	23	Here, we show that by using a different update rule, we manage to solve the learning problem efficiently.
+154	36	Moreover, one can show convergence guarantees for a family of such functions.
+155	12	This provides a clean example where non-gradient-based optimization schemes can overcome the limitations of gradient-based learning.
+156	24	In this paper, we considered different families of problems, where standard gradient-based deep learning approaches appear to suffer from significant difficulties.
+157	89	Our analysis indicates that these difficulties are not necessarily related to stationary point issues such as spurious local minima or a plethora of saddle points, but rather more subtle issues: Insufficient information in the gradients about the underlying target function; low SNR; bad conditioning; or flatness in the activations (see Figure 6 for a graphical illustration).
+158	44	We consider it as a first step towards a better understanding of where standard deep learning methods might fail, as well as what approaches might overcome these failures.

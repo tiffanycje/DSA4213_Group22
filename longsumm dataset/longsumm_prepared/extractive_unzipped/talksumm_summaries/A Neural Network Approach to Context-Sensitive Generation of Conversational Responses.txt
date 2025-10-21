@@ -1,0 +1,30 @@
+0	61	Until recently, the goal of training open-domain conversational systems that emulate human conversation has seemed elusive.
+2	119	The work of Ritter et al. (2011), for example, demonstrates that a response generation system can be constructed from Twitter conversations using statistical machine translation techniques, where a status post by a Twitter user is “translated” into a plausible looking response.
+3	50	However, an approach such as that presented in Ritter et al. (2011) does not address the challenge of generating responses that are sensitive to the context of the conversation.
+6	79	Figure 1 illustrates a typical Twitter dialog where the contextual information is crucial: the phrase “good luck” is plainly motivated by the reference to “your game” in the first utterance.
+7	20	In the MT model, such contextual sensitivity is difficult to capture; moreover, naive injection of context information would entail unmanageable growth of the phrase table at the cost of increased sparsity, and skew towards rarely-seen context pairs.
+11	62	To this end, we present two simple, context-sensitive response-generation models utilizing the Recurrent Neural Network Language Model (RLM) architecture of (Mikolov et al., 2010).
+42	22	The output matrix Wout ∈ RK×V projects the hidden state ht into the output layer ot, which has an entry for each word in the vocabulary V .
+65	42	At training time, both the context encoder and the RLM decoder are learned so as to minimize the negative log-probability of the generated response.
+66	97	The parameters of the model are ΘDCGM-I = 〈Win,Whh,Wout, {W `f}L`=1〉, where {W `f}L`=1 are the weights for the L layers of the feed-forward context networks.
+81	20	This produced a corpus of 29M Twitter triples.
+84	43	This yielded a set of 4232 triples with a mean score of 4 or better that was then randomly binned into a tuning set of 2118 triples and a test set of 2114 triples3.
+89	39	Accordingly, we extend the set of references using an IR approach to mine potential responses, after which we have human judges rate their appropriateness.
+93	34	Given a test triple τ ≡ (cτ ,mτ , rτ ), our goal is to mine other responses {rτ̃} that fit the context and message pair (cτ ,mτ ).
+98	43	Given a set of candidate triples {τ̃}, human evaluators are asked to rate the quality of the response within the new triples {(cτ ,mτ , rτ̃ )}.
+99	39	After human evaluation, we retain the references for which the score is 4 or better on a 5 point scale, resulting in 3.58 references per example on average (Table 1).
+102	31	These log-linear models comprise the following feature sets: MT MT features are derived from a large response generation system built along the lines of Ritter et al. (2011), which is based on a phrase-based MT decoder similar to Moses (Koehn et al., 2007).
+105	38	We also included MT decoder features specifically motivated by the response generation task: Jaccard distance between source and target phrase, Fisher’s exact probability, and a score relating the lengths of source and target phrases.
+106	22	IR We also use an IR feature built from an index of triples, whose implementation roughly matches the IRstatus approach described in Ritter et al. (2011): For a test triple τ , we choose rτ̃ as the candidate response iff τ̃ = arg maxτ̃ d(mτ ,mτ̃ ).
+110	34	Each neural network model contributes an additional feature corresponding to the likelihood of the candidate response given context and message.
+129	84	HUMAN is computed by choosing one reference amongst the multi-reference set for each context-status pair.4 Although the scores are lower than those usually reported in SMT tasks, the ranking of the three systems is unambiguous.
+133	47	Third, the neural network models contribute measurably to improvement: RLMT and DCGM models outperform baselines, and DCGM models provide more consistent gains than RLMT.
+134	42	MT vs. IR BLEU and METEOR scores indicate that the phrase-based MT decoder outperforms a purely IR approach, despite the fact that IR proposes fluent human generated responses.
+138	69	CMM MT+CMM, totaling 17 features (9 from MT + 8 CMM), improves 0.38 BLEU points, a 9.5% relative improvement, over the baseline MT model.
+142	50	Figure 4 (b) supports the hypothesis formulated in the previous paragraph: Since IR solely captures intermessage similarities, the matches between message and response are important, while context matches help in providing additional gains.
+147	25	RLMT and DCGM Both RLMT and DCGM models outperform their respective MT and IR baselines.
+151	45	Any gains must come from context and message matches.
+152	31	The DCGM models appear to have better capacity to retain contextual information and thus achieve similar performance to IR+CMM despite their lack of exact n-gram match information.
+154	117	If multiple sequences were used as context, we expect that the DCGM-II model would likely benefit more owing to the separate encoding of message and context.
+160	257	It appears that DCGM models might be improved by preserving word-order information in context and message encodings.
+162	50	Annotators were asked to compare the quality of system output responses pairwise (“Which is better?”) in relation to the context and message strings in the 2114 item test set.

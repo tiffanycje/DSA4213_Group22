@@ -1,0 +1,27 @@
+10	13	In this work, we take lexical translation as indirect semantic supervision (Diab and Resnik, 2002).
+12	4	First, that every word has a foreign equivalent that stands for its meaning.
+14	5	To summarise our contributions: • we model a joint distribution over sentence pairs that generates data from latent word representations and latent lexical alignments; • we embed words in context mining positive correlations from translation data; • we find that foreign observations are necessary for generative training, but test time predictions can be made monolingually; • we apply our model to a range of semantic natural language processing tasks showing its usefulness.
+15	5	In a nutshell, we model a distribution over pairs of sentences expressed in two languages, namely, a language of interest L1, and an auxiliary language L2 which our model uses to mine some learning signal.
+17	5	, zm of ddimensional random embeddings by sampling independently from a standard Gaussian prior; 3. generate a word observation xi in the vocabulary of L1 conditioned on the random embedding zi; 4. generate a sequence ai, .
+20	15	In the following, we present the model formally (§2.1), discuss efficient training (§2.2), and concrete architectures (§2.3).
+22	35	Boldface letters are reserved for deterministic vectors (e.g. v) and matrices (e.g. W).
+23	10	Finally, E[f(Z);α] denotes the expected value of f(z) under a density q(z|α).
+24	17	We model a joint distribution over bilingual parallel data, i.e., L1–L2 sentence pairs.
+26	25	For ease of exposition, the length m (n) of each sequence is assumed observed throughout.
+28	90	The L2 sentence is generated one word at a time given a random sequence of latent alignments An1 , where Aj ∈ {1, .
+30	8	, n} the generative story is Zi ∼ N (0, I) (1a) Xi|zi ∼ Cat(f(zi; θ)) (1b) Aj |m ∼ U(1/m) (1c) Yj |zm1 , aj ∼ Cat(g(zaj ; θ)) (1d) and Figure 1 is a graphical depiction of our model.
+31	21	We map from latent embeddings to categorical distributions over either vocabulary using a neural network whose parameters are deterministic and collectively denote by θ (the generative parameters).
+32	13	The marginal likelihood of a sentence pair is shown in Equation (2).
+34	52	Thus, we employ amortised mean field variational inference using the inference model qφ(z m 1 |xm1 ) , m∏ i=1 N (zi|ui, diag(si si)) (3) where each factor is a diagonal Gaussian.
+35	47	We map from xm1 to a sequence u m 1 of independent posterior mean (or location) vectors, where ui , µ(hi;φ), as well as a sequence sm1 of independent standard deviation (or scale) vectors, where si , σ(hi;φ), and hm1 = enc(x m 1 ;φ) is a deterministic encoding of the L1 sequence (we discuss concrete architectures in §2.3).
+36	49	All mappings are realised by neural networks whose parameters are collectively denoted by φ (the variational parameters).
+37	7	Note that we choose to approximate the posterior without conditioning on yn1 .
+38	9	This allows us to use the inference model for monolingual prediction in absence of L2 data.
+40	8	(4) The variational family is location-scale, thus we can rely on stochastic optimisation (Robbins and Monro, 1951) and automatic differentiation (Baydin et al., 2015) with reparameterised gradient estimates (Kingma and Welling, 2014; Rezende et al., 2014; Titsias and Lázaro-Gredilla, 2014).
+41	8	Moreover, because the Gaussian density is an exponential family, the KL terms in (4) are available in closed-form (Kingma and Welling, 2014, Appendix B).
+42	19	The likelihood terms in the ELBO (4) require evaluating two softmax layers over rather large vocabularies.
+43	13	This makes training prohibitively slow and calls for efficient approximation.
+44	9	We employ an approximation proposed by Botev et al. (2017) termed complementary sum sampling (CSS), which we review in this section.
+51	60	With CSS this is extremely simple, we just need to make sure all unique words in yn1 are in the set C—which our mini-batch procedure does guarantee.
+52	16	Botev et al. (2017) show that CSS is rather stable and superior to the most popular softmax approximations.
+53	7	Besides being simple to implement, CSS also addresses a few problems with other approximations.

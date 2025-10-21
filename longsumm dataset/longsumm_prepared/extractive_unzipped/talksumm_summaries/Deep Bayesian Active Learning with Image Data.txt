@@ -1,0 +1,30 @@
+48	14	These Bayesian CNNs are CNNs with prior probability distributions placed over a set of model parameters ω = {W1, ...,WL}: ω ∼ p(ω), with for example a standard Gaussian prior p(ω).
+51	4	As shown in (Gal & Ghahramani, 2016b; Gal, 2016) dropout and various other stochastic regularisation techniques can be used to perform practical approximate inference in complex deep models.
+52	19	Inference is done by training a model with dropout before every weight layer, and by performing dropout at test time as well to sample from the approximate posterior (stochastic forward passes, referred to as MC dropout).
+53	4	More formally, this approach is equivalent to performing approximate variational inference where we find a distribution q∗θ(ω) in a tractable family which minimises the Kullback-Leibler (KL) divergence to the true model posterior p(ω|Dtrain) given a training set Dtrain.
+54	4	Dropout can be interpreted as a variational Bayesian approximation, where the approximating distribution is a mixture of two Gaussians with small variances and the mean of one of the Gaussians is fixed at zero.
+61	12	For example, we might look for images with high predictive variance and choose those to ask an expert to label – in the hope that these will decrease model uncertainty.
+63	17	For classification, several acquisition functions are available: 1.
+65	14	Choose pool points that are expected to maximise the information gained about the model parameters, i.e. maximise the mutual information between predictions and model posterior (BALD, (Houlsby et al., 2011)) I[y,ω|x,Dtrain] = H[y|x,Dtrain]−Ep(ω|Dtrain) [ H[y|x,ω] ] with ω the model parameters (here H[y|x,ω] is the entropy of y given model weights ω).
+66	8	Points that maximise this acquisition function are points on which the model is uncertain on average, but there exist model parameters that produce disagreeing predictions with high certainty.
+68	14	Maximise the Variation Ratios (Freeman, 1965) variation-ratio[x] := 1−max y p(y|x,Dtrain) Like Max Entropy, Variation Ratios measures lack of confidence.
+69	13	Maximise mean standard deviation (Mean STD) (Kampffmeyer et al., 2016; Kendall et al., 2015) σc = √ Eq(ω)[p(y = c|x,ω)2]− Eq(ω)[p(y = c|x,ω)]2 σ(x) = 1 C ∑ c σc averaged over all c classes x can take.
+73	3	These acquisition functions and their properties are discussed in more detail in (Gal, 2016, pp.
+74	3	We can approximate each of these acquisition functions using our approximate distribution q∗θ(ω).
+76	23	I[y,ω|x,Dtrain] can be approximated in our setting using the identity p(y = c|x,Dtrain) = ∫ p(y = c|x,ω)p(ω|Dtrain)dω: I[y,ω|x,Dtrain] = − ∑ c ∫ p(y = c|x,ω)p(ω|Dtrain)dω · log ∫ p(y = c|x,ω)p(ω|Dtrain)dω + Ep(ω|Dtrain) [∑ c p(y = c|x,ω) log p(y = c|x,ω) ] .
+77	227	Swapping the posterior p(ω|Dtrain) with our approximate posterior q∗θ(ω), and through MC sampling, we then have: ≈ − ∑ c ∫ p(y = c|x,ω)q∗θ(ω)dω · log ∫ p(y = c|x,ω)q∗θ(ω)dω + Eq∗θ (ω) [∑ c p(y = c|x,ω) log p(y = c|x,ω) ] ≈ − ∑ c ( 1 T ∑ t p̂tc ) log ( 1 T ∑ t p̂tc ) + 1 T ∑ c,t p̂tc log p̂ t c =: Î[y,ω|x,Dtrain] defining our approximation, with p̂tc the probability of input x with model parameters ω̂t ∼ q∗θ(ω) to take class c: p̂t = [p̂t1, ..., p̂ t C ] = softmax(f ω̂t(x)).
+78	35	We then have Î[y,ω|x,Dtrain] −−−−→ T→∞ H[y|x, q∗θ ]− Eq∗θ (ω) [ H[y|x,ω] ] ≈ I[y,ω|x,Dtrain], resulting in a computationally tractable estimator approximating the BALD acquisition function.
+80	4	In the next section we will experiment with these acquisition functions and assess them empirically.
+88	11	These semi-supervised techniques have access to much more data (the unlabelled data) than our active learning models, yet we still perform in comparable terms to them.
+90	15	We next study all acquisition functions above with our Bayesian CNN trained on the MNIST dataset (LeCun & Cortes, 1998).
+95	18	To decide what data points to acquire though we used MC dropout following the derivations above.
+96	14	We repeated the acquisition process 100 times, each time acquiring the 10 points that maximised the acquisition function over the pool set.
+97	12	Each experiment was repeated three times and the results averaged (the standard deviation for the three repetitions is shown below)2.
+99	12	We found Random and Mean STD to under-perform compared to BALD, Variation Ratios, and Max Entropy (figure 1).
+101	30	It is interesting that Mean STD seems to perform similarly to Random – which samples points at random from the pool set.
+103	17	As can be seen, BALD, Variation Ratios, and Max Entropy attain a small test error with much fewer acquisitions than Mean STD and Random.
+104	28	This table demonstrates the importance of data efficiency – an expert using the Variation Ratios model for example would have to label less than half the number of images she would have had to label had she acquired new images at random.
+105	9	We assess the importance of model uncertainty in our Bayesian CNN by evaluating three of the acquisition functions (BALD, Variation Ratios, and Max Entropy) with a deterministic CNN.
+107	52	Such deterministic models can capture aleatoric uncertainty – the noise in the data – but http://mlg.eng.cam.ac.uk/yarin/publications.
+108	3	cannot capture epistemic uncertainty – the uncertainty over the parameters of the CNN, which we try to minimise during active learning.
+109	12	The models in this experiment still use dropout, but for regularisation only (i.e. we do not perform MC dropout at test time).

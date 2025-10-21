@@ -1,0 +1,30 @@
+0	20	Pre-trained word representations (Mikolov et al., 2013; Pennington et al., 2014) are a key component in many neural language understanding models.
+1	13	However, learning high quality representations can be challenging.
+2	85	They should ideally model both (1) complex characteristics of word use (e.g., syntax and semantics), and (2) how these uses vary across linguistic contexts (i.e., to model polysemy).
+4	26	Our representations differ from traditional word type embeddings in that each token is assigned a representation that is a function of the entire input sentence.
+6	47	For this reason, we call them ELMo (Embeddings from Language Models) representations.
+12	128	Extensive experiments demonstrate that ELMo representations work extremely well in practice.
+13	142	We first show that they can be easily added to existing models for six diverse and challenging language understanding problems, including textual entailment, question answering and sentiment analysis.
+14	104	The addition of ELMo representations alone significantly improves the state of the art in every case, including up to 20% relative error reductions.
+17	16	Our trained models and code are publicly available, and we expect that ELMo will provide similar gains for many other NLP problems.1
+35	79	Unlike most widely used word embeddings (Pennington et al., 2014), ELMo word representations are functions of the entire input sentence, as described in this section.
+46	45	A backward LM is similar to a forward LM, except it runs over the sequence in reverse, predicting the previous token given the future context: p(t1, t2, .
+51	25	We tie the parameters for both the token representation (⇥x) and Softmax layer (⇥s) in the forward and backward direction while maintaining separate parameters for the LSTMs in each direction.
+77	22	This imposes an inductive bias on the ELMo weights to stay close to an average of all biLM layers.
+102	15	The Stanford Natural Language Inference (SNLI) corpus (Bowman et al., 2015) provides approximately 550K hypothesis/premise pairs.
+126	42	Additionally, we analyze the sensitivity to where ELMo is included in the task model (Sec.
+154	23	Word sense disambiguation Given a sentence, we can use the biLM representations to predict the sense of a target word using a simple 1- nearest neighbor approach, similar to Melamud et al. (2016).
+158	38	Overall, the biLM top layer rep- resentations have F1 of 69.0 and are better at WSD then the first layer.
+159	24	This is competitive with a state-of-the-art WSD-specific supervised model using hand crafted features (Iacobacci et al., 2016) and a task specific biLSTM that is also trained with auxiliary coarse-grained semantic labels and POS tags (Raganato et al., 2017a).
+162	17	As the linear classifier adds only a small amount of model capacity, this is direct test of the biLM’s representations.
+164	13	However, unlike WSD, accuracies using the first biLM layer are higher than the top layer, consistent with results from deep biLSTMs in multi-task training (Søgaard and Goldberg, 2016; Hashimoto et al., 2017) and MT (Belinkov et al., 2017).
+167	22	In addition, the biLM’s representations are more transferable to WSD and POS tagging than those in CoVe, helping to illustrate why ELMo outperforms CoVe in downstream tasks.
+170	16	After adding ELMo, the model exceeds the baseline maximum at epoch 10, a 98% relative decrease in the number of updates needed to reach the same level of performance.
+172	28	Figure 1 compares the performance of baselines models with and without ELMo as the percentage of the full training set is varied from 0.1% to 100%.
+173	19	Improvements with ELMo are largest for smaller training sets and significantly reduce the amount of training data needed to reach a given level of performance.
+174	26	In the SRL case, the ELMo model with 1% of the training set has about the same F1 as the baseline model with 10% of the training set.
+182	16	Replacing the GloVe vectors with the biLM character layer gives a slight improvement for all tasks (e.g. from 80.8 to 81.4 F1 for SQuAD), but overall the improvements are small compared to the full ELMo model.
+184	37	All of the results presented in Sec.4 include pretrained word vectors in addition to ELMo representations.
+185	56	However, it is natural to ask whether pre-trained vectors are still necessary with high quality contextualized representations.
+186	54	As shown in the two right hand columns of Table 7, adding GloVe to models with ELMo generally provides a marginal improvement over ELMo only models (e.g. 0.2% F1 improvement for SRL from 84.5 to 84.7).
+188	14	Through ablations and other controlled experiments, we have also confirmed that the biLM layers efficiently encode different types of syntactic and semantic information about wordsin-context, and that using all layers improves overall task performance.

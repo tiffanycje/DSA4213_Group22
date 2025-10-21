@@ -1,0 +1,30 @@
+21	27	In this paper, we propose the first framework that offers instantaneous data summarization while preserving the right of an individual to be forgotten.
+22	45	We cast this problem as an instance of robust streaming submodular maximization where the goal is to produce a concise real-time summary in the face of data deletion requested by users.
+47	21	We then formalize a novel dynamic variant, and constraints on time and memory that algorithms need to obey.
+48	51	In static data summarization, we have a large but fixed dataset V of size n, and we are interested in finding a summary that best represents the data.
+51	19	In many data summarization applications, the utility function f satisfies submodularity, i.e., for all A ⊆ B ⊆ V and e ∈ V \B, ∆(e|A) ≥ ∆(e|B).
+88	71	If a user decides not to share, or to revoke information about parts of their activity, the monitoring system should be able to update the summary to comply with users’ preferences.
+89	36	Therefore, we use ROBUST-STREAMING to identify a robust set of the k most informative data points by maximizing Eq.
+91	43	This problem has recently been addressed via submodular maximization.
+121	17	In order to be robust against m deletions, we run a cascading chain of r instances of STREAMINGALGs as follows.
+122	79	,M (r) t denote the con- tent of their memories at time t. When we receive a new element e ∈ Vt from the data stream at time t, we pass it to the first instance of STREAMINGALG(1).
+125	22	This process continues until either e is accepted by one of the instances or discarded for good.
+152	41	Theorem 1 Let STREAMINGALG be a 1-pass streaming algorithm that achieves an α-approximation guarantee for the constrained maximization problem (2) with an update time of T , and a memory of size M when there is no deletion.
+154	23	Moreover, ROBUST-STREAMING uses a memory of size rM , and has worst case update time of O(r2MT ), and average update time of O(rT ).
+160	37	Theorem 2 shows that for fixed k, δ and p, a constant number r of STREAMINGALGs is sufficient to support m = pn (expected) deletions independently of n. In contrast, for adversarial deletions, as analyzed in Theorem 1, pn + 1 copies of STREAMINGALG are required, which grows linearly in n. Hence, the required dependence of r on m is much milder for random than adversarial deletions.
+173	20	But in each step it first samples a random set R of size (n/m) log(1/ ) and then adds an element from R to the solution which maximizes the marginal gain.
+174	53	RANDOM-GREEDY (RG): RANDOM-GREEDY iteratively selects a random element from the top m elements with the highest marginal gains, until finds a solution of size m. For each deletion method, the m data points are deleted either while receiving the data (where the steaming algorithms have the chance to update their solutions by selecting new elements) or after receiving the data (where there is no chance of updating the solution with new elements).
+175	19	Finally, the performance of all algorithms are normalized against the utility obtained by the centralized algorithm that knows the set of deleted elements in advance.
+176	32	We first apply ROBUST-STREAMING to a collection of 100 images from Tschiatschek et al. (2014).
+177	91	We used the weighted combination of 594 submodular functions either capturing coverage or rewarding diversity (c.f.
+181	17	We see that ROBUST-STREAMING maintains its performance by updating the solution after deleting subsets of data points imposed by different deletion strategies.
+182	16	It can be seen that, even for a larger number m of deletions, ROBUSTSTREAMING, run with parameter r < m, is able to return a solution competitive with the strong centralized benchmark that knows the deleted elements beforehand.
+188	24	3e shows the dataset where red and green triangles show a summary of size 10 found by SIEVESTREAMING, and the updated summary provided by ROBUST-STREAMING with r = 5 after deleting m= 70% of the datapoints.
+189	38	3a and 3c compare the performance of SIEVE-STREAMING with its robust version when the data is deleted after or during the stream, respectively.
+190	15	As we see, ROBUST-STREAMING provides a solution very close to the hindsight centralized method.
+210	19	We ran ROBUST-STREAMING on each machine to find a summary of size k/15, and merged the results to obtain the final summary of size k. We then start deleting the data uniformly at random until we left with only 1% of the data, and trained another classifier on the remaining elements from the summary.
+211	48	4a compares the performance of ROBUSTSTREAMING for a fixed active set of size k = 10, 000, and r = 2 with random selection, randomly selecting equal numbers of clicked and not-clicked vectors, and using SIEVE-STREAMING for selecting equal numbers of clicked and not-clicked data points.
+216	23	However, ROBUST-STREAMING benefits from the additional memory the most, and can almost recover the performance of the classifier trained on the full training data, even after 99% deletion.
+217	15	We have developed the first deletion-robust streaming algorithm – ROBUST-STREAMING – for constrained submodular maximization.
+220	40	to the solution of the optimum centralized algorithm that knows the set of m deletions in advance.
+221	25	We have demonstrated the effectiveness of our approach through an extensive set of experiments.

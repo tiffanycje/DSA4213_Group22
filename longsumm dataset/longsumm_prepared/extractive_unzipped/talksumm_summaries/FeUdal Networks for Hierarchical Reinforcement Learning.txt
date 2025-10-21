@@ -1,0 +1,30 @@
+0	102	Deep reinforcement learning has recently enjoyed successes in many domains (Mnih et al., 2015; Schulman et al., 2015; Levine et al., 2015; Mnih et al., 2016; Lillicrap et al., 2015).
+1	68	Nevertheless, long-term credit assignment remains a major challenge for these methods, especially in environments with sparse reward signals, such as the infamous Montezuma’s Revenge ATARI game.
+2	98	It is symptomatic that the standard approach on the ATARI benchmark suite (Bellemare et al., 2012) is to use an actionrepeat heuristic, where each action translates into several (usually 4) consecutive actions in the environment.
+5	32	Some key insights from FRL are that goals can be generated in a top-down fashion, and that goal setting can be decoupled from goal achievement; a level in the hierarchy communicates to the level below it what must be achieved, but does not specify how to do so.
+7	31	The architecture explored in this work is a fullydifferentiable neural network with two levels of hierarchy (though there are obvious generalisations to deeper hierarchies).
+8	31	The top level, the Manager, sets goals at a lower temporal resolution in a latent state-space that is itself learnt by the Manager.
+39	29	The Manager internally computes a latent state representation st and outputs a goal vector gt.
+41	18	The Manager and the Worker share a perceptual module which takes an observation from the environment xt and computes a shared intermediate representation zt.
+55	28	Notice how, due to pooling of goals over several time-steps, the conditioning from the Manager varies smoothly.
+67	17	We propose instead to independently train Manager to predict advantageous directions (transitions) in state space and to intrinsically reward the Worker to follow these directions.
+71	20	Notice that now gt acquires a semantic meaning as an advantageous direction in the latent state space at a horizon c, which defines the temporal resolution of the Manager.
+87	24	As a result, we can apply the policy gradient theorem to the transition policy πTP , so as to find the performance gradient with respect to the policy parameters, ∇θπTPt = E [(Rt − V (st))∇θ log p(st+c|st, µ(st, θ))] (8) In general, the Worker may follow a complex trajectory.
+93	24	Note that the Worker’s intrinsic reward (eqn.
+96	23	Because the Worker is learning to achieve the Manager’s direction, its transitions should, over time, closely follow a distribution around this direction, and hence our approximation for transition policy gradients should hold reasonably well.
+97	16	This section provides the particular details of the model as described in section 3.
+102	29	The state space which the Manager implicitly models in formulating its goals is computed via fMspace, which is another fully connected layer followed by a rectifier non-linearity.
+119	18	We start by describing technical details of the experimental setup and then present results on Montezuma’s revenge – an infamously hard ATARI game – in section 5.1.
+149	23	They turn out to be meaningful milestones, which bridge the agents progress to its first extrinsic reward – picking up the key.
+180	31	It’s a visually complex 3D environment with agent actions corresponding to movement and orientation.
+204	49	Interestingly, the LSTM agent doesn’t appear to use its memory for water maze task at all, always circling the maze at the roughly the same radius.
+205	17	This section empirically validates the main innovations of this paper: transition policy gradient for training the Manager; relative rather than absolute goals; intrinsic motivation for the Worker.
+215	66	This transition policy is invariant to the underlying embodiment of the agent – the way its primitive actions translate into state space transitions.
+217	20	We provide evidence towards that possibility by transferring policies across agents with different action repeat on ATARI.
+220	55	To perform transfer, we initialise the FuN system with parameters extracted from an agent trained with action repeat of 4 and then make the following adjustments: (i) we accordingly adjust the discounts for all rewards; (ii) we increase the dilation of the dLSTM by a factor of 4; (iii) we increase the Manager’s goal horizon c by a factor of 4.
+226	31	Furthermore it shows positive transfer on each environment, whereas LSTM only shows positive transfer on Ms. Pacman.
+227	24	How to create agents that can learn to decompose their behaviour into meaningful primitives and then reuse them to more efficiently acquire new behaviours is a long standing research question.
+228	47	The solution to this question may be an important stepping stone towards agents with general intelligence and competence.
+232	20	Our experiments clearly demonstrate that this makes long-term credit assignment and memorisation more tractable.
+233	38	This also opens many avenues for further research, for instance: deeper hierarchies can be constructed by setting goals at multiple time scales, scaling agents to truly large environments with sparse rewards and partial observability.
+234	67	The modular structure of FuN is also lends itself to transfer and multitask learning – learnt behavioural primitives can be re-used to acquire new complex skills, or alternatively the transitional policies of the Manager can be transferred to agents with different embodiment.

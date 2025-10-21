@@ -1,0 +1,30 @@
+0	68	Temporal relation (TempRel) extraction is an important task for event understanding, and it has drawn much attention in the natural language processing (NLP) community recently (UzZaman et al., 2013; Chambers et al., 2014; Llorens et al., 2015; Minard et al., 2015; Bethard et al., 2015, 2016, 2017; Leeuwenberg and Moens, 2017; Ning et al., 2017, 2018a,b).
+1	29	Initiated by TimeBank (TB) (Pustejovsky et al., 2003b), a number of TempRel datasets have been collected, including but not limited to the verbclause augmentation to TB (Bethard et al., 2007), TempEval1-3 (Verhagen et al., 2007, 2010; UzZaman et al., 2013), TimeBank-Dense (TB-Dense) (Cassidy et al., 2014), EventTimeCorpus (Reimers et al., 2016), and datasets with both temporal and other types of relations (e.g., coreference and causality) such as CaTeRs (Mostafazadeh et al., 2016) and RED (O’Gorman et al., 2016).
+2	39	These datasets were annotated by experts, but most still suffered from low inter-annotator agreements (IAA).
+16	19	Second, while we represent an event pair using two time intervals (say, [t1start, t 1 end] and [t 2 start, t 2 end]), we suggest that comparisons involving end-points (e.g., t1end vs. t2end) are typically more difficult than comparing start-points (i.e., t1start vs. t2start); we attribute this to the ambiguity of expressing and perceiving durations of events (Coll-Florit and Gennari, 2011).
+17	31	We believe that this is an important consideration, and we propose in Sec.
+24	34	A baseline system is also shown to achieve much better performance on the new dataset, when compared with system performance in the literature (Sec.
+27	28	The answer to it depends on the modeling of the overall temporal structure of events.
+33	108	Given 4 NON-GENERIC events above, the dense scheme presents 6 pairs to annotators one by one: (e7, e8), (e7, e1), (e7, e2), (e8, e1), (e8, e2), and (e1, e2).
+48	18	In Examples 1-3, the writers did not intend to explain the TempRels between those pairs, and the original annotators of TimeBank4 did not label relations between those pairs either, which indicates that both writers and readers did not think the TempRels between these pairs were crucial.
+50	27	This discussion suggests that a single axis is too restrictive to represent the complex structure of NON-GENERIC events.
+60	20	2, we think that cross-axis relations are a different semantic phenomenon that requires additional investigation.
+97	39	I asked everyone to (e13:tell) the truth.
+102	30	Second, events that are not on the main axis can also be Actual events, e.g., intentions that are fulfilled, or opinions that are true.
+103	18	Third, as demonstrated by Examples 5-6, identifying anchorability as defined in Table 1 is relatively easy, but judging if an event actually happened is often a high-level understanding task that requires an understanding of the entire document or external knowledge.
+122	28	Moreover, although the number of annotations is increased, the work load for human annotators may still be the same, because even in the conventional scheme, they still need to think of the relations between start- and end-points before they can make a decision.
+138	29	First, we mark every event candidate as being temporally Anchorable or not (based on the time axis we are working on).
+139	20	Second, we adopt the dense annotation scheme to label TempRels only between Anchorable events.
+143	41	We take advantage of the quality control feature in CrowdFlower in our crowdsourcing jobs.
+145	23	(i) Qualifying test: Any crowdsourcer who wants to work on this job has to pass with 70% accuracy on 10 questions randomly selected from the gold set.
+158	19	In this section, we first focus on annotations on the main axis, which is usually the primary storyline and thus has most events.
+166	20	To evaluate how well the crowdsourcers performed on our task, we calculate two quality metrics: accuracy on the gold set and the Worker Agreement with Aggregate (WAWA).
+170	33	With Non-Anchorable events filtered, the relation annotation step was launched as another crowdsourcing task.
+214	17	The performance on equal and vague is lower than on before and after, probably due to shortage in these labels in the training data and the inherent difficulty in event coreference and temporal vagueness.
+215	28	We can see, though, that the overall performance on MATRES is much better than those in the literature for TempRel extraction, which used to be in the low 50’s (Chambers et al., 2014; Ning et al., 2017).
+217	48	Note that we do not mean to say that the proposed baseline system itself is better than other existing algorithms, but rather that the proposed annotation scheme and the resulting dataset lead to better defined machine learning tasks.
+218	29	In the future, more data can be collected and used with advanced techniques such as ILP (Do et al., 2012), structured learning (Ning et al., 2017) or multi-sieve (Chambers et al., 2014).
+219	194	This paper proposes a new scheme for TempRel annotation between events, simplifying the task by focusing on a single time axis at a time.
+220	40	We have also identified that end-points of events is a major source of confusion during annotation due to reasons beyond the scope of TempRel annotation, and proposed to focus on start-points only and handle the end-points issue in further investigation (e.g., in event duration annotation tasks).
+223	36	Analysis shows that MATRES, albeit crowdsourced, has achieved a reasonably good agreement level, as confirmed by its performance on the gold set (agreement with the authors), the WAWA metric (agreement with the crowdsourcers themselves), and consistency with TB-Dense (agreement with an existing dataset).
+224	41	Given the fact that existing schemes suffer from low IAAs and lack of data, we hope that the findings in this work would provide a good start towards understanding more sophisticated semantic phenomena in this area.

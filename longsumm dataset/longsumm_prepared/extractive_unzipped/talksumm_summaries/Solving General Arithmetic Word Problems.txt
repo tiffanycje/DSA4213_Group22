@@ -1,0 +1,30 @@
+4	22	Arithmetic word problems are usually directed towards elementary school students, and can be solved by combining the numbers mentioned in text with basic operations (addition, subtraction, multiplication, division).
+6	42	Initial methods to address arithmetic word problems have mostly focussed on subsets of problems, restricting the number or the type of operations used (Roy et al., 2015; Hosseini et al., 2014) but could not deal with multi-step arithmetic problems involving all four basic operations.
+7	25	The template based method of (Kushman et al., 2014), on the other hand, can deal with all types of problems, but implicitly assumes that the solution is generated from a set of predefined equation templates.
+8	51	In this paper, we present a novel approach which can solve a general class of arithmetic problems without predefined equation templates.
+13	22	The solution involves understanding that the number of shelves needs to be summed up, and that the total number of shelves needs to be multiplied by the number of books each shelf can hold.
+18	16	This allows us to decompose the problem of mapping the text to the arithmetic expression to a collection of simple prediction problems, each determining the lowest common ancestor operation between a pair of quantities mentioned in the problem.
+61	36	An expression tree T for a valid expression E is a binary tree whose leaves represent quantities, and each internal node represents one of the four basic operations.
+64	24	Each node n also has a value associated with it, represented as VAL(n), which can be computed in a recursive way as follows: VAL(n) ={ Q(n) if n is a leaf VAL(lc(n)) (n) VAL(rc(n)) otherwise (1) For any expression tree T for expression E with root node nroot, the value of VAL(nroot) is exactly equal to the numeric value of the expression E. Therefore, this gives a natural representation of numeric expressions, providing a natural parenthesization of the numeric expression.
+66	21	Definition An expression tree T for a valid expression E is called monotonic if it satisfies the following conditions: 1.
+69	17	Fig 2 shows two different expression trees for the same expression.
+72	62	We try to predict for each pair of quantities qi, qj , the operation at the lowest common ancestor (LCA) node of the monotonic expression tree for the solution expression.
+122	54	All monotonic expression trees for an expression are LCA-equivalent to each other.
+127	17	Consider a valid (as in all cases) expression E, with monotonic expression trees T 1 and T 2.
+139	42	The distributional output of these classifiers is then used in a joint inference procedure that determines the final expression tree.
+140	19	Our training data consists of problem text paired with a monotonic expression tree for the solution expression.
+141	16	Both the relevance and LCA operation classifiers are trained on gold annotations.
+145	29	PAIR(qi, qj , op) : Scores the likelihood of LCA(qi, qj , T ) = op, where T is a monotone expression tree of the solution expression of P .
+148	35	A binary classifier trained to predict whether a quantity q is relevant or not (Section 4.3), can provide these scores.
+150	19	Our objective function makes use of the scores returned by IRR(·) and PAIR(·) to determine the expression tree and is constrained by legitimacy and background knowledge constraints, detailed below.
+151	45	Positive Answer: Most arithmetic problems asking for amounts or number of objects usually have a positive number as an answer.
+161	40	Enumerating Expressions: For generating a next state S′ from S, we choose a pair of terms ti and tj in S and one of the four basic operations, and form a new term by combining terms ti and tj with the operation.
+162	62	Since we do not know which of the possible next states will lead to the optimal goal state, we enumerate all possible next states (that is, enumerate all possible pairs of terms and all possible operations); we prune the beam to keep only the top k candidates.
+163	95	We terminate when all the states in the beam have exactly one term.
+164	29	Once we have a top k list of candidate expression trees, we choose the highest scoring tree which satisfies the constraints.
+165	90	However, there might not be any tree in the beam which satisfies the constraints, in which case, we choose the top candidate in the beam.
+167	76	In order to choose the value for the wIRR, we search over the set {10−6, 10−4, 10−2, 1, 102, 104, 106}, and choose the parameter setting which gives the highest accuracy on the training data.
+168	151	In order to generalize across problem types as well as over simple manipulations of the text, it is necessary to train our system only with relevant information from the problem text.
+169	95	E.g., for the problem in example 2, we do not want to take decisions based on how Tom earned money.
+171	20	To this end, we introduce the concept of a quantity schema which we extract for each quantity in the problem’s text.
+172	60	Along with the question asked, the quantity schemas provides all the information needed to solve most arithmetic problems.

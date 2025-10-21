@@ -1,0 +1,30 @@
+3	29	On the other hand, logical relations and operations, such as entailment, contradiction, conjunction and negation, receive an elegant treatment in formal semantic models.
+7	57	Given all elements ei in the domain in which linguistic expressions of a certain type denote, the Boolean vector associated to a linguistic expression of that type has 1 in position i if ei ∈ S for S the set denoted by the expression, 0 otherwise.
+9	19	Very general expressions (entailing nearly everything else) will have very dense vectors, whereas very specific expressions will have very sparse vectors.
+16	78	or not entailing to train a mapping from their distributional representations to Boolean vectors, enforcing feature inclusion in Boolean space for the entailing pairs.
+56	35	We build the Boolean Distributional Semantic Model (BDSM) by mapping real-valued vectors from a distributional semantic model into Booleanvalued vectors, so that feature inclusion in Boolean space corresponds to entailment between words (or sentences).
+57	32	That is, we optimize the mapping function so that, if two words (or sentences) entail each other, then the more specific one will get a Boolean vector included in the Boolean vector of the more general one.
+66	17	To find such a mapping, we assume training data in the form of a sequence [(pk, qk), yk] m k=1 containing both positive (pk ⇒ qk and yk = 1) and negative pairs (pk ; qk and yk = 0).
+73	15	Next, we measure whether features that are active in r are also active in s (analogously to how Boolean implication works), obtaining a soft Boolean vector w. Finally, the output of h can be close to 1 only if all values in w are also close to 1.
+85	70	During training, positive pairs p⇒ q are required to satisfy full feature inclusion in their mapped representations (all the active features of MΘ(vp) must also be in MΘ(vq)).
+86	24	At test time, we relax this condition to grant the model some flexibility.
+127	53	We used the Lexical Entailment Data Set (LEDS) from Baroni et al. (2012) that contains both entailing (obtained by extracting hyponym-hypernym links from WordNet) and non-entailing pairs of words (constructed by reversing a third of the pairs and randomly shuffling the rest).
+134	18	We employed this resource to construct BLESScoord, which –unlike LEDS, where entailing pairs have to be distinguished from pairs of words that, mostly, bear no relation– is composed of 1,236 super-subordinate pairs (which we treat as positive examples) to be distinguished from 3,526 coordinate pairs.
+137	24	Sentence entailment To evaluate the models on recognizing entailment between sentences, we use a benchmark derived from SICK (Marelli et al., 2014b).
+153	23	Table 3 reports lexical entailment results (percentage accuracies for the LEDS benchmarks, F1 scores for the unbalanced BLESS sets).
+155	38	In only one case the lowest performance attained by a supervised model drops below the level of the best asymmetric measure performance (BDSM using TypeDM on LEDS-dir).8 The performance of the unsupervised measures, which rely most directly on the original distributional space, confirms that the latter is more suited to capture similarity than entailment.
+159	22	BDSM reaches the most consistent results with predict vectors, where it performs particularly well on BLESS, and not dramatically worse than with count vectors on LEDS.
+166	15	We assess the significance of the difference between supervised models trained on the input vectors that give the best performance for each task by means paired t-tests on LEDS and McNemar tests on BLESS.
+167	38	SVM with count vectors is better than BDSM on LEDS-core (not significant) and LEDSdir (p<0.05).
+175	19	Thus, BDSM should be better at learning with less data, where SVM will be prone to overfitting.
+177	20	The results can be seen in Figure 3.
+180	28	As mentioned above in Section 5, we use count vectors for a fair comparison between the two models, based on their similar performance on the lexical benchmarks.
+181	17	Recall that for sentence entailment we use the 9Mitchell (1980) defines bias as any basis for choosing one generalization over another, other than strict consistency with the observed training instances.
+187	23	We observe first that sentence vectors obtained with the additive model are consistently outperforming the more sophisticated plf approach.
+191	37	Since the Word Overlap method is performing quite well (better than SVM) and the surface information used by WO should be complementary to the semantic cues exploited by the vector-based models, we built combined classifiers by training SVMs (on SICK-dev) with linear kernels and WO value plus each method’s score (BI for BDSM and distance to the margin for SVM) as features.
+194	23	We confirmed that BDSM is robust to decreasing the amount of training data, maintaining an F1 score of 56 with only 942 training items, whereas, with the same amount of training data, SVM drops to a F1 of 42.
+196	32	We turn now to an extended analysis of the learned representations (focusing on those derived from count vectors), showing first how BDSM activation correlates with generality and abstractness, and then how similarity in BDSM space points in the direction of an extensional interpretation of Boolean units.
+199	152	Indeed, very general words such as thing(s), everything, and anything have Boolean vectors with all 1s.
+202	16	Still, we predict that the proportion of Boolean dimensions that a word activates (i.e., dimensions with value 1) should correspond, as a trend, to its degree of semantic generality.
+217	15	Under this view, synonyms should have identical Boolean vectors, antonyms should have disjoint vectors.
+223	29	To quantify this difference, we compared the similarity scores (cosines) produced by the two models.

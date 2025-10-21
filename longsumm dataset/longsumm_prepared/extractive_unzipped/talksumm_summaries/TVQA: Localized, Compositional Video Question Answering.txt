@@ -1,0 +1,30 @@
+18	39	First, it is large-scale and natural, containing 21,793 video clips from 925 episodes.
+42	25	We collected our dataset on 6 long-running TV shows from 3 genres: 1) sitcoms: The Big Bang Theory, How I Met Your Mother, Friends, 2) medical dramas: Grey’s Anatomy, House, 3) crime drama: Castle.
+49	22	Amazon Mechanical Turk was used for VQA collection on video clips, where workers were presented with both videos and aligned named subtitles, to encourage multimodal questions requiring both vision and language understanding to answer.
+51	16	The second part of each question serves to localize the relevant video moment within a clip, while the first part poses a question about that moment.
+52	31	This compositional format also serves to encourage questions that require both visual and language understanding to answer, since people often naturally use visual signals to ground questions in time, e.g. What was House saying before he leaned over the bed?
+57	16	For each question, we asked workers to annotate the exact video portion required to answer the question by marking the START and END timestamps as in Krishna et al. (2017).
+65	20	Table 1 provides statistics of the QAs based on the first question word.
+67	47	In general, correct answers tend to be slightly longer than wrong answers.
+84	16	In Table 3, we present such an analysis.
+85	43	The top unique nouns in sitcoms (BBT, Friends, HIMYM) are mostly daily objects, scenes and actions, while medical dramas (Grey, House) questions contain more medical terms, and crime shows (Castle) feature detective terms.
+87	32	For example, BBT con- tains “game” and “laptop” while HIMYM contains “bar” and “beer”, indicating the different major activities and topics in each show.
+92	91	However, their questions and answers are constructed by people posing questions from a provided plot summary, then later aligned to the video clips, which makes most of their questions text oriented.
+93	21	Human Evaluation on Usefulness of Video and Subtitle in Dataset: To gain a better understand- ing of the roles of videos and subtitles in the our dataset, we perform a human study, asking different groups of workers to complete the QA task in settings while observing different sources (subsets) of information: • Question only.
+115	26	Visual Concept Features: Recent work (Yin and Ordonez, 2017) found that using detected object labels as input to an image captioning system gave comparable performance to using CNN features directly.
+132	27	Taking the regional visual feature stream as an example (Fig.
+133	22	4 upper stream), where Hreg is used as context input2.
+135	45	After feeding context-query pairs into the context matching module, we obtain a video-aware-question representation, Greg,q ∈ Rnreg×2d, and video-aware-answer representation, Greg,ai ∈ Rnreg×2d, which are then fused with video context: M reg,ai = [Hreg;Greg,q;Greg,ai ; Hreg Greg,q;Hreg Greg,ai ], where is element-wise product.
+143	15	We split the TVQA dataset into 80% training, 10% validation, and 10% testing splits such that videos and their corresponding QA pairs appear in only one split.
+151	21	Thus, we also implement a baseline two-step retrieval approach: given a question and a set of candidate answers, we first retrieve the most relevant question in the training set, then pick the candidate answer that is closest to the retrieved question’s correct answer.
+163	21	Thus, it is not surprising that TFIDF based similarity between answer and subtitle performs so well.
+166	26	Compared to the subtitle model (row 15), adding video as additional sources (row 16-18) improves performance.
+174	21	With timestamp annotation, the models perform consistently better than their counterpart without this information, indicating that localization is helpful for question answering.
+179	15	To produce relevant negative answers, for each question, negatives are sampled (from the other QA pairs) within the same show.
+184	19	We found that wrong inferences are mainly due to incorrect language inferences and the model’s lack of common sense knowledge.
+185	32	6c, the characters are talking about radiology, the model is distracted to believe they are in the radiology department, while Fig.
+191	43	We hope this novel multimodal dataset and the baselines will encourage the community to develop stronger models in future work.
+192	26	To narrow the gap, one possible direction is to enhance the interactions between videos and subtitles to improve multimodal reasoning ability.
+193	55	Another direction is to exploit human-object relations in the video and subtitle, as we observe that a large number of questions involve such relations.
+194	32	Additionally, temporal reasoning is crucial for answering the TVQA questions.
+195	35	Thus, future work also includes integrating better temporal cues.

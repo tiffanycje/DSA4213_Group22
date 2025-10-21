@@ -1,0 +1,30 @@
+43	1	For each LSH, we consider the implementation of (Andoni & Indyk, 2006).
+45	1	Let C be any cluster of points with diameter σ.
+189	1	For a cluster C with centroid µ, we define the radius to be the quantity ρ :=√ 1 |C| ∑ p∈C‖p− µ‖22, i.e., the “`22 average” radius.
+191	1	The proof follows by an averaging argument.
+193	1	Unfortunately this statement is false in general.
+195	1	In this case, for rj that is roughly ρi (which is the scale at which we hope to find a point close to this cluster), the bin containing Ci may contain many other points that are far away; thus a random sample is unlikely to choose any point close to Ci.
+200	1	Our main lemma about the algorithm is the following.
+201	1	Let C be a cluster in the optimal clustering with adjusted radius ρ.
+205	1	For α = O(log n log log n), S′ gives an (α2, O(log n log k)) bicriteria approximation for k-means, w.p.
+209	1	There areO(log n) radius ranges andO(log k) independent runs.
+210	1	Thus we have the desired bound.
+211	1	Next, consider the approximation factor.
+212	1	As we take S′ to be the union of O(log k) independent runs of Algorithm 4.1, the success probability in Lemma 4 can be boosted to 1− 1 10k , and by a union bound, we have that the conclusion of the lemma holds for all clusters, with probability > 1/10.
+213	1	Thus for every optimal cluster Ci of adjusted radius ρi, Algorithm 4.1 outputs at least one point at a distance≤ α·ρi, for α as desired.
+214	1	Thus, assigning all the points in Ci to one such point would imply that the points of Ci contribute at most |Ci|ρ2i +α2|Ci|ρ2i to the objective.5 Thus the objective value is at most∑ i |Ci|ρ2i + α2|Ci| ( ρ2i + θ 2 + nθ2 k|Ci| ) = (1 + α2)OPT + α2 · 2nθ2 ≤ 4α2OPT.
+216	1	Our final result is the following.
+217	1	There is a distributed algorithm that performs dlogs ne + 2 rounds of MAPREDUCE computation, and outputs a bi-criteria approximation to k-means, with the same guarantee as Theorem 2.
+222	1	This matches the behavior of our algorithm, up to an additive constant.
+223	1	Let α be any parameter that is poly(n).
+224	1	Then, any α factor approximation algorithm for k-means with k ≥ 2 that uses poly(n) machines of memory ≤ s requires at least logs n rounds of MAPREDUCE.
+225	1	The proof is by a simple reduction from Boolean-OR,6 a u∈T ‖u− µ ′‖2 = ∑ u∈T ‖u− µ‖ 2 + |T |‖µ− µ′‖2.
+226	1	, xn, and the desired output problem for which a round-memory trade-off was established in (Roughgarden et al., 2016).
+227	1	, xn, the inputs for Boolean OR.
+228	1	We produce an instance of clustering with k + n points, all on the line.
+229	1	First, we place points at 1, 2, .
+287	2	FMA: A Dataset For Music Analysis This dataset (see (Defferrard et al., 2017)) contains 518 features extracted from audio files available in the free music archive (FMA).
+288	4	We perform the same experiment we did for the SUSY dataset.
+289	28	Figure 5 shows the results, comparing the outputs with the output of kmeans++, as well as a random subset.
+290	145	The number of buckets per cluster when k = 512 for ` = 1, .
+291	144	, 6 are 0.08, 0.68, 2.29, 5.27, 9.43, 14.09 respectively.

@@ -1,0 +1,30 @@
+0	49	The key challenge of drug discovery is to find target molecules with desired chemical properties.
+4	37	While deep learning has been extensively investigated for molecular graph encoding (Duvenaud et al., 2015; Kearnes et al., 2016; Gilmer et al., 2017), the harder combinatorial task of molecular graph generation from latent representation remains under-explored.
+5	21	Prior work on drug design formulated the graph generation task as a string generation problem (Gómez-Bombarelli et al., 2016; Kusner et al., 2017) in an attempt to side-step direct generation of graphs.
+6	37	Specifically, these models start by generating SMILES (Weininger, 1988), a linear string notation used in chemistry to describe molecular structures.
+14	24	Our primary contribution is a new generative model of molecular graphs.
+15	37	While one could imagine solving the problem in a standard manner – generating graphs node by node – the approach is not ideal for molecules.
+16	39	This is because creating molecules atom by atom would force the model to generate chemically invalid intermediaries (see, e.g., Figure 2), delaying validation until a complete graph is generated.
+18	19	The overall generative approach, cast as a junction tree variational autoencoder, first generates a tree structured object (a junction tree) whose role is to represent the scaffold of subgraph components and their coarse relative arrangements.
+29	29	An aromatic bond, for example, is chemically invalid on its own unless the entire aromatic ring is present.
+45	38	The junction tree approach allows us to maintain chemical feasibility during generation.
+55	20	Viewing induced subgraphs as cluster labels, junction trees are labeled trees with label vocabulary X .
+64	38	Finally, we select one of its spanning trees as the junction tree of G (Figure 3).
+65	35	As a result of ring merging, any two clusters in the junction tree have at most two atoms in common, facilitating efficient inference in the graph decoding phase.
+67	49	We first encode the latent representation of G by a graph message passing network (Dai et al., 2016; Gilmer et al., 2017).
+70	32	Due to the loopy structure of the graph, messages are exchanged in a loopy belief propagation fashion: ν(t)uv = τ(W g 1xu +W g 2xuv +W g 3 ∑ w∈N(u)\v ν(t−1)wu ) (1) where ν(t)uv is the message computed in t-th iteration, initialized with ν(0)uv = 0.
+83	18	zTG is sampled in a similar way as in the graph encoder.
+92	20	As illustrated in Figure 4, our tree decoder traverses the entire tree from the root, and generates nodes in their depth-first order.
+98	26	The information is propagated through message vectors hij when trees are incrementally constructed.
+101	18	The message hit,jt is updated through previous messages: hit,jt = GRU(xit , {hk,it}(k,it)∈Ẽt,k 6=jt) (10) where GRU is the same recurrent unit as in the tree encoder.
+118	49	Our goal here is to assemble the subgraphs (nodes in the tree) together into the correct molecular graph.
+120	39	Decoding graph Ĝ from T̂ = (V̂, Ê) is a structured prediction: Ĝ = arg max G′∈G(T̂ ) fa(G′) (14) where fa is a scoring function over candidate graphs.
+141	33	The first two evaluations follow previously proposed tasks (Kusner et al., 2017).
+149	25	(Section 3.3) Below we describe the data, baselines and model configuration that are shared across the tasks.
+154	24	For molecule generation task, we also compare with GraphVAE (Simonovsky & Komodakis, 2018) that directly generates atom labels and adjacency matrices of graphs.
+180	24	2) The top-3 molecules found by BO under different models.
+182	16	Results As shown in Table 2, JT-VAE finds molecules with significantly better scores than previous methods.
+185	18	Moreover, the SGP yields better predictive performance when trained on JT-VAE embeddings (Table 3).
+189	24	For this task, we jointly train a property predictor F (parameterized by a feed-forward network) with JT-VAE to predict y(m) from the latent embedding of m. To optimize a molecule m, we start from its latent representation, and apply gradient ascent in the latent space to improve the predicted score F (·), similar to (Mueller et al., 2017).
+196	67	When we tighten the constraint to δ = 0.4, about 80% of the time our model finds similar molecules, with an average improvement 0.84.
+198	29	Figure 8 illustrates an effective modification resulting in a similar molecule with great improvement.

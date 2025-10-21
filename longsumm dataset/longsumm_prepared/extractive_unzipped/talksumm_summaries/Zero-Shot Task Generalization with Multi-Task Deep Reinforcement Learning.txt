@@ -1,0 +1,30 @@
+38	22	In addition, we demonstrate our agent’s ability to generalize over sequences of instructions, as well as provide a comparison to several alternative approaches.
+69	68	In this paper, a parameterized skill is a multi-task policy corresponding to multiple tasks defined by categorical input task parameters, e.g., [Pick up, X].
+74	33	The network maps input task parameters into a task embedding space ϕ(g), which is combined with the observation followed by the output layers.
+76	23	Only a subset of tasks (G′ ⊂ G) are available during training, and so in order to generalize to unseen tasks during evaluation the network needs to learn knowledge about the relationship between different task parameters when learning the task embedding ϕ(g).
+78	35	The main idea is to learn correspondences between tasks.
+79	29	For example, if target objects and ‘Visit/Pick up’ actions are independent (i.e., each action can be applied to any target object), we can enforce the analogy [Visit, X] : [Visit, Y] :: [Pick up, X] : [Pick up, Y] for any X and Y in the embedding space, which means that the difference between ‘Visit’ and ‘Pick up’ is consistent regardless of target objects and vice versa.
+80	124	This allows the agent to generalize to unseen combinations of actions and target objects, such as performing [Pick up, Y] after it has learned to perform [Pick up, X] and [Visit, Y].
+81	46	More specifically, we define several constraints as follows: ‖∆ (gA, gB)−∆ (gC , gD)‖ ≈ 0 if gA : gB :: gC : gD ‖∆ (gA, gB)−∆ (gC , gD)‖ ≥ τdis if gA : gB 6= gC : gD ‖∆ (gA, gB)‖ ≥ τdiff if gA 6= gB , where gk = [ g (1) k , g (2) k , ..., g (n) k ] ∈ G are task parameters, ∆ (gA, gB) = ϕ(gA) − ϕ(gB) is the difference vector between two tasks in the embedding space, and τdis and τdiff are constant threshold distances.
+82	16	Intuitively, the first constraint enforces the analogy (i.e., parallelogram structure in the embedding space; see Mikolov et al. (2013); Reed et al. (2015)), while the other constraints prevent trivial solutions.
+94	21	Pick up removes the object in front of the agent, and Transform changes the object in front of the agent to ice (a special object).
+102	44	The agent should move on top of the target object given ‘Visit’ task and perform the corresponding actions in front of the target given ‘Pick up’ and ‘Transform’ tasks.
+105	20	We divided objects into two groups, each of which should be either picked up or transformed given ‘Interact with’ task.
+106	24	Only a subset of target object types are encountered during training, so there is no chance for the agent to generalize without knowledge of the group of each object.
+111	33	Only {1, 3, 5} ⊂ C is given during training, and the agent should generalize over unseen numbers {2, 4, 6, 7}.
+114	27	As summarized in Table 1, the parameterized skill with our analogy-making objective can successfully generalize to unseen tasks in all generalization scenarios.
+116	16	We now consider the instruction execution problem where the agent is given a sequence of simple natural language instructions, as illustrated in Figure 1.
+119	26	Although the requirement that instructions be executed sequentially makes the problem easier (than, e.g., conditional-instructions), the agent still needs to make complex decisions because it should deviate from instructions to deal with unexpected events (e.g., low battery) and remember what it has done to deal with loop instructions, as discussed in Section 1.
+135	21	The subtask updater maintains an instruction pointer (pt ∈ RK) which is non-negative and sums up to 1 indicating which instruction the meta controller is executing.
+170	25	The agent receives a time penalty (−0.1) for each step and receives +1 reward when it finishes the entire list of instructions in the correct order.
+171	23	Throughout an episode, a box (including treasures) randomly appears with probability of 0.03 and transforming a box gives +0.9 reward.
+174	23	There are 7 types of instructions: {Visit X, Pick up X, Transform X, Pick up 2 X, Transform 2 X, Pick up 3 X, Transform 3 X} where ‘X’ is the target object type.
+182	16	It is also pre-trained on the training set of subtasks.
+204	47	Interestingly, when the agent sees a box, the meta controller immediately changes its subtask to [Transform, Box] to get a positive reward even though its instruction pointer is indicating ‘Pick up 2 pig’ and resumes executing the instruction after dealing with the box.
+205	21	Throughout this event and the loop instruction, the meta controller keeps the instruction pointer unchanged as illustrated in (B-C) in Figure 7.
+206	22	In addition, the agent learned to update the instruction pointer and the subtask almost only when it is needed, which provides the subtask updater with temporally-extended actions.
+207	29	This is not only computationally efficient but also useful for learning a better policy.
+208	205	In this paper, we explored a type of zero-shot task generalization in RL with a new problem where the agent is required to execute and generalize over sequences of instructions.
+209	18	We proposed an analogy-making objective which enables generalization over unseen parameterized tasks in various scenarios.
+210	86	We also proposed a novel way to learn the time-scale of the meta controller that proved to be more efficient and flexible than alternative approaches for interrupting subtasks and for dealing with delayed sequential decision problems.
+211	35	Our empirical results on a stochastic 3D domain showed that our architecture generalizes well to longer sequences of instructions as well as unseen instructions.

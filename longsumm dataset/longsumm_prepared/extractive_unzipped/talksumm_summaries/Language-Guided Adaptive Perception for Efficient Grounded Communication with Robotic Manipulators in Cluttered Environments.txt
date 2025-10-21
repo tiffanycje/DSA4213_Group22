@@ -1,0 +1,30 @@
+6	25	However, in collaborative domains as we move towards more complex bi-directional interactions, manipulation tasks, and the environments, it becomes unclear how to best represent the environment in order to facilitate planning and reasoning for a wide distribution of tasks.
+7	33	As shown in the Figure 1, modeling the affordance between the chips can and its lid would be unnecessary for the task of picking up the mustard sauce bottle and vice versa.
+10	46	Natural language interfaces provide intuitive and muti-resolution means to interact with the robots in shared realms.
+11	38	In this work, we propose learning a model of language and perception that can adapt the configurations of the perception pipeline according to the task in order to infer representations that are necessary and suffi- cient to facilitate planning and grounding for the intended task.
+12	48	e.g. the top-right image in the Figure 1 shows the adaptively inferred world model pertaining to the instruction “pick up the leftmost blue gear” which is different than the one inferred for the instruction “pick up the largest red object”.
+13	32	The algorithms and models presented in this paper span the topics that include robot perception and natural language understanding for human-robot interaction.
+16	67	These representations vary significantly depending on the application, from two-dimensional costmaps (Elfes, 1987), volumetric 3D voxel representations (Hornung et al., 2013, 2010), primitive shape based object approximations (Miller et al., 2003; Huebner and Kragic, 2008) to more rich representations that model high level semantic properties (Galindo et al., 2005; Pronobis and Jensfelt, 2012), 6 DOF pose of the objects of interest (Hudson et al., 2012) or affordances between objects (Daniele et al., 2017).
+17	32	Since inferring exhaustively detailed world models is impractical, one solution is to design perception pipelines that infer task relevant world models (Eppner et al., 2016; Fallon et al., 2014).
+20	29	Contemporary models (Tellex et al., 2011; Howard et al., 2014; Boularias et al., 2015; Matuszek et al., 2013) frame the problem of language understanding as a symbol grounding problem (Harnad, 1990).
+25	24	Recently, these models have been used to augment perception and representations.
+27	31	(Duvallet et al., 2014; Hemachandra et al., 2015) use DCG to augment the representations by exploiting information in language instruction to build priors over the unknown parts of the world.
+39	31	Contemporary approaches (Tellex et al., 2011; Howard et al., 2014) frame this problem as a symbol grounding problem, i.e. inferring the most likely set of groundings (Γs∗) given a syntactically parsed instruction Λ = {λ1, ..., λm} and the world model Υ. Γs∗ = arg max γ1...γn∈Γs p(γ1...γn|Λ,Υ) (2) Here, the world model Υ is a function of the constructs of the robot’s perception pipeline (P ), and the raw observations zt.
+44	33	The model relates the linguistic components λi ∈ Λ to the groundings γj ∈ Γs through the binary correspondence variables φij ∈ Φ. DCG facilitates inferring the groundings at a parent phrase in the context of the groundings at its child phrases Φci.
+45	19	Formally, DCG searches for the most likely correspondence variables Φ∗ in the context of the groundings γij , phrases λi, child correspondences Φci and the world model Υ by maximizing the product of individual factors.
+63	21	It infers the symbols that inform the perception pipeline configurations given a natural language instruction describing the task.
+64	53	The space of symbols ΓP describe all possible configurations of the perception pipeline.
+68	31	e.g. a red colordetection algorithm would be a member of the color detector family responsible for inferring the semantic property “color” of the object.
+77	23	In this case, it allows conditioning the evaluation of sphere detection on only a subset of objects which were classified as being red by the red detector.
+82	53	8 ), and inferring high level motion planning constraints given the language and the generated world model ( eq.
+86	32	The robot is assumed to perceive the environment using a head-mounted RGB-D sensor.
+88	21	We define the world complexity in terms of the number of objects present on the table in the robot’s field of view.
+95	39	In our experiment we define E as: E = {C ∪ G ∪ L ∪ B ∪ R ∪ P} (12) Here, C is a set of color detectors, G is a set of geometry detectors, L is a set of object label detectors, B is a set of bounding box detectors, R is a set of region detectors, and P is a set of pose detectors.
+121	22	One copy of the corpora is annotated for training LPM using (ΓP ) while another for training the symbol grounding model using (ΓS).
+131	35	In the first experiment, we study the root-level inference accuracy of LPM ( groundings expressed at the root level of the phrase ) as a function of the gradual increase in the training fraction.
+151	52	The drop in the complete perception run-time for world complexity of 20 is justifiable as the run-time of our geometry detection algorithm was proportional to the size of the individual objects, and all of the objects for that example world were smaller than other examples.
+153	41	It shows that the symbol grounding run-time when reasoning in the context of detailed world models( Υ ) grows as a function of the world complexity.
+162	71	This provides run-time gains in terms of both perception and symbol grounding, thereby improving the speed with which collaborative robots can understand and act upon human instructions.
+163	29	In ongoing and future work we are exploring how language can aid efficient construction of global maps for robot navigation and manipulation by intelligently sampling relevant observations from a set of observations.
+164	82	This work was supported in part by the National Science Foundation under grant IIS-1637813 and the New York State Center of Excellence in Data Science at the University of Rochester.
+166	42	Following table lists the words scraped from the instructions in our corpus.

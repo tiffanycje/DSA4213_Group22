@@ -1,0 +1,27 @@
+0	23	Aspect extraction is one of the key tasks in sentiment analysis.
+1	12	It aims to extract entity aspects on which opinions have been expressed (Hu and Liu, 2004; Liu, 2012).
+3	9	Two sub-tasks are performed in aspect extraction: (1) extracting all aspect terms (e.g., “beef”) from a review corpus, (2) clustering aspect terms with similar meaning into categories where each category represents a single aspect (e.g., cluster “beef”, “pork”, “pasta”, and “tomato” into one aspect food).
+4	21	Previous works for aspect extraction can be categorized into three approaches: rule-based, supervised, and unsupervised.
+5	29	Rule-based methods usually do not group extracted aspect terms into categories.
+7	2	Unsupervised methods are adopted to avoid reliance on labeled data needed for supervised learning.
+8	1	In recent years, Latent Dirichlet Allocation (LDA) (Blei et al., 2003) and its variants (Titov and McDonald, 2008; Brody and Elhadad, 2010; Zhao et al., 2010; Mukherjee and Liu, 2012) have become the dominant unsupervised approach for aspect extraction.
+9	19	LDA models the corpus as a mixture of topics (aspects), and topics as distributions over word types.
+14	11	They implicitly capture such patterns by modeling word generation from the document level, assuming that each word is generated independently.
+23	8	In contrast to LDA-based models, our proposed method explicitly encodes word-occurrence statistics into word embeddings, uses dimension reduction to extract the most important aspects in the review corpus, and uses an attention mechanism to remove irrelevant words to further improve coherence of the aspects.
+28	4	It can also easily scale to a large amount of training data.
+54	4	The ultimate goal is to learn a set of aspect embeddings, where each aspect can be interpreted by looking at the nearest words (representative words) in the embedding space.
+58	2	We want to learn embeddings of aspects, where aspects share the same embedding space with words.
+62	5	Given such an input, two steps are performed as shown in Figure 1.
+63	44	First, we filter away non-aspect words by down-weighting them using an attention mechanism, and construct a sentence embedding zs from weighted word embeddings.
+66	13	We construct a vector representation zs for each input sentence s in the first step.
+67	4	In general, we want the vector representation to capture the most relevant information with regards to the aspect (topic) of the sentence.
+69	7	(1) For each word wi in the sentence, we compute a positive weight ai which can be interpreted as the probability that wi is the right word to focus on in order to capture the main topic of the sentence.
+70	44	The weight ai is computed by an attention model, which is conditioned on the embedding of the word ewi as well as the global context of the sentence: ai = exp(di)∑n j=1 exp(dj) (2) di = e > wi ·M · ys (3) ys = 1 n n∑ i=1 ewi (4) where ys is simply the average of the word embeddings, which we believe captures the global context of the sentence.
+71	45	M ∈ Rd×d is a matrix mapping between the global context embedding ys and the word embedding ew and is learned as part of the training process.
+72	135	We can think of the attention mechanism as a two-step process.
+73	49	Given a sentence, we first construct its representation by averaging all the word representations.
+74	4	Then the weight of a word is assigned by considering two things.
+75	17	First, we filter the word through the transformation M which is able to capture the relevance of the word to the K aspects.
+77	10	We have obtained the sentence embedding.
+79	19	As shown in Figure 1, the reconstruction process consists of two steps of transitions, which is similar to an autoencoder.
+80	61	Intuitively, we can think of the reconstruction as a linear combination of aspect embeddings from T: rs = T > · pt (5) where rs is the reconstructed vector representation, pt is the weight vector overK aspect embeddings, where each weight represents the probability that the input sentence belongs to the related aspect.

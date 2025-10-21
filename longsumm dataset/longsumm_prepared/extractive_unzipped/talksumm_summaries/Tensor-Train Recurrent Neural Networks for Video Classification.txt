@@ -1,0 +1,30 @@
+0	32	Nowadays, the Recurrent Neural Network (RNN), especially its more advanced variants such as the LSTM and the GRU, belong to the most successful machine learning approaches when it comes to sequence modeling.
+1	12	Especially in Natural Language Processing (NLP), great improvements have been achieved by exploiting these Neural Network architectures.
+2	39	This success motivates efforts to also apply these RNNs to video data, since a video clip could be seen as a sequence of image frames.
+8	12	Intuitive and tempting as it is, training such a model from scratch in an endto-end fashion turns out to be impractical for large video datasets.
+10	17	The former approach neglects the capability of RNNs to handle sequences of variable lengths and therefore does not scale to larger, more realistic video data.
+12	27	Furthermore, since these CNNs are pretrained on existing image datasets, it remains unclear how well the CNNs can generalize to video frames that could be of totally different nature from the image training sets.
+13	13	Alternative approaches were earlier applied to generate image representations using dimension reductions such as PCA (Zhang et al., 1997; Kambhatla & Leen, 1997; Ye et al., 2004) and Random Projection (Bingham & Mannila, 2001).
+27	22	The rest of the paper is organized as follows: In Section 2 we summarize the state-of-the-art works, especially in video classification using Neural Network models and the tensorization of weight matrices.
+57	16	We emphasize that such a layer is learned end-to-end, together with the rest of the RNN in a very efficient way.
+60	49	1 suggests, each entry in the target tensor is represented as a sequence of matrix multiplications.
+61	17	The set of tensors {Gk}dk=1 are usually called core-tensors.
+64	52	Please note that the dimensions and core-tensors are indexed from 1 to d while the rank index starts from 0; also note that the first and last ranks are both restricted to be 1, which implies that the first and last core tensors can be seen as matrices so that the outcome of the chain of multiplications in Eq.
+65	28	If one imposes the constraint that each integer pk as in Eq.
+66	37	(1) can be factorized as pk = mk · nk ∀k ∈ [1, d], and consequently reshapes each Gk into G∗k ∈ Rmk×nk×rk−1×rk , then each index lk in Eq.
+68	14	(4) Correspondingly, the factorization for the tensor A ∈ R(m1·n1)×(m2·n2)×...×(md·nd) can be rewritten equivalently to Eq.
+71	15	Here we factorize the weight matrix W of a fullyconnected feed-forward layer denoted in ŷ = Wx+ b.
+73	30	(6) Then, if we assume that M = ∏d k=1mk, N =∏d k=1 nk i.e. both M and N can be factorized into two integer arrays of the same length, then we can reshape the input vector x and the output vector ŷ into two tensors with the same number of dimensions: X ∈ Rm1×m2×...×md ,Y ∈ Rn1×n2×...×nd , and the mapping function Rm1×m2×...×md → Rn1×n2×...×nd can be written as: Ŷ(j1, j2, ..., jd) = m1∑ i1=1 m2∑ i2=1 ... md∑ id=1 W((i1, j1), (i2, j2), ..., (id, jd))· X (i1, i2, ..., id) +B(j1, j2, ..., jd).
+75	47	The d-dimensional double-indexed tensor of weights W in Eq.
+80	17	This, however, would be O(M · N) for a fully-connected layer.
+81	45	One could also compute the compression rate as the ratio between the number of weights in a fully connected layer and that in its compressed form as: r = ∑d k=1mknkrk−1rk∏d k=1mknk .
+82	31	(9) For instance, an RGB frame of size 160 × 120 × 3 implies an input vector of length 57,600.
+87	14	Please also note that, in contrast to (Lebedev et al., 2014) where the weight tensor is firstly factorized using non-linear LeastSquare method and then fine-tuned with Back-Propagation, the TTL is always trained end-to-end.
+91	23	For an Simple RNN (SRNN), which is also known as the Elman Network, this mapping is realized as a vector-matrix multiplication, whilst in case of LSTM and GRU, we consider the matrices that map from the input vector to the gating units:
+105	18	In the following, we present our experiments conducted on three large video datasets.
+120	24	We follow (Liu et al., 2013) and perform for each experimental setting a 5-fold cross validation with mutual exclusive data splits.
+121	49	The mean and standard deviation of the prediction accuracy scores are reported in Tab.
+122	11	The standard LSTM and GRU do not show large improvements compared with the TT-MLP model.
+123	62	The TT-LSTM and TT-GRU, however, do not only compress the weight matrix from over 40 millions to 3 thousands, but also significantly improve the classification accuracy.
+124	104	It seems that plain LSTM and GRU are not adequate to model such high-dimensional sequential data because of the large weight matrix from input to hidden layer.
+125	13	Compared to some latest state-of-the-art performances in Tab.

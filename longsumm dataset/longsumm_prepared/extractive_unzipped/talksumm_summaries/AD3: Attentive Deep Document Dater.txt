@@ -1,0 +1,30 @@
+0	30	Many natural language processing tasks require document creation time (DCT) information as a useful additional metadata.
+1	5	Tasks such as information retrieval (Li and Croft, 2003; Dakka et al., 2008), temporal scoping of events and facts (Allan et al., 1998; Talukdar et al., 2012b), document summarization (Wan, 2007) and analysis (de Jong et al., 2005a) require precise and validated creation time of the documents.
+4	10	A few generative approaches (de Jong et al., 2005b; Kanhabua and Nørvåg, 2008) as well as a discriminative model (Chambers, 2012) have been previously proposed for this task.
+10	15	Motivated by the effectiveness of attention based models in different NLP tasks (Yang et al., 2016a; Bahdanau et al., 2014), we incorporate attention in our method in a principled fashion.
+11	23	We use attention not only to capture context but also for feature aggregation in the graph convolution network (Hamilton et al., 2017).
+13	73	• We propose Attentive Deep Document Dater (AD3), the first attention-based neural model for time-stamping documents.
+34	59	An overview of graph convolutional network (GCN) (Kipf and Welling, 2016) is also necessary as it is used in NeuralDater as well as in our model.
+51	6	In this step, the context embeddings are further processed using GCN over the dependency parse tree of the sentences in the document, in order to capture long range connection among words.
+60	5	Note that T is the total number of events and time mentions present in the document.
+63	41	Finally, the DCT embedding concatenated with the average pooled syntactic embedding is fed to a softmax layer for classification.
+66	17	AD3 is inspired by NeuralDater, and shares many of its components.
+67	144	Just like in NeuralDater, AD3 also leverages two main types of signals from the document – syntactic and event-time – to predict the document’s timestamp.
+69	35	Firstly, instead of concatenating embeddings learned from these two sources as in NeuralDater, AD3 treats these two models completely separate and combines them at a later stage.
+70	128	Secondly, unlike NeuralDater, AD3 employs attention mechanisms in each of these two models.
+71	46	We call the resulting models Attentive Context Model (AC-GCN) and Ordered Event Model (OE-GCN).
+73	70	Recent success of attention-based deep learning models for classification (Yang et al., 2016b), question answering (Yang et al., 2016a), and machine translation (Bahdanau et al., 2014) have motivated us to use attention during document dating.
+74	15	We extend the syntactic embedding model of NeuralDater (Section 3.2.2) by incorporating an attentive pooling layer.
+76	7	This model (right side in Figure 1) has two major components.
+77	15	• Context Embedding and Syntactic Embedding: Following NeuralDater, we used Bi-LSTM and S-GCN to capture context and long-range syntactic dependencies in the document (Please refer to Section 3.2.1, Section 3.2.2 for brief description).
+79	32	Note that, ksyn is the dimension of the output of Syntactic-GCN and n is the number of tokens in the document.
+80	13	• Attentive Embedding: In this layer, we learn the representation for the whole document through word level attention network.
+81	40	We learn a context vector, us ∈ Rs with respect to which we calculate attention for each token.
+82	46	Finally, we aggregate the token features with respect to their attention weights in order to represent the document.
+88	5	dAC−GCN = ∑ t αth syn t This representation is fed to a softmax layer for the final classification.
+89	15	The final probability distribution over years predicted by the AC-GCN is given below.
+91	8	Just like in AC-GCN, context and syntactic embedding is also part of OE-GCN.
+92	12	The syntactic embedding is fed to the Attentive Graph Convolution Network (AT-GCN) where the graph is obtained from the time-event ordering algorithm CATENA (Mirza and Tonelli, 2016).
+95	14	CATENA (Mirza and Tonelli, 2016) generates 9 different temporal links between events and time expressions present in the document.
+101	42	E ′T = ET ∪ {(j, i, l(i, j)−1) | (i, j, l(i, j)) ∈ ET} ∪ {(i, i, self) | i ∈ V)}.
+102	43	The reverse edges are added with reverse labels like AFTER−1, BEFORE−1 etc .

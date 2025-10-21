@@ -1,0 +1,30 @@
+4	19	In this paper, we take their concept a step further by using a conditional language model with unlabeled dialog data (i.e., tweet-reply pairs) instead of a language model with unpaired data1.
+5	17	An important observation of the dialog data that underpins our strategy is that the sentiment or mood in a message often affects messages in reply to it.
+6	31	People tend to write angry responses to angry messages, empathetic replies to sad remarks, or congratulatory phrases to good news.
+8	25	• We propose a pretraining strategy with unlabeled dialog data (tweet-reply pairs) via an encoder-decoder model for sentiment classifiers (Section 2).
+9	20	To the best of our knowledge, our proposal is the first such proposal, as clarified in Section 4.
+10	60	• We report on a case study based on a costly labeled sentiment dataset of 99.5K items and a large-scale unlabeled dialog dataset of 22.3M, which were provided from a tweet analysis service (Section 3.1).
+11	35	• Experimental results of sentiment classification show that our method outperforms the current semi-supervised methods based on a language model, autoencoder, and distant supervision, as well as linear classifiers (Section 3.4).
+13	66	Training a dialog (encoder-decoder) model using unlabeled dialog data (tweet-reply pairs) as pretraining.
+14	40	Training a sentiment classifier (encoderlabeler) model using labeled sentiment data (tweet-label pairs) after initializing its encoder part with the encoder parameters of the encoder-decoder model.
+16	31	This model consists of two RNNs: an encoder and decoder.
+30	14	The breakdown of positive, negative, and neutral in the training set was 15.0, 18.6, and 66.4%, respectively.
+33	25	The average length of the tweets after preprocessing was 17 characters.
+39	6	In addition, the annotators had gone through a few days of training to become able to appropriately judge the sentiment before they got down to actual annotation work, but the number, 300 person-days, does not include the time for this training.
+45	60	The settings of the sentiment classifier (encoder-labeler) model are as follows.
+50	7	The dialog model was trained in five epochs, and the classifier model was tuned with the early-stopping strategy, which stops training when the validation accuracy drops.
+58	19	• Lang, SeqAE: Pretrained with the language model and autoencoder model proposed in (Dai and Le, 2015).
+60	8	To make the comparison as fair as possible, we used the reply-side of the dialog dataset for pretraining Lang and SeqAE so that the same supervision information on the basis of the same tweet-reply pairs would be applied to Lang, SeqAE, and Dial.
+64	16	These pseudo labels were annotated by extracting tweets including one of those emoticons from our dialog data and another 92M tweets.
+68	34	• LogReg, LinSVM: Logistic regression and linear support vector machine (SVM) models of LIBLINEAR (Fan et al., 2008) with bag-ofwords features, which consist of 50K unigrams (w/o stopwords), 50K bigrams, and 233 emoticons.
+72	11	Each value is the average of five trials with different random seeds for each setting, and a value of a trial is the macro-average of F-measure values of three sentiment classes.
+76	47	Comparing Dial with the other models, we can see that our pretraining strategy with dialog data consistently outperformed all the other models: state-of-the-art pretraining strategies with unpaired unlabeled data (Lang, SeqAE) and pseudo labeled data (Emo2M, Emo6M), as well as linear learners (LogReg, LinSVM).
+77	9	This indicates that unlabeled dialog data (tweet-reply pairs) have useful information for sentiment classifiers, as expected in Section 1.
+79	21	For example, the reply “:(” was generated for the input tweet “I’m sorry to hear that” (see supplementary material for more examples).
+84	13	As for the results of distant supervision with emoticons, both Emo2M and Emo6M performed worse than Default, and increasing the dataset size did not change the situation.
+88	12	However, looking at the results of Dial, our method improved Default even for these cases (5K to 20K), and Dial clearly outperformed the linear models.
+89	32	This means that pretraining is useful especially on the situation where the labeled data size is limited.
+105	7	We proposed a pretraining strategy with dialog data for sentiment classifiers.
+106	15	The experimental results showed that our strategy clearly outperformed the existing pretraining with unpaired unlabeled data via language modeling and pseudo labeled data via distant supervision, as well as linear classifiers.
+107	50	In the future, we will investigate whether or not we can use other paired data for pretraining of classification tasks.
+108	78	For example, we expect that news article-comment pairs are useful for predicting fake news detection and that question-answer pairs of Q&A sites are useful for recommending questions for answering.

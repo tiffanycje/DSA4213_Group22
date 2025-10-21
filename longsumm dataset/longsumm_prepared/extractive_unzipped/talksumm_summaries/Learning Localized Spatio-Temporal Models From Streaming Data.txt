@@ -1,0 +1,30 @@
+0	21	Many real-world processes of interest, ranging from climate variables to brain signals, are spatio-temporal in nature, cf.
+3	32	, (sn, tn, yn) } , where yi denotes the quantity of interest observed at the ith training point, with spatial coordinate si and time ti.
+7	17	In real-world applications, Dn need not be gathered in a single batch but obtained in parts over time from various sensors, stations, satellites, etc.
+8	9	That is, the dataset is augmented sequentially, i.e., n = 1, 2, .
+9	33	In these streaming data scenarios, we are interested in continuous refinement of the prediction of y at (s, t) as new data is augmented into Dn+1.
+47	21	For the test point (s, t), we consider the unbiased predictor of y as a linear combination of the data (Stein, 2012): ŷ(s, t) = λ>(s, t)y, (1) where λ>(s, t) is a vector of n weights which naturally depend on the test point (s, t).
+70	8	We begin by specifying the spatial function as ϕ(s) = ϕ1(s1)⊗ · · · ⊗ϕd(sd), (7) where the basis vector for the ith spatial dimension, ϕi(si) = col{ ϕi,1(si), · · · , ϕi,Ns(si) } (8) is composed of Ns localized components with a finite support L. For notational simplicity, we consider Ns and L to be same for each dimension i.
+81	17	(9) However, to be able to predict missing data of the type illustrated in Figure 1 we cannot rely on a localized basis for extended interpolations over space-time.
+89	34	Given a training dataset Dn, this approach enables us to update the predictor ŷθ(s, t) = λ>θ (s, t)y from (1) in a streaming fashion as n = 1, 2, .
+91	11	Let us first define a normalized sample covariance matrix of the training data, K̃ = (y − 1η)(y − 1η)> ‖y − 1η‖2 .
+92	12	Then the optimal model parameters are given by a covariance-fitting criterion (cf.
+94	42	The learned parameter θ̂ is invariant with respect to the mean parameter η and can be rescaled by an arbitrary scale factor (Zachariah et al., 2017).
+96	8	is defined as the minimizer w?
+102	25	The key recursively updated quantities passed from one update to the next are the symmetric matrix Γ and the vectors ρ and w̌ of dimension p+1 along with the scalar ∼ κ.
+110	10	, p+ 1 cj := τj + Γjjw̌j if j = 1 then wj := cj Γjj else aj := + Γjjw̌ 2 j + 2w̌jτj ŝj := sign(cj) r̂j := |cj | Γjj − 1Γjj √ ajΓjj−|cj |2 n−1 wj := { ŝj r̂j √ n− 1|cj | > √ ajΓjj − |cj |2 0 otherwise end if := + Γjj(w̌j − w?j )2 + 2(w̌j − w?j )τj τ := τ + [Γ]j(w̌j − w?j ) until number of iterations equal L Output: w?
+114	8	For our experiments, we set vs = 3 [spatial units/sec], λs = 9 [spatial units] and σ = 0.3.
+155	40	Figure 6a shows the prediction error histogram of all test points across the spatio-temporal domain.
+162	13	We pick a spatial point in a region where the El Niño effect, i.e., the periodic warming of the equatorial Pa- cific Sea Surface (Sarachik & Cane, 2010), is known to be noticeable.
+163	43	The prediction of the SST anomalies at this spatial location across time along with the true SST is illustrated with Figure 6d.
+166	14	The precipitation data consists of monthly rainfall in millimeter over a period from 1901 to 2012 obtained with high spatial resolution (0.5 by 0.5 degree) over the whole planet.
+169	28	The spatial region indicated by the black dashed box in Figure 7b beyond month t = 47, as seen in Figure 7c, constitutes a contiguous test region, in addition to other randomly selected test points.
+170	12	The remaining N = 14 400 points are used for training.
+175	8	Figure 7b shows the contour plot of predicted precipitation for a spatial slice at month t = 54.
+176	11	The red cross and plus marker indicate spatial points whose actual and predicted time series are compared in Figures 7c and 7d, respectively.
+177	47	Note that the estimated precipitation tracks the true precipitation well everywhere even to the right of the black dashed line where the data was not seen during training.
+179	9	We proposed a method in which a spatio-temporal predictor ŷθ̂(s, t) can be learned and updated sequentially as spatio-temporal data is obtained as a stream.
+180	14	It is capable of capturing spatially varying temporal patterns, using a non-stationary covariance model that is learned using a covariance-fitting approach.
+181	15	We demonstrated, using both simulated and real climate data, that it is capable of producing accurate predictions in large unobserved space-time test regions.
+182	22	In future work, we intend to further improve the computational efficiency of the method by exploiting the spatially localized structure of the covariance model.
+183	22	-2 -1.5 -1 -0.5 0 0.5 1 1.5 2 Prediction error 0 500 1000 1500 2000 2500 N u m b e r o f p o in ts (a) -2 -1.5 -1 -0.5 0 0.5 1 1.5 2 Prediction error 0 100 200 300 400 500 600 700 800 900 N u m b e r o f p o in ts (b) 140 o E 160 o E 180 o E 160 o W 140 o W 120 o W 100 o W 80 o W Longitude 25 o S 20 o S 15 o S 10 o S 5 o S 0 5 o N 10 o N 15 o N 20 o N 25 o N L a ti tu d e -0.5 0 0.5 1

@@ -1,0 +1,30 @@
+29	4	We also recommend a model-independent toolbox for neural GEC.
+30	5	In this section, we combine insights from JunczysDowmunt and Grundkiewicz (2016) for grammatical error correction by phrase-based statistical machine translation and from Denkowski and Neubig (2017) for trustable results in neural machine translation to propose a trustable baseline for neural grammatical error correction.
+35	1	We choose the CoNLL-2014 shared task test set (Ng et al., 2014) as our main benchmark and the test set from the 2013 edition of the shared task (Ng et al., 2013) as a development set.
+36	3	For these benchmarks we report MaxMatch (M2) scores (Dahlmeier and Ng, 2012).
+41	2	As both benchmarks, CoNLL and JFLEG, are provided in NLTK-style tokenization (Bird et al., 2009), we use the same tokenization scheme for our training data.
+54	2	All embedding vectors consist of 512 units; the RNN states of 1024 units.
+55	2	The number of BPE segments determines the size of the vocabulary of our models, i.e. 50,000 entries.
+58	4	We optimize with Adam (Kingma and Ba, 2014) with an average mini-batch size of ca.
+59	1	All models are trained until convergence (early-stopping with a patience of 10 based on development set cross-entropy cost), saving model checkpoints every 10,000 mini-batches.
+76	2	On closer inspection, however, we see that the drop in M2 for ensembles is due to a precision bias.
+77	1	M2 being an F-score penalizes increasing distance between precision and recall.
+82	2	It would, however, be unwise to dismiss ensembles, as we can use their bias towards precision to our advantage whenever they are combined with methods that aim to increase recall.
+84	2	The methods described in this section turn our baseline into a more GEC-specific system.
+86	2	All modifications are applied incrementally, later models include enhancements from the previous ones.
+92	3	Table 4 show impressive gains for this simple method (+Dropout-Src.).
+94	2	The NUCLE corpus matches the domain of the CoNLL benchmarks perfectly.
+104	1	This can be interpreted as a type of GEC-specific domain adaptation.
+110	2	in Table 4 are inconclusive, but we see improvements in conjunction with later modifications.
+132	2	Since weights between source, target and output embeddings are tied, these embeddings are inserted once into the model, but affect computations three-fold, see the blue elements in Figure 2.
+135	2	The architecture of the language model corresponds as much as possible to the structure of the decoder of the sequence-to-sequence model.
+136	1	All pieces that rely on the attention mechanism or the encoder have been removed.
+138	1	Remaining parameters are initialized randomly.
+141	2	We compare the effects of pre-training with and without the edit-weighted MLE objective and can see that pre-training has significantly positive effects in both settings.
+150	4	We normalize by sentence length |y|.
+170	2	The pre-training procedure as described in section 4.1 needs to be modified in order to maximize the number of pre-trained parameters for the larger model architectures.
+172	2	We can keep the decoder self-attention layers in the transformer model.
+181	2	Combinations of these generally10 modelindependent methods helped raising the performance of pure neural GEC systems by more than 10% M2 on the CoNLL 2014 benchmark, also outperforming the previous state-of-the-art (Chollampatt and Ng, 2017), a hybrid phrase-based system with a complex spell-checking system by 2%.
+182	19	We also showed that a pure neural system can easily outperform a strong pure phrase-based SMT system (Junczys-Dowmunt and Grundkiewicz, 2016) when similarly adapted to the GEC task.
+183	171	On the JFLEG benchmark we outperform the previously-best pure neural system (Sakaguchi et al., 2017) by 5.9% GLEU (4.5% if no monolingual data is used).
+184	171	Improvements over SMT-based system like Napoles and Callison-Burch (2017)11 and Chollampatt and Ng (2017) are significant and constitute the new state-of-the-art on the JFLEG test set.

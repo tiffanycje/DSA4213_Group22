@@ -1,0 +1,30 @@
+0	14	Generalized bipartite matching or bipartite b-matching is one of the fundamental problems in computer science.
+1	10	Canonical applications include resource allocation problems such as ad allocation in online advertising, job/server allocation in cloud computing, organ/donor matching, and product recommendation under resource constraints.
+2	33	It has also been utilized as an algorithmic tool in a variety of domains, including computer vision (Belongie et al., 2002), estimating text similarity (Pang et al., 2016), string matching for protein structure alignment (Krissinel & Henrick, 2004), document clustering (Dhillon, 2001); and as a subroutine in several machine learning tasks (Huang & Jebara, 2007; Jebara & Shchogolev, 2006).
+3	39	The focus of this paper is on large-scale matching problems such as those arising in online advertising.
+4	9	In online advertising settings, a set of advertisers A provide their targeting domains to determine what subset of impressions I they are interested in.
+5	14	This can be modeled as a bipartite graph G(A, I,E).
+6	21	The advertisers also set capacity/targeting constraints on the number of impressions they want their ads to be shown to, referred to as capacity (or budget) constraints.
+7	33	It is assumed that each advertiser a has a capacity constraint Ca.
+8	15	The matching task is to assign each impression to at most one eligible advertiser based on the targeting information while respecting the capacity constraints.
+12	40	In online advertising, the number of impressions are usually much higher than the number of advertisers.
+13	12	Such bipartite graphs are called lopsided bipartite graphs.
+14	89	The number of impressions is often so large that these matching instances do not fit in the memory of a single machine, and there is a dire need of designing simple and scalable matching algorithms.
+17	11	All the above motivate the problem of designing simple and scalable algorithms for lopsided bipartite matching in practice.
+18	24	One such natural algorithm that has been used in practice is the proportional allocation algorithm: consider the bipartite matching problem on graph G(A, I,E) with given capacity constraints Ca for a ∈ A.
+19	28	Proportional allocation algorithm is as follows: Maintain a priority score βa for each a ∈ A, initialized as βa = 1.
+21	6	After each round, increase or decrease βa based on over- or under- allocation of node a, for each a ∈ A. Repeat until this algorithm converges to a stable solution.
+24	25	Our first result is that this simple iterative algorithm converges to a (1 − )-approximate fractional b-matching solution in O( logn 2 ) rounds.
+36	6	From impressions’ perspective, each user will also see a more diverse set of ads.
+39	21	Furthermore, one can argue that the proportional allocation algorithm achieves better fairness due to its symmetry and anonymity properties (Lan et al., 2010).
+77	9	These connections can be represented with a bipartite graph G of edge set E = {(i, a) : i ∈ I, a ∈ Ni} = {(i, a) : a ∈ A, i ∈ Na}.
+80	29	This property ensures that each impression is assigned to at most one advertiser.
+81	21	• Each advertiser a is incident to at most Ca edges in M respecting its capacity.
+86	4	Here, for each edge e = (i, a) ∈ E, a weight ri,a has been specified.
+90	12	, R do Step 1: For each impression i, set assignment xi,a = βa∑ a′∈Ni βa′ ,∀a ∈ Ni Step 2: For each advertiser a, update βa as follows: Alloca ≤ Ca (1 + ) =⇒ βa := (1 + )βa Alloca ≥ (1 + )Ca =⇒ βa := βa (1 + ) where Alloca := ∑ i∈Na xi,a.
+92	7	To formally study this property of the algorithm, we consider an alternate objective of maximizing a combination of weight and entropy of the matching.
+96	22	Algorithm PropAlloc intends to find priority score βa for each advertiser a ∈ A such that if the impressions are assigned proportional to these priorities, we achieve an almost optimum allocation.
+97	9	Formally, impression i will be assigned to advertiser a ∈ Ni with probability βa∑ a′∈Ni βa′ .
+98	16	Algorithm PropAlloc then computes the expected number of impressions each advertiser a receives as follows.
+99	36	Alloca = ∑ i∈Na βa∑ a′∈Ni βa′ (4) Algorithm 2 PropAlloc + : A proportional allocation algorithm for high-entropy maximum weight matching Input: G = (A, I,E), {Ca}a∈A, weights {ri,a}(i,a)∈E, pa- rameter λ; parameter ∈ (0, 1), number of rounds R. Initialization: Set βa = (1 + )−R, for all a ∈ A. for rounds ` = 1, 2, .
+101	34	end for for each a with Alloca > Ca do Reduce xi,a for impressions i ∈ Na with xi,a ≥ Ca|Na| , until ∑ i∈Na xi,a ≤ Ca.

@@ -1,0 +1,30 @@
+4	107	For example we might have access to records of patients (context), their medications (actions), and outcomes, but we do not have complete knowledge of why a specific action was applied to a patient.
+5	12	The hallmark of learning from observational data is that the actions observed in the data depend on variables which might also affect the outcome, resulting in confounding: For example, richer patients might better afford certain medications, and job training might only be given to those motivated enough to seek it.
+9	33	As a learning problem, estimating causal effects from observational data is different from classic learning in that in our training data we never see the individual-level effect.
+10	11	For each unit, we only see their response to one of the possible actions - the one they had actually received.
+11	11	This is close to what is known in the machine learning literature as “learning from logged bandit feedback” (Strehl et al., 2010; Swaminathan & Joachims, 2015), with the distinction that we do not have access to the model generating the action.
+12	39	Our work differs from much work in causal inference in that we focus on the individual-level causal effect (“cspecific treatment effects” Shpitser & Pearl (2006); Pearl (2015)), rather than the average or population level.
+14	40	The bound leads naturally to a new family of representation-learning based algorithms (Bengio et al., 2013), which we show to match or outperform state-of-the-art methods on several causal effect inference tasks.
+16	17	We assume that for a unit with features x ∈ X , and an action (also known as treatment or intervention) t ∈ {0, 1}, there are two potential outcomes: Y0 and Y1.
+17	213	For each unit we only observe one of the potential outcomes, according to treatment assignment: if t = 0 we observe y = Y0, if t = 1, we observe y = Y1; this is known as the consistency assumption.
+18	64	For example, x can denote the set of lab tests and demographic factors of a diabetic patient, t = 0 denote the standard medication for controlling blood sugar, t = 1 denotes a new medication, and Y0 and Y1 indicate the patient’s blood sugar level if they were to be given medications t = 0 and t = 1, respectively.
+19	37	We are interested in learning the function τ(x) := E [Y1 − Y0|x] = m1(x) − m0(x).
+20	39	τ(x) is the expected treatment effect of t = 1 relative to t = 0 on a unit with characteristics x, or the Individual Treatment Effect (ITE)2.
+23	22	The fundamental problem of causal inference is that for any x in our data we only observe Y1 or Y0, but never both.
+77	12	The most important notations are in the Notation box in the supplement.
+86	20	The representation Φ pushes forward the treated and control distributions into the new space R; we denote the induced distribution by pΦ.
+89	39	We define two complimentary loss functions: one is the standard machine learning loss, which we will call the factual loss F , as it relates to observable quantities.
+92	23	The expected factual and counterfactual losses of h and Φ are: F (h,Φ) = ∫ X×{0,1} `h,Φ(x, t) p(x, t) dxdt, CF (h,Φ) = ∫ X×{0,1} `h,Φ(x, t) p(x, 1− t) dxdt.
+93	118	If x denotes patients’ features, t a treatment, and Yt a potential outcome such as mortality, we think of F as measuring how well do h and Φ predict mortality for the patients and doctors’ actions sampled from the same distribution as our data sample.
+94	56	CF measures how well our prediction with h and Φ would do in a “topsy-turvy” world where the patients are the same but the doctors are inclined to prescribe exactly the opposite treatment than the one the real-world doctors would prescribe.
+96	17	The treatment effect (ITE) for unit x is: τ(x) := E [Y1 − Y0|x] .
+98	35	The expected Precision in Estimation of Heterogeneous Effect (PEHE, Hill (2011)) loss of f is: PEHE(f) = ∫ X (τ̂f (x)− τ(x))2 p(x) dx, (1) When f(x, t) = h(Φ(x), t), we will also use the notation PEHE(h,Φ) = PEHE(f).
+99	31	Our proof relies on the notion of an Integral Probability Metric (IPM), which is a class of metrics between probability distributions (Sriperumbudur et al., 2012; Müller, 1997).
+100	53	For two probability density functions p, q defined over S ⊆ Rd, and for a function family G of functions g : S → R, we have that IPMG(p, q) := sup g∈G ∣∣∣∣∫ S g(s)(p(s)− q(s)) ds ∣∣∣∣ .
+101	18	Integral probability metrics are always symmetric and obey the triangle inequality, and trivially satisfy IPMG(p, p) = 0.
+102	14	For rich enough function families G, we also have that IPMG(p, q) = 0 =⇒ p = q, and then IPMG is a true metric.
+103	27	Examples of function families G for which IPMG is a true metric are the family of bounded continuous functions, the family of 1-Lipschitz functions (Sriperumbudur et al., 2012), and the unit-ball of functions in a universal reproducing kernel Hilbert space (Gretton et al., 2012).
+104	160	We first state a Lemma bounding the counterfactual loss, a key step in obtaining the bound on the error in estimating individual treatment effect.
+105	57	We then give the main Theorem.
+106	24	The proofs and details are in the supplement.
+107	56	Let u := p(t = 1) be the marginal probability of treatment.

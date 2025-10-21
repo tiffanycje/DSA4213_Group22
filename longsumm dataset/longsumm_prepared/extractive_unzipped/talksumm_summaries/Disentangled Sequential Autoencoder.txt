@@ -1,0 +1,30 @@
+0	19	Representation learning remains an outstanding research problem in machine learning and computer vision.
+12	20	Hsu et al. (2017) designed a structured VAE in the context of speech recognition.
+13	24	Their VAE architecture is trained using a combination of the standard variational lower bound and a discriminative regulariser to further encourage disentanglement.
+15	36	In this paper, we propose a generative model for unsupervised structured sequence modelling, such as video or audio.
+16	68	We show that, in contrast to previous approaches, a disentangled representation can be achieved by a careful design of the probabilistic graphical model.
+32	17	Section 4 presents three experiments on video and speech data.
+37	21	Consider the following probabilistic model, which is also visualised in Figure 1: pθ(x1:T , z1:T ,f) = pθ(f) T∏ t=1 pθ(zt|z<t)pθ(xt|zt,f).
+38	40	The generation of frame xt at time t depends on the corresponding latent variables zt and f .
+39	18	Ideally, f will be capable of modelling global aspects of the whole sequence which are time-invariant, while zt will encode time-varying features.
+42	16	We use variational inference to learn an approximate posterior over latent variables given data (Jordan et al., 1999).
+46	17	The first architecture constructs a factorised q distribution qφ(z1:T ,f |x1:T ) = qφ(f |x1:T ) T∏ t=1 qφ(zt|xt) (3) as the amortised variational distribution.
+50	20	The second encoder assumes that the variational posterior of z1:T depends on f , and the q distribution has the following architecture: qφ(z1:T ,f |x1:T ) = qφ(f |x1:T )qφ(z1:T |f ,x1:T ), (4) and the distribution q(z1:T |f ,x1:T ) is conditioned on the entire time series.
+62	15	One might also want to generate a new video sequence with the object identity and pose information encoded from different sequence.
+87	11	This dataset comes from an open-source video game project called Liberated Pixel Cup2, and has been also considered in Reed et al. (2015); Mathieu et al. (2016) for image processing experiments.
+89	17	We downloaded and selected the online available sprite sheets3, and organised them into 4 attribute categories (skin color, tops, pants and hairstyle) and 9 action categories (walking, casting spells and slashing, each with three viewing angles).
+90	16	In order to avoid a combinatorial explosion problem, each of the attribute categories contains 6 possible variants (see Figure 2), therefore it leads to 64 = 1296 unique characters in total.
+97	38	Each panel shows three video sequences with time running from left to right.
+108	19	Thus, in panel (g) we see the same character performing different actions, and in (h) different characters performing the same motion.
+122	34	We sample 200 video sequences from the generator, using the same f but different latent dynamics z1:T .
+156	41	The goal here is to convert male voice to female voice (and vice versa) with the speech content being preserved.
+157	42	Assuming that f has learned the representation of speaker’s identity, the conversion can be done by first encoding two sequences xmale1:T and x female 1:T with q to obtain representations {fmale, zmale1:T } and {f female, zfemale1:T }, then construct the converted sequence by feeding f female and zmale1:T to the decoder p(xt|zt,f).
+178	16	Our results are competitive with (or slightly better than) the FHVAE results (α = 0) reported in Hsu et al. (2017).
+191	20	The second one deploys an LSTM conditioned on z (i.e. h0 = 0,ht = LSTM(ht−1, z)), therefore we refer it as LSTM-c.
+201	16	We follow Fraccaro et al. (2017) to simulate video sequences of a ball (or a square) bouncing inside an irregular polygon using Pymunk.5 The irregular shape was chosen because it induces chaotic dynamics, meaning that small deviations from the initial position and velocity of the ball will create exponentially diverging trajectories at long times.
+202	23	This makes memorizing the dynamics of a prototypical sequence challenging.
+214	31	The shape of the ball is better preserved over time, and the trajectories are more physical.
+218	31	We presented a minimalistic generative model for learning disentangled representations of high-dimensional time series.
+223	16	We also showed that a stochastic transition model generally outperforms a deterministic one.
+225	37	Also, disentangling may further be improved by additional crossentropy terms, or discriminative training.
+227	17	An advantage of the model is that it separates dynamical from static features, allowing the latent space for the dynamical part to be low-dimensional.

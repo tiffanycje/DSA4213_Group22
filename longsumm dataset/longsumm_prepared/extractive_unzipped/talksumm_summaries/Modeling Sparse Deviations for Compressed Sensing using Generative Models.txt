@@ -1,0 +1,30 @@
+1	15	For instance, magnetic resonance imaging (MRI) requires scan times proportional to the number of measurements, which can be significant for patients (Lustig et al., 2008).
+2	20	Geophysical applications like oil drilling require expensive simulation of seismic waves (Qaisar et al., 2013).
+4	103	In compressed sensing, we wish to acquire an n-dimensional signal x ∈ Rn using only m n measurements linear in x.
+5	21	The measurements could potentially be noisy, but even in the absence of any noise we need to impose additional structure on the signal to guarantee unique recovery.
+6	36	Classical results on compressed sensing impose structure by assuming the underlying signal to be approximately l-sparse in some known basis, i.e., the l-largest entries dominate the rest.
+7	19	For instance, images and audio signals are typically sparse in the wavelet and Fourier basis respectively (Mallat, 2008).
+17	23	The recovered signals have the general form of G(ẑ) + ν̂, where ν̂ ∈ Rn is a sparse vector.
+36	18	Latent variable generative models.
+40	50	Given a pretrained latent variable generative model with parameters θ, we can associate a generative model function G : Rk → Rn mapping a latent vector z to the mean of the conditional distribution Pθ(x|z).
+41	117	Thereafter, the space of signals that can be recovered with such a model is given by the range of the generator function, SG = {G(z) : z ∈ Rk}.
+44	14	Sparse vector recovery using LASSO.
+59	18	Many classes of matrices satisfy these conditions with high probability, including random Gaussian and Bernoulli matrices where every entry of the matrix is sampled from a standard normal and uniform Bernoulli distribution respectively (Baraniuk et al., 2008).
+60	35	Generative model vector recovery using gradient descent.
+61	67	If the signals being sensed are assumed to lie close to the range SG of a generative model function G as defined in Eq.
+62	45	(3) , then we can recover the best approximation to the true signal by `2-minimization over z, min z ‖AG(z)− y‖22.
+69	27	For some parameters γ > 0, δ ≥ 0, a matrix A ∈ Rm×n is said to satisfy the SREC(S, γ, δ) if ∀ x1, x2 ∈ S, ‖A(x1 − x2)‖2 ≥ γ‖x1 − x2‖2 − δ. S-REC generalizes REC to an arbitrary set of vectors S as opposed to just considering the set of approximately sparse vectors Sl(0) and allowing an additional slack term δ.
+76	34	(6), then the reconstruction error ‖xG − x‖22 is limited by the dimensionality of the latent space and the quality of the generator function.
+91	27	Unlike LASSO-based recovery which recovers only sparse signals, Sparse-Gen can impose a stronger domain-specific prior using a generative model.
+137	20	We considered methods based on sparse vector recovery using LASSO (Tibshirani, 1996; Candès & Tao, 2005) and generative model based recovery using variational autoencoders (VAE) (Kingma & Welling, 2014; Bora et al., 2017).
+144	16	For evaluation, we report the reconstruction error measured as ‖x̂− x‖p where x̂ is the recovered signal and p is a norm of interest, varying the number of measurementsm from 50 to the highest value of 750.
+151	21	In the regime of low measurements, the performance of algorithms that can incorporate the generative model prior dominates over methods modeling sparsity using LASSO.
+152	26	The performance of plain generative model-based methods however saturates with increasing measurements, unlike Sparse-Gen and LASSO which continue to shrink the error.
+156	13	One of the primary motivations for compressive sensing is to directly acquire the signals using few measurements.
+160	24	We train the generative model on a source domain (assumed to be data-rich) and related to a data-hungry target domain we wish to sense.
+162	17	The reconstruction errors for the norms considered are given in Figure 3.
+163	16	For both the sourcetarget pairs, we observe that the Sparse-Gen consistently performs well.
+165	62	We can qualitatively see this phenomena for transferring from MNIST (source) to Omniglot (target) in Figure 4.
+166	26	With only m = 100 measurements, all models perform poorly and generative model based methods particularly continue to sense images similar to MNIST.
+167	28	On the other hand, there is a noticeable transition at m = 200 measurements for SparseVAE where it adapts better to the domain being sensed than plain generative model-based recovery and achieves lower reconstruction error.
+185	18	In this work, we showed that these priors can be used in conjunction with classical modeling assumptions based on sparsity.

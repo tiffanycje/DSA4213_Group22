@@ -1,0 +1,30 @@
+39	1	Finally, in Section 5 we report the results of several experiments with both artificial and real-world datasets demonstrating that UCB-GT in practice significantly outperforms an unbiased, but limited, extension of UCB-N, as well as a standard bandit baseline, like UCB (Auer et al., 2002a).
+40	1	Let X denote the input space (e.g., X is a bounded subset of Rd).
+41	1	We denote by H a family of predictors h : X!
+52	1	The online learning protocol is described as follows.
+84	1	We have been unable to get around this problem by just resorting to convex surrogate losses (and we strongly suspect that it is not possible), and in what follows we instead introduce a surrogate abstention loss which is Lipschitz but not convex.
+103	1	This is because at the heart of its design and theoretical guarantees lies the assumption that the graphs and losses are independent.
+113	1	This is because of a fundamental estimation bias problem that arises when the graph at time t depends on the observation xt.
+133	1	This extension works for general bounded losses and does not only apply to our specific abstention loss L. So, let us assume that the feedback graph in round t (and the associated out-neighborhoods Nt(·)) in Algorithm 1 only depends on the observed losses L(⇠i, zs) and inputs xs, for s = 1, .
+135	1	Under this assumption, we can derive strong regret guarantees for UCBNT with time-varying graphs.
+143	1	Theorem 3 Assume that, for all t 2 [T ], the feedback graph Gt depends only on information up to time t 1.
+144	1	Then, the regret of UCB-NT is bounded as follows: O ⇣ E h min p,Sp X k2[p] maxj2Ck j minj2Ck 2 j log(T ) + K i⌘ .
+145	1	For a sequence Sp made up of the same partition (C1,k)k2[p] repeated T times, the theorem gives a bound on the regret based on this fixed partition, as it is the sum of p components, one per cluster C1,k in the partition.
+151	1	Furthermore, note that by construction, all vertices within the same component of an admissible p-partitioning are connected to one another.
+153	1	Corollary 1 If the feedback graph Gt = G is fixed over time, then the guarantee of Theorem 3 is upper-bounded by: O ⇣ min C X C2C maxi2C i mini2C 2i log(T ) + K ⌘ , the outer minimum being over all clique coverings C of GU .
+154	1	Caron et al. (2012) present matching lower bounds for the case of stochastic bandits with a fixed feedback graph.
+155	1	Since we can again design abstention scenarios with fixed feedback graphs, these bounds carry over to our setting.
+157	1	The natural feedback graphs we discussed in Section 3 are no longer applicable since GABSt depends on xt.
+161	1	In this section, we define a subset feedback graph, GSUB, that captures the most informative feedback in the problem of learning with abstention and yet is safe in the sense that it does not depend on xt.
+163	1	For an example, see ⇠i and ⇠j in Figure 4 (top).
+186	1	Since we do not have access to pj,i, we use instead empirical estimates bpt 1j,i := 1t 1 Pt 1 s=1 1rj(xs)60,ri(xs)>0.
+208	1	These results show that UCB-GT outperforms both UCB-NT and UCB on all datasets for all abstention cost values.
+211	1	Figure 5 also illustrates the fraction of points in which the chosen expert abstains, as well as the number of edges in the feedback graph as a function of rounds.
+213	1	For both experiments depicted and in general for the rest of the datasets, the number of edges for UCB-GT is between 1 million to 3 million, which is at least a factor of 5 more than for UCB-NT, where the number of edges we observed are of the order 200,000.
+215	1	The increased information sharing of UCB-GT is clearly a strong contributing factor to the algorithm’s improvement in regret relative to UCB-NT.
+220	1	We also experimented with some extreme abstention costs and, as expected, found the fraction of abstained points to be large for c = 0.001 and small for c = 0.9.
+221	1	In all of these additional experiments, UCB-GT outperformed UCB-NT.
+222	3	We presented a comprehensive analysis of the novel setting of online learning with abstention, including algorithms with favorable guarantees both in the stochastic and adversarial scenarios, and extensive experiments demonstrating the performance of UCB-GT in practice.
+223	19	Our algorithms and analysis can be straightforwardly extended to similar problems, including the multi-class and regression settings, as well as other related scenarios, such as online learning with budget constraints.
+224	192	A key idea behind the design of our algorithms in the stochastic setting is to leverage the stochastic sequence of feedback graphs.
+225	190	This idea can perhaps be generalized and applied to other problems where time-varying feedback graphs naturally appear.

@@ -1,0 +1,30 @@
+55	28	Analogical reasoning is known to play a central role in human induction about knowledge (Gentner, 1983; Minsky, 1988; Holyoak et al., 1996; Hofstadter, 2001).
+56	54	Here we provide a mathematical formulation of the analogical structures of interest in multi-relational embedding in a latent semantic space, to support algorithmic inference about the embeddings of entities and relations in a knowledge graph.
+62	41	To get a sense about why analogies would help in the inference about unobserved facts, we notice that for entities a, b, c, d which form an analogical structure in our example, the parallelogram structure is fully determined by symmetry.
+63	20	This means that if we know a r→ b and a r ′ → c, then we can induce the remaining triplets of c r→ d and b r ′ → d. In other words, understanding the relation betweenman and king helps us to fill up the unknown relation between woman and queen.
+65	22	As an example, in Figure 1 of §1 we show a compound analogical structure in the form of a triangular prism, for mirroring the correspondent entities/relations between the atom system and the solar system.
+67	33	Although it is tempting to explore all potentially interesting parallelograms in the modeling of analogical structure, it is computationally intractable to examine the entire powerset of entities as the candidate space of analogical structures.
+69	35	An desirable property of the linear maps we want is that all the directed paths with the same starting node and end node form the compositional equivalence.
+75	23	It is worth mentioning thatNm(R) is not closed under matrix multiplication.
+80	73	The generic goal for multi-relational embedding is to find entity and relation representations such that positive triples labeled as y = +1 receive higher score than the negative triples labeled as y = −1.
+81	36	This can be formulated as min v,W Es,r,o,y∼D ` (φv,W (s, r, o), y) (6) where φv,W (s, r, o) = v>s Wrvo is our score function based on the embeddings, ` is our loss function, and D is the data distribution constructed based on the training set K. To impose analogical structures among the representations, we in addition require the linear maps associated with relations to form a commuting family of normal matrices.
+83	19	WrW>r =W > r Wr ∀r ∈ R (8) WrWr′ =Wr′Wr ∀r, r′ ∈ R (9) where constraints (8) and (9) are corresponding to the normality and commutativity requirements, respectively.
+87	13	Interestingly, by exploiting the special properties of commuting normal matrices, we will show in Corollary 4.2.1 that ANALOGY can be alternatively solved via an another formulation of substantially lower complexity.
+92	16	If a set of real normal matrices A1, A2, ... form a commuting family, namely AiAj = AjAi ∀i, j, then they can be block-diagonalized by the same real orthogonal basis Q.
+97	31	Constraints (11) in the alternative optimization problem can be handled by simply binding together the coefficients within each of those 2× 2 blocks in Br.
+100	36	In the following we provide a unified view of several embedding models (Yang et al., 2014; Trouillon et al., 2016; Nickel et al., 2016), by showing that they are restricted versions under our framework, hence are implicitly imposing analogical properties.
+101	34	This explains their strong empirical performance as compared to other baselines (§6).
+106	16	However, DistMult is restricted to model symmetric relations only, since φ(s, r, o) ≡ φ(o, r, s).
+109	17	Let <(x) and =(x) be the real and imaginary parts of any complex vector x.
+111	26	.m (22) The corresponding Br is a block-diagonal matrix in B02m with its k-th block given by [ <(vr)k −=(vr)k =(vr)k <(vr)k ] .
+118	17	In particular, the above reduces to ComplEx by relaxing F(Rm) to Cm.
+139	13	We use the logistic loss for ANALOGY throughout all experiments, namely `(φ(s, r, o), y) = − log σ(yφ(s, r, o)), where σ is the sigmoid activation function.
+165	32	These results provide a good evidence for the effective modeling of analogical structures in our approach.
+167	22	Furthermore, our assertion on HolE for being a special case of ComplEx (§5) is justified in the same table by the fact that the performance of HolE is dominated by ComplEx.
+168	52	In Figure 3 we show the empirical scalability of ANALOGY, which not only completes one epoch in a few seconds on both datasets, but also scales linearly in the size of the embedding problem.
+169	40	As compared to single-threaded AdaGrad, our asynchronous AdaGrad over 16 CPU threads offers 11.4x and 8.3x speedup on FB15K and WN18, respectively, on a single commercial desktop.
+170	34	We presented a novel framework for explicitly modeling analogical structures in multi-relational embedding, along with a differentiable objective function and a linear-time inference algorithm for large-scale embedding of knowledge graphs.
+171	20	The proposed approach obtains the state-of-the-art results on two popular benchmark datasets, outperforming a large number of strong baselines in most cases.
+172	53	Although we only focused on the multi-relational inference for knowledge-base embedding, we believe that analogical structures exist in many other machine learning problems beyond the scope of this paper.
+173	131	We hope this work shed light on a broad range of important problems where scalable inference for analogical analysis would make an impact, such as machine translation and image captioning (both problems require modeling cross-domain analogies).
+174	112	We leave these interesting topics as our future work.

@@ -1,0 +1,30 @@
+1	11	dissimilar) data into similar (resp.
+2	24	dissimilar) discrete representations, where the similarity of data is defined according to applications of interest.
+3	33	It is a central machine learning task because of the compactness of the representations and ease of interpretation.
+4	25	The task includes two important machine learning tasks as special cases: clustering and unsupervised hash learning.
+5	9	Clustering is widely applied to data-driven application domains (Berkhin, 2006), while hash learning is popular for an approximate nearest neighbor search for large scale information retrieval (Wang et al., 2016).
+6	18	Deep neural networks are promising to be used thanks to their scalability and flexibility of representing complicated, non-linear decision boundaries.
+7	7	However, their model complexity is huge, and therefore, regularization of the networks is crucial to learn meaningful representations of data.
+10	9	Naı̈ve regularization to use is a weight decay (Erin Liong et al., 2015).
+19	5	SAT is flexible to impose various types of invariances on the representations predicted by neural networks.
+20	21	For example, it is generally preferred for data representations to be locally invariant, i.e., remain unchanged under local perturbations on data points.
+24	22	We then combine the SAT with the Regularized Information Maximization (RIM) for clustering (Gomes et al., 2010; Bridle et al., 1991), and arrive at our Information Maximizing Self-Augmented Training (IMSAT), an information-theoretic method for learning discrete representations using deep neural networks.
+26	19	Following the RIM, we maximize information theoretic dependency between inputs and their mapped outputs, while regularizing the mapping function.
+30	17	Learning with our method can be performed by stochastic gradient descent (SGD); thus, scales well to large datasets.
+31	70	In summary, our contributions are: 1) an informationtheoretic method for unsupervised discrete representation learning using deep neural networks with the end-to-end regularization, and 2) adaptations of the method to clustering and hash learning to achieve the state-of-the-art performance on several benchmark datasets.
+54	7	Let X and Y denote the domains of inputs and discrete representations, respectively.
+64	6	At the same time, it regularizes the complexity of the classifier.
+67	7	Mutual information measures the statistical dependency between X and Y , and is 0 iff they are independent.
+78	5	, yM} are conditionally independent given x: pθ(y1, .
+79	37	(2) Following the RIM (Gomes et al., 2010), we maximize the mutual information between inputs and their discrete representations, while regularizing the multi-output probabilistic classifier.
+80	16	The resulting objective to minimize looks exactly the same as Eq.
+83	10	SAT uses data augmentation to impose the intended invariance on the data representations.
+85	28	Let T : X → X denote a pre-defined data augmentation under which the data representations should be invariant.
+86	25	The regularization of SAT made on data point x is RSAT(θ;x, T (x)) = − M∑ m=1 Vm−1∑ ym=0 pθ̂(ym|x) log pθ(ym|T (x)), (3) where pθ̂(ym|x) is the prediction of original data point x, and θ̂ is the current parameter of the network.
+87	15	(3), the representations of the augmented data are pushed to be close to those of the original data.
+89	46	The regularization by SAT is then the average of RSAT(θ;x, T (x)) over all the training data points: RSAT(θ;T ) = 1 N N∑ n=1 RSAT(θ;xn, T (xn)).
+91	30	It can be designed specifically for the applications of interest.
+92	38	For example, for image data, affine distortion such as rotation, scaling and parallel movement can be used for the augmentation function.
+94	23	A representative example is local perturbations, in which the augmentation function is T (x) = x+ r, (5) where r is a small perturbation that does not alter the meaning of the data point.
+95	97	The use of local perturbations in SAT encourages the data representations to be locally invariant.
+98	65	The two representative regulariztion methods based on local perturbations are: Random Perturbation Training (RPT) (Bachman et al., 2014) and Virtual Adversarial Training (VAT) (Miyato et al., 2016).

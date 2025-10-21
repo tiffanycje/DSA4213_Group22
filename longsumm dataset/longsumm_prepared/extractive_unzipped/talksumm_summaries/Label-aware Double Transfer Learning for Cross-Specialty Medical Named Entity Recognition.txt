@@ -1,0 +1,30 @@
+53	11	Conditional Random Field The goal of NER is to detect named entities in a sequence X by predicting a sequence of labels y = (y1, y2, ..., yn).
+69	7	The embedding and Bi-LSTM layers are shared among source/target domains.
+72	17	More formally, let Ds = {(Xsi ,ysi )}N s i=1 be the training set of N s samples from the source domain and Dt = {(Xti,yti)} Nt i=1 be the training set of N t samples from the target domain, with N t N s. Bi-LSTM encodes a sentence X = (x1,x2, ...,xn) to hidden vectors H = (h1,h2, ...,hn).
+73	16	We occasionally use H(X) to denote the corresponding hidden vectors when feeding X into the Bi-LSTM.
+74	6	CRF decodes hidden vectors H to a label sequence ŷ = (ŷ1, ŷ2, ..., ŷn).
+77	4	We use share word embedding and Bi-LSTM by approaching the feature representation distributions p(h|Ds) and p(h|Dt), i.e., the distributions of Bi-LSTM hidden vectors at each timestep of the sentences from the source and target domains respectively.
+80	23	Otherwise, LSTM is very likely to overfit the data.
+81	31	Training on both source and target data, the BiLSTM is expected to learn feature representations with high quality.
+84	6	In order to reduce source/target discrepancy, we refine MMD (Gretton et al., 2012) with label constraints, i.e., label-aware MMD (La-MMD).
+85	7	Using La-MMD, the source/target hidden states are pushed to similar distributions to make the feature representation H(X) transfer feasible.
+111	4	According to probability decomposition in Eq.
+123	14	One mini-batch contains training samples from both domains, otherwise the computation of LLa-MMD can not be performed.
+125	22	During both training and decoding (testing) of CRF layers, we use dynamic programming to compute the normalizer in Eq.
+139	7	• Re-training is proposed by Lee et al. (2017), where an artificial neural networks (ANNs) is first trained on the source domain and then re-trained on the target domain.
+142	14	Experimental Settings We use 23,217 unlabeled clinical records to train the word embeddings (word2vec) at 128 dimensions using skipgram model (Mikolov et al., 2013).
+143	4	The hidden state size is set to be 200 for word-level Bi-LSTM.
+152	9	To better understand the transferability of LaDTL, we also evaluate three variants of LaDTL: La-MMD, CRF-L2, and MMD-CRF-L2.
+156	7	And it has a significant improvement over Domain mask and Linear projection methods (Peng and Dredze, 2017), which indicates that using La-MMD to reduce the domain discrepancy of feature representations in sequence tagging tasks is promising.
+177	5	Since the entity types in these two corpora cannot be exactly matched, La-DTL and Joint-training (Yang et al., 2017) can be applied directly in this case while other baselines can not.
+196	11	For example, patients with rheumatic heart disease are often treated in the department of Cardiology.
+205	11	We use the data from the first 3 departments as source domain training set respectively, and the data from Dept.
+208	4	Gastroenterology, where “rheumatic heart disease” is mentioned 3 times, and compare the results across models with/without transfer learning.
+210	6	Cardiovascular and Respiration correctly predict all these entities, but the model using source data from Dept.
+211	5	Neurology fails and so does a model without transfer learning.
+227	5	The Joint-training method (Yang et al., 2017) separates the CRF layers for each domain to bypass the label mismatch problem.
+230	31	The framework used for language like English is illustrated in Figure 6.
+231	24	We also convert all characters to lowercase and use the same word embeddings provided by Yang et al. (2017)3.
+232	11	Also, we concatenate the training set and the development set for both domains and sample the same 10% from TwitterNER as (Yang et al., 2017) to be target domain training data.
+233	89	Since Yang et al. (2017) merge training and development set into training data, both Yang et al. (2017) and we report the best performance in the target domain test set.
+234	95	3 https://github.com/kimiyoung/transfer

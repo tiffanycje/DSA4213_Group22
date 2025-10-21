@@ -1,0 +1,30 @@
+1	17	Recently, some MT researchers have started to explore the possibility to incorporate linguistic information outside the sentence boundary for MT, such as topical structure, coreference chains, and lexical coherence.
+7	35	This thesis proposal presents my plan towards building a discourse-relation-aware machine translation system translating from Chinese to English.
+9	17	According to the statistics of the bilingual discourse annotation in progress, about 1/4 of the Chinese implicit DCs are translated to explicit DCs in English.
+20	55	Departed from annotation using predefined discourse relations, such as ‘Rhetorical Structure Theory’ (Mann and Thompson, 1988), PDTB introduces a lexically-ground formalism to annotate discourse relations by identifying the discourse connectives (DCs).
+24	135	Implicit DCs are inserted by annotators between adjacent sentences of the same paragraph to represent inferred discourse relations.
+27	35	For example, classification of the 4 main relation senses (temporal, contingency, comparison, expansion) reaches 94% accuracy for explicit relations (Pitler and Nenkova, 2009), but only range from F-scores of 20% for ‘temporal’ to 76% for ‘expansion’ relations, possibly due to unbalanced number of training instances (Pitler et al., 2009; Zhou et al., 2010).
+29	20	Zhou et al. (2012) proposed to project English discourse annotation and classification algorithms to Chinese data, but the transfer was based on automatic word alignment and machine translation results.
+30	23	Works in Chinese discourse parsing report F-scores of 64% in classification of inter-sentence discourse relations and 71% in 2-way classification of intrasentence contingency and comparison relations (Huang and Chen, 2011; Huang and Chen, 2012), training on a moderately sized (81 articles) corpus and considering explicit and implicit relations collectively.
+34	21	Recent works focus on the translation of ambiguous DCs, such as ‘since’ in the temporal sense vs. ‘since’ in the reason sense.
+40	21	To detect the improvement, they used a metric known as ACT (Accuracy of Connective Translation) (Hajlaoui and Popescu-Belis, 2012; Hajlaoui and Popescu-Belis, 2013), which relies on bilingual word alignment and a dictionary of DCs.
+43	22	First of all, on top of ambiguous discourse connectives as in other languages, Chinese documents contain abundant implicit connectives (Xue, 2005).
+49	13	In fact, each commaseparated segment of a ‘running sentence’ can be considered as an elementary discourse units (EDU) (Yang and Xue, 2012; Zhou and Xue, 2012) and aligned across the two languages.
+60	15	MT w/DC: If you have difficulty to pay taxes, you can suspend the arrears, but the new tax is not owed and taxes linked to impunity and paid annually.
+64	81	The purpose of annotation is not only to create data but also to understand the problems in Chinese discourse processing and translation.
+69	16	In other words, the ‘senses’ are disambiguated by the translation of the DCs.
+70	93	The data used is the English Chinese Translation Treebank (Bies et al., 2007), which consists of 325 Chinese news stories translated into 146,300 words of English.
+71	58	Adaptations made to capture the cross-lingual difference in discourse relations are explained in the following.
+72	14	In the PDTB, the span of each EDU (Arg1 or Arg2), which can range from a single noun to multiple sentences, are manually annotated.
+73	14	While each WSJ paragraph1 contains three sentences on average, the typical ‘running sentences’ in Chinese are exceptionally long.
+74	34	It is hard for annotators to agree on an EDU span, and neither does it have direct effect on the DC translation.
+75	13	Therefore, I follow previous works (Yang and Xue, 2012; Zhou and Xue, 2012) and consider a segment separated by Chinese punctuations, especially commas, as the span of an EDU.
+76	28	Nonetheless, there are exceptions since Chinese commas are used arbitrarily to signify ’pauses’ in the sentence.
+77	54	Three original tags are defined to annotate the exceptions: ‘ATTribution’ , ‘initialized ADVerbial’, and ‘OPTional comma’ (refer to Table 1).
+78	12	These are designed for training of automatic EDU segmentation.
+79	35	After recognizing a valid EDU on the source text, explicit DC(s) in the EDU are tagged ‘EXP’ and aligned to their translation on the target side, which are not necessarily explicit DCs.
+81	104	For example, ‘at the same time’ and ‘in spite of the fact that’ are annotated as DC instances, since they function as the DCs ‘simultaneously’ and ‘although’ respectively, independent of context.
+85	33	Following the PDTB scheme, the ‘ALTLex’ tag is used to annotate such alternative lexicalization of discourse relations.
+88	124	Typically, English prepositions are tagged ‘ALT’ and aligned to Chinese DCs that do not correspond with any English DCs.
+98	43	Note that implicit DCs are always annotated by a DC type instead of a variation to avoid ambiguity.
+100	44	Most Chinese discourse relations are marked by ‘parallel DCs’, which are similar to English patterns such as ‘either...or’, ’if...then’, ‘not only...but also’.

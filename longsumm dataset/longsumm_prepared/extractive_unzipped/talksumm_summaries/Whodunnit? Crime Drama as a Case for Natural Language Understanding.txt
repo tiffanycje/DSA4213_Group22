@@ -1,0 +1,30 @@
+0	64	The success of neural networks in a variety of applications (Sutskever et al., 2014; Vinyals et al., 2015) and the creation of large-scale datasets have played a critical role in advancing machine understanding of natural language on its own or together with other modalities.
+1	101	The problem has assumed several guises in the literature such as reading comprehension (Richardson et al., 2013; Rajpurkar et al., 2016), recognizing textual entailment (Bowman et al., 2015; Rocktäschel et al., 2016), and notably question answering based on text (Hermann et al., 2015; Weston et al., 2015), images (Antol et al., 2015), or video (Tapaswi et al., 2016).
+19	41	The sequential nature of the inference task lends itself naturally to recurrent network modeling.
+57	25	In this work, we make use of episodes of the U.S. TV show “Crime Scene Investigation Las Vegas” (henceforth CSI), one of the most successful crime series ever made.
+58	27	Fifteen seasons with a total of 337 episodes were produced over the course of fifteen years.
+61	34	Episodes follow a regular plot, they begin with the display of a crime (typically without revealing the perpetrator) or a crime scene.
+62	25	A team of five recurring police investigators attempt to reconstruct the crime and find the perpetrator.
+69	36	Character cues preface the lines the actors speak (see boldface in Figure 1), and scene descriptions explain what the camera sees (see second and fifth panel in Figure 1).
+70	49	Screenplays were further synchronized with the  video using closed captions which are time-stamped and provided in the form of subtitles as part of the video data.
+74	42	Table 1 shows some descriptive statistics on our dataset, featuring the number of cases per episode, its length (in terms of number of sentences), the type of crime, among other information.
+76	30	Firstly, in order to capture the characteristics of the human inference process, we recorded how participants incrementally update their beliefs about the perpetrator.
+78	45	Specifically, while a participant watches an episode, we record their guesses about who the perpetrator is (Section 3.1).
+85	31	Summaries were adapted from the CSI season summaries available in Wikipedia.3 The annotator watches the episode (i.e., the video without closed captions) as a sequence of three minute intervals.
+96	32	We also measured percent agreement on the minority class (i.e., sentences tagged as “perpetrator mentioned”) and found it to be reasonably good at 0.62, indicating that despite individual differences, the process of guessing the perpetrator is broadly comparable across participants.
+162	43	The comparison allows us to examine whether the LSTM’s use of long-term memory and (non-linear) feature integration is beneficial for sequence prediction.
+180	27	We report precision, recall and f1 on the minority class, focusing on how accurately the models identify perpetrator mentions.
+183	23	In particular, human precision is superior, whereas recall is comparable, with the exception of PRO which has high recall (at the expense of precision) since it assumes that all pronouns refer to perpetrators.
+192	24	In contrast to the MLP and PRO, the CRF utilizes sequential information, but cannot flexibly fuse information from different modalities or exploit non-linear mappings like neural models.
+199	23	Specifically, we measure precision in the final 10% of an episode, and compare human performance (first-pass guesses) and an LSTM model which uses all three modalities.
+210	71	Humans are more cautious at guessing the perpetrator: the first human guess appears around sentence 300 (see the leftmost red vertical bars in Figure 7 right), the first model guess around sentence 190, and the first true mention around sentence 30.
+220	40	Table 3 provides further evidence that the LSTM behaves more like an eager viewer.
+227	28	In the second example, it identifies seemingly plausible sentences which, however, refer to a suspect and not the true perpetrator.
+233	38	The human realizes after roughly two thirds of the episode that there is no perpetrator involved (he does not annotate any subsequent sentences as “perpetrator mentioned”), whereas the LSTM continues to make perpetrator predictions until the end of the episode.
+237	24	We have formalized perpetrator identification as a sequence labeling problem and developed an LSTM-based model which learns incrementally from complex naturalistic data.
+238	29	We showed that multi-modal input is essential for our task, as well an incremental inference strategy with flexible access to previously observed information.
+239	221	Compared to our model, humans guess cautiously in the beginning, but are consistent in their predictions once they have a strong suspicion.
+242	66	Beyond perpetrators, we may consider how suspects emerge and disappear in the course of an episode.
+243	37	Note that we have obtained suspect annotations but did not use them in our experiments.
+244	55	It should also be interesting to examine how the model behaves out-of-domain, i.e., when tested on other crime series, e.g., “Law and Order”.
+245	100	Finally, more detailed analysis of what happens in an episode (e.g., what actions are performed, by who, when, and where) will give rise to deeper understanding enabling applications like video summarization and skimming.

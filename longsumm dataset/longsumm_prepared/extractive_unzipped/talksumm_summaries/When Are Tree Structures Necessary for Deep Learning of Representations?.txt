@@ -1,0 +1,30 @@
+0	26	Deep learning based methods learn lowdimensional, real-valued vectors for word tokens, mostly from large-scale data corpus (e.g., (Mikolov et al., 2013; Le and Mikolov, 2014; Collobert et al., 2011)), successfully capturing syntactic and semantic aspects of text.
+1	57	For tasks where the inputs are larger text units (e.g., phrases, sentences or documents), a compositional model is first needed to aggregate tokens into a vector with fixed dimensionality that can be used as a feature for other NLP tasks.
+2	20	Models for achieving this usually fall into two categories: recurrent models and recursive models: Recurrent models (also referred to as sequence models) deal successfully with time-series data (Pearlmutter, 1989; Dorffner, 1996) like speech (Robinson et al., 1996; Lippmann, 1989; Graves et al., 2013) or handwriting recognition (Graves and Schmidhuber, 2009; Graves, 2012).
+3	31	They were applied early on to NLP (Elman, 1990), by modeling a sentence as tokens processed sequentially and at each step combining the current token with previously built embeddings.
+6	79	Recursive neural models (also referred to as tree models), by contrast, are structured by syntactic parse trees.
+7	24	Instead of considering tokens sequentially, recursive models combine neighbors based on the recursive structure of parse trees, starting from the leaves and proceeding recursively in a bottom-up fashion until the root of the parse tree is reached.
+11	19	For example, a verb and its corresponding direct object can be far away in terms of tokens if many adjectives lies in between, but they are adjacent in the parse tree (Irsoy and Cardie, 2013).
+44	19	We consider the following tasks, each representative of a different class of NLP tasks.
+49	24	• Semantic Relation Classification on the SemEval-2010 task (Hendrickx et al., 2009).
+61	24	Task Description We start with the Stanford Sentiment TreeBank (Socher et al., 2013).
+62	91	This dataset contains gold-standard labels for every parse tree constituent, from the sentence to phrases to individual words.
+65	47	For recursive models, we followed the protocols in Socher et al. (2013) where node embeddings in the parse trees are obtained from recursive models and then fed to a softmax classifier.
+67	23	Each phrase is reconstructed from parse tree nodes and treated as a separate data point.
+69	27	Models are evaluated at both the phrase level (82,600 instances) and the sentence root level (2,210 instances).
+77	30	Deep Bi-LSTM hierarchical sequence models (denoted as Hierarchical Sequence) that first slice the sentence into a sequence of subsentences by using a look-up table of punctuations (i.e., comma, period, question mark and exclamation mark).
+78	33	The representation for each sub-sentence is first computed separately, and another level of sequence LSTM (one-directional) is then used to join the subsentences.
+81	39	Since a parsing algorithm will naturally break long sentences into sub-sentences, we would like to know whether any performance boost is introduced by the intra-clause parse tree structure or just by this broader segmentation of a sentence into clause-like units; this latter advantage could be approximated by using punctuationbased approximations to clause boundaries.
+88	25	The hierarchical sequence model achieves the same performance with a p-value of 0.198.
+97	42	With standard recurrent models it takes 12 steps before the prediction error gets back to the first token “simple”: error→lot→a→it→like→still→i→,→was →plot→ the→as→simple In a hierarchical model, the second clause is compacted into one component, and the error propagation is thus given by: error→ second-clause → first-clause → was→plot→the→as→simple.
+124	20	Task Description: SemEval-2010 Task 8 (Hendrickx et al., 2009) is to find semantic relationships between pairs of nominals, e.g., in “My [apartment]e1 has a pretty large [kitchen]e2” classifying the relation between [apartment] and [kitchen] as component-whole.
+125	23	The dataset contains 9 ordered relationships, so the task is formalized as a 19-class classification problem, with directed relations treated as separate labels; see Hendrickx et al. (2009; Socher et al. (2012) for details.
+127	23	The path in the parse tree between the two nominals is retrieved, and the embedding is calculated based on recursive models and fed to a softmax classifier6.
+129	70	Discussion Unlike for earlier tasks, here recursive models yield much better performance than the corresponding recurrent versions for all versions (e.g., standard tree vs. standard sequence, p = 0.004).
+136	40	See Hernault et al. (2010) for more details on discourse parsing and the RST-DT corpus.
+150	74	Even for those whose orders are changed by parse trees, the influence of short phrases on the final representation may not be great enough.
+166	15	Adopting bi-directional versions of recurrent models seem to largely bridge this gap, producing equivalent or sometimes better results.
+167	15	• On long sequences where supervision is not sufficient, e.g., in Pang at al.,’s dataset (supervision only exists on top of long sequences), no significant difference is observed between tree based and sequence based models.
+169	139	This model sometimes works as well as tree models for the sentiment task, suggesting that one of the reasons tree models help is by breaking down long sentences into more manageable units.
+170	183	• Despite that the fact that components (outputs from different time steps) in recurrent models are not linguistically meaningful, they may do as well as linguistically meaningful phrases (represented by parse tree nodes) in embedding informative evidence, as demonstrated in UMD-QA task.
+171	308	Indeed, recent work in parallel with ours (Bowman et al., 2015) has shown that recurrent models like LSTMs can discover implicit recursive compositional structure.

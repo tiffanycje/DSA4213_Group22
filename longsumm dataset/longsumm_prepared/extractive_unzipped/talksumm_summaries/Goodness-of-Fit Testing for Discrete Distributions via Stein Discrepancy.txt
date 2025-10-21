@@ -1,0 +1,30 @@
+0	54	Goodness-of-fit testing is a central problem in statistics, measuring how well a model distribution p(x) fits observed data {xi}ni=1 ⊆ X d, for some domain X (e.g., X ⊆ R for continuous data or X ⊆ N for discrete data).
+1	12	Examples of classical goodness-of-fit tests include the χ2 test (Pearson, 1900), the Kolmogorov-Smirnov test (Kolmogorov, 1933; Smirnov, 1948), and the Anderson-Darling test (Anderson & Darling, 1954).
+2	10	These tests typically assume that the model distribution p(x) is fully specified and is easy to evaluate.
+3	45	In modern statistical and machine learning applications, however, p(x) is often specified only up to an intractable normalization constant; examples include large-scale graphical models, latent variable models, and statistical models for network data.
+6	16	Central to these tests is the notion of a Stein operator, originating from Stein’s method (Stein, 1986) for characterizing convergence in distribution.
+8	23	When F is sufficiently rich, the maximum value supf∈F Ex∼q [Apf(x)] serves as a discrepancy measure, called Stein discrepancy, between distributions p and q.
+10	13	Different authors have studied different choices of F : Gorham & Mackey (2015) considered test functions in the W2,∞ Sobolev space, and the resulting test statistic requires solving a linear program under certain smoothness constraints.
+13	86	Regarding the choice of the Stein operator Ap, all the aforementioned works consider the case when X ⊆ R is a continuous domain, p(x) is a smooth density on X d, and the Stein operator is defined in terms of the score function of p, sp(x) = ∇ log p(x) = ∇p(x)/p(x), where ∇ is the gradient operator.
+14	23	Observe that any normalization constant in p cancels out in the score function, so that if the Stein operatorAp depends on p only through sp, then the discrepancy measure supf∈F Ex∼q [Apf(x)] can still be computed when p is unnormalized.
+15	17	However, constructing the Stein operator using the gradient becomes restrictive when one moves beyond distributions with smooth densities.
+20	15	We note that examples of such intractable discrete distributions abound in statistics and machine learning, including the Ising model (Ising, 1924) in physics, the (Bernoulli) restricted Boltzmann machine (RBM) (Hinton & Salakhutdinov, 2006) for dimensionality reduction, and the exponential random graph model (ERGM) (Holland & Leinhardt, 1981) in statistical network analysis.
+25	15	For any Stein operator constructed as such, we could then define a kernelized Stein discrepancy measure to establish a valid goodness-of-fit test.
+28	15	We construct and characterize discrete Stein operators in Section 3, establish the kernelized discrete Stein discrepancy measure in Section 4, and describe the goodness-of-fit testing procedure in Section 5.
+39	10	For a set X of finite cardinality, a cyclic permutation ¬ : X → X is a bijective function such that for some ordering x[1], x[2], .
+65	17	Definition 3 (Difference Stein operator).
+66	34	Let ¬ be a cyclic permutation on X and let ⨼ be its inverse permutation.
+67	26	For any function f : X d → R and pmf p on X d, define the difference Stein operator of p as Apf(x) := sp(x)f(x)−∆∗f(x), (3) where sp(x) = ∆p(x)/p(x) is the difference score function defined w.r.t.
+130	28	samples {xi}ni=1 from an unknown data distribution q on X d, we would like to measure the goodness-of-fit of the model distribution p to the observed data {xi}ni=1.
+141	18	A practical question that arises when performing the KDSD test is the choice of the kernel function k(·, ·) on X d. For continuous spaces, the RBF kernel might be a natural choice; Gorham & Mackey (2017) also provide further recommendations.
+142	15	For discrete spaces, a naive choice is the δ-kernel, k(x,x′) = I{x = x′}, which suffers from the curse of dimensionality.
+143	70	A more sensible choice is Algorithm 1 Goodness-of-fit testing via KDSD 1: Input: Difference score function sp of p, data samples {xi}ni=1 ∼ q, kernel function k(·, ·), bootstrap sample size m, significance level α.
+146	10	,m do 5: Compute bootstrap test statistic Ŝ∗b via Eq.
+148	22	8: Output: Reject H0 if test statistic Ŝ(q ‖ p) > γ1−α, otherwise do not reject H0.
+196	10	The ERGM is a well-studied statistical model for network data (Holland & Leinhardt, 1981).
+212	10	For each value of the perturbation parameter and each sample size n, we conduct 500 independent trials.
+232	14	In Figure 1, the top row plots the testing error rate vs. different values of the perturbation parameter in H1, for a fixed H0 and sample size; while the bottom row plots the error rate vs. sample size n for a fixed pair of H0 and H1.
+233	12	We observe that both KDSD and MMD maintain a false- positive rate (Type-I error) around or below the significance level α = 0.05.
+235	11	It is interesting to note that in the ERGM example, MMD exhibits higher power than KDSD when the data samples were drawn from an ERGM distribution with θ′2 ∈ (0, 0.05) (roughly).
+239	21	Furthermore, we have proposed a general characterization of Stein operators that encompasses both discrete and continuous distributions, providing a recipe for constructing new Stein operators.
+241	32	We thank the anonymous reviewers for their helpful comments.

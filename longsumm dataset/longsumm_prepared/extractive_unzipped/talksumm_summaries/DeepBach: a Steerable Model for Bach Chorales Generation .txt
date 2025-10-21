@@ -1,0 +1,30 @@
+9	18	Finding a chorale-like reharmonization which combines Bach-like harmonic progressions with musically interesting melodic movements is a problem which often takes years of practice for musicians.
+10	19	From the point of view of automatic music generation, the first solution to this apparently highly combinatorial problem was proposed by (Ebcioglu, 1988) in 1988.
+11	29	This problem is seen as a constraint satisfaction problem, where the system must fulfill numerous hand-crafted constraints characterizing the style of Bach.
+28	11	Generation is performed from left to right.
+39	12	In this paper we introduce DeepBach, a dependency network (Heckerman et al., 2000) capable of producing musically convincing four-part chorales in the style of Bach by using a Gibbs-like sampling procedure.
+40	19	Contrary to models based on RNNs, we do not sample from left to right which allows us to enforce positional, unary user-defined constraints such as rhythm, notes, parts, chords and cadences.
+47	30	4.3 and elaborate on the possibilities offered by our interactive music composition editor in Sect.
+55	14	We use MIDI pitches to encode notes and choose to model voices separately.
+56	50	We consider that only one note can be sung at a given time and discard chorales with voice divisions.
+58	21	Since there is no smaller subdivision in Bach chorales, there is no loss of information in this process.
+59	12	In this setting, a voice Vi = {Vti }t is a list of notes indexed by t ∈ [T ]5, where T is the duration piece (in sixteenth notes).
+60	24	We choose to model rhythm by simply adding a hold symbol “ ” coding whether or not the preceding note is held to the list of existing notes.
+61	12	This representation is thus unambiguous, compact and well-suited to our sampling method (see Sect.
+62	18	1b) conveys more information than only the notes played.
+63	52	We can cite: • the lyrics, • the key signature, • the time signature, • the beat index, • an implicit metronome (on which subdivision of the beat the note is played), • the fermata symbols (see Fig.
+79	18	We define a dependency network on the finite set of variables V = {V ti } by specifying a set of conditional probability distributions (parametrized by parameter θi,t){ pi,t(V t i |V\i,t,M, θi,t) } i∈[4],t∈[T ] , (2) where Vti indicates the note of voice i at time index t and V\i,t all variables in V except from the variable Vti .
+80	19	As we want our model to be time invariant so that we can apply it to sequences of any size, we share the parameters between all conditional probability distributions on variables lying in the same voice, i.e. θi := θi,t, pi := pi,t ∀t ∈ [T ].
+81	59	Finally, we fit each of these conditional probability distributions on the data by maximizing the log-likelihood.
+84	19	For accurate predictions and in order to take into account the sequential aspect of the data, each classifier is modeled using four neural networks: two Deep Recurrent Neural Networks (Pascanu et al., 2013), one summing up past information and another summing up information coming from the future together with a non-recurrent neural network for notes occurring at the same time.
+85	43	Only the last output from the uppermost RNN layer is kept.
+88	33	These choices of architecture somehow match real compositional practice on Bach chorales.
+91	26	This Markov Chain Monte Carlo (MCMC) algorithm is described in Alg.1.
+92	19	It is similar to the classical Gibbs sampling procedure (Geman & Geman, 1984) on the difference that the conditional distributions are potentially incompatible (Chen & Ip, 2015).
+95	20	We experimentally verified that it was indeed the case by checking that the Markov Chain of Alg.1 violates Kolmogorov’s criterion (Kelly, 2011): it is thus not reversible and cannot converge to a joint distribution whose conditional distributions match the ones used for sampling.
+99	40	1: • instead of choosing voice i from 1 to 4 we can choose to fix the soprano and only resample voices from 2, 3 Algorithm 1 Pseudo-Gibbs sampling 1: Input: Chorale length L, metadataM containing lists of length L, probability distributions (p1, p2, p3, p4), maximum number of iterations M 2: Create four lists V = (V1,V2,V3,V4) of length L 3: {The lists are initialized with random notes drawn from the ranges of the corresponding voices (sampled uniformly or from the marginal distributions of the notes)} 4: for m from 1 to M do 5: Choose voice i uniformly between 1 and 4 6: Choose time t uniformly between 1 and L 7: Re-sample Vti from pi(Vti |V\i,t,M, θi) 8: end for 9: Output: V = (V1,V2,V3,V4) and 4 in step (3) in order to provide reharmonizations of the fixed melody • we can choose the fermata list F in order to impose end of musical phrases at some places • more generally, we can impose any metadata • for any t and any i, we can fix specific subsets Rti of notes within the range of voice i.
+100	36	We then restrict ourselves to some specific chorales by re-sampling Vti from pi(Vti |V\i,t,M, θi,Vti ∈ Rti) at step (5).
+101	14	This allows us for instance to fix rhythm (since the hold symbol is considered as a note), impose some chords in a soft manner or restrict the vocal ranges.
+102	53	Note that it is possible to make generation faster by making parallel Gibbs updates on GPU.
+110	21	Indeed, Gibbs sampling fails to sample the true joint distribution p(V|M, θ) when variables are highly correlated, creating isolated regions of high probability states in which the MCMC chain can be trapped.
+111	40	However, many data representations used in music modeling such as • the piano-roll representation, • the couple (pitch, articulation) representation where articulation is a Boolean value indicating whether or not the note is played or held, tend to make the musical data suffer from this drawback.

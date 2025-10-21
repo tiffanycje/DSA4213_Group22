@@ -1,0 +1,30 @@
+0	127	Training good predictive NLP models typically requires annotated data, but getting professional annotators to build useful data sets is often timeconsuming and expensive.
+1	36	Snow et al. (2008) showed, however, that crowdsourced annotations can produce similar results to annotations made by experts.
+2	42	Crowdsourcing services such as Amazon’s Mechanical Turk has since been successfully used for various annotation tasks in NLP (Jha et al., 2010; Callison-Burch and Dredze, 2010).
+3	13	However, most applications of crowdsourcing in NLP have been concerned with classification problems, such as document classification and constructing lexica (Callison-Burch and Dredze, 2010).
+9	43	The question of whether a more linguistically involved structured task like part-of-speech (POS) tagging can be crowdsourced has remained largely unaddressed.1 In this paper, we investigate how well lay annotators can produce POS labels for Twitter data.
+10	22	In our setup, we present annotators with one word at a time, with a minimal surrounding context (two words to each side).
+31	27	In order to use the annotations to train models that can be applied across various data sets, i.e., making out-of-sample evaluation possible (see Section 5), we follow Hovy et al. (2014) in using the universal tag set (Petrov et al., 2012) with 12 labels.
+32	11	Annotators were given a bold-faced word with two words on either side and asked to select the most appropriate tag from a drop down menu.
+39	21	We paid annotators a reward of $0.05 for 10 tokens.
+40	36	The full data set contains 14,619 tokens.
+44	57	After collecting the annotations, we need to aggregate the annotations to derive a single answer for each token.
+46	19	In case of ties, we select the final label at random.
+52	16	We use MACE4 (Hovy et al., 2013) as our second scheme to learn both the most likely answer and a competence estimate for each of the annotators.
+55	10	Finally, we also tried applying the joint learning scheme in Rodrigues et al. (2013), but their scheme requires that entire sequences are annotated by the same annotators, which we don’t have, and it expects BIO sequences, rather than POS tags.
+56	18	Dictionaries Decoding tasks profit from the use of dictionaries (Merialdo, 1994; Johnson, 2007; Ravi and Knight, 2009) by restricting the number of tags that need to be considered for each word, also known as type constraints (Täckström et al., 2013).
+58	23	If the word is not found in Wiktionary, or if none of its annotations is licensed by Wiktionary, we keep the original annotations.
+63	35	This tells us how similar lay annotation is to professional annotation.
+64	54	Ultimately, we want to use structured annotations for supervised training, where annotation quality influences model performance on held-out test data.
+65	44	To test this, we train a CRF model (Lafferty et al., 2001) with simple orthographic features and word clusters (Owoputi et al., 2013) on the annotated Twitter data described in Gimpel et al. (2011).
+66	41	Leaving out the dedicated test set to avoid in-sample bias, we evaluate our models across three data sets: RITTER (the 10% test split of the data in Ritter et al. (2011) used in Derczynski et al. (2013)), the test set from Foster et al. (2011), and the data set described in Hovy et al. (2014).
+67	35	We will make the preprocessed data sets available to the public to facilitate comparison.
+68	47	In addition to a supervised model trained on expert annotations, we compare our tagging accuracy with that of a weakly supervised system (Li et al., 2012) re-trained on 400,000 unlabeled tweets to adapt to Twitter, but using a crowdsourced lexicon, namely Wiktionary, to constrain inference.
+72	106	We use the models to annotate the training data portion of each task with POS tags, and use them as features in a chunking and NER model.
+75	11	For NER, we use data from Finin et al. (2010) and again Ritter et al. (2011).
+84	24	Both schemes cannot recover the correct answer for the 1497 cases where none of the crowdsourced labels matched the gold label, i.e. y /∈ Zi.
+85	24	The best possible result either of them could achieve (the oracle) would be matching all but the missing labels, an agreement of 89.63%.
+86	14	Most of the cases where the correct label was not among the annotations belong to a small set of confusions.
+88	15	.”, both mapped to X. Annotators mostly decided to label these tokens as punctuation (.).
+91	81	Crowdsourcing matches our gold standard to about 80%, but the question remains how useful this data is when training models on it.
+92	25	After all, inter-annotator agreement among professional an- notators on this task is only around 90% (Gimpel et al., 2011; Hovy et al., 2014).

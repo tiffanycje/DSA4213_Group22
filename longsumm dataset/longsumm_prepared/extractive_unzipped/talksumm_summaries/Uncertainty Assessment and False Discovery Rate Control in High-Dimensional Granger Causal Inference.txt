@@ -1,0 +1,30 @@
+1	37	Statistical methods for prediction exploit associations in existing data to predict some response variable.
+8	12	Causal inference seeks to address this problem.
+9	29	The classic method for causal inference among time series is a concept from econometrics known as Granger causality, named after Nobel Prize winning econometrician Clive Granger (Granger, 1969).
+10	26	Granger causality formalizes the intuitive notion that in a causal system, the cause must precede the effect, and the cause must hold some unique information that helps predict the effect.
+17	13	If this pair of models passes the F-test and at least one of the coefficient hypothesis tests at some significance level ↵, then we may reject the null hypothesis that X is not a Granger cause of Y (Granger, 1969).
+90	11	The j-th column of X represents time series X j , 1  j  d. We can further denote lagged versions of each column in the design matrix with fX t,j = (X t p,j , Xt p+1,j , .
+94	12	(3.1) Here ✓j⇤ i 2 Rp and ✏ t,j ⇠ N(0, 2 j ).
+95	79	Time series X i is a conditional Granger cause of time series X j (conditioned on the other d - 2 time series) if ✓j⇤ i contains any non-zero elements (i.e., k✓j⇤ i k 0 > 0).
+97	13	Equivalently, letting eX = (fX p+1 ,fX p+2 , .
+98	40	,fX T ) > 2 R(T p)⇥pd and Y j = X p+1:T,j represent the lower T p elements of the j-th column of X , we can re-express our model in more standard notation as: Y j = eX✓j⇤ + ✏, (3.2) where ✏ ⇠ N(0, 2I (T p)⇥(T p)).
+99	68	We can now re-express the Lasso Granger estimator as: b ✓ j = argmin ✓j 1 2(T p)kYj eX✓jk2 2 + k✓jk 1 .
+106	27	,m pd ) > 2 Rpd⇥pd is an estimate of e⌃ 1 n , the inverse sample covariance matrix of eX, where each m i is the solution to the following optimization algorithm: minimize m> e⌃ n m subject to ke⌃ n m e i k1  µ, (4.2) where e i 2 Rpd is the i-th column of I pd⇥pd, and the choice of µ will be clear after we deliver theory.
+107	14	Our unbiased estimator b✓u, though inspired by Javanmard & Montanari (2014), diverges sharply from their work in several respects.
+116	18	Sun & Zhang (2012) prove b is a consistent estimator of when the penalized loss function is convex.
+117	15	Sun & Zhang (2012) use the i.i.d assumption to establish convexity.
+119	24	Thus, b is consistent in our setting as well.
+121	42	One can easily apply (4.3) to construct confidence intervals for ✓⇤ i , for 1  i  pd.
+123	24	We prove the asymptotic validity of this confidence interval in Corollary 5.6.
+133	14	Having established test statistics for individual coefficients of the de-biased Lasso Granger estimator, we now address the issue of FDR control.
+145	35	In this section we present our main theoretical results: the test statistic cZ i from (4.6) converges in distribution to the standard normal under the null hypothesis, and the FDR control procedure presented in (4.9) asymptotically controls both FDR and FDP.
+201	34	These curves demonstrate that our de-biased Lasso Granger estimator and FDR control procedure achieve higher recall than the original Lasso Granger estimator without sacrificing precision.
+205	13	This data set contains monthly observations for seventeen climatological variables (e.g., temperature, precipitation, CO2, CH4, etc.)
+207	15	Following the setup from Lozano et al. (2009), we enforce stationarity by deseasonlaizing the data using the R package “deseasonalize” (McLeod & Gweon, 2013).
+208	37	We model the monthly temperature change of each grid point as a linear model of the first three lagged values of all explanatory variables in the surrounding 3⇥ 3 grid.
+211	22	For each grid point, we test the significance of the three lagged values of monthly changes in Carbon Dioxide (CO2) emissions for that grid point to determine if local CO2 emissions are a Granger cause of temperature changes when conditioned on many other climatological variables.
+214	22	At significance level ↵ = .05, the Bonferroni and Benjamini-Hochberg methods found that CO2 emissions are a Granger cause of monthly temperature changes for 10 of the 81 grid points, whereas our FDR control method discovered 13 such grid points.
+215	19	We thus corroborate the findings of Lozano et al. (2009), who employed graphical Granger modeling methods to establish Granger causality between CO2 emissions and temperature changes, and those of many climate researchers who have found increased CO2 emissions to “cause” higher temperatures.
+216	26	We also find empirical evidence that our FDR control method achieves higher power than the Bonferroni and Benjamini-Hochberg methods.
+221	29	Lastly, we validate our theoretical results with experiments on both synthetic data and real-world climatological data.
+222	32	Future extensions of our work may include generalizations of our method to cope with non-Gaussian noise and non-linear causality.

@@ -1,0 +1,30 @@
+0	43	NLP researchers and practitioners spend a considerable amount of time comparing machine-learned models of text that differ in relatively uninteresting ways.
+1	42	For example, in categorizing texts, should the “bag of words” include bigrams, and is tf-idf weighting a good idea?
+2	168	In learning word embeddings, distributional similarity approaches have been shown to perform competitively with neural network models when the hyperparameters (e.g., context window, subsampling rate, smoothing constant) are carefully tuned (Levy et al., 2015).
+3	104	These choices matter experimentally, often leading to big differences in performance, with little consistency across tasks and datasets in which combination of choices works best.
+4	97	Unfortunately, these differences tell us little about language or the problems that machine learners are supposed to solve.
+5	15	We propose that these decisions can be automated in a similar way to hyperparameter selection (e.g., choosing the strength of a ridge or lasso regularizer).
+7	17	For example, using higher-order n-grams means more features and a need for stronger regularization and more training iterations.
+8	86	Generally, these decisions about instance representation are made by humans, heuristically; our work seeks to automate them, not unlike Daelemans et al. (2003), who proposed to use genetic algorithms to optimize representational choices.
+11	28	Though popular in computer vision (Bergstra et al., 2013), these techniques have received little attention in NLP.
+32	40	More concretely, in the tth trial, xt is selected using an acquisition function A and a “surrogate” probabilistic model pt.
+35	12	See Algorithm 1; details on A and pt follow.
+38	10	(For now, think of it as a strongly-performing “benchmark” discovered in earlier iterations.)
+39	15	Other options for the acquisition function include maximum probability of improvement (Jones, 2001), minimum conditional entropy (Villemonteix et al., 2009), Gaussian process upper confidence bound (Srinivas et al., 2010), or a combination of them (Hoffman et al., 2011).
+49	21	We fix L to logistic regression.
+52	13	Note that even with this limited number of options, the number of possible combinations is huge,3 so exhaustive search is computationally expensive.
+55	14	We always use a development set to evaluate f(x) during learning and report the final result on an unseen test set.
+60	12	In the following, “SVM” always means “linear SVM.” All methods were trained and evaluated on the same training/testing splits as baselines; in cases where standard development sets were not available, we used a random 20% of the training data as a development set.
+63	9	We use the binary classification task where the goal is to predict whether a review is positive or negative (no neutral).
+64	47	Our logistic regression model outperforms the baseline SVM reported by Socher et al. (2013), who used only unigrams but did not specify the weighting scheme for their SVM baseline.
+73	24	The results parallel those for Amazon electronics; our method comes close to convolutional neural networks (Johnson and Zhang, 2015), which are state-of-the-art.5 It outperforms SVMs and feed-forward neural networks, the restricted Boltzmann machine approach presented by Dahl et al. (2012), and compressive feature learning (Paskov et al., 2013).6 Congressional vote (Thomas et al., 2006)—Table 4.
+75	9	Similar to previous work (Thomas et al., 2006; Bansal et al., 2008; Yessenalina et al., 2010), we consider the task to predict the vote (“yea” or “nay”) for the speaker of each speech segment (speaker-based speech-segment classification).
+76	25	Our method outperforms the best results of Yessenalina et al. (2010), which use a multi-level structured model based on a latent-variable SVM.
+77	20	We show comparisons to two weaker baselines as well.
+80	63	Our method outperforms state-of-the-art methods including the distributed structured output model (Srikumar and Manning, 2014).7 The strong logistic regression baseline from Paskov et al. (2013) uses all 5-grams, heuristic normalization, and elastic net regularization; our method found that unigrams and bigrams, with binary weighting and `2 penalty, achieved far better results.
+81	13	20 Newsgroups: talk.religion.misc vs. alt.atheism and comp.graphics vs. comp.windows.x.
+84	21	Wang and Manning (2012) report a bigram naı̈ve Bayes model achieving 85.1% and 91.2% on these tasks, respectively (best single model results).8 Our method achieves 86.3% and 92.1% using slightly different representations (see Table 5).
+88	19	Out of all possible choices in our experiments (Table 1), each of them is used by at least one of the datsets (Table 5).
+93	23	We ran 30 trials for each dataset in our experiments.
+100	86	See Bardenet et al. (2013), Swersky et al. (2013), and Yogatama and Mann (2014) for more about how to perform Bayesian optimization in these settings.
+101	101	Our framework could also be extended to unsupervised and semisupervised models.

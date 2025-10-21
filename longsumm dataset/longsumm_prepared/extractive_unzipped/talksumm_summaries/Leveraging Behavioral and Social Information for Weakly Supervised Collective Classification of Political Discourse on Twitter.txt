@@ -1,0 +1,30 @@
+6	30	In this paper we focus on political framing, a very nuanced political discourse analysis task, on a variety of issues frequently discussed on Twitter.
+7	31	Framing (Entman, 1993; Chong and Druckman, 2007) is employed by politicians to bias the discussion towards their stance by emphasizing specific aspects of the issue.
+8	37	For example, the debate around increasing the minimum wage can be framed as a quality of life issue or as an economic issue.
+12	24	These tweets were annotated by adapting the annotation guidelines developed by Boydstun et al. (2014) for Twitter.
+16	33	We approach this framing prediction task using a weakly supervised collective classification approach which leverages the dependencies between tweet frame predictions based on the interactions between their authors.
+48	18	Using an average of ten keywords per issue, we filtered out tweets not related to the following six issues of interest: (1) limiting or gaining access to abortion, (2) debates concerning the Affordable Care Act (i.e., ACA or Obamacare), (3) the issue of gun rights versus gun control, (4) effects of immigration policies, (5) acts of terrorism, and (6) issues concerning the LGBTQ community.
+56	18	Based on this guidance and the difficulty of labeling tweets (as discussed in Card et al. (2015)), annotators were instructed to use the following procedure: (1) attempt to assign a primary frame to the tweet if possible, (2) if not possible, assign two frames to the tweet where the first frame is chosen as the more accurate of the two frames, (3) when assigning frames 12 through 17, double check that the tweet cannot be assigned to any other frames.
+77	45	PSL is a declarative modeling language which can be used to specify weighted, first-order logic rules.
+89	34	The information that tweet T has expected unigram U of frame F is represented with the PSL predicate: UNIGRAMF (T, U).
+93	44	MAXSIM(T, F) = arg max u2F,w2T SIMILARITY(W,U) (1) T is a tweet, W is each word in T, and U is each unigram in the list of expected unigrams (per frame).
+95	23	The frame F of the maximum scoring unigram is input to the PSL predicate: MAXSIMF (T, F), which indicates that tweet T has the highest similarity to frame F. Bigrams and Trigrams: In addition to unigrams, we also explored the effects of political party slogans on frame prediction.
+100	20	The histograms in Figure 1 show these distributions for the top 100 bigrams and trigrams.
+101	44	Based on these results, we use the top 20 bigrams (e.g., women’s healthcare and immigration reform) and trigrams (e.g. prevent gun violence) as input to PSL predicates BIGRAMIP (T, B) and TRIGRAMIP (T, TG).
+103	75	In addition to language based features of tweets, we also exploit the behavioral and social features of Twitter including similarities between temporal activity and network relationships.
+105	20	When an event happens politicians are most likely to tweet about that event within hours of its occurrence.
+116	33	These predicates indicate that the content of tweet T1 includes a retweet of tweet T2 and that the author of T1 follows the author of T2 on Twitter, respectively.
+119	31	The precision of a multilabel model is the ratio of how many predicted labels are correct: Precision = 1 T TX t=1 |Yt \ h(xt)| |h(xt)| (2) The recall of this model is the ratio of how many of the actual labels were predicted: Recall = 1 T TX t=1 |Yt \ h(xt)| |Yt| (3) In both formulas, T is the number of tweets, Yt is the true label for tweet t, xt is a tweet example, and h(xt) are the predicted labels for that tweet.
+131	35	PSL Model 1, which uses our adapted unigram features instead of the bag-of-words features for multilabel classification, serves as our baseline to improve upon.
+133	23	We also explore the results of our PSL models in an unsupervised setting because the highly dynamic nature of political discourse on Twitter makes it unrealistic to expect annotated data to generalize to future discussions.
+135	29	The labeled tweets are used for evaluation only.
+138	39	Here we can see that by adding Twitter behavior (beginning with Model 4), our behaviorbased models achieve the best F1 scores across all frames.
+139	93	Model 4 achieves the highest results on two frames, suggesting retweeting and network follower information do not help improve the prediction score for these frames.
+141	49	Overall, the Twitter behavior based models are able to outperform language based models alone, including the best performing language model (Model 3) which combines unigrams, bigrams, and trigrams together to collectively infer the correct frames.
+142	18	Analysis of Unsupervised Experiments: In the unsupervised setting, Model 6, the combination of language and Twitter behavior features achieves the best results on 16 of the 17 issues, as shown in Table 6.
+149	19	These results suggest that retweet behaviors are not as useful as the follower network relationships in an unsupervised setting.
+150	19	To explore the usefulness of frame identification in political discourse analysis, we apply our best performing model (Model 6) on the unlabeled dataset to determine framing patterns over time, both by party and individual.
+151	67	Figure 2 shows the results of our frame analysis for both parties over time for two issues: ACA and terrorism.6 We compiled the predicted frames for tweets from 2014 to 2016 for each party.
+153	66	Party Frames: From Figure 2(a) we can see that Democrats mainly use Frames 1, 4, 8, 9, and 15 to discuss ACA, while Figure 2(c) shows that Republicans predominantly use Frames 1, 8, 9, 12, and 13.
+162	34	For example, Democrats use Frame 3 to indicate a moral responsibility to fight ISIS.
+166	186	This seems to indicate that parties possibly adopt new frames simultaneously or in response to the opposing party, perhaps in an effort to be in control of the way the message is delivered through that frame.

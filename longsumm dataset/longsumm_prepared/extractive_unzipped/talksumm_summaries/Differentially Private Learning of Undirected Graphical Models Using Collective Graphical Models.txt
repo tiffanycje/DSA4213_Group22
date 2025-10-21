@@ -1,0 +1,30 @@
+6	37	It provides a statistical privacy guarantee to individuals: the output of a differentially private algorithm is statistically nearly unchanged even if any single individual’s record is added to or removed from the input data set.
+7	67	The general idea is to carefully randomize the algorithm so that the (random) output does not depend too much on any individual’s data.
+8	22	Differentially private machine learning cleanly addresses the problem of extracting useful population-level models from data sets while protecting the privacy of individuals.
+10	20	This paper addresses the problem of privately learning parameters in a widely used class of probabilistic models: discrete, undirected graphical models.
+12	44	Previous work also addresses private learning for directed graphical models (J. Zhang et al., 2014; Z. Zhang et al., 2016).
+14	47	To learn accurate models under differential privacy, it is critical to randomize the algorithm “just enough” to achieve the desired privacy guarantee without diminishing the quality of the learned model too much.
+15	69	This is usually done by modifying a learning algorithm to add noise to some intermediate quantity X , with the noise magnitude calibrated to the sensitivity of X , a measure of how much X can depend on any single individual’s data in the worst case (Dwork et al., 2006).
+16	29	The randomization renders the noisy estimate of X safe for release; all subsequent calculations using the noisy X , but not the original data, are also safe.
+18	8	We highlight two highlevel goals: (1) Noise should be added at an “information bottleneck”, so the sensitivity is as small as possible relative to the information being sought,1 (2) noise should be added to a quantity for which the sensitivity can be bounded tightly, so the noise magnitude can be kept as small as possible.
+21	51	Indeed, general private learning frameworks bound the sensitivity using quantities such as Lipschitz, strong-convexity, and smoothness constants (Bassily et al., 2014; Wu et al., 2016) or diameter of the parameter space (Smith, 2008), which may be loose in practice.
+22	26	In this paper we will take the approach of adding noise to the sufficient statistics of a graphical model using the Laplace mechanism, a high-level approach that has also been applied recently for directed models (Zhang et al., 2016; Foulds et al., 2016).
+23	13	This has a number of advantages.
+24	31	First, sufficient statistics, by definition, are an information bottleneck.
+25	27	Second, it is very easy to exactly analyze the sensitivity of sufficient statistics in graphical models, which are contingency tables.
+27	22	However, it is not entirely clear how to learn parameters of a graphical model with noisy sufficient statistics.
+28	60	One option, which we will refer to as naive MLE, is to ignore the noise and conduct maximum-likelihood estimation as if we had true sufficient statistics.
+34	11	This is exactly the goal of inference in collective graphical models (CGMs; Sheldon & Dietterich, 2011), and we will adapt CGM inference techniques to solve this problem.
+37	12	We show that it learns better models than existing state-of-the-art approaches in most scenarios across a broad range of synthetic tasks, and in experiments modeling human mobility from wifi access point data.
+120	14	(Sufficient statistics perturbation) Add Laplace noise to the sufficient statistics n, and then conduct maximumlikelihood estimation.
+160	85	The distribution of the sufficient statistics, p(n;θ), is known as the CGM distribution.
+171	21	For a decomposable CGM with junction tree T , the following approximation of the CGM log-density for any n ∈MN is obtained by applying Stirling’s approximation: log p(n,y;θ) ≈ θTn−NA(θ)+H(n)+log p(y|n).
+172	13	(5) Here, H(n) = −N ∑ x q(x) log q(x) is the entropy of the unique distribution q(x) = p(x;θ) in the graphical model family with marginals equal to n/N .
+178	16	It is identical to the variational optimization problem for marginal inference in standard graphical models, except the objective has an additional term log p(y|n), which is nonlinear in n. Several message-passing based algorithms have been developed to efficiently solve the approximate MAP problem.
+185	20	See also (Sheldon et al., 2013; Liu et al., 2014; Sun et al., 2015).
+186	55	We conduct a number of experiments on synthetic and real data to evaluate the quality of models learned by both Naive MLE and CGM.
+187	15	We compare three algorithms: Naive MLE, CGM, and a version of private stochastic gradient descent (PSGD) due to Abadi et al. (2016).
+188	13	PSGD belongs to a class of general-purpose private learning algorithms that can be adapted to our problem, including gradient descent or stochastic gradient descent algorithms for empirical risk minimization (Chaudhuri et al., 2011; Kifer et al., 2012; Jain & Thakurta, 2013; Bassily et al., 2014; Abadi et al., 2016) and the subsample-and-aggregate approach for parameter estimation (Smith, 2011).
+201	8	Recall that PSGD promises only ( , δ)-differential privacy.
+207	14	We study human mobility data in the form of connections to wifi access points throughout a highly-trafficked academic building over a twenty-one day period.
+208	8	We treat each (user ID, day) combination as an “individual”, leading to 124,399 unique individuals; with this data preparation scheme, the unit of protection is one day’s worth of a user’s data.

@@ -1,0 +1,30 @@
+14	2	In the AS the goal is to solve a supervised learning problem given a dataset D = {xi, yi}Ni=1 where xi ∈ Rp are the inputs and yi ∈ R are the outputs.
+44	1	With the problem mapped into a low-dimensional space BO can be used to find the best combination, circumventing the issues described in Section 1.1.
+52	1	The main contributions are: • A new Variational auto-encoder, called ‘Structure Generating Variational auto-encoder’ (SG-VAE).
+86	1	Computer the representations x = [xg,xd].
+93	1	The encoder of the SG-VAE is a Gaussian distribution where the mean is the output of a Multilayer Perceptron (MLP) .
+96	1	The challenge is to learn a decoder that always provides a valid kernel representation.
+97	1	To this end, we encode this feature in the model likelihood pθ(x|z) as we next detail.
+98	1	First of all, define the output from the neural network l = MLP (z; θ) with the same MLP defined in the encoder and θ the corresponding weights that need to be optimized jointly with φ.
+102	1	In particular if we partition l = [lg, ld] we have that ld = µθ.
+139	1	Following the standard practice in BO, we use a Gaussian process p(f) = GP(µ; k) with mean function µ and positive-definite kernel k to model the underlying objective function, now defined between Z and the domain of the model selection criterion.
+140	1	In standard cases, the inputs of the GP are also the inputs of the objective function (C(M) in AS).
+142	1	This gives rise to a problem: a model configuration x may correspond to multiple points z in latent space.
+143	1	This uncertainty can be captured by the posterior distribution p(z|x), which is intractable in SG-VAE.
+147	1	In this work we used the Expected Improvement (Mockus, 1977) (EI) but other acquisition functions are also possible.
+148	1	Note that, as we use mean and variance from the GP with uncertain inputs, the distribution qγ(z?)
+149	1	is automatically pushed into the acquisition.
+150	1	The next evaluation is placed at the global maximum of the EI function (Shahriari et al., 2016).
+151	1	See Algorithm 3 for a full description of the algorithm that we call Structured Variationally auto-encoded optimization (SVO).
+152	1	The first one explains the behaviour of the method in a time series.
+155	1	The third one formulates natural scene understanding as a searching problem in structured space and apply SVO to infer the content in a natural scene.
+156	1	Inspired by (Wu et al., 2017), we use “Minecraft" as a nature scene generation engine and show SVO successfully produces a good interpretation of an image with a few attempts.
+162	1	We apply Algorithm 3 using the first 10%, 37% and 63% of the data.
+165	1	The solution found is K = SE × PER + RQ + PER.
+167	1	With 63% of the data the best solution found PER×SE×RQ×LIN+SE.
+171	1	The concrete dataset has dimension 8, while the rest are unidimensional.
+184	1	This is why the SVO convergence curves are flatter, which also converges faster and to a better optimum that CKS in the three datasets.
+221	3	However, in low dimensional spaces with not mush structure the SG-VAE is not expected to be beneficial (information cannot be compressed).
+222	25	It is also interesting to investigate how previous knowledge can be embedded in the search.
+223	139	In this work we used a contextfree grammar to favour certain solutions of the input space, similarly to the idea of using transfer learning when similar problems have been solved before.
+224	136	Further combinations of this ideas will be explored in the future.

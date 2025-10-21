@@ -1,0 +1,30 @@
+0	74	Knowledge Graphs (KGs) are multi-relational graphs where nodes represent entities and typededges represent relationships among entities.
+1	38	Recent research in this area has resulted in the development of several large KGs, such as NELL (Mitchell et al., 2015), YAGO (Suchanek et al., 2007), and Freebase (Bollacker et al., 2008), among others.
+7	65	Starting with TransE (Bordes et al., 2013), there have been many KG embedding methods such as TransH (Wang et al., 2014), TransR (Lin et al., 2015) and STransE (Nguyen et al., 2016) which represent relations as translation vectors from head entities to tail entities.
+11	25	In spite of the existence of many KG embedding methods, our understanding of the geometry and structure of such embeddings is very shallow.
+15	30	We later study the effects of model type and training hyperparameters on the geometry of KG embeddings and correlate geometry with performance.
+38	49	We refer to TransE, TransR and STransE as additive methods because they learn embeddings by modeling relations as translation vectors from one entity to another, which results in vectors interacting via the addition operation during training.
+52	20	Pairwise ranking loss is then used to learn these vectors.
+62	26	This is the set of methods where the vectors interact via multiplicative operations (usually dot product).
+63	42	The score function for these models can be expressed as σ(h, r, t) = r>f(h, t) (2) where h, t, r ∈ Fd are vectors for head entity, tail entity and relation respectively.
+79	91	For our geometrical analysis, we first define a term ‘alignment to mean’ (ATM) of a vector v belonging to a set of vectors V, as the cosine similarity1 between v and the mean of all vectors in V. ATM(v,V) = cosine ( v, 1 |V| ∑ x∈V x ) We also define ‘conicity’ of a set V as the mean ATM of all vectors in V. Conicity(V) = 1 |V| ∑ v∈V ATM(v,V) 1cosine(u, v) = u >v ‖u‖‖v‖ By this definition, a high value of Conicity(V) would imply that the vectors in V lie in a narrow cone centered at origin.
+82	38	The left figure shows high Conicity and low vector spread while the right figure shows low Conicity and high vector spread.
+84	22	Datasets: We run our experiments on subsets of two widely used datasets, viz., Freebase (Bollacker et al., 2008) and WordNet (Miller, 1995), called FB15k and WN18 (Bordes et al., 2013), respectively.
+88	21	Hyperparameters: We experiment with multiple values of hyperparameters to understand their effect on the geometry of KG embeddings.
+89	36	Specifically, we vary the dimension of the generated vectors between {50, 100, 200} and the number of negative samples used during training between {1, 50, 100}.
+95	21	• Does model type (e.g., additive vs multiplicative) have any effect on the geometry of embeddings?
+97	22	• Does negative sampling have any effect on the embedding geometry?
+102	72	Multiplicative: High conicity and low vector spread.
+104	38	For this experiment, we set the number of negative samples to 1 and the vector dimension to 100 (we got similar results for 50-dimensional vectors).
+105	21	Figure 2 and Figure 3 show the distribution of ATMs of these sampled entity and relation vectors, respectively.3 Entity Embeddings: As seen in Figure 2, there is a stark difference between the geometries of entity vectors produced by additive and multiplicative models.
+117	21	Relation vectors from multiplicative models exhibit high conicity and low vector spread, suggesting that they lie in a narrow cone centered at origin, like their entity counterparts.
+126	21	The average entity vector length for HolE is nearly 1 for any number of negative samples, which is understandable considering it constrains the entity vectors to lie inside a unit ball (Nickel et al., 2016).
+134	46	It is interesting to note that we see exactly these effects in the geometry of multiplicative methods analyzed above.
+135	28	Our conclusions from the geometrical analysis of entity vectors produced by multiplicative models are similar to the results in (Mimno and Thompson, 2017), where increase in negative sampling leads to increased conicity of word vectors trained using the skip-gram with negative sampling (SGNS) method.
+144	24	Entity Embeddings: To study the effect of vec- tor dimension on conicity and length, we set the number of negative samples to 1, while varying the vector dimension.
+146	78	In contrast, entity vector from multiplicative models show a clear decreasing pattern with increasing dimension.
+161	113	Figure 6 (left) presents the effects of conicity of entity vectors on performance, while Figure 6 (right) shows the effects of average entity vector length.4 As we see from Figure 6 (left), for fixed number of negative samples, the multiplicative model with lower conicity of entity vectors achieves better performance.
+162	29	This performance gain is larger for higher numbers of negative samples (N).
+165	20	Additive models and HolE don’t exhibit any such patterns, as they are all clustered just below unit average entity vector length.
+167	43	We see another interesting observation regarding the high sensitivity of HolE to the number of negative samples used during training.
+175	35	Through extensive experiments on multiple realworld datasets, we are able to identify several insights into the geometry of KG embeddings.

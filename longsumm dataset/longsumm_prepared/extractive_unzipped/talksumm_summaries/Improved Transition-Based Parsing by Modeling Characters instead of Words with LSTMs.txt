@@ -1,0 +1,29 @@
+8	10	In languages that show little morphology, performance remains good, showing that the RNN composition strategy is capable of capturing both morphological regularities and arbitrariness in the sense of Saussure (1916).
+11	1	We do this by augmenting its transition operations 349 with a SWAP operation (Nivre, 2009) (§2.4), enabling the parser to produce nonprojective dependencies which are often found in morphologically rich languages.
+12	57	We begin by reviewing the parsing approach of Dyer et al. (2015) on which our work is based.
+13	81	Like most transition-based parsers, Dyer et al.’s parser can be understood as the sequential manipulation of three data structures: a buffer B initialized with the sequence of words to be parsed, a stack S containing partially-built parses, and a list A of actions previously taken by the parser.
+14	24	In particular, the parser implements the arc-standard parsing algorithm (Nivre, 2004).
+15	102	At each time step t, a transition action is applied that alters these data structures by pushing or popping words from the stack and the buffer; the operations are listed in Figure 1.
+16	79	Along with the discrete transitions above, the parser calculates a vector representation of the states of B, S, and A; at time step t these are denoted by bt, st, and at, respectively.
+24	28	Past work explains the computation within an LSTM through the metaphors of deciding how much of the current input to pass into memory (it) or forget (ft).
+29	48	The stack LSTM augments the left-to-right sequential model of the conventional LSTM with a stack pointer.
+33	4	The values of bt, st, and at are the ht vectors from their respective stack LSTMs.
+34	11	Whenever a REDUCE operation is selected, two tree fragments are popped off of S and combined to form a new tree fragment, which is then popped back onto S (see Figure 1).
+38	15	This kind of composition was thoroughly explored in prior work (Socher et al., 2011; Socher et al., 2013b; Hermann and Blunsom, 2013; Socher et al., 2013a); for details, see Dyer et al. (2015).
+39	30	The parser uses a probabilistic model of parser decisions at each time step t. Letting A(S,B) denote the set of allowed transitions given the stack S and buffer S (i.e., those where preconditions are met; see Figure 1), the probability of action z ∈ A(S,B) defined using a log-linear distribution: p(z | pt) = exp ( g>z pt + qz )∑ z′∈A(S,B) exp ( g>z′pt + qz′ ) (2) (where gz and qz are parameters associated with each action type z).
+44	12	The SWAP operation, first introduced by Nivre (2009), allows a transition-based parser to produce nonprojective trees.
+46	27	This is easily handled with the stack LSTM.
+49	65	The main contribution of this paper is to change the word representations.
+51	43	Dyer et al.’s parser generates a word representation for each input token by concatenating two vectors: a vector representation for each word type (w) and a representation (t) of the POS tag of the token (if it is used), provided as auxiliary input to the parser.2 A linear map (V) is applied to the resulting vector and passed through a component-wise ReLU: x = max {0,V[w; t] + b} For out-of-vocabulary words, the parser uses an “UNK” token that is handled as a separate word during parsing time.
+52	11	This mapping can be shown schematically as in Figure 2.
+53	58	Following Ling et al. (2015), we compute character-based continuous-space vector embeddings of words using bidirectional LSTMs (Graves and Schmidhuber, 2005).
+54	52	When the parser initiates the learning process and populates the buffer with all the words from the sentence, it reads the words character by character from left to right and computes a continuous-space vector embedding the character sequence, which is the h vector of the LSTM; we denote it by → w. The same process is also applied in reverse (albeit with different parameters), computing a similar continuous-space vector embedding starting from the last character and finishing at the first ( ← w); again each character is represented with an LSTM cell.
+55	9	After that, we concatenate these vectors and a (learned) representation of their tag to produce the representation w. As in §3.1, a linear map (V) is applied and passed through a component-wise ReLU.
+57	108	Note that under this representation, out-ofvocabulary words are treated as bidirectional LSTM encodings and thus they will be “close” to other words that the parser has seen during training, ideally close to their more frequent, syntactically similar morphological relatives.
+58	433	We conjecture that this will give a clear advantage over a single “UNK” token for all the words that the parser does not see during training, as done by Dyer et al. (2015) and other parsers without additional resources.
+59	96	In §4 we confirm this hypothesis.
+60	26	We applied our parsing model and several variations of it to several parsing tasks and report re- sults below.
+61	51	In order to find out whether the character-based representations are capable of learning the morphology of words, we applied the parser to morphologically rich languages specifically the treebanks of the SPMRL shared task (Seddah et al., 2013; Seddah and Tsarfaty, 2014): Arabic (Maamouri et al., 2004), Basque (Aduriz et al., 2003), French (Abeillé et al., 2003), German (Seeker and Kuhn, 2012), Hebrew (Sima’an et al., 2001), Hungarian (Vincze et al., 2010), Korean (Choi, 2013), Polish (Świdziński and Woliński, 2010) and Swedish (Nivre et al., 2006b).
+63	2	We also experimented with the Turkish dependency treebank4 (Oflazer et al., 2003) of the CoNLL-X Shared Task (Buchholz and Marsi, 2006).
+66	19	For Chinese, we use the Penn Chinese Treebank 5.1 (CTB5) following Zhang and Clark (2008b),5 with gold POS tags.
+67	33	For English, we used the Stanford Dependency (SD) representation of the Penn Treebank6 (Marcus et al., 1993; Marneffe et al., 2006).7.

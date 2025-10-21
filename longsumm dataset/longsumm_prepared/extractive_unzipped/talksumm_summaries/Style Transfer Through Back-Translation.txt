@@ -1,0 +1,30 @@
+3	30	the video is starting!”, or in a professional setting “Please be quiet, the video will begin shortly.”.
+5	23	These include approaches relying on heuristic substitutions, deletions, and insertions to modulate demographic properties of a writer (Reddy and Knight, 2016), integrating stylistic and demographic speaker traits in statistical machine translation (Rabinovich et al., 2016; Niu et al., 2017), and deep generative models controlling for a particular stylistic aspect, e.g., politeness (Sennrich et al., 2016), sentiment, or tense (Hu et al., 2017; Shen et al., 2017).
+13	40	Style transfer is evaluated using style classifiers trained on held-out data.
+30	32	Prior work has shown that the process of translating a sentence from a source language to a target language retains the meaning of the sentence but does not preserve the stylistic features related to the author’s traits (Rabinovich et al., 2016).
+31	29	We hypothesize that a latent code z obtained through backtranslation will normalize the sentence and devoid it from style attributes specific to author’s traits.
+32	23	Figure 1 shows the overview of the proposed method.
+34	82	We also train a backtranslation model from f to e. Let us assume our styles s1 and s2 correspond to DEMOCRATIC and REPUBLICAN style, respectively.
+37	34	Using the fixed encoder of the f → e machine translation model, we encode this sentence in language f .
+40	25	We then train two separate decoders for each style s1 and s2 to generate samples in these respective styles in source language e. Hence the sentence could be translated to the REPUBLICAN style using the decoder for s2.
+67	19	This is done such that the generator output can be used as input to the classifier.
+85	31	Let θG denote the parameters of the generators.
+90	25	While generating sentences, we use the attention vector to replace unknown characters (UNK) using the copy mechanism in (See et al., 2017).
+133	26	We compare our model against the “cross-aligned” auto-encoder (Shen et al., 2017), which uses style-specific decoders to align the style of generated sentences to the actual distribution of the style.
+155	20	The BLEU scores achieved for English–French MT system is 32.52 and for French–English MT system is 31.11; these are strong translation systems.
+159	29	The classifier has an accuracy of 82% for the gender-annotated corpus, 92% accuracy for the political slant dataset and 93.23% accuracy for the sentiment dataset.
+161	39	For example, if we want to transfer the style of male Yelp reviews to female, then we use the fixed common encoder of the back-translation model to encode the test male sentences and then we use the female generative model to generate the female-styled reviews.
+164	30	On two out of three tasks our model substantially outperforms the baseline, by up to 12% in political slant transfer, and by up to 7% in sentiment modification.
+174	28	For the gender style transfer we asked “Which transferred sentence maintains the same sentiment of the source sentence in the same semantic context (i.e. you can ignore if food items are changed)”.
+175	18	For the task of changing the political slant, we asked “Which transferred sentence maintains the same semantic intent of the source sentence while changing the political position”.
+176	49	For the task of sentiment transfer we have followed the annotation instruction in (Shen et al., 2017) and asked “Which transferred sentence is semantically equivalent to the source sentence with an opposite sentiment” We then count the preferences of the eleven participants, measuring the relative acceptance of the generated sentences.7 A third option “=” was given to participants to mark no preference for either of the generated sentence.
+197	45	In the task of sentiment modification, the BST model preserved meaning worse than the baseline, on the expense of being better at style transfer.
+199	24	On the other hand, the style-transfer accuracy for gender is lower for BST model but the preservation of meaning is much better for the BST model, compared to CAE model and to ”No preference” option.
+224	118	We propose a novel approach to the task of style transfer with non-parallel text.8 We learn a latent content representation using machine translation techniques; this aids grounding the meaning of the sentences, as well as weakening the style attributes.
+228	106	Our model also outperforms the baseline in all the experiments of fluency, and in the experiments for meaning preservation in generated sentences of gender and political slant.
+229	20	Yet, we acknowledge that the generated sentences do not always adequately preserve meaning.
+230	18	This technique is suitable not just for style transfer, but for enforcing style, and removing style too.
+231	22	In future work we intend to apply this technique to debiasing sentences and anonymization of author traits such as gender and age.
+232	82	In the future work, we will also explore whether an enhanced back-translation by pivoting through several languages will learn better grounded latent meaning representations.
+233	75	In particular, it would be interesting to back-translate through multiple target languages with a single source language (Johnson et al., 2016).
+236	21	Ultimately we must evaluate our style transfer within some down-stream task where our style transfer has its intended use but we achieve the same task completion criteria.

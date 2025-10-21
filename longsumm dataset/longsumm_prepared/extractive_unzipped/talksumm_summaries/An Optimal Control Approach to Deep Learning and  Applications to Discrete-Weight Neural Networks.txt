@@ -1,0 +1,30 @@
+42	1	We now outline informally the Pontryagin’s maximum principle (PMP) that characterizes θ∗.
+46	1	, S be sufficiently smooth in x.
+47	1	Assume further that for each t and x ∈ Rdt , the sets {ft(x, θ) : θ ∈ Θt} and {Lt(x, θ) : θ ∈ Θt} are convex.
+48	1	, T − 1 and s ∈ [S]: x∗s,t+1 = ∇pHt(x∗s,t, p∗s,t+1, θ∗t ), x∗s,0 = xs,0 (4) p∗s,t = ∇xHt(x∗s,t, p∗s,t+1, θ∗t ), p∗s,T = − 1S∇Φs(x ∗ s,T ) (5) S∑ s=1 Ht(x ∗ s,t, p ∗ s,t+1, θ ∗ t ) ≥ S∑ s=1 Ht(x ∗ s,t, p ∗ s,t+1, θ), ∀θ ∈ Θt (6) The full statement of Theorem 1 involve explicit smoothness assumptions and additional technicalities (such as the inclusion of an abnormal multiplier).
+51	1	The state equation (4) is simply the forward propagation equation (1) under the optimal parameters θ∗.
+53	1	To draw an analogy with nonlinear programming, the co-state can be interpreted as a set of Lagrange multipliers that enforces the constraint (1) when the optimization problem (2) is regarded as a joint optimization problem in θ and xs, s ∈ [S].
+55	1	The Hamiltonian maximization condition (6) is the centerpiece of the PMP.
+62	1	It may occur that ∑ sHt(x ∗ s,t, p ∗ s,t+1, θ) is constant for all θ ∈ Θt, in which case the problem is singular (Athans & Falb, 2013).
+64	1	This may arise especially in the case where there are no regularization terms.
+66	1	We now discuss how restrictive these assumptions are with regard to deep neural networks.
+67	1	Let us first assume that the admissable sets Θt are convex.
+68	1	Then, the assumption with respect to Lt is not restrictive since most regularizers (e.g. `1, `2) satisfy it.
+69	1	Let us consider the convexity of {ft(x, θ) : θ ∈ Θt}.
+75	1	Residual networks also satisfy the convexity constraint if one introduces auxiliary variables (see Appendix A.1).
+77	1	Finally, we remark that in the original derivation of the PMP for continuous-time control systems (Boltyanskii et al., 1960) (i.e. ẋs,t = ft(xs,t, θt), t ∈ [0, T ] in place of Eq.
+79	1	Hence, the convexity condition is purely an artifact of discrete-time dynamical systems.
+80	1	(4)-(6)) gives us a set of necessary conditions an optimal solution to (2) must satisfy.
+81	1	However, it does not tell us how to find one such solution.
+82	1	The goal of this section is to discuss algorithms for solving (2) based on the maximum principle.
+84	1	Consequently, an iterative projection method that successively projects a guessed solution onto each of the manifolds is natural.
+103	1	1 can be shown to converge for problems where ft is linear and the costs Φs, Lt are quadratic (Aleksandrov, 1968).
+108	1	xθs,t = x}, where xθt is defined according to Eq.
+116	1	On the other hand, the regularity of ft with respect to x is sometimes restrictive.
+137	1	This is particularly useful when one considers neural networks with (some) trainable parameters that can only take values in a discrete set.
+140	1	These networks are potentially useful for low-memory devices as storing the trained weights requires less memory.
+160	1	The network structures are mostly identical to those considered in Courbariaux et al. (2015) for ease of comparison.
+179	1	For completeness, we give the full ternary algorithm in Alg.
+250	16	An interesting mathematical question is the applicability of the PMP for discrete-weight neural networks, which does not satisfy the convexity assumptions in Theorem 1.
+251	96	It will be desirable to find the condition under which rigorous statements can be made.
+252	95	Another question is to establish the convergence of the algorithms presented.

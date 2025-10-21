@@ -1,0 +1,30 @@
+1	41	Such personalization is done through user modeling where the goal is to “get to know” the user.
+2	33	To that end, personalization is based on users’ attributes, such as demographics (gender, age etc.
+4	23	For example, in Information Retrieval, results are customized according to the user’s information and search history (Speretta and Gauch, 2005), performance of Automatic Speech Recognition substantially improves when adapted to a specific speaker (Neumeyer et al., 1995), and Targeted Advertising makes use of the user’s location and prior purchases (Kölmel and Alexakis, 2002).
+5	19	Personalization in machine translation has a somewhat different nature.
+8	16	We argue that Personalized Machine Translation (PMT below) should and can take the next step and directly address individual end-users.
+9	35	The difficulty to objectively determine whether one (automatic) translation is better than another has been repeatedly revealed in the MT literature.
+15	21	One user will not be bothered if some words are left untranslated (perhaps because the source language belongs to the same language family as the target language that he speaks), while another will find it utterly displeasing.
+55	29	We treat it as a preference, trying to identify the systems or specific translations which the user subjectively prefers.
+59	24	In this work we used the data provided for the MT Shared Task in the 2013 Workshop on Statistical Machine Translation (WMT) (Bojar et al., 2013).2 This data was of a particularly large scale, with crowdsourced human judges, either volunteer researchers or paid Amazon Turkers.
+60	19	For each source sentence, a judge was presented with the source sentence itself, a reference translation, and the outputs of five machine translation systems.
+69	59	That is, we predict the translational preferences of a user based on those of similar users.
+79	57	Each entry (i, j) of the vector is assigned the following value: pu (i,j) = w (i,j) u − l(i,j)u w (i,j) u + l (i,j) u (1) where w(i,j)u and l (i,j) u are the number of wins and loses of system si vs. system sj as judged by user u.3 With this representation, a user vector contains values between −1 (if si always lost to sj) and 1 (if si always won).
+80	34	If the user always ranked the two systems identically, the value is 0, and if she has never evaluated the pair, the entry is regarded as a missing value (NA).
+86	18	Given the similarity scores, to predict the user’s preference for the target system pair, we compute a weighted average of the predictions of the users in MSU (u).
+88	17	We then require that a minimum number of users meet the above criteria of common annotations and minimum similarity (we used 5).
+89	27	If not enough such similar users are found, we turn to a fallback, where we use the non-weighted average preference across all users (AVPF presented in Section 5).4 The prediction is then the sign of the weighted average.
+93	16	In our experiments we try to predict which one of two translation systems would be preferred by a given user.
+107	20	Its intuition is explained as follows: “If the system is compared against a randomly picked opposing system, on a randomly picked sentence, by a randomly picked judge, what is the probability that its translation is ranked higher?” The expected wins of si, e(si), is the probability of si to win when compared to another system, estimated as the total number of wins of si relative to the total number of comparisons involving it, excluding ties, and normalized by the total number of systems excluding si, |{sk}|: e(i) = 1 |{sk}| ∑ k 6=i w(i,k) w(i,k) + l(i,k) (4) where w(i,k) and l(i,k) are summed over all users.
+125	24	E.g., for en-es, where there are only 57 users in total, reducing k’s value from 50 to 25, improves results of CTP from 62.6% to 63.2%, higher than all other methods (whose scores are not affected).
+126	18	Specifically in comparison to AVPF, weighting by the similarity scores was found to be a more significant factor than selecting a small subset of the users.
+133	42	We addressed the task of predicting user preference with respect to MT output via a collaborative filtering approach whose prediction is based on preferences of similar users.
+135	29	The gain is modest in absolute numbers, but the results are highly statistically significant and stable over parameter values.
+136	16	We consider this work as a step towards more personalized MT.
+139	65	It is plausible, however, that one system is better – from the user’s perspective – at translating one type of text, while another is preferred for other texts.
+143	22	Hence, it may be informative to assess TP prediction separately across different levels of translation quality.
+145	32	Yet, parallel corpora, and even more so in-domain ones, are hard to gather.
+147	24	Collecting user feedback is another challenge, especially since most endusers do not speak the source language.
+151	56	For instance, in early 2015 Facebook introduced a feature letting users rate (Bing) translations, and Google Translate asks for suggested improvements.
+154	38	A potential direction for both corpora and feedback collection is personalizing models and identifying preferences for groups of users based on socio-demographic traits, such as gender, age or mother tongue, or based on (e.g. Big 5) personality traits.
+155	47	These can even be inferred by automatically analyzing user texts.

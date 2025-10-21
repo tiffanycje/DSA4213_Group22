@@ -1,0 +1,30 @@
+4	28	The most widely used such statistical model for clustering is the Gaussian Mixture Model (GMM), that has a long and rich history (Teicher, 1961; Pearson, 1894; Dasgupta, 1999; Arora & Kannan, 2001; Vempala & Wang, 2004; Dasgupta & Schulman, 2007).
+5	50	In this model there are k clusters, and the points from cluster i are generated from a Gaussian in d dimensions with mean µi ∈ Rd, and covariance matrix Σi ∈ Rd×d with spectral norm ‖Σi‖ ≤ σ2.
+6	15	Each of the N points in the instance is now generated independently at random, and is drawn from the ith component with probability wi ∈ [0, 1] (w1, w2, .
+7	11	, wk are also called mixing weights).
+9	53	The algorithmic task is to recover the ground truth clustering for any data set generated from such a model (note that the parameters of the Gaussians, mixing weights and the cluster memberships of the points are unknown).
+10	14	Starting from the seminal work of Dasgupta (Dasgupta, 1999), there have been a variety of algorithms to provably cluster data from a GMM model.
+15	9	D2-sampling based initialization schemes were first theoretically analyzed in (Ostrovsky et al., 2006; Arthur & Vassilvitskii, 2007).
+23	10	Semi-random models involve a set of adversarial choices in addition to the random choices of the probabilistic model, while generating the instance.
+24	11	These models have been successfully applied to study the design of robust algorithms for various optimization problems (Blum & Spencer, 1995; Feige & Kilian, 1998; Makarychev et al., 2012) (see Section 1 of Supplementary material).
+26	18	An adversary is then allowed to make “monotone” or helpful changes to the instance that only make the planted solution more pronounced.
+30	21	Our motivation for studying semi-random models for clustering is two-fold: a) design algorithms that are robust to strong distributional data assumptions, and b) explain the empirical success of simple heuristics like Lloyd’s algorithm.
+32	14	Moving each point in Ci toward its own mean µi only increases this gap between the distance to its mean and to any other mean.
+34	85	In our semirandom model, the points are first drawn from a mixture of Gaussians (this is the planted clustering).
+35	60	The adversary is then allowed to move each point in the ith cluster closer to its mean µi.
+37	7	We now formally define the model.
+40	8	Adversary chooses an arbitrary partition C = (C1, .
+42	14	The adversary then moves each point y(t) towards the mean of its component by an arbitrary amount i.e., for each i ∈ [k], t ∈ Ci, the adversary picks x(t) arbitrarily in {µi + λ(y(t) − µi) : λ ∈ [0, 1] } (these choices can be correlated arbitrarily).
+44	17	It is necessary that each point is moved closer to its mean along the direction of the mean – otherwise, one can move points closer to its own mean, but in other directions in such a way that the optimal k-means clustering of the perturbed instance is very different from the planted clustering.
+45	8	This is especially true in the separation range of interest (when k d), where the inter-mean distance is smaller than the average radius of the clusters (see Supplementary material for details).
+48	7	In many real-world datasets on the other hand, clusters in the ground-truth often contain dense “cores” that are close to the mean.
+60	17	It is also worth noting that in spite of being robust to semi-random perturbations, the separation requirement of σ √ k logN in our upper bound matches the separation requirement in the best guarantees (Awasthi & Sheffet, 2012) for Lloyd’s algorithm even in the absence of any semirandom errors or perturbations 3.
+61	14	We also remark that while the algorithm recovers a clustering of the given data that is very close to the planted clustering, this does not necessarily estimate the means of the original Gaussian components up to inverse polynomial accuracy (in fact the centers of the planted clustering after the semi-random perturbation may be Ω(σ) far from the original means).
+64	23	More specifically, we provide a lower bound on the number of points that will be misclassified by any k-means optimal solution for the instance.
+65	12	Given any N (that is sufficiently large polynomial in d, k) and ∆ such that √ logN ≤ ∆ ≤ d/(4 log d), there exists an instance X on N points in d dimensions generated from the semi-random GMM model 1.1 with parameters µ1, .
+66	28	, µk, σ2, and planted clustering C1, .
+68	8	, C ′ k ofX misclassifies at least Ω(kd/∆4) points with high probability.
+73	13	Unlike algorithmic results for other semi-random models, an appealing aspect of our algorithmic result is that it gives provable robust guarantees in the semi-random model for a simple, popular algorithm that is used in practice (Lloyd’s algorithm).
+74	15	Further, other approaches for clustering like distance-based clustering, method-of-moments and tensor decompositions seem inherently non-robust to these semirandom perturbations (see Section 1 of Supplementary material for details).
+75	9	This robustness of the Lloyd’s algorithm suggests an explanation for its widely documented empirical success across different application domains.
+76	18	Challenges and Overview of Techniques.

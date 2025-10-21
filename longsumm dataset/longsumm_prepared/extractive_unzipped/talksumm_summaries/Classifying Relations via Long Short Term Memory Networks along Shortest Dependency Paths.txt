@@ -1,0 +1,30 @@
+10	22	Our model utilizes the shortest dependency path (SDP) between two entities in a sentence; we also design a long short term memory (LSTM)-based recurrent neural network for information processing.
+24	11	For example, with prior knowledge of hyponymy, we know “water is a kind of substance.” This is a hint that the entities, water and region, are more of Entity-Destination relation than, say, Communication-Topic.
+61	16	Four different information channels along the SDP are explained in Subsection 3.3.
+63	19	Subsection 3.5 customizes a dropout strategy for our network to alleviate overfitting.
+71	20	Long short term memory (LSTM) units are used in the recurrent networks for effective information propagation.
+75	13	The dependency parse tree is naturally suitable for relation classification because it focuses on the action and agents in a sentence (Socher et al., 2014).
+77	19	We also observe that the sub-paths, separated by the common ancestor node of two entities, provide strong hints for the relation’s directionality.
+78	30	Two entities water and region have their common ancestor node, poured, which separates the SDP into two parts: [water]e1 → of→ gallons→ poured and poured← into← [region]e2 The first sub-path captures information of e1, whereas the second sub-path is mainly about e2.
+81	11	In this way, our model is directionsensitive.
+87	16	Since word embeddings are obtained on a generic corpus of a large scale, the information they contain may not agree with a specific sentence.
+93	16	In our experiment, grammatical relations are grouped into 19 classes, mainly based on a coarse-grained classification (De Marneffe et al., 2006).
+94	22	As illustrated in Section 1, hyponymy information is also useful for relation classification.
+98	11	As we can see, POS tags, grammatical relations, and WordNet hypernyms are also discrete (like words per se).
+102	21	Hence, we believe our strategy of random initialization is feasible, because they can be adequately tuned during supervised training.
+103	14	The recurrent neural network is suitable for modeling sequential data by nature, as it keeps a hid- ct ~ ~ ht g i ~ o ~ xt f t-1c ht-1 xt ht-1 ht-1xt ~ ht-1xt Figure 3: A long short term memory unit.
+116	15	The main idea is to introduce an adaptive gating mechanism, which decides the degree to which LSTM units keep the previous state and memorize the extracted features of the current data input.
+119	39	Concretely, the LSTM-based recurrent neural network comprises four components: an input gate it, a forget gate ft, an output gate ot, and a memory cell ct (depicted in Figure 3 and formalized through Equations 1–6 as bellow).
+123	19	ct = it ⊗ gt + ft ⊗ ct−1 (5) The output of LSTM units is the the recurrent network’s hidden state, which is computed by Equation 6 as follows.
+128	29	However, the conventional dropout does not work well with recurrent neural networks with LSTM units, since dropout may hurt the valuable memorization ability of memory units.
+144	14	We pretrained word embeddings by word2vec (Mikolov et al., 2013a) on the English Wikipedia corpus; other parameters are initialized randomly.
+164	14	A misty [ridge]e1 uprises from the [surge]e2 .
+195	28	It is worth to note that we have also conducted two controlled experiments: (1) Traditional RNN without LSTM units, achieving an F1-score of 82.8%; (2) LSTM network over the entire dependency path (instead of two sub-paths), achieving an F1-score of 82.2%.
+198	28	We first used word embeddings only as a baseline; then we added POS tags, grammatical relations, and WordNet hypernyms, respectively; we also combined all these channels into our models.
+199	12	Note that we did not try the latter three channels alone, because each single of them (e.g., POS) does not carry much information.
+200	131	We see from Table 2 that word embeddings alone in SDP-LSTM yield a remarkable performance of 82.35%, compared with CNNs 69.7%, RNNs 74.9–79.1%, and FCM 80.6%.
+204	19	This suggests that these information sources are complementary to each other in some linguistic aspects.
+205	11	Nonetheless, incorporating all four channels further pushes the F1-score to 83.70%.
+213	11	• Classifying relation is a challenging task due to the inherent ambiguity of natural languages and the diversity of sentence expression.
+214	10	Thus, integrating heterogeneous linguistic knowledge is beneficial to the task.
+215	11	• Treating the shortest dependency path as two sub-paths, mapping two different neural networks, helps to capture the directionality of relations.

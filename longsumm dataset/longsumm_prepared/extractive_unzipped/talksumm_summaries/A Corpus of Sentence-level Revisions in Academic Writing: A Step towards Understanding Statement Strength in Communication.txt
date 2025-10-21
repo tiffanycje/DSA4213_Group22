@@ -1,0 +1,30 @@
+2	153	For instance, on March 1, 2014, an attack at Kunming’s railway station left 29 people dead and more than 140 others injured.1 In the aftermath, Chinese media accused Western media of “softpedaling the attack and failing to state clearly that it was an act of terrorism”.2 In particular, regarding the statement by the US embassy that referred to this incident as the “terrible and senseless act of violence in Kunming”, a Weibo user posted “If you say that the Kunming attack is a ‘terrible and senseless act of violence’, then the 9/11 attack can be called a ‘regrettable traffic incident”’.3 This example is striking but not an isolated case, for settings in which one party is trying to convince another are pervasive; scenarios range from court trials to conference submissions.
+3	38	Since the strength and scope of an argument can be a crucial factor in its success, it is important to understand the effects of statement strength in communication.
+4	18	A first step towards addressing this question is to be able to distinguish between strong and weak statements.
+5	18	As strength is inherently relative, it is natural to look at revisions that change statement strength, which we refer to as “strength changes”.
+6	17	Though careful and repeated revisions are presumably ubiquitous in politics, legal systems, and journalism, it is not clear how to collect them; on the other hand, revisions to research papers may be more accessible, and many researchers spend significant time on editing to convey the right message regarding the strength of a project’s contributions, novelty, and limitations.
+8	34	With the increasing popularity of e-print services such as the arXiv4, strength changes in scientific papers are becoming more readily available.
+14	18	Pair 2 downgrades “human communication activity” to “mobile phone communication”.
+17	67	Pair 5 is an interesting case that shows the complexity of this problem: on the one hand, S2 claims that something is “inefficient”, which is an absolute statement, compared to “efficiency loss” in S1, where the possibility of efficiency still exists; on the other hand, S1 employs an active tone that emphasizes a causal relationship.
+18	38	The main contribution of this work is to provide the first large-scale corpus of sentence-level revisions for studying a broad range of variations in statement strength.
+19	13	We collected labels for a subset of these revisions.
+34	42	We first extracted the textual content from papers that have multiple versions of tex source files.
+36	24	Section titles were not included in the final texts but are used in alignment.
+37	35	In order to align the first version and the final version of the same paper, we first did macro alignment of paper sections based on section titles.
+38	27	Then, for micro alignment of sentences, we employed a dynamic programming algorithm similar to that of Barzilay and Elhadad (2003).
+68	14	We use the following set of labels: Stronger, Weaker, No Strength Change, I can’t tell.
+70	17	The instructions included 8 pairs as examples and 10 pairs to label as a training exercise.
+74	14	Among the 500 pairs, Fleiss’ Kappa was 0.242, which indicates fair agreement (Landis and Koch, 1977).
+75	32	We took a conservative approach and only considered pairs with an absolute majority label, i.e., at least 5 of 9 labelers chose the same label.
+82	17	First, participants tend to take details as evidence even when these details are not germane to the statement.
+83	22	For pair 1, while one turker pointed out the decline in number of experiments, most turkers simply labeled it as stronger because it was more specific.
+84	20	“Specific” turned out to be a common reason used in the comments, even though we said in the instructions that only additional justification and evidence matter.
+85	10	This echoes the finding in Bell and Loftus (1989) that even unrelated details influenced judgments of guilt.
+91	14	Another interesting case that does not share this characteristic is that participants can have a different understanding of domain-specific terms.
+92	14	For pair 3, the majority thought that “vectors” sounds more impressive than “images”; for pair 4, the majority considered “adapt” stronger than “discover”.
+93	35	This issue is common when communicating new topics to the public not only in science commu- nication but also in politics and other scenarios.
+94	21	It may partly explain miscommunications and misinterpretations of scientific studies in journalism.11
+96	23	We believe that this corpus of sentence-level revisions, together with the labels and comments from participants, can provide insights into better ways to approach this problem and help further understand strength of statements.
+97	94	One interesting direction that this enables is a potentially new kind of learning problem.
+98	94	The comments indicate features that humans think salient.
+100	14	The ultimate goal of our study is to understand the effects of statement strength on the public, which can lead to various applications in public communication.

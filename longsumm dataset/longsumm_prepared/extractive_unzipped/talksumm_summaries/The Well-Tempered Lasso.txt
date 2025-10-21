@@ -1,0 +1,30 @@
+43	3	Let y be a vector in Rn and let X = [X1, · · · ,Xd] be a matrix in Rn×d .
+48	3	This set is also referred to as the entire regularization path.
+50	2	The first Lemma from (Mairal & Yu, 2012) provides optimality conditions for w[λ].
+71	3	The main result of the paper is states in the following theorem.
+75	2	To prove the main theorem, we introduce several properties of X, y,w[λ] and u[λ] that are critical in the analysis of |P |.
+76	2	We then use the smoothness assumption to bound these properties.
+78	3	The coordinate-wise Lipschitz parameters of w and u are defined as, Lw = max i∈[d] sup λ>0 ∂λwi[λ] , Lu = max i∈[d] sup λ>0 ∂λui[λ] .
+79	2	By definition, Lw and Lu characterize how much each coordinate of w[λ] and u[λ] can change as we vary the value of λ.
+84	5	Definition 2 (Subspace distance).
+88	7	That is, γs is inversely proportional to a polynomial in n, d,1/σ.
+90	2	Using the above properties, we prove the following theorem.
+124	2	Letting τ → 0+ completes the proof.
+130	2	Corollary 9 (Lipschitzness of w).
+131	2	Since by definition, u[λ] = X>i (Xw[λ] − y), we obtain a similar corollary for u. Corollary 10 (Lipschitzness of u).
+144	1	From Lemma 4, we know that with probability of at least 1 − δ, ‖X‖2 c < 1.
+149	2	Consider an orthonormal basis for {u1, · · · ,us−1} ∈ Rn for the subspace span({Xi}) − U.
+153	2	Finally, choosing γ = Ω ( σδ 1 s√ dn ) completes the proof.
+154	10	In this section, we show that when the total number of linear segments in a small interval is excessively large, the optimal solution w[λ] can be coupled with the optimal solution v[λ] of the constrained Lasso problem of (2).
+156	2	Thus, the total number of linear segments in the interval [λ0, λ0 + ν] is at least ∑d i=1 ζ(i).
+157	4	We prove the following lemmas related to the sign changes.
+158	2	Lemma 13 (Number of sign changes).
+167	3	We use L̃u in the sequel as a shorthand for Lu + 1.
+191	3	We know that vS̄[λ0] depends only on GS̄ but not on GS .
+193	3	Since the inequality holds for all j ∈ S and any G0 the proof is completed.
+194	2	Recall that we assume that the target vector is of unit norm ‖y‖2 = 1.
+235	13	This reduction is also valid in settings when n ≥ 2d (see e.g. (Rudelson & Vershynin, 2010) for different behaviors of the condition number of Gaussian random matrices for n = d and n ≥ 2d).
+236	13	Furthermore, when n ≥ 2d, we can also improve γs to Ω(1), hence our polynomial dependency can be further reduced to O(d1.6n0.6).
+237	25	A final improvement may stem from Lw and Lu .
+238	187	We actually proved that dw[λ]dλ 2 = O (√dα2 ) ,while we only need to use the infinity norm dw[λ]dλ ∞.
+239	182	We leave these improvements and further generalizations to future research.

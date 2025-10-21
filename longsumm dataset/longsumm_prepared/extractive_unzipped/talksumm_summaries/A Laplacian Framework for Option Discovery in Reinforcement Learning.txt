@@ -1,0 +1,30 @@
+1	24	Proto-value functions (PVFs) are a well-known solution for the problem of representation learning (Mahadevan, 2005; Mahadevan & Maggioni, 2007); while the problem of skill discovery is generally posed under the options framework (Sutton et al., 1999; Precup, 2000), which models skills as options.
+3	21	One of our main contributions is to introduce the concepts of eigenpurpose and eigenbehavior.
+4	46	Eigenpurposes are intrinsic reward functions that incentivize the agent to traverse the state space by following the principal directions of the learned representation.
+13	36	Having options that operate at different time scales allows agents to make finely timed actions while also decreasing the likelihood the agent will explore only a small portion of the state space.
+17	194	These actions affect the agent’s next state and the rewards it experiences.
+30	25	It is common to approximate q µ through a linear function, i.e., q µ (s, a,✓) = ✓> (s, a), where (s, a) denotes a linear feature representation of state s when taking action a.
+31	43	The options framework extends RL by introducing temporally extended actions called skills or options.
+34	36	After the agent decides to follow option !
+38	60	Bottleneck states are those states that connect different densely connected regions of the state space (e.g., doorways) (Şimşek & Barto, 2004; Solway et al., 2014).
+40	48	Proto-value functions (PVFs) are learned representations that capture large-scale temporal properties of an environment (Mahadevan, 2005; Mahadevan & Maggioni, 2007).
+42	51	A diffusion model captures information flow on a graph, and it is commonly defined by the combinatorial graph Laplacian matrix L = D A, where A is the graph’s adjacency matrix and D the diagonal matrix whose entries are the row sums of A.
+44	33	PVFs are defined to be the eigenvectors obtained after the eigendecomposition of L. Different diffusion models can be used to generate PVFs, such as the normalized graph Laplacian L = D 12 (D A)D 12 , which we use in this paper.
+46	25	They are task independent, in the sense that they do not use information related to reward functions.
+47	19	Moreover, they are defined over the whole state space since each eigenvector induces a realvalued mapping over each state.
+60	18	An eigenpurpose formalizes the interpretation above by defining an intrinsic reward function.
+81	16	Thus, we need to define the option’s initiation and termination set.
+118	47	We discover meaningful options in these environments, such as walking down a corridor, or going to the corners of an open room.
+135	28	Diffusion time encodes the expected number of steps required to navigate between two states randomly chosen in the MDP while following a random walk.
+137	30	We discuss how this metric can be computed in the Appendix.
+139	22	We add options incrementally in order of increasing eigenvalue when computing the diffusion time for different sets of options.
+140	36	The first options added hurt exploration, but when enough options are added, exploration is greatly improved when compared to a random walk using only primitive actions.
+151	17	To do so the agent would have to select enough consecutive primitive actions without sampling an option.
+157	26	As in the PVF literature, the ideal number of options to be used by an agent can be seen as a model selection problem.
+171	18	Additional results in the appendix show how the same set of eigenoptions is able to speed-up learning in different tasks.
+172	19	In the appendix we also compare eigenoptions to random options, that is, options that use a random state as subgoal.
+176	30	These problems are generally tackled with sample-based methods and some sort of function approximation.
+181	53	Naturally, one can sample trajectories until one is able to perfectly construct the MDP’s adjacency matrix, as suggested by Mahadevan & Maggioni (2007).
+186	21	In the tabular case we define (s) to be the one-hot encoding of state s. Once enough transitions have been sampled, we perform a singular value decomposition on the matrix T such that T = U⌃V >.
+190	28	If all transitions in the graph are sampled once, for tabular representations, this algorithm discovers the same options we obtain with the combinatorial Laplacian.
+193	22	In the tabular case, if all transitions in the MDP have been sampled once, the orthonormal eigenvectors of L are the columns of V > T .

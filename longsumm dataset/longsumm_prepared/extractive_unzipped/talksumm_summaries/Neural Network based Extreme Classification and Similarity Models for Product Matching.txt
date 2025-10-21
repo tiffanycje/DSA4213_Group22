@@ -1,0 +1,30 @@
+3	45	On the selling side, it dilutes the visibility of the sellers’ items both on the marketplace and on external search engines such as Google and Bing.
+4	26	Also, it requires the sellers to provide a lot of details about the goods they are listing.
+5	15	The product based experience is an enticing search experience that helps fulfill both buyers and sellers needs.
+6	56	The buyers can easily search, compare and make a decision on the product they wish to purchase while the sellers can speed up their listing process by using product details and stock photos from existing product catalog resulting in a professional-looking listing, more appealing in search results.
+8	20	Different sellers may describe the same item in very different ways, using very different terminologies.
+12	13	The direction towards learning automatic semantic relationships on unstructured sequence of e-commerce text has been of less focus.
+20	30	Product matching is a difficult task due to the wider spectrum of products, many alike but different products, often missing or wrong values, and frequent variation in textual nature of products.
+21	53	In the following sections, we will briefly cover the challenges that make the task of product matching hard.
+22	38	While some business and professional sellers provide rich information of their item listings, a vast majority of medium and small sellers provide short, unstructured and sometimes incomplete descriptions.
+23	24	This results in a lot of data sparsity due to missing values that are important to identify the products.
+31	34	This causes a one-shot learning problem, which consists of learning a class from a single labeled example.
+32	20	Bundles are defined as multiple different products being grouped together and sold as a single offer.
+43	11	The piece of text could be a document, news article, listing offers, email, product review etc.
+44	24	Depending upon the task, the target labels are usually topic, category, product, sentiment id or name.
+45	39	Traditional classification approaches are employed to learn feature representation on the source and attempt to predict the target label.
+46	11	There are cases where inputs are text pairs along with their relevance score such as question-answer, query-document, source- translation pairs etc.
+52	13	The similarity based method also allows to use product side data in more natural way to model our paired itemproduct data.
+61	10	This architecture is similar to the CBOW model of (Mikolov et al., 2013), where the center word is replaced by a label.
+68	18	The hierarchical softmax function is the key factor that makes the task scalable to our million class dataset.
+78	12	The Bidirectional LSTM networks can leverage the knowledge present on both sides of the current word to encode the text and have shown good performance on various NLP tasks like named entity recognition (Huang et al., 2015; Wang et al., 2015) and text similarity (Neculoiu et al., 2016).
+79	36	In this work, we studied BiLSTMs for our siamese network architecture that is very similar to (Mueller and Thyagarajan, 2016) in architecture but we employed BiLSTM along with the contrastive loss function (instead of Manhattan LSTM) 3.
+94	17	In this paper, we only report the experiments for three categories namely Electronics, Clothes, Shoes and Accessories (CSA), and Collectibles as the proof-of-concept.
+96	30	Many branded items have unique identifiers that help buyers recognize and find them, including the items brand, Manufacturer Part Number (mpn), and Global Trade Item Number (gtin).
+97	11	The gtin can include an items Universal Product Code (upc), European Article Number (ean), or International Standard Book Number (isbn).
+111	11	Our baseline models are based on a waterfall approach.
+139	108	Siamese models show the same trend as with fastText models on different combination of inputs showing best performance when using all of them (the last column in table 2).
+140	65	In table 4, we present the training (per epoch) and inference time (per instance) for both kind of models6.
+141	16	The fastText models are extremely efficient to train as compared to the Siamese network.
+142	32	These classification models can be trained everyday to cope with open class set problem as mentioned in section 2.6.
+143	13	Siamese network though take longer training time, but they do not need everyday re-training and shown to be better in term of performance.

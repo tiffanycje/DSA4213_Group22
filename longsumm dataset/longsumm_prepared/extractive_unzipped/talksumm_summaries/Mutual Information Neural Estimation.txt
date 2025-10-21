@@ -1,0 +1,30 @@
+0	21	Mutual information is a fundamental quantity for measuring the relationship between random variables.
+1	20	In data science it has found applications in a wide range of domains and tasks, including biomedical sciences (Maes et al., 1997), blind source separation (BSS, e.g., independent component analysis, Hyvärinen et al., 2004), information bottleneck (IB, Tishby et al., 2000), feature selection (Kwak & Choi, 2002; Peng et al., 2005), and causality (Butte & Kohane, 2000).
+2	33	Put simply, mutual information quantifies the dependence of two random variables X and Z.
+3	25	It has the form, I(X;Z) = ∫ X×Z log dPXZ dPX ⊗ PZ dPXZ , (1) where PXZ is the joint probability distribution, and PX =∫ Z dPXZ and PZ = ∫ X dPXZ are the marginals.
+4	7	In contrast to correlation, mutual information captures non-linear statistical dependencies between variables, and thus can act as a measure of true dependence (Kinney & Atwal, 2014).
+6	8	Exact computation is only tractable for discrete variables (as the sum can be computed exactly), or for a limited family of problems where the probability distributions are known.
+9	6	Unfortunately, these estimators typically do not scale well with sample size or dimension (Gao et al., 2014), and thus cannot be said to be general-purpose.
+10	9	Other recent works include Kandasamy et al. (2017); Singh & Pczos (2016); Moon et al. (2017).
+11	9	In order to achieve a general-purpose estimator, we rely on the well-known characterization of the mutual information as the Kullback-Leibler (KL-) divergence (Kullback, 1997) between the joint distribution and the product of the marginals (i.e., I(X;Z) = DKL(PXZ || PX ⊗ PZ)).
+15	44	We leverage this strategy to offer a general-purpose parametric neural estimator of mutual information based on dual representations of the KL-divergence (Ruderman et al., 2012), which we show is valuable in settings that do not necessarily involve an adversarial game.
+16	9	Our estimator is scalable, flexible, and completely trainable via back-propagation.
+17	10	The contribu- tions of this paper are as follows: • We introduce the Mutual Information Neural Estimator (MINE), which is scalable, flexible, and completely trainable via back-prop, as well as provide a thorough theoretical analysis.
+18	10	• We show that the utility of this estimator transcends the minimax objective as formalized in GANs, such that it can be used in mutual information estimation, maximization, and minimization.
+19	26	• We apply MINE to palliate mode-dropping in GANs and to improve reconstructions and inference in Adversarially Learned Inference (ALI, Dumoulin et al., 2016) on large scale datasets.
+20	12	• We use MINE to apply the Information Bottleneck method (Tishby et al., 2000) in a continuous setting, and show that this approach outperforms variational bottleneck methods (Alemi et al., 2016).
+21	64	Mutual information is a Shannon entropy-based measure of dependence between random variables.
+22	22	The mutual information between X and Z can be understood as the decrease of the uncertainty in X given Z: I(X;Z) := H(X)−H(X | Z), (2) where H is the Shannon entropy, and H(X |Z) is the conditional entropy of Z given X .
+23	30	1 and the discussion above, the mutual information is equivalent to the Kullback-Leibler (KL-) divergence between the joint, PXZ , and the product of the marginals PX ⊗ PZ : I(X,Z) = DKL(PXZ || PX ⊗ PZ), (3) where DKL is defined as1, DKL(P || Q) := EP [ log dP dQ ] .
+29	6	The Donsker-Varadhan representation.
+40	8	6 and 8 are tight for sufficiently large families F , the Donsker-Varadhan bound is stronger in the sense that, for any fixed T , the right hand side of Eqn.
+41	7	6 is larger4 than the right hand side of Eqn.
+48	7	We call this network the statistics network.
+64	9	, (x(b), z(b)) ∼ PXZ Draw n samples from the Z marginal distribution: z̄(1), .
+99	7	6) and MINE-f (based on the f -divergence representation in Eqn.
+121	12	Since the mutual information is theoretically unbounded, we use adaptive gradient clipping (see the Supplementary Material) to ensure that the generator receives learning signals similar in magnitude from the discriminator and the statistics network.
+122	7	Related works on mode-dropping Methods to address mode dropping in GANs can readily be found in the literature.
+128	11	Srivastava et al. (2017) minimizes the reconstruction error in the latent space of bi-directional GANs (Dumoulin et al., 2016; Donahue et al., 2016).
+145	21	Reconstructions are one desirable property of a model that does both inference and generation, but in practice ALI can lack fidelity (i.e., reconstructs less faithfully than desired, see Li et al., 2017; Ulyanov et al., 2017; Belghazi et al., 2018).
+146	16	To demonstrate the connection to mutual information, it can be shown (see the Supplementary Material for details) that the reconstruction error,R, is bounded by, R ≤ DKL(q(x, z) || p(x, z))− Iq(x, z) +Hq(z) (18) If the joint distributions are matched,Hq(z) tends toHp(z), which is fixed as long as the prior, p(z), is itself fixed.
+147	20	Subsequently, maximizing the mutual information minimizes the expected reconstruction error.

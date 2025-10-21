@@ -1,0 +1,30 @@
+5	28	In contrast to previous work, our objective applies to trees of arbitrary width and leads to guarantees on model accuracy.
+7	25	Finally, the multi-class classification problem is closely related to that of conditional density estimation (Ram & Gray, 2011; Bishop, 2006) since both need to consider all labels (at least implicitly) during learning and at prediction time.
+11	26	contains theoretical results, Section 5 adapts the algorithm to the problem of language modeling, Section 6 reports empirical results on the Flickr tag prediction dataset and Gutenberg text corpus, and finally Section 7 concludes the paper.
+40	117	Let X be an input space, and V a label space.
+46	31	Each leaf l corresponds to a label, and can be identified with the path cl from the root to the leaf.
+48	32	, (c l D,1, c l D,2)), (3) where cld,1 ∈ [1, N ] correspond to the node index at depth d, and cld,2 ∈ [1,M ] indicates which child of cld,1 is next in the path.
+49	17	In that case, our classification and density estimation problems are reduced to choosing the right child of a node or defining a probability distribution over children given x ∈ X respectively.
+50	28	We then need to replace g and pθ with node decision functions (gn)Nn=1 and conditional probability distributions (pθn) N n=1 respectively.
+51	27	Given such a tree and representation function, our objective functions then become: Oclass(Θ, g) = E(x,y)∼P [ D∏ d=1 1[gcld,1 ◦ fΘ(x) = c l d,2] ] (4) Oll(Θ, θ) = E(x,y)∼P [ D∑ d=1 log pθ cl d,1 (cld,2|fΘ(x)) ] (5) The tree objectives defined in Equations 4 and 5 can be optimized in the space of parameters of the representation and node functions using standard gradient ascent methods.
+52	50	However, they also implicitly depend on the tree structure T .
+53	33	In the rest of the paper, we provide a surrogate objective function which determines the structure of the tree and, as we show theoretically (Section ??
+54	14	), maximizes the criterion in Equation 4 and, as we show empirically (Sections 5 and 6), maximizes the criterion in Equation 5.
+55	19	In this section, we introduce a per-node objective Jn which leads to good quality trees when maximized, and provide an algorithm to optimize it.
+56	62	We define the node objective Jn for node n as: Jn = 2 M K∑ i=1 q (n) i M∑ j=1 |p(n)j − p (n) j|i |, (6) where q(n)i denotes the proportion of nodes reaching node n that are of class i, p(n)j|i is the probability that an example of class i reaching n will be sent to its jth child, and p(n)j is the probability that an example of any class reaching n will be sent to its jth child.
+58	38	At a high level, maximizing the objective encourages the conditional distribution for each class to be as different as possible from the global one; so the node decision function needs to be able to discriminate between examples of the different classes.
+81	43	We also want to make sure that we have a well-formed M - ary tree at each step, which means that the number of labels assigned to any node is always congruent to 1 modulo (M − 1).
+84	76	• At the start of each batch, re-assign targets for each node prediction function, starting from the root and going down the tree.
+95	28	We start by showing that maximizing Jn in every node of the tree leads to high-quality nodes, i.e. perfectly balanced and perfectly pure node splits.
+98	16	The split in node n of the tree is β(n)-balanced if β(n) ≤ min j={1,2,...,M} p (n) j , where β(n) ∈ (0, 1M ] is a balancedness factor.
+119	20	The Weak Hypothesis Assumption says that for any distribution P over the data, at each node n of the tree T there exists a partition such that Jn ≥ γ, where γ ∈ [ M 2 minj=1,2,...,M pj , 1− M2 minj=1,2,...,M pj ] .
+135	29	They construct a binary tree, where each word w ∈ V corresponds to some leaf of the tree, and can thus be identified with the path from the root to the corresponding leaf by making a sequence of choices of going left versus right.
+146	23	We tried this method, but initial tests of this approach did not do much better than the use of random trees.
+148	44	Then, for a given tree structure, the algorithm takes a gradient step with respect to the log-likelihood of the samples: ∂Jn ∂ log p (n) j|i = 2 M q (n) i (1−q (n) i ) sign(p (n) j|i −p (n) j )p (n) j|i .
+150	22	We ran experiments to evaluate both the classification and density estimation version of our algorithm.
+151	31	For classification, we used the YFCC100M dataset (Thomee et al., 2016), which consists of a set of a hundred million Flickr pictures along with captions and tag sets split into 91M training, 930K validation and 543K test examples.
+175	42	The learned tree model is nearly three and seven times as fast at train and test time respectively as the flat objective without losing any points of perplexity.
+184	31	It appears that most of the relevant tree structure can be learned in one epoch: from the second epoch on, the learned hierarchical soft-max performs similarly to the flat one.
+185	33	Figure 3 shows a part of the tree learned on the Gutenberg dataset, which appears to make semantic and syntactic sense.
+186	26	In this paper, we introduced a provably accurate algorithm for jointly learning tree structure and data representation for hierarchical prediction.
+187	42	We applied it to a multiclass classification and a density estimation problem, and showed our models’ ability to achieve favorable accuracy in competitive times in both settings.

@@ -1,0 +1,30 @@
+0	94	The meaning of conversational utterances depends strongly on the history of the interaction.
+1	108	Consider a user querying a flight database using natural language (Figure 1).
+2	49	Given a user utterance, the system must generate a query, execute it, and display results to the user, who then provides the next request.
+6	46	In this paper, we propose encoder-decoder models that directly map user utterances to executable queries, while considering the history of the interaction, including both previous utterances and their generated queries.
+7	41	Reasoning about how the meaning of an utterance depends on the history of the interaction is critical to correctly respond to user requests.
+8	44	As interactions progress, users may omit previouslymentioned constraints and entities, and an increas- ing portion of the utterance meaning must be derived from the interaction history.
+13	37	The third utterance further refines this set by adding a constraint to the constraints from both previous utterances.
+14	43	In contrast, the fourth utterance refers only to the first one, and skips the two utterances in between.1 Correctly generating the fourth query requires understanding that the time constraint (at 7pm) can be ignored as it follows an airline constraint that has been replaced.
+31	24	96.6% of the queries require joins of different tables.
+46	22	The full model selects between generating query tokens and copying complete segments from previous queries.
+82	16	The decoder state at step k is: hDk = LSTM D ( [φy(yi,k−1); ck−1] ;h D k−1 ) , where LSTMD is a two-layer LSTM recurrence, φy is a learned embedding function for query tokens, and ck is an attention vector computed from the encoder states.
+96	33	To account for the influence of the interaction history on utterance encoding, we maintain a discourse state encoding hIi computed with a turn-level recurrence, and use it during utterance encoding.
+119	17	Extracting Segments Given the interaction history Ī[: i − 1], we construct the set of segments Si−1 by deterministically extracting subtrees from previously generated queries.4 In our data, we extract 13 ± 5.9 (µ ± σ) segments for each annotated query.
+120	24	Each segment s̄ ∈ Si−1 is a tuple 〈a, b, l, r〉, where a and b are the indices of the first and most recent queries, ȳa and ȳb, in the interaction that contain the segment.
+122	15	Encoding Segments We represent a segment s̄ = 〈a, b, l, r〉 using the hidden states of an RNN encoding of the query ȳb.
+136	27	The utterance is encoded using the initial discourse state hI0, the discourse state h I 1 is computed, the query ȳ1 is generated, and the set of segments S1 is created.
+139	21	The user then provides the next utterance or concludes the interaction.
+140	47	At turn i, the utterance x̄i is encoded using the discourse state hIi−1, the discourse state h I i is computed, and the query ȳi is generated using the set of segments Si−1.
+144	19	We assume access to a training set of N interactions {Ī(l)}Nl=1.
+195	33	All interactions include five turns.
+198	16	In contrast, ATIS uses a significantly larger database, requires generating complex queries with multiple joins, includes longer interactions, and was collected through interaction with users.
+200	40	Pre-processing We pre-process the data to identify and anonymize entities (e.g., cities), numbers, times, and dates.
+209	39	Systems We evaluate four systems: (a) SEQ2SEQ-0: the baseline encoder-decoder model (Section 4.1); (b) SEQ2SEQ-H: encoderdecoder with attention on current and previous utterances (Section 4.2); (c) S2S+ANON: encoderdecoder with attention on previous utterances and anonymization scoring (Section 6); and (d) FULL: the complete approach including segment copying (Section 4.4).
+231	31	Removing copying of query segments from the interaction history lowers performance (−query segments; Section 4.4).
+255	48	In general, the model resolves references well.
+257	52	We study models that recover context-dependent executable representations from user utterances by reasoning about interaction history.
+258	122	We observe that our segment-copying models suffer from error propagation when extracting segments from previously-generated queries.
+259	117	This could be mitigated by training a model to ignore erroneous segments, and recover by relying on attention for generation.
+261	76	Our analysis demonstrates that our model is relatively insensitive to interaction length, and is able to recover both explicit and implicit references to previouslymentioned entities and constraints.
+262	77	Further study of user focus change is required, an important phenomenon that is relatively rare in ATIS.

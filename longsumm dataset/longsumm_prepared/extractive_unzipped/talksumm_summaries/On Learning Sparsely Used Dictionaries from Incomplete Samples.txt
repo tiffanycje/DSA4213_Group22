@@ -1,0 +1,30 @@
+73	1	In contrast, we provide rigorous polynomial time algorithms, together with error bounds on the estimation quality of A⇤.
+75	1	Given a vector x 2 Rm and a subset S ✓ [m], we denote xS 2 Rm as a vector which equals x in indices belonging to S and equals zero elsewhere.
+93	1	We seek an algorithm that provides a provably “good” estimate of A⇤.
+98	1	To keep notation simple, in our convergence theorems below, whenever we discuss nearness, we simply replace the transformations ⇡ and in the above definition with the identity mapping ⇡(i) = i and the positive sign (·) = +1 while keeping in mind that in reality, we are referring to finding one element in the equivalence class of all permutations and sign flips of A⇤.
+109	1	Each entry of the sample A⇤x⇤ is independently observed with constant probability ⇢ 2 (0, 1].
+114	1	Finally, we also require the sparsity k  O⇤(⇢ p n/ log n) throughout the paper.
+122	1	Basically, within a small ball around the ground truth A⇤, the surface is well behaved such that a noisy version of X⇤ is sufficient to construct a good enough approximation to the gradient of L. Moreover, given an estimate within a small ball around A⇤, a noisy (but good enough) estimate of X⇤ can be quickly computed using a thresholding operation.
+125	1	This enables us to devise an algorithm similar to that of Arora et al. (2015) and obtain a descent property directly related to (the population parameter) A⇤.
+126	1	The full procedure is detailed as Algorithm 1.
+127	1	We now analyze our proposed algorithm.
+129	1	Suppose that the initial estimate A0 is ( , 2)- near to A ⇤ with = O⇤(1/ log n) and the sampling prob- ability satisfies ⇢ 1/(k + 1).
+146	1	This lemma is the main ingredient for bounding the behavior of the update rule.
+150	1	Since we assume that the current estimate As is (columnwise) sufficiently close to A⇤, each s i is approximately equal to 1, and hence gs i ⇡ ⇢piqi(As•i A⇤•i), i.e., the gradient points in the desired direction.
+178	1	Our main theoretical result (Theorem 5) summarizes its performance.
+191	1	Denote U = supp(↵) and W = U\{i}, then | i ↵i| = 1 ⇢ A ⇤T ,iA ⇤ •W↵W + 1 ⇢ hA⇤ ,i, A⇤•ii 1 ↵i  1 ⇢ A⇤T ,iA⇤•W↵W + ( 1 ⇢ A ⇤T ,iA ⇤ •i 1)↵i .
+197	2	because ↵W is ksparse sub-Gaussian.
+207	1	our results match the previous bounds when ⇢ = 1.
+209	1	Specifically, for µ = O⇤ p n k log3 n and 1 ⇢ 1  k  O⇤( ⇢ p n logn ), one can see that | i ↵i|  O ⇤(1/ log2 n) w.h.p., which implies that is a good estimate of ↵ even when a subset of rows in A⇤ is given.
+213	1	We will instead discuss some implications of this Lemma.
+219	1	This gives us a coarse estimate of A⇤•i.
+222	1	The proof follows directly from that of Lemma 37 in (Arora et al., 2015).
+226	1	Using the result of Arora et al. (2015), if |P1| is p1 = eO(m), then we can estimate all the m dictionary atoms.
+228	1	We corroborate our theory by demonstrating some representative numerical benefits of our proposed algorithms.
+237	1	Besides, we slightly modify the thresholding operator in the encoding step of Algorithm 1.
+241	1	An implementation of our method is available online3.
+245	2	(Since we can only estimate bA modulo a permutation and sign flip, the optimal column and sign matching is computed using the Hungarian algorithm.)
+246	4	Figure 1 shows our experimental results.
+247	17	Here, sample size refers to the number of incomplete samples.
+248	110	Our algorithms are able to recover the dictionary for ⇢ = 0.6, 0.8, 1.0.
+249	107	For ⇢ = 0.4, we can observe a “phase transition” in sample complexity of successful recovery around p = 10, 000 samples.

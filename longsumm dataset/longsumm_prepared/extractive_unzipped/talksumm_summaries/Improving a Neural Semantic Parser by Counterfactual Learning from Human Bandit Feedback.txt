@@ -1,0 +1,30 @@
+2	45	Recent work (Liang et al. (2017); Mou et al. (2017); Peng et al. (2017); inter alia) has applied reinforcement learning to address the annotation bottleneck as follows: Given a question, the existence of a corresponding gold answer is assumed.
+9	28	A possible solution lies in machine learning from even weaker supervision signals in form of human bandit feedback1 where the semantic parsing system suggests exactly one parse for which feedback is collected from a human user.
+14	21	Once sufficient data has been collected, the log can then be used to improve the parser.
+15	62	This leads to a counterfactual learning scenario (Bottou et al., 2013) where we have to solve the counterfactual problem of how to improve a target system from logged feedback that was given to the outputs of a different historic system (see the right half of Figure 1).
+18	17	This approach allows us to assign rewards at the token level, which in turn enables us to perform blame assignment in bandit learning and to learn from partially correct queries where tokens are reinforced individually.
+19	84	We show that users can provide such feedback for one question-parse pair in 16.4 seconds on average.
+20	16	This exemplifies that our approach is more efficient and cheaper than recruiting experts to annotate parses or asking workers to compile large answer sets.
+22	51	A baseline neural semantic parser is trained in fully supervised fashion, human bandit feedback from human users is collected in a log and subsequently used to improve the parser.
+24	16	Finally, we repeat our experiments on a larger but simulated log to show that our gains can scale: the baseline system is improved by 7.45% in answer F1 score without ever seeing a gold standard parse.
+25	14	Lastly, from a machine learning perspective, we have to solve problems of degenerate behavior in counterfactual learning by lifting the multiplicative control variate technique (Swaminathan and Joachims, 2015b; Lawrence et al., 2017b,a) to stochastic learning for neural models.
+45	25	Our semantic parsing model is a state-of-theart sequence-to-sequence neural network using an encoder-decoder setup (Cho et al., 2014; Sutskever et al., 2014) together with an attention mechanism (Bahdanau et al., 2015).
+51	14	g calculates the average over all vectors hi.
+60	60	Counterfactual Learning Objectives.
+69	18	(4) This objective can show degenerate behavior in that it overfits to the choices of the logging policy (Swaminathan and Joachims, 2015b; Lawrence et al., 2017a).
+71	145	The new objective is called the reweighted deterministic propensity matching (DPM+R) objective in Lawrence et al. (2017b): R̂DPM+R(πw) = 1 n n∑ t=1 δtπ̄w(yt|xt) (5) = 1 n ∑n t=1 δtπw(yt|xt) 1 n ∑n t=1 πw(yt|xt) .
+74	45	As shown in Swaminathan and Joachims (2015b) and Lawrence et al. (2017a), reweighting over the entire data log Dlog is crucial since it avoids that high loss outputs in the log take away probability mass from low loss outputs.
+75	14	This multiplicative control variate has the additional effect of reducing the variance of the estimator, at the cost of introducing a bias of order O( 1n) that decreases as n increases (Kong, 1992).
+76	21	The desirable properties of this control variate cannot be realized in a stochastic (minibatch) learning setup since minibatch sizes large enough to retain the desirable reweighting properties are infeasible for large neural networks.
+78	59	The idea is inspired by one-step-late algorithms that have been introduced for EM algorithms (Green, 1990).
+82	15	Updates are performed using minibatches, however, reweighting is based on the entire log, allowing us to retain the desirable properties of the control variate.
+84	46	If the renormalization is updated periodically, e.g. after every validation step, renormalizations under w or w′ are not much different and will not hamper convergence.
+87	51	For our application of counterfactual learning to human bandit feedback, we found another deviation from standard counterfactual learning to be helpful: For humans, it is hard to assign a graded reward to a query at a sequence level because either the query is correct or it is not.
+88	272	In particular, with a sequence level reward of 0 for incorrect queries, we do not know which part of the query is wrong and which parts might be correct.
+89	52	Assigning rewards at token-level will ease the feedback task and allow the semantic parser to learn from partially correct queries.
+90	44	Thus, assuming the underlying policy can decompose over tokens, a token level (DPM+T) reward objective can be defined: R̂DPM+T(πw) = 1 n n∑ t=1  |y|∏ j=1 δjπw(yj |xt)  .
+94	13	A point of interest consists of one or more associated GPS points.
+104	82	For example, for the question “How many hotels are there in Paris?” there are 951 hotels annotated in the OSM database.
+105	66	Instead we propose to automatically transform the query into a block of statements that can easily be judged as correct or incorrect by a human.
+110	19	The presence of certain tokens in a query trigger different statement types.
+111	17	For example, the token “area” triggers the statement type “Town”.

@@ -1,0 +1,30 @@
+2	182	The immediate goal of the first year of REAL is to bring together high school and undergraduate students, who have fresh ideas of how people will talk to things in the future and what the constraints may be, and seasoned researchers, who know how to create the systems and could work with the students to realize a Wizard of Oz (WOZ) study or a proof-of-concept prototype to try out the idea.
+3	69	At SLT 2012, panelists stated that there was no publicly available, significant stream of spoken dialog data coming from real users other than the Lets Go data (Raux et al., 2006).
+9	53	Speech and spoken dialog researchers often note that whereas industry has access to a wealth of ecologically valid speech data, the academic community lags far behind.
+10	27	The lag in quantity of data can impede research on system evaluation and in training the machine learning (ML) system components.
+11	18	This chasm can be filled by using recruited subjects.
+12	50	But studies (Ai et al., 2007) have found that the resulting data does not resemble real user data.
+13	95	Paid users follow the rules, but are usu- 209 ally just going through the motions.
+51	15	They were sent to the scientific committee for review, with two reviewers per proposal.
+54	19	speech is clearly necessary: the students needed to show that the application solves an issue thanks to its use of speech communication.
+55	18	practical: this idea could be implemented either with current technology or with clearly definable extensions.
+56	15	viable: this application is likely to attract real users — while it is not evident at present how best to measure viability, at this stage we could poll potential users.
+59	16	They included feedback on shaping the ideas (focusing the application, getting rid of spurious activities) and requiring more details about the application (how would someone use it, under what conditions would someone use it.
+60	48	After the students received their feedback, they were told what they would need to prepare for the workshop: a oneminute presentation of their idea, a poster and a presentation in front of the poster.
+61	41	Some students (China, Ireland) had exams at the time of the workshop and participated via Skype.
+62	25	These students were asked to record their in-front-of-poster presentations in case Skype was not working (in the end it worked very well!).
+63	47	Then the students were given some training: • a class on speech and spoken dialog for the high school students (undergrads had had this in one of their regular classes); • a video on how to make a poster – ensuring smooth communication between students and researchers on the day of the workshop: the poster included the goal, a comparison to what presently exists, why their idea was better, and an illustration of the use of their idea showing why it is needed, how someone would use it and how it solves the problem.
+65	18	After the one-minute presentations, the students stood in front of their posters for 90 minutes.
+80	19	Boneconducting devices can answer this question by capturing sounds emanating through skulls.
+91	14	Many people have dietary restrictions and the Gourmet would suggest restaurants where the user can be assured of finding something they can eat.
+96	18	Lecture Trainer (Qizhe Xie, China) This application would listen to a user preparing a presentation and help them out.
+122	37	One of the ideas has already led to a peer-reviewed publication (Jung et al., 2015).
+125	33	Although we generally think that speech should be used in any setting, it is possible that privacy may restrict its frequent use in environments where there are other people in close proximity to the speaker.
+130	21	Students described their ideas to technologists/researchers.
+140	97	The first year of REAL can be assessed using several metrics.
+141	16	But before the metrics are used, some perspective is needed.
+142	84	It is very difficult in one year to get a large part of the speech and spoken dialog community actively interested.
+143	21	It is hard to plan the venue of the workshop so that it coincides with a major meeting, while not taking place at the same time.
+148	38	There were 21 researchers at the Workshop, 17 people were from academia, and the rest were from industry.
+161	58	The action items were: choosing application domains that will necessitate privacy, like banking; collecting data with a WOZ setup; analyzing the data to find features for encoding the output of the skull microphone; developing models for transforming the output of the skull microphone to text; developing a spoken dialog system for exhibiting the feasibility of the approach.
+163	113	As seen on Table 3, several of the students have found mentors and they will be going forward with their projects.

@@ -1,0 +1,30 @@
+0	15	Supervised learning has been successful in many application fields.
+1	28	The vast majority of supervised learning research falls into the Empirical Risk Minimization (ERM) framework (Vapnik, 1998) that assumes a test distribution to be the same as a training distribution.
+2	28	However, such an assumption can be easily contradicted in real-world applications due to sample selection bias or non-stationarity of the environment (Quionero-Candela et al., 2009).
+3	8	Once the distribution shift occurs, the performance of the traditional machine learning techniques can be significantly degraded.
+4	16	This makes the traditional techniques unreliable for practitioners to use in the real world.
+5	19	Distributionally Robust Supervised Learning (DRSL) is a promising paradigm to tackle this problem by obtaining prediction functions explicitly robust to distribution shift.
+6	12	More specifically, DRSL considers a minimax game between a learner and an adversary: the adversary first shifts the test distribution from the training distribution within a pre-specified uncertainty set so as to maximize the expected loss on the test distribution.
+7	9	The learner then minimizes the adversarial expected loss.
+8	25	DRSL with f -divergences (Bagnell, 2005; Ben-Tal et al., 2013; Duchi et al., 2016; Namkoong & Duchi, 2016; 2017) is particularly well-studied and lets the uncertainty set for test distributions be an f -divergence ball from a training distribution (see Section 2 for the detail).
+16	9	We establish convergence properties of our proposed DRSL (Theorem 4) and derive efficient optimization algorithms (Section 5).
+23	20	Recently, in the context of fair machine learning, Hashimoto et al. (2018) applied DRSL with f - divergences in an attempt to achieve fairness without demographic information.
+56	9	However, we show rather surprising results, suggesting that the DRSL, when applied to classification, still ends up giving a classifier optimal for a training distribution.
+57	12	This is too pessimistic for DRSL because it ends up behaving similarly to ordinary ERM-based supervised classification that does not explicitly consider distribution shift.
+63	18	The misclassification rate corresponds to the use of the 0-1 loss, i.e., ℓ(ŷ, y) ≡ 1{sign(ŷ) ̸= y} for binary classification, and ℓ(ŷ, y) ≡ 1{argmaxkŷk ̸= y} for multi-class classification, where 1{·} is the indicator function and ŷk is the k-th element of ŷ ∈ RK .
+65	14	Therefore, at training time, we instead use surrogate losses that are easy to optimize, such as the logistic loss and the cross-entropy loss.
+66	13	In the following, we state our main results, analyzing ARM and AERM in the classification scenario by considering the use of the 0-1 loss and a surrogate loss.
+71	7	This readily implies that R(θ) and Radv(θ) have exactly the same set of global minima in the regime of Radv(θ) < 1.
+72	12	An immediate practical implication is that if we select hyper-parameters such as λ for regularization according to the adversarial risk with the 0-1 loss, we will end up choosing hyper-parameters that attain the minimum misclassification rate on the training distribution.
+77	9	We then show a surprising fact in Theorem 2 that the similar property also holds for ARM using the sub-class of classification-calibrated losses.
+79	6	Let ℓ(ŷ, y) be a classification calibrated loss, and assume that the hypothesis class is equal to all measurable functions.
+91	14	(12) For example, following Definition 1, we can show that the exponential loss is steeper than the logistic loss.
+92	8	Intuitively, outlier-sensitive losses are steeper than more outlier-robust losses.
+110	11	This implies that AERM, similarly to ordinary ERM using a classification-calibrated loss, will try to give a classifier optimal for the training distribution.
+118	11	In such a case, the use of the steeper loss may indeed make regressors distributionally robust in terms of the same loss.
+122	13	We then analyze its convergence property and discuss the practical use of our DRSL.
+129	13	Our theoretical insight suggests that in order to overcome the pessimism of ARM applied to classification, it is crucial to structurally constrain r(·, ·) in Uf , or equivalently, to impose structural assumptions on the distribution shift.
+244	27	To rectify this, we presented simple DRSL that gives a robust classifier based on structural assumptions on distribution shift.
+245	11	We derived efficient optimization algorithms for our DRSL and empirically demonstrated its effectiveness.
+246	47	(which is not the case in ordinary classification), we confirmed that the methods indeed achieved the best performance in terms of the metrics they optimized for, i.e., ERM, AERM, and structural AERM performed the best in terms of the ordinary risk, adversarial risk and structural adversarial risk, respectively.
+247	63	See Appendix K for the actual experimental results.

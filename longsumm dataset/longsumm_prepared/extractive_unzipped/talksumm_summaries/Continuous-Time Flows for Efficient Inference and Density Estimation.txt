@@ -1,0 +1,30 @@
+30	1	Parameters are learned by minimizing the negative evidence lower bound (ELBO), i.e., the KL divergence between p✓(x, z) and q (z |x): KL (q (z |x)kp✓(x, z)) , Eq (z |x) [log q (z |x) log p✓(x, z)], via stochastic gradient descent (Bottou, 2012).
+32	1	often restricted to simple distributions for feasibility, e.g., the normal distribution discussed above, and thus the gap between q (z |x) and p✓(z |x) is typically large for complicated posterior distributions.
+49	1	We specify CTFs where transformations are indexed by real numbers, thus they could be considered as consisting of infinite transformations.
+58	1	Denoting the distribution of Zt as ⇢t, it is well known (Risken, 1989) that ⇢t is characterized by the Fokker-Planck (FP) equation: @t⇢t = rz · (⇢tF (Zt) +rz · (⇢tV (Zt)V >(Zt))) , (3) where a ·b , a> b for vectors a and b.
+62	1	An approximation error bound for the scheme is also derived.
+66	1	‡Note we define continuous-time flows in terms of latent variable Z in order to incorporate it into the setting of inference.
+78	1	Learning by avoiding problem ii) is presented in Section 3.2 via amortization.
+102	1	However, the problem becomes more challenging in theoretical analysis, an interesting point left for future work.
+106	1	Note that our goal is related but different from the standard setup as in (Vollmer et al., 2016; Chen et al., 2015), which studies the closeness of ⇢̄T to p✓(x, z).
+135	1	In practice, one can choose to distill knowledge for several steps (e.g., Tk) instead of one step (e.g., T1) to Q (·) each time.
+151	1	Generate (z0, · · · , zK) according to q (z0 |x) and the discretized flow with transformations {Tk}; 2.
+152	1	Optimize ✓ by minimizing the ELBO (7) with the gen- erated sample path.
+153	1	In testing, we use only the finally learned q (z0 |x) for inference (into which the CTF has been distilled), and hence testing is like the standard VAE.
+158	1	Note our model can be placed in between existing implicit and explicit density estimation methods, because we model the data density with an explicit distribution form up to an intractable normalizer.
+163	1	This can be done by adopting the CTF idea above, i.e., distilling knowledge of a CTF (which approaches p✓(x)) to the generator.
+165	1	Furthermore, when evaluating the likelihood for test data, the constant Z(✓) can also be approximated by Monte Carlo integration with samples drawn from the generator.
+167	1	More connections are discussed below.
+172	1	Here T (·, ·) is the continuous-time flow; a sample x0 from q (·) is implemented by a deep neural network (generator) G (!)
+177	1	After that, ✓ is updated by drawing samples from q (·) to estimate the expectation in (9).
+179	1	There is an interesting relation between our model and the WGAN framework (Arjovsky et al., 2017).
+186	1	By inspecting (10) and (11), it is clear that: i) when learning the energy-based model parameters ✓, the objective can be interpreted as maximizing an upper bound of the MLE shown in (11); ii) when optimizing the parameter of the inference network, we adopt the amortized learning procedure presented in Algorithm 1, whose objective is min KL (q kp✓), coinciding with the last two terms in (11).
+189	1	Note another difference between MacGAN and standard GAN framework is the way of learning the generator q .
+202	1	We conduct experiments to test our CTF-based framework for efficient inference and density estimation problems, and compared them with related methods.
+206	1	khttps://github.com/DartML/SteinGAN
+208	1	Particularly, we want to verify the necessity of distribution matching defined in (8), i.e., we test D implemented as a discriminator for Wasserstein distance (adversarial-CTF) against that implemented with standard Euclidean distance (`2-CTF), which can be considered as an instance of the amortized MCMC (Li et al., 2017b) with a Langevin-dynamic transition function and a Euclidean-distance-based divergence measure for samples.
+243	2	Compared to discrete-time NFs, CTFs are more general and flexible due to the fact that their stationary distributions can be controlled without extra flow parameters.
+244	15	We develop theory on the approximation accuracy when adopting a CTF to approximate a target distribution.
+245	30	We apply CTFs on two classes of deep generative models, a variational autoencoder for efficient inference, and a GAN-like density estimator for explicit density estimation and efficient data generation.
+246	145	Experiments show encouraging results of our framework in both models compared to existing techniques.
+247	141	One interesting direction of future work is to explore more efficient learning algorithms for the proposed CTF-based framework.

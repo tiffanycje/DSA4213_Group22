@@ -1,0 +1,30 @@
+1	24	Embedding models are easily trained—several implementations are publicly available—and relationships between the embedding vectors, often measured via cosine similarity, can be used to reveal latent semantic relationships between pairs of words.
+2	12	Word embeddings are increasingly being used by researchers in unexpected ways and have become popular in fields such as digital humanities and computational social science (Hamilton et al., 2016; Heuser, 2016; Phillips et al., 2017).
+3	8	Embedding-based analyses of semantic similarity can be a robust and valuable tool, but we find that standard methods dramatically under-represent the variability of these measurements.
+6	25	Fortunately, we also find that simply averaging over multiple bootstrap samples is sufficient to produce stable, reliable results in all cases tested.
+15	23	While word embeddings may appear to measure properties of language, they in fact only measure properties of a curated corpus, which could suffer from several problems.
+16	17	The training corpus is merely a sample of the authors’ language model (Shazeer et al., 2016).
+19	20	Such small corpora are common in digital humanities and computational social science, and it is often impossible to mitigate these problems simply by expanding the corpus.
+21	6	We explore causes of this variability, which range from the fundamental stochastic nature of certain algorithms to more troubling sensitivities to properties of the corpus, such as the presence or absence of specific documents.
+24	14	Finally, we examine the effects of these manipulations on the cosine similarities between embeddings.
+25	8	We find that there is considerable variability in embeddings that may not be obvious to users of these methods.
+54	16	We collected two sub-corpora from each of three datasets (see Table 2) to explore how word embeddings are affected by size, vocabulary, and other parameters of the training corpus.
+55	7	In order to better model realistic examples of corpus-centered research, these corpora are deliberately chosen to be publicly available, suggestive of social research questions, varied in corpus parameters (e.g. topic, size, vocabulary), and much smaller than the standard corpora typically used in training word embeddings (e.g. Wikipedia, Gigaword).
+72	6	AskScience is more than five times larger than AskHistorians, though the document length is generally longer for AskHistorians (see Table 2).
+74	9	We treat an original post as a single document.
+75	9	Order and presence of documents We use three different methods to sample the corpus: FIXED, SHUFFLED, and BOOTSTRAP.
+77	19	The purpose of this setting is to measure the baseline variability of an algorithm, independent of any change in input data.
+78	8	Algorithmic variability may arise from random initializations of learned parameters, random negative sampling, or randomized subsampling of tokens within documents.
+79	20	The SHUFFLED setting includes each document exactly once, but the order of the documents is randomized for each model.
+80	9	The purpose of this setting is to evaluate the impact of variation on how we present examples to each algorithm.
+81	11	The order of documents could be an important factor for algorithms that use online training such as SGNS.
+82	12	The BOOTSTRAP setting samples N documents randomly with replacement, where N is equal to the number of documents in the FIXED setting.
+83	25	The purpose of this setting is to measure how much variability is due to the presence or absence of specific sequences of tokens in the corpus.
+84	66	See Table 3 for a comparison of these three settings.
+85	29	Size of corpus We expect the stability of embedding-based word similarities to be influenced by the size of the training corpus.
+86	13	As we add more documents, the impact of any specific document should be less significant.
+87	10	At the same time, larger corpora may also tend to be more broad in scope and variable in style and topic, leading to less idiosyncratic patterns in word co-occurrence.
+88	21	Therefore, for each corpus, we curate a smaller sub-corpus that contains 20% of the total corpus documents.
+89	9	These samples are selected using contiguous sequences of documents at the beginning of each training (this ensures that the FIXED setting remains constant).
+93	36	We expect this choice of segmentation to have the largest impact on the BOOTSTRAP setting.
+94	14	Documents are often characterized by “bursty” words that are locally frequent but globally rare (Madsen et al., 2005), such as the name of a defendant in a court case.

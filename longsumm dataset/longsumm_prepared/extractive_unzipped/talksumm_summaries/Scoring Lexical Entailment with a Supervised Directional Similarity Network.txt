@@ -1,0 +1,30 @@
+2	14	To address this, previous work has focused on introducing supervision into individual word embeddings, allowing them to better capture the desired lexical properties.
+5	38	While these methods integrate hand-crafted features from external lexical resources with distributional information, they improve only the embeddings of words that have annotated lexical relations in the training resource.
+7	43	Instead of optimising individual word embeddings, our model uses general-purpose embeddings and optimises a separate neural component to adapt these to the specific task.
+8	18	In particular, our neural Supervised Directional Similarity Network (SDSN) dynamically produces task-specific embeddings optimised for scoring the asymmetric lexical entailment relation between any two words, regardless of their presence in the training resource.
+9	11	Our results with task-specific embeddings indicate large improvements on the HyperLex dataset, a standard graded lexical entailment benchmark.
+10	10	The model also yields improvements on a simpler nongraded entailment detection task.
+14	28	Graded lexical entailment provides finer-grained judgements on a continuous scale.
+16	27	The pair (guest→ person) has received a slightly lower score of 7.22, as a prototypical guest is often a person but there can be exceptions.
+19	8	Therefore, in what follows, we describe a novel supervised framework for constructing task-specific word embeddings, optimised for the graded entailment task at hand.
+21	14	The system receives a pair of words as input and predicts a score that represents the strength of the given lexical relation.
+27	33	For example, when deciding whether seal is a type of animal, the model is able to first see the word animal and then apply a mask that blocks out features of the word seal that are not related to nature.
+28	8	During development we found it best to apply this gating in both directions, therefore we condition each word based on the other.
+29	14	Each of the word representations is then passed through a non-linear layer with tanh activation, mapping the words to a new space that is more suitable for the given task: m1 = tanh(Wm1w̃1 + bm1) (5) m2 = tanh(Wm2w̃2 + bm2) (6) where Wm1 , Wm2 , bm1 and bm2 are trainable parameters.
+39	14	The output y represents the confidence that the two input words are in a lexical entailment relation.
+41	9	Word embeddings are well-suited for capturing distributional similarity, but they have trouble encoding features such as word frequency, or the number of unique contexts the word has appeared in.
+42	8	This information becomes important when deciding whether one word entails another, as the system needs to determine when a concept is more general and subsumes the other.
+43	21	We construct classical sparse distributional word vectors and use them to extract 5 unique features for every word pair, to complement the features extracted from neural embeddings: • Regular cosine similarity between the sparse distributional vectors of both words.
+54	14	Each of the five features is calculated separately for the two vector spaces, resulting in 10 corpus-based features.
+55	11	We integrate them into the network by conditioning the hidden layer h on this vector: h = tanh(Whd+Wxx+ bh) (11) where x is the feature vector of length 10 and Wx is the corresponding weight matrix.
+65	10	Initial experiments with optimising the network to predict the minimal and maximal possible score for these cases did not lead to improved performance.
+72	11	For regularisation, we apply dropout to the embeddings with p = 0.5.
+78	9	Following a standard practice, we report Spearman’s ρ correlation of the model output to the given human-annotated scores.
+79	11	We conduct experiments on two standard data splits for supervised learning: random split and lexical split.
+80	46	In the random split the data is randomly divided into training, validation, and test subsets containing 1831, 130, and 655 word pairs, respectively.
+88	9	The previous top approaches, including the Paragram+CF embeddings, make use of numerous annotations provided by WordNet or similarly rich lexical resources, while for SDSN and SDSN+SDF only use the designated relation-specific training set and corpus statistics.
+94	17	Glavaš and Ponzetto (2017) proposed a related dual tensor model for the binary detection of asymmetric relations (Dual-T).
+98	23	We introduce a novel neural architecture for mapping and specialising a vector space based on limited supervision.
+99	25	While prior work has focused only on optimising individual word embeddings available in external resources, our model uses general-purpose embeddings and optimises a separate neural component to adapt these to the specific task, generalising to unseen data.
+100	56	The system achieves new state-of-the-art results on the task of scoring graded lexical entailment.
+101	112	Future work could apply the model to other lexical relations or extend it to cover multiple relations simultaneously.

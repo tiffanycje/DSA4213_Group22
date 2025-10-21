@@ -1,0 +1,30 @@
+11	21	In order to exploit this aspect of closed domain conversations we build our neural encoderdecoder architecture called the Exemplar Encoder Decoder (EED), that learns to generate a response for a given context by exploiting similar contexts from training conversations.
+12	17	Thus, instead of having the seq2seq model learn patterns of language only from aligned parallel corpora, we assist the model by providing it closely related (similar) samples from the training data that it can refer to while generating text.
+13	14	Specifically, given a context c, we retrieve a set 1We use the phrase “dialog context”, “conversation con- text” and “context” interchangeably throughout the paper.
+15	91	We create an exemplar vector e(k) by encoding the response r(k) (also referred to as exemplar response) along with an encoded representation of the current context c. We then learn the importance of each exemplar vector e(k) based on the likelihood of it being able to generate the ground truth response.
+16	38	We believe that e(k) may contain information that is helpful in generating the response.
+17	51	Table 1 highlights the words in exemplar responses that appear in the ground truth response as well.
+18	31	Contributions: We present a novel Exemplar Encoder-Decoder (EED) architecture that makes use of similar conversations, fetched from an index of training data.
+19	214	The retrieved contextresponse pairs are used to create exemplar vectors which are used by the decoder in the EED model, to learn the importance of training context-response pairs, while generating responses.
+20	99	We present detailed experiments on the publicly benchmarked Ubuntu dialog corpus data set (Lowe et al., 2015) as well a large collection of more than 127,000 technical support conversations.
+21	6	We compare the performance of the EED model with the existing state of the art generative models such as HRED (Serban et al., 2016) and VHRED (Serban et al., 2017b).
+22	106	We find that our model out-performs these models on a wide variety of metrics such as the recently proposed Activity Entity metrics (Serban et al., 2017a) as well as Embedding-based metrics (Lowe et al., 2015).
+23	55	In addition, we present qualitative insights into our results and we find that exemplar based responses are more informative and diverse.
+24	22	The rest of the paper is organized as follows.
+25	41	Section 2 briefly describes the recent works in neural dialogue generation The details of the proposed EED model for dialogue generation are described in detail in Section 3.
+45	42	A conversation consists of a sequence of utterances.
+46	21	At a given point in the conversation, the utterances expressed prior to it are jointly referred to as the context.
+47	11	The utterance that immediately follows the context is referred to as the response.
+49	51	We retrieve a set of K exemplar contextresponse pairs from an inverted index created using the training data in an off-line manner.
+52	74	The EED encoder combines the input context and the retrieved responses to create a set of exemplar vectors.
+53	66	The EED decoder then uses the exemplar vectors based on the similarity between the input context and retrieved contexts to generate a response.
+55	99	Given a large collection of conversations as (context, response) pairs, we index each response and its corresponding context in tf − idf vector space.
+56	16	We further extract the last turn of a conversation and index it as an additional attribute of the context-response document pairs so as to allow directed queries based on it.
+59	18	Given the exemplar pairs (c(k), r(k)), 1 ≤ k ≤ K and an input context-response pair (c, r), we feed the input context c and the exemplar contexts c(1), .
+60	28	, c(K) through an encoder to generate the embeddings as given below: ce = Encodec(c) c(k)e = Encodec(c (k)), 1 ≤ k ≤ K Note that we do not constrain our choice of encoder and that any parametrized differentiable architecture can be used as the encoder to generate the above embeddings.
+61	9	Similarly, we feed the exemplar responses r(1), .
+62	13	, r(K) through a response encoder to generate response embeddings r (1) e , .
+65	20	e(k) = [ce; r (k) e ], 1 ≤ k ≤ K (2) The exemplar vectors e(k), 1 ≤ k ≤ K are further used by the decoder for generating the ground truth response as described in the next section.
+67	30	More similar an exemplar context is to the input context, higher should be its effect in generating the response.
+70	6	Let pdec(r|e(k)) be the distribution of generating the ground truth response given the exemplar embedding.
+71	49	The objective function to be maximized, is expressed as a function of the scores s(k), the decoding distribution pdec and the exemplar vectors e(k) as shown below: ll = K∑ k=1 s(k) log pdec(r|e(k)) (4) Note that we weigh the contribution of each exemplar vector to the final objective based on how similar the corresponding context is to the input context.

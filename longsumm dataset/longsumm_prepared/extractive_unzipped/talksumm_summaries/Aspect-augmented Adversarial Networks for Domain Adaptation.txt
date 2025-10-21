@@ -1,0 +1,30 @@
+46	1	Finally, we examine and illustrate the impact of individual components on the resulting performance.
+89	1	Given a document d, and the aspect of interest, we wish to predict the corresponding aspect-dependent class label y (e.g., y ∈ {−1, 1}).
+93	1	Beyond labeled documents for the source aspect {dl, ysl }l∈L, and shared unlabeled documents for source and target aspects {dl}l∈U , we assume further that we have relevance scores pertaining to each aspect.
+95	1	Relevance is always aspect dependent yet often easy to provide in the form of simple keyword rules.
+98	1	Let R = {(a, l, i)} denote the index set of relevance labels such that if (a, l, i) ∈ R then aspect a’s relevance label ral,i is available for the ith sentence in document dl.
+128	2	The purpose of this reconstruction step is to balance adversarial training signals propagating back from the domain classifier.
+143	1	4 This process is omitted in Figure 2 for brevity.
+144	1	Document encoding The initial vector representation for each document such as dl is obtained as a relevance weighted combination of the associated sentence vectors, i.e., xdoc,al = ∑ i r̂ a l,i · xsenl,i∑ i r̂ a l,i (4) The resulting vector selectively encodes information from the sentences based on relevance to the focal aspect.
+146	1	To help remove non-transferable information, we add a transformation layer to map the initial document vectors xdoc,al to their domain invariant (as a set) versions, as shown in Figure 2.
+155	1	It must therefore be cooperatively learned together with the encodings.
+156	1	Let p̂l;k denote the predicted probability of class k for document dl when the document is encoded from the point of view of the source aspect.
+157	1	, y s l;m] is a one-hot vector for the correct (given) source class label for document dl, hence also a distribution.
+176	1	We use 500 held out reports as our test set and use the rest of the labeled data as our training set: 23.8k reports for DCIS, 10.7k for LCIS, 22.9k for IDC, and 9.2k for ALH.
+177	1	Table 1 summarizes statistics of the dataset.
+179	1	For example, we want to train a model on annotations of DCIS and apply it on LCIS.
+187	1	We randomly select 200k restaurant reviews as the unlabeled data in the target domain.
+190	1	The hotel reviews naturally have ratings for six aspects, including value, room quality, checkin service, room service, cleanliness and location.
+195	1	We use those keywords as supervision for learning the relevance scorer.
+219	1	As shown in Table 5, the gains are more significant when training on room and checkin aspects, reaching 6.9% and 4.5%, respectively.
+223	1	Therefore, it is essential for the model to have the capacity of distinguishing across different aspects in order to succeed in this task.
+225	1	On average, AAN-NR actually outperforms AAN-Full by 0.9%.
+230	1	Therefore, it is not surprising that AAN-NR sometimes delivers a better classification accuracy than AAN-Full.
+235	1	… even the water tasted weird .
+236	1	… • i had the shrimp boil and it was very underseasoned .
+237	1	much closer to bland than anything .
+239	1	… • however , the decor was just fair .
+276	6	This can be explained by the observation from Table 5 that the model without relevance scoring performs equally well as the full model due to the tight dependence in aspect labels.
+277	17	In this paper, we propose a novel aspect-augmented adversarial network for cross-aspect and crossdomain adaptation tasks.
+278	77	Experimental results demonstrate that our approach successfully learns invariant representation from aspect-relevant fragments, yielding significant improvement over the mSDA baseline and our model variants.
+279	75	The effectiveness of our approach suggests the potential application of adversarial networks to a broader range of NLP tasks for improved representation learning, such as machine translation and language generation.

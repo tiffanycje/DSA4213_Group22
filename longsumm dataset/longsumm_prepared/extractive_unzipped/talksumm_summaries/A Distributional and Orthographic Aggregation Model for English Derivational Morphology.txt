@@ -1,0 +1,30 @@
+27	127	Derivational transformations generate novel words that are semantically composed from the root word and the transformation.
+30	45	For example, for the verb ground, the RESULT transformation could plausibly take as many forms as2 (ground, RESULT)→ grounding (ground, RESULT)→ *groundation (ground, RESULT)→ *groundment (ground, RESULT)→ *groundal However, only one is correct, even though each suffix appears often in the RESULT transformation of other words.
+31	58	We will refer to this problem as “suffix ambiguity.” Second, many derived words seem to lack a generalizable orthographic relationship to their root words.
+33	29	It is unlikely, given an orthographically similar verb creak, that the RESULT be creech instead of, say, creaking.
+36	48	In this section, we introduce the prior state-of-theart model, which serves as our baseline system.
+37	37	Then we build on top of this system by incorporating a dictionary constraint and rescoring the model’s hypotheses with token frequency information to address the suffix ambiguity problem.
+45	25	xm, #, t, where # is a special symbol to denote the start and end of a word, and the encoding of the derivational transformation t is concatenated to the input characters.
+49	33	The suffix ambiguity problem poses challenges for models which rely exclusively on input characters for information.
+57	19	yn over which − log p(y | x, t) can be decomposed − log p(y | x, t) = n∑ t=1 − log p(yt | y1:t−1,x, t) (3) Solving Equation 2 can be viewed as solving a shortest path problem from a special starting state to a special ending state via some path which uniquely represents y.
+58	48	Each vertex in the graph represents some sequence y1:i, and the weight of the edge from y1:i to y1:i+1 is given by − log p(yi+1 | y1:i−1,x, t) (4) The weight of the path from the start state to the end state via the unique path that describes y is exactly equal to Equation 3.
+62	21	Given a dictionary YD, the search space is restricted to only those words in the dictionary by searching over the trie induced from YD, which is a subgraph of the unrestricted graph.
+75	55	We train a simple combination of two scores: the seq2seq model score for the hypothesis, and the log of the word frequency of the hypothesis.
+83	81	However, the semantic relationships between root words and derived words are the same even when the orthography is dissimilar.
+88	39	For each derivational transformation t, we learn a function ft : Rd → Rd that maps vx to vy.
+96	21	We leverage this intuition to build a model that chooses, for each observation, whether to generate according to orthographic information via the SEQ model, or produce a potentially irregular form via the DIST model.
+97	29	To train this model, we use a held-out portion of the training set, and filter it to only observations for which exactly one of the two models produces the correct derived form.
+99	31	We model this as a logistic regression (t is omitted for clarity): P (·|yD,yS,x) = softmax(We [DIST(yD|x); SEQ(yS|x)] + be) where We and be are learned parameters, yD and yS are the hypotheses of the distributional and seq2seq models, and DIST(·) and SEQ(·) are the models’ likelihood functions.
+104	29	The transformations are from the following categories: ADVERB (ADJ→ ADV), RESULT (V→ N), AGENT (V→ N), and NOMINAL (ADJ→ N).
+111	18	In many sequence models where the vocabulary size is large, exact inference by finding the true shortest path in the graph discussed in Section 3.2 is intractable.
+138	90	Open-vocabulary models Our open-vocabulary aggregation model AGGR improves performance by 3.8 points accuracy over SEQ, indicating that the sequence models and the distributional model are contributing complementary signals.
+154	60	Results by Transformation Next, we compare our best open vocabulary and closed vocabulary models to previous work across each derivational transformation.
+155	45	The largest improvement over the baseline system is for NOMINAL transformations, in which the AGGR has a 49% reduction in error.
+159	187	The distributional model, which does not rely on suffix information, does not have this same weakness, so the aggregation AGGR model has better results.
+162	30	We believe this is due to the ambiguity of the ground truth: Many root words have seemingly multiple plausible nominal transformations, such as rigid → {rigidness, rigidity} and equivalent → {equivalence, equivalency}.
+166	19	We have argued that DIST is able to correctly produce derived words that are orthographically irregular or infrequent in the training data.
+169	81	DIST’s improvements over SEQ are generally much less frequent in the training data, or as in the case of -ment, are less frequent than other suffixes for the same transformation (like -ion.)
+171	91	There has been much work on the related task of inflected word generation (Durrett and DeNero, 2013; Rastogi et al., 2016; Hulden et al., 2014).
+172	31	It is a structurally similar task to ours, but does not have the same difficulty of challenges (Cotterell et al., 2017a,b), which we have addressed in our work.
+175	45	Our implementation of the dictionary constraint is an example of a special constraint which can be directly incorporated into the inference algorithm at little additional cost.
+178	26	In inflectional morphology, Nicolai et al. (2015) use this idea to rerank hypotheses using orthographic features and Faruqui et al. (2016) use a character-level language model.

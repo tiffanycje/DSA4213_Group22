@@ -1,0 +1,30 @@
+7	28	While IQL avoids the scalability problems of centralised learning, it introduces a new problem: the environment becomes nonstationary from the point of view of each agent, as it contains other agents who are themselves learning, ruling out any convergence guarantees.
+8	17	Fortunately, substantial empirical evidence has shown that IQL often works well in practice (Matignon et al., 2012).
+11	65	Experience replay not only helps to stabilise the training of a deep neural network, it also improves sample efficiency by repeatedly reusing experience tuples.
+16	17	Consequently, the incompatibility of ex- perience replay with IQL is emerging as a key stumbling block to scaling deep multi-agent RL to complex tasks.
+47	14	We begin with background on single-agent and multi-agent reinforcement learning.
+52	25	Q-learning (Watkins, 1989) uses a sample-based approximation of T to iteratively improve the Q-function.
+54	17	During training, actions are chosen at each timestep according to an exploration policy, such as an -greedy policy that selects the currently estimated best action arg maxuQ(s, u) with probability 1 − , and takes a random exploratory action with probability .
+55	36	The reward and next state are observed, and the tuple 〈s, u, r, s′〉 is stored in a replay memory.
+70	22	Since our setting is partially observable, IQL can be implemented by having each agent condition on its action-observation history, i.e., Qa(τa, ua).
+74	16	However, IQL introduces a key problem: the environment becomes nonstationary from the point of view each agent, as it contains other agents who are themselves learning, ruling out any convergence guarantees.
+78	14	While IQL without a replay memory can learn well despite nonstationarity so long as each agent is able to gradually track the other agents’ policies, that seems hopeless with a replay memory constantly confusing the agent with obsolete experience.
+84	27	Just as an RL agent can use importance sampling to learn off-policy from data gathered when its own policy was different, so too can it learn off-environment (Ciosek & Whiteson, 2017) from data gathered in a different environment.
+85	32	Since IQL treats other agents’ policies as part of the environment, off-environment importance sampling can be used to stabilise experience replay.
+86	26	In particular, since we know the policies of the agents at each stage of training, we know exactly the manner in which the environment is changing, and can thereby correct for it with importance weighting, as follows.
+103	16	Consequently, the importance ratio defined above, πtr−a(u−a|s) π ti −a(u−a|s) , is only an approximation in the partially observable setting.
+105	14	Truncating or adjusting the importance weights can reduce the variance but introduces bias.
+122	56	It should typically vary smoothly over training, to allow the model to generalise across experiences in which the other agents execute policies of varying quality as they learn.
+123	15	An obvious candidate for inclusion in the fingerprint is the training iteration number e. One potential challenge is that after policies have converged, this requires the model to fit multiple fingerprints to the same value, making the function somewhat harder to learn and more difficult to generalise from.
+136	18	During an episode, each unit is identified by a positive integer initialised on the first time-step.
+141	25	Opponents are controlled by the game AI, which is set to attack all the time.
+142	18	We consider two variations: 3 marines vs 3 marines (m3v3), and 5 marines vs 5 marines (m5v5).
+176	40	This fingerprint provides sufficient disambiguation for the model to track the quality of the other agents’ policies over the course of training, and make proper use of the experience buffer.
+177	18	The network still sees a diverse array of input states across which to generalise but is able to modify its predicted value in accordance with the known stage of training.
+180	24	Figure 3, which shows the estimated value for XP+FS of a single initial state observation with different inputs, demonstrates that the network learns to smoothly vary its value estimates across different stages of training, correctly associating high values with the low seen later in training.
+181	23	This approach allows the model to generalise between best responses to different policies of other agents.
+186	14	For example, the agent can observe that it or its allies have taken many seemingly random actions, and infer that the sampled experience comes from early in training.
+190	74	However, the hidden states of a recurrent model trained with a fingerprint (Figure 4d) are even more informative.
+191	99	This paper proposed two methods for stabilising experience replay in deep multi-agent reinforcement learning: 1) using a multi-agent variant of importance sampling to naturally decay obsolete data and 2) conditioning each agent’s value function on a fingerprint that disambiguates the age of the data sampled from the replay memory.
+192	61	Results on a challenging decentralised variant of StarCraft unit micromanagement confirmed that these methods enable the successful combination of experience replay with multiple agents.
+193	170	In the future, we would like to apply these methods to a broader range of nonstationary training problems, such as classification on changing data, and extend them to multiagent actor-critic methods.

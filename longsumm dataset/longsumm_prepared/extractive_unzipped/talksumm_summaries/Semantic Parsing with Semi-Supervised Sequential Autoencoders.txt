@@ -1,0 +1,30 @@
+2	75	In this paper we focus on learning mappings from input sequences x to output sequences y in domains where the latter are easily obtained, but annotation in the form of (x, y) pairs is sparse or expensive to produce, and propose a novel architecture that accommodates semi-supervised training on sequence transduction tasks.
+4	174	This is common in situations where we encode natural language into a logical form governed by some grammar or database.
+5	41	While such an autoencoder could in principle be constructed by stacking two sequence transducers, modelling the latent variable as a series of discrete symbols drawn from multinomial distributions creates serious computational challenges, as it requires marginalising over the space of latent sequences Σ∗x.
+7	57	Rather than drawing a discrete symbol in Σx from a softmax, we draw a distribution over symbols from a logistic-normal distribution at each time step.
+9	26	We demonstrate the effectiveness of our proposed model on three semantic parsing tasks: the GEOQUERY benchmark (Zelle and Mooney, 1996; Wong and Mooney, 2006), the SAIL maze navigation task (MacMahon et al., 2006) and the Natural Language Querying corpus (Haas and Riezler, 2016) on OpenStreetMap.
+10	19	As part of our evaluation, we introduce simple mechanisms for generating large amounts of unsupervised training data for two of these tasks.
+11	60	In most settings, the semi-supervised model outperforms the supervised model, both when trained on additional generated data as well as on subsets of the existing data.
+22	54	Marginalising over the possible latent strings or estimating the gradient through naı̈ve Monte Carlo methods would be a prohibitively high variance process because the number of strings is exponential in the maximum length (which we would have to manually specify) with the vocabulary size as base.
+28	24	We use the reparametrisation trick from Kingma and Welling (2014) to draw from the logistic normal, allowing us to backpropagate through the sampling process.
+29	98	Moving on to the decoder part of our model, in the third LSTM, we embed2 and encode x̃: hxt = ( f→x (x̃t, h x,→ t−1 ); f ← x (x̃t, h x,← t+1 ) ) (8) When x is observed, during supervised training and also when making predictions, instead of the distribution x̃ we feed the one-hot encoded x to this part of the model.
+33	26	We define a loss on this reconstruction which accommodates the unsupervised case, where x is not observed in the training data, and the supervised case, where (x, y) pairs are available.
+36	45	To this, we add as a regularising term the KL divergence KL[q(γ|y)‖p(γ)] which effectively penalises the mean and variance of q(γ|y) from diverging from those of a prior p(γ), which we model as a diagonal Gaussian N (0, I).
+37	18	This has the effect of smoothing the logistic normal distribution from which we draw the distributions over symbols of x, guarding against overfitting of the latent distributions over x to symbols seen in the supervised case discussed below.
+55	18	The dataset contains 1,500 training and 880 testing instances of natural language questions with corresponding machine readable queries over the geographical OpenStreetMap database.
+70	21	This intentionally simplistic approach is to demonstrate the applicability of our model.
+75	19	We evaluate our model on the three tasks in multiple settings.
+76	36	First, we establish a supervised baseline to compare the S2S model with prior work.
+87	27	supervised as the amount of labelled training data gets smaller.
+88	47	This suggests that our model can leverage unlabelled data even when only small amount of labelled data is available.
+96	58	While a simple instruction such as ‘turn left’ can easily be translated into the action sequence LEFT-STOP, more complex instructions such as ‘Walk forward until you see a lamp’ require knowledge of the agent’s position in the maze.
+100	112	Training regime We cross-validate over the three mazes in the dataset and report overall results weighted by test size (cf.
+103	31	The ablation studies (Table 7) show little gain for the semi-supervised approach when only using data from the original training set, but substantial improvement with the additional unsupervised data.
+106	46	encoded with bidirectional LSTMs.
+113	24	It is worth remembering that the supervised training regime consists of three folds of tuning on two maps with subsequent testing on the third map, which carries a risk of overfitting to the training maps.
+116	25	Ablation performance The experiments with additional unsupervised data prove the feasibility of our approach and clearly demonstrate the usefulness of the SEQ4 model for the general class of sequence-to-sequence tasks where supervised data is hard to come by.
+123	37	On the other hand, using a large amount of extra, generated data from an approximating distribution (SEQ4+) does not help as much initially when compared with the unsupervised data from the true distribution.
+139	29	We described a method for augmenting a supervised sequence transduction objective with an autoencoding objective, thereby enabling semi-supervised training where previously a scarcity of aligned data might have held back model performance.
+141	66	Going forward it would be interesting to further analyse the effects of sampling from a logisticnormal distribution as opposed to a softmax in order to better understand how this impacts the distribution in the latent space.
+142	36	While we focused on tasks with little supervised data and additional unsupervised data in y, it would be straightforward to reverse the model to train it with additional labelled data in x, i.e. on the natural language side.
+143	25	A natural extension would also be a formulation where semisupervised training was performed in both x and y.

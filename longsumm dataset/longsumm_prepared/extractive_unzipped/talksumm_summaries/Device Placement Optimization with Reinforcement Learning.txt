@@ -1,0 +1,30 @@
+0	25	Over the past few years, neural networks have proven to be a general and effective tool for many practical problems, such as image classification (Krizhevsky et al., 2012; Szegedy et al., 2015; He et al., 2016), speech recognition (Hinton et al., 2012; Graves & Jaitly, 2014; Hannun et al., 2014; Chan et al., 2015), machine translation (Sutskever et al., 2014; Cho et al., 2014; Bahdanau et al., 2015; Wu et al., 2016) and speech synthesis (Oord et al., 2016; Arik et al., 2017; Wang et al., 2017).
+1	22	Together with their success is the growth in size and computational requirements of training and inference.
+2	12	Currently, a typical approach to address these requirements is to use a heterogeneous distributed environment with a mixture of many CPUs and GPUs.
+3	54	In this environment, it is a common practice for a machine learning practitioner to specify the device placement for certain operations in the neural network.
+5	43	Although such decisions can be made by machine learning practitioners, they can be challenging, especially when the network has many branches (Szegedy et al., 2016), or when the minibatches get larger.
+7	66	In this paper, we propose a method which learns to optimize device placement for training and inference with neural networks.
+11	66	The execution time is then used as a reward signal to train the recurrent model so that it gives better proposals over time.
+46	23	We learn the network parameters using Adam (Kingma & Ba, 2014) optimizer based on policy gradients computed via the REINFORCE equation (Williams, 1992), ∇θJ(θ) = EP∼π(P|G;θ) [R (P) · ∇θ log p (P|G; θ)] (2) We estimate∇θJ(θ) by drawing K placement samples using Pi ∼ π(·|G; θ).
+47	12	We reduce the variance of policy gradients by using a baseline term B, leading to ∇θJ(θ) ≈ 1 K K∑ i=1 (R (Pi)−B) · ∇θ log p (Pi|G; θ) (3) We find that a simple moving average baseline B works well in our experiments.
+55	32	We use a sequence-to-sequence model (Sutskever et al., 2014) with LSTM (Hochreiter & Schmidhuber, 1997) and a content-based attention mechanism (Bahdanau et al., 2015) to predict the placements.
+58	21	We embed the operations by concatenating their information.
+83	14	Each controller in our framework interacts with K workers, where K is the number of Monte Carlo samples in Equation 3.
+92	12	When all of the running times are received, the controller uses the running times to scale the corresponding gradients to asynchronously update the controller parameters that reside in the parameter server.
+97	13	In the following experiments, we apply our proposed method to assign computations to devices on three important neural networks in the deep learning literature: Recurrent Neural Language Model (RNNLM) (Zaremba et al., 2014; Jozefowicz et al., 2016), Attentional Neural Machine Translation (Bahdanau et al., 2015), and InceptionV3 (Szegedy et al., 2016).
+120	60	Additionally, we train each model from scratch using the placements found by our method and compare the training time to that of the strongest baseline placement.
+121	22	In our experiments, the available devices are 1 Intel Haswell 2300 CPU, which has 18 cores, and either 2 or 4 Nvidia Tesla K80 GPUs.
+145	24	Devices are denoted by colors, where the transparent color represents an operation on a CPU and each other unique color represents a different GPU.
+167	36	Quantitatively, the expert-designed placement, which puts each layer (LSTM, attention and softmax) on a different GPU, takes 229.57 hours; meanwhile the RLbased placement (see Figure 4) takes 165.73 hours, giving 27.8% speed up of total training time.
+170	62	In practice, more often, inception models are trained with data parallelism rather than model parallelism.
+172	53	The first baseline, called Asynchronous towers, puts one replica of the Inception-V3 network on each GPU.
+182	24	We first compare the per-device computational loads by RL-based placement and expert-designed placement for the NMT model.
+184	143	RL-based placement balances the workload significantly better than does the expert-designed placement.
+188	49	We suspect this is because Inception-V3 has more dependencies than NMT, allowing less room for model parallelism across GPUs.
+189	28	The reduction in running time of the RL-based placement comes from the less time it spends copying data between devices, as shown in Figure 9-bottom.
+190	12	In particular, the models parameters are on the same device as the operations that use them, unlike in Synchronous tower, where all towers have to wait for all parameters have to be updated and sent to them.
+192	27	In this paper, we present an adaptive method to optimize device placements for neural networks.
+193	15	Key to our approach is the use of a sequence-to-sequence model to propose device placements given the operations in a neural network.
+194	60	The model is trained to optimize the execution time of the neural network.
+195	40	Besides the execution time, the number of available devices is the only other information about the hardware configuration that we feed to our model.
+196	20	Our results demonstrate that the proposed approach learns the properties of the environment including the complex tradeoff between computation and communication in hardware.

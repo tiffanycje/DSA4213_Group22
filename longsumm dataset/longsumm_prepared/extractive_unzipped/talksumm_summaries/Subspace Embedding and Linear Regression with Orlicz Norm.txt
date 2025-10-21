@@ -1,0 +1,30 @@
+1	27	One of the most important such problems is the regression problem, see some recent advancements in, e.g., (Zhong et al., 2016; Bhatia et al., 2015; Jain & Tewari, 2015; Liu et al., 2014; Dhillon et al., 2013).
+2	111	In a linear regression problem, given a data matrix A ∈ Rn×d with n data points A1, A2, · · · , An in Rd and the response vector b ∈ Rn, the goal is to find a set of coefficients x∗ ∈ Rd such that x where l : Rn → R+ is the loss function.
+4	29	While there has been extensive research on efficient algorithms for solving `2 regression, it is not always a suitable loss function to use.
+6	32	For example, a popular such alternative is the least absolute deviation (`1) regression — with l(y) = ‖y‖1 = ∑n i=1 |yi| — which leads to solutions that are more robust than those of `2 regression (see (Wikipedia; Gorard, 2005).
+7	34	In a nutshell, the `2 regression is suitable when the data contains Gaussian noise, whereas `1 — when the noise is Laplacian or sparse.
+8	40	A further popular class of loss functions l(·) arises from M-estimators, defined as l(y) = ∑n i=1M(yi) where M(·) is an M-estimator function (see (Zhang, 1997) for a list of M-estimators).
+12	23	We introduce a generic algorithmic technique for solving regression for an entire class of loss functions that includes the aforementioned examples, and in particular, a “scale-invariant” version of M-estimators.
+13	14	Specifically, our class consists of loss functions l(y) that are Orlicz norms, defined as follows: given a non-negative convex function G : R+ → R+ with G(0) = 0, for x ∈ Rn,we can define ‖x‖G to be an Orlicz norm with respect to G(·): ‖x‖G , inf {α > 0 | ∑n i=1G(|xi|/α) ≤ 1} .
+14	55	Note that `p norm, for p ∈ [1,∞), is a special case of Orlicz norm with G(x) = xp.
+16	18	Taking f(·) to be a Huber function, i.e. f(x) = { x2/2 |x| ≤ δ δ(|x| − δ/2) otherwise for some constant δ, we take G(x) = f(f−1(1)x).
+27	14	The embedding obtains a distortion factor polynomial in d, which was recently shown necessary (Wang & Woodruff, 2018).
+32	26	We also perform experiments for Orlicz regression with different Orlicz functions G and show their behavior under different noise settings, thus exhibiting the flexibility of our framework.
+93	14	The condition 1 is required to define an Orlicz norm.
+96	14	HUBER { x2/2 |x| ≤ c c(|x| − c/2) |x| > c `1 − `2 2( √ 1 + x2/2− 1) “FAIR” c2 (|x|/c− log(1 + |x|/c)) growth condition is necessary for sketching ∑n i=1G(xi) with sketch size sub-polynomial in the dimension n, as shown by (Braverman & Ostrovsky, 2010).
+106	18	In this section, we develop the subspace embedding under the Orlicz norms which are induced by functions G with the property P .
+110	54	Definition 7 (Subspace embedding for Orlicz norm) Given a matrix A ∈ Rn×d, if S ∈ Rm×n satisfies ∀x ∈ Rd, ‖Ax‖G/α ≤ ‖SAx‖v ≤ β‖Ax‖G where α, β ≥ 1, ‖ · ‖v is a norm (can still be ‖ · ‖G), then we say S embeds the column space of A with Orlicz norm into the column space of SA with v-norm.
+115	46	The main technical thrust is to embed ‖·‖G into `2 norm.
+117	18	random variables draw from the distribution with CDF 1 − e−G(t).
+134	17	So the probability that ‖f(x)‖G ≥ γα is bounded by O(αG log n/γ), set γ = O(log n)αG/δ, we can complete the proof.
+189	18	We show the embedding as below.
+240	46	We experiment with two n, d combinations, i) n = 200, d = 10 ii) n = 100, d = 75, and 3 noise setting with i) Gaussian noise ii) sparse noise and iii) mixed noise (addition of i) and ii)), altogether 2 × 3 = 6 setting.
+244	26	Orlicz norm regression has better performance than `1 and `2 when the noise is mixed.
+251	22	Under each noise assumptions with different scale s, we compare the performance of Orlicz norm regression induced by G with δ from [0.05, 0.1, 0.2, 0.4, 1, 2].
+254	29	When the scale is 0/2, the noise is almost Gaussian/sparse and we expect `2/`1 norm and thus large/small δ to perform the best; anything scale lying in between these extremes will have an optimal δ in between.
+272	24	The result for the experiment on synthetic data is shown in Table 4, and the results for diabetes and glass are shown in Figure 3.
+273	54	The running time of algorithm in (Song et al., 2017) on diabetes and on glass are 5.69 and 11.97 seconds respectively, with ours being 3.18 and 3.74 seconds respectively.
+274	42	We also find that our algorithm consistently outperforms the other two alternatives (note that the y-coordinates are at log scale with base 10).
+275	32	In this paper we presented an efficient subspace embedding algorithm for orlicz norm and demonstrated its usefulness in regression/low rank approximation problem on synthetic and real datasets.
+276	51	Nevertheless, O(d log2 n) is still a large theoretical approximation factor, and hence it is worth i) investigating whether the theoretical approximation ratio can be smaller if input are under some statistical distribution ii) calculating the actual approximation ratio with ground truth obtained by some slower but more accurate optimization algorithm.
+277	67	It is also worth examining whether our exponential embedding sketching method preserves the statistical properties of the regression error, since we assumed a different noise distribution from Gaussian/double-exponential as a starting point (Raskutti & Mahoney, 2014; Lopes et al., 2018).

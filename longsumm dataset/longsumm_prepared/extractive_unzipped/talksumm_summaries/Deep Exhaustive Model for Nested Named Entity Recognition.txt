@@ -1,0 +1,30 @@
+0	22	Named entity recognition (NER) is a task of finding entities with specific semantic types such as Protein, Cell, and RNA in text.
+2	13	However, when entities overlap or are nested within one another, treating the task as a sequential labeling task becomes difficult because an individual token can be included in several entities and defining a label for each token can be difficult.
+3	18	For example, in the following phrase from the GENIA corpus (Kim et al., 2004), four levels of nested entities occur and the token “IL-2” is a Protein on its own, and it is also a part of two other Proteins and one DNA.
+4	46	[[[[IL-2]Protein receptor]Protein (IL-2R) alpha chain]Protein gene]DNA NER has drawn considerable attention as the first step towards many natural language processing (NLP) applications including relation extraction (Miwa and Bansal, 2016), event extraction (Feng et al., 2016), co-reference resolution (Fragkou, 2017; Stone and Arora, 2017), and entity linking (Gupta et al., 2017).
+5	29	Much work on NER, however, has ignored nested entities and instead chosen to focus on the non-nested entities, which are also referred to as flat entities.
+6	38	Only a few studies target the nested named entity recognition (Muis and Lu, 2017; Lu and Roth, 2015; Finkel and Manning, 2009).
+10	42	Existing approaches to nested NER (Shen et al., 2003; Alex et al., 2007; Finkel and Manning, 2009; Lu and Roth, 2015; Xu et al., 2017; Muis and Lu, 2017) are mostly feature-based and thus suffer from heavy feature engineering.
+11	7	In this paper, we present a novel neural exhaustive model that reasons over all the regions within a specified maximum size.
+17	10	The proposed model exhaustively considers all possible regions in a sentence using a single neural network; we thus call the model neural exhaustive model.
+19	9	The model enumerates all possible regions or spans that can include all the nested entities.
+20	37	It then represent the regions by using the outputs of the LSTM layer and detect the entities from the regions.
+24	12	Pre-trained word embeddings are used to initialize word embeddings (Chiu et al., 2016).
+26	29	The embedding of each character in a word is randomly initialized.
+28	19	Given an input sentence sequence X = {x1, x2, ...xn}, where xi denotes the i-th word and n denotes the number of words in the sentence sequence, the distributed embeddings of words and characters are fed into a bidirectional LSTM layer that computes the hidden vector sequence in forward −→ h = {−→ h1, −→ h2, .
+30	39	We concatenate the forward and backward outputs as hi = [−→ hi; ←− hi ] , where [; ] denotes concatenation.
+31	10	With the LSTM output hi, our exhaustive model shares the underlying representations of all possible regions by exhaustive combination.
+32	35	We generate all possible regions with the sizes less than or equal to the maximum region size L. We use a region(i, j) to represent the region from i to j inclusive, where 1 ≤ i < j ≤ n and j − i < L.
+34	36	The boundary representation is important to capture the contexts surrounding the region.
+39	6	(1) We then feed the representation of each segmented region to a rectified linear unit (ReLU) as an activation function.
+54	46	We used the same hyper-parameters in all the experiments; we set the dimension of word embedding to 200, the dimension of character embedding to 25, the hidden layer size to 200, the gradient clipping to 5, and the ADAM hyper-parameters to its default values (Kingma and Ba., 2015).
+55	7	To deeply understand the model parameters, we compared the models in different regions.
+56	20	We chose the maximum region size from 3, 6, 8 and 10.
+57	23	We also employed different region representation.
+58	24	We tried only the boundary representation (boundary), only the inside representation (inside), and our region representation (boundary+inside).
+60	4	We also compared the performances for single-token v.s.
+64	16	Our results on Table 2 is based on bidirectional LSTM with character embeddings and the maximum region size is 10.
+71	27	We show the differences in the performance on the development dataset to compare the possible scenarios of the proposed approach and to report the importance of each component in our exhaustive model.
+75	18	Fortunately, the performance did not degrade with the long maximum region size, despite the fact that it introduces more out-of-entity regions.
+76	10	Ablations on character embeddings in Table 6 also show the importance of character embeddings.
+77	33	It also shows that both the boundary information and the inside information, i.e., average of the embeddings in a region, are necessary to improve the performance.

@@ -1,0 +1,30 @@
+10	26	Motivated by these challenges, we study the problem of imitation learning for multiple coordinating agents from demonstrations.
+21	70	The second is a challenging task of learning multiple policies for team defense in professional soccer, using a large training set1 of play sequences illustrated by Figure 1.
+22	16	We show that learning a good latent structure to encode implicit coordination yields significantly superior imitation performance compared to conventional baselines.
+24	25	In coordinated multi-agent imitation learning, we have K agents acting in coordination to achieve a common goal (or sequence of goals).
+26	60	Importantly, we assume the identity (or indexing) of the K experts may change from one demonstration to another.
+29	20	Our ultimate goal is to learn a (largely) decentralized policy, but for clarity we first present the problem of learning a fully centralized multi-agent policy.
+31	40	, sKs, of all K agents into K actions ~a “ ra1, .
+32	33	The goal is to minimize imitation loss: Limitation “ E~s„d~π r`p~πp~sqqs , where d~π denotes the distribution of states experienced by joint policy ~π and ` is the imitation loss defined over the demonstrations (e.g., squared loss for deterministic policies, or cross entropy for stochastic policies).
+38	19	This requirement applies for both centralized and decentralized policy learning, and is often implicitly assumed in prior work on multi-agent learning.
+48	14	Note that barring extensive annotations or some heuristic rulebased definitions, it is unnatural to quantitatively define what makes a player “left defender”.
+51	19	To motivate our notion of role, let’s first consider the simplest indexing mechanism: one could equate role to agent identity.
+54	42	However, a key challenge in learning policies directly is that the roles are undefined, unobserved, and could change dynamically within the same sequence.
+60	25	We formulate the indexing mechanism as an assignment function A which maps the unstructured set U and some probabilistic structured model q to an indexed set of trajectory A rearranged from U , i.e., A : tU1, .., UKu ˆ q ÞÑ rA1, .., AKs , where the set tA1, .., AKu ” tU1, .., UKu.
+61	20	We view q as a latent variable model that infers the role assignments for each set of demonstrations.
+70	26	Input: Graphical model q with global/local parameters θ and z.
+71	20	Input: Initialized policies πk, k “ 1, .
+83	46	For efficient training, we employ alternating stochastic optimization (Hoffman et al., 2013; Johnson & Willsky, 2014; Beal, 2003) on the same mini-batches.
+85	15	We interleave the three components described above into a complete learning algorithm.
+140	23	In variational inference, posterior approximation is often cast as optimizing over a simpler model classQ, via searching for parameters θ and z that maximize the evidence lower bound (ELBO) L: L pqpz, θqq fi Eq rln ppz, θ, xqs ´ Eq rln qpz, θqs ď ln ppxq Maximizing L is equivalent to finding q P Q to minimize the KL divergence KL pqpz, θ|xq||ppz, θ|xqq.
+147	24	We slightly abuse notations and overload θ for the natural parameters of global parameter θ in the exponential family.
+148	21	Assuming the usual conjugacy in the exponential family, the stochastic natural gradient takes a convenient form (line 2 of Algo 3, and derivation in Appendix), where tpz, xq is the vector of sufficient statistics, b is a vector of scaling factors adjusting for the relative size of the minibatches.
+171	19	Now solving the linear assignment problem for cost matrix M , we obtain the matching A from role k̄ to index k, such that the total cost per agent is minimized.
+203	21	In both versions, training was done using the same data aggregation scheme and batch training was conducted using the same random forests configuration.
+204	52	Figure 4 compares the test performance of our method versus unstructured multi-agent imitation learning.
+206	31	Note that we even gave the unstructured baseline some advantage over our method, by forcing the prey to select the moves last after all predators make decisions (effectively making the prey slower).
+207	13	Without this advantage, the unstructured policies fail to capture the prey almost 100% of the time.
+210	33	RoboCup, the robotic and simulation soccer platform, is perhaps the most popular testbed for multi-agent reinforcement learning research to date (Stone, 2016).
+212	125	In this experiment, we aim to learn multi-agent policies for team soccer defense, based on tracking data from real-life professional soccer (Bialkowski et al., 2014).
+221	25	As LSTMs generally require fixed-length input sequences, we further chunk each trajectory into sub-sequences of length 50, with overlapping window of 25 time steps.
+225	30	The structured model component is learned via stochastic variational inference on a continuous HMM, where the perstate emission distribution is a mixture of Gaussians.

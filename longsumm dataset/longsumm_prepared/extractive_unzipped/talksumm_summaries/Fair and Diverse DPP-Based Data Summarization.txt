@@ -1,0 +1,30 @@
+0	38	A problem facing many services – from search engines and news feeds to machine learning – is data summarization: how can one select a small but representative, i.e., diverse, subset from a large dataset.
+1	6	For instance, Google Images outputs a small subset of images from its enormous dataset given a user query.
+2	8	Similarly, in training a learning algorithm one may be required to choose a subset of data points to train on as training on the entire dataset may be costly.
+4	13	For instance, a recent study found evidence of systematic under-representation of women in search results (Kay et al., 2015).
+5	51	Concretely, the above work studied the output of Google Images for various search terms involving occupations and found, e.g., that for the search term “CEO”, the percentage of women in top 100 results was 11%, significantly lower than the ground truth of 27%.
+7	41	Beyond humans, since data summaries are used to train algorithms, there is a danger that these biases in the data might be passed on to the algorithms that use them; a phenomena that is being revealed more and more in automated data-driven processes in education, recruitment, banking, and judiciary systems, see (O’Neil, 2016).
+8	79	A robust and widely deployed method for data summarization is to associate a diversity score to each subset and select a subset with probability proportional to this score; see (Hesabi et al., 2015).
+9	15	This paper focuses on a concrete geometric measure of diversity of a subset S of a dataset {vx}x∈X of vectors – the determinantal measure denoted by G(S) (Kulesza & Taskar, 2012); and the resulting probability distribution is called a determinantal point process (DPP).
+10	31	G(S) generalizes the correlation measure for two vectors to multiple vectors and, intuitively, the larger G(S), the more diverse is S in the feature space.
+11	6	Among benefits of G(·) are its overall simplicity, wide applicability – not depending on combinatorial properties of the data, and efficient computability.
+12	11	A potential downside might be the additional effort required in modeling, i.e., to represent the data in a suitable vector form so that the geometry of the dataset indeed corresponds to diversity.
+13	10	Despite the well-acknowledged ability of DPPs to produce diverse subsets, unfortunately, there seems to be no obvious way to ensure that this also guarantees fairness in the DPP samples in the form of appropriate representation of sensitive attributes in the subset selected.
+19	16	Simple examples (see, e.g., Figure 1 in the Supplementary File) show that, in certain settings, geometric diversity does not imply fairness and vice-versa; however, there seems to be no intrinsic barrier in attaining both.
+20	24	We initiate a rigorous study of the problem of incorporating fairness with respect to sensitive attributes of data in DPPbased sampling for data summarization.
+21	110	Our contributions are: A framework that can incorporate a wide class of notions of fairness with respect to disjoint sensitive attributes and, conditioned on being fair in the specified sense, outputs subsets where the probability of a set is still proportional to G()̇.
+22	66	In particular, we model the problem as sampling from a partition DPP – the parts correspond to different sensitive attributes and the goal is to select a specified number of points from each.
+23	57	Unfortunately, the problem of sampling from partition DPPs has been recently shown to be intractable in a strong sense (Celis et al., 2017) and the question of designing fast algorithms for it, at the expense of being approximate, has been open.
+24	56	Our main technical result is a linear time algorithm (see Section 3.1) to sample from partition DPPs that is guaranteed to output samples from close to the DPP distribution under a natural condition on the data (see Definition 4).
+25	13	We prove that random data matrices satisfy this condition in Section 3.3.
+26	37	We run our algorithm on the Adult dataset (Blake & Merz, 1998) and a curated image dataset with various parameter settings and observe a marked improvement in fairness without compromising geometric diversity by much.
+27	16	A theoretical justification of this low price of fairness is provided in Section 4; while there have been few works on controlling fairness, ours is the first to give a rigorous, quantitative price of fairness guarantee in any setting.
+28	5	Overall, our work gives a general and rigorous algorithmic solution to the problem of controlling bias in DPP-based sampling algorithms for data summarization while maximizing diversity.
+29	7	There are several data pre-processing approaches to reduce bias in training data.
+33	5	DPP-based sampling has been deployed for many data summarization tasks including text and images (Kulesza & Taskar, 2011), videos (Gong et al., 2014), documents (Lin & Bilmes, 2012), recommendation systems (Zhou et al., 2010), and sensors (Krause et al., 2008); and the study of DPPs with additional budget or resource constraints is of importance.
+35	49	There is also work on approximate MCMC algorithms for sampling from various discrete point processes (see (Rebeschini & Karbasi, 2015; Anari et al., 2016) and the references therein), and algorithms that are efficient for constrained DPPs under certain restrictions on the data matrix and constraints (see (Li et al., 2016) and the references therein).
+36	30	To the best of our knowledge, ours is the first algorithm for constrained DPPs that is near-linear time.
+38	17	Finally, our work contributes towards an ongoing effort to measure, understand and incorporate fairness (e.g., see (Barocas & Selbst, 2015; Caliskan et al., 2017; Dwork et al., 2012; Zafar et al., 2017)) in fundamental algorithmic problems, including ranking (Celis et al., 2018b), voting (Celis et al., 2018a), and personalization (Celis & Vishnoi, 2017).
+39	9	In this section we present the formal notions, model and other theoretical constructs studied in this paper.
+40	26	X will denote the dataset and we let m denote its size.
+42	37	Let V denote the m × n matrix whose rows correspond to the vectors vx for x ∈ X .

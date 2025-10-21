@@ -1,0 +1,30 @@
+20	1	The experimental results support our theory: our experiments on a large-scale matrix factorization problem show that the proposed algorithm provides a significant speedup over the synchronous parallel L-BFGS algorithm.
+31	1	The collection of the iterate and gradient differences is called the L-BFGS memory.
+35	2	On the other hand, in the presence of the stochastic gradients, L-BFGS is no longer guaranteed to produce positive definite approximations even in convex problems, therefore more considerations should be taken in order to make sure that Hn is positive definite.
+37	1	These techniques, so called the Stochastic Gradient MCMC (SG-MCMC) algorithms, aim at generating samples from the posterior distribution p(θ|Y ) as opposed to finding the MAP estimate, and have strong connections with stochastic optimization techniques (Dalalyan, 2017).
+53	2	Even though these results showed that SG-MCMC is promising for optimization, it is still not clear how an asynchronous stochastic L-BFGS method could be developed within an SG-MCMC framework.
+75	1	As opposed to the mb-L-BFGS algorithm, which uses a central L-BFGS memory (i.e. the collection of the gradient and iterate differences) that is stored in the master node, we let each worker have their own local L-BFGS memories since the master node would not be able to keep track of the gradient and iterate differences, which are received in an asynchronous manner.
+99	2	First, we have two regularity assumptions on U and Ht: H1.
+107	3	Then (Xt)t≥0 has a unique invariant measure π that admits a density ρ(X) ∝ exp(−E(X)) with respect to the Lebesgue measure, where E is an energy function on the extended state space and is defined as: E(X) , βU(θ) + β2 p >p.
+108	2	This result shows that, if the SDE (8) could be exactly simulated, the marginal distribution of the samples θt would converge to a measure πθ which has a density that is proportional to exp(−βU(θ)).
+109	1	Therefore, for large enough β and t, θt would be close to the global optimum θ?.
+111	2	While the main difference being the usage of the tempering scheme, (Fu et al., 2016) further differs from our approach as it directly discard the term Γt since is in a Metropolis-Hastings framework, which is not adequate for large-scale applications.
+119	1	Note that, due to the negligence of Γn, the proposed approach would require a large β and would not be suitable for classical posterior sampling settings, where β = 1.
+125	1	The term A1 turns out to be the bias of a statistical estimator, which we can analyze by using ideas from recent SGMCMC studies.
+133	2	The variance of the stochastic gradients is bounded, i.e. E‖∇θU(θ)−∇θŨ(θ)‖2 ≤ σ for some 0 < σ <∞.
+150	3	even when U is non-convex, thanks to the additive Gaussian noise.
+151	2	The bound suggests an optimal rate of convergence of O(1/ √ N), which is in line with the current rates of the non-convex asynchronous algorithms (Lian et al., 2015).
+153	6	Despite their nice theoretical properties, it is well-known that tempered sampling approaches also often get stuck near a local minimum.
+157	2	In this study, we will explore the advantages of using L-BFGS in an asynchronous environment.
+160	1	We conduct experiments on both synthetic and real datasets.
+161	1	For real data experiments, we have implemented all the three algorithms in C++ by using a low-level message passing protocol for parallelism, namely the OpenMPI library.
+162	5	This code can be used both in a distributed environment or a single computer with multiprocessors.
+165	4	This simulation strategy also enables us to explicitly control the variation among the computational powers of the worker nodes; a feature that is much harder to control in real distributed environments.
+169	2	For these experiments, we develop a parametric discrete event simulator that aims to simulate the algorithms in a controllable yet realistic way.
+171	1	All these parameters are in a generic base time unit.
+172	2	Once these parameters are provided for one of the three algorithms, the simulator simulates the (a)synchronous distributed algorithm by drawing random computation times from a log-normal distribution whose mean and variance is specified by µw and σ2w.
+189	1	Large-scale matrix factorization: In our next set of experiments, we consider a large-scale matrix factorization problem (Gemulla et al., 2011; Şimşekli et al., 2015; Şimşekli et al., 2017), where the goal is to obtain the MAP solution of the following probabilistic model: Frk ∼ N (0, 1), Gks ∼ N (0, 1), Yrs|F,G ∼ N (∑ k FrkGks, 1 ) .
+215	4	In this study, we proposed an asynchronous parallel L-BFGS algorithm for non-convex optimization.
+216	36	We developed the algorithm within the SG-MCMC framework, where we reformulated the problem as sampling from a concentrated probability distribution.
+217	193	We proved non-asymptotic guarantees and showed that as-LBFGS achieves an ergodic global convergence with rate O(1/ √ N) and it can achieve a linear speedup.
+218	187	Our experiments supported our theory and showed that the proposed algorithm provides a significant speedup over the synchronous parallel L-BFGS algorithm.

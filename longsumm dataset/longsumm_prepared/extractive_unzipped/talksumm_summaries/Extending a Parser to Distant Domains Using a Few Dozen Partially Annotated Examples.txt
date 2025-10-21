@@ -1,0 +1,30 @@
+3	20	Our paper rests on two observations: 1.
+4	46	It is trivial to train on partial annotations using a span-focused model.
+7	14	forth MSP, so that it trains directly on individual labeled spans instead of parse trees.
+8	37	This results in a parser that can be trained, with no adjustments to the training regime, from partial sentence bracketings.
+10	56	Contextualized word representations, which encode tokens conditioned on their context in a sentence, have been shown to give significant boosts across a variety of NLP tasks, and also to reduce the amount of data needed by an order of magnitude in some tasks.
+11	57	Taken together, this suggests a way to rapidly extend a newswire-trained parser to new domains.
+21	20	Specifically, we could train a parser whose base model predicts exactly what we ask the annotator to annotate, e.g. whether a particular span is a constituent.
+22	67	This makes it trivial to train with partial or full annotations, because the training data reduces to a collection of span labels in either case.
+32	60	We will view a parse tree as a labeling of all the spans of a sentence such that: • Every constituent span is labeled with the sequence of non-terminals assigned to it in the parse tree.
+37	88	We model the probability of a parse as the independent product of its span labels: Pr(π|x) = ∏ s∈spans(x) Pr(π(s) | x, s) ⇒ logPr(π|x) = ∑ s∈spans(x) logPr(π(s) | x, s) Hence, we will train a base model σ(l | x, s) to estimate the log probability of label l for span s (given sentence x), and we will score the overall parse with: score(π|x) = ∑ s∈spans(x) σ(π(s) | x, s) Note that this probability model accords mass to mis-structured trees (e.g. overlapping spans like (2, 5) and (3, 7) cannot both be constituents of a well-formed tree).
+41	61	For our span classification model σ(l | x, s), we use the model from (Stern et al., 2017a), which leverages a method for encoding spans from (Wang and Chang, 2016; Cross and Huang, 2016).
+42	27	First, it creates a sentence encoding by running a two-layer bidirectional LSTM over the sentence to obtain forward and backward encodings for each position i, denoted by fi and bi respectively.
+43	22	Then, spans are encoded by the difference in LSTM states immediately before and after the span; that is, span (i, j) is encoded as the concatenation of the vector differences fj − fi−1 and bi−bj+1.
+45	20	Classification Model Parameters and Initializations We preserve the settings used in Stern et al. (2017a) where possible.
+76	74	With 50 annotated sentences, performance on GENIADEV jumps from 79.5% to 86.2%, outperforming all but one parser from David McClosky’s thesis (McClosky, 2010) – the one that trains on all 14k sentences from GENIATRAIN and self-trains using 270k sentences from PubMed.
+80	24	To create a parser for their geometry question answering system, (Seo et al., 2015) did the following: • Designed regular expressions to identify mathematical expressions.
+111	87	For the GEODEV sentences on which we get errors after retraining, the errors fall predominantly into three categories.
+112	16	First, approximately 44% have some mishandled math syntax, like failing to recognize “dimensions 16 by 8” as a constituent, or providing a flat structuring of the equation “BAC = 1/4 * ACB” (instead of recognizing “1/4 * ACB” as a subconstituent).
+114	34	Third, another 19% fail to correctly analyze right-attaching participial adjectives like “labeled x” in the noun phrase “the segment labeled x” or “indicated” in the noun phrase “the center indicated.” This phenomenon is unusually frequent in geometry but was insufficiently marked-up in our training examples.
+116	14	This suggests that in practice, this domain adaptation method could benefit from an iterative cycle in which a user assesses the parser’s errors on their target domain, creates some partial annotations that address these issues, retrains the parser, and then repeats the process until satisfied.
+120	22	We partially annotated 134 sentences and randomly split them into BIOCHEMTRAIN (72 sentences) and BIOCHEMDEV (62 sentences)9.
+121	21	In BIOCHEMTRAIN, we made an average of 4.2 constituent declarations per sentence.
+123	57	Again, we started with RSP trained on WSJTRAIN, and fine-tuned it on minibatches containing annotations from 50 randomly selected WSJ- TRAIN sentences, plus all of BIOCHEMTRAIN.
+124	33	Table 7 shows the improvement in the percentage of correctly-identified annotated constituents and the percentage of test sentences for which the parse agrees with every annotation.
+147	43	Our work is not tied to PCFG parsing, nor does it require a specialized training algorithm when going from full annotations to partial annotations.
+148	38	Recent developments in neural natural language processing have made it very easy to build custom parsers.
+149	106	Not only do contextualized word representations help parsers learn the syntax of new domains with very few examples, but they also work extremely well with parsing models that correspond directly with a granular and intuitive annotation task (like identifying whether a span is a constituent).
+150	26	This allows you to train with either full or partial annotations without any change to the training process.
+151	68	This work provides a convenient path forward for the researcher who requires a parser for their domain, but laments that “parsers don’t work outside of newswire.” With a couple hours of effort (and a layman’s understanding of syntactic building blocks), they can get significant performance improvements.
+152	77	We envision an iterative use case in which a user assesses a parser’s errors on their target domain, creates some partial annotations to teach the parser how to fix these errors, then retrains the parser, repeating the process until they are satisfied.

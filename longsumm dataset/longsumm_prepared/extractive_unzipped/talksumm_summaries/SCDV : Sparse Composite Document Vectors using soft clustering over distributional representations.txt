@@ -1,0 +1,30 @@
+6	6	Representing entire documents in a dense, lowdimensional space is a challenge.
+7	20	A simple weighted average of the word embeddings in a large chunk of text ignores word ordering, while a parse tree based combination of embeddings (Socher et al., 2013) can only extend to sentences.
+14	19	In this work, we propose the Sparse Composite Document Vector(SCDV) representation learning technique to address these challenges and create efficient, accurate and robust semantic representations of large texts for document classification tasks.
+15	24	SCDV combines syntax and semantics learnt by word embedding models together with a latent topic model that can handle different senses of words, thus enhancing the expressive power of document vectors.
+59	8	We then cluster these word embeddings using the Gaussian Mixture Models(GMM) (Reynolds, 2015) soft clustering technique.
+65	5	~wcvik = ~wvi × P (ck|wi) Algorithm 1: Sparse Composite Document Vector Data: Documents Dn, n = 1 .
+66	15	N Result: Document vectors ~SCDVDn , n = 1 .
+67	111	N 1 Obtain word vector ( ~wvi), for each word wi; 2 Calculate idf values, idf(wi), i = 1..|V | ; /* |V | is vocabulary size */ 3 Cluster word vectors ~wv using GMM clustering into K clusters; 4 Obtain soft assignment P (ck|wi) for word wi and cluster ck; /* Loop 5-10 can be pre-computed */ 5 for each word wi in vocabulary V do 6 for each cluster ck do 7 ~wcvik = ~wvi × P (ck|wi); 8 end 9 ~wtvi = idf(wi) × ⊕K k=1 ~wcvik ; /* ⊕ is concatenation */ 10 end 11 for n ∈ (1..N) do 12 Initialize document vector ~dvDn = ~0; 13 for word wi in Dn do 14 ~dvDn += ~wtvi; 15 end 16 ~SCDVDn = make-sparse( ~dvDn); /* as mentioned in sec 3 */ 17 end ~wtvi = idf(wi)× K⊕ k=1 ~wcvik where, ⊕ is concatenation
+70	23	We utilize this fact to make the document vector ~dvDn sparse by zeroing attribute values whose absolute value is close to a threshold (specified as a parameter), which results in the Sparse Composite Document Vector ~SCDVDn .
+76	149	We consider the following baselines: Bag-ofWords (BoW) model (Harris, 1954), Bag of Word Vector (BoWV) (Gupta et al., 2016) model, paragraph vector models (Le and Mikolov, 2014), Topical word embeddings (TWE-1) (Liu et al., 2015b), Neural Tensor Skip-Gram Model (NTSG1 to NTSG-3) (Liu et al., 2015a), tf-idf weighted average word-vector model (Singh and Mukerjee, 2015) and weighted Bag of Concepts (weightBoC) (Kim et al., 2017), where we build topicdocument vectors by counting the member words in each topic.
+78	70	We use 200 dimensions for tf-idf weighted word-vector model, 400 for paragraph vector model, 80 topics and 400 dimensional vectors for TWE, NTSG, LTSG and 60 topics and 200 dimensional word vectors for BOWV.
+79	62	We also compare our results with reported results of other topic modeling based document embedding methods like WTM (Fu et al., 2016), w2v − LDA (Nguyen et al., 2015), LDA (Chen and Liu, 2014), TV + MeanWV (Li et al., 2016a), LTSG (Law et al., 2017), Gaussian−LDA (Das et al., 2015), Topic2V ec (Niu et al., 2015), (Moody, 2016) andMvTM (Li et al., 2016b).
+88	6	We evaluate classifier performance using standard metrics like accuracy, macro-averaging precision, recall and F-measure.
+98	4	Performance on varying all three parameters in shown in Figure 4.
+102	13	At 4% thresholding, we reduce the storage space by 80% compared to the dense vectors.
+103	20	We observe that SCDV is robust to variations in training Word2Vec and GMM.
+108	25	We used Bayes rule to compute the P (wk|ci) for a given topic ci and given word wj and compute the score of the top 10 words for each topic.
+113	41	Table 4 shows top 10 words of 3 topics from GMM clustering, LDAmodel and LTSGmodel on 20NewsGroup and SCDV shows higher topic coherence.
+114	48	Words are ranked based on their probability distribution in each topic.
+115	41	Our results also support the qualitative results of (Randhawa et al., 2016), (Sridhar, 2015) paper, where kmeans, GMM was used respectively over word vectors to find topics.
+116	22	In order to demonstrate the effects of soft clustering (GMM) during SCDV formation, we select some words (wj) with multiple senses from 20Newsgroup and their soft cluster assignments to find the dominant clusters.
+136	16	It is well-known that in higher dimensions, structural regularizers such as sparsity help overcome the curse of dimensionality (Wainwright, 2014).Figure 3 demonstrates this, since majority of the features are close to zero.
+138	45	On 20NewsGroups, BoWV model takes up 1.1 GB while SCDV takes up only 236MB( 80% decrease).
+145	18	Empirically, compared to TWE, SCDV reduces document vector formation, training and prediction time significantly.
+148	12	SCDV outperforms state-of-the-art models in multi-class and multi-label classification tasks.
+149	9	SCDV introduces sparsity in document vectors to handle high dimensionality.
+150	57	Table 7 in- Table 6: Mean average precision (MAP) for IR on four IR datasets Dataset LM LM+SCDV MB MB + SCDV AP 0.2742 0.2856 0.3283 0.3395 SJM 0.2052 0.2105 0.2341 0.2409 WSJ 0.2618 0.2705 0.3027 0.3126 Robust04 0.2516 0.2684 0.2819 0.2933 dicates that SCDV shows considerable improvements in feature formation, training and prediction times for the 20NewsGroups dataset.
+151	147	We show that fuzzy GMM clustering on word-vectors lead to more coherent topic than LDA and can also be used to detect Polysemic words.
+152	62	SCDV embeddings also provide a robust estimation of the query and document language models, thus improving the MAP of language model based retrieval systems.
+153	104	In conclusion, SCDV is simple, efficient and creates a more accurate semantic representation of documents.

@@ -1,0 +1,30 @@
+0	62	In many realistic domains, information extraction (IE) systems require exceedingly large amounts of annotated data to deliver high performance.
+2	35	Consider, for instance, an IE system that aims to identify entities such as the perpetrator and the number of victims in a shooting incident (Figure 1).
+4	28	Extraction of the number of fatally shot victims is similarly difficult, as the system needs to infer that "A couple and four children" means six people.
+10	30	Processing such stereotypical phrasing is easier for most extraction systems, compared to analyzing the original source document.
+12	62	The challenges, however, lie in (1) performing event coreference (i.e. retrieving suitable articles describing the same incident) and (2) reconciling the entities extracted from these different documents.
+56	126	At each step, the system has to reconcile extracted values from a related article (enew) with the current set of values (ecur), and decide on the next query for retrieving more articles.
+59	62	States The state s in our MDP consists of the extractor’s confidence in predicted entity values, the context from which the values are extracted and the similarity between the new document and the original one.
+60	28	We represent the state as a continuous realvalued vector (Figure 3) incorporating these pieces of information: 1.
+61	21	Confidence scores of current and newly extracted entity values.
+65	24	4. tf-idf similarity between the original article and the new article.
+69	22	The current values and confidence scores are simply updated with the accepted values and the corresponding confidences.4 The choice q is used to choose the next query from a set of automatically generated alternatives (details below) in order to retrieve the next article.
+70	31	Rewards The reward function is chosen to maximize the final extraction accuracy while minimizing the number of queries.
+73	27	Table 1 provides some examples – for instance, the second template contains words such as arrested and identified which often appear around the name of the shooter.
+75	142	Transitions Each episode starts off with a single source article xi from which an initial set of entity values are extracted.
+122	101	The first model (Confidence) chooses entity values with the highest confidence score assigned by the base extractor.
+123	21	The second system (Majority) takes a majority vote over all values extracted from these articles.
+125	43	Meta-classifer: To demonstrate the importance of modeling the problem in the RL framework, we consider a meta-classifier baseline.
+130	31	For each test event, the classifier is used to provide decisions for all the downloaded articles and the final extraction is performed by aggregating the value predictions using the Confidence-based scheme described above.
+133	42	RL models We perform experiments using three variants of RL agents – (1) RL-Basic, which performs only reconciliation decisions13, (2) RL-Query, which takes only query decisions with the reconciliation strategy fixed (similar to Kanani and McCallum (2012)), and (3) RL-Extract, our full system incorporating both reconciliation and query decisions.
+145	90	We can also observe that simple aggregation schemes like the Confidence and Majority baselines don’t handle the complexity of the task well.
+147	24	Further, the importance of sequential decisionmaking is established by RL-Extract performing significantly better than the meta-classifier (7.0% on Shootings over all entities).
+149	123	Finally, we see the advantage of enabling the RL system to select queries as our full model RL-Extract obtains significant improvements over RL-Basic on both domains.
+150	48	The full model also outperforms RL-Query, demonstrating the importance of performing both query selection and reconciliation in a joint fashion.
+151	28	Figure 4 shows the learning curve of the agent by measuring reward on the test set after each training epoch.
+152	20	The reward improves gradually and the accuracy on each entity increases simultaneously.
+153	35	Table 4 provides some examples where our model is able to extract the right values when the baseline fails.
+154	205	One can see that in most cases this is due to the model making use of articles with prototypical language or articles containing the entities in readily extractable form.
+157	57	We observe that the Replace scheme performs much better than the others (2-6% on all entities) and believe this is because it provides the agent with more flexibility in choosing the final values.
+161	21	The best system (RL-Extract with Replace, tf-idf and step-based rewards) uses 9.4 steps per episode.
+162	34	In this paper, we explore the task of acquiring and incorporating external evidence to improve information extraction accuracy for domains with limited access to training data.

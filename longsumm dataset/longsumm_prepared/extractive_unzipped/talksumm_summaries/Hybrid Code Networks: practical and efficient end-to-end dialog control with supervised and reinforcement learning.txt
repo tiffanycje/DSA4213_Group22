@@ -1,0 +1,30 @@
+2	29	However, dependencies between modules introduce considerable complexity – for example, it is often unclear how to define the dialog state and what history to maintain, yet action selection relies exclusively on the state for input.
+8	48	Moreover, in some practical settings, programmed constraints are essential – for example, a banking dialog system would require that a user is logged in before they can retrieve account information.
+9	30	This paper presents a model for end-to-end learning, called Hybrid Code Networks (HCNs) which addresses these problems.
+10	29	In addition to learning an RNN, HCNs also allow a developer to express domain knowledge via software and action templates.
+26	18	Third, an entity extraction module identifies entity mentions (step 4) – for example, identifying “Jennifer Jones” as a <name> entity.
+27	23	The text and entity mentions are then passed to “Entity tracking” code provided by the developer (step 5), which grounds and maintains entities – for example, mapping the text “Jennifer Jones” to a specific row in a database.
+34	18	Next, the action mask is applied as an element-wise multiplication, and the result is normalized back to a probability distribution (step 10) – this forces non-permitted actions to take on probability zero.
+37	27	The selected action is next passed to “Entity output” developer code that can substitute in entities (step 13) and produce a fully-formed action – for example, mapping the template “<city>, right?” to “Seattle, right?”.
+62	24	Task6 draws on human-computer dialog data from the second dialog state tracking challenge (DSTC2), where usability subjects (crowd-workers) interacted with several variants of a spoken dialog system (Henderson et al., 2014a).
+68	20	Second, in the context update (step 5), we wrote simple logic for tracking entities: when an entity is recognized in the user input, it is retained by the software, over-writing any previously stored value.
+72	18	This results in 16 templates for Task5 and 58 for Task6.3 Fourth, when database results are received into the entity state, they are sorted by rating.
+73	19	Finally, an action mask was created which encoded common-sense dependencies.
+74	32	These are implemented as simple if-then rules based on the presence of entity values: for example, only allow an API call if pre-conditions are met; only offer a restaurant if database results have already been received; do not ask for an entity if it is already known; etc.
+91	28	We also report dialog accuracy, which indicates if all turns in a dialog are correct.
+96	28	The addition of domain knowledge greatly simplifies the learning task and enables HCNs to also attain perfect accuracy.
+98	31	We next examined learning curves, training with increasing numbers of dialogs.
+105	27	In addition, they match performance of past models using an order of magnitude less data (200 vs. 1618 dialogs), which is crucial in practical settings where collecting realistic dialogs for a new domain can be expensive.
+108	38	Data from this system is attractive for evaluation because it is used by real customers – not usability subjects – and because its rule-based dialog manager was developed by customer support professionals at our company, and not the authors.
+164	27	We defined the reward as being 1 for successfully completing the task, and 0 otherwise.
+165	19	A discount of 0.95 was used to incentivize the system to complete dialogs faster rather than slower, yielding return 0 for failed dialogs, and G = 0.95T−1 for successful dialogs, where T is the number of system turns in the dialog.
+173	103	In addition, we also report results by initializing the LSTM using supervised learning on the training set, consisting of 1, 2, 5, or 10 dialogs sampled randomly from the training set, then running RL as described above.
+180	22	This paper has introduced Hybrid Code Networks for end-to-end learning of task-oriented dialog systems.
+183	76	Results in this paper have explored three different dialog domains.
+184	35	On a public benchmark in the restaurants domain, HCNs exceeded performance of purely learned models.
+186	207	Finally, in a name-dialing domain, results from dialog simulation show that HCNs can also be optimized with a mixture of reinforcement and supervised learning.
+187	33	In future work, we plan to extend HCNs by incorporating lines of existing work, such as integrating the entity extraction step into the neural network (Dhingra et al., 2017), adding richer utterance embeddings (Socher et al., 2013), and supporting text generation (Sordoni et al., 2015).
+190	69	More broadly, HCNs are a general model for stateful control, and we would be interested to explore applications beyond dialog systems – for example, in NLP medical settings or humanrobot NL interaction tasks, providing domain constraints are important for safety; and in resourcepoor settings, providing domain knowledge can amplify limited data.
+207	37	Yes To reset your password, please see this URL ... Was that helpful?
+212	39	yes You need to reset your password - here’s how ... Did this solve your problem?
+220	32	Call Joe Adamson SavePhonetypeavail() Calling Joe Adamson, work PlaceCall() How can I help you?

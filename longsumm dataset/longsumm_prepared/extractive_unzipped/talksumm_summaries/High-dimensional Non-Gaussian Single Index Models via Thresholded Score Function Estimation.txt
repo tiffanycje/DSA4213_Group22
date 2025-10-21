@@ -1,0 +1,30 @@
+0	13	Estimators for high-dimensional parametric (linear) models have been developed and analyzed extensively in the last two decades (see for example (Bühlmann & van de Geer, 2011; Vershynin, 2015) for comprehensive overviews).
+2	11	On the other hand, completely nonparametric models, although flexible, suffer from the curse of dimensionality unless restrictive additive sparsity or smoothness assumptions are imposed (Ravikumar et al., 2009; Yuan et al., 2016).
+5	7	The nonparametric component is also called as the link function and the linear components are 1 Department of Operations Research and Financial Engineering, Princeton University, Princeton, NJ 08544, USA.
+6	9	In this work, we focus on the simplest family of such models, the single index models (SIMs), which assume that the response Y and the covariate X satisfy Y = f(〈X,β∗〉) + , where β∗ is the true signal, is the mean-zero random noise, and f is a univariate link function.
+8	8	They form the basis of more complicated models such as Multiple Index Models (MIMs) (Diaconis & Shahshahani, 1984) and Deep Neural Networks (DNNs) (LeCun et al., 2015), which are cascades of MIMs.
+11	30	For example, in one-bit compressed sensing (Boufounos & Baraniuk, 2008) and sparse generalized linear models (Loh & Wainwright, 2015), we are interested in recovering the true signal vector based on nonlinear measurements.
+12	44	Furthermore, in a DNN, the activation function is pre-specified and the task is to estimate the linear components, which are used for prediction in the test stage.
+13	21	Performing nonlinear least-squares in this setting, leads to nonconvex optimization problems that are invariably sub-optimal without further assumptions.
+14	37	Hence, developing estimators for the linear component that are both statistically accurate and computationally efficient for a class of activation functions provide a compelling alternative.
+15	26	Understanding such estimators for SIMs is hence crucial for understanding the more complicated DNNs.
+16	31	Although SIMs appear to be a simple extension of the standard linear models, most existing work in the highdimensional setting assume X follows a Gaussian distribution for estimating β∗ without the knowledge of the nonparametric part.
+17	12	It is not clear whether those estimation methods are still valid and optimal when X is drawn from a more general class of distributions.
+19	8	There are significant challenges that appear when we are dealing with estimators for SIMs.
+20	21	They can be summarized as assumptions on either the link function or the data distribution (for example, non-Gaussian assumption).
+21	35	Knowledge of link function: Suppose the link function is known, for example, f(u) = u2 which corresponds to the phase retrieval model (see (Jaganathan et al., 2015) for a survey and history of this model).
+28	18	As mentioned previously, our estimators are based on Stein’s Lemma for non-Gaussian distributions, which utilizes the score function.
+31	23	The dark shaded, more concentrated one corresponds to the histogram of 10000 i.i.d.
+32	16	samples from Gamma distribution with scale and shape parameters set to 5 and 0.2 respectively.
+34	36	Note that even when the actual Gamma distribution is well concentrated, the distribution of the corresponding score function is well-spread and heavy-tailed.
+35	36	In the high dimensional setting, in order to estimate with the score functions, we require certain vectors or matrices based on the score functions to be well-concentrated in appropriate norms.
+36	71	In order to achieve that, we construct robust estimators via careful truncation arguments to balance the bias (due to thresholding)-variance (of the estimator) tradeoff and achieve the required concentration.
+71	55	In this section, we introduce the notation and define the single index models.
+72	30	Throughout this work, we use [n] to denote the set {1, .
+76	23	Moreover, we denote the nuclear norm, operator norm, and Frobenius norm of a matrixA ∈ Rd1×d2 by ‖·‖?, ‖·‖op, and ‖ · ‖fro, respectively.
+77	27	We denote by vec(A) the vectorization of matrix A, which is a vector in Rd1·d2 .
+78	39	For two matrices A,B ∈ Rd1×d2 we define the trace inner product as 〈A,B〉 = Trace(A>B).
+82	35	Now we are ready to define the statistical model.
+83	38	Let f : R → R be an univariate function and β∗ be the parameter of interest, which is a structured vector or a matrix.
+89	23	This assumption could be further relaxed using more sophisticated concentration arguments; here we focus on the i.i.d.
+91	12	Let {(Yi, Xi)}ni=1 be n i.i.d.

@@ -1,0 +1,30 @@
+6	23	Further, we show that this model can learn a semantically meaningful hidden representation that can be used as a high-level control signal for manipulating tone, timbre, and dynamics during playback.
+7	20	Explicitly, our two contributions to advance the state of generative audio modeling are: • A WaveNet-style autoencoder that learns temporal hidden codes to effectively capture longer term structure without external conditioning.
+8	112	• NSynth: a large-scale dataset for exploring neural audio synthesis of musical notes.
+9	43	The primary motivation for our novel autoencoder structure follows from the recent advances in autoregressive models like WaveNet (van den Oord et al., 2016a) and SampleRNN (Mehri et al., 2016).
+10	36	They have proven to be effective at modeling short and medium scale (∼500ms) signals, but rely on external conditioning for longer-term dependencies.
+15	16	While generative models are notoriously hard to evaluate (Theis et al., 2015), these datasets provide a common test bed for consistent qualitative and quantitative evaluation, such as with the use of the Inception score (Salimans et al., 2016).
+18	23	Inspired by the large, high-quality image datasets, NSynth is an order of magnitude larger than comparable public datasets (Humphrey, 2016).
+19	32	It consists of ∼300k foursecond annotated notes sampled at 16kHz from ∼1k harmonic musical instruments.
+21	17	We examine the tasks of reconstruction and interpolation, and analyze the learned space of embeddings.
+22	15	For qualitative evaluation, we include supplemental audio files for all examples mentioned in this paper.
+36	22	Note that the decoder could completely ignore the deterministic encoding and degenerate to a standard unconditioned WaveNet.
+41	32	The temporal encoder model is a 30-layer nonlinear residual network of dilated convolutions followed by 1x1 convolutions.
+60	14	The number of channels grows from 128 to 1024 before a linear fully-connected layer creates a single 19841 dimensional hidden vector (Z) to match that of the WaveNet autoencoder.
+64	14	We found that training on the log magnitude of the power spectra, peak normalized to be between 0 and 1, correlated better with perceptual distortion.
+68	15	As a final heuristic, we weighted the MSE loss, starting at 10 for 0Hz and decreasing linearly to 1 at 4000Hz and above.
+71	23	The baseline models commonly use a learning rate of 1e-4, while the WaveNet models use a schedule, starting at 2e-4 and descending to 6e-5, 2e-5, and 6e-6 at iterations 120k, 180k, and 240k respectively.
+72	27	The baseline models train asynchronously for 1800k iterations with a batch size of 8.
+97	15	We have included supplemental audio examples of every plot and encourage the reader to listen along as they read.
+131	19	Inspired by the use of the Inception Score for images (Salimans et al., 2016), we train a multi-task classification network to perform a quantitative comparison of the model reconstructions by predicting pitch and quality labels on the NSynth dataset (details in the Supplemental).
+134	31	The classifier is ∼70% more successful at extracting pitch from the reconstructed WaveNet samples than the baseline and several points higher for predicting quality information, giving an accuracy roughly equal to the original audio.
+141	33	For example, in the interpolated note between the bass and flute (Figure 3, column 2), we can hear and see that both the baseline and WaveNet models blend the harmonic structure of the two instruments while imposing the amplitude envelope of the bass note onto the upper harmonics of the flute note.
+143	24	This sound captures expressive aspects of the timbre and dynamics of both the bass and flute, but is distinctly separate from either original note.
+146	29	We see this phenomenon again in the interpolation between flute and organ (Figure 3, column 4).
+148	53	The WaveNet model adds additional harmonics as well as a sub-harmonic to the original flute note, all while preserving phase relationships (B).
+176	16	Figure 5 shows correlations for several instruments across their entire 88 note range at velocity 127.
+177	15	We see that each instrument has a unique partitioning into two or more registers over which notes of different pitches have similar embeddings.
+180	72	In this paper, we have introduced a WaveNet autoencoder model that captures long term structure without the need for external conditioning and demonstrated its effectiveness on the new NSynth dataset for generative modeling of audio.
+181	19	The WaveNet autoencoder that we describe is a powerful representation for which there remain multiple avenues of exploration.
+186	27	We encourage the broader community to use NSynth as a benchmark and entry point into audio machine learning.
+187	41	We also view NSynth as a building block for future datasets and envision a high-quality multi-note dataset for tasks like generation and transcription that involve learning complex language-like dependencies.

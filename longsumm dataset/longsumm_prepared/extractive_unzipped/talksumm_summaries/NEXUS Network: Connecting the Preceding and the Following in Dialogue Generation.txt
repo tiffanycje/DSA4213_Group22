@@ -1,0 +1,30 @@
+0	27	With the availability of massive online conversational data, there has been a surge of interest in building open-domain chatbots with data-driven approaches.
+1	41	Recently, the neural network based sequence-to-sequence (seq2seq) framework (Sutskever et al., 2014; Cho et al., 2014) has been widely adopted.
+2	16	In such a model, the encoder, which is typically a recurrent neural network (RNN), maps the source tokens into a fixed-sized continuous vector, based on which the decoder estimates the probabilities on the target side word by word.
+5	20	Recent research has found that while the seq2seq model generates syntactically well-formed responses, they are prone to being off-context, short, and generic.
+7	30	The reason lies in the one-to-many alignments in human conversations, where one dialogue context is open to multiple potential responses.
+8	41	When optimizing with the MLE objective, the model tends to have a strong bias towards safe responses as they can be literally paired with arbitrary dialogue context without semantical or grammatical contradictions.
+11	61	Our assumption is that a good response should serve as a “nexus”: connecting and being informative to both the preceding dialogue context and the follow-up conversations.
+12	23	For example, in Figure 1, the response from B1 is a smooth connection, where the first half indicates the preceding context is a “Do you know” question and the second half informs that the follow-up would be an introduction about Star Wars.
+13	37	We establish this connection by maximizing the mutual information (MMI) of the current utterance with both the past and future contexts.
+17	54	One strategy is to estimate the gradient by methods like Gumbel-Softmax (Maddison et al., 2017; Jang et al., 2017) or REINFORCE algorithm (Williams, 1992), which has been applied in many NLP tasks (He et al., 2016; Shetty et al., 2017; Gu et al., 2018; Paulus et al., 2018), but the trade-off between bias and variance of the estimated gradient is hard to reconcile.
+61	21	The encoded history ˜Hi−1 and code space c are concatenated as an extra input at each time step.
+62	37	The loss function for the decoder is then: L(d) = max φ Epφ(Hi−1,Fi,c) log pφ(ui|Hi−1, c) pφ(Hi−1, Fi, c) = p(Hi−1, Fi)pφ(c|Hi−1, Fi) (4) which can be proved to be the lower bound of the conditional mutual information I(ui, c|Hi−1).
+64	17	3 and 4, our model until now can be viewed as optimizing a lower bound of the following objective: max φ λ1I(Hi−1, c) + λ2I(c, Fi+1) + I(ui, c|Hi−1) c ∼ pφ(c|Hi−1, Fi) (5) Compared with the original motivation in Eq.
+65	39	1, we sidestep the non-differentiability problem by replacing ui with a continuous code space c, then forcing ui to contain the same information as maintained in c by additionally maximizing the mutual information between them.
+72	18	In the testing phase, when we have no access to it, we cannot perform the decoding process as in Eq.
+73	35	To allow for decoding with only the history context, we need to learn an appropriate prior distribution pθ(c|Hi−1) for c. In the ideal case, we would like pθ(c|Hi−1) = ∑ Fi pφ(c|Hi−1, Fi) = pφ(c|Hi−1) (6) However, pφ(c|Hi−1) is intractable as it integrates over all possible future conversations.
+77	31	To sum up, the total objective function of our model is: L = L(c) + L(d) + L(p) (9) Weighting can be added to individual loss functions for better performance, but we find it enough to maintain equal weights and avoid extra hyperparameters.
+79	24	An overview of our training procedure is depicted in Fig.
+103	22	DailyDialog contains 13118 daily conversations under ten different topics.
+130	29	NEXUS-H: NEXUS network maximizing mutual information only with the history (λ2 = 0).
+135	21	Embedding Score We conducted three embedding-based evaluations (average, greedy and extrema) (Liu et al., 2016), which map responses into vector space and compute the cosine similarity (Rus and Lintean, 2012).
+141	19	NEXUS network significantly outperforms the best baseline model in most cases.
+160	32	We encode the context and response separately with two different LSTM neural networks and output a binary signal indicating coherent or not1.
+162	24	Neg-PMI measures the negative pointwise mutual information value − log p(c|r)/p(c) between the generated response r and the dialogue context c. p(c|r) is estimated by training a separate backward seq2seq model.
+183	29	Most seq2seq models fail to provide an informative response in the first turn.
+184	105	The MMI-decoder does not change much, possibly because the sampling space is not large enough, a more diverse sampling mechanism (Vijayakumar et al., 2018) might help.
+185	36	NEXUS network can effectively continue the conversation for 2.8 turns for DailyDialog and 2.5 turns for Twitter, which is closest to the ground truth (4.8 and 4.0 turns respectively).
+186	30	It also achieves the best diversity score in both datasets.
+187	29	It is worth mentioning that NEXUS-H also improves over baselines, though not as significantly as NEXUS-F, so NEXUS is not a trade-off but more like an enhanced version from NEXUS-H and NEXUS-F.
+191	23	Participants are asked to assign a binary score to each contextresponse pair from three perspectives: whether the response coincides with its preceding context (Pri), whether the response is interesting enough for people to continue (Post) and whether the response itself is a fluent natural sentence (Flu).

@@ -1,0 +1,30 @@
+0	121	Consider the video and natural language query in Figure 1 where we seek to localize the desired moment in the video specified by the query.
+1	49	Queries like “the girl bends down” require understanding objects and actions, but do not require reasoning about different video moments.
+2	48	In contrast, queries like “the little girl talks after bending down” require reasoning about the temporal relationship between different actions (“talk” and “bend down”).
+3	50	Localizing natural language queries in video is an important challenge, recently studied in Hendricks et al. (2017) and Gao et al. (2017) with applications in areas such as video search and retrieval.
+4	62	We argue that to properly localize queries with temporal language, models must understand and reason about intravideo context.
+12	20	To address this difficulty, we propose Moment Localization with Latent Context (MLLC) which models video context as a latent variable.
+67	89	Let the moment τ corresponding to the text query be the base moment and the set of other video moments Tτ be possible context moments for τ .
+68	145	We define a scoring function between the video moment and natural-language query by maximizing over all possible context moments τ ′ ∈ Tτ , sφ (v, q, τ) = max τ ′∈Tτ fS ( fV ( v, τ, τ ′ ) , fL (q) ) , (1) where fV and fL are functions computing features over the video and language query, fS is a similarity function, and φ are model parameters.
+70	16	Figure 2 shows the generic structure of our model.
+76	27	The video feature fV = (g (v, τ) , g (v, τ ′) , fT (τ, τ ′)) is a concatenation of visual features for the base g (v, τ) and context g (v, τ ′) moments and endpoint features fT (τ, τ ′).
+77	55	To compute visual features g for a temporal region τ , per-frame features are averaged over the temporal region.
+78	31	Note that if the context moment consists of more than one contiguous temporal region, then the visual features are computed over each contiguous temporal region and then concatenated (c.f., before/after context in TALL, explained below).
+84	17	Note that we learn separate embedding functions for RGB and optical flow inputs and combine scores from different input modalities using a late-fusion approach (Hendricks et al., 2017).
+88	36	In order to understand temporal relationships, it is important that models also include features which indicate when a context moment occurs.
+116	17	We collect the TEMPOral reasoning in video and language (TEMPO) dataset based off the recently released DiDeMo dataset.
+145	23	In Figure 3, the description “The adult hands the little boy the stick then they walk away” includes an example of visual coreference (“they”).
+146	21	We note that use of pronouns is much more prevalent in TEMPO-HL, with 28.1% of sentences in TEMPOHL including pronouns (“he”, “she”, “it”) in contrast to 10.3% of sentences in the original DiDeMo dataset.
+175	29	However, our model with strong supervision (row 9) outperforms the model trained with before and after context, suggesting that learning to reason about which context moment is correct (as opposed to being explicitly provided with the context before and after the moment) is beneficial.
+181	44	In contrast, when considering the sentence “The adult hands the little boy a stick then they begin to walk” (from Figure 3), “begin to walk” could refer to multiple video moments.
+203	33	A majority of the “before” and “after” sentences in TEMPO-HL are of the form “X before (or after) Y ”, so we can determine a list of sentence fragments by splitting sentences based on the temporal word.
+211	26	Figure 4 shows predicted moments and their corresponding con- text moments.
+212	33	For the query “The girl with a hat takes a drink before the girl without a hat waves”, the little girl in the hat drinks twice, but our model correctly localizes the time she drinks before the other girl waves.
+213	43	Likewise, for the moment “After zooming in to the dog, the dog darts across the grass and into the woods”, the dog darts towards the woods twice (at the beginning of the video and at the end).
+214	46	Our model properly localizes the moment when the dog runs towards the forest the second time as well as the context fragment “zooming in on dog” when localizing the moment.
+215	66	We show promising results on both TEMPO-TL and TEMPO-HL, but there is potential improvement for building better frameworks for understanding temporal language.
+216	142	In Table 6, strongly supervising context at test time improves overall results, suggesting that models which can better localize context text will outperform our current model.
+217	16	Though TEMPO and DiDeMo have over 60,000 sentences combined, visual content is quite diverse.
+218	122	Integrating outside data sources (e.g., image retrieval and captioning) could possibly improve results on moment localization, both with and without temporal language queries.
+219	121	Additionally, in Table 5, even when the MLLC model can properly localize context, it does not always properly localize temporal sentences indicating that improved temporal reasoning can also improve our results.
+220	57	We believe our dataset, analysis, and method are an important step towards better moment retrieval models that effectively reason about temporal language.

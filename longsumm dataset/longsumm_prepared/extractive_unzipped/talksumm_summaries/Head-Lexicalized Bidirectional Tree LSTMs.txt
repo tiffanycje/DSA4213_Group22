@@ -1,0 +1,30 @@
+3	22	Addressing diminishing gradients effectively, they have been extended to tree structures, achieving promising results for tasks such as syntactic language modeling (Zhang et al., 2016), sentiment analysis (Li et al., 2015; Zhu et al., 2015; Le and Zuidema, 2015; Tai et al., 2015; Teng et al., 2016) and relation extraction (Miwa and Bansal, 2016).
+4	32	Depending on the node type, typical tree structures in NLP can be categorized to constituent trees and dependency trees.
+7	18	Only leaf nodes in constituent trees correspond to words.
+11	9	Figure 1 shows the sequence structured LSTM of Hochreiter and Schmidhuber (1997) and the treestructured LSTM of Zhu et al. (2015), illustrating the input (x), cell (c) and hidden (h) nodes at a certain time step t. The most important difference between Figure 1(a) and Figure 1(b) is the branching factor.
+14	36	Submission batch: 5/2016; Revision batch: 12/2016; Published 6/2017.
+21	19	We fill this gap by proposing an extension to the tree LSTM model, injecting lexical information into every node in the tree.
+22	20	Our method takes inspiration from work on head-lexicalization, which shows that each node in a constituent tree structure is governed by a head word.
+23	36	As shown in Figure 2, the head word for the verb phrase “visited Mary” is “visited”, and the head word of the adverb phrase “this afternoon” is “afternoon”.
+24	14	Research has shown that head word information can significantly improve the performance of syntactic parsing (Collins, 2003; Clark and Curran, 2004).
+28	65	Based on such head lexicalization, we further make a bidirectional extension of the tree structured LSTM, propagating information in the top-down direction as well as the bottom-up direction.
+88	15	Correspondingly, an alternative is to use the right child for head lexicon.
+100	17	, xn], a bidirectional sequential LSTM (Graves et al., 2013) computes two sets of hidden state vectors, [h̃1, h̃2, .
+105	12	In fact, the path from the root of a tree down to any node forms a sequential LSTM.
+106	35	Note, however, that two different sets of model parameters are used when the current node is the left and the right child of its predecessor.
+107	12	Denoting the two sets of parameters as UL and UR, respectively, the hidden state vector h7 in Figure 4 is calculated from the hidden state vector h1 using the parameter set sequence [UL,UL,UR].
+110	10	UL and UR are model parameters in the top-down Tree LSTM.
+151	10	The training set consists of 5,452 examples and the test set contains 500 examples.
+164	23	After incorporating head lexicalization into our constituent Tree LSTM, the fine-grained sentiment classification accuracy increases from 51.2 to 52.8, and the binary sentiment classification accuracy increases from 88.5 to 89.2, which demonstrates the effectiveness of the head lexicalization mechanism.
+165	25	Table 1 also shows that a vanilla top-down ConTree LSTM by head-lexicalization (i.e. the topdown half of the final bidirectional model) alone obtains comparable accuracies to the bottom-up ConTree LSTM model.
+168	18	There is no significant difference between different models, consistent with the observation of Li et al. (2015).
+176	18	The baseline ConTree model takes about 1.3 hours to finish the training procedure.
+189	10	For example, doubling the size of |h| (75 → 150) increases the performance from 51.5 to 52.8 for the ConTree+Lex model.
+200	13	Correspondingly, for R, a parent node accepts lexical information of its right child while ignoring the left child.
+205	11	In contrast, G outperforms A method by considering the relative weights of each branch according to treelevel contexts.
+208	31	Compared to Collins’ rules, our method found 30.68% and 25.72% overlapping heads on the development and test sets, respectively.
+209	17	Based on the cosine similarity between the head lexical vector and its children, we visualize the head of a node by choosing the head of the child that gives the largest similarity value.
+210	44	Figure 5 shows some examples, where <> indicates head words, sentiment labels (e.g. 2, 3) are also included.
+212	67	However, “rare” is the head word of the phrase “something rare”, which is different from the syntactic head.
+214	40	The sentiment label of “good” and the sentiment label of the whole phrase are both 3.
+216	12	Table 6 shows some example sentences incorrectly predicted by the baseline bottom-up tree model, but correctly labeled by our final model.

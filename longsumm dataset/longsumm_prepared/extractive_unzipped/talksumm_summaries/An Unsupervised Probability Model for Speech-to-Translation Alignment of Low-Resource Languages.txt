@@ -1,0 +1,30 @@
+2	60	This translated speech is a potentially valuable source of information – for example, for documenting endangered languages or for training speech translation systems.
+3	39	In language documentation, data is usable only if it is interpretable.
+4	47	To make a collection of speech data usable for future studies of the language, something resembling interlinear glossed text (transcription, morphological analysis, word glosses, free translation) would be needed at minimum.
+5	70	New technologies are being developed to facilitate collection of translations (Bird et al., 2014), and there already exist recent examples of parallel speech collection efforts focused on endangered languages (Blachon et al., 2016; Adda et al., 2016).
+7	25	A first step towards this goal would be to automatically align spoken words with their translations, capturing information similar to that captured by word glosses.
+14	28	The other is Griko-Italian; Griko is an endangered language for which we created (and make freely available)1 gold-standard translations and word alignments (Lekakou et al., 2013).
+47	33	The submodel s assumes that, for each cluster f , there is a “prototype” signal φ f (cf.
+49	33	Then we can define: s(a, b | f ,φ) = exp(−DTW(φ f , φa · · · φb)2)∑m a,b=1 exp(−DTW(φ f , φa · · · φb)2) where DTW is the distance between the prototype and the segment computed using Dynamic Time Warping.
+51	25	Distortion model The submodel δ controls the reordering of the target words relative to the source frames.
+52	71	It is an adaptation of fast_align to our setting, where there is not a single source word position ai, but a span (ai, bi).
+53	32	We want the model to prefer the middle of the word to be close to the diagonal, so we need the variable a to be somewhat to the left and b to be somewhat to the right.
+78	35	E step The (hard) E step uses the current model and prototypes to find, for each target word, the best source segment to align it to and the best source cluster.
+79	25	In order to reduce the search space for a and b, we use the unsupervised phonetic boundary detection method of Khanagha et al. (2014).
+82	26	We pass the envelope of the signal through a low-pass filter, and then mark as “silence” time spans of 50ms or longer in which the magnitude is below a threshold of 5% relative to the maximum of the whole signal.
+99	21	We evaluate our method on two language pairs, Spanish-English and Griko-Italian, against two baseline methods, a naive baseline, and the model of Duong et al. (2016).
+112	46	We also run our model on a corpus that consists of about 20 minutes of speech in Griko, an endangered minority dialect of Greek spoken in south Italy, along with text translations into Italian (Lekakou et al., 2013).2 The corpus consists of 330 mostly prompted utterances by nine native speakers.
+118	34	We split the data into a development set of just 30 instances, and a test set of the remaining 300 instances.
+121	33	Our naive baseline assumes that there is no reordering between the source and target language, and aligns each target word ei to a source span whose length in frames is proportional to the length of ei in characters.
+123	34	The other baseline that we compare against is the neural network attentional model of Duong et al. (2016), which extends the attentional model of Bahdanau et al. (2015) to be used for aligning and translating speech, and, along with several modifications, achieve good results on the phone-to-word alignment task, and almost match the baseline performance on the speech-to-word alignment task.
+126	66	In all cases, our model outperforms both the naive baseline and the neural attentional model.
+127	50	Our model, when compared to the baselines, improves greatly on precision, while slightly underperforming the naive baseline on recall.
+130	22	Figure 2 shows the alignments produced by our model for three utterances of the same sentence from the Griko-Italian dataset by three different speakers.
+148	39	This is further verified by examining the statistics of the alignments: the average span selected by the proper model has a length of about 30 ± 39 frames whereas the average span of the alignments produced by our deficient model is 37 ± 24 frames.
+150	203	We think that this is analogous to the “garbage collection” problem in word alignment.
+151	48	In the IBM word alignment models, if a source word f occurs in only one sentence, then EM can align many target words to f and learn a very peaked distribution t(e | f ).
+155	33	Alignment of speech to text translations is a relatively new task, one with particular relevance for low-resource or endangered languages.
+156	47	The model we propose here, which combines fast_align and k-means clustering using DTW and DBA, outperforms both a very strong naive baseline and a neural attentional model, on three tasks of various sizes.
+157	25	The language pairs used here do not have very much word reordering, and more divergent language pairs should prove more challenging.
+158	26	In that case, the naive baseline should be much less competitive.
+159	45	Similarly, the fast_align-based distortion model may become less appopriate; we plan to try incorporating IBM Model 3 or the HMM alignment model (Vogel et al., 1996) instead.

@@ -1,0 +1,30 @@
+1	39	As acronyms can shorten long names and make communications more efficient, they are widely used at almost everywhere in enterprises, including notifications, emails, reports and social network posts.
+3	36	As we can see, acronyms are frequently used there.
+4	42	The enterprise acronym disambiguation task is challenging due to the high ambiguity of acronyms, e.g., “SP” could stand for “Service Pack”, “SharePoint” or “Surface Pro” in Microsoft.
+5	20	And there is one additional challenge compared with previous disambiguation tasks: in an enterprise document, an acronym could refer to either an internal meaning (concepts created by the enterprise that may or may not be found outside) or an external meaning (all concepts that are not internal).
+6	41	For example, regarding the acronym “AI”, “Asset Intelligence” is an internal meaning mainly used only in Microsoft, while “Artificial Intelligence” is an external meaning widely used in public.
+18	26	If we consider utilizing a public knowledge base such as Wikipedia to better handle external meanings of acronyms, the problem becomes very related to the well studied Entity Linking (Ji and Grishman, 2011; Cucerzan, 2007; Dredze et al., 2010; Hoffart et al., 2011; Li et al., 2013, 2016; Ratinov et al., 2011; Shen et al., 2012) prob- lem, which is to map entity mentions in texts to their corresponding entities in a reference knowledge base (e.g. Wikipedia).
+19	25	But our disambiguation task is different from the entity linking task, because the system also needs to handle internal meanings which are not covered by any knowledge bases, and ultimately needs to decide whether an acronym refers to an internal meaning or an external meaning.
+23	22	For example, in public world, when people mention “Operating System” they mainly talk about how to install or use it; while within Microsoft, when people mention “Operating System” most of the time they focus on how to design or implement it.
+37	29	Our framework takes the enterprise corpus as input and produces a high-quality acronym disambiguation system as output.
+42	31	Feed this repository together with the training data (automatically generated via distant supervision from the enterprise corpus) to the training module, we will get a candidate ranking model, a confidence estimation model and a final selection model.
+46	27	As there is no reference dictionary or knowledge base available in enterprise telling us the potential meanings of acronyms, we have to extract them from plain text.
+47	21	We propose a strategy called Hybrid Generation to balance extraction accuracy and coverage.
+48	43	Namely, we treat a phrase as a meaning candidate for an acronym if: (1) the initial letters of the phrase match the acronym and the phrase and the acronym co-occur in at least one document in the enterprise corpus; or (2) it is a valid candidate for the acronym in public knowledge bases (e.g. Wikipedia).
+52	34	In previous research on Entity Linking, popularity is calculated as the fraction of times a candidate being the target page for an anchor text in a reference knowledge base (e.g. Wikipedia).
+60	29	Conditional Popularity can more reasonably reveal how often the acronym is used to represent each meaning candidate.
+64	19	It is unclear how to combine the two scores into one popularity score, so we use both of them as features in the disambiguation model.
+73	27	Other variants in the group will be deleted from the candidate list and their popularity scores will be aggregated to the canonical candidate.
+77	30	For each meaning candidate m, we put its canonical form and all its variants (from the variants table in Section 4.3) into set S. Then we scan the enterprise corpus, each time we find a match of any e ∈ S, we harvest the words in a width-W word window surrounding e as the context words of m. In our experiments we set window size as 30 after trying to vary the window size from 10 to 50 and finding 30 gives the best result.
+82	19	We first train a candidate ranking model to rank candidates with respect to the likelihood of being the genuine meaning for the target acronym.
+102	20	Table 1 summarizes the features used to train the candidate ranking model.
+103	21	After getting the ranking results, we propose to apply a confidence estimation step to decide whether to trust the top ranked answer.
+107	22	Second, our training data is biased towards the internal meanings since external meanings may rarely appear with full names.
+116	22	We design 7 features (summarized in Table 2) to train the confidence estimation model.
+121	21	In this step, we determine whether to return the most popular public meaning (based on Wiki Popularity) as the final answer, and this step is only triggered when the confidence estimator judges that the ranking result is unconfident.
+148	24	We compare the following ablations of our system, to illustrate the effectiveness of the features and components.
+168	26	We first conduct experiments to evaluate the disambiguation performance of our ranking model, and compare the helpfulness of the features used in the model.
+179	87	They merely rely on the internal corpus to discover information about external meanings, which is quite ineffective in the scenario of enterprise acronym disambiguation (as discussed in Section 1).
+180	30	In comparison, our system (AD) is able to leverage public resources together with the internal corpus to better handle the problem and therefore significantly outperforms them.
+184	70	As we can see from the figures, AD significantly outperforms both Wikifier and AIDA on all three measures.
+216	21	Our framework takes the enterprise corpus as input and produces a high-quality acronym disambiguation system as output.

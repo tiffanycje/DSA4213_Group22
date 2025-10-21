@@ -1,0 +1,21 @@
+2	45	It is well-known that PCP decreases noise and increases efficiency in downstream tasks.
+3	52	One of the main applications is principal component regression (PCR): PCR: linear regression but restricted to the subspace of top principal components.
+4	52	Classical algorithms for PCP or PCR rely on a principal component analysis (PCA) solver to recover the top principal components first; with these components available, the tasks of PCP and PCR become trivial because the projection matrix can be constructed explicitly.
+6	107	For instance, to project a vector onto the top 1000 principal components of a high-dimensional dataset, even the most efficient Krylovbased (Musco & Musco, 2015) or Lanczos-based (AllenZhu & Li, 2016a) methods require a running time that is proportional to 1000×40 = 4×104 times the input matrix sparsity, if the Krylov or Lanczos method is executed for 40 iterations.
+8	19	In this paper, we propose the following notion of PCP approximation.
+9	51	Given a data matrix A ∈ Rd′×d (with singular values no greater than 1) and a threshold λ > 0, we say that an algorithm solves (γ, ε)-approximate PCP if — informally speaking and up to a multiplicative 1±ε error— it projects (see Def.
+10	181	3.1 for a formal definition) 1. eigenvector ν of A>A with value in [ λ(1 +γ), 1 ] to ν, 2. eigenvector ν of A>A with value in [ 0, λ(1− γ) ] to ~0, 3. eigenvector ν of A>A with value in [ λ(1 − γ), λ(1 + γ) ] to “anywhere between ~0 and ν.” Such a definition also extends to (γ, ε)-approximate PCR (see Def.
+11	151	It was first noticed by Frostig et al. (Frostig et al., 2016) that approximate PCP and PCR be solved with a running time independent of the number of principal components above threshold λ.
+12	62	More specifically, they reduced (γ, ε)approximate PCP and PCR to O ( γ−2 log(1/ε) ) black-box calls of any ridge regression subroutine where each call computes (A>A + λI)−1u for some vector u.1 Our main focus of this paper is to quadratically improve this performance and reduce PCP and PCR to O ( γ−1 log(1/γε) ) black-box calls of any ridge regression subroutine where each call again computes (A>A + λI)−1u.
+13	15	Frostig et al. only showed their algorithm satisfies the properties 1 and 2 of (γ, ε)-approximation (but not the property 3), and thus their proof was only for matrix A with no singular value in the range [ √ λ(1− γ), √ λ(1 + γ)].
+14	51	This is known as the eigengap assumption, which is rarely satisfied in practice (Musco & Musco, 2015).
+16	49	Since our techniques also imply the algorithm of Frostig et al. satisfies property 3, throughout the paper, we say Frostig et al. solve (γ, ε)-approximate PCP and PCR.
+17	187	The main technique of Frostig et al. is to construct a polynomial to approximate the sign function sgn(x) : [−1, 1]→ {±1}: sgn(x) := { +1, x ≥ 0; −1, x < 0.
+18	30	In particular, given any polynomial g(x) satisfying∣∣g(x)− sgn(x)∣∣ ≤ ε ∀x ∈ [−1,−γ] ∪ [γ, 1] , (1.1)∣∣g(x)∣∣ ≤ 1 ∀x ∈ [−γ, γ] , (1.2) the problem of (γ, ε)-approximate PCP can be reduced to computing the matrix polynomial g(S) for S := (A>A + λI)−1(A>A− λI) (cf.
+19	33	In other words, • to project any vector χ ∈ Rd to top principal compo- nents, we can compute g(S)χ instead; and • to compute g(S)χ, we can reduce it to ridge regression for each evaluation of Su for some vector u.
+20	25	Since the transformation from A>A to S is not linear, the final approximation to the PCP is a rational function (as opposed to a polynomial) over A>A.
+21	24	We restrict to polynomial choices of g(·) because in this way, the final rational function has all the denominators being A>A + λI, thus reduces to ridge regressions.
+24	3	We wish to minimize the degree n = deg(g(x)) because the computation of g(S)χ usually requires n calls of ridge regression.
+27	42	Therefore, by setting ε′ = ε/poly(d), one can blow up the running time by a small factor O(log(d)) in order to obtain an ε-accurate solution for g(S)χ.
+30	9	This γ−2 dependency limits the practical performance of their proposed PCP and PCR algorithms, especially in a high accuracy regime.
+31	23	At the same time, • the optimal degree for a polynomial to satisfy even only (1.1) is Θ ( γ−1 log(1/ε) ) (Eremenko & Yuditskii, 2007; 2011).

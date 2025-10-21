@@ -1,0 +1,30 @@
+0	14	The problem of low-rank approximation of a matrix is usually studied as approximating a given matrix by a matrix of low rank so that the Frobenius norm of the error in the approximation is minimized.
+1	10	The Frobenius norm of a matrix is obtained by taking the sum of the squares of the entries in the matrix.
+3	22	Low-rank approximation is useful in large data analysis, especially in predicting missing entries of a matrix by projecting the row and column entities (e.g., users and movies) into a low-dimensional space.
+7	27	Several data mining and computer visionrelated applications exploit this insight and resort to finding a low-rank approximation to minimize the `1 error (Lu et al., 2014; Meng & Torre, 2013; Wang & Yeung, 2013; Xiong et al., 2011).
+8	39	Furthermore, the `1 error is typically used as a proxy for capturing sparsity in many applications including robust versions of PCA, sparse recovery, and matrix completion; see, for example (Candès et al., 2011; Xu et al., 2012).
+10	60	Likewise, the `∞ version (dubbed also as the Chebyshev norm) has been studied for the past many years (Goreinov & Tyrtyshnikov, 2001; 2011), though to the best of our knowledge, no result with theoretical guarantees was known for `∞ before our work.
+11	12	Our algorithm is quite general, and works for every p ≥ 1.
+12	50	Working with `p error, however, poses many technical challenges.
+13	25	First of all, unlike `2, the general `p space is not amenable to spectral techniques.
+16	16	However, there has been no dearth in terms of heuristics for the `p low-rank approximation problem, in particular for p = 1 and p = ∞: this includes alternating convex (and, in fact, linear) minimization (Ke & Kanade, 2005), methods based on expectation-maximization (Wang et al., 2012), minimization with augmented Lagrange multipliers (Zheng et al., 2012), hyperplanes projections and linear programming (Brooks et al., 2013), and generalizations of the Wiberg algorithm (Eriksson & van den Hengel, 2012).
+19	12	In this paper we obtain the first provably good algorithms for the `p rank-k approximation problem for every p ≥ 1.
+20	44	Let n×m be the dimensions of the input matrix.
+22	13	Given this setting, we show three main algorithmic results intended for the case when k is not too large.
+24	167	To address this, next we show that one can get an O(k)-approximation to the best k-factorization in time O(poly(nm)); however, the algorithm returns O(k logm) columns, which is more than the desired k (this is referred to as a bi-criteria approximation).
+28	31	Finally, we show that for any constant p ≥ 1, we can obtain an approximation factor of (k logm)O(p) and a running time of poly(n,m) for every value of k. Our first algorithm is existential in nature: it shows that there are k columns in the given matrix that can be used, along with an appropriate convex program, to obtain a (k + 1)- approximation.
+29	16	Realizing this as an algorithm would therefore naı̈vely incur a factor mk in the running time.
+33	20	Our third algorithm fixes this issue by combining the first algorithm with the notion of a near-isoperimetric transformation for the `p-space, which lets us transform a given matrix into another matrix spanning the same subspace but with small `p distortion.
+57	17	Let MT denote its transpose and let |M |p = (∑ i,j |Mi,j |p )1/p denote its entry-wise p norm.
+65	22	We refer to the first problem as the k-columns subset selection problem in the `p norm, denoted k-CSSp, and to the second problem as the rank-k approximation problem in the `p norm, denoted k-LRAp.1 In the paper we often call U, V the k-factorization of A.
+77	15	The algorithm simply tries all possible subsets of k columns of A for producing one of the factors, U , and then uses Lemma 1 to find the second factor V .
+78	13	For simplicity, we assume that |∆i|p > 0 for each column i.
+79	43	To satisfy this, we can add an arbitrary small random error to each entry of the matrix.
+89	16	1: For each column index i, let Ã?i ← A?i /|∆i|p.
+90	27	3: Let S be the subset of k columns of Ṽ ∈ Rk×m that has maximum determinant in absolute value (note that the subset S indexes a k × k submatrix).
+91	83	For each column Ã?i of Ã?, one can write Ã?i =∑ j∈SMi(j)Ã ?
+92	20	Consider the equation ṼSMi = Ṽi for Mi ∈ Rk.
+94	10	has rank k. Hence, there is a unique solution Mi = (ṼS)−1Ṽi.
+107	41	An mk poly(nm)-time algorithm In this section we give an algorithm that returns a (k + 1)-approximation to the k-LRAp problem in time mk poly(nm).
+110	42	Algorithm 2 obtains a (k + 1)-approximation to k-LRAp in time mk poly(nm).
+112	24	In other words, it obtains more than k columns but achieves a polynomial running time; we will later build upon this algorithm in Section 5 to obtain a faster algorithm for the k-LRAp problem.

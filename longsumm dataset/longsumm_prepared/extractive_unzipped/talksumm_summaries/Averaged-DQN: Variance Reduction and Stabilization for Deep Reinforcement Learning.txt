@@ -1,0 +1,30 @@
+24	10	We summarize the main contributions of this paper as follows: • A novel extension to the DQN algorithm which stabilizes training, and improves the attained performance, by averaging over previously learned Q-values.
+28	19	We consider the usual RL learning framework (Sutton & Barto, 1998).
+29	6	An agent is faced with a sequential decision making problem, where interaction with the environment takes place at discrete time steps (t = 0, 1, .
+47	6	Additionally, DQN requires an exploration procedure (which we denote as Explore(·)) to interact with the environment (e.g., an �- greedy exploration procedure).
+51	6	Using the hyperparameters employed by Mnih et al. (2013; 2015) (detailed for completeness in Appendix E), 1% of the experience transitions in ER buffer are replaced between target network parameter updates, and 8% are sampled for minimization.
+60	11	We note that recently-learned state-action value estimates are likely to be better than older ones, therefore we have also considered a recency-weighted average.
+64	41	The source of the learning curve variance in DQN’s performance is an occasional sudden drop in the average score that is usually recovered in the next evaluation phase (for another illustration of the variance source see Appendix A).
+65	18	Another phenomenon can be observed in Figure 2, where DQN initially reaches a steady state (after 20 million frames), followed by a gradual deterioration in performance.
+70	9	Let us denote by Zis,a the target approximation error, and by Ris,a the overestimation error, namely Zis,a = Q(s, a; θi)− yis,a, Ris,a = y i s,a − ŷis,a.
+71	16	The optimality difference can be seen as the error of a standard tabular Q-learning, here we address the other errors.
+72	15	We next discuss each error in turn.
+73	8	The TAE (Zis,a), is the error in the learned Q(s, a; θi) relative to yis,a, which is determined after minimizing the DQN loss (Algorithm 1 line 6, Algorithm 2 line 7).
+77	5	The TAE can cause a deviations from a policy to a worse one.
+83	15	The intuition for this upper bound is that in the worst case, all Q values are equal, and we get equality to the upper bound: Ez[Ris,a] = γEz[max a� [Zi−1s�,a� ]] = γ� n− 1 n+ 1 .
+97	32	Denote by Qi � Q(s; θi)s∈S the vector of value estimates in iteration i (where the fixed action a is suppressed), and by Zi the vector of corresponding TAEs.
+99	6	The covariance of the above Vector Autoregressive (VAR) model is given by the discretetime Lyapunov equation, and can be solved directly or by specialized numerical algorithms (Arthur E Bryson, 1975).
+103	15	Employing DQN on this MDP model, we get that for i > M : QDQN(s0, a; θi) = Z i s0,a + y i s0,a = Zis0,a + γQ(s1, a; θi−1) = Zis0,a + γ[Z i−1 s1,a + y i−1 s1,a] = · · · = = Zis0,a + γZ i−1 s1,a + · · ·+ γ(M−1)Zi−(M−1)sM−1,a , where in the last equality we have used the fact yjM−1,a = 0 for all j (terminal state).
+114	6	For Ensemble-DQN on the unidirectional MDP in Figure 3, we get for i > M : QEi (s0, a) = M−1� m=0 γm 1 K K� k=1 Zk,i−msm,a , Var[QEi (s0, a)] = M−1� m=0 1 K γ2mσ2sm = 1 K Var[QDQN(s0, a; θi)], where for k �= k�: Zk,is,a and Zk �,j s�,a� are two uncorrelated TAEs.
+122	15	To that end, we ran Averaged-DQN and DQN on the ALE benchmark.
+124	11	To evaluate Averaged-DQN, we adopt the typical RL methodology where agent performance is measured at the end of training.
+128	25	The game of BREAKOUT was selected due to its popularity and the relative ease of the DQN to reach a steady state policy.
+131	21	As can be seen in Figure 4 and in Table 1 for all three games, increasing the number of averaged networks in Averaged-DQN results in lower average values estimates, better-preforming policies, and less variability between the runs of independent learning trials.
+132	77	For the game of ASTERIX, we see similarly to Van Hasselt et al. (2015) that the divergence of DQN can be prevented by averaging.
+133	24	Overall, the results suggest that in practice Averaged-DQN reduces the TAE variance, which leads to smaller overestimation, stabilized learning curves and significantly improved performance.
+134	17	The Gridworld problem (Figure 5) is a common RL benchmark (e.g., Boyan & Moore (1995)).
+135	17	As opposed to the ALE, Gridworld has a smaller state space that allows the ER buffer to contain all possible state-action pairs.
+136	85	Additionally, it allows the optimal value function Q∗ to be accurately computed.
+137	40	For the experiments, we have used Averaged-DQN, and Ensemble-DQN with ER buffer containing all possible state-action pairs.
+138	32	The network architecture that was used composed of a small fully connected neural network with one hidden layer of 80 neurons.
+139	48	For minimization of the DQN loss, the ADAM optimizer (Kingma & Ba, 2014) was used on 100 mini-batches of 32 samples per target network parameters update in the first experiment, and 300 minibatches in the second.

@@ -1,0 +1,30 @@
+0	74	Ambiguity is one of the defining characteristics of human languages, and language understanding crucially relies on the ability to obtain unambiguous representations of linguistic content.
+1	55	While some ambiguities can be resolved using intra-linguistic contextual cues, the disambiguation of many linguistic constructions requires integration of world knowledge and perceptual information obtained from other modalities.
+3	58	This type of inference is frequently called for in human communication that occurs in a visual environment, and is crucial for language acquisition, when much of the linguistic content refers to the visual surroundings of the child (Snow, 1972).
+4	43	Our task is also fundamental to the problem of grounding vision in language, by focusing on phenomena of linguistic ambiguity, which are prevalent in language, but typically overlooked when using language as a medium for expressing understanding of visual content.
+9	55	The sentences are paired with short videos that visualize different interpretations of each sentence.
+45	27	We then detect candidate locations for objects in every frame of the video.
+46	86	Together the re- S NP NNP Bill VP VBD held NP DT the NP JJ green NP NN chair CC and NN bag (a) First interpretation S NP NNP Bill VP VBD held NP DT the NP NP JJ green NN chair CC and NN bag (b) Second interpretation forestation for the sentence and the candidate object locations are combined to form a model which can determine if a given interpretation is depicted by the video.
+48	33	To enable a systematic study of linguistic ambiguities that are grounded in vision, we compiled a corpus with ambiguous sentences describing visual actions.
+51	29	This information is provided in the accompanying videos, which visualize the possible interpretations of each sentence.
+52	26	Figure 2 presents the syntactic parses for this example along with frames from the respective videos.
+57	23	• Syntax Syntactic ambiguities include Prepositional Phrase (PP) attachments, Verb Phrase (VP) attachments, and ambiguities in the interpretation of conjunctions.
+59	29	• Semantics The corpus addresses several classes of semantic quantification ambiguities, in which a syntactically unambiguous sentence may correspond to different logical forms.
+60	26	For each such sentence we provide the respective logical forms.
+63	28	In ellipsis cases, a part of the second sentence, which can constitute either the subject and the verb, or the verb and the object, is omitted.
+65	24	Table 2 lists examples of the different ambiguity classes, along with the candidate interpretations of each example.
+74	23	Taking these variations into account, the resulting video corpus contains 7.1 videos per sentence and 3.37 videos per sentence interpretation, corresponding to a total of 1679 videos.
+76	63	A custom corpus is required for this task because no existing corpus, containing either videos or images, systematically covers multimodal ambiguities.
+77	146	Datasets such as UCF Sports (Rodriguez et al., 2008), YouTube (Liu et al., 2009), and HMDB (Kuehne et al., 2011) which come out of the activity recognition community are accompanied by action labels, not sentences, and do not control for the content of the videos aside from the principal action being performed.
+81	29	To perform the disambiguation task, we extend the sentence recognition model of Siddharth et al. (2014) which represents sentences as compositions of words.
+82	32	Given a sentence, its first order logic interpretation and a video, our model produces a score which determines if the sentence is depicted by the video.
+84	52	This al- lows it to be flexible in the presence of noise by integrating top-down information from the sentence with bottom-up information from object and property detectors.
+86	120	In essence, this model can be described as having two layers, one in which object tracking occurs and one in which words observe tracks and filter tracks that do not satisfy the word constraints.
+88	64	Each predicate in the first order logic formula has a corresponding HMM, which can recognize if that predicate is true of a video given its arguments.
+89	52	Each variable has a corresponding tracker which attempts to physically locate the bounding box corresponding to that variable in each frame of a video.
+92	138	To construct a joint model for a sentence interpretation, we take the cross product of HMMs and trackers, taking only those cross products dictated by the structure of the formula corresponding to the desired interpretation.
+93	188	Given a video, we employ an object detector to generate candidate detections in each frame, construct trackers which select one of these detections in each frame, and finally construct the overall model from HMMs and trackers.
+95	109	This is in essence the Viterbi algorithm (Viterbi, 1971), the MAP algorithm for HMMs, applied to finding optimal object detections jframevariable for each participant, and the optimal state kframepredicate for each predicate HMM, in every frame.
+96	77	Each detection is scored by its confidence from the object detector, f and each object track is scored by a motion coherence metric g which determines if the motion of the track agrees with the underlying optical flow.
+98	35	The structure of the formula and the fact that multiple predicates often refer to the same variables is recorded by θ, a mapping between predicates and their arguments.
+99	101	The model computes the MAP estimate as: max j11 ,..., j T 1 ... j1V ,..., j T V max k11,..., k T 1 ... k1P ,..., k T P V∑ v=1 T∑ t=1 f(btjtv ) + T∑ t=2 g(bt−1 jt−1v , btjtv )+ P∑ p=1 T∑ t=1 hp(k t p, b t jt θ1p , btjt θ2p ) + T∑ t=2 ap(k t−1 p , k t p) for sentences which have words that refer to at most two tracks (i.e. transitive verbs or binary predicates) but is trivially extended to arbitrary arities.

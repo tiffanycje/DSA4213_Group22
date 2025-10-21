@@ -1,0 +1,30 @@
+14	47	In this paper we make a first step towards amending this situation.
+22	33	The first set studies the linear regression problem on synthetic data, and the other sets correspond to real-world application scenarios and use real data (the three real-world application scenarios are video summarization, splice site detection and black-box interpretation of images).
+25	16	We then use these notation and definitions to present our result formally.
+26	104	We say that a set function f : 2N → R over a ground set N is monotone if f(A) ≤ f(B) for every two sets A ⊆ B ⊆ N .
+27	68	Furthermore, given two subsets A,B ⊆ N , we denote by f(B | A) the marginal contribution of addingB’s elements to A.
+31	21	Using this notation we can now define γ-weak submodularity as follows (this definition differs slightly from the original definition of γ-weakly submodular functions by Das & Kempe (2011).
+35	18	Consider a ground set N and a non-empty collection I ⊆ 2N of subsets of N .
+37	54	• |A| < |B| and B ∈ I imply the existence of an element u ∈ B \A such that A ∪ {u} ∈ I.
+38	61	Furthermore, the sets in I are called the independent sets of the matroid.
+42	18	In this paper we are interested in the problem of maximizing a non-negative monotone γ-weakly submodular function f : 2N → R≥0 subject to a matroidM = (N , I) constraint.
+45	26	The RESIDUAL RANDOM GREEDY algorithm of Buchbinder et al. (Buchbinder et al., 2014) has an approximation ratio of at least (1+ 1/γ)−2 for the problem of maximizing a non-negative monotone γ-weakly submodular function subject to a matroid constraint.
+69	64	In this section we present the RESIDUAL RANDOM GREEDY algorithm, originally proposed by Buchbinder et al. (2014), and prove Theorem 1.1.
+70	22	The pseudocode of this algorithm is given as Algorithm 1.
+72	47	In the first step, the algorithm assigns to each element a weight which is equal to the marginal contribution of this element to the current solution S. Then, in the second step of the round, the algorithm finds a set M of maximum weight among all sets whose union with the current solution S is independent, and adds a uniformly random element from M to S. We begin the analysis of Algorithm 1 with the following simple observation.
+73	18	Algorithm 1 always outputs a feasible set while using O(nk) value and independence oracle queries.
+97	17	Note that this bound uses the sets {OPTi}ki=0 that we have constructed above.
+105	17	We conducted four sets of experiments.
+131	17	In one experiment we have used a graphic matroid M .
+151	67	Fortunately, with the help of RESIDUAL RANDOM GREEDY, we can maximize the determinant function f directly and get a guaranteed approximation ratio.
+152	37	The video that we have selected for this experiment lasts for roughly 7 minutes and a half, and we chose to created a summary of it by extracting one representative frame from every 25 seconds.
+162	16	An important problem in computational biology is the identification of true splice sites from similar decoy splice sites in nascent precursor messenger RNA (pre-mRNA) transcripts.
+182	15	Thus, the objective function we want to optimize is the normalized log-likelihood f(S) , g(S)− g(∅), where g(S) = maxw:supp(w)⊆S l(w).
+191	18	To this end, we applied the SLIC algorithm (Achanta et al., 2012) to the image, and this algorithm segmented the image into 25 superpixels (each superpixel is a tile of adjacent pixels of the image).
+194	34	For any subset S of N , let I(S) denote the subimage where only superpixels in S are present, and let f(S) be the likelihood that the subimage I(S) has the label l1.
+202	16	The superpixels selected by RESIDUAL RANDOM GREEDY (see Figure 6(b)) include all parts of the image that form the head of a Bernese mountain dog, while the superpixels selected by STANDARD GREEDY (see Figure 6(c)) only cover the nose of the dog and a small portion of its body.
+207	16	It is also noteworthy to observe that the likelihood achieved by RANDOM remains almost zero when the number of selected superpixels varies from 1 to 10, reaching only the value 4.39× 10−4 at its highest point.
+211	95	The most significant question that we leave open is whether the greedy algorithm has a good provable approximation ratio for the above problem.
+213	45	For example, on the closely related problem of maximizing a non-monotone submodular function, the greedy algorithm performs well in practice despite having an unbounded theoretical approximation ratio (Hassidim & Singer, 2017).
+214	30	Personally, we tend to believe that the greedy algorithm does have a good provable approximation ratio for the problem because we were unable to design any example on which the approximation ratio of the greedy algorithm is non-constant (for a constant γ).
+215	17	However, proving this formally is likely to require new ideas, and is thus, a very interesting area for future work.

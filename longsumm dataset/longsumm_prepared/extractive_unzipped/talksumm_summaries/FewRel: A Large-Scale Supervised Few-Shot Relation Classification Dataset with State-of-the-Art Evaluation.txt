@@ -1,0 +1,10 @@
+0	87	Relation classification (RC) is an important task in NLP, aiming to determine the correct relation between two entities in a given sentence.
+1	26	Many works have been proposed for this task, including kernel methods (Zelenko et al., 2002; Mooney and Bunescu, 2006), embedding methods (Gormley et al., 2015), and neural methods (Zeng et al., 2014).
+2	223	The performance of these conventional models heavily depends on time-consuming and labor-intensive annotated data, which make themselves hard to generalize well.
+3	86	Adopting distant supervision is a primary approach to alleviate this problem for RC (Mintz et al.; Riedel et al.; Hoffmann et al., 2011; Surdeanu et al., 2012; Zeng ∗ The first four authors contribute equally.
+4	70	The order is de- termined by dice rolling.
+5	83	† Z. Wang is now at New York University.
+6	9	et al., 2015; Lin et al., 2016), which heuristically aligns knowledge bases (KBs) and text to automatically annotate adequate amounts of training instances.
+7	55	We evaluate the model proposed by Lin et al. (2016), which is followed by the recent stateof-the-art methods (Zeng et al., 2017; Ji et al., 2017; Huang and Wang, 2017; Wu et al., 2017; Liu et al., 2017; Feng et al., 2018; Zeng et al., 2018), on the benchmark dataset NYT-10 (Riedel et al.).
+9	16	About 58% of the relations in NYT-10 are long-tail with fewer than 100 instances.
+10	90	Furthermore, distant supervision suffers from the wrong labeling problem, which makes it harder to classify long-tail relations.

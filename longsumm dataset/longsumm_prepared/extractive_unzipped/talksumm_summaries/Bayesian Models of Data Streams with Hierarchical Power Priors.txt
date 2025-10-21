@@ -1,0 +1,9 @@
+0	41	Flexible and computationally efficient models for streaming data are required in many machine learning applications, and in this paper we propose a new class of models for these situations.
+1	93	Specifically, we are interested in models suitable for domains that exhibit changes in the underlying generative process (Gama et al., 2014).
+2	372	We envision a situation, where one receives batches of data at discrete points in time.
+3	150	As each new batch arrives, we want to glean information from the new data, while also retaining relevant information from the historical observations.
+4	64	Our modelling is inspired by previous works on Bayesian recursive estimation (Özkan et al., 2013; Kárnỳ, 2014), power priors (Ibrahim & Chen, 2000) and exponential forgetting approaches (Honkela & Valpola, 2003).
+5	19	However, all of these methods were developed for slowly changing processes, where the rate of change anticipated by the model is controlled by a quantity that must be set manually.
+6	13	Our solution, on the other hand, can accommodate both gradual and abrupt concept drift by continuously assessing the similarity between new and historic data using a fully Bayesian paradigm.
+7	13	Building Bayesian models for data streams raises computational problems, as data may arrive with high velocity and is unbounded in size.
+9	59	The appropriateness of the approach is investigated through experiments using both synthetic and real-life data, giving encouraging results.

@@ -1,0 +1,30 @@
+19	14	In (Gao & Goldfarb, 2016), it is shown that the BFGS method (Broyden, 1967) (Fletcher, 1970)(Goldfarb, 1970)(Shanno, 1970) with adaptive step sizes converges superlinearly when applied to self-concordant functions.
+21	17	We propose an iterative method of the following form.
+24	42	The next step direction is given by dk = −Hk∇Fk(xk) and the step size by tk = αk 1 + αkδk where αk = ∇Fk(xk)THk∇Fk(xk) δ2k (4) δk = √ ∇Fk(xk)THk∇2Fk(xk)Hk∇Fk(xk) The motivation for this step size is described in Section 4.
+29	83	Our new methods are also capable of solving general problems of the form (1).
+53	19	The optimal solution of min x∈Rn F (x) is denoted x∗, and the optimal solution of the empirical problem min x∈Rn Fk(x) is denoted x∗k.
+69	74	These powerful techniques are required to analyze second-order stochastic methods, since inverting the product of a sampled Hessian and sampled gradient generates both dependence and non-linearity.
+71	68	It is also useful to compare this approach with that used in (Byrd et al., 2012) and (Friedlander & Goh, 2013), where the variance of the gradient is controlled by pointwise estimates or pointwise tail bounds.
+75	44	We note that the constant C is very much a ‘worst-case’ bound, and for almost every problem arising in practice, the expected difference will be much smaller than Theorem 3.1 suggests.
+76	23	Rather, the crucial implication is that the expected differ- ence diminishes at the rate √ logmk mk , allowing a sharp level of control by adjusting mk.
+80	37	At least one method, the DiSCO algorithm of Zhang and Xiao (2015), is tailored for distributed self-concordant optimization and has been applied to many regression problems.
+83	21	In (Zhang & Xiao, 2015), it is also shown that regularized regression, with either logistic loss or hinge loss, is self-concordant.
+84	39	For self-concordant functions, the notion of a local norm is especially useful.
+86	49	On the kth step, the step direction dk is given by dk = −Hk∇f(xk) for some positive definite matrix Hk, and the step size is given by tk = αk1+αkδk , where δk = ‖dk‖xk and αk = gTk Hkgk δ2k .
+95	14	Suppose that f(x, ai) is self-concordant with constant κi.
+105	73	Our basic approach is to sample an empirical objective function Fk(x) at each step, and then compute the step direction and adaptive step size (4) using Fk.
+122	33	Another option is to replace yk with the action of the Hessian on sk, so yk = Gk(xk)sk.
+126	16	This is an artifact of our analysis, and under suitable conditions on the growth of the samples mk, there will be some point after which the Wolfe condition is necessarily satisfied on every step.
+133	41	Thus, SA-LBFGS also converges in expectation to an -optimal solution after k = Õ(log −1) steps given samples of size m = Õ( −2 log −1), though now the constants within the big-O are also dependent on h. As with SA-GD, one can obtain an -optimal solution in expectation from SA-BFGS with a fixed amount of sampling: Theorem 5.2.
+144	19	Suppose that we drawmk samples on the kth step, where m−1k converges R-superlinearly to 0.
+145	22	Then the SA-BFGS algorithm converges R-superlinearly to the optimal solution x∗ almost surely.
+148	59	From basic results on the adaptive step size, this implies that tk eventually satisfies the Armijo-Wolfe conditions, and therefore the algorithm eventually uses the BFGS direction, and performs a BFGS update on Hk, at every step.
+150	22	Together, these facts imply that SA-BFGS converges Rlinearly almost surely, and consequently, the sum of distances ∑∞ k=0 ‖xk − x∗‖ is finite almost surely.
+153	29	We apply Theorem 3.1 to show that gk(x) and G(x) rapidly converge to the true gradient and Hessian, and thus SABFGS attains R-superlinear convergence.
+154	27	Increasing mk at this rate is clearly infeasible in reality, and it is non-trivial to determine a level of sampling which produces (iteration-wise) superlinear convergence in a reasonable amount of real time.
+155	39	We note, for comparison, that the Streaming SVRG method (Frostig et al., 2015) requires sample sizes for the gradient that grow at a geometric rate, and that the dynamic batch method (Byrd et al., 2012) obtainsR-linear convergence in expectation by increasing the sample sizes at a geometric rate.
+156	49	A superlinear increase in the number of samples may be unavoidable as a condition for superlinear convergence, given the statistical error of the sample.
+157	23	In practice, we are often uninterested in finding the true minimizer, and instead aim to quickly find an approximate solution.
+158	62	The theoretical R-superlinear rate of SA-BFGS suggests that SA-BFGS or SA-LBFGS may offer practical speedups over first-order stochastic methods, even without using substantial sampling.
+159	24	One intuitive heuristic would be to draw fewer samples in the early phase of the algorithm, when computing the gradient with high accuracy is less valuable, and then increasing the number of samples as the solutions approach optimality to reduce fluctuation.
+160	35	We compared several implementations of SA-GD and SABFGS against the original SGD method and the robust SGD method (Nemirovski et al., 2009) on a penalized least squares problem with random design.

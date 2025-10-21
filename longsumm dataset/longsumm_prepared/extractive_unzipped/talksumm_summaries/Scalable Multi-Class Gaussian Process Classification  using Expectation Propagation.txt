@@ -1,0 +1,30 @@
+23	1	An experimental comparison with the variational approach and related methods from the literature shows that the proposed approach has benefits both in terms of the training speed and the accuracy of the predictive distribution.
+26	1	For this, we consider stochastic gradients to update the hyper-parameters and an approximate likelihood that avoids one-dimensional quadratures.
+27	1	We consider a dataset of N instances in the form of a matrix of attributes X = (x1, .
+32	1	, f k(xN )) T ∈ RN and fi = (f1(xi), .
+34	1	This likelihood takes value one if f can explain the observed data and zero otherwise.
+43	1	Thus, these computations must be approximated.
+48	1	,xkM )T, with associated values f k = (fk(xk1), .
+82	1	Then, the Kullback-Leibler divergence between Z−1i,k φ k i q \i,k and q, i.e, KL[Z−1i,k φ k i q \i,k|q], is minimized with respect to q, where Zi,k is the normalization constant of φki q \i,k.
+85	1	After updating q, the new approximate factor is φ̃i,k = Zi,kq/q\i,k.
+94	1	After obtaining q and finding the model hyper-parameters by maximizing logZq , one can get an approximate predictive distribution for the label y?
+102	1	The reason for this is that (10) is only true if EP has converged (i.e., the approximate factors do not change any more).
+180	1	EP and SEP are compared with the methods described in Section 3.
+204	1	This is related to the optimization of Eq(fi)[log p(yi|fi)] in (15), instead of logEq(fi)[p(yi|fi)], which is closer to the data loglikelihood.
+206	1	This explains the much better results obtained by EP and SEP.
+217	1	Blue, red and green points represent the training data, black lines are decision boundaries and black border points are the inducing points.
+220	1	This is probably because VI updates the inducing-points with a bad estimate of q during the initial iterations.
+223	1	This has already been observed in regression problems (Bauer et al., 2016).
+224	1	By contrast, VI places the inducing points near the decision boundaries.
+226	1	Figure 4 shows the negative test log-likelihood of each method as a function of the training time on the Satellite dataset (EP results are not shown since it performs equal to SEP).
+227	1	Training is done as in Section 4.1.
+236	1	However, in that case VI does not overfit the training data.
+237	1	In very large datasets batch training is infeasible, and one must use mini-batches to update q and to approximate the required gradients.
+241	1	GFITC does not allow for stochastic optimization.
+242	1	Thus, it is ignored in the comparison.
+244	1	In this larger dataset all methods perform similarly.
+273	3	An important conclusion of this work is that VI sometimes gives bad predictive distributions in terms of the test loglikelihood.
+274	4	The EP and SEP methods do not seem to have this problem.
+275	32	Thus, if one cares about accurate predictive distributions, VI should be avoided in favor of the proposed methods.
+276	181	In our experiments we have also observed that the proposed approaches tend to place the inducing points one on top of each other, which can be seen as an inducing point pruning technique (Bauer et al., 2016).
+277	178	By contrast, VI tends to place them near the decision boundaries.

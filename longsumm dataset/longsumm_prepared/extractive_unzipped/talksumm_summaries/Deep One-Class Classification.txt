@@ -1,0 +1,30 @@
+19	4	We review two kernel machine approaches to AD.
+21	3	The objective of the OC-SVM finds a maximum margin hyperplane in feature space,w ∈ Fk, that best separates the mapped data from the origin.
+22	8	,xn} with xi ∈ X , the OC-SVM solves the primal problem min w,ρ,ξ 1 2 ‖w‖2Fk − ρ+ 1 νn n∑ i=1 ξi s.t.
+26	1	Separating the data from the origin in feature space translates into finding a halfspace in which most of the data lie and points lying outside this halfspace, i.e. 〈w, φk(x)〉Fk < ρ, are deemed to be anomalous.
+35	2	Formulating the primal problems with hyperparameter ν ∈ (0, 1] as in (1) and (2) is a handy choice of parameterization since ν ∈ (0, 1] is (i) an upper bound on the fraction of outliers, and (ii) a lower bound on the fraction of support vectors (points that are either on or outside the boundary).
+41	1	Deep learning (LeCun et al., 2015; Schmidhuber, 2015) is a subfield of representation learning (Bengio et al., 2013) that utilizes model architectures with multiple processing layers to learn data representations with multiple levels of abstraction.
+43	2	Deep (multi-layered) neural networks are especially well-suited for learning representations of data that are hierarchical in nature, such as images or text.
+45	2	Fully deep approaches, in contrast, employ the representation learning objective directly for detecting anomalies.
+56	2	The main difficulty of applying autoencoders for AD is given in choosing the right degree of compression, i.e. dimensionality reduction.
+72	2	To do this we employ a neural network that is jointly trained to map the data into a hypersphere of minimum volume.
+87	3	For the case where we assume most of the training data Dn is normal, which is often the case in one-class classification tasks, we propose an additional simplified objective.
+123	1	For a convolutional neural network (CNN) with ReLU activation functions, for example, this would require c 6= 0.
+138	2	,zn} that have at least one feature that is positive or negative for all inputs, the non-zero supremum (or infimum) can be uniformly approximated on the set of inputs.
+145	2	Hyperparameter ν ∈ (0, 1] in the soft-boundary Deep SVDD objective in (3) is an upper bound on the fraction of outliers and a lower bound on the fraction of samples being outside or on the boundary of the hypersphere.
+146	2	Define di = ‖φ(xi;W) − c‖2 for i = 1, .
+150	1	Finally, we have that R∗2 = di for i = nout + 1 since radius R is minimal in this case and points on the boundary do not increase the objective.
+168	2	(iii) Isolation Forest (IF) (Liu et al., 2008).
+182	3	For optimization, we use the Adam optimizer (Kingma & Ba, 2014) with parameters as recommended in the original work and apply Batch Normalization (Ioffe & Szegedy, 2015).
+184	3	We employ a simple two-phase learning rate schedule (searching + fine-tuning) with initial learning rate η = 10−4, and subsequently η = 10−5.
+186	3	Leaky ReLU activations are used with leakiness α = 0.1.
+188	2	In each setup, one of the classes is the normal class and samples from the remaining classes are used to represent anomalies.
+206	2	These cases underline the importance of network architecture choice.
+207	3	Notably, the One-Class Deep SVDD performs slightly better than its softboundary counterpart on both datasets.
+210	4	Setup Detecting adversarial attacks is vital in many applications such autonomous driving.
+218	2	Network architecture We use a CNN with LeNet architecture having three convolutional modules, 16×(5×5×3)- filters, 32× (5× 5× 3)-filters, and 64× (5× 5× 3)-filters, followed by a final dense layer of 32 units.
+226	2	We introduced the first fully deep one-class classification objective for unsupervised AD in this work.
+227	30	Our method, Deep SVDD, jointly trains a deep neural network while optimizing a data-enclosing hypersphere in output space.
+228	28	Through this Deep SVDD extracts common factors of variation from the data.
+229	193	We have demonstrated theoretical properties of our method such as the ν-property that allows to incorporate a prior assumption on the number of outliers being present in the data.
+230	197	Our experiments demonstrate quantitatively as well as qualitatively the sound performance of Deep SVDD.

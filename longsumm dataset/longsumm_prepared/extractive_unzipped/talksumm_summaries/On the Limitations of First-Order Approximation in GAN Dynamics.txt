@@ -1,0 +1,30 @@
+0	53	Generative Adversarial Networks (GANs) have recently been proposed as a novel framework for learning generative models (Goodfellow et al., 2014).
+1	59	In a nutshell, the key idea of GANs is to learn both the generative model and the loss function at the same time.
+2	20	The resulting training dynamics are usually described as a game between a generator (the generative model) and a discriminator (the loss function).
+3	30	The goal of the generator is to produce realistic samples that fool the discriminator, while the discriminator is trained to distinguish between the true training data and samples from the generator.
+5	5	Unfortunately, reliably training GANs is a challenging prob1MIT.
+6	7	lem that often hinders further research and applicability in this area.
+7	8	Practitioners have encountered a variety of obstacles in this context such as vanishing gradients, mode collapse, and diverging or oscillatory behavior (Goodfellow, 2017).
+9	4	To date, there were no convergence proofs for GAN models, even in very simple settings.
+17	24	To the best of our knowledge, our theoretical analysis of the GMM-GAN is the first global convergence proof for parametric and non-trivial GAN dynamics.
+18	21	Our results show a clear dichotomy between the dynamics arising from applying simultaneous gradient descent and the one that is able to use an optimal discriminator.
+19	20	The GAN with optimal discriminator provably converges from (essentially) any starting point.
+20	181	On the other hand, the simultaneous gradient GAN empirically often fails to converge, even when the discriminator is allowed many more gradient steps than the generator.
+21	27	These findings go against the common wisdom that first order methods are sufficiently strong for all deep learning applications.
+22	25	By carefully inspecting our models, we are able to pinpoint some of the causes of this, and we highlight a phenomena we call discriminator collapse which often causes first order methods to fail in our setting.
+23	31	Generative adversarial networks are commonly described as a two player game (Goodfellow et al., 2014).
+24	58	Given a true distribution P , a set of generators G = {Gu, u 2 U}, a set of discriminators D = {Dv, v 2 V}, and a monotone measuring function m : R !
+25	27	R, the objective of GAN training is to find a generator u in argmin u2U max v2V Ex⇠P [m(Dv(x))]+Ex⇠Gu [m(1 Dv(x))] .
+26	47	(1) In other words, the game is between two players called the generator and discriminator, respectively.
+27	24	The goal of the discriminator is to distinguish between samples from the generator and the true distribution.
+28	19	The goal of the generator is to fool the discriminator by generating samples that are similar to the data distribution.
+29	12	By varying the choice of the measuring function and the set of discriminators, one can capture a wide variety of loss functions.
+30	15	Typical choices that have been previously studied include the KL divergence and the Wasserstein distance (Goodfellow et al., 2014; Arjovsky et al., 2017).
+31	5	This formulation can also encode other common objectives: most notably, as we will show, the total variation distance.
+36	17	Vanishing gradients (Arjovsky et al., 2017; Arjovsky & Bottou, 2017; Arora et al., 2017) are, on the other hand, a failure case where the generator updates become vanishingly small, thus making the GAN dynamics not converge to a satisfying solution.
+37	20	Despite many proposed explanations and approaches to solve the vanishing gradient problem, it is still often observed in practice (Goodfellow, 2017).
+38	8	GANs provide a powerful framework for generative modeling.
+42	14	This raises a natural question, also posed as an open problem in (Goodfellow, 2017): Our theoretical understanding of GANs is still fairly poor.
+44	9	There has been no rigorous study of the actual GAN dynamics, except studying it in the immediate neighborhood of such stationary points (Nagarajan & Kolter, 2017).
+47	19	One of them is the non-convexity of the GAN objective/loss function, and of the generator and discriminator sets.
+48	50	Another one is that, in practice, GANs are always optimized using first order methods.

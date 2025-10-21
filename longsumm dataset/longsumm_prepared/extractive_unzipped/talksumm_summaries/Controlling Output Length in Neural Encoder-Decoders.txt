@@ -1,0 +1,30 @@
+3	16	its name suggests, consists of generating shorter versions of sentences for applications such as document summarization (Nenkova and McKeown, 2011) or headline generation (Dorr et al., 2003).
+4	12	Recently, Rush et al. (2015) automatically constructed large training data for sentence summarization, and this has led to the rapid development of neural sentence summarization (NSS) or neural headline generation (NHG) models.
+6	38	One of the essential properties that text summarization systems should have is the ability to generate a summary with the desired length.
+7	38	Desired lengths of summaries strongly depends on the scene of use, such as the granularity of information the user wants to understand, or the monitor size of the device the user has.
+11	14	In this paper, we propose and investigate four methods for controlling the output sequence length for neural encoder-decoder models.
+13	11	The latter two methods are 1328 learning-based; we modify the network architecture to receive the desired length as input.
+52	18	While g can be any kind of recurrent unit, we use long short-term memory (LSTM) (Hochreiter and Schmidhuber, 1997) networks that have memory cells for both directions (−→c t and←−c t).
+55	8	We also use the attention mechanism developed by Luong et al. (2015), which uses st to compute contextual information dt of time step t. We first summarize the forward and backward encoder states by taking their sum h̄i = −→ h i + ←− h i, and then calculate the context vector dt as the weighted sum of these summarized vectors: dt = ∑ i atih̄i, where at is the weight at the t-th step for h̄i computed by a softmax operation: ati = exp(st · h̄i)∑ h̄′ exp(st · h̄′) .
+61	19	In the first two methods, the decoding process is used to control the output length without changing the model itself.
+67	15	More specifically, during beam search, when the length of the sequence generated so far exceeds the desired length, the last word is replaced with the EOS tag and also the score of the last word is replaced with the score of the EOS tag (EOS replacement).
+72	29	We then replace its last word with the EOS tag and add this sequence to the beam (EOS replacement in Section 4.1).3 In other words, we keep only the sequences that contain the EOS tag and are in the defined length range.
+77	8	Specifically, the model uses an embedding e2(lt) ∈ RD for each potential desired length, which is parameterized by a length embedding matrix Wle ∈ RD×L where L is the number of length types.
+78	20	In the decoding process, we input the embedding of the remaining length lt as additional input to the LSTM (Figure 3).
+81	16	This method provides additional information about the amount of length remaining in the output sequence, allowing the decoder to “plan” its output based on the remaining number of words it can generate.
+82	25	h t c t c t h t Attender mt st yt s̃t <s> yt 1 h t c t c t h t Attender mt st yt s̃t <s> yt 1 length bc at at Figure 4: LenInit: initial state of the decoder’s memory cellm0 manages output length.
+85	33	Specifically, the model uses the memory cell mt to control the output length by initializing the states of decoder (hidden state s0 and memory cell m0) as follows: s0 = ←− h 1, m0 = bc ∗ length, (1) where bc ∈ RH is a trainable parameter and length is the desired length.
+96	14	We evaluate the methods on the evaluation set of DUC2004 task-1 (generating very short singledocument summaries).
+100	24	Figure 5 shows the length histograms of the summaries in the evaluation set.
+102	11	We used three variants of ROUGE (Lin, 2004) as evaluation metrics: ROUGE-1 (unigram), ROUGE-2 (bigram), and ROUGE-L (longest common subsequence).
+119	10	ods (LenEmb and LenInit) tend to outperform decoding-based methods (fixLen and fixRng) for the longer summaries of 50 and 75 bytes.
+121	33	We hypothesize that this is because average compression rate in the training data is 30% (Figure 1-(c)) while the 30-byte setting forces the model to generate summaries with 15.38% in average compression rate, and thus the learning-based models did not have enough training data to learn compression at such a steep rate.
+123	41	The tables show that all models, including both learningbased methods and decoding-based methods, can often generate well-formed sentences.
+124	206	We can see various paraphrases of “#### us figure championships”7 and “withdrew”.
+125	53	Some examples are generated as a single noun phrase (LenEmb(30) and LenInit(30)) which may be suitable for the short length setting.
+127	9	While the output lengths from the standard model disperse widely, the lengths from our learning-based models are concentrated to the desired length.
+130	14	We can see all the sentences in the beam are generated with length close to the desired length.
+132	11	For comparison, Table 4-(b) shows the final state of the beam if we perform standard beam search in the standard encoder-decoder model (used in fixLen and fixRng).
+136	27	Table 5 shows that the scores of our methods, which are copied from Table 1, in addition to the scores of some existing methods.
+139	8	The table also shows the LenEmb and the LenInit have the capability of controlling the length without decreasing the ROUGE score.
+142	31	The results showed that learning-based methods generally outperform the decoding-based methods, and the learning-based methods obtained the capability of controlling the output length without losing ROUGE score compared to existing summarization methods.

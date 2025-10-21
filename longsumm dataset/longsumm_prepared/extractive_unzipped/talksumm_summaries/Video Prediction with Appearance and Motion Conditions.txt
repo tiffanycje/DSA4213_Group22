@@ -1,0 +1,16 @@
+26	7	• We develop a novel conditioning scheme that helps the training by varying appearance and motion conditions.
+27	44	• We use perceptual triplet ranking to encourage videos of similar conditions to look similar.
+61	23	We formulate this as learning the conditional distribution p(x|y) where x is a video and y = [ya,ym] is a set of conditions known to occur.
+62	8	We define two conditioning variables, ya and ym, that encode appearance and motion information, respectively.
+63	17	We propose an Appearance-Motion Conditional GAN, shown in Figure 1.
+65	7	We denote a generated video by x̂|y = G(z|y), where z is random noise.
+69	1	The generator and the two discriminators form a conditional GAN (Mirza & Osindero, 2014).
+71	15	If we follow the traditional training method (Mirza & Osindero, 2014), the model may treat them as random noise.
+72	14	To ensure that the conditioning variables have intended influence on the data generation process, we employ a ranking network R, which takes as input a triplet (x|y, x̂|y, x̂|y′) and forces x|y and x̂|y to look more similar to each other than x|y and x̂|y′ , because in the latter pair, the conditions do not match (y 6= y′).
+73	31	In addition to the ranking constraint, we propose a novel conditioning scheme to put constraints on the learning objective with respect to the conditioning variables.
+74	159	We explain our learning strategy and the conditioning scheme in Section 3.3, and discuss model training in Section 3.4.
+75	128	The appearance condition ya can be any high-level abstraction that encodes visual appearance; we use a single RGB image ya ∈ R64×64×3 (e.g., the first frame of a video).
+76	40	The motion condition ym can also be any high-level abstraction that encodes motion.
+77	123	We define it as ym = [ ylm,y v m ] , where ylm ∈ Rc is a motion category label encoded as a one-hot vector, and yvm ∈ R(T−1)×2k is the velocity of k keypoints in 2D space detected from an image sequence of length T .
+78	29	We explain how we extract keypoints in Section 4.
+79	12	We repeat ylm T−1 times to obtain ym ∈ R(T−1)×q , where q = (c+ 2k).

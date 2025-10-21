@@ -1,0 +1,30 @@
+0	52	Semantic parsing is the task of mapping natural language utterances to machine interpretable meaning representations.
+1	45	Despite differences in the choice of meaning representation and model structure, most existing work conceptualizes semantic parsing following two main approaches.
+5	12	The successful application of encoder-decoder models (Bahdanau et al., 2015; Sutskever et al., 2014) to a variety of NLP tasks has provided strong impetus to treat semantic parsing as a sequence transduction problem where an utterance is mapped to a target meaning representation in string format (Dong and Lapata, 2016; Jia and Liang, 2016; Kočiský et al., 2016).
+8	19	Such knowledge plays a critical role in understand modeling limitations so as to build better semantic parsers.
+17	43	We conduct experiments on four datasets, including GEOQUERY (which has logical forms; Zelle and Mooney 1996), SPADES (Bisk et al., 2016), WEBQUESTIONS (Berant et al., 2013), and GRAPHQUESTIONS (Su et al., 2016) (which have denotations).
+26	35	FunQL is a variable-free query language, where each predicate is treated as a function symbol that modifies an argument list.
+27	41	For example, the FunQL representation for the utterance which states do not border texas is: answer(exclude(state(all), next to(texas))) where next to is a domain-specific binary predicate that takes one argument (i.e., the entity texas) and returns a set of entities (e.g., the states bordering Texas) as its denotation.
+49	42	In general, the transition system generates the representation by following a derivation tree (which contains a set of applied rules) and some canonical generation order (e.g., depth-first).
+54	28	We can generate the tree with a top-down, depth first transition system reminiscent of recurrent neural network grammars (RNNGs; Dyer et al. 2016).
+59	25	Therefore, we allow the generation algorithm to pick tokens and combine logical forms in arbitrary orders, conditioning on the entire set of sentential features.
+61	34	Our transition system defines three actions, namely NT, TER, and RED, explained below.
+62	49	NT(X) generates a Non-Terminal predicate.
+66	15	TER(X) generates a TERminal entity or the special predicate all.
+69	11	RED stands for REDuce and is used for subtree completion.
+78	30	At each time step, the model uses the representation of the transition system et to predict an action: p(at|a<t, x) ∝ exp(Wa · et) (2) where et is the concatenation of the buffer representation bt and the stack representation st.
+82	62	This buffer representation is then concatenated with the stack representation to form the system representation et.
+84	19	To select a domain-general term, we use the same representation of the transition system et to compute a probability distribution over candidate terms: p(uGENERALt |a<t, x) ∝ exp(Wp · et) (3) To choose a natural language term, we directly compute a probability distribution of all natural language terms (in the buffer) conditioned on the stack representation st and select the most relevant term (Jia and Liang, 2016): p(uNLt |a<t, x) ∝ exp(st) (4) When the predicted action is RED, the completed subtree is composed into a single representation on the stack.
+101	21	For the grounded action sequence (which by design is the same as the ungrounded action sequence and therefore the output of the transition system), we can directly maximize the log likelihood log p(a|x) for all examples: La = ∑ x∈T log p(a|x) = ∑ x∈T n∑ t=1 log p(at|x) (6) where T denotes examples in the training data.
+123	59	Amongst the four datasets described above, GEOQUERY has annotated logical forms which we directly use for training.
+132	20	The second set of features include the embedding similarity between the relation and the utterance, as well as the similarity between the relation and the question words.
+145	13	Jia and Liang (2016) achieve better results with synthetic data that expands GEOQUERY; we could adopt their approach to improve model performance, however, we leave this to future work.
+148	13	Previous work on this dataset has used a semantic parsing framework similar to ours where natural language is converted to an intermediate syntactic representation and then grounded to Freebase.
+165	21	SCANNER achieves a new state of the art on this dataset with a gain of 4.23 F1 points over the best previously reported model.
+177	14	EASYCCG extracts predicate-argument structures with a labeled F-score of 83.37%.
+185	15	As a reminder, the task in SPADES is to predict the entity masked by a blank symbol ( ).
+187	51	The model will often identify informative predicates (e.g., nouns) which do not necessarily agree with linguistic intuition.
+192	27	We presented a neural semantic parser which converts natural language utterances to grounded meaning representations via intermediate predicate-argument structures.
+194	199	Compared to previous neural semantic parsers, our model is more interpretable as the intermediate structures are useful for inspecting what the model has learned and whether it matches linguistic intuition.
+195	86	An assumption our model imposes is that ungrounded and grounded representations are structurally isomorphic.
+203	26	Aside from relaxing strict isomorphism, we would also like to perform crossdomain semantic parsing where the first stage of the semantic parser is shared across domains.

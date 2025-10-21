@@ -1,0 +1,30 @@
+1	57	Semantic parsing addresses the specific task of learning to map natural language (NL) to machine interpretable formal meaning representations.
+2	21	Traditionally, sentences are converted into logical form grounded in the symbols of some fixed ontology or relational database.
+6	51	Figure 1 shows an example of a question, its annotated logical form, and answer (or denotation).
+30	23	Our contributions include: a novel graph-based method to convert natural language sentences to grounded semantic parses which exploits the similarities in the topology of knowledge graphs and linguistic structure, together with the ability to train using a wide range of features; a proposal to learn from a large scale web corpus, without question-answer pairs, based on denotations of queries from natural language statements as weak supervision; and the development of a scalable semantic parser which besides Freebase uses CLUEWEB09 for training, a corpus of 503.9 million webpages.
+36	22	Semantic parses are then converted to semantic graphs which are subsequently grounded to Freebase.
+38	27	During training we learn which grounded graphs correspond best to the natural language input.
+46	32	In addition to simple facts, Freebase encodes complex facts, represented by multiple edges (e.g., the edges connecting BARACK OBAMA, COLUMBIA UNIVERSITY and BACHELOR OF ARTS).
+61	92	Semantic parses are constructed from syntactic CCG parses, with semantic composition being guided by the CCG syntactic derivation.2 We use a neo-Davidsonian (Parsons, 1990) semantics to represent semantic parses.3 Each word has a semantic category based on its syntactic category and part of speech.
+62	91	For example, the syntactic category for directed is (S\NP)/NP, i.e., it (a) Ungrounded graph (b) Grounded graph Figure 5: Graph representations for the sentence Cameron directed Titanic in 1997. takes two argument NPs and becomes S. To represent its semantic category, we use a lambda term λyλx.
+63	31	directed.arg1(e,x)∧ directed.arg2(e,y), where e identifies the event of directed, and x and y are arguments corresponding to the NPs in the syntactic category.
+68	23	We discuss the details of semantic category construction in the Appendix.
+107	23	Fortunately, CLUEWEB09 sentences have been automatically annotated with Freebase entities, so we use these annotations to ground proper names to Freebase entities (denoted by uppercase words) e.g., Cameron in Figure 5a is grounded to Freebase entity CAMERON in Figure 5b.
+120	24	In Figure 8a, the edges corresponding to the event identifier e are grounded to a single complex fact in Figure 8b, with the fact identifier m. However, in Figure 5a, the edges of the ungrounded event e are grounded to different Freebase facts, distinguished in Figure 5b by the identifiers m and n. Furthermore, the edge in 5a between CAMERON and 1997 is not grounded in 5b, since no Freebase edge exists between the two entities.
+142	36	Let u be an ungrounded semantic graph of s. We select an entity E in u, replace it with a variable x, and make it a target node.
+152	29	For example, in Figure 2b, we replace Austin by x, and thus assume [[u+]]N L = {AUSTIN}.4 Any grounded graph which results in [[g+]]K B = {AUSTIN} will be considered a surrogate gold graph.
+154	18	Constraint 2 If the target entity node is a number, we select the Freebase graphs with denotation close to this number.
+159	64	Constraint 4 If none of the above constraints apply to the target entity E, we know E ∈ [[u+]]N L , and hence we select the grounded graphs which satisfy E ∈ [[g+]]K B as surrogate gold graphs.
+160	27	Our feature vector Φ(g,u,s,K B) denotes the features extracted from a sentence s and its corresponding graphs u and g with respect to a knowledge base K B .
+162	31	take integer values denoting the number of times a feature appeared.
+164	18	So, from graphs 5a and 5b, we obtain the edge alignment φedge(directed.arg1, directed.arg2, film.directed by.arg2, film.directed by.arg1) and the subedge alignments φedge(directed.arg1,film.directed by.arg2) and φedge(directed.arg2,film.directed by.arg1).
+166	31	Contextual features In addition to lexical alignments, we also use contextual features which essentially record words or word combinations surrounding grounded edge labels.
+244	54	We should also point out that our domain relation set is larger compared to KCAZ13.
+245	30	We do not prune any of the relations in Freebase, whereas KCAZ13 use only 112 relations and 83 types from our three domains (see Table 1).
+270	24	Another cause of errors is mismatches between natural language and Freebase.
+278	51	As an illustration, we rewrote questions like Where did X come from to What is X’s birth place, and What did X do to What is X’s profession and evaluated our model GRAPHPARSER + PARA.
+286	40	We formalize semantic parsing as a graph matching problem and learn a semantic parser without using annotated question-answer pairs.
+295	53	More generally, our method is based on the assumption that linguistic structure has a correspondence to Freebase structure which does not always hold (e.g., in Who is the grandmother of Prince William?, grandmother is not directly expressed as a relation in Freebase).
+315	38	When more than one rule apply, we end up with multiple semantic parses.
+316	68	There are a few cases like passives, question words, and prepositional phrases where we modified the original indexed categories for better interpretation of the semantics (these are not displayed here).
+317	27	We also handle non-standard CCG operators involving unary and binary rules as described in Appendix A of Clark and Curran (2007).

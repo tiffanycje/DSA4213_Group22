@@ -1,0 +1,30 @@
+6	7	The dialogue state is an encoding of the machine’s understanding of the whole conversation.
+9	22	In this paper, we focus on the tracking of the user’s goal.
+10	5	Recently, the dialogue state tracking challenges (DSTCs) (Williams et al., 2013; Henderson et al., 2014a,d) are organized to provide shared tasks for comparing DST algorithms.
+16	30	For example, in the tourist information domain, new restaurants or hotels are often added, which results in the change of the ontology.
+17	9	Second, in many approaches the models for every slot are different.
+18	60	Therefore, the number of parameters is proportional to the number of slots.
+19	32	Third, some models extract features based on text delexicalisation (Henderson et al., 2014b), which depends on predefined semantic dictionaries.
+27	24	For each dialogue turn, StateNet takes the multiple n-gram user utterance representation, rnu, the n-gram machine act representation, rna , the value set, Vs, and the word vector of the slot, s, as the input.
+30	6	The general model architecture is shown in Figure 1.
+39	6	Here we only use the linear layer to provide a baseline of this kind of structure design.
+40	51	These c number of linear layers (or receptors) for different grams (or scales) of the representation r̂ku is then summed together to be layer-normalized (Ba et al., 2016).
+41	53	After that, the ReLU activation function is applied, followed by a linear layer with the size Nc that maps all the receptors to a user feature vector, fu, fu = Linear(ReLU(LayerNorm( n∑ k=1 r̂ku))).
+42	12	We represent the machine act in the m order ngram of bag of words, rma , based on the vocabularies generalized from the machine acts in the training set of a given data set.
+43	6	The machine act feature, fa, is then simply generated through a linear layer of size Nc with the ReLU activation function, fa = ReLU(Linear(rma )).
+45	27	The turn-level feature vector, is, is then generated through a point-wise multiplication ⊗ between the slot feature and the concatenation of the user feature and the machine act feature, is = fs ⊗ (fu ⊕ fa).
+50	19	In this way, the prediction of the model is independent of the number of the given values, so it is possible for the model to perform parameter sharing among each of the slots.
+62	11	Two datasets are used by us for training and evaluation.
+76	4	For each slot in a batch, we infer the model with the slot information and the same dialogue information.
+84	17	The pre-trained model with the best performance on the validation set is selected for initialization.
+89	6	The hyperparameters are identical for all three models, Nc = 128, Nw = 300, n = 2,m = 3.
+92	20	Implemented with the MXNet deep learning framework of Version 1.1.0, the model is trained with a batch size of 32 for 150 epochs on a single NVIDIA GTX 1080Ti GPU.
+97	9	Besides, StateNet PSI beats all the mod- els reported in the previous literature, whether the model with delexicalisation (Henderson et al., 2014b,c; Rastogi et al., 2017) or not (Mrkšić et al., 2017; Perez and Liu, 2017; Xu and Hu, 2018; Ramadan et al., 2018; Zhong et al., 2018).
+98	10	We also test StateNet PSI with different pre-trained models, as shown in Table 2.
+99	8	The fact that the food initialization has the best performance verifies our selection of the slot with the worst performance for pre-training.
+101	8	A slot on which the model has the worst accuracy, i.e. the most difficult slot, will dramatically limit the overall model performance on the metric of the joint goal accuracy.
+102	29	Thus, the initialization with a model pre-trained on the most difficult slot can improve the performance of the model on its weakness slot and boost the joint goal accuracy, while the initialization of a strength slot may not help much for the overall accuracy but in turn causes the over-fitting problem of the slot itself.
+103	47	In this paper, we propose a novel dialogue state tracker that has the state-of-the-art accuracy as well as the following three advantages: 1) the model does not need manually-tagged user utterance; 2) the model is scalable for the slots that need tracking, and the number of the model parameters will not increase as the number of the slots increases, because the model can share parameters among different slots; 3) the model is independent of the number of slot values, which means for a given slot, the model can make the prediction on a new value as long as we have the corresponding word vector of this new value.
+104	31	If there are a great number of values for a certain slot, to reduce the computational complexity, we can utilize a fixed-size candidate set (Rastogi et al., 2017), which dynamically changes as the dialogue goes on.
+105	28	Experiment results demonstrate the effectiveness of parameter sharing & initialization.
+106	15	Our future work is to evaluate the performance of our models in the scenario where there are new slots and more unobserved slot values, and to evaluate the domain-transferring ability of our models.

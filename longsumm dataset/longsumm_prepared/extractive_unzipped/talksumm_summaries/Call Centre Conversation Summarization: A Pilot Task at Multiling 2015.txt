@@ -1,0 +1,30 @@
+3	16	Compared to news summarization where extractive approaches have been very successful, the CCCS task’s objective is to foster work on abstractive summarization in order to depict what happened in a conversation instead of what people actually said.
+4	6	The track leverages conversations from the Decoda and Luna corpora of French and Italian call centre recordings, both with transcripts available in their original language as well as English translation (both manual and automatic).
+7	29	Given transcripts, participants to the task shall generate abstractive summaries informing a reader about the main events of the conversations, such as the objective of the caller, whether and how it was solved by the agent, and the attitude of both parties.
+8	28	Evaluation has been performed by comparing submissions to reference synopses written by quality assurance experts from call centres.
+21	42	Even though extractive systems might give a glimpse of the dialogs, only abstraction can yield synopses that tell the story of what happens in the conversations.
+22	7	Contrary to previous research on meeting summarization (Gillick et al., 2009; Erol et al., 2003; Lai and Renals, 2014; Wang and Cardie, 2012) (among others), we expect that the fact that conversations are focused and goal oriented will enable to foster research on more abstractive methods, such as (Murray, 2015; Mehdad et al., 2013) and deeper analysis of the conversations.
+23	26	Participants to the CCCS task could submit system output in any of the supported languages, and could submit a maximum of three runs per language.
+24	67	For each conversation, they had to submit one synopsis of length 7% of the number of words of the transcript of that conversation.
+25	90	The CCCS task draws from two call centre conversation corpora, the Decoda corpus in French and the Luna corpus in Italian.
+26	43	Subsets from both corpora have been translated to English.
+27	61	Decoda corpus The French DECODA corpus consists in conversations between customers and one or more agent recorded in 2009 in a call centre of the public transport authority in Paris (Bechet et al., 2012).
+28	22	The topics of the conversations range from itinerary and schedule requests, to lost and found, to complaints (the calls were recorded during strikes).
+38	9	The data for training and testing is also provided in French.
+39	6	The human written synopses are very diverse and show a high degree of abstraction from the words of the conversation with third person writing, telegraphic style and analysis of the conversations.
+40	5	Examples: • A man is calling cause he got a fine.
+68	5	The first baseline is Maximal Marginal Relevance (Baseline-MMR) (Carbonell and Goldstein, 1998) with λ = 0.7.
+70	14	The third baseline is the words of the longest turn in the first 25% of the conversation, which usually corresponds to the description of the caller’s problem (Baseline-LB).
+76	28	It shows that in the source languages, the extractive baselines were difficult to beat while one of the systems significantly outperformed the baselines on English (the EN test set corresponds to the union of manual and automatic translations).
+77	22	An analysis of the consistency of human synopsis writers is outlined in Table 4.
+80	47	However, human annotators suffer from a much higher performance variance than systems (for which confidence intervals are 4-5 times smaller).
+81	8	This partly comes from the low number of manual synopses which is greater impacted by resampling than if there were hundreds of references for each conversation.
+84	63	This experiment is hard to interpret as the set of conversations for automatic and manual transla- tions is different.
+85	24	However, it seems that processing MT results leads to better ROUGE scores, probably due to the consistency with which the MT system translates words for both conversations and synopses (reference synopses are automatic translations of source language synopses for those conversations).
+86	67	The objective of the CCCS pilot task at Multiling’15 was to allow work on abstractive summarization of goal-oriented spoken conversations.
+87	60	This task involved generating synopses from French and Italian call centre recording transcripts, and English translations of those transcripts.
+88	34	Four systems were submitted by two participants, and obtained reasonable results but had trouble exceeding the performance of the extractive baselines.
+89	14	Clearly, ROUGE evaluation is limited for abstractive summarization in that the wording of generated text might be very different from system to system, and from reference to reference, while conveying the same meaning.
+90	12	In addition, ROUGE does not assess fluency and readability of the summaries.
+91	62	Future work will focus on proposing better evaluation metrics for the task, probably involving the community for manually evaluating the fluency and adequacy of the submitted system output.
+92	8	In addition, work will be conducted in evaluating and insuring the consistency of the human experts who create the gold standard for the task.

@@ -1,0 +1,30 @@
+0	33	Word alignment is a natural language processing task that aims to specify the correspondence between words in two languages (Brown et al., 1993).
+1	18	It plays an important role in statistical machine translation (SMT) as word-aligned bilingual corpora serve as the input of translation rule extraction (Koehn et al., 2003; Chiang, 2007; Galley et al., 2006; Liu et al., 2006).
+2	83	Although state-of-the-art generative alignment models (Brown et al., 1993; Vogel et al., 1996) have been widely used in practical SMT systems, they fail to model the symmetry of word alignment.
+3	25	While word alignments in real-world bilingual data usually exhibit complicated mappings (i.e., mixed with one-to-one, one-to-many, manyto-one, and many-to-many links), these models assume that each target word is aligned to exactly one source word.
+4	17	To alleviate this problem, heuristic methods (e.g., grow-diag-final) have been proposed to combine two asymmetric alignments (source-to-target and target-to-source) to generate symmetric bidirectional alignments (Och and Ney, 2003; Koehn and Hoang, 2007).
+5	25	Instead of using heuristic symmetrization, Liang et al. (2006) introduce a principled approach that encourages the agreement between asymmetric alignments in two directions.
+6	23	The basic idea is to favor links on which both unidirectional models agree.
+8	79	However, enforcing agreement in joint training faces a major problem: the two models are restricted to one-to-one alignments (Liang et al., 2006).
+29	24	Our intuition is that the agreement between two alignments can be defined as a loss function, which enables us to consider various ways of quantification (Section 3.1) and even to incorporate the dependency between alignments and other latent structures such as phrase segmentations (Section 3.2).
+35	34	This gives the new joint training objective with generalized agreement: J(θ1,θ2) = S∑ s=1 logP (f (s)|e(s); θ1) + logP (e(s)|f (s); θ2)− log ∑ a1 ∑ a2 P (a1|f (s), e(s); θ1)× P (a2|e(s), f (s); θ2)× ∆(a1,a2) (8) Obviously, Liang et al. (2006)’s training objective is a special case of our framework.
+36	101	We refer to its loss function as hard matching: ∆HM(a1,a2) = 1− δ(a1,a2) (9) We are interested in developing a soft version of the hard matching loss function because this will help to produce many-to-many symmetric alignments.
+39	42	While there are many possible ways to define a soft matching loss function, we choose the difference between disagreed and agreed link counts because it is easy and efficient to calculate during search: ∆SM(a1,a2) = |a1 ∪ a2| − 2|a1 ∩ a2| (10) CE EC
+42	24	Inspired by the alignment consistency constraint widely used in translation rule extraction (Koehn et al., 2003), we make the following assumption to impose a structural agreement constraint between word alignment and phrase segmentation: source words in one source phrase should be aligned to target words belonging to the same target phrase and vice versa.
+44	34	We segment Chinese and English sentences into phrases, which are sequences of consecutive words.
+45	57	Since “2002” and “APEC” belong to the same English phrase, their counterparts on the Chinese side should also belong to one phrase.
+47	22	Instead of leveraging chunking, we treat phrase segmentation as a latent variable and train the joint alignment and segmentation model from unlabeled data in an unsupervised way.
+50	27	, bJ to denote a phrase segmentation.
+53	83	We use a first-order HMM to model phrase segmentation of a target sentence: P (f ; λ1) = ∑ b1 P (f ,b1; λ1) (11) Similarly, the hidden Markov model for the phrase segmentation of the source sentence can be defined as P (e; λ2) = ∑ b2 P (e,b2; λ2) (12) Then, we can combine word alignment and phrase segmentation and define the joint training objective as J(θ1,θ2,λ1,λ2) = S∑ s=1 logP (f (s)|e(s); θ1) + 1: procedure VITERBIEM(D) 2: Initialize Θ(0) 3: for all k = 1, .
+72	21	After initializing the model parameters (line 2), the algorithm alternates between searching for the Viterbi alignments and segmentations Ĥ(k) using the SEARCH procedure (line 4) and updating model parameters using the UPDATE procedure (line 5).
+74	70	It is challenging to search for the Viterbi alignments and segmentations because of complicated structural dependencies.
+77	21	The MOVE operator moves a link in an alignment, the MERGE operator merges two phrases into one phrase, and the SPLIT operator splits one phrase into two smaller phrases.
+89	72	GIZA++ (Och and Ney, 2003): unsupervised training of IBM models (Brown et al., 1993) and the HMM model (Vogel et al., 1996) using EM, 2.
+91	65	For GIZA++, we trained IBM Model 4 in two directions with the default setting and used the grow-diag-final heuristic to generate symmetric alignments.
+94	105	We used first-order HMMs for both word alignment and phrase segmentation.
+106	47	One possible reason is that links in the intersection of two symmetric alignments or two symmetric models agree usually correspond to sure links in the gold-standard annotation.
+107	32	Our approach loosens the hard constraint on agreement and makes the posteriors less peaked around the Viterbi alignments.
+112	36	In particular, generalizing the agreement to model the discrepancy between word alignment and phrase segmentation is consistently beneficial for improving translation quality, suggesting that it is important to introduce structural constraints into word alignment to increase the correlation between alignment and translation.
+113	22	While “SM+SV” improves over “SM” significantly on phrase-based translation, the margins on the hierarchical phrase-based system are relatively smaller.
+116	22	We also find that the BLEU scores of BERKELEY on hierarchical phrase-based translation are much lower than those on phrase-based translation.
+117	17	This might result from the fact that BERKELEY is prone to produce one-to-one alignments, which are not optimal for hierarchical phrasebased translation.

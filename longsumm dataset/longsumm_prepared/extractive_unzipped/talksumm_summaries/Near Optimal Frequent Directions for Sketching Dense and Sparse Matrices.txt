@@ -1,0 +1,30 @@
+0	32	For large-scale matrix computations, exact algorithms are often too slow, so a large body of works focus on designing fast randomized approximation algorithms.
+1	50	To speedup the computation, matrix sketching is a commonly used technique, e.g. (Sarlos, 2006; Clarkson & Woodruff, 2013; Avron et al., 2013; Chierichetti et al., 2017).
+2	54	In real-world applications, the data often arrives in a streaming fashion and it is often impractical or impossible to store the entire data set in the main memory.
+3	35	In this paper, we study online streaming algorithms for maintaining matrix sketches with small covariance errors.
+4	70	In the streaming model, the rows of the input matrix arrive one at a time; the algorithm is only allowed to make one pass over the stream with severely limited working space, which is required to maintain a sketch continuously.
+9	16	Given a matrix A ∈ Rn×d, we want to compute a much smaller matrix B ∈ R`×d, which has low covariance error, i.e., ‖ATA−BTB‖2.
+10	100	Definition 1 (Covariance Sketch).
+12	23	(1) Here ‖ · ‖2 and ‖ · ‖F are the spectral norm and Frobenius norm of matrices; [A]k is the best rank-k approximation to A.
+13	81	We will use πkB(A) to denote the projection of A on the top-k singular vectors of B, i.e. πkB(A) = AV V T , where the columns of V are the top-k right singular vectors of B.
+14	13	Definition 2 (Projection error).
+15	23	The projection error of B with respect to A is defined as ‖A− πkB(A)‖2F .
+30	14	It was shown by Woodruff (Woodruff, 2014) that the space used by FD is optimal for both covariance error and projection error.
+33	27	This paper almost settles the above question.
+35	15	We show that o(nnz(A)k) time is likely very difficult to achieve, as it will imply a breakthrough in fast matrix multiplication.
+37	83	We give a new space-optimal streaming algorithm with O(ndk) + Õ(dα−3) running time to compute (α, k)-covsketches for dense matrices, which improves the original FD algorithm for small α.
+38	24	The running time is optimal up to lower order terms, provided matrix multiplication cannot be improved significantly.
+54	38	[A;B] is the matrix formed by concatenating the rows of A and B.
+55	36	We use Õ() to hide polylog(ndk) factors.
+66	25	The expected number of rows sampled is O(‖A‖ 2 F α2F ).
+70	11	For this purpose, we give a simplified algorithm with slightly better running time than directly applying the results from (Clarkson & Woodruff, 2013).
+72	17	The proof of the following theorem can be found in the supplementary file.
+73	61	Theorem 3 (weak low rank approximation).
+74	11	For any integers `, d, given A ∈ R`×d, there is an algorithm that uses O(nnz(A) log(1/δ)) + Õ(`k3) time and O(`(k2 + log 1δ )) space, and outputs a matrix Z ∈ RO(k)×` with orthonormal rows such that with probability 1 − δ, ‖A − ZTZA‖2F ≤ O(1)‖A− [A]k‖2F .
+80	15	For any matrices M ∈ Rn×(d−k) and C ∈ Rn×k with integer entries in [−U,U ], let A ∈ Rn×d be the matrix which is a concatenation of the columns of M and wC, i.e., A = [M,wC] .
+83	22	The spectral norm of a matrix N is the largest singular value, which can be equivalently defined as ‖N‖2 = maxx,y:‖x‖=‖y‖=1 x TNy, therebyNi,j = eTi Nej ≤ ‖N‖2 for all i, j.
+85	54	Now if w is a large integer, say w = d3∆U2nde, we can recover MTC from BTB exactly by rounding the numbers in BTB to their nearest integers (as MTC is an integer matrix).
+86	20	Note BTB can be computed in time O(dk2) given B and the rounding can be done in O(dk), so using A, the exact integer matrix multiplication MTC can be computed in time O(T + dk2).
+87	41	Therefore, we have proved that if T = o(nnz(A)k) = o(nnz(M)k + dk2), then MTC can be computed in time o(nnz(M)k) +O(dk2), which will be a breakthrough in fast matrix multiplication.
+91	24	To speed up FD, we will use the idea of adaptive random sampling.
+92	27	Let us first review the standard FD algorithm.

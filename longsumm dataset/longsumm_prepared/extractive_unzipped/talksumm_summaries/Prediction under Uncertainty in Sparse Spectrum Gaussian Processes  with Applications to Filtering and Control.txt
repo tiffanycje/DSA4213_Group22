@@ -1,0 +1,30 @@
+0	98	The problem of prediction under uncertainty, appears in many fields of science and engineering that involve sequential prediction including state estimation (Ko & Fox, 2009; Deisenroth et al., 2012), time series prediction (Girard et al., 2003), stochastic process approximation (Archambeau et al., 2007), and planning and control (Deisenroth et al., 2015; Pan et al., 2015).
+1	32	In these problems, uncertainty can be found in both the predictive models and the model’s inputs.
+2	51	Formally, we are often interested in finding the probability density of a prediction y, given a distribution p(x) and a probabilistic model p(y|x).
+3	20	(1) Unfortunately, computing this integral exactly is often intractable.
+4	97	In this paper, we tackle a subfamily of (1) where: 1) the probabilistic model is learned from data and specified by a sparse spectrum representation of a Gaussian process (SSGP); and 2) the input x is normally distributed.
+16	18	The goal of Bayesian filtering is to infer a hidden system state through the recursive application of Bayes’ rule.
+20	50	The goal of stochastic model predictive control (MPC) is to find finite horizon optimal control at each time instant.
+22	39	To cope with this challenge, we present an SSGP-based MPC algorithm that is fast enough to perform probabilistic trajectory optimization and model adaptation on-the-fly.
+23	18	• We propose two approaches to prediction under un- certainty in SSGPs with closed-form expressions for the predictive distribution.
+25	26	• We demonstrate successful applications of the proposed approaches by presenting scalable algorithms for 1) recursive Bayesian filtering and 2) stochastic model predictive control via probabilistic trajectory optimization.
+32	24	Gaussian process regression (GPR) is a principled way of performing Bayesian inference in function space, assuming that function f has a prior distribution f ∼ GP(m, k), with mean function m : Rd → R and kernel k : Rd × Rd → R. Without loss of generality, we assume m(x) = 0.
+34	33	Random features can be used to form an unbiased approximation of continuous shift-invariant kernel functions, and are proposed as a general mechanism to accelerate largescale kernel machines (Rahimi & Recht, 2007), via explicitly mapping inputs to low-dimensional feature space.
+51	41	In this work, we approximate the true predictive distribution p(y) by a Gaussian distribution with moments that are analytically computed through: 1) exact moment matching, and 2) linearization of posterior mean function.
+56	24	We derive the closed-form expressions for exact moments: 1) the predictive mean E y, 2) the predictive variance Var y and covariance Cov(ya, yb), which in the multivariate case correspond to the diagonal and off-diagonal entries of the predictive covariance matrix, and 3) the cross-covariance between input and prediction Cov(x, y).
+58	18	,m, and in the nested expectation EE(y|x), the outer expectation is over the input distribution p(x) = N (µ,Σ), and the inner expectation is over the conditional distribution p(y|x) (7).
+65	23	Expectations are smaller with larger input variance due to the periodicity of sinusoids.
+67	15	By the law of total variance, the predictive variance is Var y = EVar(y|x) + VarE(y|x) = σ2n + σ 2 nTr ( A−1Ψ ) + αTΨα− (E y)2, (9) where Ψ is defined as the expectation of the outer product of feature vectors over input distribution p(x).
+77	15	Invoking the law of total covariance: Cov(x, y) = Cov(x,E(y|x)) = E (xE(y|x))− (Ex)(E y) = Υα− (E y)µ, (11) where matrix Υ is the expectation of the outer product of the input x and the feature vector φ(x) over input distribution x ∼ N (µ,Σ): E(xφT ) = Υ = [ Υc1 .
+89	21	Next we introduce a more computationally efficient but less accurate approach that avoids the computation of Ψab’s.
+90	76	An alternative approach to computing the exact moments of the predictive distribution is based on the linearization of the posterior mean function in (7) at the input mean µ: m(x) = αTφ(x) ≈ m(µ) + αT Dφ(µ)︸ ︷︷ ︸ M (x− µ), (12) where Dφ(µ) denotes taking the derivative of function φ at µ.
+101	52	We focus on the application of the proposed methods to Bayesian filtering and predictive control.
+103	35	We call the probabilistic models (17) and (18) the dynamics and observation models, and the corresponding deterministic functions f and g the dynamics and observation functions.
+107	45	The task of Bayesian filtering is to infer the posterior distribution of the current state of a dynamical system based on the current and past noisy observations, i.e., finding p(xt|t), where the notation xt|s denotes the random variable xt|y0, .
+156	26	We evaluate the methods by computing NLx (the negative log-likelihood of the ground truth samples in the filtered distribution) and RMSE (root-mean-square error between filtered mean and ground truth samples).
+158	41	Our methods SSGP-ADF and SSGPEKF are able to offer close performance with their full GP counterparts but with greatly reduced computational cost.
+169	19	Instead, we use SSGP-ADF to perform 1,200 recursive filtering steps which correspond to 30 seconds of high-speed driving.
+170	33	Filtered distributions using 80 features are shown in Figure 2b, and Figure 2c shows the mean and twice the standard deviation of NLx over six 30 seconds driving with different number of features.
+174	28	In addition, the true system dynamics vary online, which necessitates both online optimization and model update, as we do here.
+179	35	Figure 4b shows that model update is necessary and more features could improve performance.
+182	27	This problem has been studied in Velenis et al. (2010) where the authors developed a LQR control scheme based on a physics-based dynamics model.

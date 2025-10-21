@@ -1,0 +1,30 @@
+1	17	More specifically, we are interested in understanding what factors cause the gap between the marginal log-likelihood and the evidence lower bound (ELBO) in variational autoencoders (VAEs, Kingma & Welling (2014); Rezende et al. (2014)).
+2	12	We refer to this as the inference gap.
+3	16	Moreover, we break down the inference gap into two components: the approximation gap and the amortization gap.
+4	23	The approximation gap comes from the inability of the variational distribution family to exactly match the true posterior.
+5	12	The amortization gap refers to the difference caused by amortizing the variational parameters over the entire training set, instead of optimizing for each training example individually.
+33	11	Deep generative models can be extended with auxiliary variables which leave the generative model unchanged but make the variational distribution more expressive.
+37	31	This idea has been employed in works such as auxiliary deep generative models (ADGM, (Maaløe et al., 2016)), hierarchical variational models (HVM, (Ranganath et al., 2016)) and Hamiltonian variational inference (HVI, (Salimans et al., 2015)).
+50	12	We refer to this approximation as qFlow.
+68	20	We estimate the marginal log-likelihood by independently computing our tightest lower bounds then take the maximum of the two: log p̂(x) = max(LAIS,LIWAE).
+110	20	In this section, we compare how much the approximation and amortization gaps each contribute to the total inference gap.
+115	12	On the more difficult Fashion-MNIST dataset, the amortization gap is larger than the approximation gap.
+119	15	With these results in mind, would simply increasing the capacity of the encoder improve the amortization gap?
+122	16	Table 3 (left) are the results of this experiment.
+125	10	However, given that the expressive approximation is often accompanied by many additional parameters, we would like to know how much influence it has on the amortization error.
+138	15	The implication of this observation is that models which improve the flexibility of their variational approximation, and attribute their improved results to the increased expressiveness, may have actually been due to the reduction in amortization error.
+141	24	Similarly, we ask whether a factorized Gaussian approximation causes the true posterior to be more like a factorized Gaussian?
+142	11	Burda et al. (2016) visually demonstrate that when trained with an importance-weighted approximate posterior, the resulting true posterior is more complex than those trained with factorized Gaussian approximations.
+145	11	This is equivalent to estimating the KL divergence between the optimal Gaussian and the true posterior, KL (q⇤(z|x)||p(z|x)).
+146	17	In Table 2 on MNIST, for the FFG trained model, KL (q⇤(z|x)||p(z|x)) is nearly the same for both q⇤FFG and q⇤AF .
+153	21	Given that we have seen that the generator can accommodate the choice of approximation, our next question is whether a generator with more capacity increases its ability to fit to the approximation.
+154	14	To this end, we trained VAEs with decoders of different sizes and measured the approximation gaps on the training set.
+155	17	Specifically, we trained decoders with 0, 2, and 4 hidden layers on MNIST.
+168	10	Firstly, we observe that for all models, the approximation gap on the training and validation sets are roughly equivalent.
+169	11	This indicates that the true posteriors of the held-out data are similar to that of the training data.
+172	10	How does increasing decoder capacity affect inference on held-out data?
+196	29	In this paper, we investigated how encoder capacity, approximation choice, decoder capacity, and model optimization influence inference suboptimality in terms of the approximation and amortization gaps.
+199	23	We confirmed that increasing the capacity of the encoder reduces the amortization error.
+200	16	Additionally, we demonstrated that optimization techniques, such as entropy annealing, help the generative model to better utilize the flexibility of expressive variational distributions.
+201	16	Analyzing these gaps can be useful for guiding improvements in VAEs.
+202	20	Future work includes evaluating other types of expressive approximations, more complex likelihood functions, and datasets.

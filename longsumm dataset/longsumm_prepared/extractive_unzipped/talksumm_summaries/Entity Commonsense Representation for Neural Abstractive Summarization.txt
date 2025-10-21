@@ -1,0 +1,30 @@
+2	32	Extractive summarization is a task to create summaries by pulling out snippets of text form the original text and combining them to form a summary.
+3	30	Abstractive summarization asks to generate summaries from scratch without the restriction to use the available words from the original text.
+4	22	Due to the limitations of extractive summarization on incoherent texts and unnatural methodology (Yao et al., 2017), the research trend has shifted towards abstractive summarization.
+5	53	Sequence-to-sequence models (Sutskever et al., 2014) with attention mechanism (Bahdanau et al., 2014) have found great success in generating abstractive summaries, both from a single sentence (Chopra et al., 2016) and from a long document with multiple sentences (Chen et al., 2016).
+10	22	In this paper, we propose to use entities found in the original text to infer the summary topic, miti- 697 gating the aforementioned problem.
+12	30	The importance of using linked entities in summarization is intuitive and can be explained by looking at Figure 1 as an example.
+31	31	In our experimental data, we extract linked entities from the original text and compare them to the noun phrases found in the summary.
+35	42	In the example, we see that the entity “Jae Seo” is the most relevant because it is the subject of the summary, while the entity “South Korean” is less relevant because it is less important when constructing the summary.
+37	29	In the example, if we know that the entities “Los Angeles Dodgers” and “New York Mets” are American baseball teams and “Jae Seo” is a baseball player associated with the teams, then we can use this information to generate more coherent summaries.
+42	18	In the example, the entity “South Korean” is ambiguous because it can refer to both the South Korean person and the South Korean language, among others2.
+48	39	Also, “swap” is irrelevant because although it is linked correctly to the entity “Trade (Sports)”, it is too common and irrelevant when generating the summaries.
+52	22	E2T encodes the linked entities extracted from the text and transforms them into a single topic vector.
+54	22	The module contains two submodules specifically for the issues presented by the entity linking systems: the entity encoding submodule with selective disambiguation and the pooling submodule with firm attention.
+69	23	After performing entity linking to the input text using the ELS, we receive a sequential list of linked entities, arranged based on their location in the text.
+72	18	Based on the idea that an ambiguous entity can be disambiguated using its neighboring entities, we introduce two kinds of disambiguating encoders below.
+88	34	This is done by introducing a selective disambiguation gate d. The final entity vector ẽi is calculated as the linear transfor- mation of ei and e′i: e′i = encoder(ei) d = σ(Wde ′ i + bd) ẽi = d× f(Wxei + bx)+ (1− d)× f(Wye′i + by) The full entity encoding submodule is illustrated in Figure 3.
+96	20	Soft attention gives non-negligible important scores to these entities, thus adds unnecessary noise to the construction of the topic vector.
+98	19	This is done in a differentiable way as follows: G = v>a tanh(WaẼ + Uas) K = top k(G) P = sparse vector(K, 0,−∞) g′i = gi + pi ai = exp(g′i)∑ i exp(g ′ i) t = ∑ i aiẽi where the functions K = top k(G) gets the indices of the top k vectors in G and P = sparse vector(K, 0,−∞) creates a sparse vector where the values of K is 0 and −∞ otherwise4.
+105	21	Entity2Topic module extends the base model as follows.
+107	19	The topic vector t is then concatenated to the decoder hidden state vectors si, i.e. s′i = [si; t].
+155	28	Automatic evaluation on the Gigaword dataset shows that the CNN and RNN variants of BASE+E2T have similar performance.
+157	22	We instruct two annotators to read the input sentence and rank the competing summaries from first to last according to their relevance and fluency: (a) the original summary GOLD, and from models (b) BASE, (c) BASE+E2Tcnn, and (d) BASE+E2Trnn.
+161	34	We also perform ANOVA and post-hoc Tukey tests to show that the CNN variant is significantly (p < 0.01) better than the RNN variant and the base model.
+165	35	Selective disambiguation of entities We show the effectiveness of the selective disambiguation gate d in selecting which entities to disambiguate or not.
+166	19	Table 6 shows a total of four different examples of two entities with the highest/lowest d values.
+167	29	In the first example, sentence E1.1 contains the entity “United States” and is linked with the country entity of the same name, however the correct linked entity should be “United States Davis Cup team”, and therefore is given a high d value.
+179	46	state” is corrected to mean the entity “Mexican state” which becomes relevant and is therefore selected.
+180	45	In the CNN example, we also find that the baseline model generated a very erroneous summary.
+188	20	Linked entities are used to guide the decoding process based on the summary topic and commonsense learned from a knowledge base.
+190	37	E2T applies linked entities into the summarizer by encoding the entities with selective disambiguation and pooling them into one summary topic vector with firm attention mechanism.

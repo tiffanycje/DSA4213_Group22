@@ -1,0 +1,30 @@
+12	73	In this paper, we introduce latent vector grammars (LVeGs), a novel framework of grammars with fine-grained nonterminal subtypes.
+16	50	Compared with latent variable grammars which assume a small fixed number of subtypes for each nonterminal, LVeGs assume an unlimited number of subtypes and are potentially more expressive.
+27	116	A latent vector grammar (LVeG) considers subtypes of nonterminals as continuous vectors and associates each nonterminal with a latent vector space representing the set of its subtypes.
+30	46	A latent vector grammar is defined as a 5-tuple G = (N,S,Σ, R,W ), where N is a finite set of nonterminal symbols, S ∈ N is the start symbol, Σ is a finite set of terminal symbols such that N∩Σ = ∅,R is a set production rules of the form X γ where X ∈ N and γ ∈ (N ∪ Σ)∗, W is a set of rule weight functions indexed by production rules in R (to be defined below).
+49	18	ax is the x-th subtype of A, by is the y-th subtype of B, and cz is the z-th subtype of C. ax bycz is a finegrained production rule of A BC, where x = 1, .
+62	42	For a production rule r : A BC, a CVG can be interpreted as specifying its weight function Wr(a,b, c) in the following way.
+64	17	Next, the score of the parent vector is computed using a base PCFG and a vector vBC : s(p) = vTBCp + logP (A BC) , (2) where P (A BC) is the rule probability from the base PCFG.
+66	21	(3) This form of weight functions in CVGs leads to point estimation of latent vectors in a parse tree, i.e., for each nonterminal in a given parse tree, only one subtype in the whole subtype space would lead to a non-zero weight of the parse.
+68	25	Consequently, CVGs cannot use dynamic programming for inference and hence have to resort to greedy search or beam search.
+70	28	Previous work such as CVGs resorts to point estimation and greedy search.
+73	29	This in turn makes efficient learning and parsing possible.
+74	73	In a GM-LVeG, the weight function of a production rule r is defined as a Gaussian mixture containing Kr mixture components: Wr(r) = Kr∑ k=1 ρr,kN (r|µr,k,Σr,k) , (4) where r is the concatenation of the latent vectors of the nonterminals in r, which denotes a finegrained production rule of r. ρr,k > 0 is the k-th mixture weight (the mixture weights do not necessarily sum up to 1), N (r|µr,k,Σr,k) is the k-th Gaussian distribution parameterized by mean µr,k and covariance matrix Σr,k, and Kr is the number of mixture components, which can be different for different production rules.
+87	14	Given a sentence w1:n, we first calculate the inside score sAI (a, i, j) and outside score sAO(a, i, j) for a nonterminal A over a span wi:j using Equation 6 and Equation 7 in Table 1 respectively.
+88	22	Note that both sAI (a, i, j) and sAO(a, i, j) are mixtures of Gaussian distributions of the subtype vector a.
+93	32	To speed up the computation, we prune Gaussian components in the inside and outside scores using the following technique.
+107	16	,m} containing m samples, where Ti is the gold parse tree with unrefined nonterminals for the sentence wi, the objective of discriminative learning is to minimize the negative log conditional likelihood: L(Θ) = − log m∏ i=1 P (Ti|wi; Θ) , (11) where Θ represents the set of parameters of the GM-LVeG.
+121	15	Mixture weights are initialized using the treebank grammar.
+124	22	We evaluate the GM-LVeG on part-of-speech (POS) tagging and constituency parsing and compare it against its special cases such as LVGs and CVGs.
+127	18	In particular, we currently do not incorporate contextual information of words and constituents during tagging and parsing, while such information is critical in achieving state-of-the-art accuracy.
+148	14	In our experiments we test 1, 2, 4, 8, and 16 subtypes of each nonterminal.
+172	20	It surpasses the Berkeley parser by 0.92% in F1 score on the testing data.
+182	68	Thus our choice ofKr = 4 and d = 3 in GM-LVeGs for parsing is a good balance between the efficiency and the parsing accuracy.
+184	46	One extension is to incorporate contextual information of words and constituents.
+187	51	For example, we may learn neural networks to predict the parameters of the Gaussian mixture weight functions in a GM-LVeG from the pre-trained embeddings of the words in the context.
+188	22	In GM-LVeGs, we currently use the same number of Gaussian components for all the weight functions.
+189	28	A more desirable way would be automatically determining the number of Gaussian components for each production rule based on the ideal refinement granularity of the rule, e.g., we may need more Gaussian components for NP DT NN than for NP DT JJ, since the latter is rarely used.
+191	59	An interesting extension beyond LVeGs is to have a single continuous space for subtypes of all the nonterminals.
+196	37	We show that LVeGs can subsume latent variable grammars and compositional vector grammars as special cases.
+199	53	The partition function and the expectations of fine-grained production rules in GM-LVeGs can be efficiently computed using dynamic programming, which makes learning and inference with GM-LVeGs feasible.
+200	30	We empirically show that GM-LVeGs can achieve competitive accuracies on POS tagging and constituency parsing.

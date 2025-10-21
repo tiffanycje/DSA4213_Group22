@@ -1,0 +1,30 @@
+1	17	Given a probabilistic model P (y|θ), which is a conditional distribution of observations y given a parameter θ, the aim is to make inference about the parameter θ∗ that generated an observed data y∗.
+3	13	However, in modern scientific and engineering problems in which the model P (y|θ) is required to be sophisticated and complex, the likelihood function `(y∗|θ) might no longer be available.
+5	19	Such situations, in which `(y|θ) (or P (y|θ)) are referred to as intractable likelihood, make the inference problem quite challenging and are commonly found in the literature on population genetics (Pritchard et al., 1999) and dynamical systems (Toni et al., 2009), to name just two.
+9	9	ABC has been extensively studied in statistics and machine learning; see, e.g., Del Moral et al. (2012); Fukumizu et al. (2013); Meeds and Welling (2014); Park et al. (2016); Mitrovic et al. (2016).
+12	19	This problem is also motivated by the following situations encountered in practice: 1) Consider a situation in which the model is computationally expensive (e.g., a state-space model) and one wants to perform prediction based on it.
+14	13	If one has a point estimate of the true parameter θ∗, then the computational cost can be drastically reduced.
+15	28	2) Consider a situation in which one only has limited knowledge w.r.t.
+16	62	In this case, it is generally difficult to specify an appropriate prior distribution over the parameter space, and thus the resulting posterior may not be reliable.1 Methods for point estimation with intractable likelihood have been reported in the literature, including the method of simulated-moments (McFadden, 1989), indirect inference (Gourieroux et al., 1993), ABC-based MAP estimation (Rubio et al., 2013), noisy ABC-MLE (Dean et al., 2014; Yıldırım et al., 2015), an approach based on Bayesian optimization (Gutmann and Corander, 2016), and data-cloning ABC (Picchini and Anderson, 2017).
+17	18	We will discuss these existing approaches in Sec.
+18	44	Our contribution is in proposing a novel approach to point estimation with intractable likelihood on the basis of kernel mean embedding of distributions (Muandet et al., 2017), a framework for statistical inference using reproducing kernel Hilbert spaces.
+24	17	This paper is organized as follows.
+29	37	Kernel ABC is an algorithm that executes ABC in a reproducing kernel Hilbert space (RKHS) and produces a reliable solution even in moderately large dimensional problems (Fukumizu et al., 2013; Nakagome et al., 2013).
+31	14	Let Θ be a measurable space, k : Θ × Θ → R be a measurable positive definite kernel, and H be its RKHS.
+34	64	Characteristic kernels on Θ = Rd, for example, include Gaussian and Matérn kernels (Sriperumbudur et al., 2010).
+39	28	, kY(yn, y∗))T ∈ Rn, G := (kY(yi, yj)) n i,j=1 ∈ Rn×n, δ > 0 is a regularization constant, and I ∈ Rn×n is an identity matrix.
+40	35	The estimator (2) is essentially an (RKHS-valued) kernel ridge regression (Grünewälder et al., 2012): Given training data {(yi, k(·, θi))}ni=1, the weights (3) provide an estimator for the mapping y∗ ⇒ k(·, θ∗).
+42	26	Kernel herding is a deterministic sampling technique based on the kernel mean representation of a distribution (Chen et al., 2010) and can be seen as a greedy approach to quasiMonte Carlo (Dick et al., 2013).
+43	58	Consider sampling from P using the kernel mean µP (1), and assume that one is able to evaluate function values of µP .
+45	17	, θn by iterating the following steps: Defining h0 := µP , θt+1 = argmax θ∈Θ ht(θ), (4) ht+1 = ht + µP − k(·, θt+1) ∈ H, (5) where t = 0, .
+46	59	Chen et al. (2010) has shown that, if there exists a constant C > 0 such that k(θ, θ) = C for all θ ∈ Θ, this procedure will be identical to the greedy Algorithm 1 Kernel Recursive ABC Input: A prior distribution π, an observed data y∗, a data generator P (y|θ), the number Niter of iterations, the number n of simulated pairs, a kernel k on Θ, a kernel kY on Y , and a regularization constant δ > 0 Output: A point estimate θ́.
+47	14	for N = 1, ..., Niter do if N = 1 then for i = 1, ..., n do Sample θ1,i ∼ π(θ) i.i.d.
+50	9	end for Obtain a point estimate θ́ := θNiter+1,1 minimization of the maximum mean discrepancy (MMD) (Gretton et al., 2007; 2012): n := ∥∥∥∥∥µP − 1n n∑ t=1 k(·, θt) ∥∥∥∥∥ H , (6) where ‖ · ‖H denotes the norm of H. That is, the points θ1, .
+51	9	, θn are obtained so as to (greedily) minimize the distance εn between µP and the empirical kernel mean 1 n ∑n t=1 k(·, θt).
+56	9	For this, let `(θ) := `(y∗|θ) be a likelihood function and π(θ) be a prior density, where θ ∈ Θ, with Θ being a measurable space.
+57	16	Consider the population setting in which no estimation procedure is involved.
+69	25	, θN+1,n at the next iteration, so as to explore the parameter space Θ.
+70	16	For instance, if the prior π(θ) is misspecified, meaning that the true parameter θ∗ is not contained in the support of π(θ), then the initial parameters θ1,1, .
+71	11	, θ1,n from π(θ) are likely to be apart from the true parameter θ∗.
+72	28	The auto-correction mechanism makes the proposed method robust to such misspecification and makes it suitable for use in situations in which one lacks appropriate prior knowledge about the true parameter.
+73	17	To explain how this works, let us explicitly write down the procedure (4) (5) of kernel herding as used in Algorithm 1.

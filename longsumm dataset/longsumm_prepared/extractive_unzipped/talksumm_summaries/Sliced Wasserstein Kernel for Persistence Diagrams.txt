@@ -1,0 +1,30 @@
+20	18	We briefly review in this section relevant material on TDA, notably persistence diagrams, and technical properties of positive and negative definite kernel functions.
+21	15	Persistent homology (Zomorodian & Carlsson, 2005; Edelsbrunner & Harer, 2008; Oudot, 2015) is a technique inherited from algebraic topology for computing stable signatures on real-valued functions.
+22	48	Given f : X → R as input, persistent homology outputs a planar point set with multiplicities, called the persistence diagram of f and denoted by Dg f .
+25	7	), with its creation and destruction times as coordinates.
+26	18	See again Figure 1 for an illustration.
+27	23	For the interested reader, we point out that the mathematical tool used by persistent homology to track the topological events in the family of sublevel sets is homological algebra, which turns the parametrized family of sublevel sets into a parametrized family of vector spaces and linear maps.
+29	8	We now define the pth diagram distance between PDs.
+36	21	One can show that dp → d∞ when p → +∞.
+38	32	Indeed, the stability theorem (Bauer & Lesnick, 2015; Chazal et al., 2009a; 2016; Cohen-Steiner et al., 2007) asserts that for any f, g : X → R, we have d∞(Dg f, Dg g) ≤ ‖f − g‖∞, (1) See again Figure 1 for an illustration.
+39	24	In practice, PDs can be used as descriptors for data via the choice of appropriate filtering functions f , e.g. distance to the data in the ambient space, eccentricity, curvature, etc.
+47	5	= k(x1, x1) + k(x2, x2)− 2 k(x1, x2).
+48	11	We will be particularly interested in this distance, since one of the goals we will aim for will be that of designing a kernel k for persistence diagrams such that dk has low distortion with respect to d1.
+50	7	A standard way to construct a kernel is to exponentiate the negative of a Euclidean distance.
+56	35	Wasserstein distance for unnormalized measures on R The Wasserstein distance (Villani, 2009, §6) is a distance between probability measures.
+58	8	Let µ and ν be two nonnegative mea- sures on the real line such that |µ| = µ(R) and |ν| = ν(R) are equal to the same number r. We define the three following objects: W(µ, ν) = inf P∈Π(µ,ν) ∫∫ R×R |x− y|P (dx,dy) (2) Qr(µ, ν) = r ∫ R |M−1(x)−N−1(x)|dx (3) L(µ, ν) = inf f∈1−Lipschitz ∫ R f(x)[µ(dx)− ν(dx)] (4) where Π(µ, ν) is the set of measures on R2 with marginals µ and ν, and M−1 and N−1 the generalized quantile functions of the probability measures µ/r and ν/r respectively.
+61	8	The equality between (2) and (3) is only valid for probability measures on the real line.
+63	8	The equality between (2) and (4) is due to the well known Kantorovich duality for a distance cost (Villani, 2009, Particular case 5.4) which can also be trivially generalized to unnormalized measures, proving therefore the main statement of the proposition.
+77	6	Then:∑ i,j aiajW(µθi + µθj∆, µθj + µθi∆) = ∑ i,j aiajL(µθi + µθj∆, µθj + µθi∆) = ∑ i,j aiajL(µθi + µθj∆ + µθij∆, µθj + µθi∆ + µθij∆) = ∑ i,j aiajL(µ̃θi , µ̃θj ) = ∑ i,j aiajQd(µ̃θi , µ̃θj ) ≤ 0 The result follows by linearity of integration.
+78	11	Hence, the theorem of Berg et al. (1984) allows us to define a valid kernel with: kSW(Dg1,Dg2) def.
+84	12	Then, one has: d1(Dg1,Dg2) √ 2d1(Dg1,Dg2), where M = 1 + 2N(2N − 1).
+88	19	Indeed, it suffices to look at all θ such that 〈p1−p2, θ〉 = 0 for some p1, p2 in Dg1 ∪ π∆(Dg2) or Dg2 ∪ π∆(Dg1).
+91	29	Note that the lower bound depends on the cardinalities of the PDs, and it becomes close to 0 if the PDs have a large number of points.
+92	8	On the other hand, the upper bound is oblivious to the cardinality.
+93	52	A corollary of Theorem 3.3 is that dkSW , the distance induced by kSW in its RKHS, is also equivalent to d1 in a broader sense: there exist continuous, positive and monotone functions g, h such that g(0) = h(0) = 0 and g ◦ d1 ≤ dkSW ≤ h ◦ d1.
+94	9	When the condition on the cardinalities of PDs is relaxed, e.g. when we only assume the PDs to be finite and bounded, with no uniform bound, the feature map φSW associated to kSW remains continuous and injective w.r.t.
+95	17	This means that kSW can be turned into a universal kernel by considering exp(kSW) (cf Theorem 1 in (Kwitt et al., 2015)).
+96	31	This can be useful in a variety of tasks, including tests on distributions of PDs.
+100	13	Note that one can easily adapt the proof of Lemma 3.2 to show that SWM is negative semi-definite by using the linearity of the sum.
+101	13	Hence, this approximation remains a kernel.
+103	6	This approximation of kSW is useful since, as shown in Section 4, we have observed empirically that just a few directions are sufficient to get good classification accuracies.

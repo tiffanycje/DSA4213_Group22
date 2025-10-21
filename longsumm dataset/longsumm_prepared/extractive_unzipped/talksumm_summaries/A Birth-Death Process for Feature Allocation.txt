@@ -1,0 +1,30 @@
+2	29	For instance, consider the topics covered by a number of newspapers over time; some topics “die” while new ones are “born”.
+3	26	The topic coverage of each paper is its latent feature allocation which could be modelled with an Indian buffet process (Griffiths & Ghahramani, 2011, IBP).
+4	16	While static feature allocation models are well studied, these are not able to handle the time series nature of many datasets.
+5	4	We propose a process that extends the IBP by allowing the feature allocation to evolve over the covariate as a result of “birth” and “death” of features.
+30	14	Consider a dataset with N data points indexed by integers [N ] := {1, 2, .
+31	13	Each datapoint n is associated with a binary vector Zn of length K that defines its feature allocation; Znk = 1 if datapoint n has feature k and Znk = 0 otherwise.
+37	4	Thibaux & Jordan (2007) showed one can construct the Indian buffet process from a Beta-Bernoulli process using the following two stage sampling process for n = 1, .
+39	4	B is a set of pairs (ωk, θk) sampled from a Poisson process on the product space [0, 1] × Θ with Lévy intensity ν(dω,dθ) = cω−1(1 − ω)c−1dωµ0(dθ).
+41	11	Each Zn is a draw from the Bernoulli process and constitutes a collection of atoms of unit mass on Θ.
+43	11	This construction allows the use of de Finetti’s theorem (de Finetti, 1931) that lets the joint distribution of the rows to be written as P (Z1, .
+45	4	Equation (3) shows the exchangeability of the rows of Zn, since they can be described as a mixture of Bernoulli processes.
+47	24	The state space is countably infinite; it is determined by all the possible feature allocations defined by N datapoints and K features, where K → ∞.
+48	4	The Markov process (Z(t)) evolves over time jumping to different states (feature allocations).
+51	8	The process (Z(t)) can only jump to neighbouring states, i.e. if the chain is currently at state Z(tj) = s, then at time tj+1 it transitions to Z(tj+1) = s′ where a new feature is created or an existing feature is deleted after a birth or a death event respectively.
+56	4	(4) where R > 0 is a parameter governing the birth rate.
+59	5	= R ∑N n=1 1 n = R ·HN where HN = ∑N n=1 1/n is the N -th harmonic num- ber and n = |a| .
+65	19	The Markov process (Z(t))t≥0 is irreducible and has stationary distribution IBP(α).
+67	42	A continuous time Markov chain is irreducible if it is possible to eventually get from every state to every other state with positive probability.
+68	18	It is reversible if detailed balance holds, i.e. there is a probability distribution π on ZN such that πsqss′ = πs′qs′s for all s, s′ ∈ ZN .
+69	6	Then π is also the invariant (equilibrium) distribution of the Markov chain.
+71	7	Reversibility and the equilibrium distribution can be demonstrated by detailed balance.
+72	6	Suppose γ, ρ are feature allocations such that γ, ρ ∈ ZN and ρ differs from γ in that it has one additional feature a of size |a|.
+73	10	The number of (nonzero) features in ρ isKρ = Kγ+1.
+75	19	Detailed balance holds, and as such the process is reversible and the equilibrium distribution is IBP[N ](α).
+78	8	We write B and Q to denote the set of the features created or turned off by birth or death events respectively.
+79	42	Writing q(t) = qz(t) to denote the total transition rate out of state z(t), the probability of a realization (z(t)) under the law of the BDFP is: R|B|+|Q| αA−|B|−|Q|∏A∗−|B∗| h=1 Kh!
+80	15	exp (−αHN ) exp ( − ∫ T 0 q(t)dt ) × .
+81	50	∏ d∈D rd (7) where A = K0 + |B| = KT + |Q|, A∗ = H0 + |B∗| = HT + |Q∗|.
+82	77	B∗, Q∗ are the sets of features with zero multiplicity at their creation time or with multiplicity of one at their death time respectively, and {z(t)} denotes the set of features at time t.
+84	57	Consider the Lévy measure ν(dωdxdtbdtω) on a product space [0, 1] ⊗ X ⊗ R ⊗ [0,∞).

@@ -1,0 +1,30 @@
+2	49	In addition, many enterprises have started to use conversational chat platforms such as Slack2 to enhance team collaboration.
+4	43	Aoki et al. (2006) found an average of 1.79 conversations among eight participants at a time.
+5	16	Moreover, some platforms like chatrooms in Twitch may have more concurrent conversations (Hamilton et al., 2014).
+11	48	Hence, a robust mechanism to disentangle interleaved conversations can improve a user’s satisfaction with a chat system.
+12	25	One solution for conversation disentanglement is to model the task as a topic detection and tracking (TDT) (Allan, 2002) task by deciding whether each incoming message starts a new topic or belongs to an existing conversation.
+28	30	In the first stage, we propose the Siamese hierarchical convolutional neural network (SHCNN) to estimate conversation-level similarity between pairs of closely posted messages.
+70	55	As shown in Figure 3, the percentage of messages in the same conversation as a given message becomes significantly lower with a longer elapsed time between consecutive messages.
+71	27	In light of this observation, an assumption is made as follows: Assumption 1 The elapsed time between two consecutive messages posted in the same conversation is not greater than T hours, where T is a small number.
+72	50	More specifically, in our dataset every message mi is posted within T hours earlier or later than any other message mj in the same conversation, i.e., |ti tj | 3600 < T for all pairs (mi, mj), where t is in seconds.
+81	16	|w| words message input m convolutional message matrix Wc d-dimensional word embedding ... ... high-level message matrix WH low-level conv.
+82	38	feature map cLi high-level conv.
+89	20	For low-level information, we exploit single-layer CNNs (Kim, 2014; Severyn and Moschitti, 2015) with a set of d⇥ kL kernels, where L denotes “Low”, to extract ngram semantics of kL contiguous words.
+96	18	The row sizes of the two kernels are set to 1 to capture relations within each embedding dimension, and convolution is performed on W H with 64 d⇥ kH kernels to capture relations across embedding dimensions.
+108	16	In addition to message contents, contexts such as temporal and user information were also usually considered in previous studies about conversation disentanglement (Wang and Oard, 2009; Elsner and Charniak, 2010, 2011).
+123	24	In the second stage of conversation disentanglement, i.e., part (2) in Figure 2, we aim to separate conversations based on the identified message pairs and their estimated similarity.
+129	16	False alarms may be reduced by raising the threshold that determines whether two messages are connected (Wang and Oard, 2009).
+140	25	The top-r qualified pairs for each message can be pre-processed by a scan of D with |M | min-heaps which always contain at most r+1 elements.
+144	22	Three datasets from Reddit and one dataset of IRC are used as the experimental datasets.
+146	24	Comments under a post can be treated as messages in one conversational thread.
+164	26	Note that DeepQA and ABCNN are neural network-based models for questionanswering.
+180	16	A baseline method ABCNN (Yin et al., 2016) with multiple-layer CNNs, however, still predicts a low score.
+183	22	For conversation identification, three clustering metrics are adopted for evaluation: normalized mutual information (NMI), adjusted rand index (ARI) and F1 score (F1).
+185	26	The embedding-based clustering method, i.e., Doc2Vec, applies affinity propagation (Frey and Dueck, 2007) to cluster messages embedded using Doc2Vec without being given the number of clusters, with the idea that messages in the same conversation would form a cluster.
+187	21	Table 3 shows the performance of conversation disentanglement.
+190	18	CISIR performs better than all baseline methods for all datasets, and achieves excellent performance in IRC, due in part to the high-performing similarity estimates from the first stage.
+194	40	Doc2Vec is trained to predict words in a document in an unsupervised manner.
+196	96	Time and author contextual cues do help conversation disentanglement as seen in the results of Block-10 and Speaker.
+197	43	Both of these contexts are integrated into our model.
+199	41	In contrast to previous work, we assume that we do not need to select all message pairs in the first stage, thereby reducing computational time without sacrificing performance too much.
+200	25	To estimate conversation-level similarity, a Siamese Hierarchical Convolutional Neural Network, SHCNN, is proposed to minimize the estimation error as well as preserve both the lowand high-level semantics of messages.

@@ -1,0 +1,30 @@
+27	13	We provide corollaries for both parametric and non-parametric instances of our general class of plugin-classifiers.
+28	18	The rest of the paper is organized as below.
+30	40	The characterization and properties of Bayes optimal classifier are derived in Section 3.
+31	10	We discuss the algorithm for estimating the plug-in estimator in Section 4, and present the statistical convergence guarantee in Section 5.
+32	26	Applications of the derived rate for two special cases, Gaussian generative model and β-Hölder class conditional probability are presented in Section 6 where explicit convergence rates are provided.
+33	15	We conclude the paper in Section 7.
+34	10	Detailed proofs are deferred to the supplementary materials.
+35	6	Binary classification entails predicting a binary label Y ∈ {±1} associated with a feature vector X ∈ X ⊂ Rd.
+36	18	Such a a function mapping f : X 7→ {±1} from the feature space X to the labels {±1} is called a binary classifier.
+37	11	Let Θ = {f : X → {±1}} denote a set of binary classifiers.
+38	9	We assume (X,Y ) has distribution P ∈ P , and let η(x) := P(Y = 1|X = x) denote the conditional probability of the label Y given feature vector x.
+39	37	A key quantity is the confusion matrix, that consists of four population quantities: true positives (TP), true negatives (TN), false positives (FP), and false negatives (FN).
+48	13	Assumption 1 (Karmic Performance Measure).
+57	12	We term performance measures that satisfy the condition ∇G(C)T (1,−1,−1, 1)T ≥ CB as “Karmic measures”, since it guarantees a lower bound on the sensitivity of the performance measure in the direction of increasing true positives and true negatives, and decreasing false positives and false negatives.
+99	15	Armed with the above assumption on the conditional probability of the response, we can then characterize the Bayes optimal classifier as follows.
+115	14	It is clear that the Bayes optimal classifier may not take a thresholded form on the Bayes critical set.
+132	7	We will discuss each of these two consequences in the following sections.
+135	6	An immediate algorithmic consequence of this is to focus on plug-in classifiers that separately estimate the conditional probability, and the threshold.
+138	6	For the convenience of analysis, we divide the set of samples into two independent subsets: the conditional probability estimator is estimated using one subset, and the threshold is estimated using the other.
+160	10	We leverage this consequence, and summarize a simple binary search algorithm based on the sign of V ′η(δ,P) in Algorithm 2.
+161	21	Algorithm 2 Binary search for the optimal threshold 1: Input: Training sample {Xi, Yi}ni=1, utility measure U , conditional probability estimator η̂, tolerance 0.
+163	7	In the next section, we then analyze the rates of convergence for the excess generalization error of the plug-in classifier learned from Algorithm 1, and with threshold estimated via Algorithm 2.
+164	9	We next analyze the convergence rate of the excess utility.
+165	16	As we will show, the rates of convergence depend on three quantities: the noise level of the data distribution, the convergence rate of the conditional probability function, and the convergence rate of the threshold.
+168	5	Let Sn denote a sample set of size n, and ηSn denote the conditional probability estimator learnt from Sn.
+196	11	Lemma 5.2 describes the classification error rate when the optimal threshold is known.
+227	10	With locally polynomial estimators (Audibert et al., 2007) or kernel (conditional) density estimators (Jiang, 2017), we have: U(f∗,P)− U(f̂) = O ( n− (min{α,1}+1)β 2β+d ) .
+230	6	We study Bayes optimal classification for general performance metrics.
+231	9	We derive the form of the Bayes optimal classifier, provide practical algorithms to estimate this Bayes optimal classifier, and provide novel analysis of classification error with respect to general performance metrics, and in particular show our estimators are not only consistent but have fast rates of convergence.
+232	11	We also provide corollaries of our general results for some special cases, such as when the inputs are drawn from a Gaussian mixture generative models, or when the conditional probability function lies in a Hölder space, explicitly proving fast rates under mild regularity conditions.

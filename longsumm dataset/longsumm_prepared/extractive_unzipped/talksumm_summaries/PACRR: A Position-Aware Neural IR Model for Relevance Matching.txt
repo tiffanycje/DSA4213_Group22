@@ -1,0 +1,30 @@
+11	27	In this work, we focus on relevance matching models.
+14	17	Beyond this, positional information, including where query terms occur and how they depend on each other, can also be exploited, as demonstrated in retrieval models that are aware of term proximity (Tao and Zhai, 2007) and term dependencies (Huston and Croft, 2014; Metzler and Croft, 2005).
+15	8	Query coverage is another factor that can be used to ensure that, for queries with multiple terms, top-ranked documents contain multiple query terms rather than emphasizing only one query term.
+16	10	For example, given the query 1049 “dog adoption requirements”, unigram matching signals correspond to the occurrences of the individual terms “dog”, “adoption”, or “requirements”.
+26	80	For example, as a pioneering work, MatchPyramid is mainly motivated by models developed in computer vision, resulting in its disregard of certain IR-specific considerations in the design of components, such as pooling sizes that ignore the query and document dimensions.
+28	11	We conjecture that a suitable combination of convolutional kernels and recurrent layers can lead to a model that better accounts for these factors.
+30	22	Our approach first produces similarity matrices that record the semantic similarity between each query term and each individual term occurring in a document.
+31	31	These matrices are then fed through a series of convolutional, max-k-pooling, and recurrent layers so as to capture interactions corresponding to, for instance, bigram and trigram matches, and finally to aggregate the signals in order to produce global relevance assessments.
+37	26	Note that in principle the proposed model can be trained end-to-end by backpropagating through the word embeddings, as in (Xiong et al., 2017).
+40	33	We first encode the query-document relevance matching via query-document similarity matrices sim |q|×|d| that encodes the similarity between terms from a query q and a document d, where simij corresponds to the similarity between the i-th term from q and the j-th term from d. When using cosine similarity, we have sim ∈ [−1, 1]|q|×|d|.
+59	16	It then selects the top k = bld/nc windows by averaging similarity and discards all other terms in the document.
+60	31	The document dimension is zero padded if bld/nc is not a multiple of k. When the convolutional layer later operates on a similarity matrix produced by kwindow, the model’s stride is set to n (i.e., the sliding window moves ahead n terms at a time rather than one term at a time) since it can consider at most n consecutive terms that are present in the original document.
+63	10	Convolutional relevance matching over local text snippets.
+79	144	In practice, we use a small ns to prevent the model from being biased by document length; while each similarity matrix contains the same number of document term scores, longer documents have more opportunity to contain terms that are similar to query terms.
+80	61	To capture the strongest ns similarity signals for each query term, we first perform max pooling over the filter dimension nf to keep only the strongest signal from the nf different filters, assuming that there only exists one particular true matching pattern in a given n × n window, which serves different purposes compared with other tasks, such as the sub-sampling in computer vision.
+81	40	We then perform k-max pooling (Kalchbrenner et al., 2014) over the query dimension lq to keep the strongest ns similarity signals for each query term.
+82	34	Both pooling steps are performed on each of the lg − 1 matrices Ci from the convolutional layer and on the original similarity matrix, which captures unigram matching, to produce the 3-dimensional tensor Plq×lg×ns .
+83	11	This tensor contains the ns strongest signals for each query term and for each n-gram size across all nf filters.
+89	45	This sequence of vectors for each query term qi is passed into a Long Short-Term Memory (LSTM) recurrent layer (Hochreiter and Schmidhuber, 1997) with an output dimensionality of one.
+90	73	That is, the LSTM’s input is a sequence of query term vectors where each vector is composed of the query term’s normalized IDF and the aforementioned salient signals for the query term along different kernel sizes.
+91	12	The LSTM’s output is then used as our document relevance score rel(q, d).
+92	9	Our model is trained on triples consisting of a query q, relevant document d+, and non-relevant document d−, minimizing a standard pairwise max margin loss as in Eq.
+93	33	In this section, we empirically evaluate PACRR models using manual relevance judgments from the standard TREC Web Track.
+95	133	The comparisons are over three task settings: reranking search results from a simple initial ranker (RERANKSIMPLE); re-ranking all runs from the TREC Web Track (RERANKALL); and examining neural IR models’ classification accuracy between document pairs (PAIRACCURACY).
+99	31	Three years (2012–14) of query-likelihood baselines4 provided by TREC5 serve as baseline runs in the RERANKSIMPLE benchmark.
+100	22	In the RERANKALL setting, the search results from runs submitted by participants from each year are also considered: there are 71 (2009), 55 documents  trec-web-2014 (2010), 62 (2011), 48 (2012), 50 (2013), and 27 (2014) runs.
+109	22	The model is saved at every iteration.
+110	26	We use the model with the best ERR@20 on the validation set to make predictions.
+111	9	Proceeding in a round-robin manner, we report test results on one year by exploiting the respective remaining five years (250 queries) for training.
+112	17	From these 250 queries, we reserve 50 random queries as a held-out set for validation and hyper-parameter tuning, while the remaining 200 queries serve as the actual training set.

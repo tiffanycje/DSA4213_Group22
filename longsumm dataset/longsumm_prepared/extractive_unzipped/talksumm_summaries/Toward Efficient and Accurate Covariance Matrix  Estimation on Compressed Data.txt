@@ -1,0 +1,30 @@
+7	17	For policy learning in the field of robotics, it requires reliable estimates of the covariance matrix between policy parameters (Deisenroth et al., 2013).
+8	34	Calculation of a covariance matrix usually requires enormous computational resources in the form of communication and storage because large and high-dimensional data are now routinely gathered at an exploding rate from many distributed remote sites, such as sensor networks, surveillance, and distributed databases (Haupt et al., 2008; Shi et al., 2014; Ha & Barber, 2015).
+9	11	In particular, high communication cost of transmitting the distributed data from the remote sites to the fusion center (i.e., a destination to conduct complex data analysis tasks) will require tremendous bandwidth and power consumption (Srisooksai et al., 2012; Abbasi-Daresari & Abouei, 2016).
+13	25	Then, it takes O(nd) communication burden to transmit data from numerous remote sites to the fusion center to form the full data set X, O(nd) storage in total to store X in remote sites, andO(nd+d2) storage withO(nd2) time to calculate C in the fusion center.
+15	21	To tackle such computational challenges, compressed data can be leveraged to estimate the covariance matrix, which essentially has roots in compressed sensing.
+16	17	One solution is to process each data point by multiplying it with a single projection matrix S ∈ Rd×m whose entry follows the Gaussian distribution N (0, 1m ) (Mahoney, 2011).
+20	12	The first is that the operations on the Gaussian matrix is inefficient.
+22	11	The second problem is that applying a single projection matrix to all data points cannot consistently estimate the covariance matrix, i.e., the estimator cannot converge to the actual covariance matrix even if the sample size n grows to infinity with d fixed.
+26	12	Our goal is to compress data and recover C efficiently and accurately, and the contributions in our work are summarized as follows: • First, in contrast to all existing methods (Azizyan et al., 2015; Anaraki & Hughes, 2014; Anaraki & Becker, 2017; Anaraki, 2016) that are based on dataoblivious projection matrices, we propose to estimate the covariance matrix based on the data compressed by a weighted sampling scheme.
+80	23	Let D(x) be a square diagonal matrix with the elements of vector x on the main diagonal, and D(X) also be a square diagonal matrix whose main diagonal has only the main diagonal elements of X.
+81	34	As discussed previously, Gauss-Inverse (Azizyan et al., 2015; Qi & Hughes, 2012) and Sparse (Anaraki & Hughes, 2014; Anaraki, 2016) suffer from deficiencies in either computational efficiency or estimation accuracy, whereas UniSample-HD (Anaraki & Becker, 2017) is less accurate but offers a good tradeoff between estimation accuracy and computational efficiency.
+83	52	The recovered data is then used for covariance matrix estimation as shown in Eq.
+85	20	Although Si removes at least d−m entries from the i-th vector, the remainders can be the most informative and are retained.
+86	23	With the carefully designed sampling probabilities, our unbiased estimator Ce performs as accurately as or more accurately than its counterparts asymptotically in terms of matrix spectral norm ‖Ce − C‖2.
+96	53	In step 5, each entry is retained with probability proportional to the combination of its relative absolute value and square value, and such sampling probability is designed to make ‖Ce − C‖2 as small as possible.
+100	18	For a covariance matrix defined as C = 1nXX T − x̄x̄T , we can exactly calculate x̄ = 1n ∑n i=1 xi in the fusion center via x̄ = 1 n ∑g j=1 uj , where {xi}ni=1 are from g n remote sites, and uj ∈ Rd is the summation of all data vectors in the j-th remote site before being compressed.
+121	15	Hence, if α varies from 1 to 0, the estimation error will decrease and then increase, which is also empirically verified in the appendix.
+128	18	The first two methods provide error analysis without assuming data distribution, which is shown in (Azizyan et al., 2015; Anaraki & Becker, 2017) and illustrated in our appendix.
+130	26	(3) with ϕ = √ d indicates the error bound for our estimator Ce in the worst case, where the magnitudes of each entry in all of the input data vectors are the same (i.e., highly uniformly distributed).
+133	11	Furthermore, when most of the entries in each vector xi have very low magnitudes, the summation of these magnitudes will be comparable to a particular constant.
+134	10	This situation is typical because in practice only a limited number of features in each input data dominate the learning performance.
+138	15	As our target is to compress data to a smaller m that is not comparable to d in practice, O(d − m) can be approximately regarded as O(d).
+143	31	These results also coincide with the fact that UniSample-HD adopts uniform sampling without replacement combined with the Hadamard matrix, but we employ weighted sampling with replacement.
+144	9	The Sparse method, which employs a sparse matrix for each Si, is not sufficiently accurate as demonstrated in our experiments.
+149	49	Corollary 2 shows the (low-rank) covariance matrix estimation on Gaussian data, and Corollary 3 indicates the derived covariance estimator also guarantees the accuracy of the principal components regarding the subspace learning.
+150	22	Given X ∈ Rd×n (2 ≤ d) and an unknown population covariance matrix Cp ∈ Rd×d with each column vector xi ∈ Rd i.i.d.
+153	12	Given X, d, m, Cp and Ce as defined in Corollary 2.
+154	41	Let ∏ k = ∑k i=1 uiu T i and ∏̂ k =∑k i=1 ûiû T i with {ui}ki=1 and {ûi}ki=1 being the leading k eigenvectors of Cp and Ce, respectively.
+155	10	Denote by λk the k-th largest eigenvalue of Cp.
+161	12	Recall that we have n data samples in the d-dimensional space, and let m be the target compressed dimension.

@@ -1,0 +1,30 @@
+0	13	The development of increasingly sophisticated Bayesian models in modern machine learning has accentuated the need for efficient generation of asymptotically exact samples from complex posterior distributions.
+1	18	Markov Chain Monte Carlo (MCMC) is an important framework for drawing samples from a target density function.
+2	17	MCMC sampling typically aims to estimate a desired expectation in terms of a collection of samples, avoiding the need to compute intractable integrals.
+4	32	Despite great success, this method is based on random walk exploration, which often leads to inefficient posterior sampling (with a finite number of samples).
+7	26	However, the emergence of big datasets poses a new challenge for HMC, as evaluation of gradients on whole datasets becomes computationally demanding, if not prohibitive, in many cases.
+8	9	To scale HMC methods to big data, recent advances in Stochastic Gradient MCMC (SG-MCMC) have subsampled the dataset into minibatches in each iteration, to decrease computational burden (Welling & Teh, 2011; Chen et al., 2014; Ding et al., 2014; Ma et al., 2015).
+9	67	Stochastic Gradient Langevin Dynamics (SGLD) (Welling & Teh, 2011) was first proposed to generate approximate samples from a posterior distribution using minibatches.
+10	15	Since then, research has focused on leveraging the minibatch idea while also providing theoretical guarantees.
+15	9	One standing challenge of SG-MCMC methods is inefficiency when exploring complex multimodal distributions.
+18	13	As a result, it may take a very large number of iterations (posterior samples) to cover more than one mode, greatly limiting scalability.
+21	9	They showed that a generalized kinetic function typically improves the stationary mixing efficiency of HMC, especially when the target distribution has multiple modes.
+56	23	Generalized kinetics The statistical physics literature traditionally considers a quadratic form of the kinetics function, and a Gaussian distribution for the thermostats in (8), when analyzing the dynamic system of a canonical ensemble (Tuckerman, 2010).
+79	13	Consequently, c has to be determined empirically as a trade-off between integration and approximation errors.
+92	22	As discussed by Zhang et al. (2016), this can happen when θ moves to a region where the gradient ∇U(θ) takes a large absolute value, e.g., near the lowdensity regions in a light-tailed distribution.
+93	11	Fortunately, the additional Langevin dynamics in (13), −σθ∇Ũ(θ)dt+√ 2σθdW , compensate for the weak updating signal from ∇K(p), by an immediate gradient signal ∇Ũ(θ).
+102	24	However, hypoellipticity also requires the noise to be able to spread through the system via the drift term, V (Γ), which may not be true for general V (Γ).
+107	13	Stochastic resampling When generating samples from the stochastic process in (13), we resample momentum and thermostats from their marginal distribution with a fixed frequency, instead of every iteration from their conditionals.
+113	17	From previous discussions, moving on a high Hamiltonian contour when a > 1 is less efficient because the absolute value of the momentum, |p|, will get increasingly large, slowing down the movement of θ. Resampling of momentum according to its marginal will enable the sampler to immediately move to a lower Hamiltonian energy level.
+133	9	We observe empirically that when increasing the value of a, SGMGT-D may not always achieve superior mixing performance.
+143	8	Alternatively, we can use the symmetric splitting scheme of Chen et al. (2016) to reduce the order of the approximate error to O(h2).
+144	7	Details of the splitting used in this work are provided in the SM.
+151	12	We note that these bounds have similar rates compared to other SG-MCMC algorithms such as SGLD, however, as we demonstrate below in the experiments, SGMGT and SGMGT-D usually converge faster than existing SG-MCMC methods.
+161	14	See SM for the definition of its potential energy.
+169	7	For SGMGT-D with a = 2, the sampler identified all 5 modes.
+170	10	In Figure 3(right), SGMGT-D adequately moves across different modes and yields rapid mixing performance, unlike SGMGT which exhibits stickier behavior.
+198	13	We evaluated our methods empirically and compare them with SGNHT.
+199	12	We use one hidden layer with 500 units.
+236	31	Since practical use of the generalized kinetics is limited by convergence issues during burn-in, we injected additional Langevin dynamics and incorporated a stochastic resampling step to obtain generalized SDEs that alleviate the convergence issues.
+237	41	Possible areas of future research include designing an algorithm in a slice-sampling fashion, which maintains the invariant distribution by leveraging the connections between HMC and slice sampling (Zhang et al., 2016).
+238	44	In addition, it is desirable to design an algorithm that can adaptively choose the monomial parameter a, thereby achieving better mixing while automatically avoiding numerical difficulties.

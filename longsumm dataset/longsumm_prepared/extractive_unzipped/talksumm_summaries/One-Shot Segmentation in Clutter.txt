@@ -1,0 +1,30 @@
+25	3	Thus, we think of this dataset as the essence of the clutter problem.
+30	2	Each character is placed at a random location, has a random RGB color and is transformed with a random affine transformation of up to 20◦ rotation, 10◦ shearing and scaling between 16 and 64 pixels.
+37	1	The difficulty of this task depends on the number of distractors (Wolfe, 1998).
+42	1	Intuitively, the one-shot segmentation task can be broken down into two steps: detect the target in the scene and segment it.
+47	1	All convolutions use 3× 3 kernels with “same” padding, followed by layer normalization (Ba et al., 2016) and ReLUs.
+51	1	The scene image is processed analogously.
+56	1	This result could potentially be attributed to the differing statistics of the clean target and the cluttered scene image.
+57	1	To get an estimate of the target’s location in the scene, we compute the cosine similarity in the embedding space given by the encoder.
+82	1	Its output is a set of segmentation proposals (96×96 pixels).
+94	1	These crops are then fed into an encoder with the same architecture as the one used for the target (i. e. outputs a 384-dimensional embedding).
+105	1	For each training sample, we generate four segmentation proposals: one centered at one of the four locations around the center of mass of the target and three at other random positions.
+113	1	We evaluate two oracles that have access to ground truth segmentation masks of all characters in the scene.
+114	1	Being able to define such oracles is a useful feature of cluttered Omniglot, which allows us to test the quality of individual model components.
+122	1	The cluttered discriminator does not pre-segment characters.
+146	1	Performance is above 90% IoU, similar to discrimination performance in one-shot fiveway discrimination on regular Omniglot (Koch et al., 2015; Vinyals et al., 2016; Snell et al., 2017; Triantafillou et al., 2017; Shyam et al., 2017).
+147	1	However, performance drops substantially with increasing number of distractors (< 40% for 256 distractors).
+148	1	On the one-shot set – that is, characters from alphabets not seen during training – performance is on average only 3% worse than validation performance (Fig.
+149	1	The performance drop of our baseline model with increasing number of distractors could have two reasons.
+151	1	Second, the large number of comparisons may simply increase the probability of making a mistake by chance (n-way discrimination with large n).
+155	1	The resulting task is essentially the classical one-shot n-way discrimination task.
+156	1	The only difference is that it is a bit easier since many characters in the background are highly occluded, whereas the target is always unoccluded.
+157	1	Remarkably, the performance of the pre-segmented discriminator remains above 95% IoU even for the most cluttered scenes with 256 characters (Fig.
+161	1	Thus we conclude that the difficulty of cluttered Omniglot arises due to clutter rather than the potentially large number of candidate characters in the scene.
+164	1	Thus, template matching is not a viable solution for (cluttered) Omniglot.
+165	1	Motivated by the superb discrimination performance on presegmented objects, we developed MaskNet, a novel model that operates in three steps (Sec.
+166	1	First, we generate a number of object proposals.
+217	5	Fully recurrent architectures that iteratively refine detection and segmentation by cycling through this process multiple times could lead to even larger performance gains.
+218	15	As we focus on the role of clutter, we specifically designed cluttered Omniglot to have relatively simple object statistics but various levels of clutter.
+219	123	An interesting avenue for future work would be to specifically investigate cluttered image regions in real-world datasets such as Pascal VOC, MS-COCO or ADE20k.
+220	123	Both, the task and our MaskNet architecture should be directly applicable to these datatsets, for instance by searching for unseen object categories in natural scenes could be done by replacing our encoder by a state-of-the-art ImageNet classifier.

@@ -1,0 +1,30 @@
+21	9	In the stochastic setting, there have been multiple works dealing with subspace recovery when data is missing under some model (Balzano et al., 2010; Lounici et al., 2014; Mitliagkas et al., 2014).
+25	5	In Section 3 we consider streaming PCA in presence of bounded noise, i.e. when the observations are corrupted.
+26	13	In Section 4 we give an algorithm for streaming PCA which is robust to missing data, when the entries are missing at random from a Bernoulli model.
+28	10	We propose a robust streaming PCA algorithm that can handle outliers in Section 6.
+38	5	, xt−1, we need to predict a k-dimensional subspace, represented by a rank-k orthogonal projection matrix P(t), so as to minimize the residual ‖xt − P(t)xt‖2 of the next vector in the stream.
+43	7	A sublinear regret bound implies that we can drive the average regret, i.e. 1TR(T, P), below any user-specified > 0.
+44	13	This allows us to measure the performance of an online algorithm in terms of overall runtime required to achieve -average regret.
+45	30	In the online setting, we consider algorithms that are variants of online mirror descent, a standard algorithm in Online Convex Optimization literature (Beck & Teboulle, 2003).
+46	22	However, since the feasible set Pk is not convex, we relax the feasible set by taking its convex hull, C = {P : Tr (P) := k, 0 P I, P = P>}.
+54	5	(4) where expectation is w.r.t.
+61	11	This gives little hope that we can come up with computationally attractive algorithms for the online problem.
+62	12	Under the additional assumption that xt are sampled i.i.d.
+64	13	At each iteration, Oja’s algorithm, for general k, performs the following updates: Ũt+1 = P (( I + ηxtx>t ) · · · ( I + ηx1x>1 ) U ) P(t+1) = Ũt+1Ũ > t+1, where entries of U ∈ Rd×k are sampled from a standard Gaussian distribution and P (A) orthonormalizes the columns of A.
+69	14	Our first main result is in the case of bounded noise and shows that the regret bound for MGD degrades gracefully with the noise level.
+70	6	Furthermore, MGD can easily tolerate noise with overall budget that scales as o(T ) if we desire sublinear regret guarantees.
+75	7	We consider the same stochastic setting as Allen-Zhu & Li (2017b) and further assume that ED[xt] = 0.
+76	26	As before, we consider corrupted gradients, however, we assume that they arise due to additive corruption of data, i.e. each of the points xt are perturbed by some noise vector yt.
+77	7	The noisy gradients we observe are ĝt = (xt + yt)(xt + yt) >.
+87	14	The assumption that the noise is sublinear allows us to control this error term and still achieve a sublinear regret bound.
+104	6	We construct ĝ := x̂x̂> − zz> where x̂ = 1q x̃ and z = √ r−rq q xiseis and is is sampled uniformly at random from Ω.
+107	7	Lemma 4.1 motivates the following rMGD updates with missing entries based on ĝt := −x̂tx̂ > t + ztz>t : P(t+1) = ΠF ( P(t) − ηtĝt ) .
+125	5	Then, after T iterations of Oja’s algorithm with gradients ĝt, initialization P (1) = uu>, where u ∼ N (0, I) and step size η = log(1+δ/9) (α+4λ2) √ T , with probability 1− δ it holds that: ES,R[R(T, P)] ≤ √ T log(1 + δ/18) + √ T (α+ 4λ2)O ( log(d+ log ( 1 δ ) )− log ( 1 δ )) log(1 + δ) , for any rank-1 projection matrix P. As q → 1 we see that the regret tends to O (√ T log(d+log(1/δ)) log(1+δ) ) .
+126	7	For any fixed δ, the regret above equals O( √ T log(d)), which has an additional multiplicative factor of log(d) compared to the bound in Theorem 4.2.
+132	14	The case is a bit different as we let q → 1d .
+161	8	Theorem 5.3 (Oja regret from partial observations).
+196	11	Datasets and step-size tuning.
+224	7	Then, after T iterations of MGD with step size η = √ k T , and starting at P (1) = 0, we have that T∑ t=1 x>t P (t) ∗ xt− T∑ t=1 Eround [ x>t P (t)xt ] ≤ √ (6 √ kS + k)T where (P(t)∗ ) T t=1 is any competing sequence of subspaces in C with total shift ∑T t=1 ‖P (t) ∗ − P(t−1)∗ ‖F ≤ S. Our experiments suggest the following directions for future work: (a) extend the analysis of the Oja’s algorithm (i.e. results in Theorems 3.2, 4.3 and 5.3) to general k > 1), and (b) show lower bounds for regret guarantees in Section 4 and Section 5 which depend on the number of missing entries.
+234	9	Another possible direction for future work is to design and analyze streaming algorithms for related component analysis techniques in noisy settings.
+235	38	In particular, algorithms based on online mirror descent have been used in the context of partial least squares (Arora et al., 2016) and canonical correlation analysis (Arora et al., 2017; Ge et al., 2016).
+236	41	It is natural to consider extensions of these algorithms to noisy settings with missing data and outliers.

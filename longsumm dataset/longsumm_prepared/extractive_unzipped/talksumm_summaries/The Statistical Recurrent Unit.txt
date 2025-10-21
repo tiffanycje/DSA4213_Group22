@@ -1,0 +1,30 @@
+7	13	As a result, sophisticated gated architectures like Long-Short Term Memory (LSTM) networks (Hochreiter & Schmidhuber, 1997) and Gated Recurrent Unit (GRU) networks (Cho et al., 2014) have been developed.
+11	11	Although the SRU keeps only simple moving averages of summary statistics, its novel architecture makes it more adept than previous gated units for capturing long term information in sequences and comparing them across different windows of time.
+27	17	One may then average these vectors as µ = 1T ∑T i=1 φ(xi) to produce summary statistics of the sequence.
+33	16	Still, not marginalizing out time should provide a more robust approach for sequence tasks, thus we consider the following methods for producing statistics.
+34	22	First, we provide temporal information whilst still utilizing averages through recurrent statistics that also depend on the values of previous points (see third row of Table 1).
+40	13	When averaged the statistics will be 1T ∑T i=1 ~γi = (x1, x2, .
+45	16	As a simple hypothetical example, consider taking multiple means across separate time windows (for instance taking means over indices 1-10, then over indices 11-20, etc.).
+48	21	The SRU will use exponential moving averages µi = α~γi+(1−α)µi−1 to compute means; hence, we consider multiple weights by taking the exponential means at various scales α1, .
+51	25	We have discussed in broad terms how one may create temporally-aware summary statistics through multi-scaled recurrent statistics.
+55	22	The SRU operates via exponential moving averages, µ(α) ∈ Rs (7), kept at various scales α ∈ A = {α1, .
+56	25	These moving averages, µ(α), are of recurrent statistics ϕ (6) that are dependent not only on the current input but also on features of averages, r (5).
+87	59	Third, the use of multi-scaled moving averages of statistics gives the SRU a simple and powerful rich view of past data that is unique to this recurrent unit.
+88	38	In short, by keeping moving averages at different scales {α1, .
+89	17	, αm}, we are able to uncover differences in statistics at various times in the past.
+90	13	Note that we may unroll moving averages as: µ (α) t = (1− α) ( ϕt + αϕt−1 + α 2ϕt−2 + .
+91	49	(11) Thus, a smaller α weighs current statistics more than older statistics; hence, a concatenated vector µ = (µ(α1), .
+99	26	SRUs, on the other hand, only need to take simple linear combinations to capture various viewpoints in the past.
+101	31	Such a windowed view would require a gated unit to learn to stop averaging after a certain point in the sequence, and the corresponding statistic would not yield any information outside of this window.
+102	14	In contrast, each statistic kept by the SRU provides a combinatorial number of varying perspectives in the past through linear combinations and their multi-scaled nature.
+113	12	Thus, by including an α explicitly near 1 (i.e. 0.999), the decay for that moving average can be made minuscule for the lengths of sequences in ones data.
+147	28	In this synthetic task, each 28×28 gray-scale MNIST digit image is flattened and observed as a sequence {x1, .
+169	12	type statistics of pixel values at a single scale.
+178	45	We postulated that the use of ReLUs would help our learning since they have been observed to better handle the problem of vanishing gradients.
+179	25	We find evidence of this when swapping ReLUs for hyperbolic tangent units in SRUs: we get an error rate of 0.18 when using hyperbolic tangent units.
+183	29	We consider r dims in {5, 20, 240}.
+193	39	First, we used the polyphonic music datasets from Boulanger-Lewandowski et al. (2012).
+194	26	Each time-step is a binary vector representing the notes played at the respective time-step.
+195	27	Since we were required to predict binary vectors we used the element-wise sigmoid σ.
+211	15	Again, we look to model the next point in a sequence as a projection of the output of the recurrent unit after feeding the previous points.
+227	17	We showed empirically that the SRU is better equipped that traditional gated units for long term dependencies via synthetic and real-world data experiments.

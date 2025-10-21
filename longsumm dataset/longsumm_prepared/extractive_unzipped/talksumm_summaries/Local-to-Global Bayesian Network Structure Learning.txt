@@ -1,0 +1,30 @@
+22	2	The network structure G is a directed acyclic graph with nodes corresponding to the random variables in V. If a directed edge exists from node X to node Y in G, X is a parent of Y and Y is a child of X .
+25	2	A directed path of a DAG is a path with nodes (V1, ..., Vn) such that, for 1 ≤ i < n, Vi is a parent of Vi+1.
+26	2	If there is a directed path from X to Y , then X is an ancestor of Y and Y is a descendant of X .
+28	1	Three nodes X , Y , and Z form a V-structure if node Y has two incoming edges from X and Z, forming X → Y ← Z, and X is not adjacent to Z. Y is a collider if Y has two incoming edges from X and Z in a path.
+39	2	Under the faithfulness assumption between G0 and P , the PC and MB of a target node is uniquely identifiable (Pearl, 1988).
+43	1	Let PaGX be the parent set of X in G. Score s is locally consistent if, as the size of the data D goes to infinity, the following two properties hold true: 1) if X ⊥\⊥ T |PaGX , then s(G,D) < s(G′, D), and 2) if X ⊥ T |PaGX , then s(G,D) > s(G′, D).
+59	3	Preservation of True Positive PCs (Niinimaki & Parviainen, 2012).
+72	2	Then, one of the following two cases must hold in G: T → X or X → T .
+74	2	Since P (X|S\X,T ) = P (X|S\X) by assumption X ⊥ T |S \ X , then T 6∈ PaX since {S \ X} must contain PaGX .
+89	1	Lemma 4 shows the first part of the lemma is true, and we just need to show the second part holds.
+90	3	Assuming false positive PC nodes F exist, let X ∈ F ⊆ Des0T , then Lemma 4 shows that X ⊥\⊥ T |Z,∀Z ⊆ PC0T .
+92	2	Since PC 0 T must be present in all paths from T to X in G0, in the last iteration of the score-based PC search the dependence between T and X occurs only if PC0T unblocks some paths from T to X .
+144	3	A simple example, shown in Figure 2 would justify Lemma 6.
+150	3	Under the infinite data and faithfulness assumption, Algorithm 2 GGSL learns and directs all and only the correct edges in the underlying DAGG0, up to the Markov equivalent class ofG0.
+151	2	For the first target variable T1, GGSL finds the correct local structure of one target variable by Theorem 1.
+152	3	The updated DAG G is sound and complete for T1.
+157	4	Since the PDAG-to-DAG subroutine is also proven to orient the correct DAG from PDAG (Meek, 1995), the result DAG G at the end of Algorithm 2 must be in the Markov equivalent class of G0.
+159	1	When T1 = A, LocalLearn finds B and C in the local structure of A with the query set of all variables, with undirected edges between them , and update G. With T2 = B, the query set of variables contains its local structure A from G and the rest of variables.
+161	2	PDAG-to-DAG takes G and produces a possible DAG in Figure 1a.
+162	4	While Algorithm 2 is theoretically sound and complete, in practice further optimizations in the algorithmic procedure can be implemented.
+163	2	First, inside the iterative LocalLearn procedure, variables in the existing PC and Sp set of Ti should be queried first.
+183	5	Due to the smaller set of variable present, the computation of Bayesian scores could be more accurate in practice when the sample size is limited.
+187	2	We use the existing implementation of DP (in MATLAB), CSL (in C), and GOBNILP (in C), and implement our algorithms in MATLAB.
+195	3	As one can see from Table 1, GGSL improves the learning scores by a significant margin over the SLL+C algorithm, with different BNStructLearn in all four datasets tested, except one case in ALARM with GOBNILP.
+201	1	It is faster than SLL+C on HAILFINDER with CSL, and is slightly slower in the other testing cases.
+204	22	We strengthen the existing local structure learning analysis, justifying its soundness when the traditional faithfulness condition fails with absent variables, and propose a new local-to-global approach to combine the local structures efficiently.
+205	5	Experiments have shown that the proposed GGSL improves the accuracy over existing local-to-global algorithms and improves efficiency over existing global algorithms, both by a significant margin.
+206	15	In addition, GGSL can work with any exact score-based BN learning algorithm and achieve consistent performance gain.
+207	191	The iterative nature of GGSL can have many applications, such as online BN structure learning with streaming data.
+208	185	Future work could study how GGSL would work with constraint-based (van Beek & Hoffmann, 2015; Gao & Ji, 2016b) and approximated BN structure learning algorithms as the BNStructLearn routines.

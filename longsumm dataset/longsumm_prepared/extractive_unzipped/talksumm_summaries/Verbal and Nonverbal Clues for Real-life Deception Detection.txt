@@ -1,0 +1,30 @@
+0	58	As deceptive behavior occurs on a daily basis in different areas of life (Meyer, 2010; Smith et al., 2014), the need arises for automated methodologies to detect deception in an efficient, yet reliable manner.
+1	50	There are many applications that can benefit from automatic deception identification, such as airport security screening, crime investigation and interrogation, interviews, advertisement, and others.
+4	37	Moreover, polygraph tests were shown to be misleading in multiple cases (Vrij, 2001; Gannon et al., 2009), as human judgment is often biased.
+6	21	Unlike the polygraph methods, learning-based methods for deception detection rely mainly on data collected from deceivers and truth-tellers.
+9	23	Because of the artificial setting, the subjects may not be emotionally aroused, as they may not take the experiments seriously given the lack of motivation and/or penalty.
+11	26	We collect a dataset consisting of 118 deceptive and truthful video clips, from real trials and live street interviews aired in television shows.
+17	27	To collect real deception data, we start by identifying online multimedia sources where deceptive behavior can be observed and verified.
+19	24	We collect video clips from public real trials and interviews aired during television shows, where the truth or falsehood of the partic- ipant’s statements ends up being known.
+26	80	Deceptive and truthful responses are also collected from TV shows and interviews.
+27	52	Examples of such shows are “Lie Witness,” “Golden Balls,” and the “American Film Institute” and “RevYOU” You-Tube channels.
+32	19	The final dataset includes 118 videos, including 59 that are labeled as deceptive and 59 labeled as truthful.
+41	21	The final set of transcriptions contain 7835 words, with an average of 66 words per transcript.
+46	95	In the MUMIN scheme, facial displays consist of several different facial expressions associated with eyebrows, eyes, gaze, and mouth.
+47	21	Smile, laughter, and scowl are also included, as well as general head and hand movements.
+48	24	The multimodal annotation was performed by two annotators using the Elan software (Wittenburg et al., 2006).
+56	54	In the case of gestures associated with hand movements, the “Other” label also accounted for those cases where the speaker’s hands were not moving or were not visible.
+105	30	Table 5 shows the accuracies obtained when one feature group is removed and the deception classifier is built using the remaining features.
+106	27	From this table, we can again observe that Facial Displays contribute the most to the classifier performance, while Syntactic Features show the lowest contribution.
+109	21	The five most predictive features are the presence of side turns, up gazes, blinking, and smiling, which we previously identified as possible indicators of deception.
+118	27	In line with earlier observations (Mihalcea and Strapparava, 2009), deceptive texts include more words that reflect certainty (class Certain, with words such as completely, truly, always) and more references to others (class Other, with words such as she, day, him).
+124	35	Given the uneven distribution of the truthful and deceptive video clips in two domains, the baselines are 54.83% for the Interviews domain (34 truthful, 28 deceptive), and 55.35% for the Trials domain (25 truthful, 31 deceptive).
+129	19	While a classifier based on an individual feature set can sometime lead to a better performance (e.g., the Facial Displays classifier has better performance when all the video clips are used), that same classifier may not perform well in another setting (e.g., the Facial Displays classifier is significantly below the All Features classifier in the domain experiments).
+134	28	To avoid annotation bias, we show the modalities in the following order: first we show either Text or Silent video, then we show Audio, followed by Full video.
+148	21	Overall, our study indicates that detecting deception is indeed a difficult task for humans and further verifies previous findings where human ability to spot liars was found to be slightly better than chance (Aamodt and Custer, 2006).
+173	21	Our analysis of nonverbal behaviors occurring in deceptive and truthful videos brought insight into the gestures that play a role in deception.
+174	97	We also built classifiers relying on individual or combined sets of verbal and nonverbal features, and showed that we can achieve accuracies in the range of 77-82%.
+175	84	Additional analyses showed the role played by the various feature sets used in the experiments, and the importance of the domain.
+176	134	To place our results in perspective and better understand the difficulty of the task, we performed a study of human ability to detect deception, which revealed high disagreement among the annotators.
+177	48	Our automatic system outperforms the human detection of deceit by 6-15%.
+181	25	The dataset introduced in this paper is publicly available from http://lit.eecs.umich.edu.

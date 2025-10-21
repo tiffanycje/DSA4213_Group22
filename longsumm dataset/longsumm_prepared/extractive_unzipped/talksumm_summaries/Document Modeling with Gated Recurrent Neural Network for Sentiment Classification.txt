@@ -1,0 +1,30 @@
+0	69	Document level sentiment classification is a fundamental task in sentiment analysis, and is crucial to understand user generated content in social networks or product reviews (Manning and Schütze, 1999; Jurafsky and Martin, 2000; Pang and Lee, 2008; Liu, 2012).
+1	48	The task calls for identifying the overall sentiment polarity (e.g. thumbs up or thumbs down, 1-5 stars on review sites) of a document.
+2	30	In literature, dominant approaches follow (Pang et al., 2002) and exploit machine learn- http://ir.hit.edu.cn/˜dytang.
+3	56	ing algorithm to build sentiment classifier.
+4	71	Many of them focus on designing hand-crafted features (Qu et al., 2010; Paltoglou and Thelwall, 2010) or learning discriminate features from data, since the performance of a machine learner is heavily dependent on the choice of data representation (Bengio et al., 2015).
+8	10	For example, Pang et al. (2002) and Wang and Manning (2012) represent documents with bag-of-ngrams features and build SVM classifier upon that.
+13	10	This motivates us to develop an end-to-end and bottom-up algorithm to effectively model document representation.
+15	23	The method is on the basis of the principle of compositionality (Frege, 1892), which states that the meaning of a longer expression (e.g. a sentence or a docu- 1422 ment) depends on the meanings of its constituents.
+19	69	These representations are naturally used as features to classify the sentiment label of each document.
+20	27	The entire model is trained end-to-end with stochastic gradient descent, where the loss function is the cross-entropy error of supervised sentiment classification2.
+21	111	We conduct document level sentiment classification on four large-scale review datasets from IMDB3 and Yelp Dataset Challenge4.
+22	73	We compare to neural network models such as paragraph vector (Le and Mikolov, 2014), convolutional neural network, and baselines such as feature-based SVM (Pang et al., 2002), recommendation algorithm JMARS (Diao et al., 2014).
+23	65	Experimental results show that: (1) the proposed neural model shows superior performances over all baseline algorithms; (2) gated recurrent neural network dramatically outperforms standard recurrent neural network in document modeling.
+24	40	The main contributions of this work are as follows: • We present a neural network approach to encode relations between sentences in document representation for sentiment classification.
+25	31	•We report empirical results on four large-scale datasets, and show that the approach outperforms state-of-the-art methods for document level sentiment classification.
+26	50	•We report empirical results that traditional recurrent neural network is weak in modeling document composition, while adding neural gates dramatically improves the classification performance.
+29	11	An overview of the approach is displayed in Figure 1.
+30	33	Our approach models document semantics based on the principle of compositionality (Frege, 1892), which states that the meaning of a longer expression (e.g. a sentence or a document) comes from the meanings of its constituents and the rules used to combine them.
+31	50	Since a document consists of a list of sentences and each sentence is made up of a list of words, the approach models document representation in two stages.
+33	35	Afterwards, sentence vectors are treated as inputs of document composition to get document representation (Section 2.2).
+34	41	Document representations are then used as features for document level sentiment classification (Section 2.3).
+35	24	We first describe word vector representation, before presenting a convolutional neural network with multiple filters for sentence composition.
+40	66	We use convolutional neural network (CNN) and long short-term memory (LSTM) to compute continuous representations of sentences with semantic composition.
+41	9	CNN and LSTM are stateof-the-art semantic composition models for sentiment classification (Kim, 2014; Kalchbrenner et al., 2014; Johnson and Zhang, 2015; Li et al., 2015a).
+42	10	They learn fixed-length vectors for sentences of varying length, captures words order in a sentence and does not depend on external dependency or constituency parse results.
+43	100	One could also use tree-based composition method such as Recursive Neural Tensor Network (Socher et al., 2013b) or Tree-Structured LSTM (Tai et al., 2015; Zhu et al., 2015) as alternatives.
+44	15	Specifically, we try CNN with multiple convolutional filters of different widths (Tang et al., 2015) to produce sentence representation.
+45	13	We use multiple convolutional filters in order to capture local semantics of n-grams of various granularities, which have been proven effective for sentiment classification.
+49	100	Formally, let us denote a sentence consisting of n words as {w1, w2, ...wi, ...wn}, let lc be the width of a convolutional filter, and let Wc, bc be the shared parameters of linear layers in the filter.
+51	167	The input of a linear layer is the concatenation of word embeddings in a fixed-length window size lc, which is denoted as Ic = [ei; ei+1; ...; ei+lc−1] ∈ Rd·lc .

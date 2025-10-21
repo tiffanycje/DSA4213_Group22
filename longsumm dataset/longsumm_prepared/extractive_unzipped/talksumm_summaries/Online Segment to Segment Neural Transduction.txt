@@ -1,0 +1,30 @@
+0	25	The problem of mapping from one sequence to another is an importance challenge of natural language processing.
+4	15	This architecture is appealing, as it makes it possible to tackle the problem of sequenceto-sequence mapping by training a large neural network in an end-to-end fashion.
+5	13	However it is difficult for a fixed-length vector to memorize all the necessary information of an input sequence, especially for long sequences.
+8	16	In this paper we propose an architecture to tackle the limitations of the vanilla encoder-decoder model, a segment to segment neural transduction model (SSNT) that learns to generate and align simultaneously.
+11	105	Our model introduces a latent segmentation which determines correspondences between tokens of the input sequence and those of the output sequence.
+14	14	This enables us to derive an exact dynamic programme to marginalize out the hidden segmentation during training and an efficient beam search to generate online the best alignment path together with the output sequence during decoding.
+16	26	While attentive models treat the attention weights as output of a deterministic function, our model assigns attention weights to a sequential latent variable which can be marginalized out.
+31	27	This constraint enables the model to learn to perform online generation.
+33	71	Another possible constraint on the alignments would be to ensure that the entire input sequence is consumed before last output word is emitted, i.e. all valid alignment paths have to end in the bottom right corner of the grid.
+46	21	As the alignments are constrained to be monotone, we can treat the transition from timestep j to j+1 as a sequence of shift and emit operations.
+47	19	Specifically, at each input position, a decision of shift or emit is made by the model; if the operation is emit then the next output word is generated; otherwise, the model will shift to the next input word.
+49	30	We describe two methods for modelling the alignment transition probability.
+51	12	To parameterise the alignment distribution in terms of shift and emit operations we use a geometric distribution, p(aj |aj−1) = (1− e)aj−aj−1e, (7) where e is the emission probability.
+53	35	For the second method we model the transition probability with a neural network, p(a1 = i) = i−1∏ d=1 (1− p(ed,1))p(ei,1), p(aj = i|aj−1 = k) = i−1∏ d=k (1− p(ed,j))p(ei,j), (9) where p(ei,j) denotes the probability of emit for the alignment aj = i.
+56	17	Since there are an exponential number of possible alignments, it is computationally intractable to explicitly calculate every p(y,a|x) and then sum them to get the conditional probability p(y|x).
+71	65	Algorithm 1 DP search algorithm Input: source sentence x Output: best output sentence y∗ Initialization: Q ∈ RI×Jmax , bp ∈ NI×Jmax , W ∈ NI×Jmax , Iend, Jend.
+73	20	For decoding, we aim to find the best output sequence y∗ for a given input sequence x: y∗ = argmax y p(y|x) (19) The search algorithm is based on dynamic programming (Tillmann et al., 1997).
+82	13	In abstractive sentence summarisation, summaries are generated from the given vocabulary without the constraint of copying words in the input sentence.
+83	23	Rush et al. (2015) compiled a data set for this task from the annotated Gigaword data set (Graff et al., 2003; Napoles et al., 2012), where sentence-summary pairs are obtained by pairing the headline of each article with its first sentence.
+92	18	The quality of the generated summaries are evaluated by three versions of ROUGE for different match lengths, namely ROUGE-1 (unigrams), ROUGE-2 (bigrams), and ROUGE-L (longest-common substring).
+98	17	Table 1 displays the ROUGE-F1 scores of our models on the test set, together with baseline models, including the attention-based model.
+103	13	We can see that the vanilla encoder-decoder tends to get better results by adding more hidden units and stacking more layers.
+108	14	Morphological inflection generation is the task of predicting the inflected form of a given lexical item based on a morphological attribute.
+109	14	The transformation from a base form to an inflected form usually includes concatenating it with a prefix or a suffix and substituting some characters.
+133	21	Our model achieves comparable results to these models on all the datasets.
+167	27	We have proposed a novel segment to segment neural transduction model that tackles the limitations of vanilla encoder-decoders that have to read and memorize an entire input sequence in a fixed-length context vector before producing any output.
+169	76	During training, the hidden alignment is marginalized out using dynamic programming, and during decoding the best alignment path is generated alongside the predicted output sequence.
+170	80	By employing a unidirectional LSTM as encoder, our model is capable of doing online generation.
+171	101	Experiments on two representative natural language processing tasks, abstractive sentence summarisation and morphological inflection generation, showed that our model significantly outperforms encoderdecoder baselines while requiring much smaller hidden layers.
+172	127	For future work we would like to incorporate attention-based models to our framework to enable such models to process data online.

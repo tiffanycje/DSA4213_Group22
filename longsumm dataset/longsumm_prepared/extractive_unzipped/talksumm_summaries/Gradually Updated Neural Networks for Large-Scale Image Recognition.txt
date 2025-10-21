@@ -1,0 +1,30 @@
+22	1	Experimental results demonstrate that our proposed GUNNbased networks achieve the state-of-the-art performances compared with the previous cascading-based architectures.
+50	1	We consider the residual learning proposed by ResNet (He et al., 2016a) in our model.
+60	1	Overlap singularities are inherent in the loss landscapes of some network architectures which are caused by the nonidentifiability of subsets of the neurons.
+65	1	5) helps to reduce the overlap singularities in deep networks, which partly explains the exceptional performances of ResNet (He et al., 2016a) compared with plain networks.
+68	1	Finally, we compare GUNN with the previous state-of-the-art network architectures from the perspective of singularity elimination.
+95	1	The resulted models run at the speed between ResNeXt (Xie et al., 2017) and DenseNet (Huang et al., 2017b).
+115	1	To be consistent with the term update used in GUNN and SUNN, we refer to Fci as the update units for channels ci.
+120	1	The second convolutional layer is of kernel size 3× 3, stride 1, and padding 1, outputting the features of size K × nout.
+142	1	We have implemented two neural networks based on GUNN to compete with the previous state-of-the-art methods on CIFAR datasets, i.e., GUNN-15 and GUNN-24.
+150	1	The number of parameters of GUNN-24 is 29534106 for CIFAR-10 and 29631396 for CIFAR-100.
+154	1	Here, we present the detailed hyperparameters for the GUNN layers in GUNN-18.
+155	1	The GUNN layers include Conv2, Conv3, Conv4 and Conv5.
+160	1	The hyperparameters are {N = 1200, P = 30,K = 2,M = 1} for Conv2, {N = 1600, P = 40,K = 2,M = 1} for Conv3, {N = 2000, P = 50,K = 2,M = 1} for Conv4 and {N = 2000, P = 50,K = 2,M = 1} for Conv5.
+162	1	The Wide-GUNN-18 is targeted at competing with ResNet-101, ResNext-101, DPN (Chen et al., 2017) and SENet (Hu et al., 2017).
+166	1	The CIFAR-10 dataset has 10 categories, while the CIFAR-100 dataset has 100 categories.
+168	1	To fairly compare our method with the state-of-the-arts (He et al., 2016a; Huang et al., 2017b; 2016; Larsson et al., 2016; Lee et al., 2014; Lin et al., 2013; Romero et al., 2014; Springenberg et al., 2014; Srivastava et al., 2015; Xie et al., 2017), we use the same training and testing strategies, as well as the data processing methods.
+169	1	Specifically, we adopt a commonly used data augmentation scheme, i.e., mirroring and shifting, for these two datasets.
+174	1	For testing, we use single-crop at the size of 224× 224.
+177	1	On CIFAR-10/100 (Krizhevsky & Hinton, 2009), the initial learning rate is set to 0.1, the weight decay is set to 1e−4, and the momentum is set to 0.9 without dampening.
+178	1	We train the models for 300 epochs.
+179	1	The learning rate is divided by 10 at 150th epoch and 225th epoch.
+184	1	We use 8 Tesla V100 GPUs with the data parallelism to get the reported results.
+186	1	We train two models GUNN-15 and GUNN-24 for the CIFAR-10/100 dataset.
+197	1	Ablation Study For ablation study, we compare GUNN with SUNN, i.e., the networks before the conversion.
+206	1	For GUNN-18, we also conduct an ablation experiment by comparing the corresponding SUNN with GUNN of the same configuration.
+213	1	Moreover, it eliminates the overlap singularities inherent in the traditional convolutional networks.
+214	3	We test GUNN on the task of image recognition.
+215	38	The evaluations are done in three highly competitive benchmarks, CIFAR10, CIFAR-100 and ImageNet.
+216	135	The experimental results demonstrate the effectiveness of the proposed GUNN on image recognition.
+217	133	In the future, since the proposed GUNN can be used to replace CNNs in other neural networks, we will study the applications of GUNN in other visual tasks, such as object detection and semantic segmentation.

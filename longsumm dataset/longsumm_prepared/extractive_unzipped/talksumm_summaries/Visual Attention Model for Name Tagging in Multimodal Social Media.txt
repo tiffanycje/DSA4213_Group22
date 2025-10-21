@@ -1,0 +1,30 @@
+0	15	Social platforms, like Snapchat, Twitter, Instagram and Pinterest, have become part of our lives and play an important role in making communication easier and accessible.
+1	16	Once textcentric, social media platforms are becoming increasingly multimodal, with users combining images, videos, audios, and texts for better expressiveness.
+4	45	In this context, here we study the task of Name Tagging for social media containing both image and textual contents.
+6	45	Despite its importance, most of the research in name tagging has focused on news articles and longer text documents, and not as much in multimodal social media data (Baldwin et al., 2015).
+9	31	Moreover, there linguistic variations, slangs, typos and colloquial language are extremely common, such as using ‘looooove’ for ‘love’, ‘LosAngeles’ for ‘Los Angeles’, and ‘#Chicago #Bull’ for ‘Chicago Bulls’.
+12	21	Although the usually short textual components of social media posts provide limited contextual information, the accompanying images often provide rich information that can be useful for name tagging.
+15	43	However using the associated images as reference, we can easily infer that Modern Baseball in the first sentence should be the name of a band because of the implicit features from the objects like instruments and stage, and the Modern Baseball in the second sentence refers to the sport of baseball because of the pitcher in the image.
+28	16	We describe three main components of our model in this section: BLSTM-CRF sequence labeling model (Section 2.1), Visual Attention Model (Section 2.3) and Modulation Gate (Section 2.4).
+29	94	Given a pair of sentence and image as input, the Visual Attention Model extracts regional visual features from the image and computes the weighted sum of the regional visual features as the visual context vector, based on their relatedness with the sentence.
+30	55	The BLSTM-CRF sequence labeling model predicts the label for each word in the sentence based on both the visual context vector and the textual information of the words.
+31	52	The modulation gate controls the combination of the visual context vector and the word representations for each word before the CRF layer.
+41	18	It receives character embeddings as input and generates representations combining implicit prefix, suffix and spelling information.
+49	33	Given an input pair (S, I), where S represents the word sequence and I represents the image rescaled to 224x224 pixels, we use ResNet to extract visual features for regional areas as well as for the whole image (Fig 3): Vg = ResNetg(I) Vr = ResNetr(I) where the global visual vector Vg, which represents the whole image, is the output before the last fully connected layer3.
+50	14	Vr are the visual representations for regional areas and they are extracted from the last convolutional layer of ResNet, and the dimension is 1,024x7x7 as shown in Figure 3.
+60	16	We encode the sentence into a query vector using an LSTM, and use regional visual representations Vr as both keys and values.
+66	21	For implementation, we first project the text query vector Q and regional visual features Vr into the same dimensions: Pt = tanh(WtQ) Pv = tanh(WvVr) then we sum up the projected query vector with each projected regional visual vector respectively: A = Pt ⊕ Pv the weights of the regional visual vectors: E = softmax(WaA+ ba) whereWa is weights matrix.
+73	14	Words/Phrases such as names of basketball players, artists, and buildings are often well-aligned with objects in images.
+95	16	On our experiment section we will show that our proposed model outperforms baseline on both datasets.
+111	35	BLSTM-CRF + Visual attention: use attention based visual context vector to initialize the BLSTM-CRF.
+120	14	Figure 5 shows some good examples of the attention visualization and their corresponding name tagging results.
+121	23	The model can successfully focus on appropriate regions when the images are well aligned with the associated sentences.
+126	21	In example (d), the model pays attention to the big Apple logo, thus tags the ‘Apple’ in the sentence as an Organization name.
+129	17	A jersey shirt on the table indicates a sports team.
+137	24	The image in example (b) is blur, so the extracted visual information extracted actually introduces noise instead of additional information.
+138	35	The image in example (c) is about a baseball pitcher, but our model pays attention to the top right corner of the image.
+139	41	The visual context feature computed by our model is not related to the sentence, and results in missed tagging of ‘SBU’, which is an organization name.
+160	18	We hope this work will encourage more research on multimodal social media in the future and we plan on making our benchmark available upon request.
+161	19	Name Tagging for more fine-grained types (e.g. soccer team, basketball team, politician, artist) can benefit more from visual features.
+162	108	For example, an image including a pitcher indicates that the ‘Giants’ in context should refer to the baseball team ‘San Francisco Giants’.
+163	36	We plan to expand our model to tasks such as fine-grained Name Tagging or Entity Liking in the future.

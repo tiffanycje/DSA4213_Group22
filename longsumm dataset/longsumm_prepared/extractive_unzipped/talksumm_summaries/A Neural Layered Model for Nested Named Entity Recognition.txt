@@ -1,0 +1,30 @@
+0	26	The task of named entity recognition (NER) involves the extraction from text of names of entities pertaining to semantic types such as person (PER), location (LOC) and geo-political entity (GPE).
+1	87	NER has drawn the attention of many researchers as the first step towards NLP applications such as entity linking (Gupta et al., 2017), relation extraction (Miwa and Bansal, 2016), event extraction (Feng et al., 2016) and co-reference resolution (Fragkou, 2017; Stone and Arora, 2017).
+6	23	Traditional approaches to NER mainly involve two types of approaches: supervised learning (Ling and Weld, 2012; Marcińczuk, 2015; Leaman and Lu, 2016) and hybrid approaches (Bhasuran et al., 2016; Rocktäschel et al., 2012; Leaman et al., 2015) that combine supervised learning with rules.
+7	26	Such approaches require either domain knowledge or heavy featureengineering.
+8	52	Recent advances in neural networks enable NER without depending on external knowledge resources through automated learning highlevel and abstract features from text (Lample et al., 2016; Ma and Hovy, 2016; Pahuja et al., 2017; Strubell et al., 2017).
+10	10	Our model enables sequentially 1446 O B-DNA I-DNA I-DNA I-DNA O Gold labels Outer stacking flat NER layers from bottom to up and identifying entities in an end-to-end manner.
+15	5	Subsequently, the context representation from the LSTM layer is merged to build representation for each detected entity, which is used as the input for the next flat NER layer.
+22	7	Our nested NER model is designed based on a sequential stack of flat NER layers that detects nested entities in an end-to-end manner.
+24	9	Our flat NER layers are inspired by the state-of-theart model proposed in Lample et al. (2016).
+31	21	The LSTM layer captures the bidi- rectional context representation of sequences and subsequently feeds it to the CRF layer to globally decode label sequences.
+32	38	LSTM is a variant of recurrent neural networks (RNNs) (Goller and Kuchler, 1996) that incorporates a memory cell to remember the past information for a long period of time.
+42	62	We stack a flat NER layer on the top of the current flat NER layer, aiming to extract outer entities.
+43	9	Concretely, we merge and average current context representation of the regions composed in the detected entities, as described in the following equation: mi = 1 end− start+ 1 end∑ i=start zi, (1) where zi denotes the representation of the i-th word from the flat NER layer, and mi is the merged representation for an entity.
+47	7	The processed context representation of the flat NER layer is used as the input for the next flat NER layer.
+65	8	We employ mini-batch training and update the model parameters using back-propagation through time (BPTT) (Werbos, 1990) with Adam (Kingma and Ba, 2014).
+72	5	We performed nested entity extraction experiments on GENIA and ACE2005 while we conducted flat entity extraction on the JNLPBA dataset.
+81	13	These two datasets are composed of 2,000 and 404 MEDLINE abstracts, respectively.
+89	4	We initialized word embeddings in GENIA and JNLPBA with the pretrained embeddings trained on MEDLINE abstracts (Chiu et al., 2016).
+93	22	For other hyper-parameters, we chose the best hyper-parameters via Bayesian optimization.
+95	14	For ablation tests, we compared with our layered-BiLSTM-CRF model with two models that produce the input for next flat NER layer in different ways.
+97	47	We name the second model as layered-BiLSTM-CRF w/o layered LSTM as it skips all intermediate LSTM layers and only uses output of embedding layer to build the input for the next flat NER layer.
+98	140	Please refer to supplemental material for the introduced two models.7 To investigate the effectiveness of our model on different nested levels of entities, we evaluated the model performance on each flat NER layer on GENIA and ACE2005 test datasets.8 When calculating precision and recall measurements, we collected the predictions and gold entities from the corresponding flat NER layer.
+99	142	Since predicted entities on a specific flat NER layer might be from other flat NER layers, we defined extended precision (EP), extended recall (ER) and extended Fscore (EF) to measure the performance.
+100	20	We calculated EP by comparing the predicted entities in a specific flat NER layer with all the gold entities, and ER by comparing the gold entities in a specific flat NER layer with all the predicted entities.
+101	36	EF was calculated in the same way with F. In addition to experiments on nested GENIA and ACE2005 datasets, flat entity recognition was conducted on the JNLPBA dataset.
+105	4	Our model outperforms the state-of-the-art models with 74.7% and 72.2% in terms of F-score, achieving the new state-of-the-art in the nested NER tasks.
+107	5	On ACE2005, we improved recall with 12.2 percentage points and obtained 5.1% relative error reductions.
+108	4	Compared with GENIA, our model gained more improvements in ACE2005 in terms of F-score.
+109	11	Two possible reasons account for it.
+110	115	One reason is that ACE2005 contains more deeper nested entities (maximum nested level is 5) than GENIA (maximum nested level is 3) on the test dataset.

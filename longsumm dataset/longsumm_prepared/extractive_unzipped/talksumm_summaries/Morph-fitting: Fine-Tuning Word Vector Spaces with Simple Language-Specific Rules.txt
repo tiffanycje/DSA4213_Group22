@@ -1,0 +1,30 @@
+7	17	Naively treating each realisation as a separate word leads to sparsity problems and a failure to exploit their shared semantics.
+8	70	On the other hand, lemmatising the entire corpus can obfuscate the differences that exist between different word forms even though they share some aspects of meaning.
+15	35	The key idea of the fine-tuning process is to pull synonymous examples described by the constraints closer together in the transformed vector space, while at the same time pushing antonymous examples away from each other.
+16	24	The explicit post-hoc injection of morphological constraints enables: a) the estimation of more accurate vectors for lowfrequency words which are linked to their highfrequency forms by the constructed constraints;1 this tackles the data sparsity problem; and b) specialising the distributional space to distinguish between similarity and relatedness (Kiela et al., 2015), thus supporting language understanding applications such as dialogue state tracking (DST).2 As a post-processor, morph-fitting allows the integration of morphological rules with any distributional vector space in any language: it treats an input distributional word vector space as a black box and fine-tunes it so that the transformed space reflects the knowledge coded in the input morphological constraints (e.g., Italian words rispettoso and irrispetosa should be far apart in the transformed vector space, see Fig.
+22	44	Preliminaries In this work, we focus on four languages with varying levels of morphological complexity: English (EN), German (DE), Italian (IT), and Russian (RU).
+23	27	These correspond to languages in the Multilingual SimLex-999 dataset.
+24	36	Vocabularies Wen, Wde, Wit, Wru are compiled by retaining all word forms from the four Wikipedias with word frequency over 10, see Tab.
+25	50	We then extract sets of linguistic constraints from these (large) vocabularies using a set of simple language-specific if-then-else rules, see Tab.
+28	17	It provides a generic framework for incorporating similarity (e.g. successful and accomplished) and antonymy constraints (e.g. nimble and clumsy) into pre-trained word vectors.
+31	20	The first term pulls the ATTRACT examples (xl, xr) ∈ A closer together.
+35	25	This means that this term forces synonymous words from the in-batch ATTRACT constraints to be closer to one another than to any other word in the current mini-batch.
+52	17	This rule yields pairs such as (look, looks), (look, looking), (look, looked).
+59	21	Extracting REPEL Pairs As another source of implicit semantic signals, W also contains words which represent derivational antonyms: e.g., two words that denote concepts with opposite meanings, generated through a derivational process.
+60	16	We use a standard set of EN “antonymy” prefixes: APen = {dis, il, un, in, im, ir, mis, non, anti} (Fromkin et al., 2013).
+70	46	Training Data and Setup For each of the four languages we train the skip-gram with negative sampling (SGNS) model (Mikolov et al., 2013) on the latest Wikipedia dump of each language.
+72	21	The vocabulary sizes |W | for each language are provided in Tab.
+87	17	We use this dataset for our multilingual evaluation.8 Morph-fitting EN Word Vectors As the first experiment, we morph-fit a wide spectrum of EN distributional vectors induced by various architectures (see Sect.
+98	19	The comparison between MFIT-A and MFITAR indicates that both sets of constraints are important for the fine-tuning process.
+99	28	MFIT-A yields consistent gains over the initial spaces, and (consistent) further improvements are achieved by also incorporating the antonymous REPEL constraints.
+118	25	In a restaurant search domain, sets of slot-values could include PRICE = [cheap, expensive] or FOOD = [Thai, Indian, ...].
+145	22	However, large gains on SimLex-999 do not always induce correspondingly large gains in downstream performance.
+147	26	Results and Discussion The dark bars (against the right axes) in Fig.
+150	39	The morph-fixed vectors do not enhance DST performance, probably because fixing word vectors to their highest frequency inflectional form eliminates useful semantic content encoded in the original vectors.
+154	50	This corroborates our intuition that, as a morphologically simpler language, English stands to gain less from fine-tuning the morphological variation for downstream applications.
+155	37	This result again points at the discrepancy between intrinsic and extrinsic evaluation: the considerable gains in SimLex performance do not necessarily induce similar gains in downstream performance.
+156	39	Additional discrepancies between SimLex and downstream DST performance are detected for German and Italian.
+158	111	On the other hand, we see the opposite trend in Italian, where the MFITA vectors score lower than the MFIT-AR vectors on SimLex, but higher on the DST task.
+159	215	In summary, we believe these results show that SimLex is not a perfect proxy for downstream performance in language understanding tasks.
+177	25	We have presented a novel morph-fitting method which injects morphological knowledge in the form of linguistic constraints into word vector spaces.
+178	27	The method makes use of implicit semantic signals encoded in inflectional and derivational rules which describe the morphological processes in a language.

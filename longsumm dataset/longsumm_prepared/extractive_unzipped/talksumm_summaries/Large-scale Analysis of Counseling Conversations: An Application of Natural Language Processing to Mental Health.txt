@@ -1,0 +1,30 @@
+1	35	In the U.S. alone, 43.6 million adults (18.1%) experience mental illness in a given year (National Institute of Mental Health, 2015).
+9	13	We use data from an SMS texting-based counseling service where people in crisis (depression, self-harm, suicidal thoughts, anxiety, etc.
+12	34	We develop a set of computational methods suited for large-scale discourse analysis to study how various linguistic aspects of conversations are correlated with conversation outcomes (collected via a follow-up survey).
+48	16	In this work, we study anonymized counseling conversations from a not-for-profit organization providing free crisis intervention via SMS messages.
+54	24	After the conversation ends, the texter receives a follow-up question (“How are you feeling now?
+55	25	Better, same, or worse?”) which we use as our conversation quality ground-truth (we use binary labels: good versus same/worse, since we care about improving the situation).
+56	12	In contrast to previous work that has used human judges to rate a caller’s crisis state (Kalafat et al., 2007), we directly obtain this feedback from the texter.
+66	26	In principle, we could study individ- ual conversations and aim to understand what factors make the conversation partner (texter) feel better.
+82	12	For example, Figure 1 illustrates why differentiating between counselors and as well as conversations is necessary: differences in counselor message length over the course of the conversation are bigger between more and less successful counselors than between positive and negative conversations.
+90	14	In particular, we find that both counselor groups are very similar in how they select conversations from the queue (picking the top-most in 60.1% vs. 60.3%, respectively), work similar shifts, and handle a similar number of conversations simultaneously (1.98 vs. 1.83).
+94	73	First, we examine whether successful counselors are more aware that their current conversation is going well or badly and study how the counselor adapts to the situation.
+96	29	In particular, we compute a distance measure between the language counselors use in positive conversations and the language counselors use in negative conversations and observe how this distance changes over time.
+106	21	Observing that successful counselors are better at adapting to the conversation, we next examine how counselors differ and what factors determine the differences.
+125	41	them while avoiding the introduction of any opinion or advice (Labov and Fanshel, 1977); e.g.“that sounds like...”), • check for suicidal thoughts early (e.g., “want to die”), • thank the texter for showing the courage to talk to them (e.g., “appreciate”), • use more hedges (mitigating words used to lessen the impact of an utterance; e.g., “maybe”, “fairly”), • and that they are less likely to respond with surprise (e.g., “oh, this sounds really awful”).
+133	42	We define a measure of how “templated” the counselors responses are by counting the number of similar responses in TF-IDF space for the counselor reaction (c.f., Section 6.2; again using a manually defined and validated threshold on cosine distance).
+158	43	Do counselors differ in how much time they spend at each stage?
+159	18	In order to explore how counselors progress through the stages, we use the Viterbi algorithm to assign each conversation the most likely sequence of stages according to our conversation model.
+163	40	This suggests they are able to more quickly get to know the texter and then spend more time in the problem solving phase of the conversation, which could be one of the reasons they are more successful.
+182	14	Here, we propose a novel measure to quantify three orthogonal aspects of perspective change within a single conversation: time, self, and sentiment.
+193	36	The results in Figure 9C show that texters always start out more negative (value below 0.5), but that the sentiment becomes more positive over time for both positive and negative conversations.
+196	16	Again, we attribute this to conversation norms such as thanking the counselor for listening even when the texter does not actually feel better.
+199	62	We investigate this by exploring the hypothesis that the texter will tend to talk more about something (e.g., the future), if the counselor first talks about it.
+202	37	This link between perspective change and how the counselor conducts the conversation suggests that the counselor might be able to actively induce measurable perspective change in the texter.
+217	33	The model’s accuracy increases with x, and we show that the model is able to dis- tinguish positive and negative conversations after only seeing the first 20% of the conversation (see Figure 10).
+226	37	Knowledge about how to conduct a successful counseling conversation has been limited by the fact that studies have remained largely qualitative and smallscale.
+228	15	We developed a set of novel computational discourse analysis methods suited for largescale datasets and used them to discover actionable conversation strategies that are associated with better conversation outcomes.
+229	54	We hope that this work will inspire future generations of tools available to people in crisis as well as their counselors.
+230	69	For example, our insights could help improve counselor training and give rise to real-time counseling quality monitoring and answer suggestion support tools.
+231	92	We thank Bob Filbin for facilitating the research, Cristian Danescu-NiculescuMizil for many helpful discussions, and Dan Jurafsky, Chris Manning, Justin Cheng, Peter Clark, David Hallac, Caroline Suen, Yilun Wang and the anonymous reviewers for their valuable feedback on the manuscript.
+232	88	This research has been supported in part by NSF CNS-1010921, IIS-1149837, NIH BD2K, ARO MURI, DARPA XDATA, DARPA SIMPLEX, Stanford Data Science Initiative, Boeing, Lightspeed, SAP, and Volkswagen.

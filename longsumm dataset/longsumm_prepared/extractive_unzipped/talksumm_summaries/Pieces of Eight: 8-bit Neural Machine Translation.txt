@@ -1,0 +1,30 @@
+14	30	Devlin (2017) explored 16-bit quantization for machine translation.
+17	10	In addition, implementation is straightforward and we can use the models as is without altering training.
+18	12	The paper is organized as follows: Section 2 reviews the attentional model of translation to be sped up, Section 3 presents our 8-bit quantization in our implementation, Section 4 presents automatic measurements of speed and translation quality plus human evaluations, Section 5 discusses the results and some illustrative examples, Section 6 describes prior work, and Section 7 concludes the paper.
+32	24	We select model parameters according to the best BLEU score on a held-out development set over 10 epochs.
+33	24	Our translation engine is a C++ implementation.
+34	16	The engine is implemented using the Eigen matrix library, which provides efficient matrix operations.
+35	21	Each CPU core translates a single sentence at a time.
+36	18	The same engine supports both batch and interactive applications, the latter making single-sentence translation latency important.
+37	20	We report speed numbers as both words per second (WPS) and words per core second (WPCS), which is WPS divided by the number of cores running.
+38	16	This gives us a measure of overall scaling across many cores and memory buses as well as the single-sentence speed.
+40	31	Similarly, syntax-based SMT systems, such as (Zhao and Al-onaizan, 2008), for the same language pair run at 21.5 words per core second (430 words per second).
+42	89	Our goal is to increase decoding speed for the NMT system to what can be achieved with phrase-based systems while maintaining the levels of fluency and adequacy that NMT offers.
+43	38	Benchmarks of our NMT decoder unsurprisingly show matrix multiplication as the number one source of compute cycles.
+44	142	In Table 1 we see that more than 85% of computation is spent in Eigen’s matrix and vector multiply routines (Eigen matrix vector product and Eigen matrix multiply).
+47	47	One approach to increasing speed is to quantize matrix operations.
+48	32	Replacing 32-bit floating point math operations with 8-bit integer approximations in neural nets has been shown to give speedups and similar ac- curacy (Vanhoucke et al., 2011).
+49	48	We chose to apply similar optimization to our translation system, both to reduce memory traffic as well as increase parallelism in the CPU.
+50	69	Our 8-bit matrix multiply routine uses a naive implementation with no blocking or copy.
+52	18	Simplicity led to implementing 8-bit matrix multiplication with the results being placed into a 32-bit floating point result.
+53	125	This has the advantage of not needing to know the scale of the result.
+54	72	In addition, the output is a vector or narrow matrix, so little extra memory bandwidth is consumed.
+57	10	However, when multiplying an NxN matrix by an NxP matrix where P is very small (<10), memory operations dominate and performance does not benefit from the complex algorithm.
+58	4	When decoding single sentences, we typically set our beam size to a value less than 8 following standard practice in this kind of systems (Koehn and Knowles, 2017).
+60	38	Table 2 shows the profile after converting the matrix routines to 8-bit integer computation.
+61	7	There is only one entry for matrix-matrix and matrix-vector multiplies since they are handled by the same routine.
+64	6	It is possible to replace all the operations with 8-bit approximations (Wu et al., 2016), but this makes implementation more complex, as the scale of the result of a matrix multiplication must be known to correctly output 8-bit numbers without dangerous loss of precision.
+65	25	Assuming we have 2 matrices of size 1000x1000 with a range of values [−10, 10], the individual dot products in the result could be as large as 108.
+67	10	So if we scale the result to [−127, 127] assuming the worst case, the loss of precision will give us a matrix full of zeros.
+68	24	The choices are to either scale the result of the matrix multiplication with a reasonable value, or to store the result as floating point.
+69	10	8-bit computation achieves 32.3 words per core second (646 words per second), compared to the 6.5 words per core second (131 words per second) of the 32-bit system (both systems load parameters from the same model).

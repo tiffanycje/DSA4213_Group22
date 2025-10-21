@@ -1,0 +1,30 @@
+8	38	In this setup, training examples correspond to utterance-denotation pairs, where a denotation is the result of executing a program against the environment (see Fig.
+10	46	Training semantic parsers from denotations rather than programs complicates training in two ways: (a) Search: The algorithm must learn to search through the huge space of programs at training time, in order to find the correct program.
+11	25	This is a difficult search problem due to the combinatorial nature of the search space.
+12	60	(b) Spurious- ness: Incorrect programs can lead to correct denotations, and thus the learner can go astray based on these programs.
+14	20	Recently, the Cornell Natural Language for Visual Reasoning corpus (CNLVR) was released (Suhr et al., 2017), and has presented an opportunity to better investigate the problem of spuriousness.
+17	27	The task comes in two flavors, where in one the input is the image (pixels), and in the other it is the knowledge-base (KB) from which the image was synthesized.
+19	20	Because there are only two return values, it is easy to generate programs that execute to the right denotation, and thus spuriousness is a major problem compared to previous datasets.
+21	30	Semantic parsing can be coarsely divided into a lexical task (i.e., mapping words and phrases to program constants), and a structural task (i.e., mapping language composition to program composition operators).
+25	28	By pulling together different examples that share the same abstract representation, we can identify programs that obtain high reward across multiple examples, thus reducing the problem of spuriousness.
+31	42	Problem Statement Given a training set of N examples {(xi, ki, yi)}Ni=1, where xi is an utterance, ki is a KB describing objects in an image and yi ∈ {TRUE, FALSE} denotes whether the utterance is true or false in the KB, our goal is to learn a semantic parser that maps a new utterance x to a program z such that when z is executed against the corresponding KB k, it yields the correct denotation y (see Fig.
+40	33	Unlike CLEVR, CNLVR requires substantial set-theoretic reasoning (utterances refer to various aspects of sets of items in one of the three boxes in the image), which required extending the language described by Johnson et al. (2017b) to include set operators and lambda abstraction.
+79	25	We train the discriminative ranker analogously by maximizing the probability of programs with correct denotation ∑ z∈B p g ψ(z | x)R(z, k, y).
+100	91	Namely, that many ques- tions in the data correspond to a small set of abstract examples.
+105	33	We manually annotated 106 abstract utterances with their corresponding abstract program (including alignment between abstract tokens in the utterance and program).
+115	20	While the rule-based semantic parser has high precision and gauges the amount of structural variance in the data, it cannot generalize beyond observed examples.
+125	54	We generated 6,158 (x, z) examples using this method and trained a standard sequence to sequence parser by maximizing log p′θ(z|x) in the model above.
+126	30	Although these are generated from a small set of 106 abstract utterances, they can be used to learn a model with higher coverage and accuracy compared to the rule-based parser, as our evaluation demonstrates.3 The resulting parser can be used as a standalone semantic parser.
+128	83	6, this results in further improvement in accuracy.
+129	80	We now describe a caching mechanism that uses abstract examples to combat search and spuriousness when training from weak supervision.
+130	55	5.1, many utterances are identical at the abstract level.
+132	27	Concretely, we construct a cache C that maps abstract utterances to all abstract programs that were decoded by the model, and tracks the average reward obtained for those programs.
+133	44	For every utterance x, after obtaining the final beam of programs, we add to the cache all abstract utteranceprogram pairs (x̄, z̄), and update their average reward (Alg.
+134	39	To construct an abstract example (x̄, z̄) from an utterance-program pair (x, z) in the beam, we perform the following procedure.
+135	26	First, we create x̄ by replacing utterance tokens with their cluster label, as in the rule-based semantic parser.
+136	39	Then, we go over every program token in z, and replace it with an abstract cluster if the utterance contains a token that is mapped to this program token according to the mappings from Table 3.
+164	24	For our models, we evaluate the following variants of our approach: • RULE: The rule-based parser from Sec.
+168	20	Main results Table 4 describes our main results.
+173	200	Consistency results show an even crisper trend of improvement across the models.
+178	23	This results in performance that is similar to the MAJORITY baseline.
+182	30	This already results in good performance, substantially higher than SUP.

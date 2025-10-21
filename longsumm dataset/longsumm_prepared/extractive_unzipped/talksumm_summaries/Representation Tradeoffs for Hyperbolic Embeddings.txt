@@ -1,0 +1,30 @@
+0	147	Recently, hyperbolic embeddings have been proposed as a way to capture hierarchy information for network and natural language processing tasks (Nickel & Kiela, 2017; Chamberlain et al., 2017).
+2	77	To understand the intuition behind hyperbolic embeddings’ superior capacity, note that trees can be embedded with arbitrarily low distortion into the Poincaré disk, a twodimensional model of hyperbolic space (Sarkar, 2011).
+14	23	The best published numbers for WordNet in Nickel & Kiela (2017) range between 0.823 and 0.87 for 5 to 200 dimensions.
+16	65	One tradeoff involves the embedding dimension, the properties of the graph, and the number of bits of precision used to represent components of embedded points—an important hidden cost.
+19	37	This suggests that hyperbolic embeddings should have high quality on hierarchies like WordNet but require large dimensions or high precision on graphs with long chains.
+20	35	To understand how hyperbolic embeddings perform for met- rics that are far from tree-like, we consider a more general problem: given a matrix of distances that arise from points that are embeddable in hyperbolic space of dimension d (not necessarily from a graph), find a set of points that produces these distances.
+21	50	In Euclidean space, the problem is known as multidimensional scaling (MDS) and is solvable using PCA.
+37	22	Hyperbolic spaces The Poincaré disk H2 is a twodimensional model of hyperbolic geometry with points located in the interior of the unit disk, as shown in Figure 1.
+42	21	There are some potentially unexpected consequences of this formula, and a simple example gives intuition about a key technical property that allows hyperbolic space to embed trees.
+44	94	As shown on the right of Figure 1, as t → 1 (i.e., the points move towards the outside of the disk), in flat Euclidean space, the ratio dE(x,y)dE(x,0)+dE(0,y) is constant with respect to t (blue curve).
+45	29	In contrast, the ratio dH(x,y) dH(x,0)+dH(0,y) approaches 1, or, equivalently, the distance dH(x, y) approaches dH(x, 0) + dH(0, y) (red and pink curves).
+47	46	This is analogous to the property of trees in which the shortest path between two sibling nodes is the path through their parent.
+48	32	This tree-like nature of hyperbolic space is the key property exploited by embeddings.
+49	34	Moreover, this property holds for arbitrarily small angles between x and y.
+61	44	The standard metric for graph embeddings is distortion D. For an n point embedding, D(f) = 1( n 2 )  ∑ u,v∈U :u6=v |dV (f(u), f(v))− dU (u, v)| dU (u, v)  .
+67	25	The best worst-case distortion is Dwc(f) = 1.
+75	93	We extend the construction to r dimensions, and propose to use Steiner nodes to better embed general graphs as trees, building on Abraham et al. (2007).
+77	22	In fact, it is possible to embed trees into the Poincaré disk H2 with arbitrarily low distortion (Sarkar, 2011).
+84	21	The inputs are a scaling factor τ and a node a (of degree deg(a)) from the tree with parent node b.
+106	24	How many bits of precision do we need to represent points in H2?
+112	27	That is, in hyperbolic space, we need about d bits to express distances of d (rather than log d in Euclidean space).1 This result will be of use below.
+114	35	If the longest path length in the tree is `, and each edge has length τ = 1ε ( 2 log degmax π/2 ) , the largest distance is O( `ε log degmax), and we require this number of bits for the representation.
+115	26	Let us interpret this expression.
+118	41	Moreover, by selecting an explicit graph, we derive a matching lower bound, concluding that to achieve a distortion ε, any construction requires Ω ( ` ε log(degmax) ) bits.
+133	48	We revisit the first step of the construction: embedding graphs into trees.
+146	28	In this section, we explore a fundamental and more general question than we did in the previous section: if we are given the pairwise distances arising from a set of points in hyperbolic space, can we recover the points?
+189	25	A word on centering The MDS algorithm in Euclidean geometry returns points centered at their Karcher mean z, which is a point minimizing ∑ d2(z, xi) (where d is the distance metric).
+193	23	If a set of points lie in a dimension-k geodesic submanifold, then both their Karcher mean and their pseudo-Euclidean mean lie in the same submanifold.
+258	23	In Figure 4, we recover a good solution for the phylogenetic tree with a small fraction of the entries; for example, we sampled approximately 4% of the graph for a MAP of 0.74 and distortion of 0.6.
+263	47	We hope the techniques here encourage more follow-on work on the exciting techniques of Nickel & Kiela (2017); Chamberlain et al. (2017).

@@ -1,0 +1,30 @@
+13	8	Under this assumption, all messages and intermediate factors also have the same representation.
+16	9	We provide analysis, giving conditions under which the method performs well.
+43	12	We focus only on discrete models.
+44	6	A Markov random field G is an undirected graph representing a probability distribution P (X1, .
+46	8	We call the factors φc clique potentials or potentials.
+47	8	TBP is based on the junction tree algorithm (see e.g. (Koller & Friedman, 2009)).
+49	7	Specifically, a junction tree is a cluster graph that is a tree and which also satisfies the running intersection property.
+50	32	The running intersection property states that if a variable is in two clusters, it must also be in every cluster on the path that connects the two clusters.
+51	39	The junction tree algorithm is essentially the well-known belief propagation algorithm applied to the junction tree after the cluster potentials have been initialized.
+52	10	At initialisation, each clique potential is first associated with a cluster.
+53	30	Each cluster potential Φt(Xt) is computed by multiplying all the clique potentials φc(Xc) associated with the cluster Xt.
+57	10	After all messages have been computed, the marginal distribution on a cluster of variables Xs is computed using Ps(Xs) ∝ Φs(Xs) ∏ t∈N(s) mt→s(Xs), (3) and univariate marginals can be computed by summation over cluster marginals.
+65	19	There are two challenges in applying the junction tree algorithm to high-treewidth graphical models: representing the intermediate potential functions, and computing them.
+69	7	TBP alleviates these difficulties by representing all potential functions as mixtures of rank-1 tensors.
+72	27	Furthermore, a d-dimensional tensor T ∈ RN1×···×Nd can be decomposed into a weighted sum of outer products of vectors as T = r∑ k=1 wk a 1 k ⊗ a2k ⊗ · · · ⊗ adk, (4) where wk ∈ R, aik ∈ RNi and ⊗ is the outer product, i.e.( a1k ⊗ a2k ⊗ · · · ⊗ adk ) i1,...,id = ( a1k ) i1 · · · · · ( adk ) id .
+73	46	We denote the vector of weights {wk} as w. The smallest r for which an exact r-term decomposition exists is called the rank of T and a decomposition (4) using this r is a tensor rank decomposition.
+74	22	This decomposition is known by several names including CANDECOMP/PARAFAC (CP) decomposition and Hitchcock decomposition (Kolda & Bader, 2009).
+75	18	In this paper, we assume without loss of generality that the weights are non-negative and sum to 1, giving a mixture of rank-1 tensors.
+78	47	For a (clique or cluster) potential function φs(Xs) over |Xs| = Ns variables, (4) is equivalent to decomposing φs into a sum of fully-factorised terms, i.e. φs(Xs) = r∑ k=1 wsk ψ s k(Xs) = r∑ k=1 wsk ψ s k,1(Xs1) · · ·ψsk,Ns(XsNs ).
+79	15	(5) This observation allows us to perform marginalisation and multiplication operations efficiently.
+83	9	The key observation for multiplication is that a mixture of rank-1 tensors can be treated as a probability distribution over the rank-1 tensors with expectation equal to the true function, by considering the weight of each rank-1 term wk as its probability.
+85	11	We draw a sample of K pairs of indices {(kr, lr)}Kr=1 independently from wi and wj respectively, and use the approximation φi(Xi) · φj(Xj) ≈ 1 K K∑ r=1 ψikr (Xi) · ψ j lr (Xj).
+86	25	(7) The approximation is also a mixture of rank-1 tensors, with the rank-1 tensors being the ψikr (Xi) · ψ j lr (Xj), and their weights being the frequencies of the sampled (kr, lr) pairs.
+87	17	This process is equivalent to drawing a sample of the same size from the distribution representing φi(Xi) ·φj(Xj) and hence provides an unbiased estimate of the product function.
+95	20	Let Di(Xi) = ∑ X\Xi D(X) be the unnormalised marginal for variableXi.
+96	15	Assume that the values of the rank-1 tensors in any mixture resulting from pairwise multiplication is upper bounded by M , and that the approximation target for any cell in any multiplication operation is lower bounded by B.
+97	34	Let D̃i(Xi) be the estimates produced by TBP using a junction tree with an induced width T .
+98	41	With probability at least 1 − δ, for all i and xi, (1− )Di(xi) ≤ D̃i(xi) ≤ (1 + )Di(xi) if the sample size used for all multiplication operations is at least Kmin( , δ) ∈ O ( C2 2 M B ( logC + T + log 2 δ )) .
+99	10	Furthermore, D̃i(Xi) remains a consistent estimator for Di(Xi) if B = 0.
+100	9	We give the proof for the case B 6= 0 here.

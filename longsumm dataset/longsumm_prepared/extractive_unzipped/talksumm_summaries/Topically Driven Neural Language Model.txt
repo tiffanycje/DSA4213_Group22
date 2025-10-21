@@ -1,0 +1,30 @@
+1	23	A myriad of variants of the classical LDA method (Blei et al., 2003) have been proposed, including recent work on neural topic models (Cao et al., 2015; Wan et al., 2012; Larochelle and Lauly, 2012; Hinton and Salakhutdinov, 2009).
+2	17	Separately, language models have long been a foundational component of any NLP task involving generation or textual normalisation of a noisy input (including speech, OCR and the processing of social media text).
+3	50	The primary purpose of a language model is to predict the probability of a span of text, traditionally at the sentence level, under the assumption that sentences are independent of one another, although recent work has started using broader local context such as the preceding sentences (Wang and Cho, 2016; Ji et al., 2016).
+4	32	In this paper, we combine the benefits of a topic model and language model in proposing a topically-driven language model, whereby we jointly learn topics and word sequence information.
+5	54	This allows us to both sensitise the predictions of the language model to the larger document narrative using topics, and to generate topics which are better sensitised to local context and are hence more coherent and interpretable.
+9	14	The architecture of the model provides an extra dimensionality of topic interpretability, in supporting the generation of sentences from a topic (or mix of topics).
+10	16	It is also highly flexible, in its ability to be supervised and incorporate side information, which we show to further improve language model performance.
+37	23	The topic vectors are stored in two lookup tables A ∈ Rk×a (input vector) and B ∈ Rk×b (output vector), where k is the number of topics, and a and b are the dimensions of the topic vectors.
+39	47	Intuitively, s is a weighted mean of topic vectors, with the weighting given by the attention p. This is inspired by the generative process of LDA, whereby documents are defined as having a multinomial distribution over topics.
+45	27	The language model of tdlm incorporates topical information by assimilating the document-topic representation (s) with the hidden output of the LSTM (ht) at each time step t. To prevent tdlm from memorising the next word via the topic model network, we exclude the current sentence from the document context.
+46	38	We use a gating unit similar to a GRU (Cho et al., 2014; Chung et al., 2014) to allow tdlm to learn the degree of influence of topical information on the language model: zt = σ(Wzs+Uzht + bz) rt = σ(Wrs+Urht + br) ĥt = tanh(Whs+Uh(rt ht) + bh) h′t = (1− zt) ht + zt ĥt (3) where zt and rt are the update and reset gate activations respectively at timestep t. The new hidden state h′t is connected to a dense layer with linear transformation and softmax output to predict the next word, and the model is optimised using standard categorical cross-entropy loss.
+67	15	Word embeddings are pre-trained 300-dimension word2vec Google News vectors.9 For comparison, we compare tdlm with:10 vanilla-lstm: A standard LSTM language model, using the same tdlm hyper-parameters where applicable.
+72	17	We first train an LDA model (Blei et al., 2003; Griffiths and Steyvers, 2004) to learn 50/100/150 topics for APNEWS, IMDB and BNC.11 For a document, the LSTM incorporates the LDA topic distribution (q) by concatenating it with the output hidden state (ht) to predict the next word (i.e. h′t = ht ⊕ q).
+74	20	We present language model perplexity performance in Table 3.
+77	51	lstm+lda performs relatively well over APNEWS and IMDB, but very poorly over BNC.
+78	49	The strong performance of tdlm over lclm suggests that compressing document context into topics benefits language modelling more than using extra context words directly.12 Overall, our results show that topical information can help language modelling and that joint inference of topic and language model produces the best results.
+79	173	We saw that tdlm performs well as a language model, but it is also a topic model, and like LDA it produces: (1) a probability distribution over topics for each document (Equation (1)); and (2) a probability distribution over word types for each topic.
+80	130	Recall that s is a weighted mean of topic vectors for a document (Equation (2)).
+81	31	Generating the vocabulary distribution for a particular topic is therefore trivial: we can do so by treating s as having maximum weight (1.0) for the topic of interest, and no weight (0.0) for all other topics.
+82	20	Let Bt denote the topic output vector for the t-th topic.
+85	18	There are various ways to estimate test perplexity (Wallach et al., 2009), but Chang et al. (2009) show that perplexity does not correlate with the coherence of the generated topics.
+99	14	There are two models of tdlm (tdlm-small and tdlm-large), which specify the size of its LSTM model (1 layer+600 hidden vs. 2 layers+900 hidden; see Section 4).
+102	23	Interestingly, coherence appears to increase as the topic number increases for lda, but the trend is less pronounced for tdlm.
+115	59	We start the document classification training after the topic and language models have completed training in each epoch.
+141	18	Topics generated by topic models are typically interpreted by way of their top-N highest probability words.
+142	33	In tdlm, we can additionally generate sentences related to the topic, providing another way to understand the topics.
+143	30	To do this, we can constrain the topic vector for the language model to be the topic output vector of a particular topic (Equation (3)).
+144	59	We present 4 topics from a APNEWS model (k = 100; LSTM size = “large”) and 3 randomly generated sentences conditioned on each topic in Table 8.18 The generated sentences highlight the content of the topics, providing another interpretable aspect for the topics.
+148	14	We demonstrate that tdlm outperforms a state-of-the-art language model that incorporates larger context, and that its topics are potentially more coherent than LDA topics.
+149	18	We additionally propose simple extensions of tdlm to incorporate information such as document labels and metadata, and achieved encouraging results.

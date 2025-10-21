@@ -1,0 +1,30 @@
+13	90	Recent work along these lines (Du et al., 2017; Zhou et al., 2017) (see Section 2) has proposed the use of attention-based recurrent neural models trained on the crowdsourced SQuAD dataset (Rajpurkar et al., 2016) for question generation.
+15	49	As described in Du et al. (2017), however, nearly 30% of the questions in the human-generated questions of SQuAD rely on information beyond a single sentence.
+16	93	For example, in Figure 1, the second and third questions require coreference information (i.e., recognizing that “His” in sentence 2 and “He” in sentence 3 both corefer with “Tesla” in sentence 1) to answer them.
+17	40	Thus, our research studies methods for incorporating coreference information into the training of a question generation system.
+18	27	In particular, we propose gated Coreference knowledge for Neural Question Generation (CorefNQG), a neural sequence model with a novel gating mechanism that leverages continuous representations of coreference clusters — the set of mentions used to refer to each entity — to better encode linguistic knowledge introduced by coreference, for paragraph-level question generation.
+19	41	In an evaluation using the SQuAD dataset, we find that CorefNQG enables better question generation.
+46	32	In our task formulation, this consists of two steps: candidate answer extraction and answer-specific question generation.
+52	25	During test/generation time, we (1) run the answer extraction module on the input text to obtain answers, and then (2) run the question generation module to obtain the corresponding questions.
+53	33	As shown in Figure 2, our generator prepares the feature-rich input embedding — a concatenation of (a) a refined coreference position feature embedding, (b) an answer feature embedding, and (c) a word embedding, each of which is described below.
+56	45	More specifically, given the input sentence S (containing an answer span) and the preceding context C, we first run a coreference resolution system to get the coref-clusters for S and C and use them to create a coreference transformed input sentence: for each pronoun, we append its most representative non-pronominal coreferent mention.
+57	31	Specifically, we apply the simple feedforward network based mention-ranking model of Clark and Manning (2016) to the concatenation of C and S to get the coref-clusters for all entities in C and S. The C&M model produces a score/representation s for each mention pair (m1,m2), s(m1,m2) = Wmhm(m1,m2) + bm (2) … Sentence encoder ... where Wm is a 1 × d weight matrix and b is the bias.
+58	22	hm(m1,m2) is representation of the last hidden layer of the three layer feedforward neural network.
+100	24	This training set contains all of the original training examples plus new examples for predicted answer spans (from the top-performing answer extraction model, bottom row of Table 3) that overlap with a gold answer span.
+110	56	Seq2seq + copyw/ answer is the attention-based sequence-to-sequence model augmented with a copy mechanism, with answer features concatenated with the word embeddings during encoding.
+111	28	Seq2seq + copyw/ full context + answer is the same model as the previous one, but we allow access to the full context (i.e., all the preceding sentences and the input sentence itself).
+116	33	For answer span extraction, we conduct experiments to compare the performance of an off-theshelf NER system and BiLSTM based systems.
+145	47	Next, we ask them to rate the degree to which the question “makes sense” given the input sentence (i.e., without considering the correctness of the answer span).
+148	30	We see that the original human questions are preferred over the two NQG systems’ outputs, which is understandable given the examples in Figure 3.
+152	57	In addition, we see that our method (CorefNQG) performs statistically significantly better across all metrics in comparison to the baseline model (ContextNQG), which has access to the entire preceding context in the passage.
+153	41	Our system generates in total 1,259,691 questionanswer pairs, nearly 126 questions per article.
+156	35	Our system generates more “What is”, “What was” and “What percentage” questions, while the proportions of “What did”, “Why” and “Which” questions in SQuAD are larger than ours.
+157	40	One possible reason is that the “Why”, “What did” questions are more complicated to ask (sometimes involving world knowledge) and the answer spans are longer phrases of various types that are harder to identify.
+158	47	“What is” and “What was” questions, on the other hand, are often safer for the neural networks systems to ask.
+160	104	The answer extractor identifies the answer span boundary well and all three questions correspond to their answers.
+162	34	For more examples, please refer to our supplementary materials.
+165	65	We use the SQuAD evaluation scripts, which calculate exact match (EM) and F-1 scores.2 Performance of the neural machine reading model is reasonable.
+167	41	DocReader trained on the original SQuAD training set achieves 69.5% EM, 78.8% F-1 indicating that our dataset is more difficult and/or less natural than the crowd-sourced QA pairs of SQuAD.
+168	100	We propose a new neural network model for better encoding coreference knowledge for paragraphlevel question generation.
+171	37	Finally, we apply our question generation framework to produce a corpus of 1.26 million questionanswer pairs, which we hope will benefit the QA research community.
+172	78	It would also be interesting to apply our approach to incorporating coreference knowledge to other text generation tasks.

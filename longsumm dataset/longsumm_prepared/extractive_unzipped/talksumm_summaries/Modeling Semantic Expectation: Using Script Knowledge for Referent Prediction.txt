@@ -1,0 +1,30 @@
+25	71	Then, the waiter brought the ... We ordered, and had to wait for 20 minutes.
+34	20	In Section 3, we present a large-scale experiment for empirically assessing human expectations on upcoming referents, which allows us to quantify at what points in a text humans have very clear anticipations vs. when they do not.
+46	18	• showing that script knowledge is a significant factor in human expectations.
+47	46	• testing the hypothesis of Tily and Piantadosi that the choice of the type of referring expression (pronoun or full NP) depends on the predictability of the referent.
+48	43	Scripts represent knowledge about typical event sequences (Schank and Abelson, 1977), for example the sequence of events happening when eating at a restaurant.
+49	63	Script knowledge thereby includes events like order, bring and eat as well as participants of those events, e.g., menu, waiter, food, guest.
+53	15	Ordinary texts, including narratives, encode script structure in a way that is too complex and too implicit at the same time to enable a systematic study of script-based expectation.
+55	20	We use the InScript corpus (Modi et al., 2016) to study the predictive effect of script knowledge.
+56	27	InScript is a crowdsourced corpus of simple narrative texts.
+57	32	Participants were asked to write about a specific activity (e.g., a restaurant visit, a bus ride, or a grocery shopping event) which they personally experienced, and they were instructed to tell the story as if explaining the activity to a child.
+75	22	To empirically assess human expectation, we created an additional database of crowdsourced human predictions of discourse referents in context using Amazon Mechanical Turk.
+78	26	In case they decided in favour of a discourse referent already mentioned, they had to choose among the available discourse referents by clicking an NP in the preceding text, i.e., some noun with a specific, coreference-indicating color; see Figure 2.
+88	31	The guessing experiment provides a basis to estimate human expectation of already mentioned DRs (the number of clicks on the respective NPs in text).
+99	40	In this section, we describe the model we use to predict upcoming discourse referents (DRs).
+133	20	The selectional preference feature captures how well the candidate DR d fits a given syntactic position r of a given verbal predicate v. It is computed as the cosine similarity simcos(xTd ,xv,r) of a vector-space representation of the DR xd and a structured vector-space representation of the pred- icate xv,r.
+145	32	Participant type fit This feature characterizes how well the participant type (PT) of the candidate DR d fits a specific syntactic role r of the governing predicate v; it can be regarded as a generalization of the selectional preference feature to participant types and also its specialisation to the considered scenario.
+147	17	The feature is computed as the dot product of xp,r and the word embedding of the predicate v. Predicate schemas The following feature captures a specific aspect of knowledge about prototypical sequences of events.
+150	16	For example, in the restaurant scenario, if one observes a phrase John ordered, one is likely to see John waited somewhere later in the document.
+165	24	Encoding the succession relation as translation in the embedding space has one desirable property: the scoring function will be largely agnostic to the morphological form of the predicates.
+184	36	In order to be able to evaluate the effect of script knowledge on referent predictability, we compare three models: our full Script model uses all of the features introduced in section 4.2; the Linguistic model relies only on the ‘linguistic features’ but not the script-specific ones; and the Base model includes all the shallow linguistic features.
+192	15	We can see that the task appears hard for humans: their average performance reaches only 73% accuracy.
+193	14	As expected, the Base model is the weakest system (the accuracy of 31%).
+218	34	In these experiments, we have shown that script knowledge improves predictions of upcoming referents and that the script model is the best among our models in approximating human referent predictions.
+219	29	Using the referent prediction models, we next attempt to replicate Tily and Piantadosi’s findings that the choice of the type of referring expression (pronoun or full NP) depends in part on the predictability of the referent.
+220	35	The uniform information density (UID) hypothesis suggests that speakers tend to convey information at a uniform rate (Jaeger, 2010).
+222	66	Information density is measured using the information-theoretic measure of the surprisal S of a message mi: S(mi) = − logP (mi | context) UID has been very successful in explaining a variety of linguistic phenomena; see Jaeger et al. (2016).
+227	57	Our goal is to determine whether referent predictability (quantified in terms of surprisal) is correlated with the type of referring expression used in the text.
+229	63	Our data also contains a small percentage (ca.
+230	28	1%) of proper names (like “John”).
+231	79	Due to this small class size and earlier findings that proper nouns behave much like pronouns (Tily and Piantadosi, 2009), we combined pronouns and proper names into a single class of short encodings.

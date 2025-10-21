@@ -1,0 +1,30 @@
+10	22	One hypothesis is that character n-grams carry a little bit of everything: lexical content, syntactic content, and even style by means of punctuation and white spaces (Koppel et al., 2011).
+14	31	The research questions we aim to answer are: • Are all character n-grams equally important?
+19	30	• Do different classifiers agree on the importance of the different types of character n-grams?
+28	38	To answer our research questions and explore the value of character n-grams in authorship attribution, we propose to separate character n-grams into ten distinct categories.
+31	20	We refer to these three aspects as super categories (SC).
+37	29	suffix A character n-gram that covers the last n characters of a word that is at least n + 1 characters long.
+39	25	space-suffix A character n-gram that ends with a space.
+42	65	mid-word A character n-gram that covers n characters of a word that is at least n + 2 characters long, and that covers neither the first nor the last character of the word.
+69	22	Following prior work, to make the collection balanced across authors, we choose at most ten documents per author for each of the four topics.
+80	30	In the cross-domain Guardian experiments, accuracy was measured by considering all 12 possible pairings of the 4 topics, treating one topic as training data and the other as testing data, and averaging accuracy over these 12 scenarios.
+82	28	We trained support vector machine (SVM) classifiers using the Weka implementation (Witten and Frank, 2005) with default parameters.
+84	32	In the results below, when performance of a single classifier is presented, it is the result of Weka’s SVM, which generally gave the best performance.
+89	34	After breaking character n-grams into ten disjoint categories, we empirically illustrate what categories are Single Domain (CCAT) most discriminative.
+91	24	Table 5(a) shows that the top four categories for single-domain AA are: prefix, suffix, space-prefix, and mid-word.
+100	43	In both of the single-domain CCAT corpora, the classifier based on prefix n-grams had the top accuracy (rank 1), and the classifier based on mid-punct had the worst accuracy (rank 10).
+111	57	To see whether certain types of n-grams are fundamentally good or bad, regardless of the classifier, we compare performance of the different n-gram types for three classifiers: Weka SVM classifiers (as used in our other experiments), LibSVM classifiers and Weka’s naive Bayes classifiers1.
+113	49	Across the different classifiers, the pattern of feature rankings are similar.
+119	20	In the previous sections, we have seen that some types of character n-grams are more predictive than others - affix n-grams performed well in both single domain and cross-domain settings and punctuation n-grams performed well in cross-domain settings.
+121	22	Given this poor performance of word n-grams, a natural question is: could we exclude these features entirely and achieve similar performance?
+123	40	We consider two definitions of “all”: all-untyped The traditional approach to extracting n-grams where n-gram types are ignored (e.g., ‘the’ as a whole word is no different from ‘the’ in the middle of a word) all-typed The approach discussed in this paper, where n-grams of different types are distinguished (equivalent to the set of all affix+punct+word n-grams).
+125	31	For either definition of “all”, the model that discards all word features achieves performance as high or higher than the model with all of the features, and does so with only about two thirds of the features.
+126	45	This is not too surprising in the cross-domain Guardian tasks, where the word n-grams were among the worst features.
+128	55	This indicates that whatever information mid-word is capturing it is also being captured in other ways via affix and punct n-grams.
+129	120	Of all 1024 possible combinations of features, we tried a number of different combinations and were unable to identify one that outperformed affix+punct.
+140	107	As already demonstrated in Section 5 that affix+punct features perform better than using all the features, we would like to use an example from our dataset to visualize the text when features in SC word are discarded.
+142	21	Therefore, we show each character with different opacity level depending on number of categories it belongs to: zero will get white color (word related n-grams), one will get 33% black, two will get 67% black, and three will get 100% black.
+151	22	And we found that word n-grams (capturing topic information) were useful in single domain settings, while puct n-grams (capturing style information) were useful in cross-domain settings.
+154	21	Our findings on the value of selecting n-grams according to the linguistic aspect they represent may also be beneficial in other classification tasks where character n-grams are commonly used.
+155	21	Promising tasks are those related to the stylistic analysis of texts, such as native language identification, document similarity and plagiarism detection.
+158	21	We leave this research question for future work.

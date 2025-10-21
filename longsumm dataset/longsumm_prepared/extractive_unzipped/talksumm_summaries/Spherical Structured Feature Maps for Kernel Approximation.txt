@@ -1,0 +1,30 @@
+27	1	Empirically, SSF maps achieve superior performance compared with other methods.
+30	1	One earlier work (Rahimi et al., 2007) approximates the shift invariant kernels based on the Bochner’s Theorem.
+33	1	According to the Bochner’s theorem, there is a one-to-one corre- spondence between the kernel functions K(x, z) and probability densities p(w) defined on Rd.
+36	1	From Bochner’s theorem, the corresponding probability density is also Gaussian.
+51	1	Equal weight numerical integration over a d-dimensional sphere Sd := {x ∈ Rd+1 | ‖x‖2 = 1} uses equal weight summation of finite point evaluations of the integrands to approximate the integrals: ∫ Sd f(v)dσ(v) ≈ 1 N N∑ i=1 f(vi) (7) where σ denotes the normalized surface area measure on Sd.
+55	1	Particularly, (Brauchart et al., 2014) have proved that maximizing the discrete Riesz s-energy with s ∈ (−2, 0) can generate QMC designs for functions in Sobolev space.
+59	1	Rotation invariant property means that K(x, z) = K(Rx, Rz), given any rotation R ∈ SO(d), where SO(d) denotes rotation groups.
+60	1	To benefit from rotation invariant property, it is reasonable to construct the feature maps by using spherical equal weight approximation in equation (7) and (8).
+70	1	cos ( Φ−(tj)(x− z)Tvi ) = cos ( −Φ−(tj)(x− z)Tvi ) (15) Thus, we achieve equation (16).
+72	2	Feature Maps for bth-order Arc-cosine Kernels In this subsection, we discuss the feature maps for bthorder arc-cosine kernels.
+85	2	Proof: According to the Lemma 3.1 and the property of the asymptotically uniformly distributed point set V, we obtain equation (22).
+93	1	We have discussed the construction of SSF maps in last section.
+94	1	However, one unsolved problem is how to obtain the matrix U = [V,−V].
+95	1	We employ the discrete Riesz s-energy as the objective function to obtain matrix U because it can generate asymptotically uniformly distributed points on Sd−1 (Brauchart & Grabner, 2015).
+99	1	Moreover, by using FFT, matrix U can accelerate the integral approximation which involves projection operations.
+101	1	Since U can be constructed by V, i.e. U = [V,−V], we only need to define structured matrix V. To achieve loglinear time complexity of SSF maps construction, we construct V by extracting rows from a discrete Fourier matrix.
+102	1	The complexity analysis of SSF maps construction based on matrix V is given in section 5.
+103	1	Mathematically, the construction of matrix V is shown as follows.
+105	1	Let Λ = [k1, k2, ..., km] ⊂ {1, ..., n− 1} be a subset of indexes.
+114	1	In the following, we will discuss how to minimize equation (25) by using a coordinate decent method.
+117	1	Proof: Since U = [V,−V] ∈ S(d−1)×2N, we obtain equation (27).
+118	1	E(U) = − 2N∑ i=1 2N∑ j=1,j6=i log ‖ui − uj‖ = −2 N∑ i=1 log ‖2vi‖ −2 N∑ i=1 N∑ j=1,j 6=i (log ‖vi − vj‖+ log ‖vi + vj‖) = C − 2 N∑ i=1 N∑ j=1,j 6=i log (‖vi − vj‖ ‖vi + vj‖) = C − 2 N∑ i=1 N∑ j=1,j 6=i log (√ 2− 2vTi vj √ 2 + 2vTi vj ) (27) Recall that N = 2n.
+137	1	Obviously, it is a discrete optimization problem.
+142	1	Given Λ = [k1, k2, ..., km] ⊂ {1, ..., n − 1} , let y ∈ Cn with yΛ = z.
+148	1	All steps to construct SSF maps are summarized as follows: (a) Compute x̃ by x̃ = Dx, where D ∈ {−1,+1}d×d is a diagonal matrix where diagonal elements are uniformly sampled from {−1,+1}.
+153	2	It takes O(m) space to store Λ.
+178	1	Figure 3 shows that the feature maps obtained with fully Gaussian matrix, the Circulant matrix, QMC with Halton set and QMC with Sobol set have similar reconstruction error.
+181	17	Moreover, even if M = 1, SSF maps can achieve about one-third relative mean error and half of the relative max error of other methods for Gaussian Kernel approximation.
+182	73	We propose Spherical Structured Feature (SSF) maps to approximate shift and rotation invariant kernels as well as bthorder arc-cosine kernels.
+183	68	SSF maps can achieve computation and storage efficiency as well as better approximation accuracy.

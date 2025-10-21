@@ -1,0 +1,30 @@
+0	15	As a fundamental task in natural language processing (NLP), discourse parsing entails the discovery of the latent relational structure in multi-sentence level analysis.
+2	12	Discourse parsing is also the shared task of CoNLL 2015 and 2016 (Xue et al., 2015; Xue et al., 2016), and many previous works previous on this task (Qin et al., 2016b; Li et al., 2016; Chen et al., 2015; Wang and Lan, 2016).
+3	46	In a discourse parser, implicit relation recognition has been the bottleneck due to lack of explicit connectives (like “because” or “and”) that can be strong indicators for the senses between adjacent clauses (Qin et al., 2016b; Pitler et al., 2009; Lin et al., 2014).
+5	56	Most previous works on PDTB implicit relation recognition only focus on one-versus-others binary classification problems of the top level four classes (Pitler et al., 2009; Zhou et al., 2010; Park and Cardie, 2012; Biran and McKeown, 2013; Rutherford and Xue, 2014; Braud and Denis, 2015).
+6	17	Traditional classification methods directly rely on feature engineering, based on bag-of-words, production rules, and some linguistically-informed features (Zhou et al., 2010; Rutherford and Xue, 2014).
+12	19	Although simple neural network has been shown effective, the result has not been quite satisfactory which suggests that there is still space for improving.
+14	82	Two problems should be carefully handled in this task: how to model sentences and how to capture the interactions between the two arguments.
+15	25	The former could be addressed by Convolutional Neural Network (CNN) which has been proved effective for sentence modeling (Kalchbrenner et al., 2014; Kim, 2014), while the latter is the key problem, which might need deep semantic analysis for the interaction of two arguments.
+21	13	CNN is used to obtain the vector representations for the sentences, CGNN further captures and transforms the features for the final classification.
+23	12	For two arguments, typical sentence modeling process will be applied: sentence embedding (including embeddings for words and part-of-speech (POS) tags) through projection layer, convolution operations (with multiple groups of filters) through the convolution layer, obtaining the sentence representation through one-max-pooling.
+26	31	For implicit sense classification, the key is how to effectively capture the interactions between the two arguments.
+34	30	The existing studies show that the gated mechanism in highway network serves not only a means for easier training, but also a tool to route information in a trained network.
+35	14	Motivated by the idea of highway network, we propose a collaborative gated neural network (CGNN) for this task.
+36	15	The architecture of CGNN is illustrated in Figure 1, and it contains a sequence of transformations.
+38	30	ĉ = tanh(Wc · v + bc) Meanwhile, the two gates gi and go are calculated independently because they are only influenced by the original input through different parameters: gi = σ(W i · v + bi) go = σ(W o · v + bo) where the σ denotes sigmoid function which guarantees the values in the gates are in [0,1].
+42	16	Although the two gates are generated independently, they will work collaboratively because they control the information flow of the inner-cells sequentially which resembles logical AND operation in a probabilistic version.
+43	18	In fact, the transformations after ĉ will concern only element-wise operations which might give finer controls for each dimension, and the information can only flow on the dimensions where both gates are “open”.
+44	11	This procedure will help select the most crucial features.
+52	18	To be consistent with the setups of prior works, we formulate the implicit relation classification task as four one-versus-other binary classification problems only using the four top level classes: COMPARISON (COMP.
+63	9	Our model utilizes a CGNN unit with refined gated mechanism for the transformation.
+68	35	Though the primary motivation of Highway is to ease gradient-based training of highly deep networks through utilizing gated units, it works merely as an ordinary MLP in the proposed model, which explains the reason that it performs like MLP.
+72	24	It gains 3.97% imrovement on average F1 score using CNN only model.
+73	51	We assume that CGNN is well-suited to work with CNN, adaptively transforming and combining local features detected by the individual filters.
+74	23	We show the main results in Tables 2 and 3.
+83	18	Our model achieves F-measure improvements of 1.85% on COMPARISON, 1.56% on CONTINGENCY, 1.27% on EXPANSION, 0.94% on EXPANSION+, 4.89% on TEMPORAL, against the state-ofthe-art of each class.
+84	19	We improve by 4.73% on average F1 score when not including ENTREL in EXPANSION as reported in Table 2 and 3.19% on average F1 score otherwise as reported in Table 3.
+85	19	The results show that our model achieves the best performance and especially makes the most remarkable progress on TEMPORAL.
+86	10	In this paper, we propose a stacking gated neural architecture for implicit discourse relation classification.
+88	10	The analysis and experiments show that CNN performs well on its own and combining CGNN provides further gains.
+89	16	Our evaluation on PTDB shows that the proposed model outperforms previous state-of-the-art systems.

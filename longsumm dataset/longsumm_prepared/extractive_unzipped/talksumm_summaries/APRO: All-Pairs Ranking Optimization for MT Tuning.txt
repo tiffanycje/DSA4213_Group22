@@ -1,0 +1,30 @@
+3	11	To do this, it labels pairs of translations for each sentence as positive or negative, depending on the gold ranking of the two pair elements given by BLEU.
+4	26	A binary classifier is trained on these labeled examples, resulting in new feature weights, and the procedure is iterated.
+5	13	This ∗Markus Dreyer is now at Amazon, Inc., Seattle, WA.
+6	21	procedure would ordinarily be too expensive since there areO(k2) pairs per sentence, where both k and the number of sentences can be in the thousands, so billions of training examples would be produced per iteration.
+7	11	Therefore, Hopkins and May (2011) use subsampling to consider a small percentage of all pairs per sentence.
+8	56	We present APRO (All-Pairs Ranking Optimization), a tuning approach that, like PRO, uses pairwise ranking for tuning.
+10	23	Based on an efficient ranking SVM formulation (Airola et al. (2011), Lee and Lin (2014)), we find, in each iteration, feature weights that minimize ranking errors for all pairs of translations per sentence.
+13	37	For both PRO and APRO, we use the following definitions: A tuning dataset contains S source sentences x1, .
+14	13	Let Ys be the space of all translations of xs.
+16	91	Each translation y s i ∈ Ys has a fea- 1018 ture representation1 f(xs, ysi ), or for short, f s i , and a linear classification score hsi = w T f si , where w is a feature weight vector.
+32	42	Train any classifier on the labeled data, resulting in a new weights vector w′.
+33	11	Dependencies between tuning iterations are introduced by the use of accumulated k-best lists and the interpolation of weight vectors in step 4, using an interpolation factor Ψ.
+38	36	One could try to improve PRO by experimenting with other pair selection heuristics; APRO circumvents the problem by efficiently selecting all pairs.
+41	73	Compared to PRO, we simplify the procedure by removing sampling and labeling steps 2 and 3, thereby removing some of PRO’s implementation complexity and manually set parameters.
+44	22	For each sentence xs, we define the set of preference pairs as the set of ordered translation pairs for which the evaluation score prefers the first element: Ps = {(i, j) : bsi > bsj} (1) 4PRO settings: Γ = {5k, 8k} = {small, large}, Ξ = {50, 100} = {light, dark}, β = {.03, .05} = {no dot, dot}.
+45	33	Following Lee and Lin (2014), we define the loss (or, error) of any sentence s as the sum of its pairwise squared hinge losses: Lsw = ∑ (i,j)∈Ps max(0, 1−hsi +hsj)2 (2) That is, no loss is contributed by preference pairs for which the classification score correctly prefers the first element by a large-enough margin, i.e., hsi ≥ hsj +1; all other preference pairs contribute some loss.
+47	42	We divide by N = ∑ s ks to account for the increasing sizes of accumulated k-best lists between tuning iterations, which leads to increased sentence losses.
+57	11	The alternative solution we apply is to make the sums over translation pairs efficient by carefully rearranging the terms of the sentence loss, making use of quantities that can be precomputed efficiently (Airola et al. (2011), Lee and Lin (2014)).
+61	40	We use these definitions to express the loss as a sum over only O(k) elements.
+62	48	First, we simplify the loss expression by summing only over elements from Q, i.e., pairs from P that contribute a positive loss, so the max becomes unnecessary: Lw = ∑ (i,j)∈P max(0, 1−hi+hj)2 (8) = ∑ (i,j)∈Q (1−hi+hj)2 (9) = ∑ (i,j)∈Q h2i−2hi+1+h2j +2hj−2hihj (10) We then use the precomputed quantities defined above to rewrite the sum over O(k2) pairs to a sum over just O(k) elements: Lw = k∑ i=1 qi•(h2i−2hi+1)+q•i(h2i +2hi) −2 ri• hi (11) This step is described in detail below.
+63	15	Our new formulation is simpler but equivalent to Lee and Lin (2014).
+64	31	Using order statistics trees (Cormen et al., 2001), the quantities qi•, q•i, and ri• can be precomputed in O(k log k) time (see details in Lee and Lin (2014)).
+72	20	We validate APRO on 6 diverse language pairs.
+89	22	We observe that APRO converges quickly: After running for 10 iterations, it gives higher BLEU scores and better length ratios than PRO for five out of six language pairs.
+90	14	At convergence, PRO has caught up, but for all language N , see Equation 3.
+92	44	One of APRO’s advantages are stable results: Figure 1 compares PRO and APRO for 3 values of Ψ: For each value, we run PRO eight times with different sampling settings and APRO once.
+96	111	While PRO performs best with Ψ = 0.1, APRO gets good results for Ψ=1, which is the reason for its fast convergence (Table 2).
+98	38	Like PRO, APRO is a batch pairwise ranking method, and as such, it inherits PRO’s advantages of being effective, scalable to large feature sets and easy to fit into the standard batch MT tuning framework.
+99	14	We remove PRO’s sampling step and learn a pairwise ranking over the whole k-best list inO(k log k) time.
+100	51	We have shown that PRO’s different sampling settings result in different final results; by removing these settings we get more reliable results.

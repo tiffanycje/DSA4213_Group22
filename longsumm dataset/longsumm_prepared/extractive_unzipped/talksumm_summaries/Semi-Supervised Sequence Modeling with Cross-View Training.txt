@@ -1,0 +1,30 @@
+4	23	Such pre-training methods perform unsupervised representation learning on a large corpus of unlabeled data followed by supervised training.
+8	130	This paper presents Cross-View Training (CVT), a new self-training algorithm that works well for neural sequence models.
+9	15	In self-training, the model learns as normal on labeled examples.
+12	17	Recent research on computer vision addresses this by adding noise to the student’s input, training the model so it is robust to input perturbations (Sajjadi et al., 2016; Wei et al., 2018).
+13	12	However, applying noise is difficult for discrete inputs like text.
+14	17	As a solution, we take inspiration from multiview learning (Blum and Mitchell, 1998; Xu et al., 2013) and train the model to produce consistent predictions across different views of the input.
+15	41	Instead of only training the full model as a student, CVT adds auxiliary prediction modules – neural networks that transform vector representations into predictions – to the model and also trains them as students.
+16	67	The input to each student prediction module is a subset of the model’s intermediate rep- resentations corresponding to a restricted view of the input example.
+17	293	For example, one auxiliary prediction module for sequence tagging is attached to only the “forward” LSTM in the model’s first BiLSTM layer, so it makes predictions without seeing any tokens to the right of the current one.
+18	12	CVT works by improving the model’s representation learning.
+20	22	As the auxiliary modules learn to make accurate predictions despite their restricted views of the input, they improve the quality of the representations they are built on top of.
+21	28	This in turn improves the full model, which uses the same shared representations.
+25	20	We evaluate our approach on English dependency parsing, combinatory categorial grammar supertagging, named entity recognition, partof-speech tagging, and text chunking, as well as English to Vietnamese machine translation.
+27	26	Furthermore, CVT can easily and effectively be combined with multi-task learning: we just add additional prediction modules for the different tasks on top of the shared Bi-LSTM encoder.
+28	80	Training a unified model to jointly perform all of the tasks except machine translation improves results (outperforming a multi-task ELMo model) while decreasing the total training time.
+32	51	During CVT, the model alternates learning on a minibatch of labeled examples and learning on a minibatch of unlabeled examples.
+52	11	During supervised learning, we randomly select a task and then update Lsup using a minibatch of labeled data for that task.
+54	61	As before, the model alternates training on minibatches of labeled and unlabeled examples.
+55	47	Examples labeled across many tasks are useful for multi-task systems to learn from, but most datasets are only labeled with one task.
+60	69	For example, our model trained on six tasks takes about three times as long to converge as the average model trained on one task, a 2x decrease in total training time.
+120	27	Virtual Adversarial Training (VAT).
+135	17	We suspect there could be further gains from combining our method with language model pre-training, which we leave for future work.
+136	12	We train a single sharedencoder CVT model to perform all of the tasks except machine translation (as it is quite different and requires more training time than the other ones).
+139	14	Our result shows that simple parameter sharing can be enough for effective many-task learning when the model is big and trained on a large amount of data.
+141	24	We hypothesize that the ELMo models quickly fit to the data primarily using the ELMo vectors, which perhaps hinders the model from learning effective representations that transfer across tasks.
+142	69	We also believe CVT alleviates the danger of the model “forgetting” one task while training on the other ones, a well-known problem in many-task learning (Kirkpatrick et al., 2017).
+146	39	The one-at-a-time model performs substantially worse (see Table 2).
+148	55	Both CVT and multi-task learning improve model generalization: for the same train accuracy, the models get better dev accuracy than purely supervised learning.
+157	32	We explore how CVT scales with dataset size by varying the amount of training data the model has ac- cess to.
+159	21	Using only 25% of the labeled data, our approach already performs as well or better than a fully supervised model using 100% of the training data, demonstrating that CVT is particularly useful on small datasets.

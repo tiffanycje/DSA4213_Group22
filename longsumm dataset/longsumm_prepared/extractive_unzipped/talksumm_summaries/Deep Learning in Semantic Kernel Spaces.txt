@@ -1,0 +1,30 @@
+2	49	In particular, kernel-based methods (Shawe-Taylor and Cristianini, 2004) have been largely applied in language processing for alleviating the need of complex activities of manual feature engineering (e.g., (Moschitti et al., 2008)).
+3	14	Although ad-hoc features are adopted by many successful approaches to language learning (e.g., (Gildea and Jurafsky, 2002)), kernels provide a natural way to capture textual generalizations directly operating over (possibly complex) linguistic structures.
+6	15	Also, Long-Short Term Memory (Hochreiter and Schmidhuber, 1997) networks build intermediate representations of sequences, resulting in similarity estimates over sequences and their inner sub-sequences.
+7	13	While such methods are highly effective and reach state-of-the-art results in many tasks, their adoption can be problematic.
+8	16	In kernel-based Support Vector Machine (SVM) the classification model corresponds to the set of support vectors (SVs) and weights justifying the maximal margin hyperplane: the classification cost crucially depends on their number, as classifying a new instance requires a kernel computation against all SVs, making their adoption in large data settings prohibitive.
+13	18	On the other hand, training complex neural networks is also difficult as no common design practice is established against complex data structures.
+18	41	A viable and general solution to this scalability issue is provided by the Nyström method (Williams and Seeger, 2001); it allows to approximate the Gram matrix of a kernel function and support the embedding of future input examples into a low-dimensional space.
+19	18	For example, if used over TKs, the Nyström projection corresponds to the embedding of any tree into a lowdimensional vector.
+21	23	A standard NN back-propagation training can thus be applied to induce non-linear functions in the kernel space.
+25	19	In the rest of the paper, Section 2 surveys some of the investigated kernels.
+27	16	Experimental evaluations are described in Section 4.
+28	43	Finally, Section 5 derives the conclusions.
+30	48	Also in Question Answering, the syntactic information about input questions is crucial.
+31	35	While manual feature engineering is always possible, kernel methods on structured representations of data objects, e.g., sentences, have been largely applied.
+33	48	Such kernels corresponds to dot products in the (implicit) feature space made of all possible tree fragments (Haussler, 1999).
+35	57	In this high-dimensional space, kernel-based algorithms, such as SVMs, can implicitly learn robust prediction models (Shawe-Taylor and Cristianini, 2004), resulting in state-of-the-art approaches in several NLP tasks, e.g., Semantic Role Labeling (Moschitti et al., 2008), Question Classification (Croce et al., 2011) or Paraphrase Identification (Filice et al., 2015).
+44	67	We also use a further extension of the SPTK, called Compositionally Smoothed Partial Tree Kernel (CSPTK) (as in Annesi et al. (2014)).
+45	18	In CSPTK, the lexical information provided by the sentence words is propagated along the nonterminal nodes representing head-modifier dependencies.
+57	41	Kernel functions are used by learning algorithms, such as SVM, to operate only implicitly on instances in the kernel space, by never accessing their explicit definition.
+58	37	Let us apply the projection function Φ over all examples from D to derive representations, x denoting the rows of the matrix X .
+59	35	The Gram matrix can always be computed asG = XX>, with each single element corresponding to Gij = Φ(oi)Φ(oj) = K(oi, oj).
+60	23	The aim of the Nyström method is to derive a new low-dimensional embedding x̃ in a l-dimensional space, with l n so that G̃ = X̃X̃> and G̃ ≈ G. This is obtained by generating an approximation G̃ of G using a subset of l columns of the matrix, i.e., a selection of a subset L ⊂ D of the available examples, called landmarks.
+86	38	The resulting outcome x̃ is the input to one or more non-linear hidden layers.
+107	19	Question Classification (QC) is the task of mapping a question into a closed set of answer types in a Question Answering system.
+116	13	Results are reported in Table 1: computational saving refers to the percentage of avoided kernel computations with respect to the application of the KSVM to each test instance.
+119	14	We also measured the state-of-the-art Convolutional Neural Network6 (CNN) of Kim (2014), achieving the remarkable accuracy of 93.6%.
+123	16	This result is straightforward as it confirms that linguistic information encoded in a tree is important in the analysis of questions and can be used as a pre-training strategy.
+125	25	In the SemEval-2016 task 3, participants were asked to automatically provide good answers in a community question answering setting (Nakov et al., 2016).
+127	31	their utility in answering the question.
+129	43	Each pair generates an example for a binary SVM, where the positive label is associated to a good comment and the negative label refers to potentially useful and bad comments.
