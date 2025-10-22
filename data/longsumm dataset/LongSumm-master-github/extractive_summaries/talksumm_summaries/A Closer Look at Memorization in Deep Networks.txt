@@ -1,0 +1,30 @@
+18	15	By demonstrating the ability of DNNs to “memorize” random noise, Zhang et al. (2017) also raise the question whether deep networks use similar memorization tactics on real datasets.
+19	23	Intuitively, a brute-force memorization approach to fitting data does not capitalize on patterns shared between training examples or features; the content of what is memorized is irrelevant.
+21	77	Like Zhang et al. (2017), we do not formally define memorization; rather, we investigate this intuitive notion of memorization by training DNNs to fit random data.
+22	39	Main Contributions We operationalize the definition of “memorization” as the behavior exhibited by DNNs trained on noise, and conduct a series of experiments that contrast the learning dynamics of DNNs on real vs. noise data.
+23	102	Thus, our analysis builds on the work of Zhang et al. (2017) and further investigates the role of memorization in DNNs.
+25	40	There are qualitative differences in DNN optimization behavior on real data vs. noise.
+27	20	DNNs learn simple patterns first, before memorizing (Section 4).
+31	23	We investigate two classes of models: 2-layer multi-layer perceptrons (MLPs) with rectifier linear units (ReLUs) on MNIST and convolutional neural networks (CNNs) on CIFAR10.
+34	35	Following Zhang et al. (2017), in many of our experiments we replace either (some portion of) the labels (with random labels), or the inputs (with i.i.d.
+40	21	A brute-force memorization approach to fitting data should apply equally well to different training examples.
+42	22	We show that such “easy examples” (as well as correspondingly “hard examples”) are common in real, but not in random, datasets.
+43	88	Specifically, for each setting (real data, randX, randY), we train an MLP for a single epoch starting from 100 different random initializations and shufflings of the data.
+47	37	For randX, apparent differences in difficulty are well modeled as random Binomial noise.
+54	15	That is, we measure the norm of the loss gradient with respect to a previous example x after t SGD updates.
+55	36	Let Lt be the loss after t updates; then the sensitivity measure is given by gtx = ‖∂Lt/∂x‖1 .
+68	17	In addition to the different behaviors for real and random data described above, we also consider a class specific losssensitivity: ḡi,j = E(x,y)1/T ∑T t |∂Lt(y = i)/∂xy=j |, where Lt(y = i) is the term in the crossentropy sum corresponding to class i.
+73	30	In this section, we investigate the impact of capacity and effective capacity on learning of datasets having different amounts of random input data or random labels.
+78	110	Given that DNNs can perfectly fit the training set in any case, we hypothesize that that higher capacity allows the network to fit the noise examples in a way that does not interfere with learning the real data.
+80	39	Our next experiment measures time-to-convergence, i.e. how many epochs it takes to reach 100% training accuracy.
+96	27	Intuitively, if we were to randomly sample points from the data distribution, a smaller fraction of points in the proximity of a decision boundary suggests that the learned hypothesis is simpler.
+118	18	higher number of critical samples for models trained on noise data compared with those trained on real data suggests that the learned decision surface is more complex for noise data (randX and randY).
+121	42	In our next experiment, we evaluate the performance and critical sample ratio of datasets with 20% to 80% of the training data replaced with either input or label noise.
+124	28	The final and maximum validation accuracies are also both lower for noisier datasets, indicating that the noise examples interfere somewhat with the networks ability to learn about the real data.
+129	59	Here we demonstrate the ability of regularization to degrade training performance on data with random labels, while maintaining generalization performance on real data.
+136	33	Our results show that different regularizers target memorization behavior to different extent – dropout being the most effective.
+137	18	We find that dropout, especially coupled with adversarial training, is best at hindering memorization without reducing the model’s ability to learn.
+167	66	Our empirical exploration demonstrates qualitative differences in DNN optimization on noise vs. real data, all of which support the claim that DNNs trained with SGDvariants first use patterns, not brute force memorization, to fit real data.
+168	67	However, since DNNs have the demonstrated ability to fit noise, it is unclear why they find generalizable solutions on real data; we believe that the deep learning priors including distributed and hierarchical representations likely play an important role.
+169	42	Our analysis suggests that memorization and generalization in DNNs depend on network architecture and optimization procedure, but also on the data itself.
+171	37	We thank Akram Erraqabi, Jason Jo and Ian Goodfellow for helpful discussions.

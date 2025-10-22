@@ -1,0 +1,30 @@
+22	4	Therefore, our goal here is contributing to fill this gap.
+24	3	Consider a nominal attribute A that may take n possible values a1, .
+30	2	We focus on binary partitions (2-PMWIP) and on a broad class of impurity measures that includes both Gini and Entropy.
+74	4	These impurities measures are superadditive.
+75	8	Lemma 2.1 (Lemma 1 in (Coppersmith et al., 1999)).
+78	4	From (Coppersmith et al., 1999) we know that both IGini and IEntr satisfy (P0)-(P2).
+80	3	The Gini measure IGini and the Entropy measure IEntr belong to C. The last lemma of this subsection shows that the impurity measures of our class satisfy a subsystem property.
+85	3	The left-hand side of the inequality is then ∑ i f(ui).
+107	8	, n− 1 do 4: Pj ← subset of V containing the j vectors with the largest value of r(·) 5: Evaluate the impurity of partition (Pj , V \ Pj) 6: end for 7: Return the partition (Pj∗ , V \ Pj∗) with the smallest impurity found in the loop We present a general analysis of the quality of solution produced by algorithm Bd when d ∈ {0, 1}k. More specifically, we prove the following theorem: Theorem 3.2.
+112	5	Recall that each vector v ∈ V ⊆ Rk+, which corresponds to an attribute value, counts in its coordinates the number of examples of each of the k classes with the given attribute value.
+124	4	Using the superadditivity of I (Lemma 2.1) we have I(Ad) ≤ opt(collapsed(V )) + I(d ◦ u) + I(d̄ ◦ u) (3) Now we devise lower bounds on opt(V ).
+126	6	For any input V and d ∈ {0, 1}k, we have opt(V ) ≥ opt(collapsed(V )).
+134	3	This bound together with the first item of Proposition 3.3 establish Theorem 3.2.
+141	1	It is also interesting to note that in (Breiman et al., 1984) it was proved that if Twoing considers the Gini impurity for solving its 2-class problems then it finds a partition of attribute values that optimizes a specific objective function for the k-class problem that is significantly different from IGini.
+147	8	LCA is an (3 + √ 3)−approximation for every impurity measure in the class C.
+149	2	We consider both Gini and Entropy.
+151	2	It will be interesting to observe how Gini and Entropy behave significantly different in this sense, with the latter favoring balanced partition.
+165	2	Let d∗ be the most balanced direction in {0, 1}k with respect to u.
+168	2	There exists a 2-approximation algorithm for the entropy impurity measure that runs inO(k ∑ v∈V ‖v‖1) time.
+171	1	Given Lemma 4.3, a straightforward reduction from PARTITION problem shows that 2-PMWIP is NP-hard even when I is the Entropy measure.
+172	1	The 2-PMWIP for the Entropy impurity measure is NP-Hard.
+181	1	It starts with the partition (V, ∅) and then it greedily moves, from the ’left’ to the ’right’ partition, the vector that yields to the partition with minimum impurity until the the partition (∅, V ) is reached; the best partition found in this process is returned.
+216	2	Table 4 shows how LCA and HcC compare with each of the other methods with regards to the number of datasets in which they had statistically better/worse accuracy.
+220	2	HcC, as expected, had a good performance.
+222	5	In this paper we proved that the 2-PMWIP is NP-Hard and we devised algorithms with constant approximation guarantee for it.
+223	12	Furthermore, we reported experiments that suggest that our methods proposed are good candidates to be used in splitting nominal attributes with many values during decision tree/random forest induction.
+224	27	HcC has the advantage of generating partitions with lower impurity than other available methods while LCA has the advantage of being very fast.
+225	16	Some interesting questions remain open.
+226	183	The main one concerns the existence of a FPTAS for 2-PMWIP, that is, an algorithm that for every > 0 obtains an approximation (1+ ) with running time polynomial on n and 1/ .
+227	182	Another interesting question regards the existence of algorithms with provably approximation for the L-PMWIP, the most general problem where the values of an attribute have to be partitioned into at most L groups.

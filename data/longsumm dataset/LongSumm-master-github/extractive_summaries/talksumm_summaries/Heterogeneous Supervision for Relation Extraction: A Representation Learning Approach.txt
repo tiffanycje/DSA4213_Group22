@@ -1,0 +1,30 @@
+0	45	One of the most important tasks towards text understanding is to detect and categorize semantic relations between two entities in a given context.
+1	34	1, with regard to the sentence of c1, relation between Jesse James and Missouri should be categorized as died in.
+4	30	Similarly, for medical science literature, relations like protein-protein interactions (Fundel et al., 2007) and gene disease associations (Chun et al., 2006) can be extracted and used in knowledge base population.
+6	27	Typically, existing methods follow the supervised learning paradigm, and require extensive annotations from domain experts, which are costly and time-consuming.
+8	30	However, these methods often suffer from semantic drift (Mintz et al., 2009).
+10	14	Nevertheless, for many domain-specific applications, distant supervision is either non-existent or insufficient (usually less than 25% of relation mentions are covered (Ren et al., 2015; Ling and Weld, 2012)).
+11	126	Only recently have preliminary studies been developed to unite different supervisions, including knowledge bases and domain specific patterns, which are referred as heterogeneous supervision.
+12	58	1, these supervisions often conflict with each other (Ratner et al., 2016).
+13	59	To address these conflicts, data programming (Ratner et al., 2016) employs a generative model, which encodes supervisions as labeling functions, and adopts the source consistency assumption: a source is likely to provide true information with 46 the same probability for all instances.
+14	69	This assumption is widely used in true label discovery literature (Li et al., 2016) to model reliabilities of information sources like crowdsourcing and infer the true label from noisy labels.
+18	41	In particular, a labeling function could be more reliable for a certain subset (Varma et al., 2016) (also known as its proficient subset) comparing to the rest.
+20	20	Meanwhile, embedding methods have demonstrated great potential in capturing semantic meanings, which also reduce the dimension of overwhelming text features.
+25	15	Then, these inferred true labels would serve as supervision for all components, including context representation, true label discovery and relation extraction.
+37	20	Similar to (Ratner et al., 2016), we employ labeling functions as basic units to encode supervision information and generate annotations.
+38	26	Since different supervision information may have different proficient subsets, we require each labeling function to encode only one elementary supervision information.
+39	42	Specifically, in the relation extraction scenario, we require each labeling function to only annotate one relation type based on one elementary piece of information, e.g., four examples are listed in Fig.
+51	20	On the other hand, relation extraction can be viewed as matching appropriate relation type to a certain context.
+60	13	We now proceed by introducing these components of the model in further details.
+64	16	2, for example, relation mention c3 is first represented as bag-of-features.
+75	15	With text feature embeddings learned by Eq.
+78	30	Thus, we directly learn a mapping g from text feature representations to relation mention representations (Van Gysel et al., 2016a,b) instead of simple heuristic rules like concatenate or average (see Fig.
+80	41	In other words, we represent bag of text features with their average embedding, then apply linear map and hyperbolic tangent to transform the embedding from text feature semantic space to relation mention semantic space.
+81	35	The non-linear tanh function allows non-linear class boundaries in other components, and also regularize relation mention representation to range [−1, 1]which avoids numerical instability issues.
+82	25	Because heterogeneous supervision generates labels in a discriminative way, we suppose its errors follow certain underlying principles, i.e., if a labeling function annotates a instance correctly / wrongly, it would annotate other similar instances correctly / wrongly.
+90	109	Because sc,i would not be used in other components of our framework, we integrate out sc,i and write the log likelihood as JT = ∑ oc,i∈O log(σ(zTc li)ϕ δ(oc,i=o ∗ c ) 1 (1− ϕ1)δ(oc,i ̸=o ∗ c ) + (1− σ(zTc li))ϕδ(oc,i=o ∗ c ) 0 (1− ϕ0)δ(oc,i ̸=o ∗ c )) (4) Note that o∗c is a hidden variable but not a model parameter, and JT is the likelihood of ρc,i = δ(oc,i = o∗c).
+91	139	Thus, we would first infer o∗c = argmaxo∗c JT , then train the true label discovery model by maximizing JT .
+92	37	We now discuss the model for identifying relation types based on context representation.
+93	97	For each relation mention c, its representation zc implies its relation type, and the distribution of relation type can be described by the soft-max function: p(ri|zc) = exp(z T c ti)∑ rj∈R∪{None} exp(z T c tj) (5) where ti ∈ Rvz is the representation for relation type ri.
+94	18	Moreover, with the inferred true label o∗c , the relation extraction model can be trained as a multi-class classifier.
+96	21	7, we form the joint optimization problem for model parameters as min W,v,v∗,l,t,o∗ J = −JR − λ1JE − λ2JT s.t.

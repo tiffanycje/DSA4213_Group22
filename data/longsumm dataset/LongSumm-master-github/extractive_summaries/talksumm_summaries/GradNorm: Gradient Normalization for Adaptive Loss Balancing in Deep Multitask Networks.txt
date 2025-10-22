@@ -1,0 +1,30 @@
+0	68	Single-task learning in computer vision has enjoyed much success in deep learning, with many single-task models now performing at or beyond human accuracies for a wide array of tasks.
+2	24	Such a system can be enabled by multitask learning, where one model shares weights across multiple tasks and makes multiple inferences in one forward pass.
+5	129	In general, multitask networks are difficult to train; different tasks need to be properly balanced so network parameters converge to robust shared features that are useful across all tasks.
+6	22	Methods in multitask learning thus far have largely tried to find this balance by manipulating the forward pass of the network (e.g. through constructing explicit statistical relationships between features (Long & Wang, 2015) or optimizing multitask network architectures (Misra et al., 2016), etc.
+7	26	), but such methods ignore a key insight: task imbalances impede proper training because they manifest as imbalances between backpropagated gradients.
+8	29	A task that is too dominant during training, for example, will necessarily express that dominance by inducing gradients which have relatively large magnitudes.
+10	16	In practice, the multitask loss function is often assumed to be linear in the single task losses Li, L = ∑ i wiLi, where the sum runs over all T tasks.
+11	10	In our case, we propose an adaptive method, and so wi can vary at each training step t: wi = wi(t).
+15	14	The correct balance is struck when tasks are training at similar rates; if task i is training relatively quickly, then its weight wi(t) should decrease relative to other task weights wj(t)|j 6=i to allow other tasks more influence on training.
+35	23	W is generally chosen as the last shared layer of weights to save on compute costs1.
+51	27	GradNorm is then implemented as an L1 loss function Lgrad between the actual and target gradient norms at each timestep for each task, summed over all tasks: Lgrad(t;wi(t)) = ∑ i ∣∣∣∣G(i)W (t)−GW (t)× [ri(t)]α∣∣∣∣ 1 (2) where the summation runs through all T tasks.
+58	40	In such situations, if we naı̈vely pick wi(t) = 1 Algorithm 1 Training with GradNorm Initialize wi(0) = 1 ∀i Initialize network weightsW Pick value for α > 0 and pick the weightsW (usually the final layer of weights which are shared between tasks) for t = 0 to max train steps do Input batch xi to compute Li(t) ∀i and L(t) = ∑ i wi(t)Li(t) [standard forward pass] Compute G(i)W (t) and ri(t) ∀i Compute GW (t) by averaging the G (i) W (t) Compute Lgrad = ∑ i|G (i) W (t)−GW (t)× [ri(t)]α|1 Compute GradNorm gradients∇wiLgrad, keeping targets GW (t)× [ri(t)]α constant Compute standard gradients∇WL(t) Update wi(t) 7→ wi(t+ 1) using ∇wiLgrad UpdateW(t) 7→ W(t+ 1) using∇WL(t) [standard backward pass] Renormalize wi(t+ 1) so that ∑ i wi(t+ 1) = T end for for all loss weights wi(t), the network training will be dominated by tasks with larger loss scales that backpropagate larger gradients.
+77	27	However, gradient normalization increases w0(t) to counteract the larger gradients coming from T1, and the improved task balance results in better test-time performance.
+84	17	Although such networks train quickly at the onset, the training soon deteriorates.
+86	23	The traces for each wi(t) during a single GradNorm run are observed to be stable and convergent.
+88	15	We use two variants of NYUv2 (Nathan Silberman & Fergus, 2012) as our main datasets.
+90	41	The standard NYUv2 dataset carries depth, surface normals, and semantic segmentation labels (clustered into 13 distinct classes) for a variety of indoor scenes in different room types (bathrooms, living rooms, studies, etc.).
+91	37	NYUv2 is relatively small (795 training, 654 test images), but contains both regression and classification labels, making it a good choice to test the robustness of GradNorm across various tasks.
+94	20	The full dataset is then split by scene for a 90/10 train/test split.
+103	33	All model parameters are shared amongst all tasks until the final layer.
+119	25	We pursue this idea further in Section 5.3 and show that these weights lie very close to the optimal weights extracted from exhaustive grid search.
+120	12	To show how GradNorm can perform in the presence of a larger dataset, we also perform extensive experiments on the NYUv2+kpts dataset, which is augmented to a factor of 50x more data.
+129	17	For our VGG SegNet, we train 100 networks from scratch with random task weights on NYUv2+kpts.
+142	28	Figure 6 shows visualizations of the VGG SegNet outputs on test set images along with the ground truth, for both the NYUv2+seg and NYUv2+kpts datasets.
+143	18	Ground truth labels are juxtaposed with outputs from the equal weights network, 3 single networks, and our best GradNorm network.
+145	13	We introduced GradNorm, an efficient algorithm for tuning loss weights in a multi-task learning setting based on balancing the training rates of different tasks.
+147	12	Our empirical results indicate that GradNorm offers su- perior performance over state-of-the-art multitask adaptive weighting methods and can match or surpass the performance of exhaustive grid search while being significantly less time-intensive.
+148	19	Looking ahead, algorithms such as GradNorm may have applications beyond multitask learning.
+149	27	We hope to extend the GradNorm approach to work with class-balancing and sequence-to-sequence models, all situations where problems with conflicting gradient signals can degrade model performance.
+150	31	We thus believe that our work not only provides a robust new algorithm for multitask learning, but also reinforces the powerful idea that gradient tuning is fundamental for training large, effective models on complex tasks.

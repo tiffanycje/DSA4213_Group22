@@ -1,0 +1,30 @@
+0	39	Discourse parsing is a difficult, multifaceted problem involving the understanding and modeling of various semantic and pragmatic phenomena as well as understanding the structural properties that a discourse graph can have.
+6	13	Our paper’s main contribution is to provide a discourse parsing model for multi-party chat dialogue (i.e. typed online dialogue), trained on a large corpus we have developed annotated with full discourse structures.
+13	24	For example, 928 a person might pose a question that concerns all the participants; and once everybody has replied, that same person might reply to all of them with a single comment (e.g. thanking them) or with a single acknowledgment.
+26	18	Also theories that postulate a simple right frontier constraint, according to which only elements on the right frontier of a discourse structure (whether graph or tree) will in general not generate structures with crossing dependencies.
+28	36	Several subgroups of interlocutors can and do momentarily form and carry on a discussion amongst themselves, forming thus multiple concurrent discussion threads.
+29	69	Since, though, what is being written is publicly available to all involved parties, it can be the case that participants of one thread might reply or comment to something said to another thread.
+35	15	The phenomena we have just described are just some of the complications that appear in the discourse representation of multi-party dialogues, unfortunately rendering discourse theories based on attaching only adjacent units unsuitable for the representation of multi-party dialogues.
+37	13	This theory not only allows long distance attachments, which (Ginzburg, 2012) finds attested in multilogue, but also has semantics capable of dealing with fragments or non sentential utterances (Schlangen, 2003), which are frequent in our corpus.
+50	76	, en}, where ei are the EDUs of D, is a tuple (V,E1, E2, `), where V is a set of nodes or discourse units including {e1, .
+51	46	, en}, E1 ⊆ V × V a set of edges representing discourse relations and E2 ⊆ V × V a set of edges that represents parthood in the sense that if (x, y) ∈ E2, then x is a discourse unit that is an element of the CDU y.
+52	17	` : E1 → Relations is a function that assigns each arc a discourse relation type.
+54	15	The corpus that we use was collected from an online version of the game The Settlers of Catan.
+55	57	Settlers is a multi-party, win-lose game in which players use resources such as wood and sheep to build roads and settlements.
+83	43	We transform our full graphs (V,E1, E2, `) into dependency struc- tures (V ′, E1, `), with V ′ ⊂ V the set of EDUs in V by replacing any attachment to a CDU with an attachment to the CDU’s head—the textually first EDU within the CDU which has no incoming links.
+97	63	One of the drawbacks of this approach, however, is that it does not guarantee an object that is well formed.
+100	19	Instead, we should use this probability distribution as an input to a decoding mechanism.
+101	51	We used a regularized maximum entropy (shortened as MaxEnt) model (Berger et al., 1996).
+104	28	There is one weight/parameter wi for each feature fi that predicts its classification behavior.
+107	46	Given our observations about the structure of dialogues in our corpus, we hypothesize that a dialogue is fundamentally sequential: first one person talks and then others react to them or ignore them, but the discourse links that do occur between speaker turns are reactive.
+158	80	To enable a comparison with RST style parsing where exact arguments for discourse relations are not computed, the undirected attachment F1 score = 0.68 for the global parsing problem.
+159	15	Despite the inherent difficulty of discourse parsing on multi-party chat dialogues (simultaneous, multiple discussion threads, lack of syntax) our results are close to or better than the current state of the art for discourse parsing on monologue.
+160	48	There are two approaches currently that use dependency parsing strategies for discourse, thoroughly described in the next section.
+162	21	Muller et al. (2012) report 0.662 for unlabelled structure and 0.361 for labelled structures.
+163	37	We outperform both systems for full labelled structures, and despite our non-tree-like structures beat or are close to these on unlabelled attachments.
+165	115	Our results also suggest that one can get quite far with tree-based decoding algorithms, though we know that in principle MST cannot do better than 91% even with a perfect local model (a model in which an arc is giving probability 1 just in case it occurs in the gold standard annotation).
+192	133	As far as we know, this is the first paper to deal with discourse parsing in multi-party chat dialogues.
+193	35	We believe that such data will be useful for other discourse parsing tasks like analyzing fora with multi-threads.
+195	18	To simplify the parsing task, we transformed our SDRT structures into dependency ones.
+196	23	We used two different local probability distribution models as input to several decoding mechanisms, including one based on the Maximum Spanning Tree al- gorithm, and an enhanced version of it in order to produce structures closer to the ones we observe.
+198	18	In future work, we plan to investigate ILP constraints in greater depth to develop a plausible alternative to MST on DAGs.

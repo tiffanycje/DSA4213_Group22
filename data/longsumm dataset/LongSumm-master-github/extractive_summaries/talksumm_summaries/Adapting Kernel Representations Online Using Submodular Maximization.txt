@@ -1,0 +1,30 @@
+5	66	In a continual learning setting, such as in online learning or reinforcement learning, there is a constant, effectively unending stream of data, necessitating some care when using kernel representations.
+8	15	This choice comes from the representer theorem, which states that for a broad class of functions, the empirical risk minimizer is a linear weighting of similarity features, to a set of prototypes that consists of the training data.
+10	108	Conversely, we want to permit selection of a sufficiently large number of prototypes, to maintain sufficient modeling power.
+12	75	Currently, most algorithms do not satisfy the criteria for a continual learning setting.
+14	99	Within the streaming community, approaches typically assume that the batch of data, though large, is accessible and fixed.
+15	31	The most related of these areas2 include active set selection for Gaussian process regression (Seeger et al., 2003), with streaming submodular maximization approaches (Krause et al., 2008b;a; Badanidiyuru et al., 2014); incremental Nystrom methods within kernel recursive least-squares (KRLS) (Rudi et al., 2015)3; and functional gradients that sample random bases which avoid storing prototypes but require storing n scalars, for n training samples (Dai et al., 2014).
+31	24	More formally, for observations x 2 X , the kernel representation consists of similarities to a set of prototypes S = {z1, .
+42	16	The log-determinant of the resulting kernel matrix, log detK S , is a submodular function of S. Though maximizing submodular functions is NP-hard, greedy approximation algorithms have been shown to obtain reasonable approximation ratios, even for the streaming setting (Krause & Gomes, 2010; Badanidiyuru et al., 2014), and the resulting algorithms are elegantly simple and theoretically sound.
+48	20	These selection criteria are designed for a finite set of observed points; here, we step back and reconsider a suitable objective for prototype selection for continual learning.
+49	15	Our goal is to select prototypes that minimize distance to the optimal function.
+52	50	,xn} be a set of points, with corresponding labels y1, .
+60	15	Solving gives (i) = ↵ i (K S + I) 1k i , and so (i) > (K S + I) 2↵ i (i) > k i + ↵2 i k(x i ,x i ) = ↵2 i k > i (K S + I) 1k i 2↵2 i k > i (K S + I) 1k i + ↵2 i k(x i ,x i ) = ↵2 i k(x i ,x i ) ↵2 i k > i (K S + I) 1k i We can now simplify the above upper bound (2)  min S⇢X nX i=1 ↵2 i k(x i ,x i ) ↵2 i k > i (K S + I) 1k i and obtain equivalent optimization argmax S⇢X nX i=1 ↵2 i k > i (K S + I) 1k i .
+86	37	We would like to note that there is one streaming algorithm, called Sieve Streaming, designed to only do one pass of the data and avoid too many calls to the submodular function (Badanidiyuru et al., 2014); however, it requires keeping parallel solutions, which introduces significant complexity and which we found prohibitively expensive.
+100	18	We extend an algorithm that uses multiple passes; our approach suggests more generally how algorithms from the streaming setting can be extended to an online setting.
+111	20	We introduce the term coverage, instead of cover time for finitestate, to indicate a relaxed notion of observing a covering of the space rather than observing all states.
+124	31	Using these inequalities, as shown more explicitly in the proof in the appendix, we get g(S [ {z⇤ i }) g(S)  b + ✏ r + 2✏ f + ✏ t Algorithm 2 BlockGreedy: OnlineGreedy for Prototype Selection using a Block-Diagonal Approximation r = block-size, with set of blocks B, S0 ; c, l book-keeping maps, with (c(B), l(B)) = (z, l) for z leading to smallest utility loss l if removed from block B. g e 0 is the incremental estimate of log-determinant for t = 1 : b do, S t S t 1 [ {xt} while interacting, t = b+ 1, .
+129	20	In this section, we propose a time and memory efficient greedy approach to computing a submodular function on K S , enabling each step of OnlineGreedy to cost O(db), where d is the feature dimension and b is the budget size.
+130	49	The key insight is to take advantage of the block-diagonal structure of the kernel matrix, particularly due to the fact that the greedy algorithm intentionally selects diverse prototypes.
+135	19	remove point from a different block B1 B1 [ {x} B2 B2 \ {c(B2)} update c(B1), c(B2) .
+177	21	For all regression experiments, we use a threshold of ✏ t = 0.01 unless otherwise specified.
+178	18	For Boston housing data, in figure 2(a), we see that BlockGreedy can perform almost as well as FullGreedy and SieveStreaming, and outperforms KRLS at early learning and finally converges to almost same performance.
+179	27	We set the parameters for KRLS using the same parameter settings for this dataset as in their paper (Engel et al., 2004).
+181	17	We also have lower learning variance than KRLS, likely because we use explicit regularization, whereas KRLS uses its prototype selection mechanism for regularization.
+185	17	With the larger block size, BlockGreedy obtained a log determinant value within 0.5% of FullGreedy.
+187	46	We set the width parameter and budget size to that used with KRLS after one iteration on the training set.
+192	15	We derived a criterion for prototype selection, and showed that the log-determinant is an instance of this criterion.
+194	53	We then derived the efficient variant, BlockGreedy, to take advantage of the block-diagonal structure of the kernel matrix, which enables separability of the criteria and faster local computations.
+195	76	We demonstrated that, by taking advantage of this structure, BlockGreedy can significantly reduce computation without incurring much penalty in maximizing the log-determinant and maintaining competitive prediction performance.
+196	30	Our goal within continual learning was to provide a principled, near-linear time algorithm for prototype selection, in terms of the number of prototypes.
+197	101	We believe that BlockGreedy provides one of the first such algorithms, and is an important step towards effective kernel representations for continual learning settings, like online learning and reinforcement learning.

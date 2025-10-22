@@ -1,0 +1,30 @@
+1	41	It is thus practically impossible for physicians to know which is the best medical intervention for a given patient group and condition (Borah et al., 2017; Fraser and Dunstan, 2010; Bastian et al., 2010).
+2	25	This inability to easily search and organize the published literature impedes the aims of evidence based medicine (EBM), which aspires to inform patient care using the totality of relevant evidence.
+6	27	The corpus, accompanying documentation, baseline model implementations for the proposed tasks, and all code are publicly available.2 EBM-NLP comprises ∼5,000 medical abstracts describing clinical trials, multiply annotated in detail with respect to characteristics of the underlying trial Populations (e.g., diabetics), Interventions (insulin), Comparators (placebo) and Outcomes (blood glucose levels).
+14	45	Prior work on NLP for EBM has been limited by the availability of only small corpora, which have typically provided on the order of a couple hundred annotated abstracts or articles for very complex information extraction tasks.
+34	200	First, we acquired labels demarcating spans in the text describing the clinically salient abstract elements mentioned above: the trial Population, the Interventions and Comparators studied, and the Outcomes measured.
+35	61	We collapse Interventions and Comparators into a single category (I).
+41	18	MeSH terms assignment of the metadata MeSH terms associated with the abstract to labeled subsequences (Stage 2 annotation).4 We collected annotations for each P, I and O element individually to avoid the cognitive load imposed by switching between label sets, and to reduce the amount of instruction required to begin the task.
+43	44	We include all annotation instructions provided to workers for all tasks in the Appendix.
+44	35	For large scale crowdsourcing via recruitment of layperson annotators, we used Amazon Mechanical Turk (AMT).
+49	25	We obtained annotations from ≥ 3 different workers for each of the 5,000 abstracts to enable robust inference of reliable labels from noisy data.
+51	38	To supplement our larger-scale data collection via AMT, we collected annotations for 200 abstracts for each PIO element from workers with advanced medical training.
+55	21	In addition, for both stages of annotation and for the detailed subspan annotation in Stage 2, we hired three medical professionals via Upwork,5 an online platform for hiring skilled freelancers.
+57	69	In addition to providing high-quality annotations, individuals hired via Upwork also provided feedback regarding the instructions to help make the task as clear as possible for the AMT workers.
+60	162	For each P, I and O element, workers were asked to read the abstract and highlight all spans of text including any pertinent information.
+61	77	Annotations for 5,000 articles were collected from a total of 579 AMT workers across the three annotation types, and expert annotations were collected for 200 articles from two medical students.
+62	48	We first evaluate the quality of the annotations by calculating token-wise label agreement between the expert annotators; this is reported in Table 2.
+63	196	Due to the difficulty and technicality of the material, agreement between even well-trained domain experts is imperfect.
+64	36	The effect is magnified by the unreliability of AMT workers, motivating our strategy of collecting several noisy annotations and aggregating over them to produce a single cleaner annotation.
+65	59	We tested three different aggregation strategies: a simple majority vote, the Dawid-Skene model (Dawid and Skene, 1979) which estimates worker reliability, and HMMCrowd, a recent extension to Dawid-Skene that includes a HMM component, thus explicitly leveraging the sequential structure of contiguous spans of words (Nguyen et al., 2017).
+66	41	For each aggregation strategy, we compute the token-wise precision and recall of the output labels against the unioned expert labels.
+67	88	As shown in Table 3, the HMMCrowd model afforded modest improvement in F-1 scores over the standard Dawid-Skene model, and was thus used to generate the inputs for the second annotation phase.
+68	22	The limited overlap in the document subsets annotated by any given pair of workers, and wide variation in the number of annotations per worker make interpretation of standard agreement statis- tics tricky.
+69	36	We quantify the centrality of the AMT span annotations by calculating token-wise precision and recall for each annotation against the aggregated version of the labels (Table 4).
+70	78	When comparing the average precision and recall for individual crowdworkers against the aggregated labels in Table 4, scores are poor showing very low agreement between the workers.
+71	24	Despite this, the aggregated labels compare favorably against the expert labels.
+75	54	Our labels are aligned to (and thus compatible with) the concepts codified by the Medical Subject Headings (MeSH) vocabulary of medical terms maintained by the National Library of Medicine (NLM).6 In consultation with domain experts, we selected subsets of MeSH terms for each PIO category that captured relatively precise information without being overwhelming.
+76	43	For illustration, we show the outcomes label hierarchy we used in Figure 2.
+77	32	We reproduce the label hierarchies used for all PIO categories in the Appendix.
+78	51	At this stage, workers were presented with abstracts in which relevant spans were highlighted, based on the annotations collected in the first annotation phase (and aggregated via the HMM- Crowd model).
+93	29	Workers would also sometimes fail to capture repeated mentions of the same information, producing Type 2 errors more frequently than Type 1.

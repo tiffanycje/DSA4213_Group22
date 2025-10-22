@@ -1,0 +1,30 @@
+10	53	This is particularly important in the context of choosing segments to annotate, as human annotators heavily rely on semantics and context information to process language, and intuitively, a consecutive sequence of words can be supervised faster and more accurately than the same number of words spread out over several locations in a text.
+11	36	This intuition can also be seen in our empirical data in Figure 2, which shows that for the speech transcription and word segmentation tasks described later in Section 5, short segments had a longer annotation time per word.
+13	22	In this paper, we introduce a new strategy for natural language supervision tasks that attempts to optimize supervision efficiency by choosing an appropriate segmentation.
+17	26	Doing so allows specifying practical optimization goals such as “remove as many errors as possible given a limited time budget,” or “annotate data to obtain some required classifier accuracy in as little time as possible.” Solving this optimization task is computationally difficult, an NP-hard problem.
+21	18	Our model predicts noticeable efficiency gains, which are confirmed in experiments with human annotators.
+22	46	The goal of our method is to find a segmentation over a corpus of word tokens wN1 that optimizes supervision efficiency according to some predictive user model.
+25	55	Sperber et al. (2013) defined a framework for speech transcription in which an initial, erroneous transcript is created using automatic speech recognition (ASR), and an annotator corrects the transcript either by correcting the words by keyboard, by respeaking the content, or by leaving the words as is.
+28	160	The user model in this example might evaluate every segment according to two criteria L, a cost criterion (in terms of supervision time) and a utility criterion (in terms of number of removed errors), when using each mode.
+79	22	In order to measure how many errors can be removed by supervising a particular segment, we must estimate both how many errors are in the automatic annotation, and how reliably a human can remove these for a given supervision mode.
+84	18	For example, in the task from Section 2, we may suspect a certain number of errors in a transcript segment, and predict, say, 95% of those errors to be removed via typing, but only 85% via respeaking.
+85	24	Another reasonable utility measure is accuracy of a classifier trained on the data we choose to annotate in an active learning framework.
+87	19	Here, we may similarly score segment utility as the sum of its token confidences, although care must be taken to normalize and calibrate the token confidences to be linearly comparable before doing so.
+91	28	With recognition accuracies plateauing, manually correcting (post editing) automatic speech transcripts has become popular.
+104	17	For reasons of simplicity, and better comparability to our baseline, we restricted our experiment to two supervision modes: TYPE and SKIP.
+105	19	We conducted experiments with 3 participants, 1 with several years of experience in transcription, 2 with none.
+111	18	Both TED talks were transcribed once using the baseline strategy, and once using the proposed strategy.
+114	18	Sperber et al. (2013): We segmented the talk into natural, subsentential units, using Matusov et al. (2006)’s segmenter, which we tuned to reproduce the TED subtitle segmentation, producing a mean segment length of 8.6 words.
+115	19	Segments were added in order of increasing average word confidence, until the user model predicted a WER<15%.
+126	28	We assume a transcriber who makes no mistakes, and needs exactly the amount of time predicted by a user model trained on the data of a randomly selected participant.
+128	25	For each supervised segment, we simply replace the ASR output with the reference, and measure the resulting WER.
+130	34	The proposed method is able to reduce the WER faster than the baseline, up to a certain point where they converge.
+131	27	The oracle simulation is even faster, indicating room for improvement through better confidence scores.
+137	21	On average, participants removed 6.68 errors per minute using the baseline, and 8.93 errors per minute using the proposed method, a speed-up of 25.2%.
+147	21	The authors released their method as a software package “KyTea” that we employed in this user study.
+148	21	We used KyTea’s active learning domain adaptation toolkit8 as a baseline.
+151	45	The goal (objective function) was to improve KyTea’s classification accuracy on an indomain test set, given a constrained time budget of 30 minutes.
+152	22	There were again 2 supervision modes: ANNOTATE and SKIP.
+154	64	We conducted experiments with one expert with several years of experience with Japanese word segmentation annotation, and three non-expert native speakers with no prior experience.
+156	18	Supervision time was predicted via GP regression (cf.
+159	19	To obtain training data for these models, each participant annotated about 500 example instances, drawn from the adaptation corpus, grouped into segments and balanced regarding segment length and difficulty.

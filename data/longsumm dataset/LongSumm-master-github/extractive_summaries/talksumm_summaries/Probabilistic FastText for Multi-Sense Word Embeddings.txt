@@ -1,0 +1,30 @@
+5	30	To overcome this limitation, character-level word embeddings have been proposed.
+14	32	For example, the distribution for “rock” could have mass near the word “jazz” and “pop”, but also “stone” and “basalt”.
+16	17	In this paper, we propose Probabilistic FastText (PFT), which provides probabilistic characterlevel representations of words.
+18	46	PFT can model rare words, uncertainty information, hierarchical representations, and multiple word senses.
+23	58	Our models extract high-quality semantics based on multiple word-similarity benchmarks, including the rare word dataset.
+25	23	We also observe meaningful nearest neighbors, particularly in the multimodal density case, where each mode captures a distinct meaning.
+27	24	Our multimodal word representation can also disentangle meanings, and is able to separate different senses in foreign polysemies.
+28	19	In particular, our models attain state-of-the-art performance on SCWS, a benchmark to measure the ability to separate different word meanings, achieving 1.0% improvement over a recent density embedding model W2GM (Athiwaratkun and Wilson, 2017).
+43	25	We describe the probabilistic subword representation in Section 3.1.
+57	26	This model choice to use dictionary-based mean vectors for other components is to reduce to constraint imposed by the subword structure and promote independence for meaning discovery.
+58	56	Traditionally, if words are represented by vectors, a common similarity metric is a dot product.
+61	34	With Gaussian mixtures f(x) = ∑K i=1 piN (x; ~µf,i,Σf,i) and g(x) = ∑K i=1 qiN (x; ~µg,i,Σg,i), ∑K i=1 pi = 1, and ∑K i=1 qi = 1, the energy has a closed form: E(f, g) = log K∑ j=1 K∑ i=1 piqje ξi,j (2) where ξj,j is the partial energy which corresponds to the similarity between component i of the first 4 word f and component j of the second word g.2 ξi,j ≡ logN (0; ~µf,i − ~µg,j ,Σf,i + Σg,j) = −1 2 log det(Σf,i + Σg,j)− D 2 log(2π) −1 2 (~µf,i − ~µg,j)>(Σf,i + Σg,j)−1(~µf,i − ~µg,j) (3) Figure 2 demonstrates the partial energies among the Gaussian components of two words.
+62	16	Interaction between GM components rock:0 pop:0 pop:1rock:1 ⇠0,1 ⇠0,0 ⇠1,1 ⇠1,0 bang, crack, snap basalt, boulder, sand jazz, punk, indie funk, pop-rock, band Figure 2: The interactions among Gaussian components of word rock and word pop.
+63	31	The partial energy is the highest for the pair rock:0 (the zeroth component of rock) and pop:1 (the first component of pop), reflecting the similarity in meanings.
+64	41	The model parameters that we seek to learn are vw for each word w and zg for each n-gram g. We train the model by pushing the energy of a true context pair w and c to be higher than the negative context pair w and n by a margin m. We use Adagrad (Duchi et al., 2011) to minimize the following loss to achieve this outcome: L(f, g) = max [0,m− E(f, g) + E(f, n)] .
+95	20	Note that the adjustable parameters for our models are the loss margin m in Equation 4 and the scale α in Equation 5.
+108	27	We observe the separation in meanings for the multi-component case; for instance, one component of the word “bank” corresponds to a financial bank whereas the other component corresponds to a river bank.
+121	19	(6) The pair (i, j) that achieves the maximum cosine similarity corresponds to the Gaussian component pair that is the closest in meanings.
+129	18	For a fair and objective comparison, we calculate a weighted average of the correlation scores for each model.
+138	16	We use the maximum similarity score (Equation 6), denoted as MAXSIM.
+142	36	We evaluate the foreign-language embeddings on word similarity datasets in respective languages.
+143	33	We use Italian WORDSIM353 and Italian SIMLEX-999 (Leviant and Reichart, 2015) for Italian models, GUR350 and GUR65 (Gurevych, 2005) for German models, and French WORDSIM353 (Finkelstein et al., 2002) for French models.
+158	25	Training these words to have a good semantic representation is challenging if done at the word level alone.
+174	26	The proposed probabilistic formulation incorporates uncertainty information and naturally allows one to uncover multiple meanings with multimodal density representations.
+176	31	Moreover, our multimodal density models can provide interpretable and disentangled representations, and are the first multi-prototype embeddings that can handle rare words.
+177	15	Future work includes an investigation into the trade-off between learning full covariance matrices for each word distribution, computational complexity, and performance.
+178	32	This direction can potentially have a great impact on tasks where the variance information is crucial, such as for hierarchical modeling with probability distributions (Athiwaratkun and Wilson, 2018).
+179	128	Other future work involves co-training PFT on many languages.
+180	52	Currently, existing work on multi-lingual embeddings align the word semantics on pre-trained vectors (Smith et al., 2017), which can be suboptimal due to polysemies.
+181	73	We envision that the multi-prototype nature can help disambiguate words with multiple meanings and facilitate semantic alignment.

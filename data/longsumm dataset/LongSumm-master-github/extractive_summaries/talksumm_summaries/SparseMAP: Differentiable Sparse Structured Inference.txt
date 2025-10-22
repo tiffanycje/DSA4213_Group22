@@ -1,0 +1,30 @@
+4	20	△ argmax (1, 0, 0) softmax (.5, .3, .2) sparsemax (.6, .4, 0) M MAP ⋆ Marginal ⋆ SparseMAP ⋆ Figure 1.
+6	53	Right: in this work, we extend this view to structured inference, which consists of optimizing over a polytope M, the convex hull of all possible structures (depicted: the arborescence polytope, whose vertices are trees).
+10	18	Our framework departs from the two most common inference strategies in structured prediction: maximum a posteriori (MAP) inference, which returns the highest-scoring structure, and marginal inference, which yields a dense probability distribution over structures.
+11	73	Neither of these strategies is fully satisfactory: for latent structure models, marginal inference is appealing, since it can represent uncertainty and, unlike MAP inference, it is continuous and differentiable, hence amenable for use in structured hidden layers in neural networks (Kim et al., 2017).
+26	17	The backward pass is fully general (applicable to any type of structure), and it is efficient, thanks to the sparsity of the solutions and to reusing quantities computed in the forward pass.
+36	86	As a basis for the more complex structured case, we first consider the simple problem of selecting the largest value in a vector θ ∈ Rd.
+39	36	When there are ties, argmax is set-valued.
+40	45	Even assuming no ties, argmax is piecewise constant, and thus is ill-suited for direct use within neural networks, e.g., in an attention mechanism.
+43	22	By replacing the entropic penalty with a squared ℓ2 norm, Martins & Astudillo (2016) introduced a sparse alternative to softmax, called sparsemax, given by sparsemax(θ) := argmax y∈△d θ⊤y − 1 2 ‖y‖ 2 2 = argmin y∈△d ‖y − θ‖ 2 2 .
+46	23	Both mechanisms, as well as variants with different penalties (Niculae & Blondel, 2017), have been successfully used in attention mechanisms, for mapping a score vector θ to a d-dimensional normalized discrete probability distribution over a small set of choices.
+62	17	The Viterbi algorithm provides MAP inference and forwardbackward provides marginal inference (Rabiner, 1989).
+64	18	Consider a sentence of length n. Here, a structure s is a dependency tree: a rooted spanning tree over the n2 possible arcs (for example, the arcs above the sentences in Figure 3).
+65	20	Each column ms ∈ {0, 1} n2 encodes a tree by assigning a 1 to its arcs.
+67	47	MAP inference may be performed by maximal arborescence algorithms (Chu & Liu, 1965; Edmonds, 1967; McDonald et al., 2005), and the MatrixTree theorem (Kirchhoff, 1847) provides a way to perform marginal inference (Koo et al., 2007; Smith & Smith, 2007).
+69	41	A global structure s is a n-permutation, and a columnms ∈ {0, 1} n2 can be seen as a flattening of the corresponding permutation matrix.
+70	27	MA is the Birkhoff polytope (Birkhoff, 1946), and MAP inference can be performed by, e.g., the Hungarian algorithm (Kuhn, 1955) or the Jonker-Volgenant algorithm (Jonker & Volgenant, 1987).
+71	33	Noticeably, marginal inference is known to be #P-complete (Valiant, 1979; Taskar, 2004, Section 3.5).
+73	20	Armed with the parallel between structured inference and regularizedmax operators described in §2, we are now ready to introduce SparseMAP, a novel inference optimization problem which returns sparse solutions.
+107	22	Importantly, because D(I) is zero outside of the support of the solution, computing the Jacobian only requires the columns ofM andA corresponding to the structures in the active set.
+112	39	The first is “unrolling” iterative inference algorithms, for instance belief propagation (Stoyanov et al., 2011; Domke, 2013) and gradient descent (Belanger et al., 2017), where the backward pass complexity scales with the number of iterations.
+154	28	We focus on the task of natural language inference, defined as the classification problem of deciding, given two sentences (a premise and a hypothesis), whether the premise entails the hypothesis, contradicts it, or is neutral with respect to it.
+189	40	The premise is on the y-axis, the hypothesis on the x-axis.
+190	54	Top: columns sum to 1; bottom: rows sum to 1.
+191	33	The matching alignment mechanism yields a symmetrical alignment, and is thus shown only once.
+193	20	The structures selected by sequential alignment are overlayed as paths; the selected matchings are displayed in the top right.
+207	145	We introduced a new framework for sparse structured inference, SparseMAP, along with a corresponding loss function.
+209	134	Experimental results illustrate two use cases where sparse inference is well-suited.
+210	61	For structured prediction, the SparseMAP loss leads to strong models that make sparse, interpretable predictions, a good fit for tasks where local ambiguities are common, like many natural language processing tasks.
+211	20	For structured hidden layers, we demonstrated that SparseMAP leads to strong, interpretable networks trained end-to-end.
+212	29	Modular by design, SparseMAP can be applied readily to any structured problem for which MAP inference is available, including combinatorial problems such as linear assignment.

@@ -1,0 +1,30 @@
+21	33	The proof of this theorem is constructive, creating a family of explicitly difficult active search instances and showing that no polynomial time algorithm can perform well compared to the optimal (exponential cost) policy on these.
+23	9	Our policy automatically balances exploitation against exploration consistent with the labeling budget without requiring any parameters controlling this tradeoff.
+24	22	We also develop an effective strategy for pruning unlabeled points by bounding their potential impact on the search problem.
+25	31	We compare our method with several baselines by conducting experiments on numerous real datasets spanning several domains including citation networks, materials science, and drug discovery.
+26	20	Our results thoroughly demonstrate that our policy typically significantly outperforms previously proposed active search approaches.
+33	18	We will express our preference over different sets of observations D , { (xi, yi) } through a simple utility: u(D) , ∑ yi∈D yi, (1) which simply counts the number of targets in D. Then, the problem is to sequentially construct a set of t observed points D with the goal of maximizing u(D).
+34	21	Throughout this work, we use a subscript to specify a set of observed data after i ≤ t queries, defining Di , { (xj , yj) }i j=1 .
+35	9	Following previous work, we consider the active search problem in the standard Bayesian framework.
+38	12	We wish to submit the ith item to the oracle.
+45	23	Thus, when there is one query remaining, the optimal decision is to greedily choose the remaining point with maximum probability of being a target.
+46	14	When two or more queries are left, the optimal policy is not as trivial.
+54	15	These latter two terms can be interpreted as encouraging exploitation and exploration, respectively, with the optimal second-to-last query.
+61	22	Since these myopic approaches cannot plan more than ` steps ahead, they can underestimate the potential benefit of exploration.
+75	13	We propose to continue to exactly compute the expected utility to some fixed horizon, but to approximate the remainder of the search differently.
+76	28	We will approximate the expected utility from any remaining portion of the search by assuming that any remaining points, {xi+1, xi+2, .
+77	10	, xt}, in our budget will be selected simultaneously in one big batch.
+78	49	One rationale is if we assume that after observing Di, the labels of all remaining unlabeled points are conditionally independent, then this approximation recovers the Bayesian optimal policy exactly.
+79	13	By exploiting linearity of expectation, it is easy to work out the optimal policy for selecting such a simultaneous batch observation: we simply select the points with the highest probability of being valuable.
+94	24	We create an active search problem by defining the set of targets R ⊆ X to be all points within Euclidean distance 1/4 from either the center or any corner of I .
+98	13	Figures 1(a–b) correspond to our method; Figures 1(c–d) to two-step lookahead.
+99	50	Figures 1(a, c) consider the distribution of the first 100 selected locations; Figures 1(b, d) consider the last 100.
+100	16	The qualitative difference between these strategies is clear.
+101	36	The myopic policy focused on collecting all targets around the center (Figure 1(c)), whereas our policy explores the boundaries of the center clump with considerable intensity, as well as some of the corners (Figure 1(a)).
+102	15	As a result, our policy is capable of finding some of targets in the corners, whereas two-step lookahead hardly ever can (Figure 1(d)).
+104	14	On average, the ENS policy found about 40 more targets at termination than the two-step-lookahead policy.
+107	11	We can exploit such structure to reduce the complexity of our method by avoiding unnecessary computation.
+112	53	We can see the complexity is about the same as two-step lookahead, which is O ( n(log n+m) ) when using the same tricks.
+116	14	Second, we are able to bound the maximum probability of the unlabeled points after conditioning on a given number of additional targets; that is, we assume there is a function p∗(n,D) such that p∗(n,D) ≥ max x∈X\D Pr(y = 1 | x,D∪D′, ∑ y′∈D′y ′ ≤ n).
+118	12	Consider an unlabeled point x at time i, and define π(x) = Pr(y = 1 | x,Di) for the remainder of this discussion.
+119	18	The score (7), denoted f(x) here for simplicity, can be upper bounded by f(x) ≤ π · ( 1 + (t− i)p∗(1,Di) ) + (1− π) · (∑′ t−i Pr(y ′ = 1 | x′,Di) ) , U(π).

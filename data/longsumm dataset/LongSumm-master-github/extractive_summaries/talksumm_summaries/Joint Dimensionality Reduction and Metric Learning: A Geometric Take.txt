@@ -1,0 +1,30 @@
+0	29	“To make it tractable for the distance metric learning algorithms we perform dimensionality reduction by PCA to a 100 dimensional subspace” (Koestinger et al., 2012).
+9	44	Motivated by these questions, in this paper, we introduce a unified formulation for dimensionality reduction and metric learning.
+10	35	As suggested by our results on the ASLAN dataset in the bottom row of Table 1, our method outperforms the state-of-the-art metric learning techniques.
+14	34	As a consequence, they still need to rely on PCA as a pre-processing step in practice.
+20	13	By building upon recent advances in optimization on Riemannian matrix manifolds (Absil et al., 2009), we therefore develop a mathematical framework that effectively and efficiently lets us find a solution in this space.
+43	19	Furthermore, motivated by our analysis of existing methods, which all benefit from a PCA preprocessing step, we also seek to reduce the dimensionality of the data.
+45	16	More specifically, we want to learn a projection W : Rn → Rp and a Mahalanobis matrix M ∈ Sp++, such that the induced distance in Rp is more discriminative.
+46	22	To this end, let X = {(xi, x̃i, yi)}mi=1 be a set of triplets, where xi, x̃i ∈ Rn are the feature vectors of two training samples, and the label yi ∈ {0, 1} determines whether xi and x̃i are similar (yi = 1) or not (yi = 0).
+47	15	The Mahalanobis distance between xi and x̃i in the low-dimensional space can thus be written as d2M ,W (xi, x̃i) = (W Txi −W T x̃i)TM(W Txi −W T x̃i) = (x− x̃i)TWMW T (xi − x̃i) .
+50	46	(7) Conversely, for a pair of samples (xj , x̃j) whose labels differ, i.e., yj = 0, we define the loss `(xj , x̃j |yj = 0) = log(1 + p−1j ) .
+59	13	To avoid degeneracies, and following common practice in dimensionality reduction, we constrain W to be a matrix with orthonormal columns.
+70	19	See the supplementary material.
+77	15	A tangent vector ξ↑Ω ∈ T[Ω]M can be obtained from a tangent vector ξΩ ∈ TΩMp by projection.
+85	26	(20) Here uf(A) = A(ATA)−1/2, which yields an orthogonal matrix and expm(·) denotes the matrix exponential.
+89	48	In our experiments, we employed Conjugate Gradient descent on M to solve (12).
+99	15	• Projecting (∇W ,∇M ) to the tangent space of Mp takes O(2p2(n+ p)).
+118	15	In particular, the authors make use of a quotient geometry to overcome the undesirable effects of the invariance in gradient descent optimization.
+120	25	Furthermore, note that the geometry developed in our paper can also handle the case where a Mahalanobis metric is searched for (i.e., without recasting the problem as a fac- torization problem), which is the case in techniques such as (Globerson & Roweis, 2005; Koestinger et al., 2012; Zadeh et al., 2016).
+122	20	To this end, we replace the term WMW T in our loss with 1.
+123	41	LLT , L ∈ Rn×p, and optimize using Euclidean geometry.
+139	14	Following common practice when converting a linear algorithm to a nonlinear one (e.g., from PCA to kernel PCA), we make use of a mapping of the input data to a Reproducing Kernel Hilbert Space (RKHS).
+140	16	As shown below, the resulting algorithm then only depends on kernel values (i.e., it does not explicitly depend on the mapping to RKHS).
+145	15	We therefore need a formulation where only the kernel function appears, and not φ explicitly.
+186	26	The dataset comes with 10 predefined splits of the data, where each split consists of 5,400 training and 600 testing pairs of action videos.
+187	35	The ASLAN dataset also provides three different types of descriptors: Histogram of Oriented Gradients (HoG), Histogram of Optical Flow (HoF), and a composition of both (referred to as HnF).
+190	50	In Table 3, we report the classification accuracy and the Area Under the ROC Curve (AUC) of our algorithms and of the baselines.
+191	15	Here, we also include the results of the benchmark (Kliper-Gross et al., 2012), which provides us with a direct comparison of previously published results.
+192	29	Note that DRML and kDRML outperform all the other algorithms.
+193	54	In general, kDRML performs better than DRML.
+195	35	We fixed the matrix W to the subspace obtained by PCA, and learned the metric using our loss function.

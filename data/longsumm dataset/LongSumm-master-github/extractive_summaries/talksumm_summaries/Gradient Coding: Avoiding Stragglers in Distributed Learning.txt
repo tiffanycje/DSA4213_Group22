@@ -1,0 +1,30 @@
+41	20	Fortunately, these machines have very low cost.
+43	19	The main message of this paper is that going for very low-cost instances and using coding to mitigate stragglers, may be a sensible choice for some learning problems.
+58	21	, (xd, yd)}, with each tuple (x, y) ∈ Rp×R, several machine learning tasks aim to solve the following problem: β∗ = arg min β∈Rp d∑ i=1 ` (β;xi, yi) + λR(β) (1) where `(·) is a task-specific loss function, and R(·) is a regularization function.
+60	26	Let g := ∑d i=1∇`(β(t);xi, yi) be the gradient of the loss at the current model β(t).
+63	24	However, if the number of samples, d, is large, a computational bottleneck in the above update step is the computation of the gradient, g, whose computation can be distributed.
+64	67	Throughout this paper, we let d denote the number of samples, n denote the number of workers, k denote the number of data partitions, and s denote the number of stragglers/failures.
+65	49	The n workers are denoted as W1,W2, .
+68	26	For any vector x ∈ Rn, supp(x) denotes its support i.e. supp(x) = {i | xi 6= 0}, and ‖x‖0 denotes its `0-norm i.e. the cardinality of the support.
+71	20	We can generalize the scheme in Figure 1b to n workers and k data partitions by setting up a system of linear equations: AB = 1f×k (3) where f denotes the number of combinations of surviving workers/non-stragglers, 1f×k is the all 1s matrix of dimension f × k, and we have matrices A ∈ Rf×n, B ∈ Rn×k.
+75	11	Then, worker Wi transmits biḡ.
+77	16	Now, each row of A is associated with a specific failure/straggler scenario, to which tolerance is desired.
+78	36	In particular, any row ai, with support supp(ai), corresponds to the scenario where the worker indices in supp(ai) are alive/non-stragglers.
+84	14	Also, since every row of A here has exactly one zero, we say that this scheme is robust to any one straggler.
+85	16	In general, we shall seek schemes, through the construction of (A,B), which are robust to any s stragglers.
+93	38	Consider any such scheme (A,B).
+101	21	In particular, given a B satisfying Condition 1, we can construct A such that AB = 1, and A has the support structure discussed above.
+106	18	However, this is wasteful since it implies that each worker gets all the partitions and computes the full gradient.
+142	14	Given the support structure in Eq.
+144	24	The basic idea is to pick every row of Bcyc, with its particular support, to lie in a suitable subspace S that contains the all ones vector 1n×1.
+145	25	We consider a (n− s) dimensional subspace, S = {x ∈ Rn |Hx = 0, H ∈ Rs×n} i.e. the null space of the matrix H , for some H satisfying H1 = 0.
+157	20	One way to mitigate this is by allowing at least some work to be done also by the straggling workers.
+158	16	Therefore, in this section, we consider a more plausible scenario of slow workers, but assume a known slowdown factor.
+162	23	However, given that no machine is slower than a factor of α, a more efficient scheme is possible by exploiting at least some computation on every machine.
+163	17	Our basic idea is to couple our earlier schemes with a naive distribution scheme, but on different parts of the data.
+169	29	Note that each worker now has to send two partial gradients (instead of one, as in earlier schemes).
+170	25	However, a speedup gained in processing a smaller fraction of the data may mitigate this overhead in communication, since each nonstraggler only has to process a s+1n ( α s+α ) fraction of the data, as opposed to a s+1n fraction in full straggler schemes.
+195	87	Therefore, we expect that these two schemes would not be influenced at all by the delay of the stragglers (up to some variance due to implementation overheads).
+196	14	The partial straggler schemes were designed for various α.
+200	14	These experiments were run on n = 10, 20, 30 t2.micro instances on Amazon EC2.
+201	101	In Figure 7 we show the Generalization AUC of our method (FracRep and CycRep) versus the popular approach of ignoring s stragglers.

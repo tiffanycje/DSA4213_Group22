@@ -1,0 +1,30 @@
+12	23	At the same time they can react to events and trigger actions to control the physical world.
+13	31	These applications highlight another important aspect of decentralized optimization where private data is collected by different sensing units (Yang et al., 2017).
+14	93	Here again, we aim to optimize a global objective function while avoiding to share the private data among computing units.
+67	70	We consider a set of n computing machines/sensors that communicate over a graph to maximize a global objective function.
+69	36	We further assume that the possible communication links among nodes are given by a bidirectional connected communication graph G = (N , E) where each node can only communicate with its neighbors in G. We formally use Ni to denote node i’s neighbors.
+70	22	In our setting, we assume that each node i 2 N has access to a local function Fi : X !
+75	94	In this setting, each node i 2 N has access to a local set function fi : 2V !
+78	40	(5) Note that even in the centralized case, and under reasonable complexity-theoretic assumptions, the best approximation guarantee we can achieve for Problems (4) and (5) is (1 1/e) (Feige, 1998).
+80	43	In this section, we introduce the Decentralized Continuous Greedy (DCG) algorithm for solving Problem (4).
+83	21	Each node i in the network keeps track of two local variables xi,di 2 Rp which are iteratively updated at each round t using the information gathered from the neighboring nodes.
+85	27	The vector dti is the estimate of the gradient of the global objective function that node i keeps at step t. To properly incorporate the received information from their neighbors, nodes should assign nonnegative weights to their neighbors.
+89	27	The first step at each round t of DCG is updating the local gradient approximation vectors dti using local and neighboring gradient information.
+91	48	Note that the sum P j2Ni[{i} wijd t 1 j in (6) is a weighted average of node i’s vector dt 1i and its neighbors d t 1 j , evaluated at step t 1.
+92	48	Hence, node i computes the vector dti by evaluating a weighted average of its current local gradientrFi(xti) and the local and neighboring gradient information at step t 1, i.e.,Pj2Ni[{i} wijdt 1j .
+93	42	Since the vector dti is evaluated by aggregating gradient information from neighboring nodes, it is reasonable to expect that dti becomes a proper approximation for the global objective function gradient (1/n) Pn k=1rfk(x) as time progresses.
+116	47	If Assumption 1 holds and nodes start from x 0 i = 0p 2 C, then the local iterates xti are always in the feasible set C, i.e., xti 2 C for all i 2 N and t = 1, .
+117	42	Let us now explain how DCG relates to and innovates beyond the exisiting work in submodular maximization as well as decentralized convex optimization.
+121	22	Our proposed DCG method incorporates the idea of choosing the ascent direction according to a conditional gradient update as is done in the continuous greedy algorithm (i.e., the update rule (7)), while it aggregates the global objective function information through local communications with neighboring nodes (i.e., the update rule (8)).
+122	29	Unlike traditional consensus optimization methods that require exchanging nodes’ local variables only (Nedic & Ozdaglar, 2009; Nedic et al., 2010), DCG also requires exchanging local gradient vectors to achieve a (1 1/e) fraction of the optimal solution at each node (i.e., the update rule (6)).
+124	54	In other words, in the update rule (7), we can not use the local gradients rFi(xti) in lieu of dti.
+125	81	Indeed, there are settings for which such a replacement provides arbitrarily bad solutions.
+127	39	In this section we show how DCG can be used for maximizing a decentralized submodular set function f , namely Problem (5), through its continuous relaxation.
+129	97	, T do 4: Compute gti = (1 )gt 1i + r ˜Fi(xti); 5: Compute dti = (1 ↵) X j2Ni[{i} wijd t 1 j + ↵g t i ; 6: Exchange dti with neighboring nodes j 2 Ni 7: Evaluate vti = argmaxv2C hdti,vi; 8: Update the variable xt+1i = X j2Ni[{i} wijx t j + 1 T v t i ; 9: Exchange xt+1i with neighboring nodes j 2 Ni; 10: end for 11: Apply proper rounding to obtain a solution for (5); where Fi is the multilinear extension of fi defined as Fi(x) = X S⇢V fi(S) Y i2S xi Y j /2S (1 xj), (11) and the down-closed convex set C = conv{1I : I 2 I} is the matroid polytope.
+130	69	Note that the discrete and continuous optimization formulations lead to the same optimal value (Calinescu et al., 2011).
+132	56	As a result, in the discrete setting, we will slightly modify the DCG algorithm and work with unbiased estimates of the gradient that can be computed in time O(|V |) (see Appendix 9.7 for one such estimator).
+140	39	Note that the major difference between the Discrete DCG method (Algorithm 2) and the continuous DCG method (Algorithm 1) is in Step 5 in which the exact local gradient rFi(xti) is replaced by the stochastic approximation gti which only requires access to the computationally cheap unbiased gradient estimator r ˜Fi(xti).
+144	175	Further, the implementation of Discrete DCG requires rounding the continuous solution to obtain a discrete solution for the original problem without any loss in terms of the objective function value.
+145	22	The provably lossless rounding schemes include the pipage rounding (Calinescu et al., 2011) and contention resolution (Chekuri et al., 2014).
+146	25	In this section, we study the convergence properties of DCG in both continuous and discrete settings.
+148	28	Assumption 2 Euclidean distance of the elements in the set C are uniformly bounded, i.e., for all x,y 2 C we have kx yk  D. (13) Assumption 3 The local objective functions Fi(x) are monotone and DR-submodular.

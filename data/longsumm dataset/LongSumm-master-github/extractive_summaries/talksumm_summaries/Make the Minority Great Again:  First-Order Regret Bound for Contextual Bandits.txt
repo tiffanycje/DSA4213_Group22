@@ -1,0 +1,30 @@
+0	16	The contextual bandit problem is an influential extension of the classical multi-armed bandit.
+2	52	Let K be the number of actions, E a set of experts (or “policies”), T the time horizon, and denote ∆K = {x ∈ [0, 1]K : ∑K i=1 x(i) = 1}.
+5	34	• The adversary selects a loss function `t : [K]→ [0, 1].
+7	21	• The player’s suffered loss is `t(at) ∈ [0, 1], which is also the only feedback the player receives about the loss function `t. The player’s performance at the end of the T rounds is measured through the regret with respect to the best expert: RT def = max e∈E { E [ T∑ t=1 `t(at)− 〈ξet , `t〉 ]} = max e∈E { E [ T∑ t=1 〈pt − ξet , `t〉 ]} .
+8	25	(1.1) A landmark result by Auer et al. (2002) is that a regret of order O( √ TK log(|E|)) is achievable in this setting.
+9	26	The general intuition captured by regret bounds is that the player’s performance is equal to the best expert’s performance up to a term of lower order.
+10	21	However the aforementioned bound might fail to capture this intuition if T L∗T def = mine∈E E ∑T t=1〈ξet , `t〉.
+12	11	This question was posed as a COLT 2017 open problem (Agarwal et al., 2017).
+13	15	Such bounds are called first-order regret bounds, and they are known to be possible with full information (Auer et al., 2002), as well as in the multi-armed bandit setting (Allenberg et al., 2006) (see also (Foster et al., 2016) for a different proof) and the semi-bandit framework (Neu, 2015; Lykouris et al., 2017).
+15	45	For any loss sequence such that mine∈E E ∑T t=1〈ξet , `t〉 ≤ L∗ one has that MYGA with γ = Θ(η) and η = Θ ( min { 1 K , √ log(|E|+T ) KL∗ }) satisfies RT ≤ O (√ K log(|E|+ T )L∗ +K log(|E|+ T ) ) .
+16	20	In this section we describe the MYGA algorithm.
+27	17	• qt ∈ ∆K , the weighted average of expert advices in E′: qt = 1 ‖wt‖1 ∑ e∈E′ wt(e) · ξet .
+28	24	Using these information, MYGA calculates the probability distribution pt ∈ ∆K from which the arm is played at round t. Let us now explain how pt and ξst , s ∈ S are defined.
+29	19	First we remark that in the contextual bandit setting, the arm index has no real meaning since in each round t we can permute the arms by some πt : [K] → [K] and permute the expert’s advices and the loss vector by the same πt.
+33	10	• each auxiliary expert s ∈ S is defined by ξst = T kts qt.
+36	5	We next derive two lemmas that will prove useful to isolate Algorithm 1 MYGA (Make the minoritY Great Again) Input: learning rate η > 0, threshold parameter γ ∈ 12T N 1: S ← (γ, 1/2] ∩ 12T N and w1 ← (1, .
+39	17	(2.2) 8: ξst ← T kts qt for every s ∈ S and pt ← T ktγ qt 9: draw an arm at ∈ [K] from probability distribution pt and receive feedback `t(at) 10: compute loss estimator ˜̀t ∈ RK+ as ˜̀t(i) = `t(i)pt(i)1i=at 11: update the exponential weights for any e ∈ E ∪ S: wt+1(e) = exp ( − η ∑t r=1〈ξer , ˜̀r〉) .
+41	21	Let γ ∈ [0, 1] and assume that for all i ∈ [K], (1− cKγ)pt(i) ≤ qt(i) for some universal constant c > 0, and that pt(i) 6= 0⇒ pt(i) ≥ qt(i).
+50	28	We observe that the standard trick of thresholding the arms with probability below γ would yield (3.2) with the right hand side replaced by LT , and in turn this leads to a regret of order (L∗T ) 2/3.
+53	8	To focus on the main ideas we restrict to the case K = 2.
+55	5	Recall we have assumed without loss of generality that ζt(1) ≥ ζt(2) for each round t ∈ [T ].
+57	9	In this simple case, for s ∈ [0, 1/2], we abbreviate our truncation operator T kts as Ts, and it acts as follows.
+60	9	We denote M = E ∑T t=1 ¯̀ t(1) as the loss of the majority arm and m = E ∑T t=1 ¯̀ t(2) as the loss of the minority arm.
+63	13	In words, when the minority arm has a total loss comparable to the majority arm, simply playing from ζt would satisfy a first-order regret bound.
+67	37	For each s ≥ γ, let Lst def = E ∑T t=1〈Tsqt, `t〉 be the expected loss if the truncated strategy Tsqt ∈ ∆K is played at each round.
+70	7	For any s ≥ γ, define the function f(s) def = E ∑T t=1 1{qt(2) ≤ s}(¯̀t(1)− ¯̀t(2)) .
+80	21	In words, the minority arm also suffers from a small loss (and thus is great again!)
+83	96	The main idea is to add the truncated strategy Tsqt as an additional auxiliary expert.
+89	9	In the same setting as Lemma 4.2, there exists s ∈ S def= (γ, 1/2] ∩ 12T N such that m−M ≤ 1 + LT − L s T γ .
+92	18	we get that there exists s1, .

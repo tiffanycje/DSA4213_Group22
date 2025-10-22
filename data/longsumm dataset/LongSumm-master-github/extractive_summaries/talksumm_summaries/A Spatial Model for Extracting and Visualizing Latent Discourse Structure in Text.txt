@@ -1,0 +1,30 @@
+16	22	By leveraging the sequential order of sentences in a large document collection, the method can induce lexical semantics, as well as extract latent discourse trajectories in the documents.
+24	23	In Section 2, we briefly summarize other related work.
+41	25	In Section 3.2, we present a mixture model variant that combines Sequential CG with a unigram language model.
+42	58	We represent a document as a sequence s of sentences, s = {s1, s2 .
+45	22	Let us denote an index of a position in the grid by an integer-valued vector i = (ixiyiz).
+47	87	The Sequential CG model is parametrized by two sets of parameters, πi,z and Pij.
+48	115	Here, πi,z represents a multinomial distribution over the vocabulary of features z for each cell in the grid G, i.e.∑ z πi,z = 1 ∀ i ∈ G. To induce smoothness across XY planes, we further define histogram distributions hi,z , which average the π distributions in a 2-D neighborhood Wi (of size specified by W = [Wx,Wy]) around the grid position i.
+51	77	Movements from one position i to another j in the grid are modeled as transition probabilities Pij.
+54	18	We sample words in the first sentence s1 from πi1, and sample the next position i2 from the distribution Pi1,:, and so on till we generate sD.
+63	26	This can be done efficiently, as we see next.
+76	216	Correlating space with sequential structure: The use of histogram distributions h to generate data forces smoothness in the model along XY planes due to adjacent cells in the grid sharing a large number of parameters that contribute to their histograms (due to overlapping windows).
+77	59	On the other hand, in order to induce spatial proximity in the grid to mimic the sequential flow of discourse in documents, we constrain the transition matrix P (which specifies transition preferences from one position in the grid to another) to a sparse banded matrix.
+83	58	In our experiments, we found 3-D grids to be better in terms of task performance and visualization (for a comparable number of parameters).
+84	60	The Sequential CG model described above can be combined with other generative models (e.g., language models) to get a mixture model.
+85	18	Here, we show how a unigram language model can be combined with Sequential CG.
+87	85	In experimental evaluation, we find that such a mixture model shows distinctly different behavior (see Section 4.1.1).
+89	28	Let µz denote the multinomial distribution over features for the unigram model to be mixed with the CG.
+91	26	Further, let αtz be binary variable that denotes whether a particular instance of z comes from the Sequential CG, or the unigram model.
+109	16	To explain, we observe that the lower-right part of the learned grid largely models documents about sportpersons (with discernable regions focusing on sports like soccer, American football and ice-hockey).
+129	18	For this task, we train our method on grids of dimension 15× 15× 6 (E), and histogram windows W of size 5× 5 on the unlabeled collection of stories.
+161	28	Since the datasets for these tasks only have a relatively small number of training documents (100 each), we use Sequential-CG with smaller grids (3×3×15), and don’t train a mixture model (which needs to learn a parameter βz for each word in the vocabulary).
+164	54	The score of a provided article is simply calculated as its log-likelihood.
+168	27	In comparison, the HMM based approaches use significant annotation and syntactic features.
+170	36	In Figure 5 we illustrate the learned discourse trajectories in terms of the most salient features in each sentence.
+171	26	Words in bold are those identified by the model to be most context-appropriate at the corresponding point in the narrative.
+172	70	This is done by ranking words by the ratio between their probabilities (π:,z) in the grid weighted by alignment locations of the document (qtI), and unigram probabilities.
+173	23	We have presented a simple model for extracting and visualizing latent discourse structure from unlabeled documents.
+175	52	However, the method outperforms some previous approaches on document understanding tasks, even while ignoring syntactic structure within sentences.
+176	36	The ability to visualize learning is a key component of our method, which can find significant applications in data mining and data-discovery in large text collections.
+178	60	While here our focus was on learning discourse structures at the document level, similar methods can also be used at other scales, such as for syntactic or morphological analysis.

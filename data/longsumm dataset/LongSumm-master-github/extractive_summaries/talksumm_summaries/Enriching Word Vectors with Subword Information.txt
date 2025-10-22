@@ -1,0 +1,30 @@
+40	27	Given a word vocabulary of size W , where a word is identified by its index w ∈ {1, ...,W}, the goal is to learn a vectorial representation for each word w. Inspired by the distributional hypothesis (Harris, 1954), word representations are trained to predict well words that appear in its context.
+45	16	The problem of predicting context words can instead be framed as a set of independent binary classification tasks.
+50	18	A natural parameterization for the scoring function s between a word wt and a context word wc is to use word vectors.
+51	16	Let us define for each word w in the vocabulary two vectors uw and vw in Rd.
+59	14	We add special boundary symbols < and > at the beginning and end of words, allowing to distinguish prefixes and suffixes from other character sequences.
+65	12	Suppose that you are given a dictionary of ngrams of size G. Given a word w, let us denote by Gw ⊂ {1, .
+69	52	In order to bound the memory requirements of our model, we use a hashing function that maps n-grams to integers in 1 to K. We hash character sequences using the Fowler-Noll-Vo hashing function (specifically the FNV-1a variant).1 We set K = 2.106 below.
+80	19	We use a context window of size c, and uniformly sample the size c between 1 and 5.
+82	18	When building the word dictionary, we keep the words that appear at least 5 times in the training set.
+84	11	These are the default values in the word2vec package and work well for our model too.
+85	14	Using this setting on English data, our model with character n-grams is approximately 1.5× slower to train than the skipgram baseline.
+123	17	5.5 that when the size of the n-grams is chosen optimally, the semantic analogies degrade less.
+124	17	Another interesting observation is that, as expected, the improvement over the baselines is more important for morphologically rich languages, such as Czech and German.
+126	54	The methods used are: the recursive neural network of Luong et al. (2013), the morpheme cbow of Qiu et al. (2014) and the morphological transformations of Soricut and Och (2015).
+127	36	In order to make the results comparable, we trained our model on the same datasets as the methods we are comparing to: the English Wikipedia data released by Shaoul and Westbury (2010), and the news crawl data from the 2013 WMT shared task for German, Spanish and French.
+128	161	We also compare our approach to the log-bilinear language model introduced by Botha and Blunsom (2014), which was trained on the Europarl and news commentary corpora.
+129	13	Again, we trained our model on the same data to make the results comparable.
+130	60	Using our model, we obtain representations of out-ofvocabulary words by summing the representations of character n-grams.
+131	104	We observe that our simple approach performs well relative to techniques based on subword information obtained from morphological segmentors.
+132	42	We also observe that our approach outperforms the Soricut and Och (2015) method, which is based on prefix and suffix analysis.
+133	21	The large improvement for German is due to the fact that their approach does not model noun compounding, contrary to ours.
+135	37	Therefore, we should also be more robust to the size of the training data that we use.
+136	22	In order to assess that, we propose to evaluate the performance of our word vectors on the similarity task as a function of the training data size.
+138	17	We use the Wikipedia corpus described above and isolate the first 1, 2, 5, 10, 20, and 50 percent of the data.
+139	14	Since we don’t reshuffle the dataset, they are all subsets of each other.
+140	17	As in the experiment presented in Sec.
+143	30	The out-of-vocabulary rate is growing as the dataset shrinks, and therefore the performance of sisgand cbow necessarily degrades.
+151	67	This has a very important practical implication: well performing word vectors can be computed on datasets of a restricted size and still work well on previously unseen words.
+154	13	5.5 Effect of the size of n-grams The proposed model relies on the use of character ngrams to represent words as vectors.
+157	38	They would include short suffixes (corresponding to conjugations and declensions for instance) as well as longer roots.

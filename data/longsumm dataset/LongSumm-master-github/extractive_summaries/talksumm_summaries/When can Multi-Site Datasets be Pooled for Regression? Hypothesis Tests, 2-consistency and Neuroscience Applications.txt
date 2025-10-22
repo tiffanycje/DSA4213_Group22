@@ -1,0 +1,30 @@
+32	34	Via a publicly available software package, this will facilitate many multi-site regression analysis efforts in the short to medium term future.
+61	41	We first describe a simple setting where one seeks to apply standard linear regression to data pooled from multiple sites.
+62	67	For presentation purposes, we will deal with variable selection issues later.
+65	66	In later sections, we will present convergence analysis and extensions to the large p setting.
+67	12	We first introduce the single-site regression model.
+76	15	, k} as the residual difference between the site-specific coefficients and the true shared coefficient vector (in the ideal case, we have ∆βi = 0).
+95	24	To evaluate whether MSE is reduced, we first need to quantify the change in the bias and variance of (3) compared to (1).
+100	19	Let the difference in bias and variance between the single site model in (1) and the multi-site model in (3) be Biasβ and V arβ respectively.
+101	31	We have, Lemma 2.2 For model (3), we have ‖Biasβ‖22 ‖G−1/2∆β‖22 ≤ ‖(Σ̂k1)−2(Σ̂k2(n1Σ̂1)−1Σ̂k2 + Σ̂k2)‖∗, (4) V arβ = σ 2 1 ∥∥∥(n1Σ̂1)−1 − (n1Σ̂1 + Σ̂k2)−1∥∥∥ ∗ .
+103	21	Since our goal is to test MSE reduction — in principle, we can use bootstrapping to calculate MSE approximately.
+106	12	Theorem 2.3 a) Model (3) has smaller MSE of β̂ than model (1) whenever H0 : ‖G−1/2∆β‖22 ≤ σ21 .
+142	13	We first address the consistency behavior of the sparse multisite Lasso in (11), which was not known in the literature.
+144	13	, Xk are the data matrices from k sites.
+146	19	We require the following useful properties of C (‖·‖0 denotes `0-norm).
+169	20	The sparse multi-site Lasso is preferable as r = shsp increases.
+190	23	(3) Finally, based on the sparsity patterns from the site-active set, we estimate whether the sparsity patterns across sites are similar or different (i.e., share few active features).
+200	20	The simulation is repeated 100 times with 9 different sample sizes (n = 2b with b = 4, .
+206	27	Further, the type I error is well-controlled to the left of the solid line, and is low between the two lines.
+213	14	The test accepts with high probability for small n, and as sample size increases it rejects with high power.
+214	38	The regimes of low type I error and high power in Fig.
+231	12	The sample sizes are 318 and 156 respectively.
+232	16	Cerebrospinal fluid (CSF) protein levels are the inputs, and the response is hippocampus volume.
+233	34	Using 81 age-matched samples from each dataset, we first perform domain adaptation (using a maximum mean discrepancy objective as a measure of distance between the two marginals), and then transform CSF proteins from ADlocal to match with ADNI.
+238	27	4(a,b) represents the size of ADNI subset used for training.
+245	13	Since pooling after transformation is at least as good as us- ing ADNI data alone, our hypothesis test accepts the combination with high rate (≈ 95%), see Fig.
+248	16	4(c,d) show the setting where one cannot change the dataset sizes at the sites i.e., the training set uses an equal number of labeled samples from both the ADNI and ADlocal (x-axis in Fig.
+252	78	We present a hypothesis test to answer whether pooling multiple datasets acquired from different sites is guaran- teed to increase statistical power for regression models.
+253	66	For both standard and high dimensional linear regression, we identify regimes where such pooling is sensible, and show how such policy decisions can be made via simple checks executable on each site before any data transfer ever happens.
+254	79	We also show empirical results by combining two Alzheimer’s disease datasets in the context of different regimes proposed by our analysis, and see that the regression fit improves as suggested by the theory.
+255	105	The code is available at https://github.com/hzhoustat/ICML2017.

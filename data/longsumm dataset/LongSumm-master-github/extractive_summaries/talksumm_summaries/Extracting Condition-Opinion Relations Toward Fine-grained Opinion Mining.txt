@@ -1,0 +1,30 @@
+0	26	Reflecting the rapid growth in the use of opinionated texts on the Web, such as comments on news articles and customer reviews, opinion mining has been explored to facilitate utilizing opinions mainly for improving products and decisionmaking purposes.
+1	42	While in a broad sense opinion mining refers to a process to discover useful knowledge latent in a corpus of opinionated texts, fundamental issues involve modeling an unit of opinions and searching the corpus for those units, each of which typically comprises the evaluation by an author for a target object from an aspect.
+6	13	Target = “hotel A”, Aspect = “price”, Evaluation (Polarity) = “reasonable” (positive), Holder = “I (author)”, Time = N/A Depending on the application, “Evaluation” can be any of a literal opinion word (e.g., “reasonable”), a polarity (positive/negative), or a value for multipoint scale rating.
+9	38	However, in the above example (1), the evaluation for hotel A (“a reasonable price”) is valid for “if you take a family trip with small kids”, and thus it is not clear whether this evaluation is valid irrespective of the condition.
+11	48	In this paper, we shall call such a condition “condition for opinion (CFO)”.
+12	14	We define CFO as a condition for which an opinion unit has a polarity.
+15	26	Motivated by the above discussion, in this paper we propose a method to extract pairs of a CFO and its corresponding opinion unit from online reviews.
+17	11	First, a passive solution is detecting whether an opinion includes a CFO and, if any, isolating that opinion from the target of opinion mining.
+19	18	Second, an active solution is identifying the span of each CFO in conditional opinions and classify them according to semantic categories, such as purpose, situation, and user attribute so that finer-grained opinion mining can be realized.
+20	14	For example, the distribution of positive and negative opinions can be available on a category-bycategory basis.
+21	28	However, in this paper we focus only on the identification for CFOs and leave the semantic classification future work.
+39	10	In other words, target users to whom an opinion unit is relevant are restricted by its corresponding U-CFO, although those users may agree or disagree with the opinion.
+41	41	The CFO in example (3) is also U-CFO because the target users are those who intend to travel during a specific holiday season.
+117	10	To alleviate this problem, we approximate the dependency distance by a phrase distance.
+150	14	!F (Recommended to girls get-together and couples)”.
+156	12	We combined the extracted words from the advertising slogans an annotated corpora, discarded redundancy, and standardized similar words, such as “kanko suru (do sightseeing) and “kanko (sightseeing)”.
+160	14	P (r) denotes the probability that a phrase including r appears in the annotated corpus while P (u) denotes the probability that a phrase labeled with BU or IU in the annotated corpus.
+168	93	We removed sentences consisting only of opinion unit such as “The location is good” from the evaluation.
+171	37	Given the above corpus, two annotators independently identified U-CFOs or CFOs, if any, for each opinion unit.
+172	14	For both annotations of CFOs and U-CFOs, the Kappa value for the interannotator agreement was 0.87, indicating strong agreement.
+173	17	We show the details of our corpus in Table 2.
+174	22	Using this corpus, we performed 10-fold cross-validation and compared different methods from different perspectives.
+175	56	Also, we determined the threshold for Score (see Eq 2) by a development set for each fold.
+176	25	To evaluate the effectiveness of extracting UCFOs and CFOs independently, we first classified bunsetsu phrases into any of BU, IU, BC, IC, or Other.
+178	14	We used “Partial match” and “Exact match”, which denote different criteria for the correctness of methods under evaluation.
+179	17	While in the partial match each method was requested to only detect whether or not a test sentence includes CFO, in the exact match each method was also requested to identify the span of each CFO.
+180	70	Also, we used different evaluation measures, namely precision (P), recall (R), F-measure (F), and accuracy (A).
+182	79	Rule-based  method first identifies a bunsetsu phrase whose dependency distance to the opinion word is 1 and including a clue expression (see Section 3), and also identifies a sequence of the phrases from which there is a dependency path to the above phrase as a CFO.
+183	61	For example, in Figure 1 because phrase #6 includes a clue expression, a sequence of phrases #3–#6 is extracted as a CFO.
+185	13	For the U-CFO extraction task, we regarded a sequence of Cond-phrases extracted by the above method as U-CFO if that sequence includes a restrictive word.

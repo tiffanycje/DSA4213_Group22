@@ -1,0 +1,30 @@
+22	6	We discuss possible extensions in the last section.
+43	6	The output at the l-th layer of a convolutional neural network (CNN) can be written as {x(l)(u, λ)}u∈R2,λ∈[Ml], where Ml is the number of channels in that layer and [M ] = {1, · · · ,M} for any integer M .
+48	5	Very importantly, the filters W (l)λ′,λ(u) are locally supported, e.g., on 3× 3 or 5× 5 image patches.
+56	2	The convolution for each input channel is independent from other channels, adding computational efficiency.
+58	2	In (2), ψk can be any bases, and we numerically test on different choices in Section 4, including data-adapted bases and random bases.
+59	5	All experiments consistently show that the convolutional layers can be drastically decomposed and compressed with almost no reduction on the classification accuracy, and sometimes even using random bases gives strong performance.
+61	6	As an example, Gabor filters approximated using the leading FB bases are plotted in the right of Figure 2.
+65	5	After switching to the DCFNet as in (2), there are M ′×M×K tunable parameters (aλ′,λ)k. Thus the number of parameters in that layer is a factor KL2 smaller, which can be significant if K is allowed to be small, particularly when M ′ and M are large.
+67	4	Suppose that the input and output activation is W × W in spatial size, the original convolutional layer needs M ′W 2 ·M(1 + 2L2) flops (the number of convolution operations is M ′M , each take 2L2W 2 flops, and the summation over channels take an extra W 2M ′M ).
+71	4	The analysis in this section is firstly done for regular CNN and then the conditions on filters are reduced to generic conditions on learnt coefficients in a DCF Net.
+72	2	In the latter, the proof is for the Fourier-Bessel (FB) bases, and can be extended to other bases using similar techniques.
+84	4	In a CNN, under (A1), if Bl ≤ 1 for all l, (a) The mapping of the l-th convolutional layer (including σ), denoted as x(l)[x(l−1)], is non-expansive, i.e., ‖x(l)[x1] − x(l)[x2]‖ ≤ ‖x1 − x2‖ for arbitrary x1 and x2.
+99	4	Thus a unified deformation theory can be derived for DCFNets, see next section.
+104	3	The multiscale filters and bases are illustrated in the left of Figure 2.
+107	3	They are supported on the unit disk D = D(0), and in polar coordinates, ψm,q(r, θ) = cm,qJm(Rm,qr)e imθ, r ∈ [0, 1], θ ∈ [0, 2π], where Jm is the Bessel function of the first kind, m are integers, q = 1, 2, · · · , Rm,q is the q-th root of Jm, and cm,q is the normalizing constant s.t.
+121	2	Proposition 3.6 implies that Bl and Cl are all bounded by Al defined as Al := πmax{sup λ Ml−1∑ λ′=1 ‖a(l)λ′,λ‖FB , sup λ′ Ml−1 Ml Ml∑ λ=1 ‖a(l)λ′,λ‖FB}.
+123	5	In a DCFNet with FB bases, under (A0),(A1), (A2’), then ‖Dτx(L)[x(0)]− x(L)[Dτx(0)]‖ ≤ 8L|∇τ |∞‖x(0)‖.
+133	2	The dataset (Krizhevsky, 2009) contains 32×32 colored images from 10 object classes, with 50,000 training and 10,000 testing samples.
+147	3	For SVHN with 500 training samples, the testing accuracy (on a 50,000 testing set) of regular CNN and DCF-FB are 63.88% and 66.79% respectively.
+149	3	Surprisingly, we observe that DCF with random bases also report acceptable performance.
+150	4	Both the FB and random bases are data independent.
+156	3	We remove all pooling layers, and append at the end an FC-256 followed with a Euclidean loss layer.
+159	10	Figure 4 shows how three trained networks behave while reconstructing examples from the SVHN testing images.
+173	20	Experimentally, we observe that on various object recognition datasets the classification accuracy are maintained with a significant reduction of the number of parameters, and the performance of Fourier-Bessel (FB) bases is constantly superior.
+174	4	The truncated FB expansion in DCFNet can be viewed as a regularization of the filters.
+176	11	This interpretation is supported by image denoising experiments, where DCF-FB performs preferably over the original CNN and other basis options on noisy inputs.
+177	4	The stability of DCFNet representation is also proved theoretically, showing that the perturbation of the deep features with respect to input variations can be bounded under generic conditions on the decomposed filters.
+178	29	To extend the work, firstly, DCF layers can be incorporated in networks for unsupervised learning, for which the denoising experiment serves as a first step.
+179	111	The stability analysis can be extended by testing the resilience to adversarial noise.
+180	113	Finally, more structures may be imposed across the channels, concurrently with the structures of the filters in space.

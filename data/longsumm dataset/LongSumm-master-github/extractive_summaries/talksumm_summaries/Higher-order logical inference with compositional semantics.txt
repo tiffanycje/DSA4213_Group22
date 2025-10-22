@@ -1,0 +1,30 @@
+4	17	However, there are still obstacles in the way of achieving this goal.
+6	49	Another persistent problem is the gap between the logics employed in the two com- munities; while it is generally assumed among formal semanticists that adequate semantic representations for natural language demand higher-order logic or type theory (Carpenter, 1997), the dominant view in computational linguistics is that inferences based on higher-order logic are hopelessly inefficient for practical applications (Bos, 2009a).
+9	30	Moreover, the coverage of existing natural logic systems is limited to single-premise inferences (MacCartney and Manning, 2008).
+10	41	In this paper, we first present an improved compositional semantics that fills the gap between the parser syntax and a composition derivation.
+11	16	We then develop an inference system that is capable of higher-order inferences in natural languages.
+14	12	We test our system on the FraCaS test suite (Cooper et al., 1994), which is suitable for evaluating the linguistic coverage of an inference system.
+16	34	As an initial step of compositional semantics, we use the C&C parser (Clark and Curran, 2007), a statistical CCG parser trained on CCGbank (Hockenmaier and Steedman, 2007).
+37	36	We use the language of higher-order logic (HOL) with two basic types, E for entities and Prop for propositions.
+48	8	But we choose to adopt the first-order decomposition in such cases (see Fig.
+54	8	We prefer the higher-order approach, because the firstorder approaches introduce additional quantifiers and variables at the level of the semantic representations on which one makes inferences.
+60	59	For example, Some student manages to come is formalized as (3) ∃x(student(x) ∧manage(x, come(x))) where manage is a veridical predicate taking a proposition as the second argument; it licenses an inference to ∃x(student(x) ∧ come(x)).
+66	23	We use Coq’s built-in tactics for first-order inferences.
+68	17	The additional axioms and tactics specialized for natural language constructions are written in Ltac.
+69	14	We ran Coq fully automated, by feeding to its interactive mode a set of predefined tactics combined with user-defined proof-search tactics.
+71	9	Modals and non-veridical predicates (by which we mean predicates that are neither veridical nor antiveridical) do not have particular axioms, with the consequence that actual and hypothetical contexts are correctly distinguished.
+72	24	We evaluated our system on the FraCaS test suite (Cooper et al., 1994), a set of entailment problems that is designed to evaluate theories of formal semantics.5 We used the version provided by MacCartney and Manning (2007).
+76	17	There are three types of answer: yes (the premise set entails the hypothesis), no (the premise set entails the negation of the hypothesis), and unknown (the premise set entails neither the hypothesis nor its negation).
+82	20	We used the Nutcracker system based on Boxer that utilizes a first-order prover (Bliksem) and a model builder (Mace) with the option enabling access to WordNet.
+85	9	Experimental results are shown in Table 3.
+86	24	Our system improved on Nutcracker.
+93	11	These systems were only evaluated on the Quantifier section of FraCaS.
+96	14	These systems are designed solely for single-premise inferences and hence are incapable of handling the general case of multiple-premise problems (which cover about 45% of the problems in FraCaS).
+97	23	Our system improves on these natural-logic-based systems by making multiple-premise inferences as well.
+98	21	Main errors we found are due to various parse errors caused by the CCG parser, including the failure to handle multiwords like a lot of.
+100	9	Our experiments on FraCaS problems do not constitute an evaluation on real texts nor on unseen test data.
+101	18	Note, however, that a benefit of using a linguistically controlled set of entailment problems is that one can check not only whether, but also how each semantic phenomenon is handled by the system.
+102	16	In contrast to the widely held view that higher-order logic is less useful in computational linguistics, our results demonstrate the logical capacity of a higher-order inference system integrated with the CCG-based compositional semantics.
+103	33	We have presented a framework for a compositional semantics based on the wide-coverage CCG parser, combined with a higher-order inference system.
+104	58	The experimental results on the FraCaS test suite have shown that a reasonable number of lexical entries and non-first-order axioms enable various logical inferences in an efficient way and outperform the state-of-the-art first-order system.
+105	49	Future work will focus on incorporating a robust model of lexical knowledge (Lewis and Steedman, 2013; Tian et al., 2014) to our framework.

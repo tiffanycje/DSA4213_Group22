@@ -1,0 +1,30 @@
+2	9	R is a convex loss function of the linear predictor a > i x, for i = 1, · · · , n, and g : Rd !
+11	28	In Section 3, we present our Doubly Greedy Primal-Dual Coordinate Descent method for the convex-concave saddle point formulation of the problem (1).
+17	7	Assumptions: In order to establish equivalence of the primal, dual problem and the convex-concave saddle point formulation, we make the following assumptions.
+19	16	We also assume that g has decomposable structure, i.e., g(x) = P i g i (x i ).
+21	20	Under the assumption of strongly convex regularization g and smooth loss function i , minimizing (1) is equivalent to maximizing its dual formulation: max y2Rn ( D(y) ⌘ g⇤( A > y n ) 1 n nX i=1 ⇤ i (y i ) ) (2) or the unique solution for the following convex-concave saddle point problem: max y2Rn min x2Rd ( L(x,y) = g(x) + 1 n y >Ax 1 n nX i=1 ⇤ i (y i ) ) (3) Note that i (a > i x) in (1) is also smooth with respect to x, since r x i (a > i x) = 0 i (a > i x)a i , therefore i (a > i x) is R2/ -smooth with respect to x, where R is defined as R = max i ka i k2.
+23	29	We share this definition in this paper.
+24	25	The commonly used condition number for the gradient descent of the primal form is simply (R2/ + µ)/µ = 1 + , see (Nesterov, 2004).
+47	9	In Table 1, we review the total time complexity to achieve ✏ accuracy.
+57	10	In this paper, we propose a Doubly Greedy Primal-Dual (DGPD) Coordinate method that greedily selects and updates both primal and dual variables.
+58	101	This method enjoys an overall low time complexity under a sparsity assumption on the primal variables: Theorem 2.1.
+60	30	Coordinate-wise updates are most natural when g is separable, as is assumed for instance in the Stochastic Primal-Dual Coordinate method of (Zhang & Xiao, 2014).
+69	25	In Algorithm 1, we start from all zero vectors x(0), z(0) 2 Rn, and y(0),w(0) 2 Rd, where x(0), and y(0) are the iterates for primal and dual variables, and w(0) and z(0) are two auxiliary vectors, maintained as w ⌘ Ax and z ⌘ A>y to cache and reduce computations.
+71	8	(4) Then, we only update the coordinate j(t) that will decrease L(x,y) the most, i.e., j(t) = argmin k2[d] L(x(t)+(x̄(t 1) k x(t) k )e k ,y(t 1))) Eqn.
+75	19	2: Initialize: x(0) 0 2 Rd, y(0) 0 2 Rn,w(0) ⌘ Ax = 0 2 Rn, z(0) ⌘ A>y = 0 2 Rd 3: for t = 1, 2, · · · , T do 4: Choose greedily the primal coordinate to update: x̄ (t) k argmin ↵ 1 n z (t 1) k ↵+ g k (↵) , 8k 2 [d] (4) j (t) argmin k2[d] 1 n z (t 1) k (x̄ (t) k x(t 1) k ) + g k (x̄ (t) k ) g k (x (t 1) k ) (5) x (t) k ( x̄ (t) k if k = j(t), x (t 1) k otherwise.
+76	13	5: Update w to maintain the value of Ax: w (t) w(t 1) + (x(t) j x(t 1) j )A j (6) 6: Choose greedily the dual coordinate to update: i (t) argmax k2[n] |w(t 1) k 1 n ( ⇤ k ) 0 (y (t 1) k )| (7) y (t) k ( argmax 1 n w (t) k ⇤ k ( ) 1 2⌘ ( y(t 1) k ) 2 if k = i(t) y (t 1) k otherwise.
+77	80	(8) 7: Update z to maintain the value of A>y z (t) z(t 1) + (y(t) i (t) y(t 1) i (t) )A i (t) (9) 8: end for 9: Output: x(T ),y(T ) in O(d) or O(nnz(Aj)) operations.
+78	38	This greedy choice of j(t) and aggressive update induces a sufficient primal progress, as shown in Lemma A.1.
+81	9	This is motivated by our convergence analysis, which shows that each primal update step yields a large descent in the objective, while each dual update only ascends the dual objective modulo an error term.
+82	36	This required a subtle analysis to show that the error terms were canceled out in the end by the progress made in the primal updates.
+85	8	This is because our choice of step size in the dual updates required computations that are shared with our current approach of selecting the optimal primal variable.
+90	17	An extension to choose and update a batch of primal and dual coordinate is straightforward.
+100	29	Even when the data is dense, to find the greedy coordinate and to update it requires comparable time complexity, which suggests we should find some ways to eliminate overhead in practice.
+101	33	To resolve these issues, we introduce the Doubly Greedy Primal-Dual Coordinate method with Active Sets in Algorithm 2.
+102	74	We make use of what we call active sets, that contains the newly selected coordinates as well as the current non-zero variables.
+103	117	We construct these active sets A x and A y for both primal and dual variables.
+104	15	Initially, they are set as empty sets.
+107	19	Once a primal/dual variable gets set to 0, we can drop it from the corresponding active sets.
+108	19	This practice keeps the active sets A x and A y as the support of primal and dual variables.
+109	19	Notice g0 k (x k ) is 0 when x k is zero, so that the variable selection step for primal variables can be simplified as stated in (10).
+110	32	Now the time complexity per iteration becomes |A x |n + |A y |d.

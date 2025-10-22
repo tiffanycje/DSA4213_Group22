@@ -1,0 +1,24 @@
+78	1	In contrast, differentially private estimators are inherently random in their computation.
+79	1	Statistical inference that considers both the randomness in the data and the randomness in the computation is highly uncommon, and this work, to the best of our knowledge, is the first to deal with randomness in OLS hypothesis testing.
+84	1	We use , δ to denote the privacy parameters of Algorithms 1 and 2, and use α and ν to denote confidence parameters (referring to bad events that hold w.p.
+86	1	We also stick to the notation from Algorithm 1 and usew to denote the positive scalar for which w2 = 8B 2 (√ 2r ln(8/δ) + ln(8/δ) ) throughout this paper.
+94	1	We denote by Lap(σ) the Laplace distribution whose mean is 0 and variance is 2σ2.
+156	1	Then there exist constants C1, C2, C3 and C4 such that when we run Algorithm 1 over [X;y] with parameter r w.p.
+163	1	This discussion culminates in the following corollary.
+169	1	Observe, overall this result is similar in nature to many other results in differentially private learning (Bassily et al., 2014) which are of the form “without privacy, in order to achieve a total loss of ≤ η we have a sample complexity bound of some Nη; and with differential privacy the sample complexity increases to Nη + Ω( √ Nη/ ).” However, there’s a subtlety here worth noting.
+174	1	Similarly to before, we are going to denote d = p+ 1 and decompose A = [X;y] with X ∈ Rn×p and y ∈ Rn, with the standard assumption of y = Xβ + e and ei sampled i.i.d from N (0, σ2).
+181	1	It is also often applied in the case where X doesn’t have full rank or is close to not having full-rank: one can show that the minimizer βR = (XTX + w2Ip×p)−1XTy is the unique solution of the Ridge Regression problem and that the RHS is always well-defined.
+185	1	Therefore, much for the same reason, we are unable to derive t-values under projected Ridge Regression.7 Clearly, there are situations where such confidence bounds simply cannot be derived.Nonetheless, under additional assumptions about the data, our work can give confidence intervals for βj , and in the case where the interval doesn’t intersect the origin — assure us that sign(β′j) = sign(βj) w.h.p.
+186	3	This is detailed in the supplementary material.
+194	1	≥ 1−α over the randomness of picking e in the homoscedas- tic model we have |βj − β̂j | ≤ cα‖ζ‖ √ (XTX)−1j,j n−p — with the confidence interval of Theorem 4.1 above, and denoting I = cα ‖ζ‖√ n−p √ (XTX)−1j,j + c ′ α ‖ζ ′‖√ r−p √ r(M ′TM ′)−1j,j we have that Pr[|β′j − βj | = O(I)] ≥ 1 − α.
+200	2	We now argue that it is possible to use β̃j and ‖̃ζ‖2 to get a confidence interval for βj under certain conditions.
+207	3	Experiment: t-Values of Output Goal.
+219	1	We ran the two algorithms over diabetes dataset collected over ten years (1999-2008) taken from the UCI repository (Strack et al., 2014).
+221	2	Naturally, we added a 5th column of all-1 (intercept).
+224	1	We ran a version of Algorithm 1 that uses a DP-estimation of σmin, and finds the largest r the we can use without altering the input, yet if this r is below 25 then it does alter the input and approximates Ridge regression.
+229	4	This is exacerbated in real data setting, where its actual least singular value (≈ 500) is fairly small in comparison to its size (N = 91842).
+232	3	As the result, we falsely reject the null-hypothesis based on the t-value of Analyze Gauss quite often, even for large values of n. This is shown in Figure 1b.
+233	1	Additional figures (including plotting the distribution of the t-value approximations) appear in the supplementary material.
+235	29	One approach would be to follow the more conservative approach we advocate in this paper, where Algorithm 1 may allow you to get true approximation of the t-values and otherwise reject the null-hypothesis only based on the confidence interval (of Algorithm 1 or 2) not intersecting the origin.
+236	250	Another approach, which we leave as future work, is to replace the T -distribution with a new distribution, one that takes into account the randomness in the estimator as well.
+237	232	This, however, has been an open and long-standing challenge since the first works on DP and statistics (see (Vu & Slavkovic, 2009; Dwork & Lei, 2009)) and requires we move into non-asymptotic hypothesis testing.

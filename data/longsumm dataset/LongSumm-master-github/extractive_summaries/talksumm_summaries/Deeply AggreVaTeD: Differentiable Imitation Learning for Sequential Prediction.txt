@@ -1,0 +1,30 @@
+4	77	These approaches have dramatically advanced the state-of-the-art on a number of problems including high-dimensional robotics control tasks and video and board games (Schulman et al., 2015; Silver et al., 2016).
+5	56	In contrast with general reinforcement learning methods, imitation learning and related sequential prediction algorithms such as SEARN (Daumé III et al., 2009), DaD (Venkatraman et al., 2015), AggreVaTe (Ross & Bagnell, 2014), and LOLS (Chang et al., 2015b) reduce the sequential prediction problems to supervised learning by leveraging a (near) optimal cost-to-go oracle that can be queried for the next (near)-best prediction at any point during training.
+6	42	Specifically, these methods assume access to an oracle that provides an optimal or near-optimal action and the future accumulated loss Q⇤, the so-called cost-to-go.
+7	136	For robotics control problems, this oracle may be a human expert guiding the robot during the training phase (Abbeel & Ng, 2004) or the policy from an optimal MDP solver (Ross et al., 2011; Kahn et al., 2016; Choudhury et al., 2017) that is either too slow to use at test time or leverages information unavailable at test time.
+8	67	For sequential prediction problems, an oracle can be constructed by optimization (e.g., beam search) or by a clairvoyant greedy algorithm (Daumé III et al., 2009; Ross et al., 2013; Rhinehart et al., 2015; Chang et al., 2015a) that, given the training data’s ground truth, is near-optimal on the task-specific performance metric (e.g., cumulative reward, IoU, Unlabeled Attachment Score, BLEU).
+9	56	Expert, demonstrator, and oracle are used interchangeably.
+11	22	Therefore, the goal of IL is to learn a policy ⇡̂ with the help of the oracle (⇡⇤, Q⇤) during the training session, such that ⇡̂ achieves similar or better performance at test time when the oracle is unavailable.
+12	15	In contrast to IL, reinforcement learning methods often initialize with a random policy ⇡ 0 or cost-to-go estimate Q 0 that may be far from optimal.
+13	57	The optimal policy (or cost-to-go) must be found by exploring, often with random actions.
+14	37	A classic family of IL methods is to collect data from running the demonstrator or oracle and train a regressor or classifier via supervised learning.
+15	25	These methods (Abbeel & Ng, 2004; Syed et al., 2008; Ratliff et al., 2006; Ziebart et al., 2008; Finn et al., 2016; Ho & Ermon, 2016) learn either a policy ⇡̂⇤ or ˆQ⇤ from a fixed-size dataset precollected from the oracle.
+18	40	Interactive approaches to IL such as SEARN (Daumé III et al., 2009), DAgger (Ross et al., 2011), and AggreVaTe (Ross & Bagnell, 2014) interleave learning and testing to overcome the data mismatch issue and, as a result, work well in practical applications.
+19	28	Furthermore, these interactive approaches can provide strong theoretical guarantees between training time loss and test time performance through a reduction to no-regret online learning.
+20	113	In this work, we introduce AggreVaTeD, a differentiable version of AggreVaTe (Aggregate Values to Imitate (Ross & Bagnell, 2014)) which allows us to train policies with efficient gradient update procedures.
+21	63	AggreVaTeD extends and scales interactive IL for use in sequential prediction and challenging continuous robot control tasks.
+22	36	We provide two gradient update procedures: a regular gradient update developed from Online Gradient Descent (OGD) (Zinkevich, 2003) and a natural gradient update (Kakade, 2002; Bagnell & Schneider, 2003), which is closely related to Weighted Majority (WM) (Littlestone & Warmuth, 1994), a popular no-regret algorithm that enjoys an almost dimension-free property (Bubeck et al., 2015).
+23	57	AggreVaTeD leverages the oracle to learn rich polices that can be represented by complicated non-linear function approximators.
+24	27	Our experiments with deep neural networks on various robotics control simulators and on a dependency parsing sequential prediction task show that AggreVaTeD can achieve expert-level performance and even super-expert performance when the oracle is sub-optimal, a result rarely achieved by non-interactive IL approaches.
+25	33	i.e., the regret bound depends on poly-log of the dimension of parameter space.
+26	35	The differentiable nature of AggreVaTeD additionally allows us to employ Recurrent Neural Network policies, e.g., Long Short-Term Memory (LSTM) (Hochreiter & Schmidhuber, 1997), to handle partially observable settings (e.g., observe only partial robot state).
+27	1	Empirical results demonstrate that by leveraging an oracle, IL can learn much faster than RL.
+29	26	We construct an MDP that demonstrates exponentially better sample efficiency for IL than any RL algorithm.
+30	10	For general discrete MDPs, we provide a regret upper bound for AggreVaTeD with WM, which shows IL can learn dramatically faster than RL.
+31	21	We provide a regret lower bound for any IL algorithm, which demonstrates that AggreVaTeD with WM is near-optimal.
+33	86	Our experimental and theoretical results support the proposition: Imitation Learning is a more effective strategy than Reinforcement Learning for sequential prediction with near-optimal cost-to-go oracles.
+34	109	A Markov Decision Process consists of a set of states, actions (that come from a policy), cost (loss), and a model that transitions states given actions.
+35	13	Interestingly, most sequential prediction problems can be framed in terms of MDPs (Daumé III et al., 2009).
+36	21	The actions are the learner’s (e.g., RNN’s) predictions.
+40	10	Formally, a finite-horizon Markov Decision Process (MDP) is defined as (S,A, P, C, ⇢ 0 , H).
+41	50	Here, S is a set of S states and A is a set of A actions; at time step t, Pt is the transition dynamics such that for any st 2 S, st+1 2 S, at 2 A, Pt(st+1|st, at) is the probability of transitioning to state st+1 from state st by taking action at at step t; C is the cost distribution such that a cost ct at step t is sampled from Ct(·|st, at).

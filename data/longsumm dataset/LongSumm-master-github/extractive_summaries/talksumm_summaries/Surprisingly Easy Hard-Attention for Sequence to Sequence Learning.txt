@@ -1,0 +1,12 @@
+0	37	In structured input-output models as used in tasks like translation and image captioning, the attention variable decides which part of the input aligns to the current output.
+1	51	Many attention mechanisms have been proposed (Xu et al., 2015; Bahdanau et al., 2014; Luong et al., 2015; Martins and Astudillo, 2016) but the de facto standard is a soft attention mechanism that first assigns attention weights to input encoder states, then computes an attention weighted ’soft’ aligned input state, which finally derives the output distribution.
+2	26	This method is end to end differentiable and easy to implement.
+3	52	Another less popular variant is hard attention that aligns each output to exactly one input state but requires intricate training to teach the network to choose that state.
+5	8	In NLP, a recent success has been in a monotonic hard attention setting in morphological inflection tasks (Yu et al., 2016; Aharoni and Goldberg, 2017).
+6	166	For general seq2seq learning, methods like SparseMax (Martins and Astudillo, 2016) and local attention (Luong et al., 2015) were proposed to bridge the gap between soft and hard attention.
+7	159	In this paper we propose a surprisingly simpler alternative based on the original joint distribution between output and attention, of which existing soft and hard attention mechanisms are approximations.
+8	54	The joint model couples input states individually to the output like in hard attention, but it combines the advantage of end-to-end trainability of soft attention.
+9	12	When the number of input states is large, we propose to use a simple approximation of the full joint distribution called Beam-joint.
+11	103	We evaluated our model on five translation tasks and increased BLEU by 0.8 to 1.7 over soft attention, which in turn was better than hard and the recent Sparsemax (Martins and Astudillo, 2016) attention.
+12	12	More importantly, the training process was as easy as soft attention.
+17	21	, xm, which we jointly denote as x1...m. Let y1, .

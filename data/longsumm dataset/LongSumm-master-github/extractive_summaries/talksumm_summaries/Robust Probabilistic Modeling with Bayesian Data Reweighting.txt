@@ -1,0 +1,30 @@
+0	30	Probabilistic modeling is a powerful approach to discovering hidden patterns in data.
+3	11	Advances in automated inference (Hoffman & Gelman, 2014; Mansinghka et al., 2014; Kucukelbir et al., 2017) enable easy development of new models for machine learning and artificial intelligence (Ghahramani, 2015).
+6	21	Departure from a model’s assumptions can undermine its inference and prediction performance.
+12	14	One day, her parents use the same account to watch a horror movie.
+15	14	One strategy is to design new models that are less sensitive to corrupted data, such as by replacing a Gaussian likelihood with a heavier-tailed t distribution (Huber, 2011; Insua & Ruggeri, 2012).
+17	11	Other classical robust techniques act mostly on distances between observations (Huber, 1973); these approaches struggle with high-dimensional data.
+18	13	How can we still make use of our favorite probabilistic models while making them less sensitive to the messy nature of reality?
+20	35	First, posit a probabilistic model.
+41	36	The logarithm of our priors are dominated by the log wn term: this is the price of moving wn from one towards zero.
+64	17	1 Localization also relates to James-Stein shrinkage; Efron (2010) connects these dots.
+71	11	In contrast, RPMs treat weights as latent variables.
+104	10	The Dirichlet option connects to the bootstrap approaches in Rubin et al. (1981); Kucukelbir & Blei (2015), which also preserves the sum of weights as N .
+131	12	Roughly, the IF measures the asymptotic bias on T .F / caused by a specific observation z that does not come from F .
+146	18	As a common metric, we compare the predictive accuracy on held out data for the original, localized, and reweighted model.
+153	10	The additional computational cost of inferring the weights is unnoticeable relative to inference in the original model.
+154	14	A router receives packets over a network and measures the time it waits for each packet.
+163	18	The original posterior is centered at 18; this is troubling, not only because the rate is wrong but also because of how confident the posterior fit is.
+164	15	Localization introduces greater uncertainty, yet still estimates a rate around 15.
+225	11	The third model is particularly challenging because obesity is ignored in the misspecified model.
+242	11	Consider a video streaming service; data comes as a binary matrix of users and the movies they choose to watch.
+254	27	(Localization is computationally challenging for PF; it requires a separate “copy” of ✓ for each movie, along with a separate ˇ for each user.
+262	13	These users do not contribute towards identifying movies that go together; this explains why the RPM down-weights them.
+268	17	The weights decrease as we corrupt more movies.
+269	12	Table 3 shows how this leads to higher heldout predictive accuracy; down-weighting these corrupted users leads to better prediction.
+273	23	RPMs also offer a way to detect mismatch with reality.
+274	40	The distribution of the inferred weights sheds light onto datapoints that fail to match the original model’s assumptions.
+276	23	RPMs can also work with non-exchangeable data, such as time series.
+277	54	Some time series models admit exchangeable likelihood approximations (Guinness & Stein, 2013).
+278	29	For other models, a non-overlapping windowing approach would also work.
+279	24	The idea of reweighting could also extend to structured likelihoods, such as Hawkes process models.

@@ -1,0 +1,30 @@
+2	40	They also play an important role in discrete choice models (McFadden, 1978).
+5	60	Such large categoricals appear in common applications such as image classification with many classes, recommendation systems with many items, and language models over large vocabularies.
+7	28	The most common way to form a categorical is through the softmax transformation, which maps a K-vector of reals to a distribution of K outcomes.
+10	21	(1) Note the softmax is not the only way to map real vectors to categorical distributions; for example, the multinomial probit (Albert & Chib, 1993) is an alternative.
+12	40	For example, a linear classifier forms a categorical over classes through a linear combination, ψk = w>k x.
+20	33	Here we develop a method for fitting large categorical distributions, including the softmax but also more generally.
+29	16	On simulated and real data, we find that it provides accurate estimates of the categorical probabilities and gives better performance than existing approaches.
+47	29	We develop augment and reduce (A&R), a method for computing with large categorical random variables.
+48	24	A&R uses the additive noise model perspective on the categorical, which we refer to as the utility perspective.
+49	42	Define a mean utility ψk for each possible outcome k ∈ {1, .
+50	36	To draw a variable y from a categorical, we draw a zero-mean noise term εk for each possible outcome and then choose the value that maximizes the realized utility ψk + εk.
+52	44	(4) Note the errors εk are drawn fresh each time we draw a variable y.
+73	31	Rather than operating directly on the marginal p(y |ψ), A&R augments the model with one of the error terms and forms a joint p(y, ε |ψ).
+77	29	As a result, its complexity relates to the size of the subsample, not the total number of outcomes K. The augmented model.
+79	19	The marginal probability of outcome k is the probability that its realized utility (ψk + εk) is greater than all others, p(y = k |ψ) = Pr (ψk + εk ≥ ψk′ + εk′ ∀k′ 6= k) .
+80	34	We write this probability as an integral over the kth error εk using the CDF of the other errors, p(y = k |ψ) = ∫ +∞ −∞ φ(εk) (∏ k′ 6=k ∫ εk+ψk−ψk′ −∞ φ(εk′)dεk′ ) dεk = ∫ +∞ −∞ φ(ε) (∏ k′ 6=k Φ(ε+ ψk − ψk′) ) dε.
+100	19	But our goal is to calculate the marginal log p(y |ψ) and its gradient.
+101	20	A&R derives a variational lower bound on log p(y |ψ) using the joint in Eq.
+102	17	Define q(ε) to be a variational distribution on the auxiliary variable.
+110	35	A&R replaces each term in the data log likelihood with its bound using Eq.
+120	24	The subsampling step in the VEM procedure is one of the key ideas behind A&R.
+122	27	More specifically, consider the gradient of the ELBO in Eq.
+191	20	Note the close resemblance between this expression and the one-vs-each (OVE) bound of Titsias (2016), LOVE = ∑ k′ 6=k log σ(ψk − ψk′).
+202	20	On two small datasets, the A&R bound closely reaches the marginal likelihood of exact softmax maximum likelihood estimation.
+204	17	In Section 4.1, we analyze synthetic data and K = 104 classes.
+267	37	For MNIST and Bibtex, we also plot the marginal likelihood obtained after running maximum likelihood estimation on the exact softmax model.
+271	39	Softmax A&R outperforms OVE in both metrics on all but one dataset (except EURLex-4K).
+272	28	Although our goal is not to compare performance across different models, for completeness Table 3 also shows the predictive performance of multinomial probit A&R and multinomial logistic A&R.
+274	38	Additionally, multinomial logistic A&R presents better predictive performance than OVE on Omniglot and Bibtex.
+275	20	We have introduced augment and reduce (A&R), a scalable method to fit models involving categorical distributions.

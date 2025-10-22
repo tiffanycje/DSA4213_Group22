@@ -1,0 +1,30 @@
+0	15	Many idiomatic expressions may be interpreted both figuratively or literally.
+2	43	For example, the idiom ”spill the beans” is used figuratively in the first instance below, and literally in the second: (1) [fig.]
+4	53	I don’t know what the big secret is.1 (2) [lit.]
+5	15	Spill the beans, flip the fruit, bust open a box of hot pockets.
+8	12	While supervised models for idiom usage recognition have had some successes, they require appropriately annotated training examples (Peng et al., 2014; Byrne et al., 2013; Liu and Hwa, 2017).
+9	42	A more challenging problem is to recognize idiom usages without a dictionary or some annotated examples (Korkontzelos et al., 2013).
+11	37	For example, Fazly et al.(2009) observed that an idiom appearing in its canonical form is usually used figuratively; Sporleder and Li(2009) relied on the break in lexical coherence between the idioms and the context to signal a figurative usage.
+24	21	We hypothesize that unsupervised learning in a more linguistically motivated feature space, informed by soft labels from a semantically driven metric, will produce more robust classifiers.
+42	17	Given an instance of idiom, we can determine its usage by the semantic similarity between the context of the instance and the Literal Usage Representation.
+43	19	We define a Literal Usage Metric to transform the semantic similarity score into soft label, i.e., an initial rough estimation of the instance’s usage (Sec 3.2).
+46	21	For example, when used literally, get wind is more likely to co-occur with words such as rain, storm or weather; in contrast, when used figuratively, it frequently co-occurs with rumor or story, etc.
+48	16	Therefore, even without annotated data or dictionary, we may still approximate a representation for the literal meaning of an idiom by the idiom’s constituent words and their semantic relationship to other words.
+49	12	To do so, we begin by initializing a literal meaning set to just the idiom’s main constituent words3; we then grow the set by adding two types of semantically related words.
+50	27	First, we look for co-occuring words in a large textual corpus (e.g., (David et al., 2005)): for each constituent word w, we randomly sample s sentences that containw from the corpus; we extract the top n most frequent words (excluding stop words) and add them to the literal meaning set.
+67	26	That is, we first sort the scores in S and choose the threshold (from these scores) that minimizes the sum of variances of the two resulting clusters.
+78	17	To predict an idiom’s usage in instances, we consider two representative probabilistic latent variable models: Latent Dirichlet Allocation (LDA) (Blei et al., 2003)4 and unsupervised Naive Bayes (NB).
+122	23	The core idea of Equation 3 is to integrate both distribution semantic information (soft label, the first factor) and linguistically motivated features (the second and third factors) into the inference procedure.
+132	14	Our informed EM method extends a basic version for NB (Hristea, 2013), where the initial parameter values θdu and φuf are chosen randomly.
+139	19	We conduct experiments to address three questions: 1.
+144	23	Models Our main experiments will evaluate the two variants of the proposed fully unsupervised model as described in section 3: MinV+infGibbs and MinV+infEM.
+155	43	Evaluative Data Our goal is to compare all the methods under two public available corpora: SemEval 2013 Task 5B corpus (Korkontzelos et al., 2013), which is used by prior supervised methods (Liu and Hwa, 2017; Rajani et al., 2014) and verb–noun combination (VNC) dataset (Cook et al., 2008), which is used by a prior unsupervised method (Fazly et al., 2009).
+160	23	A summary of the two corpora is shown in Table 1.
+166	25	On the VNC corpus, our models have comparable average scores as that of Fazly et al. (2009); our scores are more stable across different idioms.
+167	33	While the method of Fazly et al. is nearly perfect for some idioms (0.98 on ”take heart”), it performs poorly for others (e.g., 0.33 on ”pull leg”).
+192	16	Second, we explore using the information from the literal usage metric as ”noisy gold standard” to perform supervised training on a nearest neighbors (NN) classifier.
+200	69	Even though the training examples are instances that MinV is the most confident about, there are still mislabelled instances.
+202	27	In contrast, our unsupervised learning is less sensitive to the performance of MinV; it can achieve a decent performance for an idiom even when the quality of the soft labels is poor.
+203	26	For example, when using MinV as a stand-alone model for break a leg, its figura- tive F-score is only 0.43, but through further training, the full model MinV+infGibbs achieves 0.64.
+204	43	A possible reason for this phenomenon is that the soft label is integrated into the learning process by biasing the sampling procedure (see Equation 3).
+205	14	We only encourage our model to follow the distributional semantic evidence captured by soft label and do not force it.

@@ -1,0 +1,30 @@
+28	1	In this scheme, which we call Delta-Orthogonal initialization, the orthogonal kernel is drawn from a spatially non-uniform distribution, and it allows us to train vanilla CNNs of 10,000 layers or more with no degradation in performance.
+29	1	In this section, we first derive a mean field theory for signal propagation in random convolutional neural networks.
+30	1	We will follow the general methodology established in Poole et al. (2016); Schoenholz et al. (2017); Yang & Schoenholz (2017).
+31	1	We will then arrive at a theory for the singular value distribution of the Jacobian following Pennington et al. (2017; 2018).
+32	1	Together, this will allow us to derive theoretically motivated initialization schemes for convolutional neural networks that we call orthogonal kernels and Delta-Orthogonal kernels.
+35	1	R be the activation function and let hlj(↵) denote the pre-activation unit at layer l, channel j, and spatial location ↵ 2 sp, where we define the set of spatial locations sp = {1, ..., n}.
+36	1	The forward-propagation dynamics can be described by the recurrence relation, hl+1j (↵) = X i2chn 2ker (hli(↵ + ))!
+37	1	l+1 ij ( ) + b l+1 j , (2.1) where ker = { 2 Z : | |  k} and chn = {1, .
+40	1	Note that hli(↵) = h l i(↵+ n) = h l i(↵ n) since we assume periodic boundary conditions.
+43	1	This allows us to use powerful theoretical tools such as mean field theory and random matrix theory.
+47	1	Here, the expectation is taken over the weights and biases and it is independent of the channel index j.
+56	1	We now seek to study the dynamics induced by eqn.
+57	1	Schematically, our approach will be to identify fixed points of eqn.
+58	1	(2.3) and then linearize the dynamics around these fixed points.
+61	1	It follows from the form of eqn.
+62	1	(2.4) that ⌃⇤ is also a fixed point of the layer-to-layer covariance map in the convolutional case (eqn.
+69	1	The constant is given in Lemma B.2 of the SM but does not concern us here.
+70	1	This eigen-decomposition implies that the layer-wise deviations from the fixed point evolve under eqn.
+73	1	In the fully-connected setting, the dynamics of signal propagation near the fixed point are governed by scalar evolution equations.
+126	1	In this case, ⌃̃l↵,↵ ⇡ 1 X 2ker v ⌃̃ l+1 ↵ ,↵ , (2.16) where we used eqn.
+140	1	As in the fully-connected case, the singular values of Dl can be made arbitrarily close to 1 by choosing a small value for q⇤ and by using an activation function like tanh that is smooth and linear near the origin.
+157	1	One can employ the same method to construct kernels of higher (or lower) dimensions.
+161	1	However, there does exist one special averaging vector for which all of the depth scales are infinite: a one-hot vector, i.e. vi = k,i.
+171	1	Repeat the following (k 1) times: Randomly generate two orthogonal projection matrices P and Q of size cout ⇥ cout and set (see eqn.
+174	1	To support the theoretical results built up in Section 2, we trained a large number of very deep CNNs on MNIST and CIFAR-10 with tanh as the activation function.
+178	1	Here c = 256 when d  256 and c = 128 otherwise.
+179	1	To maximally support our theories, we applied no common techniques (including learning rate decay).
+220	15	In doing so, we have layed the groundwork to begin addressing some outstanding questions in the deep learning community, such as whether depth alone can deliver enhanced generalization performance.
+221	111	Our initial results suggest that past a certain depth, on the order of tens or hundreds of layers, the test performance for vanilla convolutional architecture saturates.
+222	108	These observations suggest that architectural features such as residual connections and batch normalization are likely to play an important role in defining a good model class, rather than simply enabling efficient training.

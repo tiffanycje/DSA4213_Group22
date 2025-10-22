@@ -1,0 +1,30 @@
+0	28	Neural networks have achieved state-of-the-art accuracy on many machine learning tasks.
+1	34	AlexNet (Krizhevsky et al., 2012) had a deep impact a few years ago in the ImageNet Large Scale Visual Recognition Challenge (ILSVRC) and triggered intensive research efforts on deep neural networks.
+28	33	Our contributions are both theoretical and practical.
+29	29	We summarize our main contributions: • We derive theoretical bounds on the misclassification rate in presence of limited precision and thus determine analytically how accuracy and precision tradeoff with each other.
+40	14	This observation was made in (Sakr et al., 2017) and allowed for an analytical characterization of linear classifiers as a function of precision.
+41	19	The study of fixed-point systems and algorithms is well established in the context of signal processing and communication systems (Shanbhag, 2016).
+44	23	Of course, activations and weights can be designed to satisfy this assumption during training.
+59	10	Let us consider neural networks deployed on a M -class classification task.
+62	20	,M , where ah denotes the activation indexed by h and wh denotes the weight indexed by h. When activations and weights are quantized to BA and BW bits, respectively, the output zi is corrupted by quantization noise qzi so that: zi + qzi = f ({ah + qah}h∈A, {wh + qwh}h∈W) (6) where qah and qwh are the quantization noise terms of the activation ah and weight wh, respectively.
+63	12	Here, {qah}h∈A are independent uniformly distributed random variables on [ −∆A2 , ∆A 2 ] and {qwh}h∈W are independent uniformly distributed random variables on [ −∆W2 , ∆W 2 ] , with ∆A = 2−(BA−1) and ∆W = 2−(BW−1).
+65	19	Therefore, using Taylor’s theorem, we express the total quantization noise at the output of the fixed-point network as: qzi = ∑ h∈A qah ∂zi ∂ah + ∑ h∈W qwh ∂zi ∂wh .
+81	14	First notice that the mismatch probability pm increases with ∆2A and ∆ 2 W .
+91	7	Finally, (8) reveals a very interesting aspect of the trade-off between activation precision BA and weight precision BW .
+93	10	The first term in (11) characterizes the impact of quantizing activations on the overall accuracy while the second characterizes that of weight quantization.
+96	18	An intuitive first step to efficiently get a smaller upper bound is to make the two terms of comparable order.
+98	8	This is an effective way of taking care of one of the two degrees of freedom introduced by (8).
+106	13	This is an application of the arithmetic-geometric mean inequality.
+107	11	Effectively, (11) is of particular interest when considering computational cost which increases as a function of the product of both precisions (see Section 2.3).
+110	11	Again, we leave the technical details for the supplementary section.
+116	29	This yields: Pr ( qzi − qzj > v ) ≤ e−tv ∏ h∈A sinh (tda,h) tda,h ∏ h∈W sinh (tdw,h) tdw,h .
+118	16	Substituting this value of t into (14) and using standard probabilistic arguments, we obtain (13).
+123	10	In terms of precision, Theorem 2 states that pm is bounded by a double exponentially decaying function of precision (that is an exponential function of an exponential function).
+159	8	Figure 1 (b) demonstrates the utility of (12).
+196	45	SQ’s architecture on this dataset is a simple one: three convolutional layers, interleaved by max pooling layers.
+197	17	The output of the final pooling layer is fed to a 10-way softmax output layer.
+200	61	The reported accuracy of the binary network is an impressive 10.15% which is of benchmarking quality even for full precision networks.
+201	34	We adopt a similar architecture as SQ, but leverage re- cent advances in convolutional neural networks (CNNs) research.
+202	36	It has been shown that adding networks within convolutional layers (in the ‘Network in Network’ sense) as described in (Lin et al., 2013) significantly enhances accuracy, while not incurring much complexity overhead.
+203	13	Hence, we replace SQ’s architecture by a deep one which we describe as 64C5− 64C1− 64C1−MP2− 64C5− 64C1−64C1−MP2−64C5−64FC−64FC−64FC− 10, where C5 denotes 5 × 5 kernels, C1 denotes 1 × 1 kernels (they emulate the networks in networks), MP2 denotes 2 × 2 max pooling, and FC denotes fully connected components.
+205	18	Because this dataset is a challenging one, we first fine-tune the hyperparameters (learning rate, weight decay rate, and momentum), then train for 300 epochs.

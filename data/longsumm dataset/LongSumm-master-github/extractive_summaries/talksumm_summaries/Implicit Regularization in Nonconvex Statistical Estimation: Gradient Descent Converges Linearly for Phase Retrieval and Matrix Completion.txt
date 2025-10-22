@@ -1,0 +1,30 @@
+10	22	Here, the nonconvex problem to solve is minimize X∈Rn×r f(X) = n2 4m ∑ (j,k)∈Ω ( M \j,k − e>j XX>ek )2 .
+11	36	Implicit Regularization in Nonconvex Statistical Estimation Table 1.
+17	16	Fortunately, despite the worst-case hardness, appealing convergence properties have been discovered in various statistical estimation problems; the blessing being that the statistical models help rule out ill-behaved instances.
+18	41	For the average case, the empirical loss often enjoys benign geometry, particularly in a local region surrounding the global optimum.
+19	11	In light of this, an effective nonconvex iterative method typically consists of two parts: 1. an initialization scheme (e.g. spectral methods); 2. an iterative refinement procedure (e.g. gradient descent).
+24	36	We refer to these algorithms collectively as Regularized Gradient Descent.
+27	15	• Regularized loss, which attempts to optimize a regular- ized empirical risk function through xt+1 = xt − ηt ( ∇f ( xt ) +∇R ( xt )) , (5) where R(x) stands for an additional penalty term in the empirical loss.
+28	13	For example, in matrix completion, R(·) penalizes the `2 row norm (Keshavan et al., 2010; Sun & Luo, 2016) as well as the Frobenius norm (Sun & Luo, 2016) of the decision matrix.
+29	49	• Projection, which projects the iterates onto certain sets based on prior knowledge, that is, xt+1 = P ( xt − ηt∇f ( xt )) , (6) where P is a certain projection operator used to enforce, for example, incoherence properties.
+30	28	This strategy has been employed in low-rank matrix completion (Chen & Wainwright, 2015; Zheng & Lafferty, 2016).
+36	11	Take matrix completion as an example: to the best of our knowledge, there is currently no theoretical guarantee derived for vanilla gradient descent.
+38	38	Implicit Regularization in Nonconvex Statistical Estimation Under i.i.d.
+43	26	The lack of understanding and the suboptimal results about vanilla GD raise a natural question: are regularization-free iterative algorithms inherently suboptimal for solving nonconvex statistical estimation problems?
+44	27	To answer the preceding question, it is perhaps best to first collect some numerical evidence.
+49	13	In all settings, vanilla gradient descent enjoys remarkable linear convergence, always yielding an accuracy of 10−5 (in a relative sense) within around 200 iterations.
+50	11	In particular, the step size is taken to be ηt = 0.1 although we vary the problem size from n = 20 to n = 1000.
+51	23	The consequence is that the convergence rates experience little changes when the problem sizes vary.
+54	16	Why was the computational efficiency of vanilla gradient descent unexplained or substantially underestimated in prior theory?
+55	23	The main contribution of this paper is towards demystifying the “unreasonable” effectiveness of regularization-free nonconvex gradient methods.
+56	10	As asserted in previous work, regularized gradient descent succeeds by properly enforcing/promoting certain incoherence conditions throughout the execution of the algorithm.
+57	21	In contrast, we discover that Vanilla gradient descent automatically forces the iterates to stay incoherent with the measurement mechanism, thus implicitly regularizing the search directions.
+58	16	This “implicit regularization” phenomenon is of fundamental importance, suggesting that vanilla gradient descent proceeds as if it were properly regularized.
+60	47	Focusing on two fundamental statistical estimation problems, our theory guarantees both statistical and computational efficiency of vanilla gradient descent under random designs and spectral initialization.
+61	26	With near-optimal sample complexity, to attain -accuracy, vanilla gradient descent converges in an almost dimensionfree O(log(1/ )) iterations, possibly up to a log n factor.
+62	15	As a byproduct of our theory, we show that gradient descent provably controls the entrywise and spectral-norm estimation errors for noisy matrix completion.
+63	50	To reveal reasons behind the effectiveness of vanilla gradient descent, we first examine the existing theory of gradient descent and identify the geometric properties that enable linear convergence.
+65	19	To facilitate discussion, we will use the problem of solving random quadratic systems of equations (or phase retrieval) and Wirtinger flow as a case study, but our diagnosis applies more generally.
+80	24	This means that the condition number β/α (defined in Section 2.1) may scale as O(n), leading to the step size recommendation ηt 1/n, and, as a consequence, a high iteration complexity O(n log(1/ )).
+86	53	We term it the region of incoherence and contraction (RIC).
+89	29	As will be formalized in (Ma et al., 2017), with high probability the Hessian matrix satisfies (1/2) · In ∇2f(x) O(log n) · In simultaneously for all x in the RIC.

@@ -1,0 +1,30 @@
+1	37	Several past researchers have noticed that methods that reason about the relative salience or importance of passages within a text can lead to improvements (Ko et al., 2004).
+2	15	Latent variables (Yessenalina et al., 2010), structured-sparse regularizers (Yogatama and Smith, 2014), and neural attention models (Yang et al., 2016) have all been explored.
+3	46	Discourse structure, which represents the organization of a text as a tree (for an example, see Figure 1), might provide cues for the importance of different parts of a text.
+4	23	Some promising results on sentiment classification tasks support this idea: Bhatia et al. (2015) and Hogenboom et al. (2015) applied hand-crafted weighting schemes to the sentences in a document, based on its discourse structure, and showed benefit to sentiment polarity classification.
+5	31	In this paper, we investigate the value of discourse structure for text categorization more broadly, considering five tasks, through the use of a recursive neural network built on an automatically-derived document parse from a topperforming, open-source discourse parser, DPLP (Ji and Eisenstein, 2014).
+9	14	Our method unsurprisingly underperforms on the fifth task, making predictions about legislative bills—a genre in which discourse conventions are quite different from those in the discourse parser’s training data.
+15	33	In most cases, a discourse relation links adjacent spans denoted “nucleus” and “satellite,” with the former more essential to the writer’s purpose than the latter.1 An example of a manually constructed RST parse for a restaurant review is shown in Figure 1.
+16	26	The six EDUs are indexed from A to F ; the discourse tree organizes them hierarchically into increasingly larger spans, with the last CONTRAST relation resulting in a span that covers the whole review.
+23	27	Our model is a recursive neural network built on a discourse dependency tree.
+31	25	Let vi denote the vector representation of EDU i and its descendants.
+32	25	For the base case where EDU i is a leaf in the tree, we let vi = tanh(ei), which is the elementwise hyperbolic tangent function.
+33	78	For an internal node i, the composition function considers a parent and all of its children, whose indices are denoted by children(i).
+37	18	We therefore define vi = tanh  ei + ∑ j∈children(i) αi,jWri,jvj   , (1) where Wri,j is a relation-specific composition matrix indexed by the relation between i and j, ri,j .
+42	20	Consider, for example, EDU D and text span E-F in Figure 1, which in parallel provide EXPLANATION for EDU C. This scenario differs from machine translation, where attention isused to implicitly and softly align output-language words to relatively few input-language words.
+56	15	No composition function is needed.
+68	51	Our model requires the discourse structure for each document.
+81	18	We selected five datasets of different sizes and corresponding to varying categorization tasks.
+108	18	We randomly sampled 10% training examples as development data to search for the best hyperparameters.
+110	94	We evaluated all variants of our model on the five datasets presented in section 5, comparing in each case to the published state of the art as well as the most relevant works.
+112	49	In the case of the very large Yelp dataset, our FULL model (line 9) gives even stronger performance, but not elsewhere, suggesting that it is overparameterized for the smaller datasets.
+115	26	This finding demonstrates the benefit of explicit discourse structure—even the output from an imperfect parser—for text categorization in some genres.
+118	41	Even though the discourse parser is trained on news text, it still offers benefit to restaurant and movie reviews and to the genre of congressional debates.
+121	255	On that task, we see discourse working against accuracy.
+123	64	It is also important to notice that the ROOT model performs quite poorly in all cases.
+124	28	This implies that discourse structure is not simply helping by finding a single EDU upon which to make the categorization decision.
+125	16	Figure 3 shows some example texts from the Yelp Review corpus with their discourse structures produced by DPLP, where the weights were generated with the FULL model.
+137	15	While advances in discourse parsing are beyond the scope of this paper, we can gain some insight by exploring degradation to the DPLP parser.
+138	13	An easy way to do this is to train it on subsets of the RST discourse treebank.
+152	17	For the first factor, discourse parsing is still an active research topic in NLP, and may yet improve.
+174	38	We did not see a benefit for categorizing legislative bills, a text genre whose discourse structure diverges from that of news.

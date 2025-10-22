@@ -1,0 +1,30 @@
+0	32	Multiword expressions (MWEs) are combinations of multiple words that exhibit some degree of idiomaticity (Baldwin and Kim, 2010).
+1	30	Verb–noun combinations (VNCs), consisting of a verb with a noun in its direct object position, are a common type of semantically-idiomatic MWE in English and cross-lingually (Fazly et al., 2009).
+2	19	Many VNCs are ambiguous between MWEs and literal combinations, as in the following examples of see stars, in which 1 is an idiomatic usage (i.e., an MWE), while 2 is a literal combination.1 1.
+3	42	Hereford United were seeing stars at Gillingham after letting in 2 early goals 2.
+4	12	Look into the night sky to see the stars 1These examples, and idiomaticity judgements, are taken from the VNC-Tokens dataset (Cook et al., 2008).
+5	21	MWE identification is the task of automatically determining which word combinations at the token-level form MWEs (Baldwin and Kim, 2010), and must be able to make such distinctions.
+6	42	This is particularly important for applications such as machine translation (Sag et al., 2002), where the appropriate meaning of word combinations in context must be preserved for accurate translation.
+8	6	We consider a range of approaches to forming distributed representations of the context in which a VNC occurs, including word embeddings (Mikolov et al., 2013), word embeddings tailored to representing sentences (Kenter et al., 2016), and skip-thoughts sentence embeddings (Kiros et al., 2015).
+11	7	VNCs exhibit lexico-syntactic fixedness.
+12	32	For example, the idiomatic interpretation in example 1 above is typically only accessible when the verb see has active voice, the determiner is null, and the noun star is in plural form, as in see stars or seeing stars.
+13	36	Usages with a determiner (as in example 2), a singular noun (e.g., see a star), or passive voice (e.g., stars were seen) typically only have the literal interpretation.
+14	4	In this paper we further incorporate knowledge of the lexico-syntactic fixedness of VNCs — automatically acquired from corpora using the method of Fazly et al. (2009) — into our various embedding-based approaches.
+15	2	Our experimental results show that this leads to substantial improve- ments, indicating that this rich linguistic knowledge is complementary to that available in distributed representations.
+27	3	We describe the models used to represent VNC token instances below.
+28	6	For each model, a linear SVM classifier is trained on these representations.
+34	7	To embed a given a sentence containing a VNC token instance, we average the word embeddings for each word in the sentence, including stopwords.4 Prior to averaging, we normalize each embedding to have unit length.
+35	27	The Siamese CBOW model (Kenter et al., 2016) learns word embeddings that are better able to represent a sentence through averaging than conventional word embeddings such as skip-gram or CBOW.
+36	42	We use a Siamese CBOW model that was pretrained on a snapshot of Wikipedia from November 2012 using randomly initialized word embeddings.5 Similarly to the word2vec model, to embed a given sentence containing a VNC instance, we average the word embeddings for each word in the sentence.
+47	22	Salton et al., on the other hand, merge DEV and TEST, and create new training and testing sets, such that each expression is present in the training and testing data, and the ratio of idiomatic to literal usages of each expression in the training data is roughly equal to that in the testing data.
+50	14	We then divide each of these into training and testing sets, using the same ratios of idiomatic to literal usages for each expression as Salton et al. (2016).
+63	81	In Table 2 we report results on DEV and TEST for each model, as well as the unsupervised CForm model of Fazly et al. (2009), which simply labels a VNC as idiomatic if it occurs in its canonical form, and as literal otherwise.
+66	38	+CF further incorporates lexico-syntactic knowledge of canonical forms into each model by concatenating the embedding representing each VNC token instance with a one-dimensional vector which is one if the VNC occurs in its canonical form, and zero otherwise.
+67	3	We first consider results for the −CF setup.
+69	37	The word2vec model achieves the highest accuracy on DEV and TEST of 0.830 and 0.804, respectively.
+78	102	In particular, the relatively low recall for the literal class indicates that many literal usages occur in a canonical form.
+79	46	Comparing the word2vec model with and without the canonical form feature, we see that, when this feature is used, there is a relatively larger increase in precision and recall (and F1 score) for the literal class, than for the idiomatic class.
+82	46	canonical form feature itself performs relatively poorly on literal usages, it provides information that enables the word2vec model to better identify literal usages.
+85	15	We compared these approaches against a linguistically-informed unsupervised baseline, and a model based on skip-thoughts previously applied to this task (Salton et al., 2016).
+87	22	We further proposed methods to combine linguistic knowledge of the lexico-syntactic fixedness of VNCs — socalled “canonical forms”, which can be automatically acquired from corpora via statistical methods — with the embedding based approaches.
+88	11	Our findings indicate that this rich linguistic knowledge is complementary to that available in distributed representations.

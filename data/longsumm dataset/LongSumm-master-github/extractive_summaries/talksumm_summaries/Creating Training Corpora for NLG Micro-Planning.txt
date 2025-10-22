@@ -1,0 +1,30 @@
+1	11	As discussed in detail in Sec- tion 2, these corpora can be classified into three main types namely, (i) domain specific corpora, (ii) benchmarks constructed from “Expert” Linguistic Annotations and (iii) crowdsourced benchmarks.1 In this paper, we focus on how to create datato-text corpora which can support the learning of micro-planners i.e., data-to-text generation systems that can handle the complex interactions occurring between lexicalisation (mapping data to words), aggregation (exploiting linguistic constructs such as ellipsis and coordination to avoid repetition), surface realisation (using the appropriate syntactic constructs to build sentences), sentence segmentation and referring expression generation.
+3	17	We then propose a generic framework for semi-automatically creating training corpora for NLG (Section 3) from existing knowledge bases.
+4	24	In Section 4, we apply this framework to DBpedia data and we compare the resulting dataset with the dataset of Wen et al. (2016) using various metrics to evaluate the linguistic and computational adequacy of both datasets.
+6	10	We also com- 179 pare the performance of a sequence-to-sequence model (Vinyals et al., 2015) on both datasets to estimate the complexity of the learning task induced by each dataset.
+7	15	We show that the performance of this neural model is much lower on the new data set than on the existing ones.
+8	8	We thus propose our corpus generation framework as a novel method for creating challenging data sets from which NLG models can be learned which are capable of generating complex texts from KB data.
+10	7	In the sports domain, Chen and Mooney (2008) constructed a dataset mapping soccer games events to text which consists of 1,539 data-text pairs and a vocabulary of 214 words.
+22	18	In short, the creation of such benchmark is costly both in terms of time and in terms of expertise.
+23	13	Another drawback is that, because the input representation derived from a text is relatively close to its surface form2, the NLG task is mostly restricted to surface realisation (mapping input to sentences).
+25	14	More recently, data-to-text benchmarks have also been created by associating data units with text using crowdsourcing.
+27	19	They then use crowdsourcing to associate each data unit with a text.
+36	13	While as just noted, the crowdsourcing approach presented by Wen et al. (2016) has several advantages, it also has a number of shortcomings.
+39	13	Another limitation concerns the shape of the input data.
+40	41	Wen et al.’s data can be viewed as trees of depth one (a set of attributes-value pairs describing a single entity e.g., a restaurant or a laptop).
+42	17	The path structure T1 where B is shared by two predicates (mission and operator) will favour the use of a participial or a passive subject relative clause.
+50	17	As noted above, this means that the resulting corpus can be used to train KB verbalisers i.e., generators that are able to verbalise fragments of existing knowledge bases.
+62	15	Next, category graphs are used to learn bi-gram models of DBPedia properties which specify the probability of two properties co-occuring together.
+68	12	An input is a set of triples produced by the content selection module.
+76	20	One difficulty when collecting texts verbalising sets of DBPedia triples is that the meaning of DBPedia properties may be unclear.
+77	34	We therefore first manually clarified for each category being worked on, those properties which have no obvious lexicalisations (e.g., crew1up was replaced by commander).
+79	23	Next, we collected three verbalisations for data units of size one, i.e. single triples consisting of a subject, a property and an object.
+80	32	For each such input, crowdworkers were asked to produce a sentence verbalising its content.
+81	25	We used both a priori automatic checks to prevent spamming and a posteriori manual checks to remove incorrect verbalisations.
+82	22	We also monitored crowdworkers as they entered their input and banned those who tried to circumvent our instructions and validators.
+83	17	The automatic checks comprise 12 custom javascript validators implemented in the CrowdFlower platform to block contributor answers which fail to meet requirements such as the minimal time a contributor should stay on page, the minimal length of the text produced, the minimal match of tokens between a triple and its verbalisation and various format restrictions used to detect invalid input.
+84	9	The exact match between a triple and its verbalisation was also prohibited.
+86	29	Getting verbalisations for input containing more than one triple.
+89	33	In such a way, we diminish the risk of having misinterpretations of the original semantics of a data unit.
+90	8	Contributors were also encouraged to change the order, and the wording of sentences, while writing their texts.
+94	14	Then the crowd was asked to assess its fluency, semantic adequacy, and grammaticality.

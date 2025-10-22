@@ -1,0 +1,28 @@
+3	12	Wide use of such complex metrics has also re-invigorated research into their theoretical properties, which can then serve as a guide to prac- Authors listed in the alphabetical order 1Institute of Computing Science, Poznan University of Technology, Poland 2Department of Computer Science, University of Illinois at UrbanaChampaign, USA 3Microsoft Research, India.
+4	18	tice (Koyejo et al., 2014a; Narasimhan et al., 2014a; Dembczyński et al., 2012; Waegeman et al., 2014; Natarajan et al., 2016).
+5	72	Complex evaluation metrics for binary classification are best described as set metrics, or non-decomposable metrics – as, in general, the evaluation for a set of predictions cannot be decomposed into the average of individual instance evaluations.
+6	48	This is in contrast to decomposable metrics such as accuracy which are defined as the empirical average of the instance evaluations.
+7	31	This property is the primary source of difficulty in theoretical analysis, and interestingly has led to two distinct settings and notions of consistency.
+8	13	On one hand, Population Utility (PU) focuses on estimation – so a consistent PU classifier is one which correctly estimates the population optimal utility as the size of the training set (equiv.
+9	18	The PU approach has strongest roots in classical statistical analysis which often deals with asymptotically optimal estimation.
+10	28	On the other hand, Expected Test Utility (ETU) focuses on generalization.
+11	107	Thus, the consistent ETU classifier is one which optimizes the expected prediction error over test sets of a pre-defined size.
+12	25	The ETU approach has strongest roots in statistical machine learning which prizes generalization as the primary goal.
+13	224	Importantly, these distinctions are irrelevant when the metric is a linear function of the confusion matrix e.g. (weighted) accuracy and other linear metrics.
+14	118	To the best of our knowledge, this dichotomy was first explicitly noted by Ye et al. (2012) in the context of F-measure.1 Like in Ye et al. (2012), our goal is not to adjudicate the correctness of either approach, but instead to explore deep connections, and highlight significant differences between both approaches for a wide range of metrics.
+15	22	Contributions: We present a variety of results comparing and contrasting the PU and ETU approaches for consistent classification: • We show that for a wide range of metrics, PU and ETU are asymptotically equivalent with respect to the size of the test set, subject to a certain p-Lipschitzness condition which is satisfied by many metrics of interest.
+18	33	• We provide lower bounds for the difference between PU and ETU metrics for finite test sets, and for certain metrics – thereby highlighting the difference between PU and ETU consistent classifiers with small test sets (Section 3.2).
+19	21	• We analyze approximate ETU classification using low order Taylor approximations, showing that the approximation can be computed with effectively linear complexity, yet achieves low error under standard assumptions (Section 4.1).
+20	14	• We consider the effects of model mis-specification and find that ETU may be more sensitive than PU, but this may be alleviated by properly calibrating the estimated probabilities (Section 4.2).
+21	42	In addition, we present experimental results using simulated and real data to evaluate our theoretical claims (Section 5).
+22	62	We consider the binary classification problem, where the input is a feature vector x ∈ X , and the output is a label y ∈ {0, 1}.
+24	16	We let 1C denote the indicator function i.e. equal to one if C is satisfied, and zero otherwise.
+25	54	Given a distribution P and a binary classifier h, define: TP(h) = P(h = 1, y = 1), TN(h) = P(h = 0, y = 0), FP(h) = P(h = 1, y = 0), FN(h) = P(h = 0, y = 1), which are entries of the so-called confusion matrix, namely true positives, true negatives, false positives and false negatives.
+26	33	In this paper, we are interested in optimizing performance metrics Φ(h,P) (we use explicit dependence on P because we will also consider the empirical version of Φ) that are functions of the above four quantities.
+27	13	However, since the entries of the confusion matrix are interdependent, it suffices to only use their three independent combinations.
+29	35	As argued by Natarajan et al. (2016), any metric being a function of the confusion matrix can be parameterized in this way.
+30	7	Table 1 lists popular examples of such metrics with explicit parameterization Φ(u, v, p).
+32	27	Definition 1 (Population Utility (PU)).
+33	12	Given a distribution P and classifier h, the PU of h for a performance metric Φ is defined as Φ(u(h), v(h), p).
+34	12	We let h∗PU denote any maximizer of the PU, h∗PU ∈ argmax h Φ(u(h), v(h), p) .
+35	6	In words, the PU is obtained by taking the value of metric Φ evaluated at the expected confusion matrix of h over P. Thus, one can think of the PU as evaluating the classifier h on a “single test set of infinite size” drawn i.i.d.

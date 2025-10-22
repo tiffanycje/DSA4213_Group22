@@ -1,0 +1,30 @@
+29	8	To mitigate this issue, we propose another algorithm, which we refer to as a parameter perturbation method.
+30	4	This algorithm employs a resampling technique and is theoretically proven here to achieve asymptotically unbiased estimation.
+33	1	The remainder of this paper is structured as follows.
+34	9	In Section 2, we introduce the framework of the combination of machine learning and mathematical optimization in examples of usage.
+42	4	The goal of predictive optimization is to find z∗ ∈ arg maxz∈Z f(z, θ∗), where θ∗ is the true parameter.
+68	5	Suppose we have d products whose prices are denoted by z = (z1, .
+69	4	Let us denote their sales quantities by q∗(z) = (q∗j (z)) d j=1 ∈ Rd, which are functions of the price z.
+70	4	The gross revenue function is then defined by f(z, θ∗) = q∗(z)>z, and the true optimal solution is obtained by solving the following problem: Maximize q∗(z)>z subject to z ∈ Z, (2) where Z ⊆ Rd is a pre-defined domain of prices (e.g., list price, 3%-off, 5%-off, and so on).
+71	1	However, we can never know the true demand-price relationship q∗(z), and the predictive price optimization approximates q∗(z) by the following regression functions: q(z, θ) = K∑ k=1 θkψk(z) + , ∼ N(0,Σ), (3) where {ψk : Rd → Rd}Kk=1 are fixed basis functions and {θk}Kk=1 ⊆ R are regression coefficients.
+74	1	In the above examples, the objective functions f(z, θ) w.r.t.
+75	1	θ were affine functions and θ̂ were unbiased estimators of θ∗.
+99	2	Typical methods for estimating generalization error in machine learning would be cross-validation and such asymptotic bias correction as AIC (Akaike, 1973).
+116	1	Indeed, Algorithm 1 k-fold cross-validation Input: data x ∈ XN , the number K ≥ 2 of partition Divide data x into K parts x1, .
+145	1	Our problem is now to obtain an unbiased estimator ζ of φ′(1) that will give us an unbiased estimator of f(ẑ, θ∗), i.e. ρ = f(ẑ, θ̂)− ζ.
+163	1	For M-estimators, Σ̂ is given in a closed form, as described in (van der Vaart, 1998), such that N (0, 1N Σ̂) approximates the error distribution of the estimator.
+168	2	We have compared our Algorithm 1 and Algorithm 2 with the hold-out method (Bailey & Marcos, 2016; Bailey et al., 2014) and the portfolio resampling method (Scherer, 2002) by means of the simulation models of the examples in Section 2.
+169	1	We used GUROBI Optimizer 6.0.43 for portfolio optimization, and the algorithm in (Ito & Fujimaki, 2016) for price optimization.
+179	1	Also, the variance in the proposed methods was much smaller.
+180	3	Note that we could not set N ′ to be larger than N ′ = 18 since the estimation of θ̂1 and θ̂2 would fail.
+187	2	The pessimistic bias in the CV method came from the difference between ẑ ∈ arg maxz∈Z f(z, θ̂) and z̃ in (6).
+191	1	Sensitivity of the Perturbation Method We investigated the sensitivity of the perturbation method w.r.t.
+211	3	We used the first 35 months (1063 samples) for training regression models and simulated the best price strategy for the next day 2014/12/1.
+213	2	The other settings were same as in (Ito & Fujimaki, 2016).
+216	3	The bias-corrected optimal gross profit with the perturbation method at h = 0.1 and s = 100 was 124, 477 JPY, which represents an approximately 17% increase in the gross profit.
+223	3	We have demonstrated that such a framework suffers from a kind of bias w.r.t.
+224	4	optimal values because of overfitting of the solution to the constructed objective function.
+225	10	We have proposed a solution to this bias problem by means of developed methods that are guaranteed to compute an asymptotically unbiased estimator of the value of the true objective function.
+226	33	Empirical results have demonstrated that the proposed approach results in successful estimates of the value of the true objective function.
+227	182	A major open question remaining in this work is how to evaluate and reduce variance in the estimators of objective functions.
+228	181	The variance in estimators, i.e., uncertainty in estimation, is essential information for decision makers in many situations, and reducing variance in the estimator would help them make better decisions.

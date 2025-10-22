@@ -1,0 +1,30 @@
+29	90	Let x ∈ Cn be a sample of a multivariate distribution and denote by x1, x2, .
+30	26	, xm the m independent samples used to form the sample covariance, defined as C̃ = m∑ p=1 (xp − x̄)(xp − x̄)∗ m , (2) where x̄ is the sample mean.
+32	46	How many samples are sufficient to guarantee that the inner product |〈ũi, uj〉| = |ũ∗i uj | and the eigenvalue gap |δλi| = |λ̃i − λi| is smaller than some constant t with probability larger than ?
+33	18	Clearly, when asking that all eigenvectors and eigenvalues of the sample and actual covariance matrices are close, we will require at least as many samples as needed to ensure that ‖C̃ − C‖2 ≤ t. However, we might do better when only a subset of the spectrum is of interest.
+35	20	To illustrate this phenomenon, let us consider the distribution constructed by the n = 784 pixel values of digit ‘1’ in the MNIST database.
+36	32	Figure 1, compares the eigenvectors uj of the covariance computed from all 6742 images, to the eigenvectors ũi of the sample covariance matrices C̃ computed from a random subset of m = 10, 100, 500, and 1000 samples.
+41	24	First, we work in the setting of Hermitian matrices and notice the following inequality: Theorem 3.2.
+45	26	Section 5), it is infeasible using sin(Θ)-type arguments.
+56	10	For any two eigenvectors ũi and uj of the sample and actual covariance respectively, and for any real number t > 0: P(|〈ũi, uj〉| ≥ t) ≤ 1 m ( 2kj t |λi − λj | )2 , (3) subject to the same conditions as Theorem 3.2.
+58	16	For any eigenvalues λi and λ̃i of C and C̃, respectively, and for any t > 0, we have P ( |λ̃i − λi| λi ≥ t ) ≤ 1 m ( ki λi t )2 .
+59	12	Term kj = (E [ ‖xx∗uj‖22 ] − λ2j )1/2 captures the tendency of the distribution to fall in the span of uj : the smaller the tail in the direction of uj the less likely we are going to confuse ũi with uj .
+61	33	Thus for normal distributions, principal components ui and uj with min{λi/λj , λi} = Ω(tr(C)1/2) can be distinguished given a constant number of samples.
+63	39	In Section 4.2, we also give a sharp bound for the family of distributions supported within a ball (i.e., ‖x‖ ≤ r a.s.).
+98	12	Obviously, when the condition |λi − λj | ≤ 2 |δλi| is not met, the right clause of (13) is irrelevant.
+111	96	For any two eigenvectors ũi and uj of the sample and actual covariance respectively, with λi 6= λj , and for any real number t > 0, we have P(|〈ũi, uj〉| ≥ t) ≤ 1 m ( 2 kj t |λi − λj | )2 for sgn(λi − λj) 2λ̃i > sgn(λi − λj)(λi + λj) and kj =( E [ ‖xx∗uj‖22 ] − λ2j )1/2 .
+119	13	We proceed as in the proof of Theorem 4.1: P (∑ i 6=j wij〈ũi, uj〉2 ) 1 2 > t  ≤ E [∑ i6=j wij〈ũi, uj〉2 ] t2 ≤ 4 t2 ∑ i 6=j wij E [ ‖δCuj‖22 ] (λi − λj)2 (21) The claim follows by computing E [ ‖δCuj‖22 ] (as before) and squaring both terms within the probability.
+122	43	Directly from the Bauer-Fike theorem (Bauer & Fike, 1960) one sees that |δλi| ≤ ‖C̃ui − λiui‖2 = ‖δCui‖2.
+136	32	Our last result provides a sharper probability estimate for the family of sub-gaussian distributions supported in a centered Euclidean ball of radius r, with their Ψ2-norm ‖x‖Ψ2 = sup y∈Sn−1 ‖〈x, y〉‖ψ2 , (26) where Sn−1 is the unit sphere and with the ψ2-norm of a random variable X defined as ‖X‖ψ2 = sup p≥1 p−1/2E[|X|p]1/p .
+146	19	Furthermore, by Jensen’s inequality and Lemma 4.1 E[|ε̂p(j)|] ≤ E [ ε̂p(j) 2 ]1/2 ≤ 2 λj ‖x‖Ψ2 .
+148	28	(33) Moreover, by the rotation invariance principle, the left hand side of the last inequality is a sub-gaussian with ψ2-norm smaller than (c1 ∑m p=1 ‖zp‖ 2 ψ2 )1/2 = (c1m) 1/2 ‖z‖ψ2 ≤ (c1m/λj) 1/2 ‖x‖Ψ2 , for some absolute constant c1.
+155	106	In terms of mean squared error, the optimal way to reduce the dimension of a sample x of a distribution is by projecting it over the subspace of the covariance with maximum variance.
+159	10	After slight manipulation, one finds that loss(P̃k) = loss(Pk) + ∑ i≤k,j 6=i (ũ∗i uj) 2(λi − λj) tr(C) .
+162	12	It is an implication of (39) and Corollary 4.1 that, when its conditions hold, for any distribution and t > 0 P ( loss(P̃k) > loss(Pk) + t tr(C) ) ≤ ∑ i≤k j>i 4 k2j mt |λi − λj | .
+168	31	Moreover they illustrate that for modest k the sample requirement is far smaller than n. It is also interesting to observe that for covariance matrices that are (approximately) low-rank, we obtain estimates reminiscent of compressed sensing (Candès et al., 2011), in the sense that the sample requirement becomes a function of the non-zero eigenvalues.
+170	34	The main contribution of this paper was the derivation of non-asymptotic bounds for the concentration of innerproducts |〈ũi, uj〉| involving eigenvectors of the sample and actual covariance matrices.
+171	31	We also showed how these results can be extended to reason about eigenvalues and we applied them to the non-asymptotic analysis of linear dimensionality reduction.
+172	19	We have identified two interesting directions for further research.
+173	18	The first has to do with obtaining tighter estimates.
+174	122	Especially with regards to our perturbation arguments, we believe that our current bounds on inner products could be sharpened by at least a constant multiplicative factor.
+175	71	The second direction involves using our results for the analysis of methods that utilize the eigenvectors of the covariance, such that principal component projection and regression (Jolliffe, 1982; Frostig et al., 2016).

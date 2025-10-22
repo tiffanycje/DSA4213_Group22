@@ -1,0 +1,17 @@
+28	25	Finally, it can easily be parallelized/distributed and exploit GPU computing.
+29	3	Through an in-depth series of experiments, we demonstrate that our proposal achieves state-of-the-art performance in a number of constrained modeling problems while being characterized by attractive scalability properties.
+31	11	Section 4 contains an in-depth validation of the proposed model against the state-of-the-art.
+32	102	We demonstrate the application of equality constraints in the challenging problem of parameter inference in ODE, while we showcase the application of inequality constraints in the monotonic regression of count data.
+34	14	Results that we could not fit in the manuscript are deferred to the supplementary material.
+55	23	In this section we provide a derivation of the posterior distribution of our model when we introduce equality constraints in the dynamics.
+57	187	Let f(t) be a multivariate interpolating function with associated noise parameters ψ, and define F similarly to Y to be the realization of f at t. In this work, f(t) will be either modeled using a GP, or deep probabilistic models based on DGPs.
+58	135	We introduce functional constraints on the dynamics of the components of f(t) by specifying a family of admissible functions whose derivatives of order h evaluated at the inputs t satisfy some given constraint Chi = { f(t) ∣∣∣∣∣dhfi(t)dth = Hhi ( t, f , df dt , .
+60	113	The constraint also includes θ as dynamics parameters that should be inferred.
+61	57	We are going to consider the intersection of all the constraints for a set of indices I comprising pairs (h, i) of interest C = ⋂ (h,i)∈I Chi To keep the notation uncluttered, and without loss of generality, in the following we will assume that all the terms are evaluated at t; we can easily relax this by allowing for the constraints to be evaluated at different sampling points than t. As a concrete example, consider the constraints induced by the Lotka-Volterra ODE system (more details in the experiments section); for this system, θ = {α, β, γ, δ}, and the family of functions is identified by the conditions dg1(t) dt ∣∣∣∣∣ t = H11 (f(t)) ∣∣∣∣∣ t = αf1(t)− βf1(t)f2(t), dg2(t) dt ∣∣∣∣∣ t = H12 (f(t)) ∣∣∣∣∣ t = −γf2(t) + δf1(t)f2(t), where the products f1(t)f2(t) are element-wise.
+62	12	Denote by F̃ = {fhi} the set of realizations of f and of its derivatives at any required order h evaluated at timed t. We define the constrained regression problem through two complementary likelihood-based elements: a data attachment term p(Y |F,ψ), and a term quantifying the constraint on the dynamics, p(C|F̃ ,θ,ψD), where ψD is the associated noise parameter.
+64	38	Note that F̃ is in fact completely identified by F .
+65	5	Equation (1) requires specifying suitable models for both likelihood and functional constraints.
+70	9	(3) We can again assume a Gaussian likelihood: p(Chi|F̃ , θ,ψD) = ∏ t N (fhi(t)|Hhi(t, F̃ , θ),ψD), (4) or, in order to account for potentially heavy-tailed error terms on the derivative constraints, we can assume a Studentt distribution: p(Chi|F̃ , θ,ψD) = ∏ t T (fhi(t)|Hhi(t, F̃ , θ),ψD, ν), (5) where T (z|µ, λ, ν) ∝ 1λ [1+ (z−µ)2 νλ2 ] −(ν+1)/2.
+71	94	We test these two noise models for F̃ in the experiments.
+73	21	In particular, we are interested in the class of functions satisfying the following conditions: Chi = { f(t) ∣∣∣∣∣dhfi(t)dth > Hhi ( t, f , df dt , .
+74	56	For example, a monotonic univariate regression problem can be obtained with a constraint of the form dfdt > 0.

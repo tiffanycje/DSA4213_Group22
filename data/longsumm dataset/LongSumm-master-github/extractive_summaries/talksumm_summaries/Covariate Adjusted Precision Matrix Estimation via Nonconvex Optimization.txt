@@ -1,0 +1,30 @@
+3	16	In recent years, it has been noticed that one can elaborate a GGM model with additional side information for better estimation accuracy.
+6	40	In fact, this adjusted precision matrix estimation problem can be reformulated as a problem of jointly estimating multivariate regression matrix and the precision matrix.
+7	64	Cai et al. (2012a) proposed a two-stage covariate-adjusted precision matrix estimation method which first estimates the regression coefficient matrix and then estimates the precision matrix based on the estimated regression coefficient matrix.
+9	15	Following the literature of this line of research, we briefly introduce the model as follows: given data vectors {yi} n i=1 2 Rm and side information vectors {xi}ni=1 2 Rd, assume that yi = ⇤ xi + ✏i, (1.1) where ⇤ 2 Rd⇥m is the unknown regression coefficient matrix, and ✏i 2 Rm is the error vector.
+10	35	We assume {xi}ni=1 and {✏i}ni=1 are independent from each other and the error vector {✏i}ni=1 follows a multivariate normal distribution with zero mean and covariance ⌃⇤.
+12	51	Let ⌦⇤ = ⌃⇤ 1 be the corresponding precision matrix that characterizes the conditional dependency structure among the data vectors {yi}ni=1.
+15	27	The corresponding negative log-likelihood function can be written as (neglect the constants): fn( ,⌦) = log |⌦|+ 1 n tr ⇥ (Y X )⌦(Y X )> ⇤ , (1.2) where X = [x1, .
+16	23	In many applications such as eco- nomics and genomics, the number of parameters dm+ m 2 is often much larger than the number of observations n, which imposes great challenges on the model estimation.
+20	14	Therefore, k ⇤k0,0 = ds⇤1 and k⌦⇤k0,0 = ms⇤2, where k · k0,0 denotes the number of nonzero entries in a matrix.
+78	18	2: for t = 0 to T 1 do 3: Update : (t+0.5) = (t) ⌘1r1fn (t),⌦(t) , (t+1) = HT ( (t+0.5), s1) 4: Update ⌦: ⌦ (t+0.5) = ⌦(t) ⌘2r2fn (t),⌦(t) , ⌦ (t+1) = HT (⌦(t+0.5), s2) 5: end for 6: Output: b = (T ), b⌦ = ⌦(T ) In Algorithm 1, (t+0.5) and ⌦(t+0.5) are the outputs of gradient descent update.
+88	14	Here is ST stands for the soft thresholding operator which is defined as follows: [ST (A, )]ij = sign(Aij) ·max(|Aij | , 0).
+96	17	, n where ⌧,K are absolute constants independent of n, d. Assumption 4.2 states that the minimum eigenvalue of the population covariance matrix of the predictors is bounded away from zero.
+97	17	This assumption is mild and has been widely made in the literature of multivariate regression (Obozinski et al., 2011; Lounici et al., 2009; Negahban & Wainwright, 2011).
+109	21	This ensures that the extra error caused by hard thresholding step can be upper bounded.
+112	32	In Theorem 4.3, the result suggests that the estimation error is bounded by two terms: the optimization error term (i.e., the second term on the right hand side of (4.2)), which decays to zero at a linear rate, and the statistical error term (i.e., the first term on the right hand side of (4.2)), which characterizes the the unavoidable estimation error in Algorithm 3 when the optimization error term goes to zero as T goes to infinity.
+114	16	Under the same assumptions and conditions as in Theorem 4.3, suppose s⇤1 satisfies s⇤1  ms⇤2/(d⌫⌧), and if we choose the number of iterations T = C log n for sufficiently large C such that the optimization error term is dominated by the statistical error term, then we have kb⌦ ⌦⇤kF  C 0M p log n 1 p ⇢ r ms⇤2 logm n , where C,C 0 are some absolute constants.
+115	22	Comparing with the minimax lower bound, which is in the order of O M p ms⇤2 logm/n (Cai et al., 2012b), our bounds on ⌦⇤ matches the minimax lower bounds aside from an additional logarithmic term p log n. Such a logarithmic factor is introduced by the resampling step in Algorithm 3, since we only utilize n/T samples within each iteration.
+116	21	We expect that it is an artifact of our proof technique, and such a logarithmic factor can be eliminated by directly analyzing Algorithm 1, which however requires extra technical effort for the analysis.
+129	20	By securing a linear rate of convergence and only required to solve one step gradient update inside each iteration, our proposed algorithm clearly enjoys better run-time complexity comparing with all these baselines.
+130	16	In this section, we will present numerical results on both synthetic and real datasets to verify the performance of the proposed algorithm in Algorithm 1.
+139	30	We can observe that in terms of the estimation error of both and ⌦, our proposed algorithm achieves the best accuracy and also the fastest running time comparing with the state-of-the-art algorithms.
+150	36	We demonstrate the effectiveness of our proposed method by applying it on an eQTL dataset (yeast) from Brem & Kruglyak (2005), which contains the expression measurements of 5,740 transcripts measured on 112 yeast segregants grown from two yeast parent strains: BY4716 (BY) and RM11-1a (RM), with dense genotype data on 2,956 markers.
+165	18	We specifically look at 19 genes that are related to GATA1, which is a key TF regulator in blood cells, from the Erythroid (K562) network (Neph et al., 2012).
+168	15	We also select 333 SNPs from the dataset, 15 of which are known to be significantly related to one of genes selected above.
+169	25	Figure 4 describes the gene regulation network (GRN) that supports the results for different algorithms including ours, on GTEx dataset.
+170	20	Comparing with the ground truth, we can see that our proposed algorithm is the only one that nearly recovers the upper block structure.
+174	33	Figure 5 demonstrates the gene-SNP regulation relationship recovery results.
+179	29	It attains a linear convergence to the true regression coefficients and precision matrix simultaneously, up to a near optimal statistical error.
+180	36	Compared with existing methods along this line of research, the proposed algorithm out-performs the baseline algorithm in both accuracy and running time.
+181	23	Thorough experiments on synthetic datasets support our theory and the real world eQTL experiments on yeast and GTEx dataset shows the promising potential of applying our proposed algorithm in biological studies.

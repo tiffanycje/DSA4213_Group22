@@ -1,0 +1,30 @@
+0	42	Question Answering (QA) is a challenging task that draws upon many aspects of NLP.
+1	23	Unlike search or information retrieval, answers infrequently contain lexical overlap with the question (e.g. What should we eat for breakfast?
+4	10	Berger et al. (2000) proposed that this ”lexical chasm” might be partially bridged by repurposing statistical machine translation (SMT) models for QA.
+5	35	Instead of translating text from one language to another, these monolingual alignment models learn to translate from question to answer1, learning common associations from question terms such as eat or breakfast to answer terms like kitchen, pancakes, or cereal.
+8	57	All of this means that only in rare cases are we accorded the luxury of having enough high-quality QA pairs to properly train an alignment model, and so these models are often underutilized or left struggling for resources.
+9	76	Making use of recent advancements in discourse parsing (Feng and Hirst, 2012), here we address this issue, and investigate whether alignment models for QA can be trained from artificial question-answer pairs generated from discourse structures imposed on free text.
+26	17	A written text is not simply a collection of sentences, but rather a flowing narrative where sentences and sentence elements depend on each other for meaning – a concept known as cohesion (Halliday and Hasan, 2014).
+31	28	For example, in the passage in Figure 1, this model would associate cider in the first sentence with apples and orchard in the second sentence.
+32	17	The second model uses RST to capture discourse cohesion both within and across sentence boundaries.
+33	11	We extracted RST discourse structures using an in-house parser (Surdeanu et al., 2015), which follows the architecture introduced by Hernault et al. (2010) and Feng and Hirst (2012).
+34	23	The parser first segments text into elementary discourse units (EDUs), which may be at sub-sentence granularity, then recursively connects neighboring units with binary discourse relations, such as Elaboration or Contrast.4 Our parser differs from previous work with respect to feature generation in that we implement all features that rely on syntax using solely dependency syntax.
+38	11	Importantly, we generate artificial alignment pairs from this imposed structure by aligning the governing text (nucleus) with its dependent text (satellite).5 Turning again to the example in Figure 1, this RSTbased model captures additional alignments that are both intrasentence, e.g., apples–orchard, and intersentence, e.g., cider–autumn.
+39	12	We evaluate the contribution of these alignment models using a standard reranking architecture (Jansen et al., 2014).
+40	21	The initial ranking of candidate answers is done using a shallow candidate retrieval (CR) component.6 Then, these answers are reranked using a more expressive model that incorporates alignment features alongside the CR score.
+43	44	We extend this alignment model with features from Fried et al. (In press) that treat each (source) word’s probability distribution (over destination words) in the alignment matrix as a distributed semantic representation, and make use the Jensen-Shannon distance (JSD)8 between these conditional distributions.
+48	14	Answers (YA): Ten thousand open-domain how questions were randomly chosen from the Yahoo!
+50	11	Candidate answers for a given question are selected from the corresponding answers proposed by the community (each question has an average of 9 answers).
+51	29	Biology QA (Bio): 183 how and 193 why questions in the cellular biology domain were hand-crafted by a domain expert, and paired with gold answers in the Campbell’s Biology textbook (Reece et al., 2011).
+54	17	Alignment Corpora: To train the alignment models we generated alignment pairs from two different resources: Annotated Gigaword (Napoles et al., 2012) for YA, and the textbook for Bio.
+75	32	In Bio, both the RST and SEQ alignment models significantly outperform the RNNLM and CR baselines (p < 0.001).
+79	24	How does the SEQ model compare to the RND baseline?
+80	42	In Bio, the SEQ model significantly outperforms the RND baseline (p < 0.001) but in YA it does not.
+82	55	In YA, the sentences were randomized within Gigaword articles, which are relatively short (averaging 19 sentences), whereas in Bio the randomization was done at the textbook level.
+83	25	In practice, as document size decreases, the RND model approaches the SEQ model.
+84	17	Why does performance plateau in YA and not in Bio?
+85	21	With Bio, we exploit all of the limited indomain training data, and continue to see performance improvements.
+86	13	With YA, however, performance asymptotes for the alignment models when trained beyond 10,000 documents, or less than 1% of the Gigaword corpus.
+90	23	We propose two inexpensive methods for training alignment models using solely free text, by generating artificial question-answer pairs from discourse structures.
+91	20	Our experiments indicate that these methods are a viable solution for constructing stateof-the-art QA systems for low-resource domains, or languages where training data is expensive and/or limited.
+92	25	Since alignment models have shown utility in other tasks (e.g. textual entailment), we hypothesize that these methods for creating inexpensive and highly specialized training data could be useful for tasks other than QA.

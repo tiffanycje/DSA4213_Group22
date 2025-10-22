@@ -1,0 +1,30 @@
+8	3	For a factorial Gaussian posterior, it corresponds to a diagonal natural gradient method with weight noise, and matches the performance of Bayes By Backprop (Blundell et al., 2015), but converges faster.
+12	3	Proper Bayesian inference corresponds to λ = 1, but other values may work better in practice on some problems.
+18	2	(2) is equivalent to the pathwise derivative estimator for µ.
+32	2	Considering the lth layer in the neural network whose input activations are al ∈ Rn1 , weights Wl ∈ Rn1×n2 , and outputs sl ∈ Rn2 , we have sl = WTl al.
+35	4	Decoupling F̃l into Al and Sl not only avoids the quadratic storage cost of the exact Fisher, but also enables tractable computation of the approximate natural gradient: F̃−1l vec{∇Wlh} = (S −1 l ⊗A −1 l ) vec{∇Wlh} = vec[A−1l ∇WlhS −1 l ] (4) As shown by eq.
+45	9	First, the term inside the expectation in eq.
+46	2	(5) is the gradient for MAP estimation of w. Second, the update for µ is preconditioned by Λ−1, which encourages faster movement in directions of higher posterior uncertainty.
+47	1	Finally, the fixed point equation for Λ is given by Λ = −Eq [ 1 λ ∇2w log p(D |w) +∇2w log p(w) ] (6) Hence, if λ = 1, Λ will tend towards the expected Hessian of − log p(w,D), so the update rule for µ will somewhat resemble a Newton-Raphson update.
+49	1	In each iteration, we sample (x, y) ∼ pD and w ∼ q and apply a stochastic natural gradient update based on eq.
+50	1	(5): µ← µ + αΛ−1 [ Dw − λ Nη w ] (7) Λ← ( 1− λβ N ) Λ− β [ ∇2w log p(y|x,w)− λ Nη I ] where α and β are separate learning rates for µ and Λ, and N is the number of training examples.
+52	3	This update rule has two problems.
+62	4	We also rewrite the update rule for µ: µ← µ + α̃ ( F̄ + λ Nη I )−1 [ Dw − λ Nη w ] (10) 1eq.
+63	2	(8) leaves ambiguous what distribution the gradients are sampled from.
+64	4	Throughout our experiments, we sample the targets from the model’s predictions, as done in K-FAC (Martens & Grosse, 2015).
+66	1	The alternative is to use the SGD gradients, giving the empirical Fisher.
+88	3	Let Wl denote the weights for one layer of a fully connected network.
+90	2	MVGs are potentially powerful due to their compact representation4 of posterior covariances between weights.
+91	2	However, fitting MVG posteriors is difficult, since computing the gradients and enforcing the positive semidefinite constraint for Σ1 and Σ2 typically requires expensive matrix operations such as inversion.
+103	2	In this way, the covariance Algorithm 1 Noisy Adam.
+107	1	The full algorithm is given as Alg.
+138	1	Our method with a full-covariance multivariate Gaussian, a fully-factorized Gaussian, a matrix-variate Gaussian and block-tridiagonal posterior are denoted as NNG-full, NNGFFG (noise Adam), NNG-MVG (noisy K-FAC) and NNGBlkTri, respectively.
+147	1	Moreover, NNG-MVG outperformed PBP MV (Sun et al., 2017) on all datasets other than Yacht and Year, even though PBP MV also uses an MVG posterior.
+168	3	10 independent trials were run.
+191	9	Consistently with Houthooft et al. (2016), we observed that the Gaussian noise baseline completely broke down and rarely achieved the goal, and VIME significantly improved the performance.
+192	2	However, replacing the dynamics network with NNG-MVG considerably improved the exploration efficiency on all three tasks.
+193	8	Since the policy search algorithm was shared between all three conditions, we attribute this improvement to the improved uncertainty modeling by the dynamics network.
+194	12	We drew a surprising connection between natural gradient ascent for point estimation and for variational inference.
+195	45	We exploited this connection to derive surprisingly simple variational BNN training procedures which can be instantiated as noisy versions of widely used optimization algorithms for point estimation.
+196	162	This let us efficiently fit MVG variational posteriors, which capture correlations between different weights.
+197	145	Our variational BNNs with MVG posteriors matched the predictive variances of HMC much better than fully factorized posteriors, and led to more efficient exploration in the settings of active learning and reinforcement learning with intrinsic motivation.

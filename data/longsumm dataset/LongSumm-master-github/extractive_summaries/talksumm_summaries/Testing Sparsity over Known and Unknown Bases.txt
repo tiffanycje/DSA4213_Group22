@@ -1,0 +1,30 @@
+4	46	As evident from these surveys, research in property testing has largely focused on properties of combinatorial and algebraic structures, such as bipartiteness of graphs, linearity of Boolean functions on the hypercube, membership in errorcorrecting codes or representability of functions as concise Boolean formulae.
+7	9	Let P ⊂ Rd be a property of real vectors.
+14	14	If P ⊂ Rd×p is a property of real matrices with an associated distance function dist : Rd×p → R>0, testing is defined similarly: given an input matrix Y ∈ Rd×p, the algorithm observes MY for a random matrix M ∈ Rq×d with analogous completeness and soundness properties.
+17	23	Because GPUs are specially designed to optimize matrix-vector computation, many modern optimization and learning algorithms work with linear sketches of their input.
+18	19	We focus on testing whether a vector is sparse with respect to some basis.1 A vector x is said to be k-sparse if it has at most k nonzero coordinates.
+19	11	Sparsity is a structural characteristic of signals of interest in a diverse range of applications.
+20	78	It is a pervasive concept throughout modern statistics and machine learning, and algorithms to solve inverse problems under sparsity constraints are among the most successful stories of the optimization community (see the book (Hastie et al., 2015)).
+21	20	The natural property testing question we consider is whether there exists a solution to a linear inverse problem under a sparsity constraint.
+22	10	There are two settings in which we investigate the sparsity testing problem.
+23	29	(a) In the first setting, the basis is not known in advance.
+26	36	In this setting, we restrict the unknown A to be a (ε, k)-RIP matrix which means that (1 − ε)‖x‖ 6 ‖Ax‖ 6 (1 + ε)‖x‖ for any ksparse x.
+28	60	In this setting, we design an efficient tester for this property that projects the inputs toO(ε−2 log p) dimensions and, informally speaking, rejects if for all (ε, k)-RIP matrices A, there is some yi such that yi −Axi has large norm for all “approximately sparse” xi.
+29	35	(b) In the second setting, a design matrix A ∈ Rd×m is known explicitly, and the property to test is whether a given input vector y ∈ Rd equals Ax for a k-sparse vector x ∈ Rm.
+32	8	Informally, our main result in this setting is that for any design matrix A, there exists a tester projecting the input y toO(k logm) dimensions that rejects if y−Ax has large norm for any O(k)-sparse x.
+39	34	For the same reason, unknown design testing is interesting only when the number of vectors p exceeds m. In both of the above tests, the measurement matrix is a random matrix with iid gaussian entries, chosen so as to preserve norms and certain other geometric properties upon dimensionality reduction.2 In particular, our testers are oblivious to the input.
+42	21	For integer m > 0, let Sm−1 = {x ∈ Rm : ‖x‖ = 1}, and let Spmk = {x ∈ Sm−1 : ‖x‖0 6 k}.3 Theorem 1.2 (Unknown Design Matrix).
+44	25	There exists a tester with query complexity O(ε−2 log (p/δ)) which, given as input vectors y1,y2, .
+47	33	– Soundness: Suppose Y does not admit a decomposition Y = A(X + Z) + W with 1.
+49	11	The coefficient matrix X ∈ Rm×p being column wise `-sparse, where ` = O(k/ε4).
+52	26	The contrapositive of the soundness guarantee from the above theorem states that if the tester accepts, then matrix Y admits a factorization of the form Y = A(X+Z)+W, with error matrices Z and W having `∞ and `2 error bounds.
+53	14	The matrix X+Z is a sparse matrix with `∞-based thresholding, and W is an additive `2-error term.4 Theorem 1.3 (Known Design Matrix).
+56	13	– Soundness: If ‖Ax− y‖2 > ε for every x : ‖x‖0 6 K, then the tester rejects with probability > 1 − δ.
+69	15	– Soundness: If rankε(Y ) > k′, then the tester rejects with probability > 1− δ.
+100	35	In other words, we reduce the property testing problem to that of finding a efficiently testable property P ′, which can be interpreted as a surrogate for property P .
+101	31	The inherent geometric nature of the problems looked at in this paper motivate us to look for P ′s which are based around convex geometry and high dimensional probability.
+102	25	For the unknown design setting, we are intuitively looking for a P ′ based on a quantity ω that robustly captures sparsity and is easily computable using linear queries, in the sense that ω is small when the input vectors have a sparse coding and large when they are “far” from any sparse coding.
+103	8	Moreover, ω needs to be invariant with respect to isometries and nearly invariant with respect to near-isometries.
+110	10	Lemma 1.9 (See, for example, (Rudelson & Vershynin, 2008; Vershynin, 2015)).
+115	52	While completeness of such testers would follow directly from concentration of measure, establishing soundness would require us to show that approximate converses of points (iii) and (iv) hold as well i.e., whenever the gaussian width of the set S is small, it can be approximated by sets which are approximately sparse in some design matrix (or have low rank).
+116	22	For the soundness direction of Theorem 1.2, the above arguments are made precise using Lemma 3.3 and Theorem 3.2, which show that small gaussian width sets can be approximated by random projections of sparse vectors and vectors with small `∞-norm.

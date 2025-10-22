@@ -1,0 +1,30 @@
+33	2	To give orders of magnitude, the largest datasets we experiment on, FB15K and YAGO3-10, contain respectively 15k/1.3k and 123k/37 entities/predicates.
+38	3	are answered by ordering entities k′ by decreasing values of X̂i,j,k′ .
+40	1	These models then differ only by structural constraints on the learned tensor.
+45	2	In the more specific context of link prediction, it has been suggested in Bordes et al. (2011); Nickel et al. (2011) that since both subject and object mode represent the same entities, they should have the same factors.
+49	2	The assumption that the data tensor can be properly approximated by a symmetric tensor for Knowledge base completion is not satisfied in many practical cases (e.g., while (Washington, capital_of, USA) holds, (USA, capital_of,Washington) does not).
+50	2	ComplEx (Trouillon et al., 2016) proposes an alternative where the subject and object modes share the parameters of the factors, but are complex conjugate of each other.
+52	5	This decomposition can represent any real tensor (Trouillon et al., 2016).
+59	1	We describe in appendix 8.1 a simple strategy for DistMult to have a high filtered MRR on the hierarchical predicates of WN18 despite its symmetricity assumption.
+63	1	These two partial losses are represented in Figure 1 (b).
+71	2	There has been extensive research on link prediction in relational data, especially in knowledge bases, and we review here only the prior work that is most relevant to this paper.
+85	1	The weighted trace norm reweights elements of the factors based on the marginal rows and columns sampling probabilities, which can improve sample complexity bounds when sampling is non-uniform (Foygel et al., 2011; Negahban & Wainwright, 2012).
+86	2	Direct SGD implementations on the nonconvex formulation implicitly take this reweighting rule into account and were used by the winners of the Netflix challenge (see Srebro & Salakhutdinov, 2010, Section 5).
+106	2	Moreover, the minimizers of the left-hand side satisfy: ∥u(d)r ∥p = 3 √√√√ 3∏ d′=1 ∥u(d ′) r ∥p.
+113	2	The nuclear p-norm of X ∈ RN1×N2×N3 for p ∈ [1,+∞], is defined in Friedland & Lim (2018) as ∥X∥∗,p := min { ∥σ∥1 ∣∣∣ (σ, ũ) ∈ UpR(X), R ∈ N} .
+116	1	Weighted Nuclear p-Norm Similar to the weighted trace-norm for matrices, the weighted nuclear 3-norm can be easily implemented by keeping the regularization terms corresponding to the sampled triplets only, as discussed in Section 3.2.
+117	2	This leads to a formulation of the form min (u (d) r )d=1..3 r=1..R ∑ (i,j,k)∈S [ ℓi,j,k ( R∑ r=1 u(1)r ⊗u(2)r ⊗u(3)r ) (5) + λ 3 R∑ r=1 (∣∣u(1)r,i |3 + ∣∣u(2)r,j |3 + ∣∣u(3)r,k|3)].
+124	2	(6) Contrary to formulation (5), the optimization of formulation (6) with a minibatch SGD leads to an update of every coefficients for each mini-batch considered.
+130	4	We represent this transformation in Figure 1 (c).
+134	5	In the case of a CP decomposition, we would try to find the flipping that leads to lowest tensor rank.
+136	13	More precisely, the instantaneous loss of a training triple (i, j, k) becomes : ℓi,j,k(X) =−Xi,j,k + log (∑ k′ exp(Xi,j,k′) ) (7) −Xk,j+P,i + log (∑ i′ exp(Xk,j+P,i′) ) .
+137	3	At test time we use X̂i,j,: to rank possible right hand sides for query (i, j, ?)
+145	3	The most frequent types of relations are highly hierarchical (e.g., hypernym, hyponym).
+182	3	Most of our improvements come from the 1-m and m-m categories, both on ComplEx and CP.
+186	2	We checked on WN18RR the significance of that gain with a Signed Rank test on the rank pairs for CP.
+190	6	While the impact of optimization parameters was well known already, neither the effect of the formulation (adding reciprocals doubles the mean reciprocal rank on FB15K for CP) nor the impact of the regularization was properly assessed.
+191	1	The conclusion is that the CP model performs nearly as well as the competitors when each model is evaluated in its optimal configuration.
+192	6	We believe this observation is important to assess and prioritize directions for further research on the topic.
+193	38	In addition, our proposal to use nuclear p-norm as regularizers with p ̸= 2 for tensor factorization in general is of independent interest.
+194	164	The results we present leave several questions open.
+195	166	Notably, whereas we give definite evidence that CP itself can perform extremely well on these datasets as long as the problem is formulated correctly, we do not have a strong theoretical justification as to why the differences in performances are so significant.

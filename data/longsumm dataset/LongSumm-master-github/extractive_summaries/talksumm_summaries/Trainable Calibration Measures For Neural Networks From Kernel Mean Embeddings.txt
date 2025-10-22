@@ -1,0 +1,30 @@
+0	10	Recently, (Guo et al., 2017) made the surprising observation that highly accurate, negative log likelihood trained, deep neural networks predict poorly calibrated confidence probabilities unlike traditional models trained with the same objective (Niculescu-Mizil & Caruana, 2005).
+1	15	Poor calibration implies that if the network makes a prediction with more than 0.99 confidence (which it often does!
+3	13	Such lack of calibration is a serious problem in applications like medical diagnosis (Caruana et al., 2015; Crowson et al., 2016; Jiang et al., 2012), obstacle detection in self-driving vehicles (Bojarski et al., 2016), and other applications where learned models feed into decision systems or are human interpreted.
+7	14	Recently (Guo et al., 2017) experimented with several known calibration fixes applied post training, and found a simple temperature scaling of logits to be most effective.
+8	54	A second option is to plan for calibration during training.
+9	10	Pereyra et al. (2017) proposes to add a entropy regularizer to the NLL objective to clamp over-confidence.
+10	15	We show that both temperature scaling and entropy regularization manage to reduce aggregate calibration error but in the process needlessly clamp down legitimate high confidence predictions.
+11	13	A third set of approaches model full prediction uncertainty via variational Bayesian networks (Louizos & Welling, 2017), or their committee counterparts (Lakshminarayanan et al., 2017).
+12	43	But their training is too resource-intensive.
+13	25	We propose a practical and principled fix by minimizing calibration error during training along with classification error.
+14	24	We depend on the power of RKHS functions induced by a universal kernel to express calibration error as a tractable integral probability measure, which we call Maximum Mean Calibration Error (MMCE).
+15	12	This is analogous to the way MMD over RKHS kernels expresses the distance between two probability distributions (Muandet et al., 2017; Li et al., 2015).
+18	52	Our experiments spanning seven datasets show that training with MMCE achieves significant reduction in calibration error while also providing a modest accuracy increase.
+19	87	MMCE achieves this without throttling high confidence predictions.
+20	18	For example on CIFAR-10, MMCE makes 72% predictions at 99.7% confidence, whereas temperature scaling predicts only 40% at 99.6% and entropy scaling only 7% at 96.9%.
+21	18	This is important in applications like medical diagnosis where only highly confident predictions result in saving the cost of manual screening.
+24	37	,K} denote the set of class labels and X denote a space of inputs.
+25	22	LetNθ(y|x) denote the probability distribution the neural network predicts on an input x ∈ X and θ denote the network parameters.
+26	13	For an instance xi with correct label yi, the network predicts label ŷi = argmaxy∈YNθ(y|xi).
+27	72	The prediction gets correctness score ci = 1 if ŷi = yi and 0 otherwise and a confidence score ri = Nθ(ŷi|xi).
+28	28	The model Nθ(y|x) is well-calibrated over a data distribution D, when over all (xi, yi) ∈ D and ri = α the probability that ci = 1 is α.
+29	20	For example, out of a sample from D if 100 examples are predicted with confidence 0.7, then we expect 70 of these to be correct when Nθ(y|x) is well-calibrated on D. More formally, we use Pθ,D(r, c) to denote the distribution over r and c values of the predictions of Nθ(y|x) on D. When Nθ(y|x) is well calibrated on data distribution D, Pθ,D(c = 1|r = Iα) = α ∀α ∈ [0, 1] (1) where Iα denotes a small non-zero interval around α.
+30	17	Using this we can define an expected calibration error (ECE) as ECE(Pθ,D) = EPθ,D(r) [ |EPθ,D(c|r)[c]− r| ] (2) To estimate ECE on a data sample D ∼ Pθ,D we partition the [0,1] range of r into B equal bins.
+31	53	We then sum up over each bin Bj = [ jB , j+1 B ] the difference between the correctness and confidence scores over examples in that bin: ECE(D) = 1 |D| B−1∑ j=0 ∣∣ ∑ i∈Dj ci − ∑ i∈Dj ri ∣∣ s.t.
+32	12	Dj = {i ∈ D, ri ∈ [ j B , j + 1 B ]} (3) We are interested in models with low ECE and high accuracy.
+33	4	Note a model that minimizes ECE may not necessarily have high accuracy.
+37	18	Popular classifiers like linear logistic regression and calibration methods like Platt scaling that optimize the NLL objective lead to well-calibrated models (Niculescu-Mizil & Caruana, 2005).
+41	8	In the next section we propose a new calibration measure called MMCE that is trainable and satisfies other properties of sound measures that we will discuss next in Section 4.
+44	10	Further, we show empirically that it can be optimized over the network parameters θ using existing batch stochastic gradient algorithms.
+46	31	Such approaches have emerged as a powerful tool in machine learning and have been successfully used in tasks like comparing two distributions (Gretton et al., 2012), (Li et al., 2015), goodness of fit tests, and class ratio estimation (Iyer et al., 2014) (see (Muandet et al., 2017) for a survey).

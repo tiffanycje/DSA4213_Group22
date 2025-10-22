@@ -1,0 +1,30 @@
+0	78	Dance Dance Revolution (DDR) is a rhythm-based video game with millions of players worldwide (Hoysniemi, 2006).
+2	28	A player’s score depends upon both hitting the correct buttons and hitting them at the correct time.
+3	36	Step charts vary in difficulty with harder charts containing more steps and more complex sequences.
+4	32	The dance pad contains up, down, left, and right arrows, each of which can be in one of four states: on, off, hold, or release.
+5	67	Because the four arrows can be activated or released independently, there are 256 possible step combinations at any instant.
+6	55	1 UCSD Department of Music, San Diego, CA 2 UCSD Department of Computer Science, San Diego, CA.
+8	26	Charts tend to mirror musical structure: particular sequences of steps correspond to different motifs (Figure 2), and entire passages may reappear as sections of the song are repeated.
+17	50	We introduce the task of learning to choreograph, in which we learn to generate step charts from raw audio.
+21	128	Second, step selection consists of choosing which steps to place at each timestamp.
+57	28	Note that while the total number of songs is relatively small, when considering all charts across all songs the datasets contain around 35 hours of annotations and 350,000 steps.
+63	21	In addition to encoded audio, packs consist of metadata including a song’s title, artist, a list of time-stamped tempo changes, and a time offset to align the recording to the tempos.
+64	27	They also contain information such as the chart difficulties and the name of the choreographer.
+133	19	We consider predicted placements to be true positives if they lie within a ±20ms window of a ground truth.
+149	25	We apply earlystopping determined by average per-step cross entropy on validation data.
+153	22	We evaluate the performance of our step placement methods against baselines via the methodology outlined below.
+156	24	Our MLP architecture contains two fully-connected layers of size 256 and 128, with rectifier nonlinearity applied to each layer.
+170	24	Baselines For step selection, we compare the performance of the conditional LSTM to an n-gram model.
+182	20	We calculate accuracy by comparing the ground-truth step to the argmax over a model’s predictive distribution given the previous sequence of ground-truth tokens.
+205	31	We believe this owes to the distinctiveness of author styles.
+206	20	Because we have so many step charts for Fraxtil, the network is able to closely mimic his patterns.
+207	22	While the ITG dataset contains multiple charts per author, none are so prolific as Fraxtil.
+208	21	We released a public demo5 using our most promising models as measured by our quantitative evaluation.
+209	39	Players upload an audio file, select a difficulty rating and receive a step chart for use in the StepMania DDR simulator.
+210	21	Our demo produces a step chart for a 3 minute song in about 5 seconds using an NVIDIA Tesla K40c GPU.
+211	43	At time of writing, 220 players have produced 1370 step charts with the demo.
+212	60	We also solicited feedback, on a scale of 1-5, for player “satisfaction” with the demo results.
+213	20	The 22 respondents reported an average satisfaction of 3.87.
+214	46	A promising direction for future work is to make the selection algorithm audio-aware.
+215	27	We know qualitatively that elements in the ground truth choreography tend to coincide with specific musical events: jumps are used to emphasize accents in a rhythm; freezes are used to transition from regions of high rhythmic intensity to more ambient sections.
+244	26	By combining insights from musical onset detection and statistical language modeling, we have designed and evaluated a number of deep learning methods for learning to choreograph.

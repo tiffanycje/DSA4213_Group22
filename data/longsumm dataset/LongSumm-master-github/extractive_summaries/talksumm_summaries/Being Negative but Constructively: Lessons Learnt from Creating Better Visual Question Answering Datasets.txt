@@ -1,0 +1,30 @@
+0	51	Multimodal information processing tasks such as image captioning (Farhadi et al., 2010; Ordonez et al., 2011; Xu et al., 2015) and visual question answering (Visual QA) (Antol et al., 2015) have gained a lot of attention recently.
+1	49	A number of significant advances in learning algorithms have been made, along with the development of nearly two dozens of datasets in this very active research domain.
+3	30	The overarching objective is that a learning machine needs to go beyond understanding different modalities of information separately (such as image recognition alone) and to learn how to correlate them in order to perform well on those tasks.
+24	16	We conduct extensive empirical and human studies to demonstrate the effectiveness of our procedures in creating high-quality datasets for the Visual QA task.
+30	55	4, we describe our automatic procedures for remedying those deficiencies.
+59	32	In multiple-choice Visual QA datasets, a training or test example is a triplet that consists of an image I, a question Q, and a candidate answer set A.
+60	27	The set A contains a target T (the correct answer) and K decoys (incorrect answers) denoted by D. An IQA triplet is thus {I,Q,A = {T,D1, · · · ,DK}}.
+62	32	We investigate how well a learning algorithm can perform when supplied with different modalities of information.
+63	30	We concentrate on the one hiddenlayer MLP model proposed in (Jabri et al., 2016), which has achieved state-of-the-art results on the dataset Visual7W.
+72	15	Machines find shortcuts Table 1 summarizes the performance of the learning models, together with the human studies we performed on a subset of 1,000 triplets (c.f.
+77	29	Adding the information about the image (i.e., the row of “I+A”), the machine improves significantly and gets close to the performance when all information is used (62.4% vs. 65.7%).
+84	21	Note that human improves significantly from “I+A” to “I+Q+A” with “Q” added, while the machine does so only marginally.
+88	15	Shortcuts are due to design deficiencies We probe deeper on how the decoy answers have impacted the performance of learning models.
+99	32	Otherwise, machines can rely on the correlation between the question and candidate answers to tell the target from decoys, even without the images.
+100	34	Note that this is a principle that is being followed by most datasets.
+101	39	The decoys answers should be equally likely used as the correct answers.
+102	28	(3) Image only Unresolvable (IoU).
+104	15	That is, they should appear in the image, or there exist questions so that the decoys can be treated as targets to the image.
+106	21	Ideally, each decoy in an IQA triplet should meet the three principles.
+114	19	We assume that each image in the dataset is coupled with “multiple” QT pairs, which is the case in nearly all the existing datasets.
+148	15	We examine our automatic procedures for creating decoys on five datasets.
+182	19	Each triplet is answered by three workers and in total 169 workers get involved.
+184	21	We report the average human performance and compare it to the learning models’.
+188	17	In particular, they should prevent learning algorithms from exploiting shortcuts such that partial information is sufficient for performing well on the Visual QA task.
+190	45	With the Orig decoys, the relatively small gain from MLP-IA to MLP-IQA suggests that the question information can be ignored to attain good performance.
+192	78	Likewise, with the QoU-decoys (question itself is not adequate to resolve), including images information improves from 40.7% (MLP-QA) substantially to 57.6% (MLP-IQA).
+202	14	This is also expected as it is difficult to have decoys that are simultaneously both IoU and QoU — such answers tend to be the target answers.
+204	22	Differences across datasets Contrasting Visual7W to VQA (on the column IoU +QoU), we notice that Visual7W tends to have bigger improvements in general.
+205	298	This is due to the fact that VQA has many questions with “Yes” or “No” as the targets — the only valid decoy to the target “Yes” is “No”, and vice versa.
+206	88	As such decoys are already captured by Orig of VQA (‘Yes” and “No” are both top frequently-occurring targets), adding other decoy answers will not make any noticeable improvement.

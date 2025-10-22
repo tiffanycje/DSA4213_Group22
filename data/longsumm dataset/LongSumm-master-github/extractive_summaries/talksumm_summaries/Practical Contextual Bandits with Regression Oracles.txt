@@ -1,0 +1,30 @@
+0	29	We study the design of practically useful, theoretically wellfounded, general-purpose algorithms for the contextual bandits (CBs) problem.
+3	26	For instance, a news portal must repeatedly choose articles to present to each user to maximize clicks.
+9	47	Computationally tractable realizability-based algorithms are only known for specific model families, such as when the conditional reward distributions come from a generalized linear model.
+10	30	The two groups of approaches seem to have different advantages and disadvantages.
+11	71	Empirically, in the contextual semibandit setting, Krishnamurthy et al. (2016) found that the realizability-based LinUCB approach outperforms all agnostic baselines using a linear policy class.
+14	28	Agnostic approaches, on the other hand, typically assume an oracle for cost-sensitive classification, which is computationally intractable in the worst case, but often practically feasible for many natural policy classes.
+17	31	As is often done in agnostic approaches, we assume the availability of an oracle which reduces to a standard learning setting and knows how to efficiently leverage the structure of the model class.
+19	45	Since regression can often be solved efficiently, the availability of such an oracle is a far more reasonable assumption than the cost-sensitive classification oracle usually assumed, which typically must solve NP-hard problems.
+34	38	We consider mappings f from a given class F , such as linear predictors or regression trees.
+35	95	The main assumption this paper follows is that the class F is rich enough to contain a predictor that perfectly predicts the expected reward of any action under any context, that is: Assumption 1 (Realizability).
+36	24	This assumption is used by essentially all regression-based contextual bandit algorithms (Chu et al., 2011; Filippi et al., 2010; Russo & Van Roy, 2013; Li et al., 2017).
+40	34	Regression Oracle To overcome the computational obstacle, our algorithms reduce the contextual bandit problem to weighted least-squares regression.
+44	44	As data is collected, we maintain a subset of F , referred to as the version space, that only contains f ∈ F with small squared loss on observed data.
+45	33	For a new example, we construct a confidence interval for the expected reward of each action based on this version space.
+46	103	Finally, with these confidence intervals, we either optimistically pick the action with the highest upper bound, similar to UCB and LinUCB, or randomize among all actions that are potentially the best.
+47	91	The challenge here is to maintain such version spaces and compute upper and lower confidence bounds efficiently, and we show that this can be done using a binary search together with a small number of regression oracle calls.
+65	36	By changing the weight w, we trade-off the loss on this single example against that on the history Hm.
+70	21	Let Hm = {(xs, as, rs(as))}⌧m−1s=1 .
+71	31	If the function class F is convex and closed under pointwise convergence, then the calls zHIGH ← BINSEARCH(HIGH, (x, a),Hm, ,↵) zLOW ← BINSEARCH(LOW, (x, a),Hm, ,↵) terminate after O(log(1↵)) oracle invocations and HIGHF̂m( )(x, a) − zHIGH ≤ ↵, LOWF̂m( )(x, a) − zLOW ≤ ↵.
+103	28	While bounding the disagreement coefficients a priori often requires strong assumptions on the model class and the distribution, the size of disagreement set can be easily checked empirically under the product class assumption, and we include this diagnostic in our experimental results.
+105	43	Our analysis crucially requires that any plausibly optimal action a be chosen with a reasonable probability, something which the optimistic algorithm fails to ensure.
+131	22	Linear classes For concreteness, let us discuss the regret of both algorithms in a linear setting with a fixed feature map ∶ X ×A → Rd and F = {(x, a) w (x, a) w ∈W} for some W ⊆ Rd (e.g., as in LinUCB).
+141	40	Description of the datasets, benchmark algorithms, and oracle configurations, as well as further experimental results are included in Appendix B. Datasets We begin with 10 datasets with full reward information and simulate bandit feedback by withholding the rewards for actions not selected by the algorithm.
+152	17	The third baseline is a bootstrapping-based exploration strategy of Dimakopoulou et al. (2017) (Bootstrap-TS), which uses bootstrapping to estimate confidence intervals and then performs Thompson sampling to select an action based on the intervals.
+154	33	tractable alternative to Thompson sampling as it works in the regression-oracle model we consider here, but it does not have a theoretical analysis.5 Note that the LinUCB algorithm (Chu et al., 2011; AbbasiYadkori et al., 2011), which is a natural baseline as well, coincides with our Algorithm 2 (with a linear oracle), so we only plot the performance of RegCB with a linear oracle.
+189	59	The aggregate performance with the GB5 oracle across all datasets can be briefly summarized as follows: RegCB always beats ✏-Greedy and ILTCB, but sometimes loses out to Bootstrap-TS, and Bootstrap-TS itself sometimes underperforms relative to the other baselines, especially on the UCI datasets.
+190	53	Even when RegCB is not the best, it is almost always within 20% of the best.
+191	60	The elimination and optimistic variants of RegCB have comparable performance, with elimination performing slightly better in aggregate.
+192	38	The RegCB algorithms with the GB5 oracle also dominate the ✏-Greedy, ILTCB, and Bootstrap-TS baselines when they are equipped with Linear oracles (the dashed lines in Figure 2).
+194	69	Results: Confidence Width The analysis of RegCB relies on assumptions on D (disagreement coefficient or moment parameters) that are not easy to verify.

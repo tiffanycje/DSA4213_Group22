@@ -1,0 +1,19 @@
+1	72	In this work, we go one step further and mathematically prove that ES is equivalent to the problem of choosing (i) an objective function θ for scoring system summaries, and (ii) an optimizer O.
+2	9	We use (θ, O) to denote the resulting decomposition of any extractive summarizer.
+3	49	Our proposed decomposition enables a principled analysis and evaluation of existing summarizers, and addresses a major issue in the current evaluation of ES.
+4	19	This issue concerns the traditional “intrinsic” evaluation comparing system summaries against human reference summaries.
+7	21	Moreover, the commonly used evaluation metric ROUGE yields a noisy surrogate evaluation (despite its good correlation with human judgments) compared to the much more meaningful evaluation based on human judgments.
+9	3	The (θ,O) decomposition we propose addresses this issue: it enables a well-defined and principled evaluation of extractive summarizers on the level of their components θ and O.
+10	16	In this work, we focus on the analysis and evaluation of θ, because θ is a model of the quality indicators of a summary, and thus crucial in order to understand the properties of “good” summaries.
+11	36	Specifically, we compare θ functions of different summarizers by measuring the correlation of their θ functions with human judgments.
+12	15	Our goal is to provide an evaluation framework which the research community could build upon in future research to identify the best possible θ and use it in optimization-based systems.
+13	56	We believe that the identification of such a θ is the central question of summarization, because this optimal θ would represent an optimal definition of summary quality both from an algorithmic point of view and from the human perspective.
+14	62	In summary, our contribution is twofold: (i) We present a novel and principled evaluation framework for ES which allows evaluating the objective function and the optimization technique separately and independently.
+15	65	(ii) We compare wellknown summarization systems regarding their implicit choices of θ by measuring the correlation 26 of their θ functions with human judgments on two datasets from the Text Analysis Conference (TAC).
+16	11	Our comparative evaluation yields surprising results and shows that extractive summarization is not solved yet.
+17	20	The code used in our experiments, including a general evaluation tool is available at github.com/UKPLab/acl2017-theta_ evaluation_summarization.
+18	103	Let D = {si} be a document collection considered as a set of sentences.
+20	6	O is an operator which takes an objective function θ from the set of all objective functions Θ and a document collection D from the set of all document collections D, and outputs a summary S∗: O : Θ×D → S (θ,D) 7→ S∗ (3) Decomposition Theorem Now we show that the problem of ES is equivalent to the problem of choosing a decomposition (θ, O).
+21	7	We formalize an extractive summarizer σ as a set function which takes a document collection D ∈ D and outputs a summary SD,σ ∈ P(D).
+22	20	With this formalism, it is clear that every (θ,O) tuple forms a summarizer because O(θ, ·) produces a summary from a document collection.
+23	30	But the other direction is also true: for every extractive summarizer there exists at least one tuple (θ, O) which perfectly describes the summarizer: Theorem 1 ∀σ, ∃(θ,O) such that: ∀D ∈ D, σ(D) = O(θ,D) This theorem is quite intuitive, especially since it is common to use a similar decomposition in optimization-based summarization systems.

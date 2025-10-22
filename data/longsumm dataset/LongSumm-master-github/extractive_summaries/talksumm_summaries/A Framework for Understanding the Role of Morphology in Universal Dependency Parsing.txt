@@ -1,0 +1,30 @@
+0	25	While word embedding has proven a good solution to reduce data sparsity in parsing (Koo et al., 2008), treating word forms as atomic units is at odds with the fact that words have a potentially complex internal structure.
+1	21	Furthermore, it makes parameters estimation difficult for morphologically rich languages (MRL) in which the number of possible forms a word can take can be very large1.
+2	21	Recently, researchers have started to work on morphologically informed word embeddings (Cao and Rei, 2016; Botha and Blunsom, 2014), aiming at better capturing both lexical, syntactic and morphological information.
+5	45	Some might benefit mostly from reducing data sparsity while others, for which paradigm richness correlate with freer word order (Comrie, 1981), will also benefit from morphological information encoding.
+6	23	This paper aims at characterizing the role of morphology as a syntax encoding device for various languages.
+7	79	Using simple word representations, we measure the impact of morphological information on dependency parsing and relate it to two measures of language morphological complexity: the basic form per lemma ratio and a new measure (HPE) defined in terms of head attachment preference encoded by its morphological attributes.
+10	13	Section 2 presents the representation learning method and the dependency parsing model.
+21	19	Then, given a corpus annotated with lemmas and morphological information, we can gather the cooccurrence counts in the matrix M ∈ N|V|×|C|, such thatM ij is the frequency of lemma (form or morphological attributes) Vi appearing in context Cj in the corpus.
+23	22	Those cooccurrencematrices are then reweighted by unshifted Positive Point-wise Mutual Information (PPMI) and reduced via Singular Value Decomposition (SVD).
+30	13	Simple additive models have been shown to be very efficient for compositionally derived embeddings (Arora et al., 2017).
+34	10	A tree score is thus the sum of its edges scores.
+35	20	We use a simple linear model: Score(x, t) = ∑ e∈t θ> · φ(x, e), whereφ(x, e) is a feature vector representing edge e in sentence x, and θ ∈ Rm is a parameter vector to be learned.
+36	17	The vector representation of an edge eij whose governor is the i-th word wi and dependent is the j-th word wj , is defined by the outer product of their respective representations in context.
+45	23	This remark would support different treatment for each language.
+62	23	Likewise, we use the empirical counts as a surrogate for c in F/L and F/iL.
+84	15	A more complete table is provided in the appendix as well as a complete labeled accuracy score (LAS) table.
+86	34	One-hot gold morphological attributes consistently outerperform form embeddings.
+88	13	However, improvements are not consistent across languages, ranging from 1.14 point for English to 15.20 points for Finnish.
+90	22	Those inconsistencies become even more striking, considering results using predicted attributes.
+91	15	We notice that despite a general drop of performance of 5-12 points, predicted attributes 3 3.5 4 4.5 −5 −2.5 0 2.5 5 7.5 10 12.5 15 da en et eu fi fr got he hu rosv (a) F/iL 0.5 0.75 1 −5 −2.5 0 2.5 5 7.5 10 12.5 15 da en eu fi fr he hu ro sv etgot (b) HPE Figure 1: Accuracy differences (y-axis) between parsers using form embeddings and parsers using onehot attributes, with respect to morphological complexity (x-axis).
+93	18	still perform significantly better than form embeddings for those morphologically rich languages that have an HPE lower than 0.65 as depicted on Figure 1b.
+98	19	But while the F/iL plot suffers outliers (Hungarian, Estonian and Romanian), the HPE plot shows a clear boundary between languages benefiting fully from morphological information (even predicted) and those benefiting primarily from reducing data sparsity.
+101	19	Furthermore, it seems to be link to the distinction that Kibort and Corbett (2010) do between morphosyntax and morphosemantic.
+102	56	We have contributed a new measure of morphosyntactic complexity (HPE) that helps distinguishing languages that use morphology for syntactic purpose from languages that use morphology to encode more semantic information.
+103	23	We showed that this measure correlates muchmore with differences in parsing results using morphological representations than the simple form per lemma ratio.
+105	13	It is worth mentioning that we focused here on dependent marked head selection.
+113	18	Predictions can be either probability distributions (Soft) or argmax (Hard) and either used as such (OH) or passed through an embedding (Emb).
+115	21	Table 5 reports results for the predicted attributes experiment.
+116	11	Are also reported, scores for the four representation regimes of predicted attributes as in table 4.
+117	23	Predictions can be either probability distributions (Soft) or argmax (Hard) and either used as such (OH) or passed through an embedding (Emb).

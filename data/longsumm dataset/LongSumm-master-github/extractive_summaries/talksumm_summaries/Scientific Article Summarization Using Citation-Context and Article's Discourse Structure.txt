@@ -1,0 +1,30 @@
+0	25	Due to the expanding rate at which articles are being published in each scientific field, it has become difficult for researchers to keep up with the developments in their respective fields.
+1	26	Scientific summarization aims to facilitate this problem by providing readers with concise and informative representation of contributions or findings of an article.
+3	19	First, the length of scientific papers are usually much longer than general articles (e.g newswire).
+10	20	While abstracts provide a general overview of the paper, they cannot be considered as an accurate scientific summary by themselves.
+11	40	That is due to the fact that not all the contributions and impacts of the paper are included in the abstract (Elkiss et al., 2008).
+12	29	In addition, the stated contributions are those that the authors deem important while they might be less important to the scientific community.
+15	23	Citation based summary is a summary which is formed by utilizing a set of citations to a referenced article (Qazvinian and Radev, 2008; Qazvinian et al., 2013).
+20	44	The problem of inconsistency between the degree of certainty of expressing findings between the citing article and referenced article has been also reported (De Waard and Maat, 2012).
+25	74	Specifically, we extract citation-context in the reference article for each citation.
+67	19	To find citation-contexts, we consider each citation as an n-gram vector and use vector space model for locating the relevant text spans in the reference article.
+76	29	Concepts that are represented through noun phrases in the citation, for example in the following: “ ... typically achieved by introducing DNA tumor virus oncoproteins such a ... ” which is part of a citation, the phrase “DNA tumor virus oncoproteins” is a noun phrase.
+90	22	To extract communities from the graph of reference spans, we use the algorithm proposed by (Blondel et al., 2008) which is a simple yet accurate and efficient community detection algorithm.
+101	18	We use unigram and verb features with tfidf weighting to train the classifier.
+108	20	• Iterative: We select top sentences iteratively from each group until we reach the summary length threshold.
+115	24	The TAC2014 benchmark contains 20 topics each of which consists of one reference article and several articles that have citations to each reference article (the statistics of the dataset is shown in Table 1).
+117	25	For each topic, 4 experts in biomedical domain have written a scientific summary of length not exceeding 250 words for the reference article.
+131	40	Since they only focus on citations, comparison of our approach with this work gives a better insight into how beneficial our use of citation-context and article’s discourse model can be in generating scientific summaries.
+151	19	Specifically, for 100 words short summaries, the discourse based method (with 34.6% mean ROUGE-L improvement over the best baseline) and for 250 word summaries, the community based method (with 3.5% mean ROUGE-L improvement over the best baseline) are the best performing methods.
+174	47	While LSA approach performs relatively well, we observe lower scores for all variations of MMR approaches.
+176	50	By comparing the two sentence selection approaches (i.e., iterative and diversificationrelevance), we observe that while for shorter length summaries the method based on diversification performs better, for the longer summaries results for the two methods are comparable.
+177	20	This is because when the length threshold is smaller, iterative approach may fail to select best representative sentences from all the groups.
+180	25	In longer summaries, due to larger threshold, iterative approach seems to be able to select the top sentences from each group, enabling it to reflect different aspect of the paper.
+185	63	Figure 3 shows ROUGE-L results for 250 words summaries based on using different citationcontext extraction approaches, described in section 3.1.
+187	19	Using the citation text for extracting the context is almost as effective as other methods.
+194	44	This approach achieves a relatively higher recall but a lower mean precision.
+195	33	While capturing domain concepts along with noun phrases helps improving the performance, adding related concepts to the citation vector causes drift from the original context as expressed in the reference article.
+198	68	Our approach focuses on the problem of lack of context in existing citation based summarization approaches.
+199	20	We effectively achieved improvement over several well known summarization approaches on the TAC2014 biomedical summarization dataset.
+200	73	That is, in all cases we improved over the baselines; in some cases we obtained greater than 30% improvement for mean ROUGE scores over the best performing baseline.
+201	56	While the dataset we use for evaluation of scientific articles is in biomedical domain, most of our approaches are general and therefore adaptable to other scientific domains.

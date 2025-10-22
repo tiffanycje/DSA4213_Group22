@@ -1,0 +1,30 @@
+0	22	Sparse support vector machine (SVM) (Bi et al., 2003; Wang et al., 2006) is a powerful technique that can simultaneously perform classification by margin maximization and variable selection by `1-norm penalty.
+1	44	The last few years have witnessed many successful applications of sparse SVMs, such as text mining (Joachims, 1998; Yoshikawa et al., 2014), bioinformatics (Narasimhan & Agarwal, 2013) and image processing (Mohr & Obermayer, 2004; Kotsia & Pitas, 2007).
+2	70	Many algorithms (Hastie et al., 2004; Fan et al., 2008; Catanzaro et al., 2008; Hsieh et al., 2008; Shalev-Shwartz et al., 2011) have been proposed to efficiently solve sparse SVM problems.
+5	16	The essential idea of screening is to quickly identify the zero coefficients in the sparse solutions without solving any optimization problems such that the corresponding features or samples—that are called inactive features or samples—can be removed from the training phase.
+12	23	Specifically, to achieve better performance (say, in terms of speedup), we favor feature screening methods when the number of features p is much larger than the number of samples n, while sample screening methods are preferable when n p. Note that there is another class of sparse learning techniques, like sparse SVMs, which induce sparsities in both feature and sample spaces.
+13	98	All these screening methods are helpless in accelerating the training of these models with large n and p. We also cannot address this problem by simply combining the existing feature and sample screening methods.
+14	12	The reason is that they could mistakenly discard relevant data as they are specifically designed for different sparse models.
+24	26	The more accurate the estimations are, the more effective SIFS is in detecting inactive features and samples.
+34	13	Notations: Let ‖ · ‖1, ‖ · ‖, and ‖ · ‖∞ be the `1, `2, and `∞ norms, respectively.
+37	12	For a vector x, let [x]J = ([x]j1 , ..., [x]jk)T .
+42	13	Let X̄ = (x̄1, x̄2, ..., x̄n) and Sβ(·) be the soft-thresholding operator (Hastie et al., 2015), i.e., [Sβ(u)]i = sign([u]i)(|[u]i| − β)+.
+46	15	(R) Thus, we call the jth feature inactive if j ∈ F .
+47	12	The samples in E are the so-called support vectors and we call the samples inR and L inactive samples.
+61	89	In this section, we first show that the primal and dual optima admit closed form solutions for specific values of α and β (see Section 3.1).
+70	16	Let F̂ be the index set of the inactive features identified by the previous IFS steps, i.e., [w∗(α, β0)]F̂ = 0.
+71	16	(7) As F̂ is the index set of identified inactive features, we have [w∗(α, β0)]F̂ = 0.
+77	16	Suppose that the reference solution θ∗(α0, β0) with β0 ∈ (0, βmax] and α0 ∈ (0, αmax(β0)] is known.
+79	13	Let R̂ and L̂ be the index sets of inactive samples identified by the previous ISS steps, i.e., [θ∗(α, β0)]R̂ = 0, [θ∗(α, β0)]L̂ = 1, and D̂ = R̂ ∪ L̂.
+83	12	To estimate w∗(α, β0) and θ∗(α, β0) by Lemmas 2 and 3, we have a free reference solution pair w∗(α0, β0) and θ∗(α0, β0) with α0 = αmax(β0).
+92	13	Then, (1): The feature screening rule IFS takes the form of si(α, β0) ≤ β0 ⇒ [w∗(α, β0)]i = 0,∀i ∈ F̂c (IFS) (2): We update the index set F̂ by F̂ ← F̂ ∪ {i : si ≤ β0, i ∈ F̂c}.
+93	24	(12) Recall that (Lemma 3), previous sample screening results give us a more tighter dual estimation, i.e., a smaller feasible region Θ for problem (11), which results in a smaller si(α, β0).
+116	23	ma w∗(αi−1,j , βj) and θ∗(αi−1,j , βj) at (αi−1,j , βj), we apply SIFS to identify the inactive features and samples for problem (P∗) at (αi,j , βj).
+151	24	We can see that IFS is more effective in scaling problem size than ISS, with scaling ratios roughly 98% against 70 − 90%.
+166	21	We note that, the kddb dataset has about 20 million samples with 30 million features.
+184	13	The solver with SIFS takes about 13 hours to solve problem (P∗) for all 1000 pairs of parameter values, while the solver with the method in (Shibagaki et al., 2016) needs 11 days to finish the same task.
+186	15	Our major contribution is a novel framework for an accurate estimation of the primal and dual optima based on strong convexity.
+188	19	An appealing feature of SIFS is that all detected features and samples are guaranteed to be irrelevant to the outputs.
+189	42	Thus, the model learned on the reduced data is identical to the one learned on the full data.
+190	39	Experiments on both synthetic and real datasets demonstrate that SIFS can dramatically reduce the problem size and the resulting speedup can be orders of magnitude.
+191	59	We plan to generalize SIFS to more complicated models, e.g., SVM with a structured sparsity-inducing penalty.

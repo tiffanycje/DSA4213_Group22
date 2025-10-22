@@ -1,0 +1,30 @@
+0	73	Different architectures have been shown to be effective for neural machine translation (NMT), ranging from recurrent architectures (Kalchbrenner and Blunsom, 2013; Bahdanau et al., 2015; Sutskever et al., 2014; Luong et al., 2015) to convolutional (Kalchbrenner and Blunsom, 2013; Gehring et al., 2017) and, most recently, fully selfattentional (Transformer) models (Vaswani et al., 2017).
+10	63	Both Gehring et al. (2017) and Vaswani et al. (2017) argue that the length of the paths in neural networks between co-dependent elements affects the ability to learn these dependencies: the shorter the path, the easier the model learns such dependencies.
+12	17	However, this claim is based on a theoretical argument and has not been empirically tested.
+16	19	Motivated by the aforementioned theoretical claims regarding path length and semantic feature extraction, we evaluate their performance on a subject-verb agreement task (that requires modeling long-range dependencies) and a word sense disambiguation (WSD) task (that requires extracting semantic features).
+17	21	Both tasks build on test sets of contrastive translation pairs, Lingeval97 (Sennrich, 2017) and ContraWSD (Rios et al., 2017).
+66	14	Human reference translations are paired with one or more contrastive variants, where a specific type of error is introduced automatically.
+77	17	In German, verbs must agree with their subjects in both grammatical number and person.
+78	29	Therefore, in a contrastive translation, the grammatical number of a verb is swapped.
+79	19	3.2.2 ContraWSD In ContraWSD, given an ambiguous word in the source sentence, the correct translation is replaced by another meaning of the ambiguous word which is incorrect.
+125	25	The RNN-bideep model achieves distinctly better BLEU scores and a higher accuracy on long-range dependencies.
+128	14	It is evident that Transformer, RNNS2S, and RNNbideep perform much better than ConvS2S on long-range dependencies.
+130	18	Transformer outperforms RNN-bideep for distances 11-12, but RNN-bideep performs equally or better for distance 13 or higher.
+136	19	Figure 3 displays the performance of two 8-layer CNNs with kernel size 3 and 7, a 6-layer CNN with kernel size 3, and RNNS2S.
+148	28	They find that Transformers perform worse than LSTMs on the subjectverb agreement task, especially when the distance between the subject and the verb becomes longer.
+151	16	We retrain all the models with a small amount of training data similar to the amount used by Tran et al. (2018), about 135K sentence pairs.
+155	20	A second hypothesis is that the experimental settings lead to the different results.
+157	22	The main changes are neural network layers (8→4); embedding size (512→128); multihead size (8→2); dropout rate (0.1→0.2); checkpoint save frequency (4,000→1,000), and initial learning rate (0.0002→0.001).
+162	36	Our results suggest that the importance of multihead attention with a large number of heads is larger than BLEU would suggest, especially for the modeling of long-distance phenomena, since multi-head attention provides a way for the model to attend to both local and distant context, whereas distant context may be overshadowed by local context in an attention mechanism with a single or few heads.
+175	18	In addition, we also compare to the best result reported for DE→EN, achieved by uedin-wmt17 (Sennrich et al., 2017), which is an ensemble of 4 different models and reranked with right-to-left models.6 uedin-wmt17 is based on the bi-deep RNNs (Miceli Barone et al., 2017) that we mentioned before.
+176	34	To the original 5.9 million sentence pairs in the training set, they add 10 million synthetic pairs with back-translation.
+184	21	The Transformer model strongly outperforms the other architectures on this WSD task, with a gap of 4–8 percentage points.
+186	13	In recent work, Chen et al. (2018) find that hybrid architectures with a Transformer encoder and an RNN decoder can outperform a pure Transformer model.
+189	19	Following the hypothesis that Transformer encoders excel as semantic feature extractors, we train a hybrid encoder-decoder model (TransRNN) with a Transformer encoder and an RNN decoder.
+193	73	Thus, it would be interesting to see if the same result holds true with their architectures.
+194	47	In this paper, we evaluate three popular NMT architectures, RNNS2S, ConvS2S, and Transformers, on subject-verb agreement and WSD by scoring contrastive translation pairs.
+195	52	We test the theoretical claims that shorter path lengths make models better capture long-range dependencies.
+196	20	Our experimental results show that: • There is no evidence that CNNs and Transformers, which have shorter paths through networks, are empirically superior to RNNs in modeling subject-verb agreement over long distances.
+197	59	• The number of heads in multi-head attention affects the ability of a Transformer to model long-range dependencies in the subject-verb agreement task.
+199	19	Lastly, our findings suggest that assessing the performance of NMT architectures means finding their inherent trade-offs, rather than simply computing their overall BLEU score.
+200	31	A clear understanding of those strengths and weaknesses is important to guide further work.

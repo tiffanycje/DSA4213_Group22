@@ -1,0 +1,30 @@
+4	20	An alternative, the stochastic gradient descent (SGD), is to replace the full gradient ∇f by a sampled version, serving as an unbiased estimator.
+6	45	where k ≥ 0 and {γk} are i.i.d uniform variates taking values in {1, 2, · · · , n}.
+8	19	Unlike GD, SGD samples the full gradient and its computational complexity per iterate is independent of n. For this reason, stochastic gradient algorithms have become increasingly popular in large scale problems.
+10	28	However, most are upper-bound type results for (strongly) convex objectives, often lacking the precision and generality to characterize the behavior of algorithms in practical settings.
+12	55	In this work, we address this by pursuing a different analytical direction.
+14	15	These SDEs contain higher order terms that vanish as η → 0, but at finite and small η they offer much needed insight of the algorithms under consideration.
+15	21	In this sense, our framework can be viewed as a stochastic parallel of the method of modified equations in the analysis of classical finite difference methods (Noh & Protter, 1960; Daly, 1963; Hirt, 1968; Warming & Hyett, 1974).
+19	22	This gives rise to novel adaptive algorithms and perhaps more importantly, a general methodology for understanding and improving stochastic gradient algorithms.
+23	23	First, rewrite the SGD iteration rule (2) as xk+1 − xk = −η∇f(xk) + √ ηVk, (3) where Vk = √ η(∇f(xk)−∇fγk(xk)) is a d-dimensional random vector.
+24	81	Conditioned on xk, Vk has mean 0 and covariance matrix ηΣ(xk) with Σ(x) = 1 n n∑ i=1 (∇f(x)−∇fi(x))(∇f(x)−∇fi(x))T .
+25	52	(4) Now, consider the Stochastic differential equation dXt = b(Xt)dt+ σ(Xt)dWt, X0 = x0, (5) whose Euler discretization Xk+1 = Xk + ∆tb(Xk) +√ ∆tσ(Xk)Zk, Zk ∼ N (0, I) resembles (3) if we set ∆t = η, b ∼ −∇f and σ ∼ (ηΣ)1/2.
+26	19	Then, we would expect (5) to be an approximation of (2) with the identification t = kη.
+30	86	We say that the SDE (5) is an order α weak approximation to the SGD (2) if for every g ∈ G, there exists C > 0, independent of η, such that for all k = 0, 1, .
+32	17	Intuitively, weak approximations are close to the original process not in terms of individual sample paths, but their distributions.
+36	28	Assume f, fi are Lipschitz continuous, have at most linear asymptotic growth and have sufficiently high derivatives belonging to G. Then, (i) The stochastic process Xt, t ∈ [0, T ] satisfying dXt = −∇f(Xt)dt+ (ηΣ(Xt)) 1 2 dWt, (6) is an order 1 weak approximation of the SGD.
+39	21	C. We hereafter call equations (6) and (7) stochastic modified equations (SME) for the SGD iterations (2).
+45	16	In the next section, we use the SME to deduce some dynamical properties of the SGD.
+60	15	We substitute this into the SME and expand in orders of η1/2 and equate the terms of the same order to get equations for Xj,t for j ≥ 0.
+62	32	We obtain to leading order (see SM.
+79	17	xk+1 = xk − ηukf ′(xk), (9) where uk ∈ [0, 1] is the adjustment factor and η is the maximum allowed learning rate.
+85	16	The optimal learning rate schedule must balance of these two effects.
+87	19	More precisely, this can be cast as an optimal control problem1 min u Ef(XT ) subject to (10), where the time-dependent function u is minimized over an admissible control set to be specified.
+92	21	Defining mt = Ef(Xt), and applying Itô formula to (11), we have ṁt = −2autmt + 12aηΣu 2 t .
+93	20	(12) Hence, we may now recast the control problem as min u:[0,T ]→[0,1] mT subject to (12).
+94	154	This problem can solved by dynamic programming, using the Hamilton-Jacobi-Bellman equation (Bellman, 1956).
+95	50	We obtain the optimal control policy (SM.
+96	32	(13) This policy is of feed-back form since it depends on the current value of the controlled variable mt.
+97	75	Let us interpret the solution.
+98	50	First, if a < 0 we always set the maximum learning rate ut = 1.
+100	21	Hence, not only do high learning rates improve descent, the high fluctuations that accompany it also lowers Ef .

@@ -1,0 +1,30 @@
+5	30	Bayesian optimisation is a powerful tool to tackle such optimisation challenges (Brochu et al., 2010).
+6	39	A core step in Bayesian optimisation is to define an acquisition function which uses the available observations effectively to recommend the next query location (Shahriari et al., 2016).
+7	21	There are many types of acquisition functions such as Probability of Improvement (PI) (Kushner, 1964), Expected Improvement (EI) (Močkus et al., 1978; Jones et al., 1998) and Gaussian Process Upper Confidence Bound (GP-UCB) (Srinivas et al., 2009).
+8	15	The most recent type is based on information theory and offers a new perspective to efficiently select the sequence of sampling locations based on entropy of the distribution over the unknown minimiser x∗ (Shahriari et al., 2016).
+9	10	The information-theoretic approaches guide our evaluations to locations where we can maximise our learning about the unknown minimum rather than to locations where we expect to obtain lower function values (Hennig and Schuler, 2012).
+11	13	One popular information-based acquisition function is Predictive Entropy Search (PES) (Villemonteix et al., 2009; Hennig and Schuler, 2012; Hernández-Lobato et al., 2014) .
+18	65	The second sampling process not only contributes significantly to the computational burden of these information-based acquisition functions but also requires the construction of a good approximation for the objective function based on Bochner’s theorem (Hernández-Lobato et al., 2014), which limits the kernel choices to the stationary ones (Bochner, 1959).
+21	11	The global minimum is explicitly represented by a hyperparameter η, which can be sampled together with other hyperparameters.
+44	11	n} = {Xn,gn} where gi = √ 2(fi − η) .
+46	13	The parabolic transformation causes the distribution for any f to become a non-central χ2 process, making the analysis intractable.
+48	15	We perform a local linearisation of the parabolic transformation h(g) = η + 1/2g2 around g0 and obtain f ≈ h(g0) + h′(g0)(g − g0) where the gradient h′(g) = g. By setting g0 to the mode of the posterior distribution p(g|Dg,x, η) (i.e. g0 = mg), we obtain an expression for f which is linear in g: f(x) ≈ [η + 1/2mg(x)2] +mg(x)[g(x)−mg(x)] = η − 1/2mg(x)2 +mg(x)g(x).
+60	10	In a fully Bayesian treatment of the hyperparameters, we should consider all possible hyperparameter values.
+62	10	Since complete marginalisation over hyperparameters is analytically intractable, the integral can be approximated using the Monte Carlo method (Hoffman and Ghahramani, 2015; Snoek et al., 2012), leading to the final expression: αFITBO(x|Dn) = H [ 1 M M∑ j p(y|Dn,x,θ(j), η(j)) ] − 1 2M M∑ j log [ 2πe ( vf (x|D,θ(j), η(j)) + σ2n )] .
+68	10	(13) By fitting a Gaussian to the Gaussian mixture, we can obtain a closed-form upper bound for the first entropy term: H[p(z)] ≈ 0.5 log [ 2πe ( Var(z)+σ2n )] , thus further enhancing the computational speed of FITBO approach.
+69	19	However, the moment-matching approach results in a looser approximation than numerical integration (shown in the supplementary material) and we will compare both approaches in our experiments in Section 3.
+70	9	The procedures of computing the acquisition function of FITBO are summarised by Algorithm 1.
+71	15	Figure 1 illustrates the sampling behaviour of FITBO method for a simple 1D Bayesian optimisation problem.
+73	27	As more samples are taken, the mean of the posterior distribution for the objective function gradually resembles the objective function and the distribution of η converges to the global minimum.
+74	13	We conduct a series of experiments to test the empirical performance of FITBO and compare it with other popular acquisition functions.
+81	20	This is also the minimiser sampling strategy adopted by PES (Hernández-Lobato et al., 2014).
+83	17	Minimising f̃(x) to within ζ accuracy using any grid search or branch and bound optimiser requires O(ζ−d) calls to f̃(x) for d-dimensional input data (Kandasamy et al., 2015).
+84	10	For both PES and MES, we apply their fastest versions which draw only 1 minimum or minimiser sample to estimate the acquisition function.
+85	11	The first set of experiments measure and compare the runtime of evaluating the acquisition functions αn(x|Dn) for methods including GP-UCB, PI, EI, PES, MES, FITBO and FITBO-MM.
+90	10	,M} from the log posterior distribution log p̃(ψ|Dn) using the elliptical slice sampler.
+96	9	The above tests are repeated for different hyperparameter sample sizes M = 100, 300, 500, 700, 900 and input data of different dimensions d = 2, 4, 6, 8, 10.
+99	8	Moreover, FITBO even gains a clear speed advantage over EI.
+100	33	The moment matching technique manages to further enhance the speed of FITBO, making FITBO-MM comparable with, if not slightly faster than, simple algorithms like PI and GP-UCB.
+104	22	In all tests, we set the observation noise to σ2n = 10 −3 and resample all the hyperparameters after each function evaluation.
+106	63	The first metric is Immediate regret (IR) which is defined as: IR = |f(x∗)− f(x̂n)| (14) where x∗ is the location of true global minimum and x̂n is the best guess recommended by a Bayesian optimiser after n iterations, which corresponds to the minimiser of the posterior mean.
+115	23	One interesting point we would like to illustrate through the Branin problem is the fundamentally different mechanisms behind information-based approaches like FITBO and improvement-based approaches like EI.

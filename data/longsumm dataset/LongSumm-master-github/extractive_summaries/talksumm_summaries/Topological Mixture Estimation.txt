@@ -1,0 +1,30 @@
+0	44	Density functions that represent sample data are often multimodal, i.e. they exhibit more than one maximum.
+9	28	A mixture on Rd with M components is a pair (π, p) ∈ ∆◦M × D(Rd)M , where ∆◦M := {π ∈ (0, 1]M : ∑ m πm = 1}; we write |(π, p)| := M , and note that π cannot have any components equal to zero.
+10	12	The corresponding mixture density is 〈π, p〉 := ∑M m=1 πmpm.
+12	10	Now J(π, p) is the mutual information between the random variables Ξ ∼ π and X ∼ 〈π, p〉.
+13	90	Since mutual information is always nonnegative, the same is true of J .
+18	55	The unimodal category ucat(f) is the smallest number of components of any unimodal mixture (π, p) that satisfies 〈π, p〉 = f .
+20	27	In the event that 〈π, p〉 = f and |(π, p)| = ucat(f), we write (π, p) |= f : the symbol |= is called “models.” The unimodal category is a topological invariant that generalizes and relates to other classical invariants (Baryshnikov & Ghrist, 2011; Ghrist, 2014).
+45	19	Lemma 1 states that that J is convex under perturbations of (π, p) that preserve 〈π, p〉.
+46	11	Lemma 2 is Algorithm 1 Topological Mixture Estimation (TME) Input: function data {xk, f(xk)} Initialize (π, p) |= f as in (Baryshnikov & Ghrist, 2011) repeat for each evaluation point and pair of components do Greedily perturb (π, p) to (π′, p′) using Lemma 2 end for Update (π, p) = arg max J(π′, p′) until (π, p) and/or J(π, p) converge Output: (π, p) a characterization of perturbations of two components of a piecewise affine and continuous (or piecewise constant) mixture that preserve the predicate (π, p) |= f , i.e., that preserve unimodality (as in Figure 2) and the mixture density.
+47	10	Together, these results entail Theorem 1, which establishes that greedy unimodality- and density-preserving local perturbations of pairs of mixture components converge to (3).
+48	14	Let −∞ = x−1 < x0 < · · · < xN < xN+1 = ∞ and f be piecewise constant (or affine) over each [xk, xk+1].
+50	71	By Lemma 1 (see §A), greedily and locally perturbing the mixture (π, p) |= f according to Lemma 2 (see §B), then updating the mixture according to the perturbation which optimizes J gives the desired result in O(MN) iterations.
+54	11	There is a natural approach to this preliminary estimation process called topological density estimation (TDE) (Huntsman, 2017) that naturally dovetails with TME.
+57	11	Given a kernel K and sample data Xj for 1 ≤ j ≤ n, and for each proposed bandwidth h, compute the kernel density estimate (Silverman, 1986; Chen, 2017) f̂h;X := 1 n n∑ j=1 KXj ,h (4) where Kµ,σ(x) := 1σK( x−µ σ ).
+59	15	(6) gives the most prevalent and topologically persistent (Ghrist, 2014; Oudot, 2015) value of the unimodal category, i.e., this is a topologically robust estimate of the number of components required to produce the PDF that X is sampled from as a mixture.
+71	15	In situtations of practical interest, it is tempting to couple TDE and TME in the obvious way: i.e., perform them sequentially and indepdently.
+72	14	This yields a completely nonparametric estimate of a mixture from sample data alone.
+89	11	(13) This preserves the result of TDE while giving a smoother, less artificial, and more practically useful mixture estimate than the information theoretically optimal result.
+94	11	First, in Figures 6 and 7 we consider the n = 272 waiting times between eruptions of the Old Faithful geyser from the data set in (Härdle, 2012).
+95	22	Then, in Figures 8 and 9 we consider the n = 2107 Sloan Digitial Sky Survey g − r color indices accessed from the VizieR database (Ochsen- bein et al., 2000) at http://cdsarc.u-strasbg.
+97	12	As suggested, several phenomena are readily apparent from these examples.
+98	10	First, mixtures obtained via the sweep algorithm are manifestly parity-dependent, i.e., the direction of sweeping matters; second, mixtures obtained via TME alone exhibit artificial anti-overlapping behavior; third, deblurring followed by reblurring preserves unimodality, the overall density, a topologically persistent invariant (viz., the unimodal category) and the spirit of information-theoretical optimality while producing an obviously better behaved mixture; fourth and finally, the various techniques involved here can significantly shift classification/decision boundaries based on the dominance of various mixture components.
+99	14	While the data in Figures 6 and 7 is at least qualitatively approximated by a two-component Gaussian mixture, it is clear that a three-component Gaussian mixture cannot capture the highly oscillatory behavior of the density in Figures 8 and 9.
+100	10	Indeed, this example illustrates how such oscillatory behavior can actually arise from a unimodal mixture with many fewer components than might naively appear to be required.
+111	23	Even though TME is presently limited to one dimension, it is still very useful due to the preponderance of onedimensional problems.
+114	15	(Kalai et al., 2012)) and anomaly detection (Pevný, 2016).
+117	21	One reason is that computing a unimodal decomposition is algorithmically undecidable in high dimensions, a property inherited from the problem of determining contractibility of simplicial complexes (Tancer, 2016) and the geometric realization theorem (Edelsbrunner & Harer, 2010) applied to level and upper excursion sets.
+124	17	Besides working with random projections in this vein, another sensible approach (suggested to the author by Robert Ghrist) is to foliate (Lawson Jr., 1974) the domain of a sample (in practice this would just mean taking a family of parallel lines) and perform TME on data in tubular neighborhoods of nearby leaves of the foliation, then assemble the results, essentially by interpolating.
+125	27	Here topological tools such as sheaves and Morse theory seem inevitably to be required in order to do things in a globally coherent way.
+127	42	Finally, we note that there are prospects for recursively coupling TME and TDE: the idea here is to pull mixture components back to weighted subsamples, then re-run TDE (or in the unimodal case, CV) on these individually.

@@ -1,0 +1,30 @@
+17	48	As an alternative, researchers have begun exploring the use of neural networks for language modeling.
+23	122	The two preceding words, w1, w2, are mapped into lowerdimensional word embeddings, x1 = A:w1 x2 = A:w2 then passed through two hidden layers, y = f(B1x1 + B2x2 + b) z = f(Cy + c) where f is an elementwise nonlinear activation (or transfer) function.
+29	61	Our method is focused on the challenge of choosing the number of units in the hidden layers of a feed-forward neural network.
+33	28	Our method starts out with a large number of units in each layer and then jointly trains the network while pruning out individual units when possible.
+38	42	Instead of minimizing L(W) alone, we want to minimize L(W) + λR(W), where R(W) is a convex regularizer.
+39	60	The `1 norm, R(W) = ‖W‖1 =∑ i,j |Wij |, is a common choice for pushing parameters to zero, which can be useful for preventing overfitting and reducing model size.
+42	78	We assume activation functions that satisfy f(0) = 0, such as the hyperbolic tangent or rectified linear unit (f(x) = max{0, x}).
+43	69	Then, if we push the incoming weights of a unit yi to zero, that is, Wij = 0 for all j (as well as the bias, if any: bi = 0), then yi = f(0) = 0 is independent of the previous layers and contributes nothing to subsequent layers.
+44	34	So the unit can be removed without affecting the network at all.
+45	29	Therefore, we need a regularizer that pushes all the incoming connection weights to a unit together towards zero.
+46	69	Here, we experiment with two, the `2,1 norm and the `∞,1 norm.1 The `2,1 norm on a matrix W is R(W) = ∑ i ‖Wi:‖2 = ∑ i ∑ j W 2ij  12 .
+49	26	(2) Again, this puts equal pressure on each row, but within each row, only the maximum value (or values) matter, and therefore the pressure towards zero is entirely on the maximum value(s).
+52	28	However, this also means that sparsity-inducing regularizers are not differentiable at zero, making gradient-based optimization methods trickier to apply.
+107	34	First, we look at the impact of our pruning method on perplexity of a held-out validation set, across a variety of settings.
+110	68	We first look at the impact that the `∞,1 regularizer has on the perplexity of our validation set.
+113	67	For λ = 1, on the other hand, most hidden units are pruned – apparently too many, since perplexity is worse.
+114	254	But for λ = 0.1, we see that we are able to prune out many hidden units: up to half of the first layer, with little impact on perplexity.
+116	24	Table 2 shows the same information for 5-gram models trained on the larger Gigaword AFP corpus.
+122	40	The first question we want to answer is whether the method is simply removing units, or converging on an optimal number of units.
+123	36	Figure 5 suggests that it is a little of both: if we start with too many units (900 or 1000), the method converges to the same number regardless of how many extra units there were initially.
+124	120	But if we start with a smaller number of units, the method still prunes away about 50 units.
+125	170	Next, we look at the behavior over time of different regularization strengths λ.
+127	31	By contrast, the λ = 0.1 run prunes out units gradually.
+128	113	By plotting these curves together with perplexity (Figure 6, below), we can see that the λ = 0.1 run is fitting the model and pruning it at the same time, which seems preferable to fitting without any pruning (λ = 0.01) or pruning first and then fitting (λ = 1).
+129	48	We can also visualize the weight matrix itself over time (Figure 7), for λ = 0.1.
+130	125	It is striking that although this setting fits the model and prunes it at the same time, as argued above, by the first iteration it already seems to have decided roughly how many units it will eventually prune.
+134	53	Based on the results from the perplexity experiments, we looked at models both built with a λ = 0.1 regularizer, and without regularization (λ = 0).
+165	23	Our results showed empirically that the choice of a regularization coefficient of 0.1 was robust to initial configuration parameters of initial network size, vocabulary size, n-gram order, and training corpus.
+166	95	Furthermore, imposing a single regularizer on the objective function can tune all of the hidden layers of a network with one setting.
+167	82	This reduces the need to conduct expensive, multi-dimensional grid searches in order to determine optimal sizes.

@@ -1,0 +1,30 @@
+14	17	On the NIST Chinese-English task, DEEPLAU with proper settings yields the best reported result and also a 4.9 BLEU improvement over a strong NMT baseline with most known techniques (e.g, dropout) incorporated.
+15	15	On WMT English-German and English-French tasks, it also achieves performance superior or comparable to the state-of-the-art.
+16	42	A typical neural machine translation system is a single and large neural network which directly models the conditional probability p(y|x) of translating a source sentence x = {x1, x2, · · · , xTx} to a target sentence y = {y1, y2, · · · , yTy}.
+25	17	Deep neural models have recently achieved a great success in a wide range of problems.
+26	15	In computer vision, models with more than 100 convolutional layers have outperformed shallow ones by a big margin on a series of image tasks (He et al., 2015; Srivastava et al., 2015).
+27	12	Following similar ideas of building deep CNNs, some promising improvements have also been achieved on building deep NMT systems.
+32	15	Based on this idea, we further propose DEEPLAU, a neural machine translation model with a deep encoder and decoder.
+80	15	This approach can easily build a deeper network with the same number of parameters compared to the classical approach.
+81	19	The final encoder consists of Lenc layers and produces the output hLenc to compute the conditional input c to the decoder.
+83	12	It is intuitively beneficial to exploit the information of yt−1 when reading from the source sentence representation, which is missing from the implementation of attention-based NMT in (Bahdanau et al., 2014).
+86	14	Formally, the calculation of cj is cj = t=Lx∑ t=1 αt,jh Lenc t (10) where et,j = v T a σ(Was 1 t−1 +Uah Lenc j +Wyyt−1) αt,j = softmax(et,j).
+126	36	Compared to DEEPGRU, DEEPLAU is +4.89 BLEU score higher on average four test sets, showing the modeling power gained from the liner associative connections.
+127	45	We suggest it is because LAUs apply adaptive gate function conditioned on the input which make it able to automatically decide how much linear information should be transferred to the next step.
+137	19	As can be seen from the Table 2, DeepLAU performs better than the word based model and even not much worse than the best wordpiece models achieved by Wu et al. (2016).
+138	23	Note that DEEPLAU are simple and easy to implement, as opposed to previous models reported in Wu et al. (2016), which dependends on some external techniques to achieve their best performance, such as their introduction of length normalization, coverage penalty, fine-tuning and the RL-refined model.
+143	24	For DEEPLAU, we obtain the BLEU score of 35.1 with a 4 layers encoder and 4 layers decoder, which is on par with the SOTA system in terms of BLEU.
+146	14	We also compare our approach with two SOTA topologies which were used in building deep NMT systems.
+147	20	• Residual Networks (ResNet) are among the pioneering works (Szegedy et al., 2016; He et al., 2016) that utilize extra identity connections to enhance information flow such that very deep neural networks can be effectively optimized.
+149	37	• Fast Forward (F-F) connections were proposed to reduce the propagation path length which is the pioneer work to simplify the training of deep NMT model (Zhou et al., 2016).
+150	14	The work can be viewed as a parametric ResNet with short cut connections between adjacent layers.
+151	29	The procedure takes a linear sum between the input and the newly computed state.
+155	18	After increasing the model depth to 4 (row 4 and row 6), the improvement is enlarged to 4.91.
+156	13	When DEEPGRU is trained with larger depth (say, 4), the training becomes more difficult and the performance falls behind its shallow partner.
+158	12	Compared to previous shortcut connection methods (row 5 and row 6), The LAU still achieve meaningful improvements over F-F connections and Residual connections by +1.35 and +2.57 BLEU points respectively.
+163	23	In Table 4, starting from LEnc = 2 and LDec = 2 and gradually increasing the model depth, we can achieve substantial improvements in terms of BLEU.
+173	71	However, DEEPLAU models yield consistently higher BLEU scores than the DEEPGRU model on longer sentences.
+174	23	These observations are consistent with our intuition that very deep RNN model is especially good at modeling the nested latent structures on relatively complicated sentences and LAU plays an important role on optimizing such a complex deep model.
+175	16	We propose a Linear Associative Unit (LAU) which makes a fusion of both linear and nonlinear transformation inside the recurrent unit.
+176	17	On this way, gradients decay much slower compared to the standard deep networks which enable us to build a deep neural network for machine translation.
+178	56	We sincerely thank the anonymous reviewers for their thorough reviewing and valuable suggestions.

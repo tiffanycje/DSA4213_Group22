@@ -1,0 +1,30 @@
+0	19	Kernel-based methods are a staple machine learning approach in Natural Language Processing (NLP).
+1	18	Frequentist kernel methods like the Support Vector Machine (SVM) pushed the state of the art in many NLP tasks, especially classification and regression.
+2	29	One interesting aspect of kernels is their ability to be defined directly on structured objects like strings, trees and graphs.
+4	22	This is useful when we do not have much prior knowledge about how the data behaves, as we can more readily define a similarity metric between inputs instead of trying to characterize which features are the best for the task at hand.
+22	34	In this work we focus on tree kernels, which have been successfully used in a number of NLP tasks (see §6).
+33	65	In a regression setting, we assume that the response variables are noisy latent function evaluations, i.e., yi = f(xi) + η, where η ∼ N (0, σ2n) is added white noise.
+34	32	We assume a Gaussian likelihood, which allows us to obtain a closed formula solution for the posterior, namely y∗ ∼ N (k∗(K + σnI)−1yT , k(x∗,x∗)− kT∗ (K + σnI)−1k∗), where x∗ and y∗ are respectively the test input and its response variable, K is the Gram matrix corresponding to the training inputs and k∗ = [〈x1,x∗〉, 〈x2,x∗〉, .
+38	24	For a Gaussian likelihood, we can take the log of the expression above to obtain in closed-form1, log p(y|X,θ) = −1 2 yTG−1y ︸ ︷︷ ︸ data fit −1 2 log |G| ︸ ︷︷ ︸ complexity penalty −n 2 log 2π ︸ ︷︷ ︸ constant where G = K+σnI.
+40	20	Since the first two terms have conflicting objectives, optimizing the log marginal likelihood will naturally achieve a compromise and thus limit overfitting (without the need for any validation step or additional data).
+43	33	Therefore we can employ any kind of valid kernel in this procedure as long as its gradients can be computed.
+44	26	This not only allows for fine-tuning of hyperparameters but also allows for kernel extensions which are richly parameterized.
+45	21	The seminal work on Convolution Kernels by Haussler (1999) defines a broad class of kernels on discrete structures by counting and weighting the number of substructures they share.
+46	21	Applying Haussler’s formulation to trees we reach a general formula for a tree kernel between two trees t1 and t2, namely k(t1, t2) = ∑ f∈F w(f)c1(f)c2(f), (1) where F is the set of all tree fragments, c1(f) and c2(f) return the counts for fragment f in trees t1 and t2, respectively, and w(f) assigns a weight to fragment f .
+50	46	This kernel considers tree fragments that contains complete grammar rules (see Figure 1 for an example).
+60	43	Equation 3 also adds another hyperparameter, α.
+61	69	This hyperparameter was introduced by Moschitti (2006b)3 as a way to select between two different tree kernels.
+66	23	As explained in §2, the GP model selection procedure enables us to learn finegrained values for these hyperparameters, which can lead to better performing models and aid interpretation.
+68	27	We propose one such kernel in the next Section.
+74	24	By employing different hyperparameter values for each specific symbol, we can effectively modify the weights of all fragments where the symbol appears.
+106	54	After obtaining the input trees and their sampled labels, we define a new GP model using only the training data plus the obtained response variables, this time using a SSTK with randomized hyperparameter values.
+120	20	Effectively this version has one extra λ and one extra α (henceforth λS and αS) when compared to the SSTK.
+125	18	This shows that even for small datasets our proposed kernel manages to capture aspects which can not be explained by the original SSTK.
+154	20	Baselines and evaluation Our results are compared against three baselines: • SVM SSTK: a SVM using an SSTK kernel.
+161	107	However, using the SASSTK models do not help in the case of free α and the SASSTKfull actually performs worse than the original SSTK, libsvm  even though the optimized marginal likelihood was higher.
+162	19	This is evidence that the SASSTKfull model is overfitting the training data, probably due to its large number of hyperparameters.
+175	115	While their best models combine tree kernels with a set of explicit features, they also show good results using only the tree kernels.
+176	139	This makes Quality Estimation a good benchmark task to test our models.
+179	34	• French-English (fr-en): This dataset, described in (Specia, 2011), contains 2524 French sentences translated into English and postedited by a novice translator.
+180	30	• English-Spanish (en-es): This dataset was used in the WMT14 Quality Estimation shared task (Bojar et al., 2014), containing 858 sentences translated from English into Spanish and post-edited by an expert translator.
+181	50	For each dataset, post-editing times are first divided by the translation output length (obtaining the post-editing time per word) and then mean normalized.

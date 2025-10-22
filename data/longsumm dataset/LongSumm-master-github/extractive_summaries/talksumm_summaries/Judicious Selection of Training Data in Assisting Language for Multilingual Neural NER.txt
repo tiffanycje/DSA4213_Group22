@@ -1,0 +1,30 @@
+0	28	Neural NER trains a deep neural network for the NER task and has become quite popular as they minimize the need for hand-crafted features and, learn feature representations from the training data itself.
+2	32	Multilingual learning aims to improve the NER performance on the language under consideration (primary language) by adding training data from one or more assisting languages.
+3	40	The neural network is trained on the combined data of the primary (DP ) and the assisting languages (DA).
+4	42	The neural network has a combination of languagedependent and language-independent layers, and, the network learns better cross-lingual features via these language-independent layers.
+5	105	Existing approaches add all training sentences from the assisting language to the primary language and train the neural network on the combined data.
+6	15	However, data from assisting languages can introduce a drift in the tag distribution for named entities, since the common named entities from the two languages may have vastly divergent tag distributions.
+7	90	For example, the entity China appears in training split of Spanish (primary) and English (assisting) (Tjong Kim Sang, 2002; Tjong Kim Sang and De Meulder, 2003) with the corresponding tag frequencies, Spanish = { Loc : 20, Org : 49, Misc : 1 } and English = { Loc : 91, Org : 7 }.
+8	57	By adding English data to Spanish, the tag distribution of China is skewed towards Location entity in Spanish.
+10	22	In this work, we address this problem of drift in tag distribution owing to adding training data from a supporting language.
+11	16	The problem is similar to the problem of data selection for domain adaptation of various NLP tasks, except that additional complexity is introduced due to the multilingual nature of the learning task.
+12	40	For domain adaptation in various NLP tasks, several approaches have been proposed to address drift in data distribution (Moore and Lewis, 2010; Axelrod et al., 2011; Ruder and Plank, 2017).
+13	26	For instance, in machine translation, sentences from out-of-domain data are selected based on a suitably defined metric (Moore and Lewis, 2010; Axelrod et al., 2011).
+21	27	For every assisting language sentence, we calculate the sentence score based on the average symmetric KL-Divergence score of overlapping entities present in that sentence.
+27	17	Assisting language sentences with the sentence score below a threshold value are added to the primary language data for multilingual learning.
+33	19	Multilingual Learning We consider two parameter sharing configurations for multilingual learning (i) sub-word feature extractors shared across languages (Yang et al., 2017) (Sub-word) (ii) the entire network trained in a language independent way (All).
+36	28	The Table 1 lists the datasets used in our experiments along with pre-trained word embeddings used and other dataset statistics.
+61	38	We consistently observe improvements for German and Italian NER using our data selection strategy, irrespective of whether only subword features are shared (Sub-word) or the entire network (All) is shared across languages.
+64	13	This can be observed by comparing the histograms of English and Spanish sentences ranked by the SKL scores for Italian multilingual learning (Figure 1).
+80	19	Bengali, Malayalam, and Tamil (low-resource languages) benefits from our data selection strategy.
+82	72	Bengali, Malayalam, and Tamil have weaker baselines compared to Hindi and Marathi, and are benefited from our approach irrespective of the assisting language chosen.
+84	17	Malayalam and Tamil being morphologically rich have low entity overlap (surface level) with Hindi and Marathi.
+86	15	Hindi and Marathi are negatively impacted by noisy Bengali data.
+87	11	Bengali has less training sentences compared to other languages and, choosing a low SKL threshold results in selecting very few Bengali sentences for multilingual learning.
+89	16	We run experiments for Italian NER by adding Spanish training sentences and sharing all layers except for output layer across languages.
+92	15	The plot of Italian test F-Score against SKL score is shown in the Figure 2.
+96	11	We show that filtering out the assisting language sentences exhibiting significant divergence in the tag distribution can improve NER accuracy.
+97	40	We propose to use the symmetric KL-Divergence metric to measure the tag distribution divergence.
+98	30	We observe consistent improvements in multilingual Neural NER performance using our data selection strategy.
+100	27	This problem of drift in data distribution may not be unique to multilingual NER, and we plan to study the influence of data selection for multilingual learning on other NLP tasks like sentiment analysis, question answering, neural machine translation, etc.
+101	18	We also plan to explore more metrics for multilingual learning, specifically for morphologically rich languages.

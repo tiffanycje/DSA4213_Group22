@@ -1,0 +1,30 @@
+0	91	Goal oriented dialogue systems help users with accomplishing tasks, like making restaurant reservations or booking flights, by interacting with them in natural language.
+1	44	The capability to understand user utterances and break them down into task specific semantics is a key requirement for these systems.
+2	49	This is accomplished in the spoken language understanding module, which typically parses user utterances into semantic frames, composed of domains, intents and slots (Tur and De Mori, 2011), that can then be processed by downstream dia- logue system components.
+3	46	An example semantic frame is shown for a restaurant reservation related query in Figure 1.
+4	28	As the complexity of the task supported by a dialogue system increases, there is a need for an increased back and forth interaction between the user and the agent.
+5	49	For example, a restaurant reservation task might require the user to specify a restaurant name, date, time and number of people required for the reservation.
+14	27	Furthermore, we describe a dialogue recombination technique to enhance the complexity of the training dataset by injecting synthetic domain switches, to create a better match with the mixed domain dialogues in the test dataset.
+15	44	This is, in principle, a multi-turn extension of (Jia and Liang, 2016).
+16	75	Instead of inducing and composing grammars to synthetically enhance single turn text, we combine single domain dialogue sessions into multi-domain dialogues to provide richer context during training.
+38	43	The final state of the context encoder GRU is used as the dialogue context.
+41	30	To add temporal context to the dialogue history utter- ances, we append special positional tokens to each utterance.
+43	46	This is conceptually depicted in Figure 2 c = BiGRUc(ut) (3) Let M be a matrix with the ith row given by mi.
+44	38	We obtain the cosine similarity between each memory vector, mi, and the context vector c. The softmax of this similarity is used as an attention distribution over the memory M , and an attention weighted sum of M is used to produce the dialogue context vector ht (Equation 4).
+47	29	3) and the memory vectors, {m1, m2...mt−1}, (Eq.
+48	40	We combine the context vector c with each memory vector mk, for 1 ≤ k ≤ nk, by concatenating and passing them through a feed forward layer (FF) to produce 128 dimensional context encodings, denoted by {g1, g2...gt−1} (Eq.
+49	32	gk = sigmoid(FF (mk, c)) for 0 ≤ k ≤ t−1 (5) These context encodings are fed as token level inputs into the session encoder, which is a 128 di- Figure 4: Architecture of the Sequential Dialogue Encoder Network.
+51	29	The final state of the session encoder represents the dialogue context encoding ht (Eq.
+53	23	For all our experiments we use a stacked BiRNN tagger to jointly model domain classification, intent classification and slot-filling, similar to the approach described in (Hakkani-Tür et al., 2016).
+61	35	The token level outputs of the first RNN layer, o1, are fed as input into the second RNN layer to produce token level outputs o2 = {o21, o22...o2nt} and the final state s2.
+62	104	o2, s2 = BiLSTM2(o1, ht) (8) The final state of the second layer, s2, is used as input to classification layers for domain and intent classification.
+87	23	As described in the previous section, we train our models on a large set of single domain dialogue datasets and a small set of multi-domain dialogues.
+90	52	To counter this drift in the training-test data distributions we device a dialogue recombination scheme to generate multi-domain dialogues from single domain training datasets.
+100	28	A sample dialogue generated using the above procedure is described in table 2.
+110	30	Digits were replaced with a special ”#” token to allow better generalization to unseen numbers.
+126	64	Looking at the attention distributions, we notice that the MN attention is very diffused, whereas SDEN is focusing on the most recent last 2 utterances, which directly identify the domain and the presence of the movie slot in the final user utterance.
+130	28	The MN model correctly identifies the domain, using its strong focus on the task-intent bearing utterance, but it is unable to identify the presence of a restaurant in the user utterance.
+132	49	On the other hand, as indicated by its attention distribution on the final two utterances, SDEN is able to successfully combine context from the dialogue to correctly identify the domain and the restaurant name from the user utterance, despite the presence of several outof-vocabulary tokens.
+134	156	This is usually the case in more natural goal oriented dialogues, where several tasks and sub tasks go in and out of the focus of the conversation (Grosz, 1979).
+136	41	Due to its complex architecture and a much larger set of parameters SDEN is prone to over-fitting in low data scenarios.
+137	29	In this paper, we collect a multi-domain dataset of goal oriented human-machine conversations and analyze and compare the SLU performance of multiple neural network based model architectures that can encode varying amounts of context.

@@ -1,0 +1,30 @@
+0	44	The application that motivates our work is the time-critical analysis of social media (Twitter) data at the sudden-onset of an event like natural or man-made disasters (Imran et al., 2015).
+1	17	In such events, affected people post timely and useful information of various types such as reports of injured or dead people, infrastructure damage, urgent needs (e.g., food, shelter, medical assistance) on these social networks.
+2	45	Humanitarian organizations believe timely access to this important information from social networks can help significantly and reduce both human loss and economic dam- age (Varga et al., 2013; Vieweg et al., 2014; Power et al., 2013).
+3	97	In this paper, we consider the basic task of classifying each incoming tweet during a crisis event (e.g., Earthquake) into one of the predefined classes of interest (e.g., relevant vs. nonrelevant) in real-time.
+6	30	On the other hand, in most cases, we can have access to a good amount of labeled and abundant unlabeled data from past similar events (e.g., Floods) and possibly some unlabeled data for the current event.
+8	18	In other words, we need models that can do domain adaptation to deal with the distribution drift between the domains and semi-supervised learning to leverage the unlabeled data in both domains.
+16	14	The evaluation of our proposed model is conducted using two Twitter datasets on scenarios where there is only unlabeled data in the target domain.
+18	22	When the network combines the semisupervised component with the supervised component, depending on the amount of labeled data used, it gives 5% to 26% absolute gains in F1 compared to when it uses only the supervised component.
+51	15	The network at this point splits into three branches (shaded with three different colors in Figure 1) each of which serves a different purpose and contributes a separate loss to the overall loss of the model as defined below: L(Λ,Φ,Ω,Ψ) = LC(Λ,Φ) + λgLG(Λ,Ω) + λdLD(Λ,Ψ) (5) where Λ = {U, V } are the convolutional filters and dense layer weights that are shared across the three branches.
+64	52	The semi-supervised branch (shown at the middle in Figure 1) induces structural similarity between training instances (labeled or unlabeled) in the source and target events.
+67	13	The semi-supervised branch takes the shared representation z as input and learns internal representations by predicting a node in the graph context of the input tweet.
+68	14	Following (Yang et al., 2016), we use negative sampling to compute the loss for predicting the context node, and we sample two types of contextual nodes: (i) one is based on the graph G to encode structural information, and (ii) the second is based on the labels in DlS to incorporate label information through this branch of the network.
+71	55	The negative log loss for context prediction LG(Λ,Ω) can be written as LG(Λ,Ω) = − 1 Ls + Us Ls+Us∑ i=1 E(j,γ) log σ ( γCTj zg(i) ) (9) where zg(i) = f(Vgz(i)) defines another dense layer (marked as Dense (zg) in Figure 1) having weights Vg, and Cj is the weight vector associated with the context node tj .
+76	27	Therefore, we choose to use k-nearest neighborbased approach as it has been successfully used in other study (Steinbach et al., 2000).
+88	19	We put a domain discriminator, another branch in the network (shown at the bottom in Figure 1) that takes the shared internal representation z as input, and tries to discriminate between the domains of the input — in our case, whether the input tweet is from DS or from DT .
+94	17	This is achieved by reversing the gradients of the discrimination loss LD(Λ,Ψ), when they are backpropagated to the shared layers (see Figure 1).
+101	23	First, we do an epoch over all the training instances updating the parameters for the semi-supervised loss, then we do an epoch over the labeled instances in the source domain, each time updating the parameters for the supervised and the domain adversary losses.
+118	16	While training CBOW, we filtered out words with a frequency less than or equal to 5, and we used a context window size of 5 and k = 5 negative samples.
+121	28	To conduct the experiment and evaluate our system, we used two real-world Twitter datasets collected during the 2015 Nepal earthquake (NEQ) and the 2013 Queensland floods (QFL).
+135	16	The trained model was then used to automatically label the unlabeled data.
+141	25	Such an understanding can help us design the model at the onset of a crisis event with sufficient amount of labeled data.
+142	34	To demonstrate that the semi-supervised approach outperforms the supervised baseline, we run supervised experiments using the same number of labeled instances.
+144	78	To set a baseline for the domain adaptation experiments, we train a CNN model (i.e., shared components followed by the supervised part in Figure 1) on one event (source) and test it on another event (target).
+150	32	In domain adaption literature, this is known as unsupervised adaptation.
+163	22	It can be clearly observed that the graph-based semi-supervised approach outperforms the two baselines – supervised and self-training based semi-supervised.
+183	14	The results with domain adversarial training show improvements across both events – from 1.8% to 4.1% absolute gains in F1.
+187	20	Note that for our domain adaptation methods, we only use unlabeled data from the target domain.
+217	121	For domain adaptation, we considered a scenario, where we have only unlabeled data in the target event.
+218	33	Our evaluation on two crisis-related tweet datasets demonstrates that by combining domain adversarial training with semi-supervised learning, our model gives significant improvements over their respective baselines.
+219	151	We have also presented results of batch-wise incremental training of the graph-based semi-supervised approach and show approximation regarding the number of labeled examples required to get an acceptable performance at the onset of an event.

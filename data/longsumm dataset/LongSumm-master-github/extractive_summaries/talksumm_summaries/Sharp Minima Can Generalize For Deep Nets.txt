@@ -1,0 +1,30 @@
+20	27	We believe the reason for this contradiction stems from the Bayesian arguments about KLdivergence made to justify the generalization ability of flat minima (Hinton & Van Camp, 1993).
+25	42	We will denote by fθ the prediction function.
+29	8	We will often think of the loss L as a function of θ and adopt the notation L(θ).
+30	31	The notion of flatness/sharpness of a minimum is relative, therefore we will discuss metrics that can be used to compare the relative flatness between two minima.
+31	7	In this section we will formalize three used definitions of flatness in the literature.
+32	16	Hochreiter & Schmidhuber (1997) defines a flat minimum as ”a large connected region in weight space where the error remains approximately constant”.
+50	11	Indeed, a second-order Taylor expansion of L around a critical point minimum is written L(θ′) = L(θ) + 1 2 (θ′ − θ) (∇2L)(θ)(θ′ − θ)T + o(‖θ′ − θ‖22).
+54	7	GivenK weight matrices (θk)k≤K with nk = dim ( vec(θk) ) and n = ∑K k=1 nk, the output y of a deep rectified feedforward networks with a linear output layer is: y = φrect ( φrect ( · · ·φrect(x · θ1) · · · ) · θK−1 ) · θK , where • x is the input to the model, a high-dimensional vector • φrect is the rectified elementwise activation function (Jarrett et al., 2009; Nair & Hinton, 2010; Glorot et al., 2011), which is the positive part (zi)i 7→ (max(zi, 0))i.
+61	12	Deep rectifier models have certain properties that allows us in section 4 to arbitrary manipulate the flatness of a minimum.
+72	22	Because the rectifier activation has the non-negative homogeneity property, as we will see shortly, one can construct a continuum of points that lead to the same behavior, hence the metric is singular.
+74	21	See Figure 2 for a visual depiction, where the flatness (given here as the distance between the different level curves) can be changed by moving along the curve.
+78	6	The rectified function φrect(x) = max(x, 0) is non-negative homogeneous.
+92	9	For a one-hidden layer rectified neural network of the form y = φrect(x · θ1) · θ2, and a minimum θ = (θ1, θ2), such that θ1 6= 0 and θ2 6= 0, ∀ > 0 C(L, θ, ) has an infinite volume.
+93	40	We will not consider the solution θ where any of the weight matrices θ1, θ2 is zero, θ1 = 0 or θ2 = 0, as it results in a constant function which we will assume to give poor training performance.
+94	8	For α > 0, the α-scale transformation Tα : (θ1, θ2) 7→ (αθ1, α−1θ2) has Jacobian determinant αn1−n2 , where once again n1 = dim ( vec(θ1) ) and n2 = dim ( vec(θ2) ) .
+96	22	We show below that there is a connected region containing θ with infinite volume and where the error remains approximately constant.
+122	10	Since all norms are equivalent in finite dimension, there exists a constant r > 0 such that r|||A|||F ≤ |||A|||2 for all symmetric matrices A.
+137	10	We have not been able to show a similar problem with random subspace -sharpness used by Keskar et al. (2017), i.e. a restriction of the maximization to a random subspace, which could relate to the notion of wide valleys described by Chaudhari et al. (2017).
+149	12	We generalize the derivation of Subsec- tion 4.2: Lη(η) = L ( g(η) ) ⇒ (∇Lη)(η) = (∇L) ( g(η) ) (∇g)(η) ⇒ (∇2Lη)(η) = (∇g)(η)T (∇2L) ( g(η) ) (∇g)(η) + (∇L) ( g(η) ) (∇2g)(η).
+151	20	This means that by reparametrizing the problem we can modify to a large extent the geometry of the loss function so as to have sharp minima of L in θ correspond to flat minima ofLη in η = g−1(θ) and conversely.
+152	34	Figure 5 illustrates that point in one dimension.
+161	13	Moreover, since this transformation is a simpler isotropic scaling, the conclusion that we can draw can be actually more powerful with respect to v: • every minimum has infinite volume -sharpness; • every minimum is observationally equivalent to an infinitely sharp minimum and to an infinitely flat minimum when considering nonzero eigenvalues of the Hessian; • every minimum is observationally equivalent to a minimum with arbitrarily low full-space and random subspace -sharpness and a minimum with high full-space -sharpness.
+171	15	For example, Theis et al. (2016) show for images how a small drift of one to four pixels can incur a large difference in terms of L2 norm.
+172	15	It has been observed empirically that minima found by standard deep learning algorithms that generalize well tend to be flatter than found minima that did not generalize well (Chaudhari et al., 2017; Keskar et al., 2017).
+173	19	However, when following several definitions of flatness, we have shown that the conclusion that flat minima should generalize better than sharp ones cannot be applied as is without further context.
+174	22	Previously used definitions fail to account for the complex geometry of some commonly used deep architectures.
+175	21	In particular, the non-identifiability of the model induced by symmetries, allows one to alter the flatness of a minimum without affecting the function it represents.
+176	40	Additionally the whole geometry of the error surface with respect to the parameters can be changed arbitrarily under different parametrizations.
+177	51	In the spirit of (Swirszcz et al., 2016), our work indicates that more care is needed to define flatness to avoid degeneracies of the geometry of the model under study.
+178	74	Also such a concept can not be divorced from the particular parametrization of the model or input space.

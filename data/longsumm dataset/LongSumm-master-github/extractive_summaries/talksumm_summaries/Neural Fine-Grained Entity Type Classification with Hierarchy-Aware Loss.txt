@@ -1,0 +1,30 @@
+22	83	For Example, type-path rootperson-coach can be represented as just coach, while root-person can be unambiguously represented as the non-leaf person.
+54	34	However, Yi may contain type-paths that are irrelevant to mi in ci if there exists out-of-context noise.
+69	21	Every relative distance is mapped to a randomly initialized position vector in Rdp , where dp is the size of position embedding.
+72	30	For the context ci, we want to apply a non-linear transformation to the vector representation of ci to derive a context feature vector hi = f(ci; θ) given a set of parameters θ.
+75	105	Here, we use element-wise sum to combine the forward and backward pass outputs.
+76	40	The output of the i-th word in shown in the following equation: hi = [ −→ hi ⊕ ←− hi ] (1) Following Zhou et al. (2016), we employ word-level attention mechanism, which makes our model able to softly select the most informative words during training.
+77	10	Let H be a matrix consisting of output vectors [h1, h2, .
+83	28	LSTM encoder: In order to capture more semantic information from the mentions, we add one token before and another after the target entity to the mention.
+85	9	The standard LSTM is applied to the mention sequence from left to right and produces the outputs hp−1, .
+92	20	With this loss function, we assume that the type with the highest probability among Yti during training as the correct type.
+97	16	For instance, if one example is labeled as athlete, it is reasonable to predict its type as person.
+98	10	However, predicting other high level types like location or organization would be inappropriate.
+99	15	In other words, we want the loss function to penalize less the cases where types are related.
+102	10	As discussed in Section 1, there exists overlyspecific noise in the automatically labeled training sets which hurt the model performance severely.
+104	9	Hence, it can alleviate the negative effect of overly-specific noise effectively.
+105	27	Generally, hierarchical loss normalization can make the model somewhat understand the given type hierarchy and learn to detect those overly-specific cases.
+109	17	In addition, we constrain L2-norms for the weight vectors as shown in Equations 8, 9 and use early stopping to decide when to stop training.
+110	17	This section reports an experimental evaluation of our NFETC approach using the previous state-ofthe-art as baselines.
+111	18	We evaluate the proposed model on two standard and publicly available datasets, provided in a preprocessed tokenized format by Shimaoka et al. (2017).
+113	9	The details are as follows: • FIGER(GOLD): The training data consists of Wikipedia sentences and was automatically generated with distant supervision, by mapping Wikipedia identifiers to Freebase ones.
+117	9	Manually annotated test data was shared by Gillick et al. (2014).
+119	25	We find that the type hierarchy for FIGER(GOLD) dataset following Freebase has some flaws.
+120	34	For example, software is not a subtype of product and government is not a subtype of organization.
+124	48	Aside from the advantages brought by adopting the single label classification setting, we can see one disadvantage of this setting based on Table 2.
+125	26	That is, the performance upper bounds of our proposed model are no longer 100%: for example, the best strict accuracy we can get in this setting is 88.28% for FIGER(GOLD).
+128	11	We compare these baselines with variants of our proposed model: (1) NFETC(f): basic neural model trained on Dfiltered (recall Section 4.4); (2) NFETC-hier(f): neural model with hierarichcal loss normalization trained on Dfiltered.
+131	19	These measures are widely used in existing FETC systems (Shimaoka et al., 2017; Ren et al., 2016b,a; Abhishek et al., 2017).
+132	9	We use pre-trained word embeddings that were not updated during training to help the model generalize to words not appearing in the training set.
+133	17	For this purpose, we used the freely available 300-dimensional cased word embedding trained on 840 billion tokens from the Common Crawl supplied by Pennington et al. (2014).
+134	9	For both datasets, we randomly sampled 10% of the test set as a development set, on which we do the hyperparameters tuning.

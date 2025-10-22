@@ -1,0 +1,30 @@
+2	20	Automatic summarization strives to provide a means to this end.
+3	18	This paper describes our automatic summarization system, and its participation in the MultiLing 2015 summarization challenge.
+6	12	Language-independent text summarization is generally based on sentence extractive methods: A subset of sentences in a text are identified and combined to form a summary, rather than performing more complex operations, and the primary task of summarization algorithms is to identify the set of sentences that form the best summary.
+7	24	In this case, algorithms differ mostly in how sentences are selected.
+8	18	One textual feature that has proven useful in identifying good summary sentences is the relative prominence of specific words in texts when contrasted to a reference distribution (like frequency in a large general corpus).
+22	24	We deliberately chose not to optimize any parameters of our core algorithm for specific languages.
+25	12	Our approach consists of three stages: 1.
+29	11	Sentence graph construction and sentence ranking as described in Sections 2.2 and 2.3 respectively.
+34	13	• For Thai, we use a dictionary containing data from NECTEC (2003) and Satayamas (2014) to calculate the optimal partition of Thai letter sequences based on a shortest path algorithm in a weighted, directed acyclic character graph using dictionary terms found in the text.
+42	12	• TF-IDF weighted cosine similarity, where term frequencies in sentences are normalized with respect to the document collection.
+43	11	• Semantic similarity measured using the ExB Themis semantic approach described in Hänig et al. (2015).
+46	30	We then apply to the sentence similarity graph an iterative extension of the PageRank algorithm (Brin and Page, 1998) that we have called FairTextRank (FRank) to rank the sentences in the graph.
+48	16	PageRank constitutes a measure of graph centrality, so intuitively we would expect it to select the most central, topical, and summarizing sentences in the text.
+51	14	Therefore, our FRank algorithm invokes PageRank iteratively on the graph, at each step ranking all the sentences, then removing the top ranking sentence from the graph, and then running PageRank again to extract the next highest ranking sentence.
+52	17	Because the most central sentence in the entire graph is also, by definition, the most central sentence in some cluster, removing it weakens the centrality of the other sentences in that cluster and increases the likelihood that the next sentence selected will be the highest ranking sentence in another cluster.
+59	56	The final step in processing is the production of a plain text summary.
+65	14	There was no overlap between the training data and the evaluation data for the MSS task.
+66	10	The released training data consisted of the evaluation data set from MultiLing 2013 as described in Kubina et al. (2013).
+72	14	We then performed sentence graph construction and ranking as described in Sections 2.2 and 2.3 In the post-processing stage, we sorted the sentences selected to go into the summary in order of their position in the original article, before producing a plain text summary by concatenating them.
+82	14	According to the frequently used ROUGE-1 and ROUGE-2 scores, our system achieved an average ranking of 3.2 and 3.3, respectively.
+86	22	We believe that ROUGE-SU4, which measures bigrams of words with some gaps as well as unigrams, would be a better measure of output quality.
+87	16	When manually inspecting the summaries, we have the strong impression that system runs in which our system scored well by ROUGESU4 measures, but poorly by ROUGE-2, did produce better summaries with greater readability and topic coverage.
+88	10	Our system achieves a significantly better overall ranking using ROUGE-SU4 instead of ROUGE-2, even though the system was optimized to produce the highest ROUGE-2 scores.
+89	21	Only two runs of the winning system CCS scored better than our system according to ROUGE-SU4.
+90	10	This underlines the robustness of our system’s underlying principles, despite the known problems with ROUGE evaluations.
+91	16	The Multilingual Multi-document Summarization (MMS) task involves summarizing ten news articles on a single topic in a single language.
+92	11	For each language, the dataset consists of ten to fifteen topics, and ten languages were covered in all, including and expanding on the data used in the 2013 MMS task described by Li et al. (2013a).
+94	67	We therefore cluster the documents in each collection by the points in time referenced in the text rather than attempting to summarize the concatenation of the documents directly.
+102	27	We used this underlying structure in preprocessing to identify the dateline of the news article, and we use this date to disambiguate relative time expressions in the text like “yesterday” or “next week”.
+103	18	Articles are also ordered in time with respect to each other on the basis of the article date.

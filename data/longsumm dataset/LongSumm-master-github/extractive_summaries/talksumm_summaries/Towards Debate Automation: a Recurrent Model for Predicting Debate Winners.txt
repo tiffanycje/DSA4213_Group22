@@ -1,0 +1,30 @@
+1	58	Elsewhere in the field of natural language generation, there is work that seeks to generate persuasive text (Carenini and Moore, 2006; Reiter et al., 2003; Rosenfeld and Kraus, 2016), which is a logical first step towards creating an automated debate agent.
+2	33	One major deficiency of existing work in this area is its assessment of how convincing (or compelling) a piece of text is; the approaches use theory-driven models of persuasion, rather than being empirically motivated.
+3	37	Furthermore, none of these works provide a model that can optimize persuasiveness at an arbitrary point in a conversation.
+8	50	Whichever team has the largest gain in audience support between the pre/post debate polls is the winner.
+9	23	This is a natural way to account for the fact that some sides of a debate may be harder to argue than others, and that audience members may be initially biased given a debate topic.
+11	56	Rather than just using the final hidded state for prediction, which likely has lost information from early in the debate, we propose to use an attention mechanism (Bahdanau et al., 2014) that creates a weighted sum over all hidden states, and is subsequently used for the final prediction.
+14	33	Logistic regression, on the other hand, would not allow us to model the sequence explicitly.
+15	25	Secondly, our model allows us to take raw features as input, without having to compute summary statistics necessary for the fea- 2465 tures used in the model of Zhang et al. (2016).
+53	19	Talking points for each debate are identified using a term frequency inverse document frequency (tfidf) metric applied to text tokens.
+61	30	Moreover, we believe we can use a simpler talking point metric than that proposed by Monroe et al. (2008) (and used by Zhang et al.) because the recurrent nature of the model will naturally capture the interaction, coverage, and ignorance of the two team’s (and overall) talking points.
+64	31	We also use the following nonlinguistic features: 1) whether the turn occurs during the opening, discussion, or conclusion phase of the debate; 2) whether the turn is from the ‘for’ or ‘against’ team, as well as moderator or other speakers, such as show host etc; 3) the initial audience poll is provided at each timestep.
+107	21	We create such a vector at a debate turn if either applause or laughter occurs at that timestep, and the speaker is one of the debate teams.
+116	77	As we did with the post-debate poll, we can compute a lost based on the kl-divergence between Atargetit and the prediction probability at timestep t, which is a function of ht using the same transformations described in Equations 1, 2, and 3, but replacing hf with ht.
+153	54	Each model uses a Logistic Regression (LR) classifier, and distinguishes itself by the features it uses.
+154	29	The main features developed by the authors relate to the interaction (flow) of talking points between the debate teams.
+162	88	We believe this is because the attention mechanism adds additional parameters to the model, so it seems reasonable that adding additional training signals helps the model to generalize better.
+167	53	Our regularization technique aids in this as well by providing more training data, more polls.
+168	97	One of the advantages of mapping a recurrent model’s hidden states to audience favorability is that we can produce a favorability poll at any turn (timestep) during the debate.
+169	33	In contrast, a temporally flat model, such as the logistic regression models from Zhang et al., produce a prediction of audience favorability based on features extracted from the entire debate.
+172	34	This debate saw the greatest increase in audience support from the pre to post debate poll: the ‘for’ increased their favorability by 46% (46 points).
+174	43	This visualization can be particularly useful for rhetorical analysis of debate performance, because the resulting graph allows us to see inflection points in audience favorability.
+175	78	These inflection points suggest that a debate team used very effective (or ineffective) rhetoric at that particular turn.
+181	21	Therefore, a is directly a function of the current input x at a given timestep.
+185	19	Given input xi at timestep i, we seek to to optimize the probability of Afav given xi: arg max xi p(Afav|xi, h1, ..., hi−1, ci−1; Θ) (10) Where i ∈ (1, ..., T ) and T is the maximum number of timesteps (turns) for a debate.
+187	32	In the debate ‘men are finished’, the ‘for’ team won the debate, increasing their favorability by an astonishing 46% (conversely, the ‘against’ team saw a 25% decrease in favorability).
+188	20	According to our model’s sequential predictions (and visible in Figure 2), a major turning point occurred at turn 27.
+191	46	When asked by the moderator if there can be equality between the sexes without deeming men as being finished, the ‘for’ team said the following (the text is annotated for the presence of talking points, marked by a subscript that specifies whose talking point it is: A (against), F (for), or G, a general talking point based on overall token frequency (see Section 3.1)): It is possible, but it just doesn’t work that way.
+192	25	I mean, if we can all agree that there was male dominance for a long time and that male dominance is over, then I think we agree that menG,A are finished.
+209	29	This suggestion by our model is in line with the hypothesis of Zhang et al. (2016), that winning teams are effective in adopting their opponent’s talking points.
+214	36	In the top 20 tokens we also find ‘done’, ‘compar’, ‘grow’, and ‘without’, which are all relevant: ‘done’ is synonymous with ‘finished’, ‘compar’ given that the debate is often comparing men to women, ‘grow’ could refer to the growth of women in society, and ‘without’ is a token specifically in the question the moderator asked prior to turn 27 (equality between the sexes without deeming men as being finished).

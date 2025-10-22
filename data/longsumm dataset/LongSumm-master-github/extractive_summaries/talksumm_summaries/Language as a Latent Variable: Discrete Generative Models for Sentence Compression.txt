@@ -1,0 +1,28 @@
+5	29	Auto-encoders (Rumelhart et al., 1985) are a typical neural network architecture for learning compact data representations, with the general aim of performing dimensionality reduction on embeddings (Hinton and Salakhutdinov, 2006).
+8	11	According to this, we propose a generative auto-encoding sentence compression (ASC) model, where we introduce a latent language model to provide the variablelength compact summary.
+9	11	The objective is to perform Bayesian inference for the posterior distribution of summaries conditioned on the observed utterances.
+11	66	The most common family of variational autoencoders relies on the reparameterisation trick, which is not applicable for our discrete latent language model.
+13	3	Nevertheless, when directly applying the RNN encoder-decoder to model the variational distribution it is very difficult to generate reasonable compression samples in the early stages of training, since each hidden state of the sequence would have |V | possible words to be sampled from.
+15	27	This biases the latent space to sequences composed of words only appearing in the source sentence (i.e. the size of softmax output for each state becomes the length of current source sentence), which amounts to applying an extractive compression model for the variational approximation.
+16	15	In order to further boost the performance on sentence compression, we employ a supervised forcedattention sentence compression model (FSC) trained on labelled data to teach the ASC model to generate compression sentences.
+18	10	Therefore, while training on the sentencecompression pairs, it is able to balance copying a word from the source sentence with generating it from the background distribution.
+19	9	More importantly, by jointly training on the labelled and unlabelled datasets, this shared pointer network enables the model to work in a semi-supervised scenario.
+20	58	In this case, the FSC teaches the ASC to generate reasonable samples, while the pointer network trained on a large unlabelled data set helps the FSC model to perform better abstractive summarisation.
+21	41	In Section 6, we evaluate the proposed model by jointly training the generative (ASC) and discriminative (FSC) models on the standard Gigaword sentence compression task with varying amounts of labelled and unlabelled data.
+22	65	The results demonstrate that by introducing a latent language variable we are able to match the previous benchmakers with small amount of the supervised data.
+23	15	When we employ our mixed discriminative and generative objective with all of the supervised data the model significantly outperforms all previously published results.
+24	34	In this section, we introduce the auto-encoding sentence compression model (Figure 1)1 in the framework of variational auto-encoders.
+25	97	The ASC model consists of four recurrent neural networks – an encoder, a compressor, a decoder and a language model.
+26	272	Let s be the source sentence, and c be the compression sentence.
+27	110	The compression model (encodercompressor) is the inference network qφ(c|s) that takes source sentences s as inputs and generates extractive compressions c. The reconstruction model (compressor-decoder) is the generative network pθ(s|c) that reconstructs source sentences s based on the latent compressions c. Hence, the forward pass starts from the encoder to the compressor and ends at the decoder.
+28	319	As the prior distribution, a language model p(c) is pre-trained to regularise the latent compressions so that the samples drawn from the compression model are likely to be reasonable natural language sentences.
+29	43	For the compression model (encoder-compressor), qφ(c|s), we employ a pointer network consisting of a bidirectional LSTM encoder that processes the source sentences, and an LSTM compressor that generates compressed sentences by attending to the encoded source words.
+30	58	Let si be the words in the source sentences, hei be the corresponding state outputs of the encoder.
+31	14	hei are the concatenated hidden states from each direction: hei = f−→enc(~h e i−1, si)||f←−enc( ~hei+1, si) (1) Further, let cj be the words in the compressed sentences, hcj be the state outputs of the compressor.
+33	21	In this case, all the words cj sampled from qφ(cj |c1:j−1, s) are the subset of the words appeared in the source sentence (i.e. cj ∈ s).
+34	60	For the reconstruction model (compressor-decoder) pθ(s|c), we apply a soft attention sequence-tosequence model to generate the source sentence s based on the compression samples c ∼ qφ(c|s).
+35	24	Let sk be the words in the reconstructed sentences and hdk be the corresponding state outputs of the decoder: hdk = fdec(h d k−1, sk−1) (5) In this model, we directly use the recurrent cell of the compressor to encode the compression samples2: ĥ c j =fcom(ĥ c j−1, cj) (6) where the state outputs ĥ c j corresponding to the word inputs cj are different from the outputs hcj in the compression model, since we block the information from the source sentences.
+36	3	We also introduce a start symbol s0 for the reconstructed sentence and hd0 is initialised by the last state output ĥ c |c|.
+37	16	The soft attention model is defined as: vk(j) =w T 6 tanh(W 4h d k +W 5ĥ c j) (7) γk(j) = softmax(vk(j)) (8) dk = ∑|c| j γk(j)ĥ c j(vk(j)) (9) We then construct the predictive probability distribution over reconstructed words using a softmax: pθ(sk|s1:k−1, c) = softmax(W 7dk) (10)
+38	12	In the ASC model there are two sets of parameters, φ and θ, that need to be updated during inference.
+40	111	Thus, we use the REINFORCE algorithm (Mnih et al., 2014; Mnih and Gregor, 2014) to reduce the variance of the gradient estimator.

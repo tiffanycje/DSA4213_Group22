@@ -1,0 +1,30 @@
+10	28	The most common unsupervised approach for learning relation vectors consists of averaging the embeddings of the words that occur in between s and t, in sentences that contain both (Weston et al., 2013; Fan et al., 2015; Hashimoto et al., 2015).
+18	27	As a simple example, in a question answering system, we could “annotate” mentions of entities with relation vectors encoding their relationship to the different words from the question.
+20	16	Finally, relation vectors should also be useful for knowledge completion, especially in cases where few training examples per relation type are given (meaning that neural network models could not be used) and where relations cannot be predicted from the already available knowledge (meaning that knowledge graph embedding methods could not be used, or are at least not sufficient).
+44	16	A key advantage of this variant is that it allows us to directly interpret word vectors in terms of the Pointwise Mutual Information (PMI), which will be central to the way in which we learn relation vectors.
+45	15	The GloVe model (Pennington et al., 2014) learns a vector wi for each word i in the vocabulary, based on a matrix of co-occurrence counts, encoding how often two words appear within a given window.
+58	102	In particular, the set Ji contains each j such that xij > 0 as well as M uniformly1 sampled context words j for which xij = 0, where we choose M = 2 · |{j : xij > 0}|.
+70	283	In particular, the vector difference wi−wk is commonly used as a model for the relationship between words i and k. For a given context word j, we have (wi − wk) · w̃j = PMIW (i, j)− PMIW (k, j) The latter is an estimation of log ( P (i,j) P (i)P (j) ) − log ( P (k,j) P (k)P (j) ) = log ( P (j|i) P (j|k) ) .
+71	22	In other words, the vector translation wi − wk encodes for each context word j the (log) ratio of the probability of seeing j in the context of i and in the context of k, which is in line with the original motivation underlying the GloVe model (Pennington et al., 2014).
+73	16	We now turn to the problem of learning a vector rik that encodes how the source word i and target word k are related.
+90	32	Our aim is to learn a vector rik that models the relationship between i and k. Computing such a vector for each pair of words (which co-occur at least once) is not feasible, given the number of triples (i, j, k) that would need to be considered.
+117	64	Finally, Avg averages the vector representations of the words occurring in sentences that Diff, contain i and k. In particular, let ravgik be obtained by averaging the word vectors of the context words appearing between i and k for each sentence containing i and k (in that order), and then averaging the vectors obtained from each of these sentences.
+121	23	In the relation induction task, we are given word pairs (s1, t1), ..., (sk, tk) that are related in some way, and the task is to decide for a number of test examples (s, t) whether they also have this relationship.
+123	22	As test sets we use the Google Analogy Test Set (Mikolov et al., 2013a), which contains instances of 14 different types of relations, and the DiffVec dataset, which was introduced in (Vylomova et al., 2016).
+137	24	As can be observed, our model outperforms the baselines on both datasets, with the R2ik variant outperforming the others.
+140	12	As can be observed, our variant leads to better results than the original GloVe model, even for the baselines.
+149	11	While including the vectors sik, ski, tik, tki should be helpful, it also significantly increases the dimensionality of the vectors Rlik.
+160	25	We report results using Spearman’s ρ in Table 4.
+161	52	Our model again outperforms the baselines, with R2ik again being the best variant.
+180	16	Following earlier work on this task, we report our results on the test set as a precisionrecall graph in Figure 1.
+182	26	Furthermore, using a quadratic kernel (only shown for R2ik) outperforms the linear SVM models.
+183	40	Note that the differences between the baselines are more pronounced in this task, with Avg being clearly better than Diff, which is in turn better than Conc.
+184	14	For this relation extraction task, a large number of methods have already been proposed in the literature, with variants of convolutional neural network models with attention mechanisms achieving state-of-the-art performance8.
+185	34	A comparison with these models9 is shown in Figure 2.
+186	40	The performance of R2ik is comparable with the state-of- the-art PCNN+ATT model (Lin et al., 2016), outperforming it for larger recall values.
+187	13	This is remarkable, as our model is conceptually much simpler, and has not been specifically tuned for this task.
+188	10	For instance, it could easily be improved by incorporating the attention mechanism from the PCNN+ATT model to focus the relation vectors on the considered task.
+190	22	We have proposed an unsupervised method which uses co-occurrences statistics to represent the relationship between a given pair of words as a vector.
+191	100	In contrast to neural network models for relation extraction, our model learns relation vectors in an unsupervised way, which means that it can be used for measuring relational similarities and related tasks.
+192	249	Moreover, even in (distantly) supervised tasks (where we need to learn a classifier on top of the unsupervised relation vectors), our model has proven competitive with state-of-the-art neural network models.
+193	147	Compared to approaches that rely on averaging word vectors, our method is able to learn more faithful representations by focusing on the words that are most strongly related to the considered relationship.

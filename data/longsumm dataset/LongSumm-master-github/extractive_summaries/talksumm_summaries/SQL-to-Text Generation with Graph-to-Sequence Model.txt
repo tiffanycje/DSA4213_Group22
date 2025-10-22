@@ -1,0 +1,30 @@
+1	93	This task is critical to the natural language interface to a database since it helps non-expert users to understand the esoteric SQL queries that are used to retrieve the answers through the questionanswering process (Simitsis and Ioannidis, 2009) using varous text embeddings techniques (Kim, 2014; Arora et al., 2017; Wu et al., 2018a).
+2	21	Earlier attempts for SQL-to-text task are rulebased and template-based (Koutrika et al., 2010; Ngonga Ngomo et al., 2013).
+3	15	Despite requiring intensive human efforts to design temples or rules, these approaches still tend to generate rigid and stylized language that lacks the natural text of the human language.
+4	18	To address this, Iyer et al. (2016) proposes a sequence-to-sequence (Seq2Seq) network to model the SQL query and natural language jointly.
+6	14	to express graph-structured query intent, the sequence encoder may need an elaborate design to fully capture the global structure information.
+8	18	In this paper, we first introduce a strategy to represent the SQL query as a directed graph (see §2) and further make full use of a novel graphto-sequence (Graph2Seq) model (Xu et al., 2018) that encodes this graph-structured SQL query, and then decodes its interpretation (see §3).
+9	31	On the encoder side, we extend the graph encoding work of Hamilton et al. (2017) by encoding the edge direction information into the node embedding.
+23	9	For the SELECT clause such as “SELECT company”, we first create a node assigned with text attribute select.
+24	17	This SELECT node connects with column nodes whose text attributes are the selected column names such as company.
+28	9	For each condition, we use the same process as for the SELECT clause to create nodes.
+32	16	Finally, these logical operator nodes connect with the SELECT node.
+33	34	Based on the constructed graphs for the SQL queries, we make full use of a novel graph-tosequence model (Xu et al., 2018), which consists of a graph encoder to learn the embedding for the graph-structured SQL query, and a sequence decoder with attention mechanism to generate sentences.
+34	9	Conceptually, the graph encoder generates the node embedding for each node by accumulating information from its K-hop neighbors, and produces a graph embedding for the entire graph by abstracting all node embeddings.
+43	23	Next, we update the backward representation of v in the similar fashion (equation 4∼5).
+62	29	We use the BLEU-4 score (Papineni et al., 2002) as our automatic evaluation metric and also perform a human study.
+64	61	We compare some variants of our model against the template, Seq2Seq, and Tree2Seq baselines.
+65	33	This method uses the Pooling method for generating Graph Embedding.
+69	10	This method translates the SQL query of Figure 1 to which company where assets more than val0 and sales more than val0 and industry less than or equal to val1 and profits equals val2.
+72	32	To evaluate these models, we employ a template to convert the SQL query into a sequence: “SELECT + <aggregation function> + <Split Symbol> + <selected column> + WHERE + <condition0> + <Split Symbol> + <condition1> + ... ”.
+74	69	We use the SQL Parser tool3 to convert a SQL query into the tree structure4 which is fed to the Tree2Seq model.
+76	10	Our hyper-parameters are set based on performance on the validation set.
+79	19	Gradients are clipped when their norm is bigger than 20.
+80	8	We initialize word embeddings using GloVe word vectors from Pennington et al. (2014), and the word embedding dimension is 300.
+83	46	Results and Discussion Table 1 summarizes the results of our models and baselines.
+84	59	Although the template-based method achieves decent BLEU scores, its grammaticality score is substantially worse than other baselines.
+86	11	One possible reason is that in our graph encoder, the node embedding retains the information of neighbor nodes within K hops.
+90	33	By manually analyzing the cases in which the Graph2Seq model performs better than Seq2Seq, we find the Graph2Seq model is better at interpreting two classes of queries: (1) the complicated queries that have more than two conditions (Query 1); (2) the queries whose columns have implicit relationships (Query 2).
+91	9	Table 2 lists some such SQL queries and their interpretations.
+92	9	One possible reason is that the Graph2Seq model can better learn the correlation between the graph pattern and natural language by utilizing the global structure information.
+95	10	However, after the hop size reaches 6, increasing the hop size can not boost the performance on WikiSQL anymore.

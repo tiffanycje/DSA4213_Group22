@@ -1,0 +1,30 @@
+0	16	Speech disfluencies are common phenomena in spontaneous speech.
+4	34	However, the EARS MDE effort was focused on English only, and there hasn’t been much research on the effectiveness of similar automatic disfluency detection approaches for multiple languages.
+5	14	This paper presents three main innovations.
+6	55	First, we extend the EARS MDE-style disfluency detection approach combining lexical and prosodic features using a Conditional Random Field (CRF) model, which was employed for detecting disfluency on English conversational speech data (Liu et al., 2005), to Mandarin conversational speech, as presented in Section 2.
+7	13	Second, we implement an automatic filled pause detection approach through constrained speech recognition, as presented in Section 3.
+8	14	Third, for both disfluency detection systems, we compare side-by-side contributions of different knowledge sources to detection performance for two languages, English and Mandarin, as presented in Section 4.
+10	20	We focus on two types of disfluencies,Fillers and Edit disfluencies, following the EARS MDE disfluency types modeled in (Liu et al., 2006).
+11	41	Fillers include filled pauses (FP), discourse markers (DM), and explicit editing terms (ET).
+12	51	FPs are words used by the speakers as floor holders to maintain control of a conversation.
+14	19	In this work, English FPs 703 compriseuh and um, based on English CTS corpora.
+15	14	For Mandarin, Zhao and Jurafsky found that Mandarin speakers intensively used both demonstrativeszhege (literally ‘this’)andnage (literally ‘that’) anduh/mmas FPs based on a large speech corpus of Mandarin telephone conversation (Zhao and Jurafsky, 2005).
+21	25	The basic pattern for edit disfluencies has the form(reparandum) <editing term> correction.
+23	28	An interruption point (IP), marked with ‘ ’ in the pattern, is the point at which the speaker breaks off the original utterance and then repeats, revises, or restarts the utterance.
+28	47	We used a CRF model to combine lexical features, shallow syntactic features, and prosodic features for joint detection of edit words and IP words.
+29	53	A CRF defines a global log-linear distribution of the state (or label) sequenceE conditioned on an observation sequence, in our case including the word sequenceW and the featuresF , and optimized globally over the entire sequence considering the context event information for making decisions at each point.
+38	20	We built a Hidden Markov Model (HMM) based part-of-speech (POS) taggers for English conversational speech and Mandarin broadcast conversation data.
+39	19	After employing the co-training approach described in (Wang et al., 2007), we achieved 94% POS tagging accuracy for both data sets.
+40	19	The features for CRF modeling include: n-grams from words and automatically generated POS tags, speaker turns, whether there is a repeated word sequence ending at a word boundary, whether a word is a fragment, whether there is a predefined filler phrase after the word boundary, and the prosody model posterior probabilities from a decision tree model (Shriberg and Stolcke, 1997) and discretized by cumulative binning (Liu et al., 2006).
+41	20	The prosodic features were computed for each interword boundary from words and phonetic alignments of the manual transcriptions.
+65	23	For the Mandarin ASR system, the MFCC+MLP front-end features were augmented with 3-dimension smoothed pitch features (Lei et al., 2006).
+69	26	Details of training data and system development were illustrated in (Lei et al., 2009).
+71	30	Both Finke et al.’s approach (Finke and Waibel, 1997) and our approach built a lattice from ach transcription sentence (in our approach, optional filled pauses are inserted between any two words and at the beginning and end of each utterance).
+72	20	Then Finke et al. force-aligned the lattice with utterance; whereas, we used multi-pass constrained decoding with within-word and cross-word models, MLLR adaptation of the acoustic models, and rescoring with a higher-order n-gram LM, so the performance will be better than just flexible alignment to the lattices.
+77	29	For English, the training and evaluation data were from the 40 hours CTS data in the NIST RT-04F MDE training data including speech, their transcriptions and disfluency annotations by LDC.
+78	19	We randomly held out two 3-hour subsets from this training data set for evaluation and parameter tuning respectively, and used the remaining data for training.
+84	29	The gains from combining the word, POS, and prosody model over the word n-gram baseline are statistically significant for both languages (confidence levelp < 0:05 using matched pair test).
+85	63	Also, adding the prosody model over word+POS yielded a larger relative gain in edit word+IP detection performance for Mandarin than for English data.
+86	25	A preliminary study of these results has shown that the prosody model contributes differently for different types of disfluencies for English and Mandarin conversational speech and we will continue this study in future work.
+87	50	We also plan 1www.itl.nist.gov/iad/mig/tests/rt/2004-fall/index.html to investigate the prosodic features considering the special characteristics of edited disfluencies in Mandarin studied in (Lin and Lee, 2009).
+88	12	Table 1: NIST error rate (%) for edit word, IP, and filler word detection on the English and Mandarin test set, using word n-gram features, POS n-gram features, and prosody model.

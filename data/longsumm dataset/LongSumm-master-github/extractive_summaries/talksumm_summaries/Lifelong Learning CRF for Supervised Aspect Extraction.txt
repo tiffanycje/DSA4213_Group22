@@ -1,0 +1,30 @@
+3	24	Aspect extraction is commonly done using a supervised or an unsupervised approach.
+4	39	The unsupervised approach includes methods such as frequent pattern mining (Hu and Liu, 2004; Popescu and Etzioni, 2005; Zhu et al., 2009), syntactic rules-based extraction (Zhuang et al., 2006; Wang and Wang, 2008; Wu et al., 2009; Zhang et al., 2010; Qiu et al., 2011; Poria et al., 2014), topic modeling (Mei et al., 2007; Titov and McDonald, 2008; Li et al., 2010; Brody and Elhadad, 2010; Wang et al., 2010; Moghaddam and Ester, 2011; Mukherjee and Liu, 2012; Lin and He, 2009; Zhao et al., 2010; Jo and Oh, 2011; Fang and Huang, 2012; Wang et al., 2016), word alignment (Liu et al., 2013), label propagation (Zhou et al., 2013; Shu et al., 2016), and others (Zhao et al., 2015).
+5	6	This paper focuses on the supervised approach (Jakob and Gurevych, 2010; Choi and Cardie, 2010; Mitchell et al., 2013) using Conditional Random Fields (CRF) (Lafferty et al., 2001).
+6	27	It shows that the results of CRF can be significantly improved by leveraging some prior knowledge automatically mined from the extraction results of previous domains, including domains without labeled data.
+8	62	For example, every review domain has the aspect price and reviews of many products have the aspect battery life or screen.
+11	146	Due to leveraging the knowledge gained from the past to help the new domain extraction, we are using the idea of lifelong machine learning (LML) (Chen and Liu, 2016; Thrun, 1998; Silver et al., 2013), which is a continuous learning paradigm that retains the knowledge learned in the past and uses it to help future learning and problem solving with possible adaptations.
+12	14	The setting of the proposed approach L-CRF (Lifelong CRF) is as follows: A CRF model M has been trained with a labeled training review dataset.
+16	14	M can leverage some reliable prior knowledge in A1, .
+18	52	The key innovation of L-CRF is that even after supervised training, the model can still improve its extraction in testing or its applications with experiences.
+19	60	Note that L-CRF is different from semisupervised learning (Zhu, 2005) as the n previous 148 (unlabeled) domain data used in extraction are not used or not available during model training.
+20	23	There are prior LML works for aspect extraction (Chen et al., 2014; Liu et al., 2016), but they were all unsupervised methods.
+45	6	Each feature value vG is a dependency pattern.
+49	18	A dependency relation 1 is a quintuple-tuple: (type, gov, govpos, dep, deppos), where type is the type of the dependency relation, gov is the governor word, govpos is the POS tag of the governor word, dep is the dependent word, and deppos is the POS tag of the dependent word.
+51	13	We generalize dependency relations into dependency patterns using the following steps: 1.
+52	11	For each dependency relation, replace the current word (governor word or dependent word) and its POS tag with a wildcard since we already have the word (W) and the POS tag (P) features.
+55	9	If the context word in the dependency relation appears in Kt, we replace it with a knowledge label ‘A’ (aspect); otherwise ‘O’ (other).
+57	8	Assume the current word is “battery,” and “camera” is annotated as an aspect.
+58	21	The original dependency relation between “camera” and “battery” produced by a parser is (nmod, battery, NN, camera, NN).
+63	13	The final dependency pattern becomes (nmod,*, A, NN).
+80	8	The training phase trains a CRF model M using the training data Dt, which is the same as normal CRF training, and will not be discussed further.
+84	7	Note that aspects Kt from the training data are considered always reliable as they are manually labeled, thus a subset ofK.
+100	21	The first type consists of seven (7) annotated benchmark review datasets from 7 domains (types of products).
+101	12	Since they are annotated, they are used in training and testing.
+108	24	Each dataset has 1000 reviews.
+111	18	We will not compare with unsupervised methods, which have been shown improvable by lifelong learning (Chen et al., 2014; Liu et al., 2016).
+114	25	Note that CRF uses all features including dependency features as the proposed L-CRF but does not employ the 50 domains unlabeled data used for lifelong learning CRF+R: It treats the reliable aspect set K as a dictionary.
+115	30	It adds those reliable aspects in K that are not extracted by CRF but are in the test data to the final results.
+116	155	We want to see whether incorporating K into the CRF extraction through dependency patterns in L-CRF is actually needed.
+117	57	We do not compare with domain adaptation or transfer learning because domain adaption basically uses the source domain labeled data to help learning in the target domain with few or no labeled data.
+118	82	Our 50 domains used in lifelong learning have no labels.

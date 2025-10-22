@@ -1,0 +1,30 @@
+30	47	We thus identify two independent pitfalls in NLP research on polysemy representation.
+32	19	And second, the essence of polysemic representations, whose reported benefits might not come from polysemic information per se, but rather from other unrelated sources.
+36	45	This kind of approach produces (i) global vectors that represent a word’s meaning as a single vector (with no subdivision into distinct senses), as well as (ii) sense-specific vectors representing individual senses of words, determined in the disambiguation step, as separate vectors.
+55	52	(iii) Evaluate the task using the two representation sets A1 and A2.
+56	123	Only if significant performance gains can be shown when using A2 as compared to A1, the task can be used to evaluate polysemy representation.
+60	18	More specifically, we induce polysemy in a natural corpus by pairing words, and collapsing every pair of words into a single word-form while keeping their ”original identity” as polysemy annotation.
+61	36	For example ring and table may be collapsed to a single word with two senses, table1 and table2 respectively.
+80	21	Results clearly demonstrate that global representations are significantly superior to sense-specific representations in both evaluation tests and across corpora, as shown in Table 1 and Figure 1.
+87	18	This worsening in performance of the sense-specific vectors stands in marked contrast to previous studies which reported performance gains (see Table 2 and Reported gains in Figure 1).
+88	27	The main result described above is negative, demonstrating that word similarity tasks are not suitable to evaluate polysemy representation.
+89	31	However, the methodology we proposed for polysemy induction constitutes a positive contribution, as it can be used to effectively test any task for its utility in the evaluation of polysemy representation while using any corpora.
+97	32	We tested four sets of sense-specific representations: two from our polysemy induction models (see Section 3.2) and two from Li and Jurafsky (2015)3 and Mancini et al. (2017)4 which reported performance gains.
+98	77	For each word in each set, the average cosine-distance between its different sense-specific vectors is computed.
+106	31	The broader implications of these results on our research hypothesis can be understood in the context of the findings reported in Section 3.3.
+129	41	If sense matching (see Section 2) is achieved by way of average or weighted average, it implies that our estimate of word similarity should improve with the number of senses used in the analysis, especially when the assignment is arbitrary.
+132	22	In the theoretical discussion we argue that random sense annotation is equivalent to sub-sampling and multiple estimation of contextual vector representations, and that this alone may be beneficial for the task performance of word similarity.
+137	22	We achieve random sense assignments in 2 ways: Sampling from a known distribution.
+138	47	For the entire corpus and vocabulary (100k words, and note that Neelakantan et al. (2014) and Li and Jurafsky (2015) also took this entire vocabulary approach), we assigned senses at random from a categorical distribution under two conditions.
+148	21	Regular embedding with random sense assignments shows marked performance gains of the sense-specific vectors over the global vectors.
+151	15	Together, these three control simulations clearly show that an effect of the same magnitude as previously reported in several studies emerges under random sense assignment.
+164	81	The underlying assumption is that a better model for contextual word representation should employ a population of vectors.
+165	47	Interestingly, the conclusion that word vectors are better if constructed from multiple representations might apply to word vectors in general, and not just to sense-specific vectors.
+166	22	However, such a claim is outside the scope of this study and remains for future research.
+167	46	This account is further supported by our polysemic signature analysis, which shows that the similarity between the senses in the polysemic models that produced performance gains is greater than in the models that did not produce this effect (the polysemy-induced models).
+168	15	This finding is in line with the sampling artifact account, as sensespecific vectors which are based on random sense assignments are expected to be more similar compared to sense-specific vectors which are based on true polysemic distinctions.
+171	16	All in all, we provide converging evidence, both experimental and theoretical, that word similarity tasks do not provide a marker for the utility of polysemic information.
+175	45	In fact, they corroborate the general impression that polysemic representation does not improve performance on most downstream tasks (Li and Jurafsky, 2015).
+178	17	Moreover, any effects reported will have to be supported by demonstrating that these effects are absent or strongly reduced in a properly articulated condition that should control for the sampling artifact.
+179	58	Critically, until a reliable evaluation test exists, research on polysemic word representation is seriously hampered.
+180	32	In fact, a re-evaluation of past models would be in place, as both ”positive” and ”negative” results that were previously reported are in fact invalid.

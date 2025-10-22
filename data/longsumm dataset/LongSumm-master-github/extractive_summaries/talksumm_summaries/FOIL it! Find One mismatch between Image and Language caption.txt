@@ -1,0 +1,30 @@
+1	20	There is thus growing interest in combining information from language and vision in the NLP and AI communities.
+2	10	So far, the primary testbeds of Language and Vision (LaVi) models have been ‘Visual Question Answering’ (VQA) (e.g. Antol et al. (2015); Malinowski and Fritz (2014); Malinowski et al. (2015); Gao et al. (2015); Ren et al. (2015)) and ‘Image Captioning’ (IC) (e.g. Hodosh et al. (2013); Fang et al. (2015); Chen and Lawrence Zitnick (2015); Donahue et al. (2015); Karpathy and Fei-Fei (2015); Vinyals et al. (2015)).
+9	19	Thirdly, existing IC evaluation metrics are sensitive to n-gram overlap and there is a need for measures that better simulate human judgments (Hodosh et al., 2013; Elliott and Keller, 2014; Anderson et al., 2016).
+12	15	The captions are produced by introducing one single error (or ‘foil’) per caption in existing, human-annotated data (Figure 1).
+13	26	This process results in a challenging error-detection/correction setting (because the caption is ‘nearly’ correct).
+14	10	It also provides us with a ground truth (we know where the error is) that can be used to objectively measure the performance of current models.
+15	13	We propose three tasks based on widely accepted evaluation measures: we test the ability of the system to a) compute whether a caption is compatible with the image (T1); b) when it is incompatible, highlight the mismatch in the caption (T2); c) correct the mistake by replacing the foil word (T3).
+18	11	We evaluate two state-of-the-art VQA models: the popular one by Antol et al. (2015), and the attention-based model by Lu et al. (2016), and one popular IC model by (Wang et al., 2016).
+20	34	Section 5 provides an analysis of our results, allowing us to diagnose three failures of LaVi models.
+65	43	In this section, we describe how we automatically generate FOIL-COCO datapoints, i.e. image, original and foil caption triples.
+71	10	In total there are 123,287 images with captions (82,783 for training and 40,504 for validation).2 Our data generation process consists of four 2The MS-COCO test set is not available for download.
+80	11	Generation of foil captions We would like to generate foil captions by replacing only target words which refer to visually salient objects.
+86	45	Mining the hardest foil caption for each image To eliminate possible visual-language dataset bias, out of all foil captions generated in step 3, we select only the hardest one.
+96	13	The final FOIL-COCO dataset consists of 297,268 datapoints (197,788 in training and 99,480 in test set).
+99	53	We conduct three tasks, as presented below: Task 1 (T1): Correct vs. foil classification Given an image and a caption, the model is asked to mark whether the caption is correct or wrong.
+101	111	Task 2 (T2): Foil word detection Given an image and a foil caption, the model has to detect the foil word.
+102	39	The aim is to evaluate the understanding of the system at the word level.
+105	12	The aim is to check whether the system’s visual representation is fine-grained enough to be able to extract the information necessary to correct the error.
+107	17	We evaluate both VQA and IC models against our tasks.
+116	10	HieCoAtt: We use the Hierarchical CoAttention model proposed by (Lu et al., 2016) that co-attends to both the image and the question to solve the task.
+128	41	We adapt the generative IC model to perform the classification task as follows.
+129	20	Given a test image I and a test caption, for each word wt in the test caption, we remove the word and use the model to generate new captions in which the wt has been replaced by the word vt predicted by the model (w1,...,wt−1, vt, wt−1,...,wn).
+141	9	We collected 2952 judgements (i.e. 3 judgements per pair and 4 judgements per rater) and computed human accuracy in T1 when considering as answer (a) the one provided by at least 2 out of 3 annotators (majority) and (b) the one provided by all 3 annotators (unanimity).
+151	9	The VQA systems show a strong bias towards correct captions and poor overall performance.
+154	36	But the overall accuracy (42.21%) is poorer than the one obtained by the two baselines.
+158	25	The result on T3 makes it clear that the VQA systems are unable to extract from the image rep- resentation the information needed to correct the foil: despite being told which element in the caption is wrong, they are not able to zoom into the correct part of the image to provide a correction, or if they are, cannot name the object in that region.
+159	50	The IC model performs better compared to the other models, having an accuracy that is 20,78% higher than chance level.
+160	14	We performed a mixed-effect logistic regression analysis in order to check whether the behavior of the best performing models in T1, namely the VQA models, can be predicted by various linguis- tic variables.
+161	59	We included: 1) semantic similarity between the original word and the foil (computed as the cosine between the two corresponding word2vec embeddings (Mikolov et al., 2013)); 2) frequency of original word in FOIL-COCO captions; 3) frequency of the foil word in FOILCOCO captions; 4) length of the caption (number of words).
+162	51	The mixed-effect model was performed to get rid of possible effects due to either object supercategory (indoor, food, vehicle, etc.)

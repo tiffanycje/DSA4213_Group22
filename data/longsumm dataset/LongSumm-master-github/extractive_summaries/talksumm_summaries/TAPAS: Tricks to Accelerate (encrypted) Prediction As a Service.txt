@@ -1,0 +1,30 @@
+33	15	• We introduce an easy trick, which we call the +1 trick to sparsify encrypted computations.
+34	14	• We demonstrate that our techniques are easily parallelizable and we report timing for a variety of computation settings on real world datasets, alongside classification accuracies.
+35	18	In this section we describe our Encrypted Prediction as a Service (EPAAS) paradigm.
+42	7	If data x is sensitive (e.g., x may be the health record of client C, and f(x) may be the likelihood of heart disease), then we would like to have the following privacy guarantees: P1.
+43	13	Neither the server S, or any other party, learn anything about client data x, other than its size (privacy of the data).
+48	54	The rounds of communication between client and server should be limited to 2 (send data & receive prediction).
+73	18	Similarly, to compute the decryption function D(·) one needs to hold a secret key kSEC which allows us to recover: D(E(x, kPUB), kSEC) = x.
+76	15	For more detailed background on FHE beyond what is described below, see the excellent tutorial of Halevi (2017).
+79	17	This was still an open problem however 30 years later.
+81	23	Similar to previous approaches, in each computation, noise is introduced into the encrypted data.
+84	25	That result constituted a massive breakthrough, as it established, for the first time, a fully homomorphic encryption scheme (Gentry, 2009).
+85	18	Unfortunately, the original bootstrapping procedure was highly impractical.
+88	9	Thus, one common technique to implement encrypted prediction was to take an existing ML algorithm and approximate it with as few operations as possible, in order to never have to bootstrap.
+95	7	Specifically, encrypted computation is now modular: the cost of adding a few layers to an encrypted neural network is simply the added cost of each layer in isolation.
+102	27	Although binary nets don’t typically use a bias term, applying batch-normalization (Ioffe & Szegedy, 2015) when evaluating the model it means that a bias term b ∈ Zp may need to be added before applying the activation function (cf.
+107	15	Element-wise multiply by applying the logical operator XNOR(w,x) for each element of w and x.
+109	13	If the bias term is b, check if 2S ≥ d − b, if so the activation is positive and return 1, otherwise return −1.
+115	16	We show how these circuits allow us to efficiently implement the three main layers of binary neural networks: fully connected, convolutional, and batch-normalization.
+116	13	We then show how a simple trick allows us to sparsify our computations.
+117	42	Our techniques can be easily parallelized.
+118	10	During the evaluation of a circuit, gates at the same level in the tree representation of the circuit can be evaluated in parallel.
+119	19	Hence, when implementing a function, “shallow” circuits are preferred in terms of parallelization.
+120	20	While parallel computation was often used to justify employing second generation FHE techniques— where parallelization comes from ciphertext packing—we show in the following section that our techniques create dramatic speedups for a state-of-the-art FHE technique.
+128	25	All these structures can be implemented to run on encrypted data because TFHE allows us to compute XNOR, AND, and OR on encrypted data.
+129	79	The final number returned by the reduction tree S̃ is the binary representation of the number of 1s resulting from the XNOR, just like POPCOUNT.
+130	27	Thus, to compute the BNN activation function sign(·) we need to check whether 2S̃ ≥ d− b, where d is the number of bits in S̃ and b is the bias.
+131	41	Note that if the bias is zero we simply need to check if S̃ ≥ d/2.
+133	12	If it is 1 then S̃ is at least d/2.
+135	10	The bias b (which is available in the clear) may be an integer as large as S̃.
+136	18	Let B[(d − b)/2], B[S̃] be the binary representations of b and S̃.

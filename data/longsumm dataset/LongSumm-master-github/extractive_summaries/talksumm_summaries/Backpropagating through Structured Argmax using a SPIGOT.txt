@@ -1,0 +1,30 @@
+13	14	We show empirically that SPIGOT works even when the maximization and the projection are done approximately.
+15	23	These architectures are trained using a joint objective, with one part using data for the intermediate task, and the other using data for the end task.
+19	18	Our analysis considers how the behavior of the intermediate parser is affected by the end task (§5).
+20	12	Our code is open-source and available at https:// github.com/Noahs-ARK/SPIGOT.
+22	14	This would allow us to place, for example, a syntactic parser in the middle of a neural network, so that the forward calculation simply calls the parser and passes the parse tree to the next layer, which might derive syntactic features for the next stage of processing.
+33	78	We use z to denote intermediate structures derived from x.
+34	15	We will often refer to the intermediate task as “decoding”, in the structured prediction sense.
+35	12	It seeks an output ẑ = argmaxz∈Z S from the feasible set Z , maximizing a (learned, parameterized) scoring function S for the structured intermediate task.
+40	50	Decoding problems are typically decomposed into a collection of “parts”, such as arcs in a dependency tree or graph.
+41	25	In such a setup, each element of z, zi, corresponds to one possible part, and zi takes a boolean value to indicate whether the part is included in the output structure.
+42	25	The scoring function S is assumed to decompose into a vector s(x) of part-local, input-specific scores: ẑ = argmax z∈Z S(x, z) = argmax z∈Z z>s(x) (1) In the following, we drop s’s dependence on x for clarity.
+45	32	Then the discrete combinatorial problem over Z is transformed into the optimization of a linear objective over a convex polytope P={p ∈ Rd |Ap≤b}, which is solvable in polynomial time (Bertsimas and Tsitsiklis, 1997).
+48	77	For backpropagation, to calculate gradients for parameters of s, the chain rule defines: ∇sL = J ∇ẑL, (3) where the Jacobian matrix J = ∂ẑ∂s contains the derivative of each element of ẑ with respect to each element of s. Unfortunately, argmax is a piecewise constant function, so its Jacobian is either zero (almost everywhere) or undefined (in the case of ties).
+66	15	(4c) First, the method makes an “update” to ẑ as if it contained parameters (Equation 4a), letting p̂ denote the new value.
+67	96	Next, p̂ is projected back onto the (relaxed) feasible set (Equation 4b), yielding a feasible new value z̃.
+68	113	Finally, the gradients with respect to s are computed by Equation 4c.
+69	144	Due to the convexity of P , the projected point z̃ will always be unique, and is guaranteed to be no farther than p̂ from any point in Z∗ (Luenberger and Ye, 2015).1 Compared to STE, SPIGOT involves a projection and limits ∇sL to a smaller space to satisfy constraints.
+70	61	See Figure 1 for an illustration.
+72	126	Yet, we note that SPIGOT does not assume the argmax operation is solved exactly.
+79	40	Backpropagation in the endtask model computes ∇θL and ∇ẑL, and ∇sL is then constructed using Equations 4.
+81	14	Due to its flexibility, SPIGOT is applicable to many training scenarios.
+82	51	When there is no 〈x, z〉 training data for the intermediate task, SPIGOT can be used to induce latent structures for the end-task (Yogatama et al., 2017; Kim et al., 2017; Choi et al., 2017, inter alia).
+90	36	Therefore, we construct relaxed polytopes by considering only a subset of the constraints.3 The projection then decomposes into a series of singly constrained quadratic programs (QP), each of which can be efficiently solved in linear time.
+93	15	Arc-factored unlabeled dependency parsing.
+95	93	Let i→j denote an arc from the ith token to the jth, and σ(i→j) denote its index.
+99	29	Line 3 forms a singly constrained QP, and can be solved in O(n) time (Brucker, 1984).
+112	30	We drop the determinism constraint imposed by Peng et al. (2017) in the backward computation.
+113	161	We empirically evaluate our method with two sets of experiments: using syntactic tree structures in semantic dependency parsing, and using semantic dependency graphs in sentiment classification.
+114	26	In this experiment we consider an intermediate syntactic parsing task, followed by seman- … became dismayed at poss arg1 arg2 ’sG-2 connections arrested traffickersto drug arg2 compound root arg2 arg1 arg2 tic dependency parsing as the end task.
+115	29	We first briefly review the neural network architectures for the two models (§4.1.1), and then introduce the datasets (§4.1.2) and baselines (§4.1.3).

@@ -1,0 +1,30 @@
+1	40	During this time, much progress has been made in analyzing the performance of these algorithms, and existing theory provides a good qualitative description of approximation error (relative to the exact solution) in terms of various problem parameters.
+3	19	A basic source of this problem is that it is difficult to translate theoretical error bounds into numerical error bounds that are tight enough to be quantitatively meaningful.
+10	11	(For brevity, we will usually omit the qualifier ‘a posteriori’ from now on when referring to error estimation.)
+11	71	The main purpose of this paper is to show that it is possible to directly estimate the error of randomized LS solutions in a way that is both practical and theoretically-justified.
+12	12	Accordingly, we propose a flexible estimation method that can enhance existing sketching algorithms in a variety of ways.
+14	13	Consider a large, overdetermined LS problem, involving a rank d matrix A ∈ Rn×d, and a vector b ∈ Rn, where n d. These inputs are viewed as being deterministic, and the exact solution is denoted xopt := argmin x∈Rd ‖Ax− b‖2.
+15	106	(1) The large number of rows n is often a major computational bottleneck, and sketching algorithms overcome this obstacle by effectively solving a smaller problem involving m rows, where d m n. In general, this reduction is carried out with a random sketching matrix S ∈ Rm×n that maps the full matrix A into a smaller sketched matrix Ã := SA of size m× d. However, various sketching algorithms differ in the way that the matrix S is generated, or the way that Ã is used.
+17	15	For a given sketching matrix S, this type of algorithm produces a solution x̃ := argmin x∈Rd ‖S(Ax− b)‖2, (2) and chronologically, this was the first type of sketching algorithm for LS (Drineas et al., 2006).
+18	20	The HS algorithm modifies the objective function in the problem (1) so that its Hessian is easier to compute (Pilanci & Wainwright, 2016; Becker et al., 2017), leading to a solution x̆ := argmin x∈Rd { 1 2‖SAx‖ 2 2 − 〈A>b, x〉 } .
+19	24	(3) This algorithm is also called “partial sketching”.
+21	27	One way to extend HS is to refine the solution iteratively.
+22	28	For a given iterate x̂i ∈ Rd, the following update rule is used x̂i+1 := argmin x∈Rd { 1 2 ‖Si+1A(x− x̂i)‖22 + 〈A>(Ax̂i − b) , x〉 } , where Si+1 ∈ Rm×n is a random sketching matrix that is generated independently of S1, .
+23	27	, Si, as proposed in (Pilanci & Wainwright, 2016).
+24	67	If we let t ≥ 1 denote the total number of IHS iterations, then we will generally write x̂t to refer to the final output of IHS.
+25	26	If the initial point for IHS is chosen as x̂0 = 0, then the first iterate x̂1 is equivalent to the HS solution x̆ in equation (3).
+26	61	Consequently, HS may be viewed as a special case of IHS, and so we will restrict our discussion to CS and IHS for simplicity.
+31	21	To briefly review the computational benefits of sketching algorithms, first recall that the cost of solving the full leastsquares problem (1) by standard methods isO(nd2) (Golub & Van Loan, 2012).
+38	81	Specifically, if we let ‖ · ‖◦ denote any norm on Rd, and let α ∈ (0, 1) be fixed, then our goal is to construct numerical estimates ε̃(α) and ε̂t(α), such that the bounds ‖x̃− xopt‖◦ ≤ ε̃(α) (4) ‖x̂t − xopt‖◦ ≤ ε̂t(α) (5) each hold with probability at least 1− α.
+41	11	(This cost will be addressed in Section 2.3.)
+66	29	Later on, in Section 2.3, we discuss computational cost and speedups.
+68	39	If we had access to this distribution, we could find the tightest possible upper bound on ‖x̃ − xopt‖◦ that holds with probability at least 1− α.
+69	11	(This bound is commonly referred to as the (1− α)quantile of the random variable ‖x̃− xopt‖◦.)
+70	170	From an intuitive standpoint, the idea of the proposed bootstrap method is to artificially generate many samples of a random vector, say x̃∗, whose fluctuations around x̃ are statistically similar to the fluctuations of x̃ around xopt.
+72	50	As a technical clarification, it is important to note that our method relies only on a single run of CS, involving just one sketching matrix S. Consequently, the bootstrapped vectors x̃∗ will be generated conditionally on the given S. In this way, the bootstrap aims to generate random vectors x̃∗, such that for a given draw of S, the conditional distributionL(x̃∗−x̃ |S) is approximately equal to the unknown distribution L(x̃− xopt).
+73	37	(Error estimate for CS) Input: A positive integer B, and the sketches Ã, b̃, and x̃.
+75	50	, im) by sampling m numbers with replacement from {1, .
+77	23	• Compute the vector x̃∗ := argmin x∈Rd ‖Ã∗x− b̃∗‖2, (6) and the scalar ε∗l := ‖x̃∗ − x̃‖◦.
+79	44	To explain why the bootstrap works, let SA denote the set of positive semidefinite matrices M ∈ Rn×n such that A>MA is invertible, and define the map ψ : SA → Rd according to ψ(M) = (A>MA)−1A>Mb.
+81	30	By analogy, if we let S∗ ∈ Rm×n denote a matrix obtained by sampling m rows from S with replacement, then x̃∗ can be written as x̃∗ = argmin x∈Rd ‖S∗(Ax− b)‖2, (9) and the definition of ψ gives x̃∗ − x̃ = ψ(S∗>S∗)− ψ(S>S).
+86	60	Hence, it is natural to consider a first-order expansion of the right side of (8), x̃− xopt ≈ ψ′In(S >S − In), (12) where ψ′In is the differential of the map ψ at In.

@@ -1,0 +1,30 @@
+1	12	The availability of high performance computing has enabled research in deep learning to focus largely on the development of deeper and more complex network architectures for improved accuracy.
+2	48	However, the increased complexity of the deep neural networks has become one of the biggest obstacles to deploy deep neural networks ondevice such as mobile phones, smart watches and IoT (Iandola et al., 2016).
+3	32	The main challenges with developing and deploying deep neural network models on-device are (1) the tiny memory footprint, (2) inference latency and (3) significantly low computational capacity compared to high performance computing systems such as CPUs, GPUs and TPUs on the cloud.
+4	10	There are multiple strategies to build lightweight text classification models for ondevice.
+5	40	One can create a small dictionary of common input→ category mapping on the device and use a naive look-up at inference time.
+7	60	Another strategy is to employ fast sampling techniques (Ahmed et al., 2012; Ravi, 2013) or incorporate deep learning models with graph learning like (Bui et al., 2017, 2018), which result in large models but have proven to be extremely powerful for complex language understanding tasks like response completion (Pang and Ravi, 2012) and Smart Reply (Kannan et al., 2016).
+13	11	The main contributions of the paper are: • Novel Self-Governing Neural Networks (SGNNs) for on-device deep learning for short text classification.
+17	82	We model the Self-Governing network using a projection model architecture (Ravi, 2017).
+20	10	A very simple projection model comprises just few operations where the inputs ~xi are transformed using a series of T projection functions P1, ...,PT followed by a single layer of activations.
+21	13	In this work, we design a Self-Governing Neural Network (SGNN) using multi-layered localitysensitive projection model.
+22	22	Figure 1 shows the model architecture of the on-device SGNN network.
+29	32	Wp,Wt,Wo and bp, bt, bo represent trainable weights and biases respectively.
+31	31	Each input text xi is converted to an intermediate feature vector (via raw text features such as skip-grams) followed by projections.
+32	24	xi F−→ ~xi P−→ [P1(xi), ...,PT (xi)] (5) On-the-fly Computation.
+42	37	= ∑ i∈N cross− entropy(yi, ŷi) (6) During training, the network learns to choose and apply specific projection operations Pj (via activations) that are more predictive for a given task.
+44	12	We leverage an efficient randomized projection method and use a binary representation {0, 1}d for ΩP.
+47	14	We use locality sensitive hashing (LSH) (Charikar, 2002) to model the underlying projection operations in SGNN.
+49	9	LSH allows us to project similar inputs ~xi or interme- diate network layers into hidden unit vectors that are nearby in metric space.
+51	14	This results in a dbit vector representation, one bit corresponding to each projection row Pk=1...d. The same projection matrix P is used for training and inference.
+61	35	During training, the network learns to move the gradients for points that are nearby to each other in the projected bit space ΩP in the same direction.
+66	20	• SWDA: Switchboard Dialog Act Corpus (Godfrey et al., 1992; Jurafsky et al., 1997) is a popular open domain dialogs corpus between two speakers with 42 dialogs acts.
+69	14	We use the train, validation and test splits as defined in (Lee and Dernoncourt, 2016; Ortega and Vu, 2017).
+81	12	Our model significantly outperforms both baselines by 12 to 35% absolute.
+82	97	We also compare our performance against prior work using HMMs (Stolcke et al., 2000) and recent deep learning methods like CNN (Lee and Dernoncourt, 2016), RNN (Khanpour et al., 2016) and RNN with gated attention (Tran et al., 2017).
+83	39	To the best of our knowledge, (Lee and Dernoncourt, 2016; Ortega and Vu, 2017; Tran et al., 2017) are the latest approaches in dialog act classification, which also reported on the same data splits.
+87	10	This is very impressive given that we work with very small memory footprint and we do not rely on pre-trained word embeddings.
+89	63	We believe that the compression techniques like locality sensitive projections jointly coupled with non-linear functions are effective at capturing lowdimensional semantic text representations that are useful for text classification applications.
+92	30	Each word embedding is represented as 100-dimensional vector leading to a storage requirement of 10, 000×100 parameter weights just in the first layer of the deep network.
+99	11	In the future, we are interested in extending this approach to more natural language tasks.
+100	18	For instance, we built a multilingual SGNN model for customer feedback classification (Liu et al., 2017) and obtained 73% on Japanese, close to best performing system on the challenge (Plank, 2017).

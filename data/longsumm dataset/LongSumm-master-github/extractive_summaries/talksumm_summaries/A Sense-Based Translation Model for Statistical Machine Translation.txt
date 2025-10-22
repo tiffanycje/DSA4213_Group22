@@ -1,0 +1,30 @@
+2	41	Therefore a natural assumption is that word sense disambiguation (WSD) may contribute to statistical machine translation (SMT) by providing appropriate word senses for target translation selection with context features (Carpuat and Wu, 2005).
+4	62	Carpuat and Wu (2005) adopt a standard formulation of WSD: predicting word senses that are defined on an ontology for ambiguous words.
+5	71	As they apply WSD to Chinese-to-English translation, they predict word senses from a Chinese ontology HowNet and project the predicted senses to English glosses provided by HowNet.
+12	78	They both report that the redefined WSD can significantly improve SMT.
+20	59	Specially, • Instead of predicting target translations for ambiguous source words as the previous reformulated WSD does, we first predict word senses for ambiguous source words.
+22	22	• Instead of using word senses defined by a prespecified sense inventory as the standard WSD does, we incorporate word senses that are automatically learned from data into our sense-based translation model.
+47	27	In this paper, we define a pseudo document as ±N neighboring words centered on a given word token.
+51	21	The collection of all these extracted pseudo documents of the given word type forms a corpus.
+57	18	The conventional topic distribution θj for the jth pseudo document is taken as the the distribution over senses for the given word type W .
+59	13	As LDA needs to manually specify the number of senses (topics), a better idea is to let the training data automatically determine the number of senses for each word type.
+67	20	We want to extend this hypothesis to machine translation by building sense-based translation model upon the HDP-based word sense induction: words with the same meanings tend to be translated in the same way.
+68	20	We adopt the HDP-based WSI to automatically predict word senses and use these predicted senses to annotate source words.
+69	35	We individually build a HDP-based WSI model per word type and train these models on the training data.
+71	15	In particular, we take the following steps.
+73	30	• Training Data Sense Annotation From the preprocessed training data, we extract all possible pseudo documents for each source word type.
+82	14	The essential component of the model is a maximum entropy (MaxEnt) based classifier that is used to predict the translation probability p(ẽ|C(c)).
+84	19	p(ẽ|C(c)) = exp( ∑ i θihi(ẽ, C(c)))∑ ẽ′ exp( ∑ i θihi(ẽ′, C(c))) (1) where his are binary features, θis are weights of these features, C(c) is the surrounding context of c. We define two groups of binary features: 1) lexicon features and 2) sense features.
+138	15	On average, we obtained 346 classes (target translations) per source word type with the maximum number of classes being 256,243.
+148	37	The HDP-based WSI learns 271,770 word senses in total using the pseudo documents collected from the training data and infers 24,162 word senses using the pseudo documents extracted from the test set.
+149	15	There are 4.01 different senses per word type in the training data and 5.56 in the test set on average.
+160	16	We also studied the impact of word senses induced by the HDP-based WSI on translation performance by enforcing the sense-based translation model to use only sense features.
+164	36	• If we only integrate sense features into the sense-based translation model, we can still outperform the baseline by 0.62 BLEU points.
+170	24	This suggests that the HDP-based word sense induction is better than the reformulated WSD in the context of SMT.
+171	61	Furthermore, as the reformulated WSD is a degenerated version of our sense-based translation model which only uses the lexicon features, the sense features used in our model do provide new information that can not be obtained by the lexicon features.
+205	17	We carried out a series of experiments to validate the effectiveness of the sense-based translation by comparing the model against the baseline and the previous reformulated WSD.
+209	16	To the best of our knowledge, this is the first attempt to empirically verify the positive impact of word senses on translation quality.
+210	43	Comparing with macro topics of documents inferred by LDA with bag of words from the whole documents, word senses inferred by the HDPbased WSI can be considered as micro topics.
+211	16	In the future, we would like to explore both the micro and macro topics for machine translation.
+212	36	Additionally, we also want to induce sense clusters for words in the target language so that we can build sense-based language model and integrate it into SMT.
+213	20	We would like to investigate whether automatically learned senses of proceeding words are helpful for predicting succeeding words.

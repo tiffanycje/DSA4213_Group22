@@ -1,0 +1,30 @@
+0	109	Coreference resolution is the task of determining which mentions in a text are used to refer to the same real-world entity.
+1	41	The era of statistical natural language processing saw the shift from rule-based approaches (Hobbs, 1976; Lappin and Leass, 1994) to increasingly sophisticated machine learning models.
+2	48	While early approaches cast the problem as binary classification of mention pairs (Soon et al., 2001), recent approaches make use of complex structures to represent coreference relations (Yu and Joachims, 2009; Fernandes et al., 2014).
+3	48	The aim of this paper is to devise a framework for coreference resolution that leads to a unified representation of different approaches to coreference resolution in terms of the structure they operate on.
+8	31	We then note that these structures are not annotated in the training data (Section 2).
+10	33	We formalize the mention pair model (Soon et al., 2001; Ng and Cardie, 2002), mention ranking architectures (Denis and Baldridge, 2008; Chang et al., 2012) and antecedent trees (Fernandes et al., 2014) in our framework and highlight key differences and similarities (Section 4).
+27	35	When devising the framework, we focus on accounting for the latent structures underlying coreference resolution approaches.
+40	35	m0 plays the role of a dummy mention for anaphoricity detection: if m0 is chosen as the antecedent, the corresponding mention is deemed as non-anaphoric.
+45	67	A valid latent structure for the document x is a labeled directed graph h = (V,A,LA) where • the set of nodes are the mentions, V =M0x , • the set of edges A consists of links between mentions pointing back in the text, A ⊆ {(mj ,mi) | j > i} ⊆Mx ×M0x .
+53	37	As the mention pair model considers each mention pair individually, each edge is one substructure of the latent structure (expressed via the dashed box).
+55	41	The observed output space consists of all functions ex : Mx → N that map mentions to entity identifiers.
+59	33	Let us write H = ∪x∈XHx for the full latent space (analogously Z).
+65	24	In this paper, we only consider feature functions which factor with respect to the edges in hi = (Vi, Ai, LAi), i.e. φ(x, hi, z) = ∑ a∈Ai φ(x, a, z).
+81	60	Input: Training set D, a cost function c, number of epochs n. function PERCEPTRON(D, c, n) set θ = (0, .
+98	24	If ĥi does not partially encode the gold data, we update the weight vector.
+105	58	We express three main coreference models in our framework, the mention pair model (Soon et al., 2001), the mention ranking model (Denis and Baldridge, 2008; Chang et al., 2012) and antecedent trees (Yu and Joachims, 2009; Fernandes et al., 2014; Björkelund and Kuhn, 2014).
+108	36	We first consider the mention pair model.
+111	24	During training, some heuristic is applied to help balancing positive and negative examples.
+141	22	One such substructure encoding the antecedent decision for m3 is colored black in Figure 2.
+143	30	The most sophisticated cost function was proposed by Durrett and Klein (2013), who distinguish between three errors: finding an antecedent for a non-anaphoric mention, misclassifying an anaphoric mention as non-anaphoric, and finding a wrong antecedent for an anaphoric mention.
+168	31	We employ a rich set of features frequently used in the literature (Ng and Cardie, 2002; Bengtson and Roth, 2008; Björkelund and Kuhn, 2014).
+214	30	All improvements of the mention ranking model with closest antecedents compared to the mention pair model are statistically significant.
+222	50	The performance is similar to the antecedent tree models of Fernandes et al. (2014) and Björkelund and Kuhn (2014).
+240	53	Since the mention ranking model allows to include the search for the best antecedent during prediction, we can explicitly model the anaphoricity decision, via including the dummy mention during search.
+271	30	Our analysis shows that the mention ranking model mostly improves precision over the mention pair model.
+276	24	In this paper we concentrated on representing and analyzing the most prevalent approaches to coreference resolution, which are based on predicting whether pairs of mentions are coreferent.
+277	40	Hence, we choose graphs as latent structures and let the feature functions factor over edges in the graph, which correspond to pairs of mentions.
+278	45	However, entity-based approaches (Rahman and Ng, 2011; Stoyanov and Eisner, 2012; Lee et al., 2013, inter alia) obtain coreference chains by predicting whether sets of mentions are coreferent, going beyond pairwise predictions.
+306	121	While antecedent trees give results with the highest precision, a mention ranking model with latent antecedent performs best, obtaining state-of-the-art results on CoNLL-2012 data.
+307	25	An analysis based on the method of Martschat and Strube (2014) highlights the strengths of the mention ranking model compared to the mention pair model: it is able to structurally model anaphoricity determination and antecedent competition, which leads to improvements in precision for non-pronominal coreference resolution, and in recall for pronoun resolution.

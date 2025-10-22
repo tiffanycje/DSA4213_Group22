@@ -1,0 +1,30 @@
+1	17	Such an ability can be tested with a reading comprehension (RC) task that requires the agent to read open-domain documents and answer questions about them.
+10	24	The first example is from SQuAD (Rajpurkar et al., 2016), although the document is taken from a Wikipedia article and was therefore written for adults.
+11	54	The question is answerable simply by noticing one sentence, without needing to fully understand the content of the text.
+12	49	On the other hand, consider the second example from MCTest (Richardson et al., 2013), which was written for children and is easy to read.
+13	31	Here, answering the question involves gathering information from multiple sentences and utilizing a combination of several skills, such as understanding causal relations (Sara wanted... → they went to...), coreference resolution (Sara and Her Dad = they), and complementing ellipsis (baseball team = team).
+18	15	Our intention is to provide the basis of an evaluation methodology of RC systems to help their robust development.
+19	49	Our two classes of metrics are inspired by the analysis in McNamara and Magliano (2009) of human text comprehension in psychology.
+20	36	They considered two aspects of text comprehension, namely “strategic/skilled comprehension” and “text ease of processing.” Our first class defines metrics for “strategic/skilled comprehension,” namely the difficulty of comprehending the context when answering questions.
+21	74	We adopted the set of prerequisite skills that Sugawara et al. (2017) proposed for the finegrained analysis of RC capability.
+23	19	Based on this observation, in this work, we assume that the number of skills required to answer a question is a reasonable indication of the difficulty of the question.
+37	24	They selected the sentences required to provide the answer, and then annotated them with appropriate prerequisite skills.
+43	15	Next, we specify our two classes of metrics in Section 3.
+44	17	In Section 4, we annotate existing RC datasets with the prerequisite skills.
+163	16	This seems to reflect the fact that QA4MRE involves technical documents that contain a wide range of knowledge, multiple clauses, and punctuation.
+177	29	There were few questions in QA4MRE that re- quired zero or one skill, whereas such questions were contained more frequently in other datasets.
+179	24	(iii) Readability metrics for each dataset (see Table 5): SQuAD and QA4MRE achieved the highest scores for most metrics.
+182	22	(iv) Correlation between numbers of required prerequisite skills and readability metrics (see Figures 2 and 3, and Table 6): our main interest was in the correlation between prerequisite skills and readability.
+184	13	We used the Flesch–Kincaid grade level (Kincaid et al., 1975) as an intuitive reference for readability.
+192	14	Although there are weak correlations, from 0.025 to 0.416, these results demonstrate that there is not necessarily a strong correlation between the two values.
+196	28	Second, it is possible to create difficult questions from the context that are easy to read.
+199	46	- QA4MRE is difficult both to read and to answer among the datasets analyzed.
+200	21	This would seem to follow its questions being devised by experts.
+210	12	Such information enabled us to avoid using nonsense questions, as for the training of machine learning models.
+230	28	We considered these “no answer” questions difficult, in that systems have to decide not to select any of the candidate answers, and our methodology failed to specify them.
+232	56	In a brief analysis, we further investigated sentences in the context of the datasets that were selected in the annotation.
+234	15	For each question, we counted the number of required sentences and their distance apart.4 The first row of Table 7 gives the average number of required sentences per question for each RC dataset.
+240	13	Of course, the scores for distances will depend on the length of the context texts.
+244	19	We believe that our human-based evaluation metrics and analysis will help researchers to develop a method for the step-by-step construction of better RC datasets and improved RC systems.
+245	34	In this study, we adopted evaluation metrics that comprise two classes, namely refined prerequisite skills and readability, for analyzing the quality of RC datasets.
+247	27	Our dataset analysis suggests that the readability of RC datasets does not directly affect the difficulty of the questions and that it is possible to create an RC dataset that is easy to read but difficult to answer.

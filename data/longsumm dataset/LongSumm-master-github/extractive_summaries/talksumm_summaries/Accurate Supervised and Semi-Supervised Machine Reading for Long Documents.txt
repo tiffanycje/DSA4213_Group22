@@ -1,0 +1,30 @@
+4	77	Hierarchical reading models address this problem by breaking the document into sentences (Choi et al., 2017).
+7	18	SWEAR, illustrated in Figure 1, first encodes each question into a vector space representation.
+25	23	In WikiReading, documents are Wikipedia articles, while queries and answers are Wikidata properties and values, respectively.
+31	102	• Supervised: Five smaller training sets created by sampling a random (1%, 0.5%, 0.1%) of the WikiReading training set, and taking (200, 100) random samples from each property in the original training set.
+32	21	We now present our model, called SlidingWindow Encoder Attentive Reader (SWEAR), shown in Figure 1, and describe its operation in a fully supervised setting.
+34	40	The first layer of the model chunks the document D into overlapping, fixed-length windows and encodes all windows in parallel with an RNN conditioned on the question representation.
+60	27	Table 1 shows that SWEAR outperforms the best results for various models reported in both publications, including the hierarchical models SoftAttend and Reinforce presented by Choi et al. (2017).1 Interestingly, SoftAttend computes an attention over sentence encodings, analogous to SWEAR’s attention over overlapping window encodings, but it does so on the basis of less powerful encoders (BoW or convolution vs RNN), suggesting that the extra computation spent by the RNN provides a meaningful boost to performance.
+61	33	To quantify the effect of initializing the window encoder with the question state, we report results for two variants of SWEAR: In SWEAR the window encoder is initialized with the question encoding, while in SWEAR w/ zeros, the window encoder is initialized with zeros.
+64	20	Conditioning on the question increases Mean F1 by 0.4.
+66	33	We reproduce this grouping in Table 2 to show that SWEAR improves performance for Relational and Date properties, demonstrating that it is better able to extract precise information from documents.
+67	25	Finally, we observe that SWEAR outperforms a baseline seq2seq model on longer documents, as shown in Table 3.
+71	36	A wide variety of approaches have been developed for semi-supervised learning with Neural Networks, with a typical scheme consisting of training an unsupervised model first, and then reusing the weights of that network as part of a supervised model.
+73	60	All of these models reuse the autoencoder weights without modification, meaning a document can be encoded once by an offline process, and the resulting encodings can be used both during training and to answer multiple queries online in a more efficient manner.
+78	20	In RAE, the output sequence is replaced with the input sequence, so learning minimizes the cross-entropy between the reconstructed input sequence and the original input sequence.
+85	26	We take advantage of the SWEAR architecture by training autoencoders for text windows, as opposed to the standard document autoencoders.
+94	21	Unfortunately, this baseline approach to semisupervised learning has significant disadvantages in our problem setting.
+99	26	All of the proposed models process text input first through a fixed autoencoder layer: fixed pre-trained embeddings and fixed RNN encoder parameters, both initialized from the autoencoder weights.
+105	22	A second, learnable RNN layer then takes the output of the autoencoder layer and corresponding input embeddings as input and produces the final question encoding, hq = Enc(FC([eQ, h̃q, h̃t]); θQ) where FC is a fully connected layer with ReLU activation function, and h̃t is the output of the autoencoder layer at time step t. Figure 3 illustrates a single timestep of the question encoder.
+106	21	Encoding windows: Similarly, windows are encoded first by the fixed autoencoder layer and then by a reviewer layer, h̃wi = Enc(e Di ; θU ) and hwi = Enc(FC([e Di , h̃wi , h̃ w t , h q]); θW ) where h̃wt is the output of the autoencoder layer at time step t. Unlike supervised SWEAR, in SWEARMLR the window encoder is not initialized with the question encoder state.
+115	18	Question reviewer takes the same pre-trained question encoding at each time step and attends over the hidden states and input embeddings of the pre-trained question encoder, hq = AttnEnc(FC(h̃q);FC([h̃qt , e Q]); θQ) where AttnEnc is an RNN with an attention cell which is illustrated in Figure 5.
+117	26	Window reviewer on the other hand takes the pre-trained window encoding and reviewed question encoding at each time step and attends over the hidden states of pre-trained window encoder, hwi = AttnEnc(FC([h̃wi , h q]);FC([h̃wt , e Di ]); θW ) where outputs of the fixed autoencoder layer and fixed word embeddings, [h̃wt , e Di ], are the attendable states.
+119	21	Reducing window encodings and decoding: As in the supervised case described in 4, both reviewer models attend over the window encodings using the question encoding and reduce them into a single document encoding.
+120	76	Identical to answer decoding described in 6, the answer is decoded using another RNN taking the document state as the initial state.
+121	62	The parameters of this answer decoder are initialized randomly.
+130	21	The supervised SWEAR model was trained on both the full training (results reported in Section 3.5) and on each subset of training data (results reported below).
+142	34	Results show that SWEAR-SS always improves over SWEAR at small data sizes, with the difference become dramatic as the dataset becomes very small.
+144	29	As training and testing datasets have different distributions in perproperty subsets, Mean F1 for supervised and semi-supervised models drops compared to uniform sampling.
+153	23	Configuring the model with many more review steps (15) but with a smaller hidden vector size (128) reduced Mean F1 to 62.5.
+171	18	The model improves the extraction of precise information from long documents over the baseline seq2seq model.
+172	27	In a semi-supervised setting, our method of reusing (V)RAE encodings in a reading comprehension framework is effective, with SWEAR-PR reaching an accuracy of 66.5 on 1% of the dataset against last year’s state of the art of 71.8 using the full dataset.

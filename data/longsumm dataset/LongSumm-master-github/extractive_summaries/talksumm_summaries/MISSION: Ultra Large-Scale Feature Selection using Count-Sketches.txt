@@ -1,0 +1,30 @@
+0	70	Feature selection is an important step in extracting interpretable patterns from data.
+1	18	It has numerous applications in a wide range of areas, including natural-language processing, genomics, and chemistry.
+2	41	Suppose that there are n ordered pairs (Xi, yi)i∈[n], where Xi ∈ Rp are p-dimensional feature vectors, and yi ∈ R are scalar outputs.
+3	61	Feature selection aims to identify a small subset of features (coordinates of the p-dimensional feature vector) that best models the relationship between the data Xi and the output yi.
+4	14	A significant complication that is common in modern engineering and scientific applications is that the feature space p is ultra high-dimensional.
+5	12	For example, Weinberger introduced a dataset with 16 trillion (p = 1013) unique features (Weinberger et al., 2009).
+6	17	A 16 trillion dimensional feature vector (of double 8 bytes) requires 128 terabytes of working memory.
+8	9	A particularly useful way to represent a long DNA sequence is by a feature vector that counts the occurrence frequency of all length-K sub-strings called K-mers.
+10	23	Typically, K is chosen to be larger than 12, and these strings are composed of all possible combinations of 16 characters ({A,T,C,G} in addition to 12 wild card characters).
+12	14	A vector of size 248 single-precision variables requires approximately 1 petabyte of space!
+13	13	For ultra large-scale feature selection problems, it is impossible to run standard explicit regularization-based methods like `1-regularization (Shalev-Shwartz & Tewari, 2011; Tan et al., 2014) or to select hyperparameters with a constrained amount of memory (Langford et al., 2009).
+34	32	One popular approach is to use greedy thresholding methods (Maleki, 2009; Mikolov et al., 2013; Jain et al., 2014; 2017) combined with stochastic gradient descent (SGD) to prevent the feature vector β from becoming too dense and blowing up in memory.
+35	11	In these methods, the intermediate iterates are regularized at each step, and a full gradient update is never stored nor computed (since this is memory and computation intensive).
+36	58	However, it is well known that greedy thresholding can be myopic and can result in poor convergence.
+39	27	We propose a novel feature selection algorithm called MISSION, a Memory-efficient, Iterative Sketching algorithm for Sparse feature selectION.
+41	13	MISSION matches the accuracy performance of existing large-scale machine learning frameworks like Vowpal Wabbit (VW) (Agarwal et al., 2014) on real-world datasets.
+44	9	Contributions: In this work, we show that the two-decade old Count-Sketch data structure (Charikar et al., 2002) from the streaming algorithms literature is ideally suited for ultra large-scale feature selection.
+46	9	Moreover, Count-Sketch can accumulate gradients updates over several iterations because of linear aggregation.
+47	21	This aggregation eliminates the problem of myopia associated with existing greedy thresholding approaches.
+48	34	The aggregation phenomenon also extends to recent parallel works which employ count sketches in streaming domain (Tai et al., 2018).
+52	24	At any point of time in the iteration, this data structure stores a compressed, randomized, and noisy sketch of the sum of all the gradient updates, while preserving the information of the heavy-hitters—the coordinates that accumulate the highest amount of energy.
+57	19	We demonstrate that MISSION surpasses the sparse recovery performance of classical algorithms such as Iterative Hard Thresholding (IHT), which is the only other method we could run at our scale.
+60	13	Moreover, MISSION achieves comparable or even better accuracy while using significantly fewer features.
+67	14	Count-Sketch is a popular algorithm for estimation in the streaming setting.
+68	9	Count-Sketch keeps a matrix of counters (or bins) S of size d×w ∼ O(log p), where d andw are chosen based on the accuracy guarantees.
+69	13	The algorithm uses d random hash functions hj for j ∈ {1, 2, ..., d} to map the vector’s components to bins w, hj : {1, 2, ..., p} → {1, 2, ..., w} Every component i of the vector is hashed to d different bins.
+73	10	The Count-Sketch supports two operations: UPDATE(item i, increment ∆) and QUERY(item i).
+75	15	More formally, for an increment ∆ to an item i, the sketch is updated by adding sj(i)∆ to the cell S(j, hj(i)) ∀j ∈ {1, 2, ..., d}.
+81	28	Consider the feature selection problem in the ultra highdimensional setting: We are given the dataset (Xi, yi) for i ∈ [n] = {1, 2, .
+89	13	In particular, it clips off coordinates that might add to the support set in later iterations.

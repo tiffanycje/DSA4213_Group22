@@ -1,0 +1,30 @@
+0	32	An important learning question in morphology— both for NLP and models of language acquisition—is the so-called Paradigm Cell Filling Problem (PCFP).
+1	23	So dubbed by Ackerman et al. (2009), this problem asks how it is that speakers of a language can reliably produce inflectional forms of most lexemes without ever witnessing those forms before.
+2	22	For example, a Finnish noun or adjective can be inflected in 2,263 ways if one includes case forms, number, and clitics (Karlsson, 2008).
+6	15	This paper investigates PCFP in three different settings: (1) when we know n > 1 randomly selected forms in each of a number of inflection tables, (2) when we know a set of frequent word forms in each table (this most closely resembles an L1 language learning setting), and finally (3) when we know exactly n = 1 word form from each table.
+28	8	We explore two different models for paradigm filling.
+29	8	The first model is applicable when n > 1 forms are given in each inflection table.
+31	56	Case n>1 When more than one form is given in training tables, PCFP can be treated as a morphological reinflection task (Cotterell et al., 2016), where the aim is to translate inflected word forms and their tags into target word forms.
+35	11	We use a 1-layer bidirectional LSTM encoder for encoding the input word form into a sequence of state vectors and a 1-layer LSTM decoder with an attention mechanism over encoder states for generating the output word form.
+36	172	We form training pairs by using the given forms in each table, i.e. take the cross-product of the given forms and learn to reinflect each given form in a table to another given form in the same table as demonstrated in Figure 2.2 During test time, we predict forms for missing slots based on each of the given forms in the table and take a majority vote of the results.3 Case n=1 When only one form is given in each inflection table, we cannot train the model as a traditional reinflection model.
+37	14	The best we can do is to train a model to reinflect forms into the same form walked+PAST+PAST 7→ walked and then try to apply this model for reinflection to fill in missing forms walked+PAST+PRES,PCPLE 7→ walking.
+38	8	According to preliminary experiments, this however leads to massive over-fitting and the model simply learns to only copy input forms.
+39	44	The idea for our approach in case n = 1 is to first learn to segment word forms into a stem and an affix, for example walk+ed.
+40	7	We then hide the affix in the input form and learn to inflect.
+44	6	Instead, we use the forms in the training data to train an LSTM language model conditioned on morphological tags.
+45	11	We then use the language model for identifying which characters belong to stems and which characters belong to affixes.
+50	41	When the language model is very confident, as in the case of affix characters, we frequently drop characters.
+51	26	In contrast, when the language model is less confident, as in the case of stem characters, we typically keep the character.
+56	9	This allows us to handle combinations of subtags which we have not seen in the training data.
+57	32	Guided by the language model, we replace input characters xt+1 during training of the reinflection system with a dropout character $ with probability equal to language model confidence p(xt+1,ht,Ext ,Ey).
+60	5	The model is trained to generate training word forms in inflection tables.
+70	9	We conduct experiments on noun and verb paradigms from eight languages.6 Not all languages have 1,000 noun and verb tables.
+85	7	Table 4 shows results for completing tables for common lexemes.
+90	20	Figure 4: Detailed results for filling in missing forms when the 10,000 most frequent forms are given in the inflection tables.
+92	22	The graphs show accuracy separately for tables where 1, 2, 3, 4, and > 4 forms are given.
+94	30	We believe that the reason for the German outlier is the high degree of syncretism in German noun tables.
+95	61	To see why syncretism is harmful, consider the German noun Gräben.
+101	18	Consequently, an important future work in addressing the PCFP from an acquisition perspective is to create realistic and accurate data sets that model learner exposure both in word types and frequencies to enable assessment of the true difficulty of the PCFP.
+102	51	There is a notable transition from witnessing one form in each inflection table to witnessing two forms.
+103	39	With only two forms given, we already approach accuracies reported in earlier work (Malouf, 2016, 2017) that used almost complete tables to train—only 10% of the forms were missing.
+104	57	Additionally, our encoder-decoder model strongly outperforms that generator model designed for the same task with the same amount of training data on nearly all of our datasets.

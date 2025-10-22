@@ -1,0 +1,30 @@
+20	30	(2) Our proposed framework can be readily integrated with many recently proposed neural machine comprehension models.
+21	62	In this paper, we extend four machine comprehension models, namely BiDAF (Seo et al., 2017), RNet (Wang et al., 2017), DrQA (Chen et al., 2017), and AMANDA (Kundu and Ng, 2018), with our proposed framework, and show that they achieve significantly better results compared to the corresponding pipeline and threshold-based models on the NewsQA dataset.
+22	68	Given a passage and a question, we propose models that can extract an answer if and only if the passage contains an answer.
+23	39	When the passage does not contain any answer, the models return Nil as the answer.
+24	28	A valid answer is denoted as two pointers in the passage, representing the start and end tokens of the answer span.
+25	50	Let P be a passage with tokens (P1,P2, .
+30	20	Then, we provide a detailed description of how we extend a state-ofthe-art model AMANDA (Kundu and Ng, 2018) to NAMANDA1 (nil-aware AMANDA).
+34	91	They have a question-passage joint encoding layer (also known as question-aware passage encoding layer) followed by an evidence encoding layer.
+35	77	In this work, we decompose the evidence vectors for each passage word obtained from the evidence encoding layer with respect to question-passage joint encoding vectors to derive semantically relevant and irrelevant components.
+36	76	We decompose the evidence vectors for each passage word, because passage vectors can be partially supported by the corresponding questionpassage joint encoding vectors, and based on the level of support, it either increases or decreases the chance of finding a valid answer.
+37	32	When we aggregate the orthogonally decomposed evidence vectors, it combines both the supportive and unsupportive pieces of evidence for a particular passage word.
+66	26	First, multi-factor self-attentive encoding is applied to accumulate evidence from the entire passage.
+78	15	Ya ∈ RT×H denotes the output of the linear layer and yat ∈ RH is its tth row: yat = tanh(y = t Wa + y ⊥ t Wa + ba) , (4) where Wa ∈ R2H×H and ba ∈ RH are the weight matrix and bias vector respectively.
+79	15	Then we apply a max-pooling operation over all the words to obtain the Nil vector representation denoted as n̂.
+80	17	Now we derive the score for the Nil pointer which will be shared for normalizing the beginning and ending pointers later.
+109	22	Answer span extractor: If the nil detector model predicts the presence of a valid answer, the answer span extractor then extracts the answer.
+110	28	For nil detection, we developed a logistic regression (LR) model with manually defined features and four neural models.
+112	33	Let P be the passage and Q be the question (consisting of U ′ tokens excluding stop words).
+124	28	Here, we do not use any nil questions to train the neural answer span extraction model.
+132	14	We use the NewsQA dataset with nil questions (Trischler et al., 2017) in our experiments.
+133	27	Its training, development, and test sets consist of 10,938, 638, and 632 passages respectively and every passage is associated with some questions.
+142	25	We use a third party implementation of R-Net4 whose performance is very similar to the original scores.
+157	30	In addition to achieving higher Nil F1 score than the strong nil detection baseline systems, nil-aware models manage to achieve competitive scores compared to the corresponding standalone answer span extractors on the test set where there are no nil questions.
+160	48	The low precision significantly degrades performance on the test set without nil questions.
+183	32	Nil detection is itself a very challenging task.
+184	55	Performances of the nil-aware models are worse than the corresponding answer extractor models on the test set without nil questions as Nil precision is lower than 100%.
+205	83	We have proposed a nil-aware answer span extraction framework based on evidence decomposition and aggregation that can be easily integrated with several recently proposed neural answer span extraction models.
+206	14	We have also developed several pipeline and threshold-based models using advanced neural architectures for comparison.
+207	44	Experiments on the NewsQA dataset show that our proposed framework, when integrated with the answer span extraction models, achieves better performance compared to all the corresponding pipeline and threshold-based models.
+208	16	Employing such a nil-aware answer span extractor in practical IR-style QA tasks will be interesting future work.

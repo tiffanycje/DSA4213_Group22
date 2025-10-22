@@ -1,0 +1,30 @@
+25	14	We discuss how this measure relates to the performance distribution of the model, and we also give a method to empirically estimate Boon.
+26	8	The paper proceeds as follows: First, we give a high-level explanation of why reporting performance of the best single model is problematic.
+27	13	We also give some evidence that it is widely used in the deep learning community, which is why this explanation may be needed.
+28	28	We proceed by presenting Boon as a way to fix the above problems.
+31	51	In articles presenting new deep learning architectures, the performance is often reported as the score of the “best single model” or simply “single model”.
+33	72	This best model is evaluated on a test set, and the resulting test score is then reported as the metric characterizing the architecture and used for comparing it to previous models.
+34	27	If the score is better than those reported in previous work, the architecture is presented as superior.
+35	8	This practice results in several issues: Population variance Since results of experiments are stochastic, the performance of a single model is just a single instance drawn from a possibly disparate population.
+36	79	If others train the model on their own, they get another sample from the architecture’s performance distribution, which may substantially differ from the one listed in the original paper.
+41	12	In other words, the expected value of the best result depends on the number of experiments that the researchers run.
+42	18	There are three closely related problems with this: Firstly, this makes the number of experiments run an important explanatory variable; however, this variable is usually unreported, which is a severe methodological flaw in itself.
+45	12	This pushes publishing quantitative results towards a race in computational power rather than a fair comparison of architectures themselves.
+46	7	Best model performance is not a meaningful characteristic of the performance distribution Even if we knew the underlying theoretical performance distribution – that is, if we had perfect information about the architecture’s performance – it would not be clear what we would mean by "best model performance" without specifying the size of the pool from which we are choosing the best model.
+47	9	Imagine some architecture having a Gaussian performance distribution.
+49	11	Even for capped metrics such as accuracy, where the performance distribution necessarily has bounded support, the best (possible) model3 may be so unlikely, that it would be of no practical importance.
+50	7	Hence, best model performance is not a meaningful characteristic of the performance distribution.
+52	11	Using “best single model performance”, they are essentially claiming: “There once existed an instance of our model that once achieved a result X on dataset Y”.
+53	23	Such fact is not of that much interest to the scientific community, which would rather need to know how the architecture behaves generally.
+56	13	Similarly, any number of replication experiments that produce substantially worse results cannot prove the above performance claim wrong.
+57	12	If, for instance, a confidence interval were given, replications could very quickly show the published result at least extremely implausible, if not false.
+66	9	While this is a rough and limited survey, it does suggest that while deep learning research is to a large extent an empirical science, statistical methods are often underused.
+68	11	It should provide information about general behaviour of the architecture under specified conditions, well characterizing the associated random performance distribution.
+73	29	When practitioners are choosing a model for deployment, they train multiple models and deploy the best-performing one 5.
+75	12	Such corrected best-model measure would be more informative than mean or median in these outlined situations.
+76	73	A natural way to improve comparability between models, each evaluated in a different number of experiments, is to normalize the results to the expected result if the number of experiments were the same, say n, which can be easily estimated if we run m experiments, m ≥ n. The greater the number of experiments m, the more robust the estimate of the expected best, which also helps us eliminate the problem of statistical robustness.
+77	86	We are proposing the expected best-out-of-n performance, Boon, to be used where the performance of the best model from a pool seems as an appropriate measure.
+81	10	Secondly, in some cases we may be able to make an assumption about the family to which the theoretical distribution belongs (e.g. we could assume it is approximately Gaussian).
+82	34	The analytic calculation below will allow us to leverage this information when empirically estimating Boon by deducing a parametric estimator, which may be especially useful when our sample size m is small thanks to its lower variance due to added prior information.
+83	31	Let us first look at the simpler case of validation performance (that is, the case where we are choosing the best model with respect to the metric we are reporting) as it is easier to grasp: How do we calculate an expected best Boon(P)6 of independent identically distributed (i.i.d.)
+84	50	random variables X1, ..., Xn with probability distribution P (the performance distribution of an architecture) with a probability density function (p.d.f.)

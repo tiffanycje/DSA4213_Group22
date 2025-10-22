@@ -1,0 +1,30 @@
+1	18	An important class of such attacks involves adversaries changing their behaviors, or features of the environment, to effect an incorrect prediction.
+2	9	Most previous efforts study this problem as an interaction between a single learner and a single attacker (Brückner & Scheffer, 2011; Dalvi et al., 2004; Li & Vorobeychik, 2014; Zhou et al., 2012).
+4	13	For example, they craft generic spam templates and generic malware, and then disseminate these widely to maximize impact.
+5	10	The resulting ecology of attack targets reflects not a single learner, but many such learners, all making autonomous decisions about how to detect malicious content, although these decisions often rely on similar training datasets.
+6	62	We model the resulting game as an interaction between multiple learners, who simultaneously learn linear regression models, and an attacker, who observes the learned models (as in white-box attacks (Šrndic & Laskov, 2014)), and modifies the original feature vectors at test time in order to induce incorrect predictions.
+7	9	Crucially, rather than customizing the attack to each learner (as in typical models), the attacker chooses a single attack for all learners.
+8	31	We term the resulting game a Multi-Learner Stackelberg Game, to allude to its two stages, with learners jointly acting as Stackelberg leaders, and the attacker being the follower.
+9	20	Our first contribution is the formal model of this game.
+10	27	Our second contribution is to approximate this game by deriving upper bounds on the learner loss functions.
+11	85	The resulting approximation yields a game in which there always exists a symmetric equilibrium, and this equilibrium is unique.
+12	55	In addition, we prove that this unique equilibrium can be computed by solving a convex optimization problem.
+13	43	Our third contribution is to show that the equilibrium of the approximate game is robust, both theoretically (by showing it to be equivalent to a particular robust optimization problem), and through extensive experiments, which demonstrate it to be much more robust to attacks than standard regularization approaches.
+15	6	These approaches commonly assume a single learner, and consider either the problem of finding evasions against a fixed model (Dalvi et al., 2004; Lowd & Meek, 2005; Šrndic & Laskov, 2014), or algorithmic approaches for making learning more robust to attacks (Russu et al., 2016; Brückner & Scheffer, 2011; Dalvi et al., 2004; Li & Vorobeychik, 2014; 2015).
+17	7	Stevens & Lowd (2013) study the algorithmic problem of attacking multiple linear classifiers, but did not consider the associated game among classifiers.
+18	12	Our work also has a connection to the literature on security games with multiple defenders (Laszka et al., 2016; Smith et al., 2017; Vorobeychik et al., 2011).
+20	8	We investigate the interactions between a collection of learners N = {1, 2, ..., n} and an attacker in regression problems, modeled as a Multi-Learner Stackelberg Game (MLSG).
+21	8	At the high level, this game involves two stages: first, all learners choose (train) their models from data, and second, the attacker transforms test data (such as features of the environment, at prediction time) to achieve malicious goals.
+22	12	Below, we first formalize the model of the learners and the attacker, and then formally describe the full game.
+23	11	At training time, a set of training data (X,y) is drawn from an unknown distribution D. X 2 Rm⇥d is the training sample and y 2 Rm⇥1 is a vector of values of each data in X.
+24	6	We let xj 2 Rd⇥1 denote the jth instance in the training sample, associated with a corresponding value yj 2 R from y.
+30	7	That is, the cost function of a learner i is a combination of its expected cost from both the attacker and the honest source.
+31	9	Every instance (x, y) generated according to D is, with probability , maliciously modified by the attacker into another, (x0, y), as follows.
+32	43	We assume that the attacker has an instance-specific target z(x), and wishes that the prediction made by each learner i on the modified instance, ŷ = ✓>i x 0 , is close to this target.
+33	11	We measure this objective for the attacker by `(ˆy, z) = ||ˆy z||22 for a vector of predicted and target values ˆy and z, respectively.
+38	34	(2) As is typical, we estimate the cost functions of the learners and the attacker using training data (X,y), which is also used to simulate attacks.
+40	17	We are now ready to formally define the game between the n learners and the attacker.
+41	34	The MLSG has two stages: in the first stage, learners simultaneously select their model parameters ✓i, and in the second stage, the attacker makes its decision (manipulating X 0 ) after observing the learners’ model choices {✓i}ni=1.
+44	19	This is a strong assumption, and we relax it in our experimental evaluation (Section 6), providing guidance on how to deal with uncertainty about these parameters.
+45	6	Each learner has the same action (model parameter) space ⇥ ✓ Rd⇥1 which is nonempty, compact and convex.
+47	10	The columns of the training data X are linearly independent.

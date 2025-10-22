@@ -1,0 +1,30 @@
+46	18	The goal of our research is to categorize affective events based on 7 categories of human needs.
+50	41	The AffectEvent dataset contains events extracted from a personal story corpus that was created by applying a personal story classifier (Gordon and Swanson, 2009) to 177 million blog posts.
+54	20	Each event representation contains four components: 〈Agent, Predicate, Theme, PP〉.
+55	17	The Predicate is a simple verb phrase corresponding to an action or state.
+60	20	See (Ding and Riloff, 2018) for more details of the event representation.
+62	54	Affective events impact people in a positive or negative way for a variety of reasons.
+63	52	We hypothesized that the polarity of most affective events arises from the satisfaction or violation of basic human needs.
+64	14	Psychologists have developed theories that explain people’s motivations, desires, and overall well-being in terms of categories associated with basic human needs, such as Maslow’s Hierarchy of Needs (Maslow et al., 1970) and Fundamental Human Needs (Max-Neef et al., 1991).
+65	52	Based upon this work, we defined 7 human need categories, which are briefly described below.
+66	13	Physiological Needs maintain our body’s basic functions (e.g., air, food, water, sleep).
+67	14	Health Needs are to be physically healthy and safe.
+69	16	Social Needs are to have good social relations (e.g., family, friendship), to have good self-worth and self-esteem, and to be respected by others.
+71	14	Cognition Needs are to obtain skills, information, and knowledge, to receive education, to improve one’s intelligence, and to mentally process information correctly.
+72	15	Freedom Needs are the ability to move or change positions freely, and to access things or services in a timely manner.
+73	12	We also defined two categories for event expressions that represent explicit emotions and opinions (Emotions/Sentiments/Opinions) and events that do not fall into any other categories (None of the Above).
+74	16	We added manual annotations for human need categories on top of the manually annotated positive and negative affective events in the AffectEvent dataset.
+87	24	Automatically categorizing affective events in text based on human needs is a new task, so we investigated several types of approaches.
+88	70	First, we designed supervised classifiers to categorize affective events based upon the words in the event expressions, which we will refer to as Event Expression Classifiers.
+89	19	We explored lexical features, word embedding features, and semantic category features, along with several types of machine learning algorithms.
+91	15	So we also designed Event Context Classifiers to use the sentence contexts around event mentions as features.
+93	30	However, the AffectEvent dataset contains a very large set of events that were extracted from the same blog corpus, but not manually labeled with affective polarity.
+94	42	Consequently, we explored two weakly supervised learning methods to exploit this large set of unlabeled events.
+95	90	First, we tried selftraining to iteratively improve the event expression classifier.
+96	75	Second, we designed a co-training model that takes advantage of both an event expression classifier and an event context classifier to learn from the unlabeled events.
+98	57	The most obvious approach is to use the words in event expressions as features for recognizing human need categories (e.g., {ear, be, better} for the event <ear, be, better>).
+103	40	LIWC is a dictionary of words associated with “psychologically meaningful” lexical categories, some of which are directly relevant to our task, such as AFFECTIVE, SOCIAL, COGNITIVE, and BIOLOGICAL PROCESS.
+110	13	The event dataset was originally extracted from a large collection of blog posts, which contain many instances of the events in different sentences.
+115	37	Each sentence is then used as a training instance for the event context classifier.
+117	25	ContextSentEmbed : This variation labels sentences exactly the same way as the previous model.
+122	15	ContextAllEmbed : This variation aggregates the sentences that mention an event exactly like the previous model.

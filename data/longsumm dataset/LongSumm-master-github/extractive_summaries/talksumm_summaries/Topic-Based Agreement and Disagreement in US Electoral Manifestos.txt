@@ -1,0 +1,30 @@
+0	18	During the last decade, the adoption of natural language processing (NLP) techniques for the study of political phenomena has gained considerable momentum (Grimmer and Stewart, 2013), arguably because of both the availability of parliamentary proceedings (van Aggelen et al., 2017), electoral manifestos (Volkens et al., 2011) and campaign debates (Woolley and Peters, 2008), and the interest of the computational social science (CSS) community in the potential of text mining methods for advancing political science research (Lazer et al., 2009).
+3	36	Automatically measuring the level of agreement in political documents (Gottipati et al., 2013; Menini and Tonelli, 2016) has the potential of supporting political analyses such as the comparisons between campaign strategies (Burton et al., 2015), the study of promises kept and broken after elections (Naurin, 2011), the formation of coalitions (Debus, 2009) and the interactions between government and opposition (Hix and Noury, 2016).
+4	20	However, previous work relies on the availability of pre-defined topics, including supervised methods (Galley et al., 2004; Hillard et al., 2003), approaches leveraging collaboratively generated resources (Gottipati et al., 2013; Awadallah et al., 2012) or pairwise agreement detection from political debates (Menini and Tonelli, 2016).
+8	19	We achieve this by developing a novel approach for topic detection on the basis of key concept clustering techniques: this is shown to outperform not only LDA-based Topic Modeling – the de facto standard approach for this task in CSS (Grimmer and Stewart, 2013) – but also established unsupervised (k-means) and stateof-the-art graph-based clustering techniques.
+10	13	As in previous works (Zirn et al., 2016), we focus on a subset consisting of six U.S. manifestos (Republican and Democrat) from the 2004, 2008 and 2012 elections.
+23	13	The first step of our work is to classify them into the seven macrodomains defined by the Manifesto Project, namely external relations, freedom and democracy, political system, economy, welfare and quality of life, fabric of society, social groups.
+27	26	We set the tool to extract lemmatized key concepts up to three tokens.
+28	17	For each key concept, we compute its tfidf, considering each domain as a different document.
+29	17	The result is a list of key concepts for each domain, with a score representing their relevance to the domain.
+30	14	Starting from the flat lists of key concepts extracted by KD, we adopt a recursive procedure to merge them into meaningful clusters.
+32	33	Next, we build a semantic graph representation where a) each node consists of a key concept, b) the weight of each edge is the cosine distance between their respective embedding vectors and c) edges are directed, pointing to the node of the key concept with the higher tf-idf.
+36	13	To reduce the number of weak edges, we set a cosine similarity threshold of 0.8,1 and we set an edge between two multi-word keyphrases if they have at least one word in common (e.g. ethnic minority, black minority).
+37	23	Finally, we obtain clusters of semantically related key concepts from the graph as follows: a) we extract all groups of key concepts with an edge directed to the same node and create a first set of clusters.
+75	24	Using these settings, the accuracy (Acc.
+76	19	@4) of the clusters decreases to 0.74, but we obtain clusters that allow us to extract a total of 351 pairs covering 87 fine-grained topics.
+78	28	The statements in the pairs have been annotated by three scholars of political science in terms of agreement, disagreement or none of the two.
+79	32	The annotation results in 158 pairs in disagreement, 135 in agreement and 58 neither in agreement nor in disagreement, with an inter-annotator agreement (IAA) of 0.64 (Fleiss’ Kappa).
+80	20	Note that only in three cases the annotators claimed that the meaning of a sentence pair did not match with the topic detected with our approach.
+82	13	Agreement classification is carried out using Support Vector Machine (SVM) tested in two configurations.
+83	24	In the first setting, we train and test the classifier with 10- fold cross validation over the manually annotated pairs from the political manifestos.
+85	33	This experiment is aimed at assessing the impact of training on comparable data are from the same domain (i.e., transcript of political speeches vs. manifestos).
+87	18	The results show that the set of features used suits our task, classifying the data with an accuracy comparable to the performance of human annotators, if we consider IAA as an upper bound for the task.
+88	56	We achieve nevertheless results that are in a lower range than Menini and Tonelli (2016), thus suggesting that agreement and disagreement is harder to detect in political mani- festos than in speeches.
+89	28	Finally the accuracy of the classifier in the cross-domain setting is lower than the one obtained with in-domain cross-validation, but still comparable with that of human annotators.
+94	22	However, this agreement varies substantially if we consider the different macro-domains.
+95	27	For example, while we notice a strong disagreement over the domain political system, especially for what concerns the responsibilities of previous administrations, other domains, such as external relations, present a more balanced ratio of agreement and disagreement between Republicans and Democrats.
+97	38	On the contrary, there has been a general agreement on the role of the U.S. concerning the relations with Europe.
+98	32	In the future, we hope that the pipeline presented in this paper will support political science researchers in studying topics such as party polarization through the analysis and comparison of electoral manifestos, parliamentary proceedings and campaign speeches.
+99	20	On the computational side, we will to extend our approach to crosslingual data, in order to enable computer-assisted political analysis across different languages.
+100	26	The code for topic detection as key concept clustering process is available at https://dh.fbk.eu/technologies/ keyphrase-clustering.

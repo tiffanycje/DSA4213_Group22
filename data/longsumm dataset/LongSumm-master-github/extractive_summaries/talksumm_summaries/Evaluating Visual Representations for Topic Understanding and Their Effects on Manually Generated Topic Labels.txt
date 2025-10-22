@@ -1,0 +1,30 @@
+0	38	A central challenge of the “big data” era is to help users make sense of large text collections (Hotho et al., 2005).
+1	31	A common approach to summarizing the main themes in a corpus is to use topic models (Blei, 2012), which are data-driven statistical models that identify words that appear together in similar documents.
+2	20	These sets of words or “topics” evince internal coherence and can help guide users to relevant documents.
+40	15	The topic visualization techniques in our study— word list, word list with bars, word cloud, and network graph—commonly appear in topic modeling tools.
+43	21	They display the model overview as an aggregate of underlying topic visualizations.
+44	24	For example, Topical Guide uses hor- izontal word lists when displaying an overview of an entire topic model but uses a word cloud of the top 100 words for a topic when displaying only a single topic.
+45	17	Topic Viz and the Topic Model Visualization Engine both represent topics with vertical word lists; the latter also uses set notation.
+89	100	We use a similar implementation to Smith et al. (2015) to add horizontal bars to the word list for a topic z where the length of each bar represents the probability p(w |z) for each word w. Word Cloud The word cloud (or tag cloud) is one of the most popular and well-known text visualization techniques and is a common visualization for topics.
+90	15	Many options exist for word cloud layout, color scheme, and font size (Mueller, 2012).
+95	26	Network Graph Our most complex topic visualization is a network graph.
+103	16	In Labeling (Phase I), users describe a topic given a specific visualization, and we measure speed and self-reported confidence in completing the task.
+105	22	Phase I: Labeling For each labeling task, users see a topic visualization, provide a short label (up to three words), then give a longer sentence to describe the topic, and finally use a five-point Likert scale to rate their confidence that the label and sentence represent the topic well.
+108	68	Labeling tasks are randomly grouped into human intelligence tasks (HIT) on Mechanical Turk5 such that each HIT includes five tasks from the same visualization technique.6 Phase II: Validation In the validation phase, a new set of users assesses the quality of the labels and sentences created in Phase I by evaluating them against documents associated with the given topic.
+112	18	The user-generated labels and sentences are evaluated separately.
+113	29	For each task, the user sees the titles of the top ten documents associated with a topic and a randomized set of labels or sentences, one elicited from each of the four visualization techniques within a given cardinality.
+115	40	We ask the user to select the “best” and “worst” of the labels or sentences based on how well they describe the documents.
+119	27	We merge identical labels so users do not see duplicates.
+120	56	If a merged label receives a “best” or “worst” vote, the vote is split equally across all of the original instances (i.e., across multiple visualization techniques with that label).
+125	60	For Phase I, we use a factorial design with factors of Visualization (levels: word list, word list with bars, word cloud, and network graph) and Cardinality (levels: 5, 10, and 20), yielding twelve conditions.
+126	82	For each of the fifty topics in the model and each of the twelve conditions, at least five users perform the labeling task, describing the topic with a label and sentence, resulting in a minimum of 3,000 label and sentence pairs.
+173	17	The automatic labels refusal of work and death of michael jackson yielded the most “worst” votes and fewest “best” votes.
+175	30	Figure 8 shows a comparison of the “best” and “worst” votes for the topic labels for these quartiles, including user-generated and automatically generated labels.
+176	15	For the top quartile, the number of “best” votes per technique ranged from 61 for automatic labels to 96 for the network graph visualization.
+180	19	However, the word list with bars representation shows both a large relative increase for the best votes (increase of 19%) and relative decrease for the “worst” votes (decrease of 23%) when comparing the top to the bottom quartile.
+181	53	These results suggest that adding numeric word probability information highlighted by the bars may help users understand poor quality topics.
+186	35	Length The manually generated labels use 2.01 words (SD = 0.95), and the algorithmically generated labels use 3.16 words (SD = 2.05).
+207	16	Of the 3,212 labels, 235 include a unique hypernym and 152 include a unique hyponym of the associated topic words found using WordNet, confirming that users are significantly more likely to produce a more generic description of the topic (χ21,N=387 = 17.38, p < .001).
+251	18	An open question that we do not address is whether this generalizes to understanding entire topic models.
+252	24	In other words, simple word list visualizations are useful for quick and high-quality topic summarization, but does this mean that a collection of word lists— one per topic—will also be optimal when displaying the entire model?
+253	36	Future work should look at com- paring visualization techniques for full topic model understanding.

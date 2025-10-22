@@ -1,0 +1,30 @@
+0	20	Many words and phrases fit within a natural semantic hierarchy: a mobile is a type of telephone, which in turn is a communications device and an object.
+3	23	Although several widelyused general ontologies (e.g. WordNet (Miller, 1995)) and domain-specific ontologies (e.g. Unified Medical Language System (UMLS) (Boden- reider, 2004)) exist, these resources are handcrafted and therefore expensive to update or expand.
+8	55	While many works directly compare methods for relation prediction (e.g. Turney and Mohammad (2015), Shwartz et al. (2017) and others), none directly compare methods for the final taxonomic organization step with varying constraints.
+9	18	Each paper that proposes a taxonomic organization method starts with its own set of predicted relations, making it impossible to determine – even with benchmark datasets – the extent to which improvements in identifying ground-truth relations are due to (a) better relation prediction, or (b) better taxonomic organization.
+11	21	The algorithms vary along three axes: whether they impose transitivity constraints on the taxonomic graph, whether they specify that the final graph structure be a directed acyclic graph (DAG) or tree/forest, and whether they identify ‘clusters’ of synonymous terms.
+21	15	In the most straightforward case, the core tasks are viewed as orthogonal and carried out sequentially.
+22	18	Entity Extraction: Identify a set of entities E (i.e. word types, synsets, etc) that will become nodes in the eventual taxonomy graph.
+23	68	Relation Prediction: Predict the presence or absence of a directed semantic relation (hypernymy or entailment) between each pair of nodes, (ei, ej) ∈ E × E. The outputs are (a) a set of potential edges R ⊆ E × E, where we use the notation rij ∈ R to signify the relational instance, or edge, (ei, ej), and (b) relation scores s(rij) for each edge derived from the classifier’s predicted likelihood that the relational instance exists.
+24	35	Taxonomic Organization: Select a subset of the predicted edges, R̂ ⊆ R, that produces a high sum of scores, ∑ r∈R̂ s(rij), subject to structural constraints.
+25	36	The final output is the graph Ĝ(E, R̂).
+31	35	Another dimension along which taxonomy organization approaches differ is whether they explicitly require the set of chosen relational instances R̂ to be fully transitive.
+59	24	The first transitive algorithm we evaluate is MAXTRANSGRAPH (Berant et al., 2012, 2015), which constrains the graph structure to be a DAG.
+87	19	We extract sets of entities from the Paraphrase Database (PPDB) (Ganitkevitch et al., 2013; Pavlick et al., 2015).
+92	29	For each target noun, we extract as taxonomy terms the set of PPDB paraphrases having a PPDB2.0SCORE of at least 2.0 with the target.3 The number of entities in each local taxonomy ranges from 13 to 126, with a median of 40 entities per set.
+102	27	It combines noun pairs from four benchmark relation prediction datasets (BLESS (Baroni and Lenci, 2011), ROOT09 (Santus et al., 2016), EVALution (Santus et al., 2015), and K&H+N (Necsulescu et al., 2015)) with a set of related and unrelated noun pairs extracted from PPDB.
+111	25	We predict synonymy between noun pairs using distributional similarity, operationalized as the cosine similarity of PARAGRAM (Wieting et al., 2015) word embeddings.4 We use PARAGRAM vectors because they perform well in semantic similarity tasks, and because they were originally extracted from PPDB and thus have 100% coverage of our entity sets.
+116	26	Finally, we use the calculated hypernym and synonym scores sh(rij) and ss(rij) to initialize each organization algorithm as follows.
+118	37	NOCYC+CLUS and DMST+CLUS: Initialization for these algorithms requires two steps.
+119	60	First, we collapse clusters of likely synonyms into a single entity as follows.
+120	25	For each local taxonomy, we create a graph with the extracted terms as nodes, and add an edge between every pair of terms having ss(rij) ≥ τ (the threshold tuned on our training set).
+121	95	We take the resulting connected components as the final entity set E. See examples of synonyms clustered by this method in Table 2.
+124	131	To obtain an edge score when one or both nodes is a cluster, we simply calculate the average hypernym score over every pair of terms (tm, tn) such that tm ∈ ei and tn ∈ ej : s(rij) = ∑ tm∈ei;tn∈ej sh(rmn) |ei|+ |ej | MAXTRANSGRAPH and MAXTRANSFOREST: Since these algorithms are designed to use entailment relation predictions as input, we set the score of each edge to be the maximum of the synonym and hypernym scores: s(rij) = max(sh(rij), ss(rij)).
+125	185	Intuitively, this reflects the idea that entailment can be sub-classified as synonymy or hypernymy.
+126	21	We conduct experiments aimed at addressing three primary research questions: (1) How does each taxonomic organization algorithm perform?
+127	58	In particular, how do DAG algorithms compare to tree-constrained ones, and how do transitive algorithms compare to their non-transitive counterparts?
+128	24	(2) Are any algorithms, particularly the ILP methods, too slow to use on large sets of terms?
+130	19	In our first experiment, we predict PPDB local taxonomies for the 45 target nouns in our test set using each of the six algorithms after the initialization described in Section 4.
+131	31	In keeping with current work on this topic (Bordea et al., 2015, 2016), we evaluate the taxonomy organization algorithms’ performance by calculating precision, recall, and F1-score of WordNet 3.0 hypernym and synonym edges for the 93% of PPDB taxonomy terms that are in WordNet.
+133	27	We report hypernym-specific scores – where the set of ground-truth edges considers just WordNet hypernyms – synonym-specific scores, and combined scores – where all WordNet hypernym and synonym edges are taken as ground truth, and a predicted edge must have the correct start node, end node, and relation type to be correct.
+136	16	As a lower bound, we implement a random baseline where edges are selected randomly with likelihood tuned on the benchmark+PPDB training set.

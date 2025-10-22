@@ -1,0 +1,30 @@
+7	15	You can feel that the music is no longer constrained by the mono recording.
+10	101	However, if we examine these sentences within the discourse context, we can see that: the second sentence expresses sentiment towards the same aspect – the music – as the first sentence; the third sentence expands the second sentence with the discourse connective In fact.
+11	34	These discourse-level relations help indicate that sentence 2 and 3 are likely to have positive sentiment as well.
+12	22	The importance of discourse for sentiment analysis has become increasingly recognized.
+13	21	Most existing work considers discourse relations between adjacent sentences or clauses and incorporates them as constraints (Kanayama and Nasukawa, 2006; Zhou et al., 2011) or features in classifiers Trivedi and Eisenstein (2013; Lazaridou et al. (2013).
+17	17	Obtaining sentiment labels at the fine-grained level is costly.
+18	17	Semi-supervised techniques have been proposed for sentence-level sentiment classification (Täckström and McDonald, 2011a; Qu et al., 2012).
+20	13	In this paper, we propose a sentence-level sentiment classification method that can (1) incorporate rich discourse information at both local and global levels; (2) encode discourse knowledge as soft constraints during learning; (3) make use of unlabeled data to enhance learning.
+21	16	Specifically, we use the Conditional Random Field (CRF) model as the learner for sentence-level sentiment classification, and incorporate rich discourse and lexical knowledge as soft constraints into the learning of CRF parameters via Posterior Regularization (PR) (Ganchev et al., 2010).
+50	35	The inputs to the model are sentencesegmented documents annotated with sentencelevel sentiment labels (positive, negative or neutral) along with a set of unlabeled documents.
+51	78	During prediction, the model outputs sentiment labels for a sequence of sentences in the test document.
+58	18	Denote x as a sequence of sentences within a document and y as a vector of sentiment labels associated with x.
+59	16	The CRF model the following conditional probabilities: pθ(y|x) = exp(θ · f(x,y)) Zθ(x) where f(x,y) are the model features, θ are the model parameters, and Zθ(x) = ∑ y exp(θ · f(x,y)) is a normalization constant.
+68	21	Specifically, we construct the lexical constraints by extracting sentiment-bearing patterns within sentences and construct the discourse-level constraints by extracting discourse relations that indicate sentiment coherence or sentiment changes both within and across sentences.
+92	17	Unlike the intra-sentential discourse connectives, the inter-sentential discourse connectives can indicate sentiment transitions between sentences.
+96	18	Thus it is hard to directly constrain the posterior expectation for each type of sentiment transitions using inter-sentential discourse connectives.
+97	52	Instead, we impose constraints on the model posteriors by reducing constraint violations.
+126	20	Note that these constraints are not necessary for our model and can be applied when the document-level sentiment labels are naturally available.
+129	24	To encode this intuition, we define the following constraint function: φg(x, y) = n∑ i δ(yi 6=polar g)/n where g ∈ {positive, negative} denotes the sentiment value of a polar document, n is the total number of sentences in x, and δ is an indicator function.
+141	34	We experimented with two product review datasets for sentence-level sentiment classification: the Customer Review (CR) data (Hu and Liu, 2004)6 which contains 638 reviews of 14 products such as cameras and cell phones, and the Multi-domain Amazon (MD) data from the test set of Täckström and McDonald (2011a) which contains 294 reivews from 5 different domains.
+149	14	We also report both two-way classification (positive vs. negative) and three-way classification results (positive, negative or neutral).
+156	22	For approximation inference with higher-order constraints, we perform 2000 Gibbs sampling iterations where the first 1000 iterations are burn-in iterations.
+166	24	For the three-way classification task on the MD dataset, we also implemented the following baselines: (4) VOTEFLIP: a rulebased algorithm that leverages the positive, negative and neutral cues along with the effect of negation to determine the sentence sentiment (Choi and Cardie, 2009).
+193	18	We observe that the DOCORACLE baseline provides very strong F1 scores on the positive and negative categories especially in the Books and Music domains, but very poor F1 on the neutral category.
+194	14	This is because it over-predicts the polar sentences in the polar documents, and predicts no polar sentences in the neutral documents.
+220	13	In the MD dataset, a neutral label may be given because the sentence contains mixed sentiment or no sentiment or it is off-topic.
+223	75	A potential way to address this issue is to learn discourse constraints jointly with sentiment.
+224	39	We plan to study this in future research.
+228	72	While we focus on the sentence-level task, our approach can be easily extended to handle sentiment analysis at finer levels of granularity.
+229	80	Our experiments show that our model achieves better accuracy than existing supervised and semi-supervised models for the sentence-level sentiment classification task.

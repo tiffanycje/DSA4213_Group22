@@ -1,0 +1,30 @@
+0	29	Portmanteaus (or lexical blends Algeo (1977)) are novel words formed from parts of multiple root words in order to refer to a new concept which can’t otherwise be expressed concisely.
+2	41	These are found not only in English but many other languages such as Bahasa Indonesia Dardjowidjojo (1979), Modern Hebrew BatEl (1996); Berman (1989) and Spanish Piñeros (2004).
+4	13	Unlike better-defined morphological phenomenon such as inflection and derivation, portmanteau generation is difficult to capture using a set of rules.
+5	15	For instance, Shaw et al. (2014) state that the composition of the portmanteau from its root words depends on several factors, two important ones being maintaining prosody and retaining character segments from the root words, especially the head.
+6	40	An existing work by Deri and Knight (2015) aims to solve the problem of predicting portmanteau using a multi-tape FST model, which is datadriven, unlike prior approaches.
+7	45	Their methods rely on a grapheme to phoneme converter, which takes into account the phonetic features of the language, but may not be available or accurate for non-dictionary words, or low resource languages.
+15	13	Under our first proposed architecture, the input sequence x = concat(x(1), “;”, x(2)), while the output sequence is the portmanteau y.
+22	13	We use character embeddings learnt using an LSTM language model over words in an English dictionary,1 where each word is a sequence of characters, and the model will predict next character in sequence conditioned on previous characters in the sequence.
+23	30	The second proposed model uses Bayes’s rule to reverse the probabilities P (y|x) = P (x|y)P (y)P (x) to get argmaxy P (y|x) = argmaxy P (x|y)P (y).
+27	13	Such a model offers two advantages 1.
+37	49	Thereafter we score these candidates with the decoder and output the one with the maximum score.
+41	39	The existing dataset by Deri and Knight (2015) contains 401 portmanteau examples from Wikipedia.
+44	18	We manually collect DLarge, a dataset of 1624 distinct English portmanteaus from following sources: • Urban Dictionary2 • Wikipedia • Wiktionary • BCU’s Neologism Lists from ’94 to ’12.
+50	11	Each fold model uses 8 folds for training, 1 for validation, and 1 for test.
+52	10	Table 1 shows the results of Experiment 1 for various model configurations.
+54	33	Our best model obtains 48.75% Matches and 1.12 Distance, compared to 45.39% Matches and 1.59 Distance using BASELINE.
+59	12	We observe that the Backward architecture performs better than Forward architecture, confirming our hypothesis in §2.2.
+60	22	In addition, ablation results confirm the importance of attention, and initializing the word embeddings.
+65	17	Both FORWARD+GREEDY and the BASELINE get 0 Matches on these examples.
+72	17	On inspecting outputs, we observed that often output from our system seemed good in spite of high edit distance from ground truth.
+73	56	Such aspect of an output seeming good is not captured satisfactorily by measures like edit distance.
+74	14	To compare the errors made by our model to the baseline, we designed and conducted a human evaluation task on AMT.5 In the survey, we show human annotators outputs from our system and that of the baseline.
+75	55	We ask them to judge which alternative is better overall based on following criteria: 1.
+76	32	It is a good shorthand for two original words 2.
+78	11	To avoid ordering bias, we shuffled the order of two portmanteau between our system and that of baseline.
+80	49	As seen in Table 4, output from our system was labelled better by humans as compared to the baseline 58.12% of the time.
+81	12	Table 3 shows outputs from different models for a few examples.
+96	21	We have also released our dataset and code6 to encourage further research on the phenomenon of portmanteaus.
+97	47	We also release an online demo 7 where our trained model can be queried for portmanteau suggestions.
+98	61	An obvious extension to our work is to try similar models on multiple languages.

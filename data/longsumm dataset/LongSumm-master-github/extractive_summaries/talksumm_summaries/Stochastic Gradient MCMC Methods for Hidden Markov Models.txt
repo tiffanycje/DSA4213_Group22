@@ -1,0 +1,30 @@
+43	2	Traditionally, EM, variational inference, or MCMC are used to perform inference over θ (Scott, 2002; Beale, 2003).
+47	4	These past algorithms have found widespread use in statistics and machine learning.
+48	2	1, an alternative formulation of the HMM can provide greater utility in developing an SG-MCMC approach.
+49	7	Marginalizing over x, we obtain the marginal likelihood: p(y|θ) = 1T P (yT )A · · ·P (y1)A π0, (2) where P (yt) is a diagonal matrix with Pi,i(yt) = p(yt|xt = i, φi); 1T is a row vector of K ones; and (π0)i = π0(x0 = i).
+51	4	(3) Working with the marginal likelihood and posterior alleviates the need to compute the marginals and pairwise marginals of xt.
+56	2	Perhaps most importantly for the development of our SG-MCMC algorithm, the marginal likelihood does not involve alternately updating the local state variables, xt, and the global model parameters θ.
+63	5	data, U(θ) = − ∑ s∈S ln p(ys|θ) − log p(θ).
+78	2	The approach we take consists of three steps (see Fig.
+85	4	(3) and that the potential function U(θ) ∝ − ln p(θ|y).
+102	3	We then use the following estimator of the full gradient: ∇̃U(θ)i = (12) − 1 p(S̃) ∑ yτ,L∈S̃ qTτ+L+1 ∂P (yτ,L) ∂θi πτ−L−1 qTτ+L+1P (yτ,L)πτ−L−1 − ∂ ln p(θ) ∂θi .
+123	2	Forthcoming work in the applied probability literature formalizes the validity of this approach (Ye et al.).
+130	3	L+B ≥ ν, then t < τ−L−B or t > τ+L+B implies that yt is approximately independent of yLB , yτ,L, and yRB .
+142	5	To address these constraints, we use the expanded mean parametriza- tion: A = |Âi,j |∑ i |Âi,j | , similar to what Patterson & Teh (2013) used for topic modeling.
+155	3	Again, π̃τ−L−1 and q̃τ+L+1 are computed on the left and right buffers, respectively, according to Eq.
+156	3	Similarly to the transition parameters, we account for the geometry of the parameter space by specifying an appropriate D and Q in Eq.
+174	2	4.1, performing sufficient buffering via our Lyapunov exponent approach is critical.
+175	3	In summary, our SG-MCMC algorithm enables MCMCbased inference in HMMs for massive sequences of data.
+176	2	In particular, we only require computations on collections of small subsequences and attain the desired stationary distribution by mitigating the errors incurred by these approximations.
+178	4	We evaluate the performance of our proposed SG-RLD algorithm for HMMs on both synthetic and real data.
+197	3	In both cases, we see that both SG-RLD HMM methods greatly outperform the i.i.d.
+199	14	For the RC dataset, the i.i.d.
+201	2	Importantly, our adaptive buffer scheme attains both better predictive performance and converges to the true transition matrix in less time.
+202	3	In fact, there is a bias in the learned transition matrix for the non-buffered algorithm due to inaccurate subchain approximation of q,π.
+213	5	3 we see that the non-conjugate model selects the right number of states (2), whereas the conjugate model selects a model with more states (4).
+214	2	The ability to use non-conjugate HMMs for truly massive data sets has been infeasible until this point and this experiment demonstrates its utility.
+230	9	Second, we developed a principled approach using buffers to mitigate the errors introduced when breaking the dependencies at the boundaries of the subchains.
+231	12	Unlike previous heuristic buffering schemes, our approach is theoretically justified using random dynamical systems.
+232	78	Last, we utilize sampling scheme based on the mixing time of the HMM to ensure subchains are approximately independent.
+233	190	In future work we will extend these ideas to other models of dependent data, such as Markov random fields.
+234	193	Also, the ideas presented here are not limited to MCMC and could be used to develop more principled variational inference algorithms for dependent data.

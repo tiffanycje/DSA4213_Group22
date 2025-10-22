@@ -1,0 +1,30 @@
+0	8	We study the problem of composite non-convex minimization: min x∈Rd { F (x) := ψ(x) + f(x) := ψ(x) + 1 n n∑ i=1 fi(x) } (1.1) where each fi(x) is nonconvex but smooth, and ψ(·) is proper convex, possibly nonsmooth, but relatively simple.
+3	13	In particular, when minimizing loss over a training set, each example i corresponds to one loss function fi(·) in the summation.
+10	28	Most notably, training deep neural networks and classifications with sigmoid loss correspond to (1.1) where neither fi(x) or f(x) is convex.
+14	77	We wish to find an ε-approximate stationary point (a.k.a.
+17	39	Since f(·) is σ-strongly nonconvex, any ε-approximate stationary point is automatically also an (ε, σ)-approximate local minimum — meaning that the Hessian of the output point ∇2f(x) −σI is approximately positive semidefinite (PSD).
+18	23	• We focus on strongly non-convex optimization because introducing this parameter σ allows us to perform a more refined study of non-convex optimization.
+20	171	• We focus only on finding stationary points as opposed to local minima, because in a recent study — see Appendix A— researchers have shown that finding (ε, δ)-approximate local minima reduces to finding εapproximate stationary points in an O(δ)-strongly nonconvex function.
+21	43	• Parameter σ is often not constant and can be much smaller than L. For instance, second-order methods often find (ε, √ ε)-approximate local minima (Nesterov, 2008) and this corresponds to σ = √ ε.
+23	56	Until recently, nearly all research papers have been mostly focusing on either σ = 0 or σ = L: • If σ = 0, the accelerated SVRG method (ShalevShwartz, 2016; Allen-Zhu & Yuan, 2016) finds x satisfying F (x) − F (x∗) ≤ ε, in gradient complexity Õ ( n + n3/4 √ L/ε ) .2 This result is irrelevant to this paper because f(x) is simply convex.
+24	8	• If σ = L, the SVRG method (Allen-Zhu & Hazan, 2016) finds an ε-approximate stationary point of F (x) in gradient complexity O(n+ n2/3L/ε2).
+28	95	Throughout this paper, we refer to gradient complexity as the total number of stochastic gradient computations ∇fi(x) and proximal computations y ← Proxψ,η(x) := arg miny{ψ(y) + 12η‖y − x‖ 2}.3 Very recently, it was observed by two independent groups (Agarwal et al., 2017; Carmon et al., 2016) — although implicitly, see Section 2.1— that for solving the σ-strongly nonconvex problem, one can repeatedly regularize F (x) to make it σ-strongly convex, and then apply the accelerated SVRG method to minimize this regularized function.
+29	12	Under mild assumption σ ≥ ε2, this approach • finds an ε-approximate stationary point in gradient complexity Õ ( nσ+n3/4 √ Lσ ε2 ) .
+34	34	In this paper, we identify an interesting dichotomy with respect to the spectrum of the nonconvexity parameter σ ∈ [0, L].
+36	9	In other words, together with repeatSVRG, we have improved the gradient complexity for σ-stringly nonconvex optimization to5 Õ ( min {n3/4√Lσ ε2 , n2/3(L2σ)1/3 ε2 }) and the first term in the min is smaller if σ < L/ √ n and the second term is smaller if σ > L/ √ n. We illustrate our ε disappears when ε6 ≤ L2σ/n.
+41	21	In applications, `1 and `2 can be of very different magnitudes.
+45	40	Our result generalizes trivially to the minibatch stochastic setting, where in each iteration one computes∇fi(x) for b random choices of index i ∈ [n] and average them.
+46	13	The stated gradient complexities of Natasha and Natashafull can be adjusted so that the factor n2/3 is replaced with n2/3b1/3.
+47	33	Let us first recall the main idea behind stochastic variancereduced methods, such as SVRG (Johnson & Zhang, 2013).
+48	87	The SVRG method divides iterations into epochs, each of length n. It maintains a snapshot point x̃ for each epoch, and computes the full gradient ∇f(x̃) only for snapshots.
+49	26	Then, in each iteration t at point xt, SVRG defines gradient estimator ∇̃ = ∇fi(xt)−∇fi(x̃)+∇f(x̃) which satisfies Ei[∇̃] = ∇f(xt), and performs proximal update xt+1 ← Proxψ,α ( xt − α∇̃ ) for some learning rate α.
+53	18	In this paper, we propose Natasha and Natashafull, two methods that are no longer black-box reductions to SVRG.
+54	18	Both of them still divide iterations into epochs of length n, and compute gradient estimators ∇̃ the same way as SVRG.
+59	20	This is equivalent to replacing f(x) with its regularized version f(x)+σ‖x− x̂‖2, where the center x̂ varies across subepochs.
+63	19	That is, we perform updates zt+1 ← Proxψ,α(zt − α∇̃) with respect to a different sequence {zt}, and then define xt = 12zt + 1 2 x̂ and compute gradient estimators ∇̃ at points xt.
+65	24	We view this averaging xt = 12zt + 1 2 x̂ as another type of retraction, which stabilizes the algorithm by moving towards x̂.
+66	25	The technique of computing gradients at points xt but moving a different sequence of points zt is related to the Katyusha momentum recently developed for convex optimization (Allen-Zhu, 2017).
+84	18	We denote by ∇f(x) the full gradient of function f if it is differentiable, and ∂f(x) any subgradient if f is only Lipschitz continuous at point x.
+85	196	We let x∗ be any minimizer of F (x).
+86	42	Recall some definitions on strong convexity (SC), strongly nonconvexity, and smoothness.
+88	28	• f is σ-strongly convex if ∀x, y ∈ Rd, it satisfies f(y) ≥ f(x) + 〈∂f(x), y − x〉+ σ 2 ‖x− y‖2 .

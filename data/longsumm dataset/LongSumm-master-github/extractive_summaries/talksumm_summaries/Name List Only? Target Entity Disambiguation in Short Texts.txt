@@ -1,0 +1,30 @@
+3	29	Take the application of customer feedback analysis (CFA) as an example.
+5	35	The product names comprise a list of entities to be identified.
+7	96	All of target entities (e.g., car brands) share a common domain, which we refer to as the target domain.
+12	15	There are three types of information that are utilized in Named Entity Disambiguation related tasks: knowledge resources, the context in which a target word occurs and statistical information (Navigli, 2009).
+16	16	However, we tested 32 different names of General Motors (GM) car brands, and only four of the brands exist in Wikipedia.
+22	21	In (Wang et al., 2012), mentionRank leverages some additional features, such as co-mention; however, people prefer to share their comments in brief or even informal words on social media platforms, such as Twitter, which becomes increasingly important as an information source.
+23	25	We have counted 350,498 microblogs, 37,379 tweets and 34,018 text snippets in various domains in Chinese and English from Twitter, Sina Weibo and Google.
+24	23	After preprocessing, their average length are 16, 5 and 11 words, respectively.
+33	16	Contributions To address these challenges, we propose a collective method called TremenRank to disambiguate the target entities simultaneously.
+37	24	The contributions of our work can be summarized as follows: • We propose a novel graph-based method, TremenRank, to collectively identify target entities in short texts.
+38	36	This method constructs the graph locally to avoid storing the entire graph in memory, which provides a linear scale up with respect to the number of target entities and documents.
+68	19	This approach allows an arbitrary number of target entities and documents to be processed.
+71	41	This characteristic implies that all of the true mentions have a similar context due to the target domain constraint and that false mentions are distinct because their meanings belong to diversified domains.
+85	18	We are given a graph G = (V, E) that consists of a set V ofN documents (vertices) and a set E of directed edges, where each edge (di, dj) ∈ E denotes that di points to dj , and o(di) is the outneighbors of di.
+97	17	To address the large scale problem, we construct the graph locally via inverted index technology.
+103	19	Find the occurrences of each word wk ∈ Wdi in the word-to-document index: Ddi = {dj | ∪wt∈Wdi Dwt}.
+114	15	The final trust score is determined by two parts: the trust from a document’s neighbors and its prior estimation.
+120	30	True mentions receive high scores because they are likely to connect with more trustworthy documents and thus receive more trust through the first term in Equation 3.
+124	20	Thus, one document that is more likely to contain any true mention will receive a higher trust score and be ranked higher.
+127	30	For example, the tweet “I drive a big car suburban” is more trustworthy than “doctors use GMC report system to process harmful patients”, because the former tweet contains the credible context feature “car”, which is the name of the target domain.
+173	44	To validate the performance of TremenRank and the improvement produced by the MLD graph, we selected the baseline from three different perspectives: (i) a context-based method that identifies target entities separately; (ii) a classic supervised method SVM to classify a document by whether it contains any true mentions; and (iii) the only state-of-the-art MentionRank for TED, which is a collective ranking method.
+179	23	Evaluation Metrics The performance of the disambiguation task is typically evaluated by accuracy, but in TEDs we are also interested in precision, recall and the F1-measure because different applications focus on different aspects.
+190	16	Similarity Threshold Different similarity thresholds result in various structures of the MLD graph, and have a great impact on the performance of our 0.05 0.10 0.15 0.20 0.25 0.30 0.35 0.40 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 % Accuracy Precision Recall F1-measure 0.05 0.1 0.15 0.2 0.25 0.3 0.35 0.4 η 0.5 0.6 0.7 0.8 0.9 1.0 C o ve ra g e (% ) coverage layer 0 1 2 3 4 5 6 # L a ye rs Figure 4: Selection of the Similarity Threshold 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 0.40 0.50 0.60 0.70 0.80 0.90 C a r( % ) Accuracy Precision Recall F1-measure 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 seeds scale(%) 0.70 0.75 0.80 0.85 0.90 H e rb (% ) Figure 5: Influence of Seed Scale method.
+200	23	Influence of the Seed Scale As the basis of the prior estimation, the seeds have significant influ- ence on the performance of the proposed method via the MLD graph.
+201	17	Intuitively, a larger set of seeds should lead to a more precise estimation and thus better performance.
+217	18	The overall identification times of the Stock, Car and Herb datasets are 12h, 5min and 18min, respectively.
+218	15	The computation time increases exponentially with the increase of the amount of data due to the excessive computations required to search the indexes, which can be optimized in future work.
+220	39	We proposed a graph-based method called TremenRank to identify target entities collectively; this method can also hold an arbitrary number of target entities and documents.
+221	31	The performance of this method can be further improved via a welldesigned MLD graph.
+223	58	In the future, we are interested in refining the prior estimation by using the ontology and extending this work to detect the target entities that are not in a list while performing the disambiguation task.

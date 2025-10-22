@@ -1,0 +1,30 @@
+0	13	Recent years have seen rapid progress on core problems in artificial intelligence such as object and voice recognition (Hinton & et al, 2012; Krizhevsky et al., 2012), playing video and board games (Mnih et al., 2015; Silver et al., 2016), and driving autonomous vehicles (Zhang et al., 2016).
+1	16	As artificial agents proliferate, it is increasingly important to ensure their interactions with one another, with humans, and with their environment are safe.
+2	13	Concretely, the number of neural networks being trained and used is growing rapidly.
+5	35	When can weights trained on one problem be adapted to another without adverse effects?
+10	24	We propose a basic notion of safety based on the common-sense principle that agents should do no harm to one another.
+12	113	A game is safe if the actions chosen by each agent do no (infinitesimal) harm to any other agent, where harm is measured as increased loss.
+14	14	Questions about mechanism design are sharpened under the assumption that agents use gradient descent.
+18	40	The second contribution is to introduce type systems suited to multi-agent optimization problems (that is, games).
+27	138	Theorem 1 shows that gradient descent converges to a Nash equilibrium in safe games.
+28	23	Section 3 extracts the key ingredients required for safe gradients from two warmup examples.
+29	42	The ingredients are simultaneous diagonalization, i.e. the existence of a shared latent orthogonal basis, and monotonic covariation, i.e. that the derivatives of the objectives have the same sign in the latent coordinate system.
+31	35	Safety and strong-typing generalize key properties of convexity.
+33	51	We uncover latent types and demonstrate safety of Newton’s method, natural gradient and mirror descent; see sections 3.2, A2 and A3.
+50	15	The papers consider how convergence in games can be accelerated if the players use variants of mirror descent.
+61	33	A type T V = V, h•, •i, {⇡ r }R r=1 is a Ddimensional vector space with an inner product and orthogonal projections ⇡ r : V !
+65	13	A game consists of a type T V , feasible set H ⇢ V , players [N ] := {1, .
+67	26	On round t, player n chooses ⇠t n 2 V and updates the joint action via wt+1 = wt ⇡ ⇢(n)(⇠ t n ) where wt,wt+1 2 H. Updates leaving the feasible set can be mapped back into it, see section A1.
+117	27	(2) Next, we work through two examples where diagonalization and a positivity condition imply safety.
+119	20	Consider a two-player block game with loss functions `1(v,w) = v |Aw and `2(v,w) = v|Bw and projections ⇡1/2(v,w) = (v,0) and (0,w).
+125	14	A two-player game is safe if A = PDQ| and B = PEQ| where P and Q are orthogonal matrices, D and E are diagonal, and DE 0.
+139	20	Intuitively, the outputs z l = f l (P| l w) are latent factors computed from the inputs w such that each z l is independent of the others – independence is enforced by the projections ⌧ l .
+141	17	Game (T V , {` n }N n=1) is strongly-typed if the loss functions admit a simultaneous factorization whose projections {⌧ l = P l P| l }L l=1 commute with {⇡n}Nn=1.
+149	14	More general definitions can be proposed according to taste.
+171	16	Suppose a signal on D channels is recorded for T timepoints giving (D⇥T )-matrix X.
+172	19	Assume the observations combine L independent latent signals: X = MS where S is an (L ⇥ T )-matrix representing the latent signal and M is a mixing matrix.
+184	24	The block quadratic game has losses as above; however the action space decomposes into (w1, .
+208	17	A multilinear game is safe if it admits a simultaneous tensor-SVD A(n) = D(n) ⇥1 U1 ⇥ · · ·⇥N UN where the diagonals have the same sign coordinatewise.
+217	22	The main insight is that the 4 th-order cumulant tensor admits a tensor-SVD: A[i, j, k, l] = cum(x i , x j , x k , x l ) = X o,p,q,r P io P jp P kq P lr · cum(s o , s p , s q , s r ) = X r P ir P jr P kr P lr · kurt(s r ) since cum(s o , s p , s q , s r ) = 0 unless o = p = s = r because the signals are independent.
+223	18	First steps in this direction have been taken with biologically plausible models of backprop that introduce additional degrees of freedom into the algorithm.
+224	46	Feedback alignment is a recent algorithm with comparable empirical performance to backprop.

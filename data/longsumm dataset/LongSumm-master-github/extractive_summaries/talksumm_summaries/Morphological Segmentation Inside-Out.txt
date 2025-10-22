@@ -1,0 +1,30 @@
+12	27	(ii) We release the first morphology treebank, consisting of 7454 English word types, each annotated with a full constituency parse.
+17	8	This gives us clear insight into the structure of the lexicon—we should expect that the segment testable exists as an independent word, but ably does not.
+19	34	There are two potentially valid readings of untestably depending on how the negative prefix un scopes.
+25	96	A novel component of this work is the development of a discriminative parser (Finkel et al., 2008; Hall et al., 2014) for morphology.
+26	12	The goal is to define a probability distribution over all trees that could arise from the input word, after reversal of orthographic and phonological processes.
+30	41	We assume u,w ∈ Σ∗, for some discrete alphabet Σ.1 Note that a parse tree over the string implicitly defines a flat segmentation given our grammar—one can simply extract the characters spanned by all preterminals in the resulting tree.
+31	24	Before describing the joint model in detail, we first consider its pieces individually.
+32	141	To extract a canonical segmentation (Naradowsky and Goldwater, 2009; Cotterell et al., 2016), we restore orthographic changes that occur during word formation.
+33	43	To this end, we define the score function, scoreη(u,w) = ∑ a∈A(u,w) exp ( g(u, a, w)>η ) , (1) whereA(u,w) is the set of all monotonic alignments between the strings u and w. The goal is for scoreη to assign higher values to better matched pairs, e.g., (w=untestably, u=untestablely).
+42	15	See Cotterell et al. (2014) for details.
+48	19	Next, we need to score an underlying canonical form (e.g., u=untestablely) together with a parse tree (e.g., t=[[un[[test]able]]ly]).
+54	7	For f , we define three span features: (i) indicator features on the span’s segment, (ii) an indicator feature that fires if the segment appears in an external corpus2 and (iii) the conjunction of the segment with the label (e.g., PREFIX) of the subtree root.
+56	23	Our complete model is a joint CRF (Koller and Friedman, 2009) where each of the above scores are factors.
+57	28	We define the likelihood as pθ(t, u | w) = 1 Zθ scoreω(t, u) · scoreη(u,w), (5) where θ = {ω,η} is the parameter vector and Zθ = ∑ u′∈Σ∗ ∑ t′∈Tu′ scoreω(t′, u′) · scoreη(u′, w) (6) is the partition function and Tu′ is set of all parse trees for the string u′.
+59	21	The joint approach has the advantage that it allows both factors to work together to influence the choice of the underlying form u.
+62	12	Inference in this joint model is intractable, so we resort to approximate methods.
+65	6	To approximate this expectation, we use an importance sampling routine.
+68	7	Due to a lack of space, we omit the derivation of the approximate gradient.
+69	21	We also decode by importance sampling.
+70	18	Given w, we sample canonical forms u and then run the CKY algorithm to get the highest scoring tree.
+98	16	The correct parse, under our scheme, is [un [[lick] able]].
+104	20	We report three evaluation metrics: full form accuracy, morpheme F1 (Van den Bosch and Daelemans, 1999) and average edit distance to the gold segmentation with boundaries marked by a distinguished symbol.
+106	14	This F1 measures how well we predict the whole tree (not just a segmentation).
+109	14	The hierarchical WCFG model outperforms the flat semi-Markov model on all metrics on the segmentation task.
+114	11	Accuracy, in general, is an all or nothing metric since it requires getting every canonical segment correct.
+117	13	We provide additional results evaluating the entire tree with constituency F1 as a future baseline.
+118	37	We presented a discriminative CFG-based model for canonical morphological segmentation and showed empirical improvements on its ability to segment words under three metrics.
+119	40	We argue that our hierarchical approach to modeling morphemes is more often appropriate than the traditional flat segmentation.
+120	56	Additionally, we have annotated 7454 words with a morphological constituency parse.
+121	49	The corpus is available online at http://ryancotterell.github.io/data/ morphological-treebank to allow for exact comparison and to spark future research.

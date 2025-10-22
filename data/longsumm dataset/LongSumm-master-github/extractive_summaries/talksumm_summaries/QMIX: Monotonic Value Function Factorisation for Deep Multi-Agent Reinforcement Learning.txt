@@ -1,0 +1,30 @@
+0	21	Reinforcement learning (RL) holds considerable promise to help address a variety of cooperative multi-agent problems, such as coordination of robot swarms (Hüttenrauch et al., 2017) and autonomous cars (Cao et al., 2012).
+1	42	In many such settings, partial observability and/or communication constraints necessitate the learning of decentralised policies, which condition only on the local actionobservation history of each agent.
+2	30	Decentralised policies also naturally attenuate the problem that joint action spaces grow exponentially with the number of agents, often rendering the application of traditional single-agent RL methods impractical.
+3	12	Fortunately, decentralised policies can often be learned in a centralised fashion in a simulated or laboratory setting.
+4	20	This often grants access to additional state information, otherwise hidden from agents, and removes inter-agent communication constraints.
+5	14	The paradigm of centralised training with decentralised execution (Oliehoek et al., 2008; Kraemer & Banerjee, 2016) has recently attracted attention in the RL community (Jorge et al., 2016; Foerster et al., 2018).
+11	28	However, this approach cannot explicitly represent interactions between the agents and may not converge, as each agent’s learning is confounded by the learning and exploration of others.
+12	25	At the other extreme, we can learn a fully centralised stateaction value function Qtot and then use it to guide the optimisation of decentralised policies in an actor-critic framework, an approach taken by counterfactual multi-agent (COMA) policy gradients (Foerster et al., 2018), as well as work by Gupta et al. (2017).
+13	7	However, this requires onpolicy learning, which can be sample-inefficient, and training the fully centralised critic becomes impractical when there are more than a handful of agents.
+14	19	In between these two extremes, we can learn a centralised but factored Qtot, an approach taken by value decomposition networks (VDN) (Sunehag et al., 2017).
+15	57	By representing Qtot as a sum of individual value functions Qa that condition only on individual observations and actions, a decentralised policy arises simply from each agent selecting actions greedily with respect to its Qa.
+16	43	However, VDN severely limits the complexity of centralised action-value functions that can be represented and ignores any extra state information available during training.
+84	10	The loss function for VDN is equivalent to (2), where Q is replaced by Qtot.
+87	7	Key to our method is the insight that the full factorisation of VDN is not necessary in order to be able to extract decentralised policies that are fully consistent with their centralised counterpart.
+89	18	(4) This allows each agent a to participate in a decentralised execution solely by choosing greedy actions with respect to its Qa.
+94	54	(5) To enforce (5), QMIX represents Qtot using an architecture consisting of agent networks, a mixing network, and a set of hypernetworks (Ha et al., 2017).
+102	7	Each hypernetwork takes the state s as input and generates the weights of one layer of the mixing network.
+103	24	Each hypernetwork consists of a single linear layer, followed by an absolute activation function, to ensure that the mixing network weights are non-negative.
+119	10	Furthermore, it can take advantage of the extra state information available during training, which we show empirically.
+137	9	In this work, we focus on the decentralised micromanagement problem in StarCraft II, in which each of the learning agents controls an individual army unit.
+144	39	We compare our results on a set of maps where each unit group consists of 3 Marines (3m), 5 Marines (5m), 8 Marines (8m), 2 Stalkers and 3 Zealots (2s 3z), 3 Stalkers and 5 Zealots (3s 5z), or 1 Colossus, 3 Stalkers and 5 Zealots (1c 3s 5z).
+150	22	By doing so, we force the agents to explore in order to find the optimal combat strategy themselves, rather than relying on built-in StarCraft II utilities.
+151	43	Partial observability is achieved by the introduction of unit sight range, which restricts the agents from receiving information about allied or enemy units that are out of range.
+153	6	At each time step, the agents receive a joint reward equal to the total damage dealt on the enemy units.
+167	12	We refer to this method as VDN-S. We also show the performance of a non-learning heuristicbased algorithm with full observability, where each agent attacks the closest enemy and continues attacking the same target until the unit dies.
+168	7	Afterwards, the agent starts attacking the nearest enemy and so forth.
+199	7	This paper presented QMIX, a deep multi-agent RL method that allows end-to-end learning of decentralised policies in a centralised setting and makes efficient use of extra state information.
+202	21	Our results in decentralised unit micromanagement tasks in StarCraft II show that QMIX improves the final performance over other value-based multi-agent methods that employ less sophisticated joint state-value function factorisation, as well as independent Q-learning.
+203	17	In the near future, we aim to conduct additional experiments to compare the methods across tasks with a larger number and greater diversity of units.
+204	22	In the longer term, we aim to complement QMIX with more coordinated exploration schemes for settings with many learning agents.

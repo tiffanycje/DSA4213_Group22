@@ -1,0 +1,30 @@
+0	26	Parsing accuracy is greatly impacted by the quality of preprocessing steps such as tagging and word segmentation.
+1	28	Li et al. (2011) report that the difference between using the gold POS tags and using the automatic counterparts reaches about 6% in dependency accuracy.
+2	29	Prior research has demonstrated that joint prediction alleviates error propagation inherent in pipeline architectures, where mistakes cascade from one task to the next (Bohnet et al., 2013; Tratz, 2013; Hatori et al., 2012; Zhang et al., 2014a).
+5	50	In this paper, we propose a method for joint prediction that imposes no constraints on the scoring function.
+6	49	The method is able to handle high-order and global features for each individual task (e.g., parsing), as well as features that capture interactions between tasks.
+7	37	The algorithm achieves this flexibility by operating over full assignments that specify segmentation, POS tags and dependency tree, moving from one complete configuration to another.
+58	89	Our randomized greedy algorithm finds a high scoring assignment for (s, t, y) via a hill-climbing process with multiple random restarts.
+59	21	(Section 3.3 describes how the parameters θ are learned.)
+61	90	First, we draw a full path from the lattice structure in two steps: (1) sampling a morphological segmentation s from S; (2) sampling POS tags t for each morpheme.
+70	40	We can enumerate and compute the probabilities proportional to the exponential of the first-order scores as follows.3 p(si) ∝ exp{θ · f(x, si)} p(ti,j) ∝ exp{θ · f(x, si, ti,j)} (2) SampleTree: Given a random sample of the segmentations s and the POS tags t(0), we draw a random tree y(0) from the first-order distribution using Wilson’s algorithm (Wilson, 1996).4 HillClimbPOS: After sampling the initial values s, t(0) and y(0), the hill-climbing algorithm improves the solution via locally greedy changes.
+71	47	The hillclimbing algorithm iterates between improving the POS tags and the dependency tree.
+74	43	Specifically, we greedily update the head yi,j of each morpheme in a bottom-up order as follows yi,j ← arg max yi,j∈Yi,j score(x, s, t, yi,j , y−(i,j)) (4) where Yi,j is the set of candidate heads such that changing yi,j to any candidate does not violate the tree constraint.
+84	19	Figure 3 shows an example of the Chinese word lattice structure we construct.
+98	24	For the first Arabic dataset, we use the dataset used in the Statistical Parsing of Morphologically Rich Languages (SPMRL) Shared Task 2013 (Seddah et al., 2013).5 We follow the official split for training, development and testing set.
+121	19	Following standard practice in previous work (Hatori et al., 2012; Zhang et al., 2014a), we use Fscore as the evaluation metric for segmentation, POS tagging and dependency parsing.
+123	22	In addition, we use TedEval (Tsarfaty et al., 2012) to evaluate the joint prediction on the SPMRL dataset, because TedEval score is the only evaluation metric used in the official report.
+128	41	System Variants We also compare against a pipeline variation of our model.
+136	56	Comparison to State-of-the-art Systems Table 4 summarizes the performance of our model and the best published results for the SPMRL and the CTB5 datasets.11 On both datasets, our system outperforms the baselines.
+137	33	On the SPMRL 2013 shared task, our approach yields a 2.1% TedEval score gain over the top performing system (Björkelund et al., 2013).
+138	20	We also improve the segmentation and dependency F-scores by 3.1% and 4.8% respectively.
+140	77	On the CTB5 dataset, we outperform the state-of-the-art with respect to all tasks: segmentation (0.3%), tagging (0.1%), and dependency parsing (0.3%).12 Impact of the Joint Prediction As Table 4 shows, our joint prediction model consistently outperforms the corresponding pipeline model in all three tasks.
+142	43	We also observe that gains are higher (2%) on the classical Arabic dataset, which demonstrates that joint prediction is particularly helpful in bridging the gap between MSA and classical Arabic.
+157	30	Convergence Properties To assess the quality of the approximation obtained by the randomized greedy inference, we would like to compare it against the optimal solution.
+159	24	Figure 8 shows the normalized score of the retrieved solution as a function of the number of restarts.
+166	222	We can see that most of the local optima reached by hill-climbing have scores close to the maximum.
+167	27	For instance, about 30% of the local optima are identical to the best solution, namely scoremax − scorelocal = 0.
+168	160	In this paper, we propose a general randomized greedy algorithm for joint segmentation, POS tagging and dependency parsing.
+169	42	On both Arabic and Chinese, our model achieves improvement on the three tasks over state-of-the-art systems and pipeline variants of our system.
+170	78	In particular, we demonstrate that OOV words benefits more from the power of joint prediction.
+171	40	Finally, our experimental results show that increasing candidate sizes improves performance across all evaluation metrics.

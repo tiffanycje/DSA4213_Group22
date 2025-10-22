@@ -1,0 +1,29 @@
+17	20	In this work, we bypass the difficulties associated with maximum likelihood estimation by using the method of moments to achieve optimal sample complexity.
+18	2	We introduce a parameter `, which we call the cycle sparsity of the graph induced by the kernelK, which governs the number of moments that need to be considered and, thus, the sample complexity.
+20	2	The cycle sparsity of a graph is the smallest integer ` so that the cycles of length at most ` yield a basis for the cycle space of the graph.
+22	12	We use such cycles in order to construct our method of moments estimator.
+25	6	In particular, we show that there is an infinite family of graphs with cycle sparsity ` (namely length ` cycles) on which any algorithm requires at least (C ′α)−2` samples to recover the signs of the entries of K for some constant C ′ > 1.
+26	15	Finally, we show experimental results that confirm many quantitative aspects of our theoretical predictions.
+28	4	, Yn be n independent copies of Y ∼ DPP(K), for some unknown kernel K such that 0 K IN .
+29	71	It is well known that K is identified by DPP(K) only up to flips of the signs of its rows and columns: If K ′ is another symmetric matrix with 0 K ′ IN , then DPP(K ′)=DPP(K) if and only if K ′ = DKD for some D ∈ DN , where DN denotes the class of all N × N diagonal matrices with only 1 and −1 on their diagonals (Kulesza, 2012, Theorem 4.1).
+30	15	We call such a transform a DN -similarity of K. In view of this equivalence class, we define the following pseudo-distance between kernels K and K ′: ρ(K,K ′) = inf D∈DN |DKD −K ′|∞ , where for any matrix K, |K|∞ = maxi,j∈[N ] |Ki,j | denotes the entrywise sup-norm.
+31	5	For any S ⊂ [N ], we write ∆S = det(KS), where KS denotes the |S| × |S| submatrix of K obtained by keeping rows and colums with indices in S. Note that for 1 ≤ i 6= j ≤ N , we have the following relations: Ki,i = P[i ∈ Y ], ∆{i,j} = P[{i, j} ⊆ Y ], and |Ki,j | = √ Ki,iKj,j −∆{i,j}.
+32	36	Therefore, the principal minors of size one and two of K determine K up to the sign of its off-diagonal entries.
+33	16	In fact, for any K, there exists an ` depending only on the graph GK induced by K, such that K can be recovered up to a DN -similarity with only the knowledge of its principal minors of size at most `.
+34	18	We will show that this ` is exactly the cycle sparsity.
+36	1	We begin by recalling some standard graph theoretic notions.
+39	10	The cycle space C of G is the subspace of GF (2)m spanned by the incidence vectors of the cycles in G. The dimension νG of the cycle space is called cyclomatic number, and it is well known that νG := m−N + κ(G), where κ(G) denotes the number of connected components of G. Recall that a simple cycle is a graph where every vertex has either degree two or zero and the set of vertices with degree two form a connected set.
+42	52	The cycle sparsity of a graph G is the minimal ` for which G admits a cycle basis of induced cycles of length at most `, with the convention that ` = 2 whenever the cycle space is empty.
+44	42	A shortest maximal cycle basis of the cycle space was also studied for other reasons by (Chickering et al., 1995).
+47	15	The set of vertices incident to some edge in M is denoted by V (M).
+48	17	We denote by M(S) the collection of all matchings of GK(S).
+49	37	Then, if GK(S) is an induced cycle, we can write the principal minor ∆S = det(KS) as follows: ∆S = ∑ M∈M(S) (−1)|M | ∏ {i,j}∈M K2i,j ∏ i 6∈V (M) Ki,i + 2× (−1)|S|+1 ∏ {i,j}∈E(S) Ki,j .
+51	55	There has been work regarding the symmetric principal minor assignment problem, namely the problem of computing a matrix given an oracle that gives any principal minor in constant time (Rising et al., 2015).
+53	18	However the accuracy of our estimator deteriorates with the size of the principal minor, and we must therefore estimate the smallest possible principal minors in order to achieve optimal sample complexity.
+55	40	Let K ∈ RN×N be a symmetric matrix, GK be the graph induced byK, and ` ≥ 3 be some integer.
+56	51	The kernelK is completely determined up toDN -similarity by its principal minors of size at most ` if and only if the cycle sparsity of GK is at most `.
+57	59	Note first that all the principal minors of K completely determine K up to a DN -similarity (Rising et al., 2015, Theorem 3.14).
+58	75	Moreover, recall that principal minors of degree at most 2 determine the diagonal entries of K as well as the magnitude of its off-diagonal entries.
+59	44	In particular, given these principal minors, one only needs to recover the signs of the off-diagonal entries of K. Let the sign of cycle C in K be the product of the signs of the entries of K corresponding to the edges of C. Suppose GK has cycle sparsity ` and let (C1, .
+60	60	, Cν) be a cycle basis of GK where each Ci, i ∈ [ν] is an induced cycle of length at most `.
+62	45	Moreover, for i ∈ [ν], let xi ∈ GF (2)m denote the incidence vector of Ci.

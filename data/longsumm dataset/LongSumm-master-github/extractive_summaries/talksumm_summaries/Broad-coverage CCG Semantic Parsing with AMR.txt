@@ -1,0 +1,30 @@
+4	40	The AMR meaning bank provides a large new corpus that, for the first time, enables us to study the problem of grammar induction for broad-coverage semantic parsing.
+5	31	However, it also presents significant challenges for existing algorithms, including much longer sentences, more complex syntactic phenomena and increased use of noncompositional semantics, such as within-sentence coreference.
+6	34	In this paper, we introduce a new, scalable Combinatory Categorial Grammar (CCG; Steedman, 1996, 2000) induction approach that solves these challenges with a learned joint model of both compositional and non-compositional semantics, and achieves state-of-the-art performance on AMR Bank parsing.
+8	31	First, we use CCG to construct lambda-calculus representations of the compositional aspects of AMR.
+11	35	However, using CCG to construct such logical forms requires a new mechanism for non-compositional reasoning, for example to model the long-range anaphoric dependency introduced by their in Figure 1.
+84	30	Let Su : C → 2C∪I(u) be a specification func- tion, such that its inverse is deterministic.
+89	55	}, all 33 passive relations, and otherwise (d) Su(c) = c. For example, in u in Figure 3b, the set of assignments to the ID placeholder is I(u) = {1, 2, 3, 4, 5, 6, 7}.
+90	65	The first part of a derivation d = 〈y,M〉 is a CCG parse tree y with an underspecified logical form u at its root.
+91	41	For example, Figure 3a shows such a CCG parse tree, where the logical form contains the placeholders REL, REL-of and ID.
+93	55	For example, in Figure 3b, CONSTS(u) contains, among others, three different occurrences of ARG1 and one of ID, and M maps REL to ARG2, REL-of to ARG0-of and ID to the Skolem ID 2.
+97	36	Second, we can represent distant references while avoiding the complex parse trees that would have been required to represent these dependencies with scoped variables instead of Skolem IDs.2
+100	80	To represent a probability distribution overM, we build for each u a factor graphGu = 〈V, F,E〉, (a) CCG parse y: Maps the sentence x to an underspecified logical form u (Section 5.1) with placeholders for unresolved decisions: ID for reference identifiers and the predicates REL and REL-of for unresolved relations.
+111	36	Derivations are scored using a log-linear model that includes both CCG parse features and those defined by the factor graph.
+119	64	For every underspecified logical form u, we construct a factor graph and use beam search to find the top-L configurations of the graph.4 During learning, we use the function GENMAX(x, z, θ,Λ) to get all derivations that map the sentence x to the logical form z, given parameters θ and lexicon Λ.
+122	37	Learning the two-stage model requires inducing the entries of the CCG lexicon Λ and estimating the parameters θ, which score both stages of the derivation.
+129	21	N}, number of iterations T , mini-batch size M , seed lexicon Λ0 and learning rate µ. Definitions: SUB(D, i, j) is the set of the next j samples from D starting at i. GENMAX(x, z, θ,Λ) is the set of viterbi derivations from x with the final result z given parameters θ and lexicon Λ. LEX(d) is the set of lexical entries used in the derivation d. COMPUTEGRAD(x, z, θ,Λ) computes the gradient for sentence x and logical form z, given the parameters θ and lexicon Λ, and it described in Section 6.2.
+153	23	We first use GENLEX(x, z,Λ) to generate a large set of potential lexical entries from u, the underspecified form of z, by generating lexemes (Section 4) and pairing them with all templates in Λ.
+158	22	Following Artzi and Zettlemoyer (2013b), we constrain the set of derivations to include only those that use at most one lexeme from Ggen.
+160	59	Otherwise, we proceed to do a second pass, where we try to generate new templates to parse the sentence.
+168	140	Kwiatkowski et al. (2010) present the full details.6 The process starts from u, the underspecified form of z, and recursively applies the splitting operation while ensuring that: (1) there is at most one entry from Ggen or one entry where both the template and lexemes are new in the derivation, (2) each parsing step must have at least one child that may be constructed from an existing partial derivation, and (3) for each new parsing step, the syntax of a newly generated child must match the syntax of a CCGBank category for the same span.
+172	54	The hard gradient update is: 1 |D∗(z)| ∑ d∈D∗(z) φ(xi, d)− Ep(d,|xi;θ,Λ)[φ(xi, d)] , (2) where φ(x, d) ∈ Rl is a l-dimensional feature vector (Section 5.3) and the positive portion of the gradient, rather than using expected features, averages over all max-scoring correct derivations.
+173	49	Early updates To generate an effective update when no correct derivation is observed, we follow Collins and Roark (2004) and do an early update if D∗(z) is empty or if GEN(x,Λ), the set of derivations for x, does not contain a derivation with the correct final logical form z.
+177	21	We extract sub-expressions from u,7 the underspecified form of z, and search the CKY chart for the top-scoring non-overlapping spans that contain categories with these logical forms.
+178	34	We use the partial derivations leading to these cells to compute the gradient.
+181	23	Second, given the complexity of the data, it allows us to have updates for many examples that would be otherwise ignored.
+224	35	We are also able for the first time to report AMR parsing results without any surface-form similarity heuristics, by removing both JAMR alignments and named-entity matching lexical generation (Section 6.1).
+229	53	We described an approach for broad-coverage CCG induction for semantic parsing, including a joint representation of compositional and noncompositional semantics, a new grammar induction technique and an early update procedure.
+230	41	We used AMR as the target representation and present new state-of-the-art AMR parsing results.
+233	43	Similarly, resolving cross-sentence references, which are not annotated in AMR Bank, is important future work.
+234	75	Finally, we would like to reduce the dependency on surface-form heuristics, for example to better generalize to other languages.

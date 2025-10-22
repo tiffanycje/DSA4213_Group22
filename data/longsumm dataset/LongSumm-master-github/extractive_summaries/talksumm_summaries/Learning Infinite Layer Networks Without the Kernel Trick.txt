@@ -1,0 +1,30 @@
+2	21	One such line of work consists of learning classifiers that are linear functions of a very large or infinite collection of non-linear functions (Bach, 2014; Daniely et al., 2016; Cho & Saul, 2009; Heinemann et al., 2016; Williams, 1997).
+4	27	They are of course also related to kernel based classifiers, as will be discussed later.
+5	80	A target function in an ILN class will be of the form: x→ ∫ ψ(x;w)f(w)dµ(w), (1) Here ψ is some function of the input x and parameters w, and dµ(w) is a prior over the parameter space.
+6	52	For example, ψ(x;w) can be a single sigmoidal neuron or a complete convolutional network.
+7	68	The integral can be thought of as an infinite sum over all such possible networks, and f(w) can be thought of as an infinite output weight vector to be trained.
+8	14	A Standard 1–hidden layer network with a finite set of units can be obtained from the above formalism as follows.
+9	15	First, choose ψ(x;w) = σ(x ·w) where σ is an activation function (e.g., sigmoid or relu).
+13	13	,wd on which we wish to support our distribution.
+26	74	We thus turn our attention to the setting where features (i.e., w vectors) can be randomly sampled.
+27	10	In this setting, our main result shows that for the squared loss, we can efficiently learn the above class.
+28	31	Moreover, we can surprisingly do this with a computational cost comparable to that of methods that have access to the closed form kernel k(x1,x2).
+29	59	The observation we begin with is that sampling random features (i.e., w above), leads to an unbiased estimate of the kernel in Eq.
+30	38	Thus, if for example, we ignore complexity issues and can sample infinitely many w’s, it is not surprising that we can avoid the need for exact computation of the kernel.
+31	12	However, our results provide a much stronger and practical result.
+32	86	Given T training samples, the lower bound on achievable accuracy is O(1/ √ T ) (see Shamir, 2015).
+33	29	We show that we can in fact achieve this rate, using Õ(T 2) calls2 to the random feature generator.
+34	21	For comparison, note that O(T 2) is the size of the kernel matrix, and is thus likely to be the cost of any algorithm that uses an explicit kernel matrix, where one is available.
+57	12	The objective of the learner is to minimize her T round regret w.r.t norm bounded elements in L2(Ω, µ).
+61	10	We will elaborate on the structure of the Algorithm later, but first provide the main result.
+64	29	Functions ft ∈ L2(Ω, µ) defined as ft = ∑t i=1 α (t) i Φ(xi); Initialize α(1) = 0̄ ∈ RT ; for t = 1, .
+75	13	We next turn to the statistical setting, where we provide bounds on the expected performance.
+80	15	Proofs of the results are provided in Section 5.1 and the appendix.
+111	21	We first introduce the problem in the terminology of online convex optimization, as in Zinkevich (2003).
+112	16	At iteration t our algorithm outputs a hypothesis ft.
+115	10	A classic approach to the problem is to exploit the OGD algorithm.
+130	28	Next, for the chosen i, sample w̄ according to µ, and use ψ(x; w̄)ψ(xi; w̄) to construct an estimate of 〈Φ(xi),Φ(xt)〉.
+133	9	To effectively regularize ‖α‖1, we modify the OGD algorithm so that whenever Et is larger then 16B, we do not perform the usual update.
+135	15	Treating B as constant, this guarantees that ‖α‖1 = O(ηT ), and in turn Var(∇̄t) = O(η 2T 2 m ).
+139	19	In what follows we analyze the regret for Algorithm 1, and provide a high level proof of Theorem 1.
+146	42	For each t let ∇̄t be an unbiased estimator of ∇`t(ft).

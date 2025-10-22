@@ -1,0 +1,30 @@
+22	25	On these benchmark datasets, we present new state-of-theart results, with error reductions of up to 28% for the detection task and 21% for the end-to-end task.
+25	36	, wj〉 in D. Define a time expression e = (t, v) to include both a temporal type t and value v.1 The temporal type t ∈ {Date, Time, Duration, Set} can take one of four possible values, indicating if the expression e is a date (e.g., “January 10, 2014”), time (e.g., “11:59 pm”), duration (e.g., “6 months”), or set (e.g., “every year”).
+26	180	The value v is an extension of the ISO 8601 standard, which encodes the time that mentionm refers to in the context provided by document D. For example, in a document written on Tuesday, January 7, 2014, “Friday,” “three days later,” and “January 10th” would all resolve to the value 2014-01-10.
+28	31	Tasks Our goal is to find all time expressions in an input document.
+31	36	n} of phrases in D that describe time expressions.
+34	20	For both tasks, we define the space of possible compositional meaning representations Z , where each z ∈ Z defines a unique time expression e. We use a log-linear CCG (Steedman, 1996; Clark and Curran, 2007) to rank possible meanings z ∈ Z for each mention m in a document D, as described in Section 4.
+35	31	Both detection (Section 5) and resolution (Section 6) rely on the semantic parser to identify likely mentions and resolve them within context.
+36	18	For learning we assume access to TimeML data containing documents labeled with time expressions.
+42	25	Our representation draws heavily from the representation proposed by Angeli et al. (2012), who introduced semantic parsing for this task.
+68	21	CCG is a linguistically motivated categorial formalism for modeling a wide range of language phenomena (Steedman, 1996; Steedman, 2000).
+69	16	A CCG is defined by a lexicon and a set of combinators.
+71	16	For example, Figure 1 shows a CCG parse tree for the phrase “one week ago.” The parse tree is read top to bottom, starting from assigning categories to words using the lexicon.
+77	32	Hand Engineered Lexicon To parse time expressions, we use a CCG lexicon that includes 287 manually designed entries, along with automatically generated entries such as numbers and common formats of dates and times.
+96	29	Algorithm The detection algorithm considers all phrases that our CCG grammar Λ (Section 4) can parse, uses a learned classifier to further filter this set, and finally resolves conflicts between any overlapping predictions.
+97	161	We use a CKY algorithm to efficiently determine which phrases the CCG grammar can parse and only allow logical forms for which there exists some context in which they would produce a valid time expression, e.g. ruling out intersect(monday , tuesday).
+98	17	Finally, we build the set M of non-overlapping mentions using a step similar to non-maximum suppression: the mentions are sorted by length (longest first) and iteratively added to M , as long as they do not overlap with any mention already in M .
+99	64	Filtering Model Given a mention m, its document D, a feature function φ, the CCG lexicon Λ, and feature weights θ, we use a logistic regression model to define the probability distribution: P (t|m,D; Λ, θ) = e θ·φ(m,D,Λ) 1 + eθ·φ(m,D,Λ) where t indicates whether m is a time expression.
+172	17	All features are initialized to have zero weights.
+175	16	For resolution, we report value accuracy, measuring correctness of time expressions detected according to the relaxed metric.
+179	35	Comparison Systems We compare our system primarily to HeidelTime (Strötgen and Gertz, 2013), which is state of the art in the end-toend task.
+182	21	We also include a comparison with Bethard’s synchronous context free grammar (SCFG) (Bethard, 2013b), which is state-of-the-art in the task of resolution with gold mention boundaries.
+190	22	Precision vs. Recall Our probabilistic model of time expression resolution allows us to easily tradeoff precision and recall for end-to-end performance by varying the resolution probability threshold.
+194	18	We ablate the ability to refer to the context during resolution by removing contextual information from the resolution features and only allowing the document creation time to be the reference time.
+198	14	This difference helps us to understand why previous learning systems have been able to ignore context and perform well on newswire text.
+204	33	The three largest categories, responsible for 64.7% of the errors, were incorrect use of the context operators.
+206	36	We presented the first context-dependent semantic parsing system to detect and resolve time expressions.
+209	27	Experiments demonstrated that our approach outperforms state-of-the-art systems.
+210	46	In the future, we aim to develop joint models for reasoning about events and time expressions, including detection and resolution of temporal relations.
+211	87	We are also interested in testing coverage in new domains and investigating techniques for semi-supervised learning and learning with noisy data.
+212	110	We hypothesize that semantic parsing techniques could help in all of these settings, providing a unified mechanism for compositional analysis within temporal understanding problems.

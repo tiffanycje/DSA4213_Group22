@@ -1,0 +1,30 @@
+1	36	Although chemists have applied machine learning to many problems over the years, predicting the properties of molecules and materials using machine learning (and especially deep learning) is still in its infancy.
+2	47	To date, most research applying machine learning to chemistry tasks (Hansen et al., 2015; Huang & von Lilienfeld, 2016; 1 Rupp et al., 2012; Rogers & Hahn, 2010; Montavon et al., 2012; Behler & Parrinello, 2007; Schoenholz et al., 2016) has revolved around feature engineering.
+7	10	The time is ripe to apply more powerful and flexible machine learning methods to these problems, assuming we can find models with suitable inductive biases.
+8	26	The symmetries of atomic systems suggest neural networks that operate on graph structured data and are invariant to graph isomorphism might also be appropriate for molecules.
+9	13	Sufficiently successful models could someday help automate challenging chemical search problems in drug discovery or materials science.
+10	15	In this paper, our goal is to demonstrate effective machine learning models for chemical prediction problems that are capable of learning their own features from molecular graphs directly and are invariant to graph isomorphism.
+11	33	To that end, we describe a general framework for supervised learning on graphs called Message Passing Neural Networks (MPNNs) that simply abstracts the commonalities between several of the most promising existing neural models for graph structured data, in order to make it easier to understand the relationships between them and come up with novel variations.
+19	48	and the setting where we need to compute properties that might still be defined in terms of the spatial positions of atoms, but where only the atom and bond information (i.e. graph) is available as input.
+39	28	The forward pass has two phases, a message passing phase and a readout phase.
+40	43	The message passing phase runs for T time steps and is defined in terms of message functions Mt and vertex update functions Ut.
+41	86	During the message passing phase, hidden states htv at each node in the graph are updated based on messages mt+1v according to mt+1v = ∑ w∈N(v) Mt(h t v, h t w, evw) (1) ht+1v = Ut(h t v,m t+1 v ) (2) where in the sum,N(v) denotes the neighbors of v in graph G. The readout phase computes a feature vector for the whole graph using some readout function R according to ŷ = R({hTv | v ∈ G}).
+42	19	(3) The message functionsMt, vertex update functions Ut, and readout function R are all learned differentiable functions.
+45	17	Note one could also learn edge features in an MPNN by introducing hidden states for all edges in the graph htevw and updating them analogously to equations 1 and 2.
+47	37	Convolutional Networks for Learning Molecular Fingerprints, Duvenaud et al. (2015) The message function used is M(hv, hw, evw) = (hw, evw) where (., .)
+51	76	Gated Graph Neural Networks (GG-NN), Li et al. (2016) The message function used isMt(htv, h t w, evw) = Aevwh t w, where Aevw is a learned matrix, one for each edge label e (the model assumes discrete edge types).
+53	10	This work used weight tying, so the same update function is used at each time step t. Finally, R = ∑ v∈V σ ( i(h(T )v , h 0 v) ) ( j(h(T )v ) ) (4) where i and j are neural networks, and denotes elementwise multiplication.
+56	21	The vertex update function U(hv, xv,mv) is a neural network which takes as input the concatenation (hv, xv,mv).
+76	20	Recent work has adapted the GG-NN architecture to larger graphs by passing messages on only subsets of the graph at each time step (Marino et al., 2016).
+99	10	To investigate the success of MPNNs on predicting chemical properties, we use the publicly available QM9 dataset (Ramakrishnan et al., 2014).
+100	22	Molecules in the dataset consist of Hydrogen (H), Carbon (C), Oxygen (O), Nitrogen (N), and Flourine (F) atoms and contain up to 9 heavy (non Hydrogen) atoms.
+101	56	In all, this results in about 134k drug- like organic molecules that span a wide range of chemistry.
+111	12	They include the energy of the electron in the highest occupied molecular orbital (HOMO) εHOMO (eV), the energy of the lowest unoccupied molecular orbital (LUMO) εLUMO (eV), and the electron energy gap (∆ε (eV)).
+125	15	Edge Network: To allow vector valued edge features we propose the message function M(hv, hw, evw) = A(evw)hw where A(evw) is a neural network which maps the edge vector evw to a d× d matrix.
+144	36	The set2set model is specifically designed to operate on sets and should have more expressive power than simply summing the final node states.
+161	10	For a list of all of the features see table 1.
+196	15	These baselines include 5 different hand engineered molecular representations, which then get fed through a standard, off-the-shelf classifier.
+199	67	Overall, our new MPNN achieves chemical accuracy on 11 out of 13 targets and state of the art on all 13 targets.
+208	21	The state of art numbers we report in table 2 do not use this feature.
+209	29	Towers: Our original intent in developing the towers variant was to improve training time, as well as to allow the model to be trained on larger graphs.
+214	38	We believe the benefit of towers is that it resembles training an ensemble of models.

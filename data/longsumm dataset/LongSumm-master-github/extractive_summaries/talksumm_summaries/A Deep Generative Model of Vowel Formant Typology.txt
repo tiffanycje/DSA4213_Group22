@@ -1,0 +1,30 @@
+0	72	Human languages are far from arbitrary; crosslinguistically, they exhibit surprising similarity in many respects and many properties appear to be universally true.
+1	74	The field of linguistic typology seeks to investigate, describe and quantify the axes along which languages vary.
+2	23	One facet of language that has been the subject of heavy investigation is the nature of vowel inventories, i.e., which vowels a language contains.
+4	82	In this work, we offer a more formal treatment of the subject, deriving a generative probability model of vowel inventory typology.
+9	36	While we know of over 7000 human languages, we have some sort of linguistic analysis for only 2300 of them (Comrie et al., 2013), and the dataset used in this paper (Becker-Kristal, 2010) provides simple vowel data for fewer than 250 languages.
+16	14	We briefly review the relevant bits of acoustic phonetics so as to give an overview of the data we are actually modeling and develop our notation.
+18	19	To distinguish vowels, it is helpful to transform this function into a spectrogram (Fig.
+43	28	As the name would imply, the principle states that the vowels in “good” vowel systems tend to be spread out.
+57	83	Previous work (Cotterell and Eisner, 2017) has placed a distribution over discrete phonemes, ignoring the variation across languages in the pronunciation of each phoneme.
+58	71	In this paper, we crack open the phoneme abstraction, moving to a learned set of finer-grained phones.
+67	31	For each universal phone v̄i that appears in this inventory V̄ `, the language then draws an observable languagespecific pronunciation v`i ∼ N ( µi, σ 2I ) from a distribution associated cross-linguistically with the universal phone v̄i.
+80	51	A DPP is a probability distribution over the subsets of a fixed ground set of size N—in our case, the set of phones V̄ .
+82	55	Given a discrete base set V̄ of phones, the probability of a subset V̄ ⊆ V̄ is given by p(V̄ ) ∝ det (LV̄ ) , (1) where LV̄ is the submatrix of L corresponding to the rows and columns associated with the subset V̄ ⊆ V̄ .
+117	17	Step 4 : ∏ i∈V̄ ` p(v ` i | µi) The final step in our generative process is that the phones v̄i in language ` must generate the pronunciations v`i ∈ R2 (formant vectors) that are actually observed in language `.
+118	44	For each i ∈ V̄ `, we generate an underlying ṽi ∈ R2 from the corresponding Gaussian phone.
+119	14	Then, we run this vector through a feed-forward neural network νθ with parameters θ.
+121	30	We can fuse these two steps into a single step p(vi | µi), whose closed-form density is given in eq.
+126	30	A crucial bit of our model is running a sample from a Gaussian through a neural network.
+127	18	Under certain restrictions, we can find a closed form for the resulting density; we discuss these below.
+128	29	Let νθ be a depth-2 multi-layer perceptron νθ(ṽi) = W2 tanh (W1ṽi + b1) + b2.
+130	33	This will be true as long asW1,W2 ∈ R2×2 are square matrices of fullrank and we choose a smooth, invertible activation function, such as tanh.
+131	43	Under those conditions, we may apply the standard theorem for transforming a random variable (see Stark and Woods, 2011): p(vi | µi) = p(ν−1θ (vi) | µi) det Jν−1θ (vi) = p(ṽi | µi) det Jν−1θ (vi) (12) where Jν−1θ (x) is the Jacobian of the inverse of the neural network at the point x.
+134	23	A technical assumption of our model is the existence of a universal set of underlying phones.
+139	19	Our universal phones are not a substantive linguistic hypothesis, but are essentially just a way of partitioning R2 into finitely many small regions whose similarity and focalization can be precomputed.
+142	54	Distances in this latent space are used to compute the dissimilarity of phones for modeling dispersion, and also to describe the phone’s ability to vary across languages.
+149	21	We fit our model via MAP-EM (Dempster et al., 1977).
+150	21	The E-step involves deciding which phones each language has.
+152	131	Inference in our model is intractable even when the phones µ1, .
+154	28	As discussed above, the alignment a between the n vowels and n of the N phones represents a latent variable.
+155	15	Marginalizing it out is #P-hard, as we can see that it is equivalent to summing over all bipartite matchings in a weighted graph, which, in turn, is as costly as computing the permanent of a matrix (Valiant, 1979).

@@ -1,0 +1,30 @@
+2	118	To build empathetic conversational agents, machines must also have the ability to learn to generate emotional sentences.
+5	68	In recent years, a handful of medium to large scale, emotional corpora in the area of emotion analysis (Go et al., 2016) and dialog (Li et al., 2017b) are proposed.
+12	96	If we can create agents that are able to imitate Twitter users’ language style when using those emojis, we claim that, to some extent, we have captured those emotions.
+15	27	In contrast to existing work (Huang et al., 2017) that uses information retrieval to generate emotional responses, the research question we are pursuing in this paper, is to design novel techniques that can generate abstractive responses of any given arbitrary emotions, without having human annotators to label a huge amount of training data.
+50	91	Inspired by DeepMoji (Felbo et al., 2017), we use 64 common emojis as labels (see Table 1), and collect a large corpus of Twitter conversations con- taining those emojis.
+60	24	If there are multiple types of emoji in a response, we use the emoji with most occurrences inside the response.
+61	30	Among those emojis with same occurrences, we choose the least frequent one across the whole corpus, on the hypothesis that less frequent tokens better represent what the user wants to express.
+77	62	Here we use a sequence-to-sequence (SEQ2SEQ) model (Sutskever et al., 2014) with global attention mechanism (Luong et al., 2015) as our base model (See Figure 3).
+83	20	Then vo and ve are concatenated and fed to a 1-layer RNN decoder of GRU cells.
+90	24	In our case, the condition c = [vo; ve], target x represents the response.
+106	17	The general loss with bag-of-word loss (see supplementary materials for details) is rewritten as: L′ = L+ Lbow (3)
+110	30	It is a skip connected model of Bidirectional GRU-RNN layers (Felbo et al., 2017).
+111	70	During the policy training, we first get the generated response x′ by passing x and c through the CVAE, then feeding generation x′ to classifier and get the probability of the emoji label as reward R. Let θ be parameters of our network, REINFORCE algorithm (Williams, 1992) is used to maximize the expected reward of generated responses: J (θ) = Ep(x|c)(Rθ(x, c)) (4) The gradient of Equation 4 is approximated using the likelihood ratio trick (Glynn, 1990; Williams, 1992): ∇J (θ) = (R− r)∇ |x|∑ t log p(xt|c, x1:t−1) (5) r is the baseline value to keep estimate unbiased and reduce its variance.
+112	46	In our case, we directly pass x through emoji classifier and compute the probability of the emoji label as r. The model then encourages response generation that has R > r. As REINFORCE objective is unrelated to response generation, it may make the generation model quickly deteriorate to some generic responses.
+121	18	During training, fully converged base SEQ2SEQ model is used to initialize its counterparts in CVAE models.
+128	24	We also use top-5 emoji accuracy, since the meaning of different emojis may overlap with only a subtle difference.
+130	20	Note that we use the same emoji classifier for evaluation.
+172	25	Given an original tweet, we would like to generate responses with three different target emotions.
+173	125	SEQ2SEQ only chooses to generate most frequent expressions, forming a predictable pattern for its generation (See how every sampled response by the base model starts with “I’m”).
+176	198	Reinforced CVAE somtetimes tends to generate a lengthy response by stacking up sentences (See the responses to the first tweet when conditioning on the ‘folded hands’ emoji and the ‘sad face’ emoji).
+177	23	It learns to break the length limit of sequence generation during hybrid training, since the variational lower bound objective is competing with REINFORCE objective.
+179	23	However, this phenomenon does not impair the fluency of generated sentences, as can be seen in Figure 5.
+183	95	We performed automatic and human evaluations to understand the quality of generated responses.
+184	19	We trained a large scale emoji classifier and ran the classifier on the generated responses to evaluate the emotion accuracy of the generated response.
+185	38	We performed an Amazon Mechanical Turk experiment, by which we compared our models with a baseline sequence-to-sequence model on metrics of relevance and emotion.
+186	155	Experimentally, it is shown that our model is capable of generating high-quality emotional responses, without the need of laborious human annotations.
+187	29	Our work is a crucial step towards building intelligent dialog agents.
+188	108	We are also looking forward to transferring the idea of naturally-labeled emojis to task-oriented dialog and multi-turn dialog generation problems.
+189	56	Due to the nature of social media text, some emotions, such as fear and disgust, are underrepresented in the dataset, and the distribution of emojis is unbalanced to some extent.
+190	32	We will keep accumulating data and increase the ratio of underrepresented emojis, and advance toward more sophisticated abstractive generation methods.

@@ -1,0 +1,30 @@
+12	19	Both (Maclaurin et al., 2015) and (Pedregosa, 2016) managed to optimize a number of hyperparameters in the order of one thousand.
+20	31	As we shall see, these two approaches have a direct correspondence to two classic alternative ways of computing gradients for recurrent neural networks (RNN) (Pearlmutter, 1995): the Lagrangian (reverse) way corresponds to back-propagation through time (Werbos, 1990), while the forward way corresponds to real-time recurrent learning (RTRL) (Williams & Zipser, 1989).
+21	67	As RTRL allows one to update parameters after each time step, the forward approach is suitable for real-time hyperparameter updates, which may significantly speed up the overall hyperparameter optimization procedure in the presence of large datasets.
+22	18	We give experimental evidence that the real-time approach is efficient enough to allow for the automatic tuning of crucial hyperparameters in a deep learning model.
+23	18	In our experiments, we also explore constrained hyperparameter optimization, showing that it can be used effectively to detect noisy examples and to discover the relationships between different learning tasks.
+24	17	The paper is organized in the following manner.
+25	53	In Section 2 we introduce the problem under study.
+27	13	In Section 3.2 we present the forward-mode computation of the hypergradient, and in Section 3.3 we introduce the idea of real-time hyperparameter updates.
+31	14	We focus on training procedures based on the optimization of an objective function J(w) with respect to w (e.g. the regularized average training loss for a neural network with weights w).
+33	37	as a dynamical system with a state st ∈ Rd that collects weights and possibly accessory variables such as velocities and accumulated squared gradients.
+46	15	The validation error E can in turn be of different kinds.
+52	40	Algorithm 1 REVERSE-HG Input: λ current values of the hyperparameters, s0 initial optimization state Output: Gradient of validation error w.r.t.
+69	35	Combining these equations with Eq.
+73	25	Pseudo-code of REVERSE-HG is presented in Algorithm 1.
+74	52	The second approach to compute the hypergradient appeals to the chain rule for the derivative of composite functions, to obtain that the gradient of f at λ satisfies1 ∇f(λ) = ∇E(sT ) dsT dλ (12) where dsTdλ is the d×mmatrix formed by the total derivative of the components of sT (regarded as rows) with respect to the components of λ (regarded as columns).
+75	13	The operators Φt depends on the hyperparameter λ both directly by its expression and indirectly through the state st−1.
+86	17	A major difference between REVERSE-HG and FORWARD-HG is that the partial hypergradients ∇ft(λ) = dE(st) dλ = ∇E(st)Zt (16) are available in the second procedure at each time step t and not only at the end.
+98	25	(ii) For any vector q ∈ Rp, the product JᵀF q has time and space complexities O(c(n, p)) using reverse-mode AD.
+121	28	Finally, we corrupted the labels of 2500 training examples, selecting a random subset Df ⊂ Dtr.
+123	56	The error of a model (W, b) on an example x was evaluated by using the crossentropy `(W, b, x) both in the training objective function, Etr, and in the validation one, Eval.
+126	26	The sparsity constraint was implemented by bounding the L1-norm of λ, resulting in the optimization problem min λ∈Λ Eval(WT , bT ) (PHO) where Λ = {λ : λ ∈ [0, 1]Ntr , ‖λ‖1 ≤ R} and (WT , bT ) are the parameters obtained after T iterations of gradient descent on the training objective.
+127	21	Given the high dimensionality of λ, we solved (PHO) iteratively computing the hypergradients with REVERSE-HG method and projecting Adam updates on the set Λ.
+132	26	The data hyper-cleaner starts by discarding mainly corrupted examples, and while 0 100 200 300 400 500 Hyper-iterations 0 500 1000 1500 2000 2500 3000 3500 N u m b er of d is ca rd ed ex am p le s 80 82 84 86 88 90 92 A cc u ra cy N u m b er of d is ca rd ed ex am p le s Accuracy and sparsity of λ Validation Test TP FP Figure 1: Right vertical axis: accuracies of DH-1000 on validation and test sets.
+152	24	We compare the following methods: • SLT: single task learning, i.e. C = 0, using a validation set to tune the optimal value of ρ for each task; • NMTL: we considered the naive MTL scenario in which the tasks are equally related, that is Cj,k = a for every 1 ≤ j, k ≤ K. In this case we learn the two non-negative hyperparameters a and ρ; • HMTL: our hyperparameter optimization method REVERSE-HG to tune C and ρ; • HMTL-S: Learning the matrix C with only few examples per class could bring the discovery of spurious relationships.
+176	21	Vanilla: the secondary target is ignored (ρ = 0); η and µ are set to 0.075 and 0.5 respectively as in (Badino, 2016).
+183	33	Test accuracies and execution times are reported in Table 3.
+185	47	In Experiments 1 and 2 we employ a standard early stopping procedure on the validation accuracy, while in Experiments 3 and 4 a natural stopping time is given by the decay to 0 of the learning rate (see Figure 3 left-bottom plot).
+186	55	In Experiments 3 and 4 we used a hyperbatch size of ∆ = 200 (see Eq.
+191	16	Note that the model trained has more that 15×106 parameters for a corresponding state of more than 30× 106 variables.
+196	31	Our analysis suggests that for large models the forward-mode computation may be a preferable alternative to reverse-mode if the number of hyperparameters is small.

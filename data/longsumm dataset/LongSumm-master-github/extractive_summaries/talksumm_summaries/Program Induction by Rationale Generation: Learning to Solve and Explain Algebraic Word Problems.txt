@@ -1,0 +1,24 @@
+3	38	Solving these tasks is challenging as it involves recognizing how goals, entities, and quantities in the real-world map onto a mathematical formalization, computing the solution, and mapping the solution back onto the world.
+4	70	As a proxy for the richness of the real world, a series of papers have used natural language specifications of algebraic word problems, and solved these by either learning to fill in templates that can be solved with equation solvers (Hosseini et al., 2014; Kushman et al., 2014) or inferring and modeling operation sequences (programs) that lead to the final answer (Roy and Roth, 2015).
+5	92	In this paper, we learn to solve algebraic word problems by inducing and modeling programs that generate not only the answer, but an answer rationale, a natural language explanation interspersed with algebraic expressions justifying the overall solution.
+7	8	Not only do natural language rationales enhance model interpretability, but they provide a coarse guide to the structure of the arithmetic programs that must be executed.
+8	6	In fact the learner we propose (which relies on a heuristic search; §4) fails to solve this task without modeling the rationales—the search space is too unconstrained.
+11	53	In this work, the rationale is generated as a latent variable that gives rise to the answer—it is thus a more faithful representation of the steps used in computing the answer.
+13	26	First, we have created a new dataset with more than 100,000 algebraic word problems that includes both answers and natural language answer rationales (§2).
+14	50	Figure 1 illustrates three representative instances 158 from the dataset.
+15	120	Second, we propose a sequence to sequence model that generates a sequence of instructions that, when executed, generates the rationale; only after this is the answer chosen (§3).
+16	48	Since the target program is not given in the training data (most obviously, its specific form will depend on the operations that are supported by the program interpreter); the third contribution is thus a technique for inferring programs that generate a rationale and, ultimately, the answer.
+17	31	Even constrained by a text rationale, the search space of possible programs is quite large, and we employ a heuristic search to find plausible next steps to guide the search for programs (§4).
+18	10	Empirically, we are able to show that state-of-the-art sequence to sequence models are unable to perform above chance on this task, but that our model doubles the accuracy of the baseline (§6).
+19	17	We built a dataset with 100,000 problems with the annotations shown in Figure 1.
+20	6	Each question is decomposed in four parts, two inputs and two outputs: the description of the problem, which we will denote as the question, and the possible (multiple choice) answer options, denoted as options.
+21	29	Our goal is to generate the description of the rationale used to reach the correct answer, denoted as rationale and the correct option label.
+22	44	Problem 1 illustrates an example of an algebra problem, which must be translated into an expression (i.e., (27x + 17y)/(x + y) = 23) and then the desired quantity (x/y) solved for.
+23	81	Problem 2 is an example that could be solved by multi-step arithmetic operations proposed in (Roy and Roth, 2015).
+25	39	We first collect a set of 34,202 seed problems that consist of multiple option math questions covering a broad range of topics and difficulty levels.
+26	28	Examples of exams with such problems include the GMAT (Graduate Management Admission Test) and GRE (General Test).
+27	121	Many websites contain example math questions in such exams, where the answer is supported by a rationale.
+28	33	Next, we turned to crowdsourcing to generate new questions.
+29	10	We create a task where users are presented with a set of 5 questions from our seed dataset.
+31	86	We also force the answers and rationale to differ from the original question in order to avoid paraphrases of the original question.
+32	13	Once again, we manually check a subset of the jobs for each Turker for quality control.

@@ -1,0 +1,30 @@
+0	30	When annotators are asked for objective judgments about a text (e.g., POS tags), the broader context in which the text is situated is often irrelevant.
+3	34	We ask an- notators to determine whether a given Twitter user supports Donald Trump or Hillary Clinton.
+13	45	While it is possible one could select a “best” context for a given task, our results suggest that doing so a priori is difficult and that, moreover, different contexts provide complementary information.
+24	35	Intuitively, ConStance performs a role analogous to boosting for annotations: for an arbitrary task, it permits collection of labels that capture different aspects of the instances at hand, then combines them automatically to determine which are more reliable and to produce a classifier that takes all this into account.
+28	39	These points are best illustrated via example: the tweet “I hope that the Democrats get destroyed in this election!” has a negative sentiment (towards Democrats), and (therefore, most likely) implies a 1 Replication materials for this work, including code for ConStance, are available at https://github.com/ kennyjoseph/constance.
+32	25	This task illustrates the challenges of annotation, since individual tweets are often ambiguous with respect to stance, contexts on Twitter are inherently fractured, and differing contexts can make annotators lean in different directions.
+37	75	This means that, by our definitions, an annotator might accurately perceive no stance in a tweet, yet have their annotation be considered incorrect with respect to the user’s true stance.
+39	24	As examples of the task, consider annotating the following three tweets: (i) “crooked Hillary - #lockHerUp,” (ii) “Lester thinks he can control the crowd when he can’t even keep Trump on topic lmao,” and (iii) “Settling in for #debatenight Hoping to hear an adult conversation.” In the case of (i), a passing familiarity with American politics gives us high confidence that the author is pro-Trump.
+41	41	For (ii), a Pepe the frog image (a symbol used by the American alt-right movement) in the user profile reveals that the user is probably a Trump supporter.
+42	30	Similarly, for (iii), a profile description that reads “Stereotypical Iowan who enjoys Hillary Clinton, progressive politics.
+44	23	In order to explore the effects on annotation quality of providing these kinds of context to annotators, we crowd-source annotations for a set of tweets and vary the additional information provided to annotators.
+45	45	For ease of comparison with related work and within our own study, we associate each user with a single anchor tweet.
+46	37	Thus, both annotators and classifiers are asked to deter- mine the stance of a user using data from one particular time window.
+51	27	Finally, we kept only those users who posted at least three political tweets.
+52	33	From these users, we sampled 562 political tweets for crowd-sourced stance annotation, selecting at most one tweet per user.
+54	23	Half the tweets were paired with Hillary Clinton as the target, the other half with Donald Trump.
+79	20	Anecdotally, we found certain cases time-consuming to investigate, which argues for continuing to limit how much information we ask annotators to consider.
+88	46	For each of the six contexts separately, we construct labels with which to train a classifier.
+89	45	Training labels are constructed using majority vote; we also tried weighting the training instances to match the distribution of labels, but it did not perform as well.
+91	65	We then train a classifier on each set of labels.
+96	29	For text features, we collapse the anchor tweet plus all additional textual context seen by any annotator into a single string, then compute various n-grams from it.
+99	65	Note that because we want models to generalize beyond registered Democrats or Republicans, we do not include a feature for political party.
+101	67	Additionally, we report the average log-loss (the negative log-likelihood, according to the classifier, of the true label).
+104	32	To assess the statistical significance of differences between two models, we first obtain probability estimates for all GS items.
+118	27	For example, providing annotators with Previous Political Tweets provides a statistically significant increase in both average F1 scores and log-loss (with p < .01) over both the No Context and Full Profile conditions.
+119	89	Perhaps most noteworthy is that the All Combined classifier, created from the naive combination of all annotations, is no better than the classifiers from the individual conditions.
+139	27	The model’s generative story works as follows.
+152	441	Its top row describes what an annotator with perfect judgment would think about a user whose true label is Trump [supporter], with no context.
+153	45	The top left cell, with a value around 0.65, is the probability the annotator would think Trump; the lighter middle cell, with a value around 0.35, is the probability she would think Neutral/Don’t know; and the probability she would think Clinton is almost 0.
+154	85	Like Raykar et al. (2010), we perform inference using Expectation Maximization (EM).

@@ -1,0 +1,23 @@
+1	43	This motivates semi-supervised learning (SSL), which aims to make heavy use of a large amount of unlabeled data along with a limited amount of labeled data.
+2	27	For this problem, the celebrated paper due to (Zhu et al., 2003a) provided a principled offline approach with excellent results in practice.
+3	72	Their algorithm casts the problem as label propagation on a graph, where the nodes represent both labeled and unlabeled data points, and the weight of an edge reflects similarity between its endpoints.
+4	14	The labels are spread in the graph by a random walk process that moves through the unlabeled nodes until reaching a labeled node.
+6	23	In this paper, we consider the case where the data arrives in a high-throughput stream, such as an electrocardiogram signal or a video feed.
+7	55	The goal is to label each point upon arrival as quickly as possible, ideally by means of semi-supervised learning over all of the data seen so far, both labeled and unlabeled.
+8	35	Example use cases include real-time monitoring of metrics arising from medical patient signals (ECG, EEG, fall detection), data centers (network, I/O and CPU utilization), or a camera mounted on a semi-autonomous car (for road conditions and obstacle detection).
+9	18	In these scenarios, unlabeled data is continuously streaming, but only a small number of manually labeled examples are provided – either at the beginning of the stream or as occasional user feedback.
+10	42	We want algorithms that leverage both inputs and learn how to classify stream elements, such as ECG arrhythmias, network intrusion alerts or driving conditions.
+11	11	Several other applications are given in (Goldberg et al., 2008), who defined a similar model, and in (Krempl et al., 2014).
+12	93	In practice, this setting requires algorithms that run under severe time and memory constraints, since the labels are expected in real-time and the stream is generally too large to fully store in the memory.
+13	72	This poses a major challenge: How can we leverage the entire stream history to label a new point, when we can only store a tiny fraction of it?
+14	60	of interleaved labeled and unlabeled points, and a similarity function between pairs of points, label every incoming point xn using sublinear time and sublinear space in n. Our Solution.
+15	47	Our main contribution is Temporal Label Propagation (TLP), a streaming SSL algorithm which is theoretically sound and also works well in practice.
+16	29	Its processing time for the nth point on the stream is independent of n, and its storage space only scales as log n. At the same time, it provably computes the harmonic solution on a similarity graph that naturally describes the entire stream seen so far, which we call a temporal vicinity graph.
+17	20	Thus, it produces labels that utilize all of the labeled and unlabeled points in the past.
+18	51	In comparison, using a batch (offline) label propagation algorithm on the same graph would entail computation and memory requirements that grow at least as a linear function of the stream length n. Our Techniques.
+19	51	The algorithm is based on graph reduction tools that originate in the theory of electric networks.
+20	78	The short-circuit operator (Campbell, 1922; Anderson, 1971) is a way to compress a large graph G into a much smaller graph H, that exposes only pre-specified nodes of interest called terminals, while preserving some global properties of G. We choose the terminals as the most recent points on the stream, including the incoming point that we need to classify.
+21	79	Drawing on the electric interpretation of the harmonic solution (Snell & Doyle, 2000), we rigorously show that the labels of the terminals in G can be computed directly from H. A related graph operation, known as the star-mesh transform (Rosen, 1924), enables us to maintain the compressed graphH of the temporal vicinity graph over the stream by a sequence of simple local updates.
+22	12	We evaluate our solution on several real datasets.
+23	2	Our results demonstrate the advantage of TLP over alternative methods.
+45	20	Graphs discussed in this paper are weighted undirected and we denote them by calligraphic letters.

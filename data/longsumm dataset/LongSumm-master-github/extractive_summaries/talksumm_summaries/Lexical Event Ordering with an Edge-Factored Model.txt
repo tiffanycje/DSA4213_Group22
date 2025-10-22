@@ -1,0 +1,30 @@
+4	123	In this paper we address the task of lexical event ordering, namely predicting the ordering of events based only on the identity of the words comprising their predicates and arguments.
+12	24	Previous work that does not rely on manually annotated data has had some success in discovering temporal lexical relations between predicates (Chklovski and Pantel, 2004; Chambers and Jurafsky, 2008b; Talukdar et al., 2012).
+21	48	By doing so we avoid the costly and error-prone manual annotation of temporal relations by using the textual order of recipes to approximate their temporal order.1 Specifically, we address the cooking recipes domain, which we motivate in §2.
+22	20	In summary, the contribution of this paper is three-fold: (1) we explore the task of lexical event ordering and means for its evaluation; (2) we present an edge-factored model for the task, and show it can be used to predict the order of events well (77.7% according to standard measures for ordering evaluation); (3) we present a method for extracting events and create a dataset of ordered events using recipes extracted from the web.
+47	40	We formalize our task as follows.
+48	26	Let U be a set of event types, namely actions or states (represented as predicates) and objects which these actions operate on (represented as arguments to the predicates; mostly ingredients or kitchenware).
+50	41	, cn is a list of arguments that the predicate takes (e.g., “salt” or “spoon”).
+73	63	The path h∗ is the best temporal ordering of the set of events S according to the model in Eq.
+74	29	(a) e1 = 〈butter, dish〉 e2 = 〈put, apples,water, ... flour, cinnamon, it〉 e3 = 〈mix,with spoon, 〉 e4 = 〈spread, butter, salt, ... over mix〉 e5 = 〈bake,F〉 e6 = 〈serve, cream, cream〉 (b) Butter a deep baking dish, put apples, water, flour, sugar and cin- namon in it.
+76	20	Bake at 350 degrees F until the apples are tender and the crust brown, about 30 minutes.
+77	18	Serve with cream or whipped cream.
+93	24	Every Hamiltonian path5 in G(S) that starts in s and ends in e can be thought of as an ordering of the events in S. The edge (vi, vj) in such a path denotes that vi is the event that comes before vj .
+96	20	Rd be a feature vector for pairs of events, represented as directed edges.
+97	22	In addition, let ✓ 2 Rd be a weight vector.
+132	43	This corresponds to finding a Hamiltonian path in a complete graph, which is generally an NP-hard problem.
+134	22	Still tec - niques are developed for specialized cases, due to the problem’s importance in discrete optimization.
+138	19	The linear score formulation allows us to use rich features, while using ILP allows to easily incorporate structural constraints.
+154	81	We suspect that greedy inference works better with the log-linear model because it is trained locally, while the perceptron algorithm includes a global inference step in its training, and therefore better matches global decoding.
+156	42	Lapata’s model differs from GREEDY-LOGLIN in being a generative model, where each event is a tuple of features, and the transition probability between events is defined as the product of transition probabilities between feature pairs.
+159	95	We consider three sets of features: Lexical encodes the written forms of the event pair predicates and objects; Brown uses Brown clusters (Brown et al., 1992) to encode similar information, but allows generalization between distributionally similar words; and Frequency encodes the empirical distribution of temporally-related phenomena.
+160	29	The feature definitions make use of several functions.
+167	44	We further include a special linkage type linear based on the order of events in the text, and consider every pair of events e1 and e2 that follow one another in a recipe as linked under this linkage type.
+171	23	While some of this information is implicitly found in the lexical features, collecting frequency counts from a large training set is much quicker than running costly structured optimization.
+191	57	Temporal and Textual Ordering.
+200	24	We note that assuming the alignment of the temporal and textual order of recipes does not suggest that the textual order is the only order of events that would yield the same outcome.
+202	82	In cases of several events that happen simultaneously (including disjunctions), we take their ordinals to be equal.
+204	21	We find that indeed temporal and textual orderings are in very high agreement, with 6 recipes of the 19 perfectly aligned.
+206	18	We compute the accuracy of our algorithms by comparing the predicted order to the one in which the events are written.
+210	43	Two k-tuples of integers (x1, ..., xk) and (y1, ..., yk) are said to “agree in order” if for every 1 ≤ i < j ≤ k, xi < xj iff yi < yj .
+212	30	,m}) and given a sequence of k monotonically increasing indices t = (i1, ..., ik), t is said to be a “concordant k-tuple” of O1 andO2 if (τ(i1), ..., τ(ik)) and (σ(i1), ..., σ(ik)) agree in order, as defined above.

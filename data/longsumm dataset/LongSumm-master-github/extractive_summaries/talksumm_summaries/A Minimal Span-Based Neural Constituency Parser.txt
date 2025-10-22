@@ -1,0 +1,30 @@
+16	67	A constituency tree can be regarded as a collection of labeled spans over a sentence.
+17	41	Taking this view as a guiding principle, we propose a model with two components, one which assigns scores to span labels and one which assigns scores directly to span existence.
+20	39	Given that a span’s correct label and its quality as a constituent depend heavily on the context in which it appears, we naturally turn to recurrent neural networks as a starting point, since they have previously been shown to capture contextual information suitable for use in a variety of natural language applications (Bahdanau et al., 2014; Wang et al., 2015) In particular, we run a bidirectional LSTM over the input to obtain context-sensitive forward and backward encodings for each position i, denoted by fi and bi, respectively.
+28	57	To accommodate n-ary trees, our inventory additionally includes a special empty label ∅ used for spans that are not themselves full constituents but arise during the course of implicit binarization.
+30	128	In particular, our representation of spans and the form of our label scoring function were directly inspired by their work, as were our handling of unary chains and our use of an empty label.
+31	25	However, our approach differs in its treatment of structural decisions, and consequently, the inference algorithms we describe below diverge significantly from their transition-based framework.
+32	34	Our basic model is compatible with traditional chart-based dynamic programming.
+34	40	, |T |}, we define the score of a tree to be the sum of its constituent label and span scores, stree(T ) = ∑ (`,(i,j))∈T [slabel(i, j, `) + sspan(i, j)] .
+35	17	To find the tree with the highest score for a given sentence, we use a modified CKY recursion.
+36	51	As with classical chart parsing, the running time of our procedure is O(n3) for a sentence of length n.
+38	42	Since every valid tree must include all singleton spans, possibly with an empty label, we need not consider the span score in this case and perform only a single maximization over the choice of label: sbest(i, i + 1) = max ` [slabel(i, i + 1, `)] .
+42	44	(2) Because our model assigns independent scores to labels and spans, this maximization decomposes into two disjoint subproblems, greatly reducing the size of the state space: sbest(i, j) = max ` [slabel(i, j, `)] + max k [s̃split(i, k, j)] .
+44	28	Training the model under this inference scheme is accomplished using a margin-based approach.
+49	41	Prior work has found that it can be beneficial in a variety of applications to incorporate a structured loss function into this margin objective, replacing the hinge penalty above with one of the form max ( 0, ∆(T̂ , T ∗)− stree(T ∗) + stree(T̂ ) ) for a loss function ∆ that measures the similarity between the prediction T̂ and the reference T ∗.
+50	22	Here we take ∆ to be a Hamming loss on labeled spans.
+55	35	At a high level, given a span, we independently assign it a label and pick a split point, then repeat this process for the left and right subspans; the recursion bottoms out with length-one spans that can no longer be split.
+60	34	The independence of our label and span scoring functions again yields the decomposed form ̂̀= argmax ` [slabel(i, j, `)] , k̂ = argmax k [ssplit(i, k, j)] , (3) leading to a significant reduction in the size of the state space.
+64	24	When performing inference from the bottom up, we have already computed the scores of all of the subtrees below the current span, and we can take this knowledge into consideration when selecting a split point.
+65	77	In contrast, when producing a tree from the top down, we can only select a split point based on top-level evaluations of span quality, without knowing anything about the subtrees that will be generated below them.
+67	36	While this apparent deficiency may be a cause for concern, we demonstrate the surprising empirical result in Section 6 that there is no loss in per- formance when moving from the globally-optimal chart parser to the greedy top-down procedure.
+73	45	To obtain the loss for a given training example, we trace out the actions corresponding to the gold tree and accumulate the above penalties over all decision points.
+79	68	To circumvent this issue, a dynamic oracle can be defined to inform the model about correct behavior even after it has deviated from the gold tree.
+80	41	Cross and Huang (2016) propose such an oracle for a related transition-based parsing system, and prove its optimality for the F1 metric on labeled spans.
+82	22	The oracle for labeling decisions carries over without modification: the correct label for a span is the label assigned to that span if it is part of the gold tree, or the empty label ∅ otherwise.
+83	44	For split point decisions, the oracle can be broken down into two cases.
+84	55	If a span (i, j) appears as a constituent in the gold tree T , we let b(i, j) denote the collection of its interior boundary points.
+99	43	To address this lack of structure, we consider an alternative scoring scheme in which labels are predicted in three parts: a top nonterminal, a middle unary chain, and a bottom nonterminal (each of which is possibly empty).1 This not only allows for parameter sharing across labels with common subcomponents, but also has the added benefit of allowing the model to produce novel unary chains at test time.
+102	21	The final label is obtained by concatenating `t, `m, and `b, with empty components being omitted from the concatenation.
+103	34	The basic model uses the same span scoring function sspan to assign a score to the left and right subspans of a given span.
+105	23	Since span scores are only used to score splits in our model, we also consider directly scoring a split by feeding the concatenation of the span representations of the left and right subspans through a single feedforward network, giving ssplit(i, k, j) = v > s g (Ws[sik; skj ] + bs) .

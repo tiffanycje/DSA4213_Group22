@@ -1,0 +1,30 @@
+0	62	A typical document is usually organized in a coherent way that each text unit is relevant to its context and plays a role in the entire semantics.
+1	20	Text-level discourse analysis tries to identify such discourse structure of a document and its success can benefit many downstream tasks, such as sentiment analysis (Polanyi and van den Berg, 2011) and document summarization (Louis et al., 2010).
+2	35	One most influential text-level discourse parsing theory is Rhetorical Structure Theory (RST) (Mann and Thompson, 1988), under which a text is parsed to a hierarchical discourse tree.
+3	7	The leaf nodes of this tree correspond to Elementary Discourse Units (EDUs, usually clauses) and then leaf nodes are recursively connected by rhetorical rela- tions to form larger text spans until the final tree is built.
+4	16	RST also depicts which part is more important in a relation by tagging Nucleus or Satellite.
+29	10	At each step, the parser performs either shift or reduce.
+32	27	Only one classifier is learned to judge the actions at each step.
+33	15	To derive a discourse tree in a unified framework, prior systems design multiple reduce actions with consideration of both nuclearity and relation types.
+34	30	With 3 nuclearity types and 18 relation types, the number of reduce actions exceeds 40, leading to the data sparsity problem.
+35	34	In our parsing model, a transition-based system is responsible for building the naked tree without relation labels.
+39	59	Though the four actions still have an unbalanced distribution, the relatively large number of occurrences assures that the classifier in our system can be trained more sufficiently.
+42	17	We conduct relation labeling after the naked tree structure has been constructed.
+45	36	On the other hand, we can elaborately distinguish relations at different levels, including within-sentence, across-sentence, acrossparagraph.
+46	11	We add across-paragraph level because some relations, like textual-organization and topic-change are observed to mainly occur between paragraphs.
+47	13	Therefore, we adopt three classifiers for labeling relations at different levels.
+49	13	Next, for each internal node, we determine whether its left and right subtrees are in different paragraphs, or the same paragraph, or the same sentence.
+50	20	For each level, we predict a relation label using the corresponding classifier.
+57	23	Training instances for relation classifiers are prepared by traversing the gold parse trees and extracting features for the relation of each internal node.
+64	11	• N-gram features: the first and the last n words and their POS tags in the text of S1, S2, Q1, where n ∈ {1, 2}.
+65	9	• Nucleus features: the dependency heads of the nucleus EDUs2 for S1, S2, Q1 and their POS tags; brown clusters (Brown et al., 1992; 2Nucleus EDU is defined by recursively selecting the Nucleus in the binary tree until an EDU (leaf node) is reached.
+69	12	Dependency features, N-gram features and nucleus features discussed above are also needed, the only difference is that these features are applied to the left and right children.
+74	35	N-gram and structural features work for the three classifiers.
+83	20	We compare our system against other stateof-the-art discourse parsers, shown in Table 2.
+89	15	This is mainly due to the proper design of actions in our transition-based system.
+92	26	Stage means whether two-stage strategy is adopted, Level denotes whether three kinds of relations (i.e., within-sentence, across-sentence, and across-paragraph) are differently classified, and Tree represents whether relation labeling uses tree features generated in the first stage.
+98	12	We can see that the three-level relation classification and tree features together bring an improvement of about 1 percent on relation labeling.
+108	9	The first stage adopts the transition-based algorithm to construct naked trees with consideration of span and nuclearity.
+109	9	The second stage categorizes relations into three levels and uses three classifiers for relation labeling.
+110	58	This pipelined design can mitigate the data sparsity problem in tree construction, and provide a new view of elaborately treating relations.
+111	21	Comprehensive experiments show the effectiveness of our proposed method.

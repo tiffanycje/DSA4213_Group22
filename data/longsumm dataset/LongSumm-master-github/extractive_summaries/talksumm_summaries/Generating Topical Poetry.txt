@@ -1,0 +1,30 @@
+11	26	Automated poem generation has been a popular but challenging research topic (Manurung et al., 2000; Gervas, 2001; Diaz-Agudo et al., 2002; Manurung, 2003; Wong and Chun, 2008; Jiang and Zhou, 2008; Netzer et al., 2009).
+19	33	The only such work which tries to generate longer poems is from Wang et al. (2016), who use an attention-based LSTM model for generation iambic poems.
+21	48	Novel contributions of our work are: • We combine finite-state machinery with deep learning, guaranteeing formal correctness of our poems, while gaining coherence of long- distance RNNs.
+22	49	• By using words related to the user’s topic as rhyme words, we design a system that can generate poems with topical coherence.
+80	26	If (p1 ∼ p2) and (q1 = q1), output YES.
+91	89	In addition, we add words from popular rhyme pairs7 (like do/you and go/know) to the list of related words with a low topic similarity score.
+93	44	Each collision generates a candidate rhyme pair (s1, s2), which we score with the maximum of cosine(s1, topic) and cosine(s2, topic).
+94	29	So that we can generate many different sonnets on the same topic, we choose rhyme pairs randomly with probability proportional to their score.
+96	27	Because a poem’s beginning and ending are more important, we assign the first rhyme pair to the last two lines of the sonnet, then assign other pairs from beginning of the sonnet towards the end.
+103	68	For example, FSA state L2-S3 (Figure 2) signifies “I am in line 2, and I have seen 3 syllables so far”.
+105	24	For example, we can move from state L1-S1 to state L1-S3 by consuming any word with stress pattern 10 (such as table or active).
+107	39	To fix the rhyme words at the end of each line, we delete all arcs pointing to the line-final state, except for the arc labeled with the chosen rhyme word.
+108	31	For speed, we pre-compute the entire FSA; once we receive the topic and choose rhyme words, we only need to carry out the deletion step.
+117	46	For example, we can build a n-gram word language model (LM)—itself a large weighted FSA.
+118	30	Then we can take a weighted intersection of our two FSAs and return the highestscoring path.
+121	49	We collect 94,882 English songs (32m word tokens) as our training corpus,8 and train9 a two-layer recurrent network with long short-term memory (LSTM) units (Hochreiter and Schmidhuber, 1997).10 When decoding with the LM, we employ a beam search that is further guided by the FSA.
+122	36	Each beam state Ct,i is a tuple of (h, s, word, score), where h is the hidden states of LSTM at step t in ith state, and s is the FSA state at step t in ith state.
+123	22	The model generates one word at each step.
+128	26	Because we fix the rhyme word at the end of each line, when we expand the beam states immediately before the rhyme word, the FSA states in those beam states have only one succeeding state—LNS10, where N = [1, 14], and only one succeeding word, the fixed rhyme word.
+130	33	We solve this by generating the whole sonnet in reverse, starting from the final rhyme word.
+140	23	In this way, when the model tries to generate the last line of the poem, it already knows all fourteen rhyme words, thus possessing better knowledge of the requested topic.
+141	51	We refer to generating poems using the RNN LM as the “generation model” and to this model as the “translation model”.
+144	28	If we request a poem on the topic Vietnam, we may see the phrase Honky Tonkin Resolution; a different topic leads the system to rhyme Dirty Harry with Bloody Mary.
+159	28	We find that on average, each sonnet copies only 1.2 5-grams from the training data.
+160	36	If we relax the repeated-word penalty and the iambic meter, this number increases to 7.9 and 10.6 copied 5- grams, respectively.
+161	65	Considering the lack of copying, we find the RNN-generated grammar to be quite good.
+162	81	The most serious—and surprisingly common—grammatical error is the wrong use of a and an, which we fix in a post-processing step.
+163	150	To show the generality of our approach, we modify our system to generate Spanish-language poetry from a Spanish topic.
+164	78	We use these resources: • A song lyric corpus for training our RNN.
+168	86	For each word, we compute its syllablestress pattern and its rhyme class (see Figure 6).

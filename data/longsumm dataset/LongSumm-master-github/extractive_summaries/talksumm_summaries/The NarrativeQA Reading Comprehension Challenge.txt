@@ -1,0 +1,30 @@
+1	59	A common strategy for assessing the language understanding capabilities of comprehension models is to demonstrate that they can answer questions about documents they read, akin to how reading comprehension is tested in children when they are learning to read.
+30	25	This bias towards answers that are shallowly salient is a more serious limitation of the CNN/Daily Mail dataset, since its context documents are news stories which usually contain a small number of salient entities and focus on a single event.
+34	33	While they provide a large number of questions, these are from a relatively small number of documents, which are themselves fairly short, thereby limiting the lexical and topical diversity of models trained on this data.
+50	48	This, we suspect, is largely an artifact of the question generation methodology, in which annotators have created questions from a context document, or where context documents that explicitly answer a question are iden- tified using a search engine.
+51	32	Although the factoid-like Jeopardy questions of SearchQA also appear to favor questions answerable with local context.
+53	28	In this section, we introduce our new dataset, NarrativeQA, which addresses many of the limitations identified in existing datasets.
+59	19	Furthermore, we want to evaluate models both on the fluency and correctness of generated free-form answers, and as an answer selection problem, which requires the provision of sensible distractors to the correct answer.
+60	44	Finally, the scope and complexity of the QA problem should be such that current models struggle, while humans are capable of solving the task correctly, so as to motivate further research into the development of models seeking human reading comprehension ability.
+61	41	We will consider complex, self-contained narratives as our documents/stories.
+63	34	We present both books and movie scripts as stories in our dataset.
+67	20	This provides with a smaller set of documents, compared to the other datasets, but the documents are long which provides us with good lexical coverage and diversity.
+70	71	Reading and annotating summaries is tractable unlike writing questions and answers based on the full stories, and moreover, as the annotators never see the full stories we are much less likely to get questions and answers which are extracted from a localized context.
+82	42	We collected 1,567 stories, evenly split between books and movie scripts.
+88	32	We observed a good variety of question types.
+89	48	An interesting category are questions which ask for something related to, or occurring together, before, or after with an event, of which there are about 15%.
+92	24	As expected, lower proportion of answers are spans on stories compared to summaries on which they were constructed.
+93	37	We present tasks varying in their scope and complexity: we consider either the summary or the story as context, and for each we evaluate answer generation and answer selection.
+104	19	This allows us to evaluate how good our model is at reading comprehension regardless of how good it is at generating answers.
+105	24	We rank answers for questions associated with the same summary/story and compute the mean reciprocal rank (MRR).7
+114	21	Test set results are computed by extracting either 4-gram, 8-gram, or full-sentence spans according to the best performance on the validation set.8 We consider three similarity metrics for extracting spans: BLEU-1, ROUGE-L, and the cosine similarity between bag-of-words embedding of the query and the candidate span using pre-trained GloVe word embeddings (Pennington et al., 2014).
+117	136	Such a model might classify the question and predict an answer of a similar topic or category.
+125	57	Span prediction models can be trained by obtaining supervision on the training set from the oracle IR model.
+126	17	We use start and end indices of the span achieving the highest ROUGE-L score with respect to the reference answers as labels on the training set.
+127	30	The model is then trained to predict these spans by maximizing the probability of the indices.
+129	24	We split the task into two steps: first, we retrieve a small number of relevant passages from the story using an IR system; second, we apply one of the neural models on the resulting document.
+130	130	The question becomes the query for retrieval.
+131	34	This IR problem is much harder than traditional document retrieval, as the documents, the passages here, are very similar, and the question is short and entities mentioned likely occur many times in the story.
+136	45	For span prediction models, we then further select a span from the retrieved chunks as described in Section 4.2.
+144	51	However, plot summaries tend to contain more intricate event time lines and a larger number of characters, and in this sense, are more complex to follow than news articles or paragraphs from Wikipedia.
+148	37	Both the plain sequence-to-sequence model and the AS Reader, successfully applied to the CNN/DailyMail reading comprehension task, also performed well on this task.

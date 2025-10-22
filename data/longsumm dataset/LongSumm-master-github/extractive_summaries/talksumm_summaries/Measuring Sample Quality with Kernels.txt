@@ -1,0 +1,30 @@
+25	145	We will make no assumptions about the origins of the sample points; they may be the output of a Markov chain or even deterministically generated.
+28	17	Since our interest is in approximating expectations, we will consider discrepancies quantifying the maximum expectation error over a class of test functions H: dH(Qn, P ) , sup h2H |E P [h(Z)] E Q n [h(X)]|.
+35	16	Stein’s method (Stein, 1972) provides a three-step recipe for assessing convergence in distribution: 1.
+37	40	Rd from a domain G to real-valued functions T g such that E P [(T g)(Z)] = 0 for all g 2 G. For any such Stein operator and Stein set G, Gorham & Mackey (2015) defined the Stein discrepancy as S(µ, T ,G) , sup g2G |E µ [(T g)(X)]| = dT G(µ, P ) (2) which, crucially, avoids explicit integration under P .
+39	64	This can be done once for a broad class of target distributions to ensure that µ m ) P whenever S(µ m , T ,G) !
+42	29	While Stein’s method is principally used as a mathematical tool to prove convergence in distribution, we seek, in the spirit of (Gorham & Mackey, 2015; Gorham et al., 2016), to harness the Stein discrepancy as a practical tool for measuring sample quality.
+50	38	While our work is compatible with other practical Stein operators, like the family of diffusion Stein operators defined in (Gorham et al., 2016), we will focus on the Langevin operator for the sake of brevity.
+54	25	We let k·kK k be the norm induced from the inner product on K k .
+59	32	j , but we will not need that flexibility here.
+67	13	Each term w j in Proposition 2 can also be viewed as an instance of the maximum mean discrepancy (MMD) (Gretton et al., 2012) between µ and P measured with respect to the Stein kernel kj 0 .
+68	23	In standard uses of MMD, an arbitrary kernel function is selected, and one must be able to compute expectations of the kernel function under P .
+69	23	Here, this requirement is satisfied automatically, since our induced kernels are chosen to have mean zero under P .
+75	14	A distribution P is distantly dissipative if  0 , lim inf r!1 (r) > 0 for (r) = inf{ 2 hb(x) b(y),x yikx yk22 : kx yk2 = r}.
+89	27	A sequence of probability measures (µ m ) m 1 is uniformly tight if for every ✏ > 0, there is a finite number R(✏) such that lim sup m µ m (kXk 2 > R(✏))  ✏.
+97	24	To achieve this, we consider the inverse multiquadric (IMQ) kernel k(x, y) = (c2 + kx yk2 2 ) for some < 0 and c > 0.
+98	37	While KSDs based on IMQ kernels fail to determine convergence when < 1 (by Theorem 6), our next theorem shows that they automatically enforce tightness and detect non-convergence whenever 2 ( 1, 0).
+100	21	Suppose P 2 P and k(x, y) = (c2 + kx yk2 2 ) for c > 0 and 2 ( 1, 0).
+123	13	Each method is given access to d cores when working in d dimensions, and we use the released code of Gorham & Mackey (2015) with the default Gurobi 6.0.4 linear program solver for the graph Stein discrepancy.
+128	21	As might be expected, the optimal test function for the single component sample features large magnitude values in the oversampled region far from the missing mode.
+129	14	Theorem 6 established that kernels with rapidly decaying tails yield KSDs that can be driven to zero by offtarget sample sequences.
+132	19	Specifically, for each n, we let Q n = 1 n P n i=1 x i where, for all i and j, kx i k 2  2n1/d log n and kx i x j k 2 2 log n. To select these sample points, we independently sample candidate points uniformly from the ball {x : kxk 2  2n1/d log n}, accept any points not within 2 log n Euclidean distance of any previously accepted point, and terminate when n points have been accepted.
+139	17	When ✏ is too small, relatively few sample points will be generated in a given amount of sampling time, yielding sample expectations with high Monte Carlo variance.
+140	19	When ✏ is too large, the large approximation error will produce biased samples that no longer resemble the target.
+144	24	The right panel of Figure 3 shows representative samples produced by several settings of ✏.
+152	28	Hence we will use the KSD – a quality measure that accounts for asymptotic bias – to evaluate and choose between these samplers.
+154	14	The target P is a Bayesian logistic regression with a flat prior, conditioned on a dataset of 104 MNIST handwritten digit images.
+158	28	As external validation, we follow the protocol of Ahn et al. (2012) to find the bivariate marginal means and 95% confidence ellipses of each sample that align best and worst with those of a surrogate ground truth sample obtained from a Hamiltonian Monte Carlo chain with 105 iterates.
+173	65	Using the authors’ code, we recreate the experiment from (Liu & Lee, 2016, Fig.
+174	17	2b) and introduce a KSD objective with an IMQ kernel k(x, y) = (1 + 1 h kx yk2 2 ) 1/2 with bandwidth selected in the same fashion.
+177	29	Out of the box, the IMQ kernel produces better mean estimates than the standard Gaussian.

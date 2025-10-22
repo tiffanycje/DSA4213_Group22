@@ -1,0 +1,30 @@
+4	40	In this work, we introduce abstract syntax networks (ASNs), an extension of the standard encoder-decoder framework utilizing a modular decoder whose submodels are composed to natively generate ASTs in a top-down manner.
+9	20	On the HEARTHSTONE dataset for code generation, we achieve a token BLEU score of 79.2 and an exact match accuracy of 22.7%, greatly improving over the previous best results of 67.1 BLEU and 6.1% exact match (Ling et al., 2016).
+52	186	In the case of HEARTHSTONE, the card’s name and description are represented as sequences of characters and tokens, respectively, while categorical attributes are represented as single-token sequences.
+56	69	The modules correspond to elements of the AST grammar and are composed together in a manner that mirrors the structure of the tree being generated.
+58	65	The encoder uses bidirectional LSTMs to embed each component and a feedforward network to combine them.
+64	24	To obtain an encoding of the input as a whole for decoder initialization, we concatenate the final forward and backward encodings of each component into a single vector and apply a linear projection.
+65	13	The decoder decomposes into several classes of modules, one per construct in the grammar, which we discuss in turn.
+66	19	Throughout, we let v denote the current vertical LSTM state, and use f to represent a generic feedforward neural network.
+87	11	Primitive type modules Each primitive type T has a corresponding module whose role is to select among the values y within the domain of that type.
+92	46	During training, we allow the model to use the character LSTM only for unknown strings but include the log probability of that binary decision in the loss in order to ensure the model learns when to generate from the character LSTM.
+93	121	The decoding process proceeds through mutual recursion between the constituting modules, where the syntactic structure of the output tree mirrors the call graph of the generation procedure.
+94	56	At each step, the active decoder module either makes a generation decision, propagates state down the tree, or both.
+96	31	That module is then invoked to obtain updated vertical LSTM states for each of the constructor’s fields, and the corresponding constructor field modules are invoked to advance the process to those children.
+97	21	This process continues downward, stopping at each primitive node, where a value is generated but no further recursion is carried out.
+107	42	The attention supervision enters the loss through a term that encourages the final attention weights to be concentrated on the specified subset.
+111	22	All three consist of natural language queries paired with a logical representation of their denotations.
+137	11	On the ATIS and GEO datasets, we respectively exceed and match the results of Dong and Lapata (2016).
+141	26	On the more stringent exact match metric, we improve from 6.1% to 18.2%, and on tokenlevel BLEU, we improve from 67.1 to 77.6.
+142	27	When supervised attention is added, we obtain an additional increase of several points on each scale, achieving peak results of 22.7% accuracy and 79.2 BLEU.
+143	91	As the examples in Figures 6-8 show, classes in the HEARTHSTONE dataset share a great deal of common structure.
+145	11	In such cases, our system generally predicts the correct code, with the exception of instances in which strings are incorrectly transduced.
+146	90	Introducing a dedicated copying mechanism like the one used by Ling et al. (2016) or more specialized machinery for string transduction may alleviate this latter problem.
+150	18	Cards whose code includes complex logic expressed in an imperative style, as in Figure 8, pose the greatest challenge for our system.
+153	23	However, in the most complex cases, the predictions deviate significantly from the correct implementation.
+158	23	Existing work also does not attempt to enforce semantic coherence in the output.
+160	23	Nor is well-typedness or executability.
+161	14	Overcoming these evaluation and modeling issues remains an important open problem.
+162	15	ASNs provide a modular encoder-decoder architecture that can readily accommodate a variety of tasks with structured output spaces.
+163	39	They are particularly applicable in the presence of recursive decompositions, where they can provide a simple decoding process that closely parallels the inherent structure of the outputs.
+164	101	Our results demonstrate their promise for tree prediction tasks, and we believe their application to more general output structures is an interesting avenue for future work.

@@ -1,0 +1,30 @@
+0	39	Text simplification (TS) is the task of modifying an original text into a simpler version of it.
+1	8	One of the main parameters for defining a suitable simplification is the target audience.
+3	20	Traditionally, work on TS has been divided in lexical simplification (LS) and syntactic simplification (SS).
+6	9	However, most recent approaches learn transformations from corpora, addressing simplification at lexical and syntactic levels altogether.
+7	23	These include either learning tree-based transformations (Woodsend and Lapata, 2011; Paetzold and Specia, 2013) or using machine translation (MT)-based techniques (Zhu et al., 2010; Coster and Kauchak, 2011a; Wubben et al., 2012; Narayan and Gardent, 2014; Nisioi et al., 2017; Zhang and Lapata, 2017).
+10	15	For English, two main such corpora are available: Wikipedia-Simple Wikipedia (W-SW) (Zhu et al., 2010) and the Newsela Article Corpus.1 The former is a collection of original Wikipedia articles and their simplified versions created by volunteers.
+13	39	Based on the number of sentences involved in these alignments, one can categorise alignments into four types of coarse-grained simplification operations: • Identical: an original sentence is aligned to itself, i.e. no simplification is performed.
+15	45	• One-to-many: splitting – an original sentence is aligned to 2+ simplified sentences.
+18	17	The Newsela corpus is seen as having higher quality than W-SW because its simplifications are created by professionals, following well defined guidelines (Xu et al., 2015).
+21	44	Each original article has a label indicating its corresponding grade level (from 12 to 2), and may have various simplified versions, each for a different grade level.
+27	17	We propose a way of making use of this information to build more informed TS models that are aware of different types of target audiences, while still making use of the full dataset for learning.
+32	78	Experiments with models built with these artificial tokens outperform state-of-the-art neural models for TS, with the best approach combining grade level and type of operation (§3).
+33	153	Interestingly, such an approach also enables zero-shot TS, where a simplification for a grade level pair unseen at training time can still be generated during testing.
+34	7	We show that our zero-shot learning models perform virtually as well as our grade/operationinformed models (§4).
+35	43	To the best of our knowledge, this is the first work to build TS models for specific target audiences and to explore zero-shot learning for this application.
+36	68	Our approach follows that of Johnson et al. (2017), a multilingual MT approach that adds an artificial token to encode the target language to the beginning of each source sentence in the parallel corpus.
+37	41	With this modified version of the corpus, a single encoder-decoder architecture is used to deal with different language pairs.
+38	22	Based on the tokens, the source sentences are encoded differently according to the target language they have been paired with in the corpus.
+40	24	We apply three types of data manipulation, where artificial tokens are added to the beginning of original side of both training and test instances: • to-grade: the token corresponds to the grade level of the target instance, • operation: the token is one of the four possi- ble coarse-grained operations that transforms the original into the simplified instance, • to-grade-operation: concatenation of the two above tokens.
+41	32	Different from the grade level, which can be available at test time simply by knowing the intended reader of the text, information about the operations to be performed, which we extracted from the parallel corpus, will not be available at test time.
+42	65	We use gold labels extracted from the parallel corpus for an oracle experiment but also use a classifier that predicts the operations for the test set based on those in the training data.
+47	22	We use OpenNMT2 as our encoder-decoder architecture.
+51	30	The best model is selected according to perplexity on the development set.
+53	17	In this example, <token> represents the artificial token added to the pre-processed data.
+56	53	Although previous work have also relied on human judgements of grammaticality, meaning preservation and simplicity, in our case such a type of evaluation is infeasible: we would need to involve judges with specific grade levels or rely on professionals who are experts in grade level-specific simplification to make such assessments.
+64	12	While the former use only adjacent levels (e.g. 0-1, 1-2) and the latter only non-adjacent levels (e.g. 0-2, 1-4), we make use of the full dataset.
+71	6	The second best system uses the gold <operation> token only.
+72	8	Therefore, knowing the operation type to be performed for a given instance provides valuable information.
+76	82	A more informed classifier should lead to better results, but this left for future work; our goal was to show the potential of this information.
+77	16	The improvements in SARI are substantial: 7 points over the baseline even with the predicted operations.

@@ -1,0 +1,30 @@
+35	3	Unlike most methods, our method is capable of considering the possibly non-linear interaction of numeric sensitive attributes with the target variable.
+56	1	, sn)⊤ ∈ Rn×ds to denote a sequence of n datapoints.
+57	1	We assume that each feature in s and x, and y is zero-mean.
+61	4	The value B̂⊤S is a part of x that is explainable by s. The following theorem states the learnability of the linear relation between x and s. Theorem 1.
+69	2	Here, our interest lies in measuring the contribution of s to the estimator ŷ of the target variable y. Namely, let ŷ = s⊤α+ u⊤β be the estimator of y.
+80	7	(2.3) is equivalently written as: min α⊤Vsα+ β⊤Vuβ − 2(E[ys⊤α] + E[yu⊤β]) s.t.
+88	5	(Regularity condition) Covariance matrices Vs and Vu are full rank.
+93	5	The first one solves the Lagrangian dual problem, which boils down to a semidefinite programming (SDP).
+98	5	The Lagrangian dual problem of (3.1) is written as max ξ≥0 ϕ(ξ), (3.3) where ϕ(ξ) is the optimal function defined as ϕ(ξ)=min α,β [ α⊤β⊤ ] [Vs 0 0 Vu ] [ α β ] − 2 [ q⊤s q ⊤ u ] [α β ] + ξ [ α⊤β⊤ ] [Vs 0 0 −ϵVu ] [ α β ] .
+100	2	Although a Lagrangian dual has a duality gap in general, the following theorem, which is well-known in the context of the control theory, assures the inexistence of the duality gap.
+105	2	Instead, we solve the following dual problem of (3.4) defined as the optimization over a matrix A ∈ R(1+ds+dx)×(1+ds+dx): max A⪰0  0 −q⊤s −q⊤u−qs Vs 0 −qu 0 Vu  ·A s.t.
+106	2	λ 0 0 00 (1− ϵ)Vs 0 0 0 −ϵVu  ·A ≤ 0, 1 0 00 0 0 0 0 0  ·A = 1, (3.5) where A · B := ∑ i,j Ai,jBi,j is the element-wise inner product between matrices.
+120	1	(3.6) The following theorem, which is derived in the context of global optimization (Yamada & Takeda, 2018), converts the nonconvex QCQP into a convex QCQP: Theorem 4.
+129	2	In summary, Theorem 4 allows us to relax the constraint so that the new feasible region is convex without compromising its objective value.
+130	2	As a result, (3.7), which is a convex QCQP, is computed efficiently by off-the-shelf optimizers.
+136	2	In practice, our simulation in Appendix B shows SDP and convex QCQP appear to scale more similarly to O((ds + dx)2) around 10 ≤ ds + dx ≤ 3, 000, which is not very surprising because many instances scale better than the worst-case.
+141	1	u) into high-dimensional spaces, and Ks(si, sj) = Z⊤s (si)Zs(sj) ∈ R (resp.
+144	4	With an abuse of notation, let Ks andKu be the corresponding n×nmatrices, and cs, cu be corresponding size-n vectors.
+154	3	This section verifies the performance of the proposed method in four real-world datasets.
+155	3	Computation environment: The simulation here was conducted by using modern Xeon-core PC servers4.
+156	6	Preliminary experiment (Appendix B) revealed that the running times of SDP and convex QCQP optimization are more or less the same.
+159	5	Datasets: The Communities and Crime (C&C) dataset combines socio-economic data and crime rate data on communities in the United States where each datapoint corresponds to a community.
+160	7	The target y is the normalized violent crime rate of each community and s(1), s(2) are the ratio of African American people and foreign-born people, respectively.
+164	3	Statistics of the datasets are in Table 1, and further details of the datasets are in Appendix C. Evaluation settings: We split the data into 5-folds: One was for validation dataset that was used to optimize the hyperparameters, and another was for the test dataset.
+165	3	The resting three folds were the training dataset.
+177	1	We considered CoD that is a natural extension of the correlation coefficient into multiple sensitive attributes as a fairness criterion.
+179	9	The proposed method has the following aspects: (i) The exact control on the fairness level as a constraint, (ii) a capability of dealing with numeric and multiple s and (iii) an extension that captures non-linear interaction between sensitive and non-sensitive attributes.
+180	32	We consider this result as a first step that controls the nonconvexity that naturally appears in considering fairness related constraints.
+181	170	While the prevention of disparate impact is justified by the legal contexts, some alternative criteria of fairness, such as the equality odds condition (Hardt et al., 2016; Zafar et al., 2017b), have been proposed.
+182	171	Considering them as a constraint would be interesting.

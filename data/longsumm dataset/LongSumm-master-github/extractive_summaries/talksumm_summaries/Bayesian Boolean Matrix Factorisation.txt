@@ -1,0 +1,26 @@
+0	18	Boolean matrix factorisation (BooMF) can infer interpretable decompositions of a binary data matrix X ∈ {0, 1}N×D into a pair of low-rank, binary matrices Z ∈ {0, 1}N×L and U ∈ {0, 1}D×L.
+1	52	The data generating process is based on the Boolean product, a special case of matrix product between binary matrices where all values n=0 n=1 n=2 n=3 n=4 n=5 n=6 n=7 n=8 n=9 N=10 observation of size D=17x10 ' l=0 l=1 l=2 l=3 l=4 l=5 Codes u ⊗ 0 1 2 3 4 5 6 7 8 9 n 5 4 3 2 1 0 l 0.0 0.2 0.4 0.6 0.8 1.0 Latent representations z Figure 1.
+3	8	The data is factorised into matrices of rank 6, which is not sufficient for full error-free reconstruction.
+4	29	Every digit, except 7, can be constructed by Boolean combination of the inferred codes.
+5	30	The OrMachine infers a posterior mean probability of 50% for using code l = 5 in constructing a 7.
+6	17	Note that there exist other equally valid solutions to this problem with 6 latent dimensions.
+7	7	The pixels represent posterior means.
+9	59	larger than zero are set to one, i.e. xnd = L∨ l=1 znl ∧ uld .
+10	6	(1) Here, ∨ and∧ encode the Boolean disjunction and conjunction, respectively.
+12	4	This representation is illustrated in the calculator digits example in Fig.
+13	54	We can think of BooMF as binary factor analysis or as clustering with joint assignments, where each observation is assigned to a subset of L cluster centroids or codes.
+15	3	(1), a feature xnd takes a value of one if it equals one in any of the assigned codes.
+16	7	BooMF has many real-world applications ranging from topic modelling (Blei, 2012) to collaborating filtering (Su & Khoshgoftaar, 2009) and computer vision (LázaroGredilla et al., 2016).
+17	23	In this paper, we introduce the OrMachine, a Bayesian approach to BooMF, and fit the model using a fast and scalable Metropolised Gibbs sampling algorithm.
+18	8	On simulated and real-world data, our method is shown to significantly outperform the current state-of-theart message passing approaches for learning BooMF models.
+19	46	Moreover, we consider a challenging application in the analysis of high-throughput single cell genomics data.
+20	56	BooMF is used to identify latent gene signatures (codes) that correspond to key cellular pathways or biological processes from large gene expression datasets consisting of 1.3 million cells across 11 thousand genes.
+21	144	Genes are expressed if one or more relevant biological processes are active, a property which is naturally modelled by the Boolean OR operation.
+22	25	We also introduce a multi-layered extensions of Bayesian BooMF that can capture hierarchical dependencies in the latent representations.
+37	47	The OrMachine is a probabilistic generative model for Boolean matrix factorisation.
+40	104	The exact magnitude of this probability is inferred from the data and, for later notational convenience, is parametrised as the logistic sigmoid of a global dispersion parameter σ(λ) = (1+e−λ)−1, with λ ∈ R+.
+41	58	Next, we give a full description of the likelihood and prior distributions used in the OrM.
+42	30	The likelihood function is factorised across the N observations and D features with each factor given by p(xnd|u, z, λ) = { σ(λ); if x=min(1,uTd zn) 1−σ(λ); if x 6=min(1,uTd zn) (2) = σ [ λx̃nd ( 1− 2 ∏ l (1− znluld) )] .
+45	29	(3) encodes the OR operation and evaluates to 1 if znl = uld = 1 for at least one l, and to −1 otherwise.
+46	19	The dispersion parameter controls the noise in the generative process, i.e. as λ→∞, all probabilities tend to 0 or 1 and the model describes a deterministic Boolean matrix product.
+47	7	Note that the likelihood can be computed efficiently from Eq.

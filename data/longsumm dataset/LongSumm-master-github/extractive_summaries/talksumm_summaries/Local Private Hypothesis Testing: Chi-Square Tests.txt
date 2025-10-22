@@ -1,0 +1,24 @@
+13	13	Instead, each individual adds enough noise to guarantee differential privacy for their own data, which provides a stronger privacy guarantee than the curator model.
+14	14	The data analysis is then run over the collection of the individually sanitized data.
+15	36	The local model of differential privacy is a convenient model for several applications: for example it is used to collect statistics about the activity of the Google Chrome Web browser users (Erlingsson et al., 2014), and to collect statistics about the typing patterns of Apple’s iPhone users (Apple Press Info, 2016).
+16	10	Despite these applications, the local model has received far less attention than the centralized curator model.
+17	12	This is in part due to the more firm requirements imposed by this model, which make the design of effective data analysis harder.
+18	27	Our main contribution is in designing chi-square hypothesis tests for the local model of differential privacy.
+19	16	Similar to previous works we focus on goodness of fit and independence hypothesis tests.
+20	7	Most of the private chi-square tests proposed so far are based on mechanisms that add noise in some form to the aggregate data, e.g. the cells of the contingency tables, or the resulting chi-square statistics value.
+21	12	These approaches cannot be used in the local model, since noise needs to be added at the individual’s data level.
+22	21	We then consider instead general privatizing techniques in the local model, and we study how to build new hypothesis tests with them.
+23	4	Each test we present is characterized by a specific local model mechanism.
+24	52	The main technical challenge for designing each test is to create statistics, which incorporate the local model mechanisms, that converge as we collect more data to a chi-square distribution, as in the classical chi-square tests.
+25	120	We then use these statistics to find the critical value to correctly bound the Type I error.
+26	48	We present three different goodness of fit tests: LocalNoiseGOF presents a statistic that guarantees the convergence to a chi-square distribution under the null hypothesis so that we can use the correct critical values when local (concentrated) differential privacy is guaranteed by adding Laplace or Gaussian noise to the individual data; LocalGenRRGOF also provides a statistic that converges to a chi-square under the null hypothesis when a private value for each individual is selected by using a generalized form of randomized response, which can also be thought of as an instantiation of the exponential mechanism (McSherry & Talwar, 2007); finally, LocalBitFlipGOF introduces a statistic that converges to a chi-square distribution when the data is privatized using a bit flipping algorithm (Bassily & Smith, 2015), which provide better accuracy for higher dimensional data.
+27	61	Further, we develop corresponding independence tests: LocalNoiseIND (see supplementary file), LocalGenRRIND, and LocalBitFlipIND.
+28	15	For all these tests we study their asymptotic behavior.
+29	38	A desiderata for private hypothesis tests is to have a guaranteed upper bound on the probability of a false discovery (or Type I error) – rejecting a null hypothesis or model when the data was actually generated from it – and to minimize the probability of a Type II error, which is failing to reject the null hypothesis when the model is indeed false.
+30	2	This latter criteria corresponds to the power of the statistical test.
+31	44	We then present experimental results showing the power of the different tests which demonstrates that no single local differentially private algorithm is best across all data dimensions and privacy parameter regimes.
+32	6	However, this evaluation also shows a relation between the power of the test and the noncentral parameter of the test statistic that is used.
+33	29	This suggests that besides looking at the parameters of the test, a data analyst may need also to consider which test statistic results in the largest noncentral parameter.
+51	7	We consider datasets x = (x1, · · · , xn) ∈ Xn in some data universe X , typically X = {0, 1}d where d is the dimensionality.
+52	14	We first present the standard definition of differential privacy, as well as its variant concentrated differential privacy.
+54	10	Definition 3.1 (Dwork et al. (2006b;a)).

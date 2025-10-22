@@ -1,0 +1,30 @@
+1	15	Not only do such deep models outperform traditional machine learning methods, they also come with the benefit of not requiring difficult feature engineering.
+3	9	Orthogonal to the advances in deep learning is the effort spent on feature engineering.
+5	17	Typical features include POS and chunk tags, prefixes and suffixes, and external gazetteers, all of which represent years of accumulated knowledge in the field of computational linguistics.
+7	26	Subsequent work has shown impressive progress through capturing syntactic and semantic knowledge with dense real-valued vectors trained on large unannotated corpora (Mikolov et al., 2013a,b; Pennington et al., 2014).
+9	86	More recently, there has been increasing recognition of the utility of linguistic features (Li et al., 2017; Chen et al., 2017; Wu et al., 2017; Liu et al., 2018a) where such features are integrated to improve model performance.
+10	18	Inspired by this, taking NER as a case study, we investigate the utility of hand-crafted features in deep learning models, challenging conventional wisdom in an attempt to refute the utility of manually-engineered features.
+12	12	Their model is highly capable of capturing not only word- but also characterlevel features.
+22	4	, ŷT } closely matching the gold label sequence y = {y1, y2, .
+25	32	An illustration of the model architecture is presented in Figure 1.
+30	17	The outputs of the forward and backward pass of the Bi-LSTM is then concatenated hi = [ −→ h i; ←− h i] to form the output of the Bi-LSTM, where dropout is also applied.
+33	4	Training is carried out by maximising the log probability of the gold sequence: LCRF = log p(y|x) while decoding can be efficiently performed with the Viterbi algorithm.
+37	8	Training is carried out by optimising the joint loss: L = LCRF + ∑ t λtLtAE , (4) where, in addition to LCRF , we also add the autoencoder loss, weighted by λt.
+38	4	In all our experiments, we set λt to 1 for all ts.
+44	13	In addition, we also experimented with including the label of the incoming dependency edge to each word as a feature, but observed performance deterioration on the development set.
+48	11	The dataset is annotated with four categories of name entities: PERSON, LOCATION, ORGANIZATION and MISC.
+56	4	With the above hyper-parameter setting, training takes approximately 8 hours for a full run of 40 epochs.
+58	15	We report average F-scores and standard deviation over 5 runs for our model.
+59	54	In addition to reporting a number of prior results of competitive baseline models, as listed in Table 2, we also re-implement the BiLSTM-CNN-CRF model by Ma and Hovy (2016) (referred to as Neural-CRF in Table 2) and report its average performance.
+63	32	Although Peters et al. (2018) report a higher F-score using their ELMo embedding technique, our approach here is orthogonal, and accordingly we would expect a performance increase if we were to incorporate their ELMo representations into our model.
+64	7	Ablation Study To gain a better understanding of the impacts of each feature, we perform an ab- lation study and present the results in Table 3.
+66	50	Interestingly, the contribution of gazetteers is much less than that of the other features, which is likely due to the noise introduced in the matching process, with many incorrectly identified false positives.
+67	64	Including features based on dependency tags into our model decreases the performance slightly.
+68	56	This might be a result of our simple implementation (as illustrated in Table 1), which does not include dependency direction, nor parent-child relationships.
+70	20	To this end, we experiment with three configurations with features as: (1) input only; (2) output only (equivalent to multi-task learning); and (3) both input and output (Neural-CRF+AE) and present the results in Table 4.
+71	12	Simply using features as either input or output only improves model performance slightly, but insignificantly so.
+73	21	Training Requirements Neural systems typically require a large amount of annotated data.
+75	27	Wtih the proposed model architecture, the amount of labelled training data can be drastically reduced: our model, achieves comparable performance against the baseline Neural-CRF, with as little as 60% of the training data.
+82	26	To this end, we have presented a hybrid neural architecture to validate this hypothesis extending a Bi-LSTM-CNN-CRF by incorporating an auto-encoder loss to take manual features as input and then reconstruct them.
+83	14	On the task of named entity recognition, we show significant improvements over a collection of competitive baselines, verifying the value of such features.
+84	21	Lastly, the method presented in this work can also be easily applied to other tasks and models, where hand-engineered features provide key insights about the data.

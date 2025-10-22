@@ -1,0 +1,30 @@
+0	15	Attention-based neural translation models (Bahdanau et al., 2015; Luong et al., 2015) attend to specific positions on the source side to generate translation.
+1	18	Using the attention component provides significant improvements over the pure encoder-decoder sequence-to-sequence approach (Sutskever et al., 2014) that uses no such attention mechanism.
+2	25	In this work, we aim to compare the performance of attention-based models to another baseline, namely, neural hidden Markov models.
+4	25	In this work, our purpose is to explore its application in standalone decoding, i.e. the model is used to generate and score candidates without assistance from a phrase-based system.
+6	15	In addition, while Wang et al. (2017) applied feedforward networks to model alignment and translation, the recurrent structures proposed in this work surpass the feedforward variants by up to 1.3% in BLEU.
+19	36	Given a source sentence fJ1 = f1...fj ...fJ and a target sentence eI1 = e1...ei...eI , where j = bi is the source position aligned to the target position i, we model translation using an alignment model and a lexicon model: p(eI1|fJ1 ) = ∑ bI1 p(eI1, b I 1|fJ1 ) (1) := ∑ bI1 I∏ i=1 p(ei|bi1, ei−10 , f J 1 )︸ ︷︷ ︸ lexicon model · p(bi|bi−11 , e i−1 0 , f J 1 )︸ ︷︷ ︸ alignment model (2) Instead of predicting the absolute source position bi, we use an alignment model p(∆i|bi−11 , e i−1 0 , f J 1 ) that predicts the jump ∆i = bi − bi−1.
+20	16	Wang et al. (2017) applied feedforward neural networks for modeling the lexicon and alignment probabilities.
+24	16	Unfortunately, the recurrent hidden layer cannot be easily applied for the neural hidden Markov model, since it will significantly complicate the computation of forward-backward messages when running Baum-Welch.
+27	12	Our models are close in structure to the model proposed in Luong et al. (2015), where we have a component that encodes the source sentence, and another that encodes the target sentence.
+28	31	As shown in Figure 1, we use a source side bidirectional LSTM embedding hj = −→ h j + ←− h j , where −→ h j = LSTM(W, fj , −→ h j−1) and ←− h j = LSTM(V, fj , ←− h j+1), as well as a target side LSTM embedding si−1 = LSTM(U, ei−1, si−2).
+32	27	The training criterion is the logarithm of sentence posterior probabilities over training sentence pairs (Fr, Er), r = 1, ..., R: arg max θ {∑ r log pθ(Er|Fr) } (5) The derivative for a single sentence pair (F,E) = (fJ1 , e I 1) is: ∂ ∂θ log pθ(E|F ) = ∑ j′,j ∑ i pi(j ′, j|fJ1 , eI1; θ) · ∂ ∂θ log p(j, ei|j′, ei−10 , f J 1 ; θ) (6) with HMM posterior weights pi(j′, j|fJ1 , eI1; θ), which can be computed using the forwardbackward algorithm.
+33	23	The entire training procedure can be summarized as backpropagation in an EM framework: 1. compute: • the posterior HMM weights • the local gradients (backpropagation) 2. update neural network weights
+38	20	Then for each source position j, the lexical distribution over the full target vocabulary is computed (line 14).
+39	12	The distributions are accumulated (Q(i; ei0) = ∑ j Q(i, j; e i 0), line 16), then sorted (line 18) and the best candidate translations (arg maxei Q(i; e i 0)) lying within the beam are used to expand the partial hypotheses (line 19-23).
+42	18	The translation is terminated if the counter reaches the beam size or hypothesis sentence length reaches three times the source sentence length (line 6).
+46	13	This means that a source position can be revisited many times, whereby creating one-to-many alignment cases.
+50	15	In contrast, the search space in attentionbased decoding consists only of translation decisions.
+54	22	In general, the decoding speed of our model is about 3 times slower than that of a standard attention model (1.07 sentences per second vs. 3.00 sentences per second) on a single GPU.
+59	12	For German and English preprocessing, we use the Moses tokenizer with hyphen splitting, and perform truecasing with Moses scripts (Koehn et al., 2007).
+66	17	The encoder consists of a bidirectional layer with 1000 LSTMs with peephole connections to encode the source side.
+67	13	We use Adam (Kingma and Ba, 2015) as optimizer with a learning rate of 0.001, and a batch size of 50.
+72	22	The feedforward models have three hidden layers of sizes 1000, 1000 and 500 respectively, with a 5- word source window and a 3-gram target history.
+74	26	The output layer of the neural lexicon model consists of around 25K nodes for all subword units, while the neural alignment model has a small output layer with 201 nodes, which reflects that the aligned position can jump within the scope from −100 to 100.
+76	15	The embedding layers have 350 nodes and the size of the projection layer is 800 (400 + 200 + 200, Figure 1).
+82	22	Compare to the model presented in Wang et al. (2017), switching to LSTM models has a clear advantage, which improves the FFNN-based system by up to 1.3% BLEU and 1.8% TER.
+85	19	We can also observe that the performance of our approach is comparable with the state-of-the-art attentionbased system with 25M more parameters on all three tasks.
+90	25	The training is end-to-end, the model is monolithic and can be used as a standalone decoder.
+91	13	This results in a more modern and efficient way to use HMM in machine translation and enables neural networks to benefit from HMMs.
+96	50	Although using alignment does not lead to significant improvements in terms of BLEU over attention, we think alignment-based NMT models are still useful for automatic post editing and developing coverage-based models.
+97	14	These might be interesting future directions to explore.

@@ -1,0 +1,26 @@
+4	45	A number of contributions have been proposed to recover tractability, extending or building upon the literature on approximate methods for GPs.
+5	7	Nevertheless, only few works leverage one of the key features that arguably make DNNs so successful, that is being scalable through the use of minibatch-based learning (Hensman & Lawrence, 2014; Dai et al., 2016; Bui et al., 2016).
+7	12	In this paper, we develop a practical learning framework for DGP models that significantly improves the state-of-the-art on those aspects.
+9	112	The first is a model approximation, whereby the GPs at all layers are approximated using random feature expansions (Rahimi & Recht, 2008); the second approximation relies upon stochastic variational inference to retain a probabilistic and scalable treatment of the approximate DGP model.
+10	38	We show that random feature expansions for DGP models yield Bayesian DNNs with low-rank weight matrices, and the expansion of different covariance functions results in different DNN activation functions, namely trigonometric for the Radial Basis Function (RBF) covariance, and Rectified Linear Unit (ReLU) functions for the ARC-COSINE covariance.
+11	124	In order to retain a probabilistic treatment of the model we adapt the work on variational inference for DNNs and variational autoencoders (Graves, 2011; Kingma & Welling, 2014) using mini-batch-based stochastic gradient optimization, which can exploit GPU and distributed computing.
+12	4	In this respect, we can view the probabilistic treatment of DGPs approximated through random feature expansions as a means to specify sensible and interpretable priors for probabilistic DNNs.
+13	26	Furthermore, unlike popular inducing points-based approximations for DGPs, the resulting learning framework does not involve any matrix decompositions in the size of the number of inducing points, but only matrix products.
+14	32	We implement our model in TensorFlow (Abadi et al., 2015), which allows us to rely on automatic differentiation to apply stochastic variational inference.
+15	43	Although having to select the appropriate number of random features goes against the nonparametric formulation favored in GP models, the level of approximation can be tuned based on constraints on running time or hardware.
+16	4	Most importantly, the random feature approximation enables us to develop a learning framework for DGPs which significantly advances the state-of-the-art.
+18	10	The results indicate that for a given DGP architecture, our proposal is consistently faster at achieving better generalization compared to the competitors.
+19	73	Another key observation is that the proposed DGP outperforms DNNs trained with dropout when quantifying uncertainty.
+20	26	We focus part of the experiments on large-scale problems, such as MNIST8M digit classification and the AIRLINE dataset, which contain over 8 and 5 million observations, respectively.
+21	16	Only very recently there have been attempts to demonstrate performance of GP models on such large data sets (Wilson et al., 2016; Krauth et al., 2016), and our proposal is on par with these latest GP methods.
+22	39	Furthermore, we obtain impressive results when employing our learning framework to DGPs with moderate depth (few tens of layers) on the AIRLINE dataset.
+23	37	We are not aware of any other DGP models having such depth that can achieve comparable performance when applied to datasets with millions of observations.
+24	14	Crucially, we obtain all these results by running our algorithm on a single machine without GPUs, but our proposal is designed to be able to exploit GPU and distributed computing to significantly accelerate our deep probabilistic learning framework (see supplement for experiments in distributed mode).
+25	9	In summary, the most significant contributions of this work are as follows: (i) we propose a novel approximation of DGPs based on random feature expansions that we study in connection with DNNs; (ii) we demonstrate the ability of our proposal to systematically outperform state-of-theart methods to carry out inference in DGP models, especially for large-scale problems and moderately deep architectures; (iii) we validate the superior quantification of uncertainty offered by DGPs compared to DNNs.
+41	10	Consider a supervised learning scenario where a set of input vectors X = [x1, .
+42	60	,xn]⊤ is associated with a set of (possibly multivariate) labels Y = [y1, .
+43	50	,yn]⊤, where xi ∈ RDin and yi ∈ RDout .
+44	15	We assume that there is an underlying function fo(xi) characterizing a mapping from the inputs to a latent representation, and that the labels are a realization of some probabilistic process p(yio|fo(xi))which is based on this latent representation.
+45	16	In this work, we consider modeling the latent functions using Deep Gaussian Processes (DGPs; Damianou & Lawrence, 2013).
+46	82	Let variables in layer l be denoted by the (l) superscript.
+50	33	In GPs, the covariance between variables at different inputs is modeled using the so-called covariance function.

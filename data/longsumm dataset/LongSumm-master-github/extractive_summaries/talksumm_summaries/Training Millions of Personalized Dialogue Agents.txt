@@ -1,0 +1,24 @@
+11	55	We train persona-based end-to-end dialogue models on this dataset.
+12	57	These models outperform their counterparts that do not have access to personas, confirming results of Zhang et al. (2018).
+13	23	In addition, the coverage of our dataset seems very good since pre-training on it also leads to state-of-the-art results on the PERSONA-CHAT dataset.
+25	22	To that end, we build a dataset of examples of the following form using data from REDDIT: • Persona: [“I like sport”, “I work a lot”] • Context: “I love running.” • Response: “Me too!
+26	108	But only on weekends.” The persona is a set of sentences representing the personality of the responding agent, the context is the utterance that it responds to, and the response is the answer to be predicted.
+27	54	As in (Dodge et al., 2015), we use a preexisting dump of REDDIT that consists of 1.7 billion comments.
+28	18	We tokenize sentences by padding all special characters with a space and splitting on whitespace characters.
+29	32	We create a dictionary containing the 250k most frequent tokens.
+30	21	We truncate comments that are longer than 100 tokens.
+31	72	We construct the persona of a user by gathering all the comments they wrote, splitting them into sentences, and selecting the sentences that satisfy the following rules: (i) each sentence must contain between 4 and 20 words or punctuation marks, (ii) it contains either the word I or my, (iii) at least one verb, and (iv) at least one noun, pronoun or adjective.
+32	28	To handle the quantity of data involved, we limit the size of a persona to N sentences for each user.
+33	9	We compare four different setups for persona creation.
+34	3	In the rules setup, we select up to N random sentences that satisfy the rules above.
+37	21	If there are more than N eligible persona sentences for a given user, we keep the highest-scored ones.
+39	10	The random from dataset baseline refers to random sentences from the dataset.
+40	72	They do not necessarily come from the same user.
+41	4	This last setup serves as a control mechanism to verify that the gains in prediction accuracy are due to the user-specific information contained in personas.
+42	9	In the example at the beginning of this section, the response is clearly consistent with the persona.
+43	26	There may not always be such an obvious relationship between the two: the discussion topic may not be covered by the persona, a single user may write contradictory statements, and due to errors in the extraction process, some persona sentences may not represent a general trait of the user (e.g. I am feeling happy today).
+45	47	The persona corresponding to the response is extracted using one of the methods of Section 3.2.
+48	28	We extract personas using training data only: test set responses cannot be contained explicitly in the persona.
+49	3	In total, we select personas covering 4.6m users in the rule-based setups and 7.2m users in the random setups.
+51	37	We model dialogue by next utterance retrieval (Lowe et al., 2016), where a response is picked among a set of candidates and not generated.
+55	28	We also encode all candidate responses and compute the dot-product between all those candidate representations and the joint representation of the context and the persona.

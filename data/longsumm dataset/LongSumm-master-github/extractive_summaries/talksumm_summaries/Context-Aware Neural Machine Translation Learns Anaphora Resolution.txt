@@ -1,0 +1,30 @@
+3	26	Earlier research on this topic focused on handling specific phenomena, such as translating pronouns (Le Nagard and Koehn, 2010; Hardmeier and Federico, 2010; Hardmeier et al., 2015), discourse connectives (Meyer et al., 2012), verb tense (Gong et al., 2012), increasing lexical consistency (Carpuat, 2009; Tiedemann, 2010; Gong et al., 2011), or topic adaptation (Su et al., 2012; Hasler et al., 2014), with special-purpose features engineered to model these phenomena.
+9	43	Specifically, we start with the Trans- former (Vaswani et al., 2017), a state-of-the-art model for context-agnostic NMT, and modify it in such way that it can handle additional context.
+10	54	In our model, a source sentence and a context sentence are first encoded independently, and then a single attention layer, in a combination with a gating function, is used to produce a context-aware representation of the source sentence.
+16	68	For Russian, translated pronouns need to agree in gender with their antecedents.
+76	35	We hypothesize that both the previous and the next sentence provide a similar amount of additional clues about the topic of the text, whereas for discourse phenomena such as anaphora, discourse relations and elliptical structures, the previous sentence is more important.
+77	25	First, we observe that our best model is the one using a context encoder for the previous sentence: it achieves 0.7 BLEU improvement over the discourse-agnostic model.
+83	26	In order to verify that our improvements are genuine, we also evaluate our model (trained with the previous sentence as context) on the same test set with shuffled context sentences.
+86	29	However, the model is robust towards being shown a random context and obtains a performance similar to the context-agnostic baseline.
+95	33	Our hypothesis is that the model has found a way to take no information from context by looking at uninformative tokens, and it attends to words only when it wants to pass some contextual information to the source sentence encoder.
+108	18	Most surprising is the appearance of “yes”, “yeah”, and “well” in the list of context-dependent words, similar to the finding by Tiedemann and Scherrer (2017).
+114	55	We observe a disproportionally high attention on context for short sentences, and a positive correlation between the average contextual attention and context length.
+119	45	There is a clear (negative) correlation between sentence length and the amount of attention placed on contextual history, and between token position and the amount of attention to context, which suggests that context is especially helpful at the beginning of a sentence, and for shorter sentences.
+126	22	Rather than using a pronoun-specific evaluation, we present results with BLEU on test sets where we hypothesize context to be relevant, specifically sentences containing co-referential pronouns.
+140	22	The most interesting case is translation of “it”, as “it” can have many different translations into Russian, depending on the grammatical gender of the antecedent.
+141	32	In order to disentangle these cases, we train the Berkeley aligner on 10m sentences and use the trained model to divide the test set with “it” referring to a noun into test sets specific to each gender and number.
+142	18	We see an improvement of 4-5 BLEU for sentences where “it” is translated into a feminine or plural pronoun by the reference.
+144	18	The results in Tables 4 and 5 suggest that the context-aware model exploits information about the antecedent of an ambiguous pronoun.
+148	18	Then we identify which token receives the highest attention weight (excluding <bos> and <eos> tokens and punctuation).
+151	18	To answer this question, we consider several baselines: choosing a random, last or first noun from the context sentence as an antecedent.
+152	23	Note that an agreement of the last noun for “it” or the first noun for “you” and “I” is very high.
+155	238	To get a more clear picture let us now concentrate only on examples where there is more than one noun in the context (Table 7).
+156	52	We can now see that the attention weights are in much better agreement with the coreference system than any of the heuristics.
+157	18	This indicates that the model is indeed performing anaphora resolution.
+171	39	We also present one example (Figure 5) where the attention correctly predicts anaphora while CoreNLP fails.
+182	41	We introduced a context-aware NMT system which is based on the Transformer architecture.
+183	25	When evaluated on an En-Ru parallel corpus, it outperforms both the context-agnostic baselines and a simple context-aware baseline.
+184	22	We observe that improvements are especially prominent for sentences containing ambiguous pronouns.
+185	40	We also show that the model induces anaphora relations.
+186	31	We believe that further improvements in handling anaphora, and by proxy translation, can be achieved by incorporating specialized features in the attention model.
+187	23	Our analysis has focused on the effect of context information on pronoun translation.

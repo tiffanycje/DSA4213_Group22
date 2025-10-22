@@ -1,0 +1,30 @@
+0	33	For many real-world NLP tasks, labeled data is rare while unlabelled data is abundant.
+1	60	Active learning (AL) seeks to learn an accurate model with minimum amount of annotation cost.
+4	28	Traditionally, AL is performed using engineered heuristics in order to estimate the usefulness of unlabeled data points as queries to an annotator.
+10	28	In this work, we formulate learning AL strategies as an imitation learning problem.
+21	27	The main challenge in AL is how to identify and select the most beneficial unlabelled data points.
+34	21	At each time step t of an AL problem, the algorithm interacts with the oracle and queries the label of a datapoint xt ∈ Dunlt .
+38	21	An action at ∈ A corresponds to the selection of a query datapoint, and the reward function R(st, at, st+1) := −loss(mφt , Devl).
+42	38	AL Policy The question remains as how can we train the policy network to maximise the training objective in eqn 1.
+46	17	We formulate learning for the AL policy as an imitation learning problem.
+47	20	At each state, we provide the AL agent with a correct action which is computed by an algorithmic expert.
+50	50	In what follows, we describe the ingredients of our deep imitation learning (IL) approach, which is summarised in Algorithm 1.
+52	22	More concretely, for each x′ ∈ Dpoolrnd and its correct label y ′, the underlying model mφt is re-trained to get mx ′ φt , where Dpoolrnd ⊂ D unl t is a small subset of the current large pool of unlabeled data.
+59	48	The input to our policy network consists of three parts: (i) a fixed dimensional representation of the content and the predicted label of the unlabeled data point under consideration, (ii) a fixed-dimensional rep- resentation of the content and the labels of the labeled dataset, and (iii) a fixed-dimensional representation of the content of the unlabeled dataset.
+62	24	This violates the crucial independent and identically distributed (iid) assumption, inherent to most statistical supervised learning approaches for learning a mapping from states to actions.
+71	24	To train our policy network, we turn the preference scores to probabilities, and optimise the parameters such that the probability of the action prescribed by the expert is maximized.
+83	40	The AL scenarios include cross-domain sentiment classification, cross-lingual authorship profiling, and crosslingual named entity recognition (NER), whereby an AL policy trained on a source domain/language is transferred to the target domain/language.
+85	18	Algorithm 1 Learn active learning policy via imitation learning Input: large labeled data D, max episodes T , budget B, sample size K, the coin parameter β Output: The learned policy 1: M ← ∅ .
+114	25	Interestingly, the uncertainty and diversity sampling heuristics perform worse than random sampling on sentiment classification.
+126	58	As seen from the results, both the cold and warm start AL settings outperform the direct transfer significantly, and the warm start consistently gets higher accuracy than the cold start.
+140	19	In addition to the strong heuristicbased methods, we compare our imitation learning approach (ALIL) with the reinforcement learning approach (PAL) (Fang et al., 2017), in both bilingual (bi) and multilingual (mul) transfer settings.
+143	16	In the bilingual case, ALIL.bi outperforms PAL.bi on Spanish (es) and Dutch (nl), and performs similarly on German (de).
+144	23	In the multilingual case, ALIL.mul achieves the best performance on Spanish, and performs competitively with PAL.mul on German and Dutch.
+150	22	As we can see, for sentiment classification since uncertainty and diversity sampling perform badly, ALIL has a big disagreement with them on the selected data points.
+160	19	A larger candidate set may correspond to a better learned policy, needed to be traded off with the training time growing linearly with K. Interestingly, even small candidate sets lead to strong AL policies as increasing K beyond 10 does not change the performance significantly.
+166	67	The learned policy seems to perform competitively with either a fixed or an exponential schedule.
+167	81	We have also investigated tossing the coin in each step within the trajectory roll out, but found that it is more effective to have it before the full trajectory roll out (as currently done in Algorithm 1).
+180	94	In this paper, we have proposed a new method for learning active learning algorithms using deep imitation learning.
+181	29	We formalize pool-based active learning as a Markov decision process, in which active learning corresponds to the selection decision of the most informative data points from the pool.
+182	18	Our efficient algorithmic expert provides state-action pairs from which effective active learning policies can be learned.
+183	30	We show that the algorithmic expert allows direct policy learning, while at the same time, the learned policies transfer successfully between domains and languages, demonstrating improvement over previous heuristic and reinforcement learning approaches.

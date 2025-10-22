@@ -1,0 +1,30 @@
+5	54	Formally, given a large set X of n unlabeled examples, we must select a subset S ⊂ X of size k n to label.
+6	20	Our goal is to select such a subset which, when labeled, will yield a high performance supervised model over the entire data set X .
+7	60	This task can be thought of as a zero-stage version of active learning: we must choose a single batch of examples to label, without the benefit of any prior labelled data points.
+8	13	This problem definition avoids the practical complexity of the active learning set-up (many iterations of learning and labeling), and ensures that the labeled examples are not tied to one particular model class or task, a well-known danger of active learning (Settles, 2010).
+13	19	Such dictionaries are used as the final bridge between written and spoken language for technologies that span this divide, such as speech recognition, text-to-speech generation, and speech-to-speech language translation.
+21	38	By defining AT to be our data matrix, whose rows correspond to words and whose columns correspond to features (character 4-grams), we can apply the CSSP randomized algorithm of (Boutsidis et al., 2009) on A to obtain a subset of k words which best span the entire space of words.
+22	20	Our second approach is based on a notion of feature coverage.
+25	18	We formalize this notion and provide an exact greedy algorithm for selecting the k data points with maximal feature coverage.
+47	80	Their selection criterion essentially corresponds to our feature coverage selection method using coverage function cov2 (see Section 3.2).
+50	20	Of course, active learning strategies can be employed for this task by starting with a small random seed of examples and incrementally adding small batches.
+51	32	Unfortunately, this can lead to datasets that are biased to work well for one particular class of models and task, but may otherwise perform worse than a random set of examples (Settles, 2010, Section 6.6).
+56	47	In contrast, our selection methods are fast, can select any number of data points in a single step, and are not tied to a particular prediction task or model.
+61	48	Our first method for optimal data-set creation applies a randomized CSSP approach to the transpose of the data matrix, AT .
+65	12	The key intuition is that we would like to pick a subset of data points which broadly and efficiently cover the features of the full range of data points.
+72	20	The SVD decomposition yields: A = UΣV T • U is (n × n) orthogonal and its columns form the eigenvectors of AAT • V is (m×m) orthogonal and its columns form the eigenvectors of ATA • Σ is (n×m) diagonal, and its diagonal entries are the singular values ofA (the square roots of the eigenvalues of both AAT and ATA).
+73	26	To obtain a rank k approximation to A, we start by rewriting the SVD decomposition as a sum: A = ρ∑ i=1 σiuiv T i (1) where ρ = min(m,n), σi is the ith diagonal entry of Σ, ui is the ith column of U , and vi is the ith column of V .
+75	28	To evaluate the quality of this approximation, we can measure the Frobenius norm of the residual matrix ||A − Ak||F .4 The EckartYoung theorem (Eckart and Young, 1936) states that Ak is optimal in the following sense: Ak = argmin Ã s.t.
+76	51	rank(Ã)=k ||A− Ã||F (2) In other words, truncated SVD gives the best rank k approximation to A in terms of minimizing the Frobenius norm of the residual matrix.
+77	26	In CSSP, the goal is similar, with the added constraint that the approximation to A must be obtained by projecting onto the subspace spanned by a k-subset of the original rows of A.5 Formally, the goal is to produce a (k ×m) matrix S formed from rows of A, such that ||A−AS+S||F (3) 4The Frobenius norm ||M ||F is defined as the entry-wise L2 norm: √∑ i,j m 2 ij is minimized over all ( n k ) possible choices for S. Here S+ is the (m × k) Moore-Penrose pseudoinverse of S, and S+S gives the orthogonal projector onto the rowspace of S. In other words, our goal is to select k data points which serve as a good approximate basis for all the data points.
+83	15	We can thus represent row i as a linear combination of the first i− 1 rows along with the ith row of Q.
+86	22	More formally, If there exists a row permutation Π such that ΠA has a triangular factorization ΠA = LQ with L = [ L11 0 L21 L22 ] , where the smallest singular value of L11 is much greater than the spectral norm of L22, which is itself almost zero: σmin(L11) ||L22||2 = O( ) then we say that ΠA = LQ is a rank-revealing LQ factorization.
+87	19	Both L11 and L22 will be lower triangular matrices and if L11 is (r × r) then A has numerical rank r (Hong and Pan, 1992).
+94	17	Here we develop a novel objective function with the specific aim of optimal data set selection.
+99	19	For illustration purposes, we will list three alternative definitions: cov1(S; j) = ||sj ||1 (5) cov2(S; j) = ||aj ||1 I ( ||sj ||1 > 0 ) (6) cov3(S; j) = ||aj ||1 − ||aj ||1 η||sj ||1 I ( ||sj ||1 < ||aj ||1 ) (7) In all cases, sj refers the jth column of S, aj refers the jth column of A, I(·) is a 0-1 indicator function, and η is a scalar discount factor.8 Figure 1 provides an intuitive explanation of these functions: cov1 simply counts the number of selected data points with boolean feature j.
+124	48	It is also possible that more careful tuning of the discount factor η of cov3 would yield further gains.
+136	25	This makes some sense, as good basis data points will tend to have frequent features, while at the same time being maximally spread out from one another.
+138	117	Stratified length sampling As Table 5 shows, the top 10 words selected by the feature coverage method are mostly long and unusual, averaging 13.3 characters in length.
+139	25	In light of the potential annotation burden, we developed a stratified sampling strategy to ensure typical word lengths.
+142	23	This results in more typical words of average length, with only a very small drop in performance.
+144	18	In contrast to active learning, our methods do not require repeated training of multiple models and iterative annotations.

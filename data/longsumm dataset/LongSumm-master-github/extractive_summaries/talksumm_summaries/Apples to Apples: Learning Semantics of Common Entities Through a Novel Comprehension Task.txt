@@ -1,0 +1,24 @@
+0	8	In the past few years, there has been great progress on core NLP tasks (e.g., parsing and part of speech tagging) which has renewed interest in primary language learning tasks which require text under- standing and reasoning, such as machine comprehension (Schoenick et al., 2016; Hermann et al., 2015; Rajpurkar et al., 2016; Mostafazadeh et al., 2016).
+1	48	Our question is how far have we got in learning basic concepts of the world through language comprehension.
+2	29	If we look at the large body of work on extracting knowledge from unstructured corpora, we will see that they often lack some very basic pieces of information.
+3	60	For example, let us focus on the basic concept of apple, the fruit.
+4	316	What do the state-of-the-art systems and resources know about an apple?
+5	40	None of the state-of-the-art knowledge bases (Speer and Havasi, 2012; Carlson et al., 2010; Fader et al., 2011) include much precise information about the fact that apples have an edible skin, vary from sweet to sour, are round, and relatively the same size of a fist.
+9	3	When we compare things we often contrast, that is, we count their similarities along with their dissimilarities.
+10	38	This results in covering the primary attributes and aspects of objects.
+11	159	As humans, we tend to recall and mention the difference between things (say green skin vs. red skin in apples) as opposed to absolute measures (say the existence of skin).
+12	55	Interestingly, there is evidence that human knowledge is structured by semantic similarity and the relations among objects are defined by their relative perceptual and conceptual properties, such as their form, function, behavior, and environment (Collins and Loftus, 1975; Tversky and Gati, 1978; Cree and Mcrae, 2003).
+14	17	Comparison, where we name the similarities and differences between things, is a unique cognitive ability in humans1 which requires memorizing facts, experiencing things and integration of concepts of the world (Hazlitt, 1933).
+16	71	In this paper, in order to enable learning through comparison, we introduce a new language comprehension task which requires understanding different attributes of basic entities that are being compared.
+17	56	The contributions of this paper are as follows: (1) To equip learning about common entities through comparison comprehension, we have crowdsourced a dataset of more than 14K comparison paragraphs comparing entities from nine broad categories (Section 2).
+18	19	This resource will be expanded over time and will be released to the public.
+19	33	(2) We introduce a novel task called GuessTwo, in which given a short paragraph comparing two entities, a system should guess what the two things are.
+20	90	To make systematic benchmarking on the task possible, we vet a collection of comparison paragraphs to obtain a test set on which human performs with an accuracy 94.2%.
+21	11	(3) We present a host of neural approaches and a novel semantic-driven model for tackling the GuessTwo task (Sections 4, 5).
+22	49	Our experiments show that the semantic approach outperforms the neural models.
+23	27	The results strongly suggest that closing the gap between system and human performances requires richer semantic processing (Section 6).
+24	40	We hope that this work will establish a new base for a machine comprehension test that requires systems to go beyond information extraction and towards levels of performing basic reasoning.
+26	25	The dataset should be a collection of highquality documents which are rich in comparing and contrasting entities using their various attributes and aspects.
+28	18	After many experiments with scraping existing Web resources, we decided to crowdsource the comparison paragraphs using Amazon Mechanical Turk2 (Mturk).
+29	45	We prompt the crowd workers as follows: “Your task is to compare two given items in one simple language paragraph so that a knowledgeable person who reads it can guess what the two things are”.
+30	44	The workers were instructed to compare only the major and well-known aspects of the two entities.

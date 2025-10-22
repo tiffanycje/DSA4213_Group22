@@ -1,0 +1,30 @@
+1	42	The objective is to classify the sentiment polarity of a tweet as positive, ∗ This work was done when the first and third authors were visiting Microsoft Research Asia.
+4	44	For example, Mohammad et al. (2013) build the top-performed system in the Twitter sentiment classification track of SemEval 2013 (Nakov et al., 2013), using diverse sentiment lexicons and a variety of hand-crafted features.
+7	37	For the task of sentiment classification, an effective feature learning method is to compose the representation of a sentence (or document) from the representations of the words or phrases it contains (Socher et al., 2013b; Yessenalina and Cardie, 2011).
+8	28	Accordingly, it is a crucial step to learn the word representation (or word embedding), which is a dense, low-dimensional and real-valued vector for a word.
+11	21	As a result, words with opposite polarity, such as good and bad, are mapped into close vectors.
+12	19	It is meaningful for some tasks such as pos-tagging (Zheng et al., 2013) as the two words have similar usages and grammatical roles, but it becomes a disaster for sentiment analysis as they have the opposite sentiment polarity.
+14	21	We encode the sentiment information in- 1555 to the continuous representation of words, so that it is able to separate good and bad to opposite ends of the spectrum.
+59	26	The training objective is that the original ngram is expected to obtain a higher language model score than the corrupted ngram by a margin of 1.
+60	21	The ranking objective function can be optimized by a hinge loss, losscw(t, tr) = max(0, 1− f cw(t) + f cw(tr)) (1) where t is the original ngram, tr is the corrupted ngram, f cw(·) is a one-dimensional scalar representing the language model score of the input ngram.
+61	19	Figure 1(a) illustrates the neural architecture of C&W, which consists of four layers, namely lookup → linear → hTanh → linear (from bottom to top).
+65	21	Following the traditional C&W model (Collobert et al., 2011), we incorporate the sentiment information into the neural network to learn sentimentspecific word embedding.
+66	19	We develop three neural networks with different strategies to integrate the sentiment information of tweets.
+68	30	An intuitive solution to integrate the sentiment information is predicting the sentiment distribution of text based on input ngram.
+75	19	Softmax layer is suitable for this scenario because its outputs are interpreted as conditional probabilities.
+89	27	lossr(t) = max(0, 1− δs(t)f r0 (t) + δs(t)f r1 (t) ) (6) where f r0 is the predicted positive score, f r 1 is the predicted negative score, δs(t) is an indicator function reflecting the sentiment polarity of a sentence, δs(t) = { 1 if fg(t) = [1, 0] −1 if fg(t) = [0, 1] (7) Similar with SSWEh, SSWEr also does not generate the corrupted ngram.
+96	46	The training objectives of SSWEu are that (1) the original ngram should obtain a higher language model score fu0 (t) than the corrupted ngram f u 0 (t r), and (2) the sentiment score of original ngram fu1 (t) should be more consistent with the gold polarity annotation of sentence than corrupted ngram fu1 (t r).
+97	36	The loss function of SSWEu is the linear combination of two hinge losses, lossu(t, tr) = α · losscw(t, tr)+ (1− α) · lossus(t, tr) (8) where losscw(t, tr) is the syntactic loss as given in Equation 1, lossus(t, tr) is the sentiment loss as described in Equation 9.
+102	28	We tokenize each tweet with TwitterNLP (Gimpel et al., 2011), remove the @user and URLs of each tweet, and filter the tweets that are too short (< 7 words).
+103	18	Finally, we collect 10M tweets, selected by 5M tweets with positive emoticons and 5M tweets with negative emoticons.
+121	22	We conduct experiments on the latest Twitter sentiment classification benchmark dataset in SemEval 2013 (Nakov et al., 2013).
+122	22	The training and development sets were completely in full to task participants.
+153	36	After combining SSWEu with the feature set of NRC, we improve NRC from 74.86% to 75.39% for subjective classification.
+178	44	SSWEu is trained from 10 million distant-supervised tweets.
+180	111	We can see that SSWEu performs better when α is in the range of [0.5, 0.6], which balances the syntactic context and sentiment information.
+183	27	Effect of Distant-supervised Data in SSWEu We investigate how the size of the distantsupervised data affects the performance of SSWEu feature for Twitter sentiment classification.
+195	20	We set N as 100 in our experiment.
+196	29	Experiment Setup and Datasets We utilize the widely-used sentiment lexicons, namely MPQA (Wilson et al., 2005) and HL (Hu and Liu, 2004), to evaluate the quality of word embedding.
+199	22	The distribution of the lexicons used in this paper is listed in Table 4.
+203	35	SSWEu performs best in three lexicons.
+210	23	We learn sentiment-specific word embedding (SSWE) by integrating the sentiment information into the loss functions of three neural networks.

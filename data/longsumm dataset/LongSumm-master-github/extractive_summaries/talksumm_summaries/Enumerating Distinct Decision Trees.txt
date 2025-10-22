@@ -1,0 +1,15 @@
+6	6	Nevertheless, complete strategies have not to be exhaustive in order to find an optimal subset.
+7	12	In particular, feature subsets that lead to duplicate decision trees can be pruned from the search space.
+8	20	Such a pruning would be useful not only for complete searches, but also in the case of heuristics searches.
+9	32	A naı̈ve approach that stores all distinct trees found during the search is, however, unfeasible, since there may be an exponential number of such trees.
+10	28	Our contribution is a non-trivial enumeration algorithm of all distinct decision trees built using subsets of the available features.
+11	124	The procedure requires the storage of a linear number of decision trees in the worst case.
+12	91	The starting point is a recursive procedure for the visit of the lattice of all subsets of features.
+13	208	The key idea is that a subset of features is denoted by the union R ∪ S of two sets, where elements in R must necessarily be used as split attributes, and elements in S may be used or not.
+14	110	Pruning of the search space is driven by the observation that if a feature a ∈ S is not used as split attribute by a decision tree built on R ∪ S, then the feature subset R ∪ S \ {a} leads to the same decision tree.
+15	48	Duplicate decision trees that still pass such a (necessary but not sufficient) pruning condition can be identified through a test on whether they use all attributes in R. Coupled with the tremendous computational optimization of decision tree induction algorithms, our approach makes it possible to increase the limit of practical applicability of theoretically hard complete searches.
+16	26	It also allows to optimize the sequential backward elimination (SBE) search heuristics when specifically designed for decision tree learning, with a speedup of up to 100× compared to a black-box approach.
+17	47	This paper is organized as follows.
+18	39	First, we recall related work in Section 2.
+19	15	The visit of the lattice of feature subsets is based on a generalization of binary counting enumeration devised in Sect.
+20	7	4 introduces a procedure for the enumeration of distinct decision trees as a pruning of the feature subset lattice.

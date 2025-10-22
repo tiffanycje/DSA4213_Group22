@@ -1,0 +1,30 @@
+30	25	3) The proposed framework achieves good results on a benchmark dataset from a cross-language sentiment classification evaluation.
+58	87	Cross-language sentiment classification aims to use the training data in the source language to build a model which is adaptable for the test data in the target language.
+59	24	In our setting, we have labeled training data in English LEN = {xi, yi}Ni=1 , where xi is the review text and yi is the sentiment label vector.
+62	53	The task is to use LEN and UCN to learn a model and classify the sentiment polarity for the review texts in TCN .
+63	109	In our method, the labeled, unlabeled and test data are all translated into the other language using an online machine translation tool.
+64	20	In the subsequent part of the paper, we refer to a document and its corresponding translation in the other language as a pair of parallel documents.
+93	14	Therefore, in the LSTM layer, we can get the forward hidden state ~hi,j from the forward LSTM network and the backward hidden state ~hi,j from the backward LSTM network.
+100	48	Suppose we have the sentence attention score Ai for each sentence si ∈ x, and the word attention score ai,j for each word wi,j ∈ si, both of the scores are normalized which satisfy the following equations, ∑ i Ai = 1 and ∑ j ai,j = 1 The sentence attention measures which sentence is more important for the overall sentiment while the word attention captures sentiment signals such as sentiment words in each sentence.
+101	32	Therefore, the document representation r for document x is calculated as follows, r = ∑ i [Ai · ∑ j (ai,j · hi,j)] Note that many LSTM based models represent the word sequences only using the hidden layer at the final node.
+105	27	For each English document xen and its corresponding translation xcn, suppose the document representations of them are obtained in previous steps as ren and rcn, we simply concatenate them as the feature vector and use the softmax function to predict the final sentiment.
+110	26	During the decoding phase of the machine translation task, the attention model helps to find which input word should be “aligned” to the current output.
+114	85	The first level is the sentence attention model which measures which sentences are more important for the overall sentiment of a document.
+115	151	For each sentence si = {wi,j}|si|j=1 in the document, we represent the sentence via the final hidden state of the forward LSTM and the backward LSTM, i.e. si = ~hi,|si| ‖ ~hi,1 We use a two-layer feed-forward neural network to predict the attention score of si Âi = f(si; θs) Ai = exp(Âi)∑ j exp(Âj) where f denotes the two-layer feed-forward neural network and θs denotes the parameters in it.
+119	45	In the supervised part, we use the cross entropy loss to minimize the sentiment prediction error between the output results and the gold standard labels, L1 = ∑ (xen,xcn) ∑ i −yi log(ŷi) where xen and xcn are a pair of parallel documents in the training data, y is the gold-standard sentiment vector and ŷ is the predicted vector from our model.
+120	20	The unsupervised part tries to minimize the document representations between the parallel data.
+127	20	We use the dataset from the cross-language sentiment classification evaluation of NLP&CC 2013.1 The dataset contains reviews in three domains including book, DVD and music.
+129	15	It also contains 44113, 17815 and 29678 unlabeled reviews for book, DVD and music respectively.
+130	26	We use Google Translate2 to translate the labeled data to Chinese and translate the unlabeled data and test data to English.
+140	15	To evaluate the performance of our model, we compared it with the following baseline methods: LR and SVM: We use logistic regression and SVM to learn different classifiers based on the translated Chinese training data.
+144	23	A logistic regression classifier is used to predict the sentiment polarity.
+156	39	EN-Attention only translates the Chinese test data into English and uses English-side attention model while CN-Attention only uses the Chinese side attention model.
+171	27	In table 3, we show the results of models with different attention mechanisms.
+195	16	The fine-tuned word embeddings perform better than static which fits the results in previous study (Kim, 2012).
+204	16	For DVD and music, the performance increases at the beginning and becomes stable after the vector size grows larger than 50.
+209	44	The sentence level attention enables us to find the key sentences in a document and the word level attention helps to capture the sentiment signals.
+210	57	The proposed model achieves promising results on a benchmark dataset using Chinese as the source language and English as the target language.
+211	17	It outperforms the best results in the NLPC&CC cross-language sentiment classification evaluation as well as several strong baselines.
+212	58	In future work, we will evaluate the performance of our model on more datasets and more language pairs.
+213	101	The sentiment lexicon is also another kind of useful resource for classification.
+214	21	We will explore how to make full usages of these resources in the proposed framework.

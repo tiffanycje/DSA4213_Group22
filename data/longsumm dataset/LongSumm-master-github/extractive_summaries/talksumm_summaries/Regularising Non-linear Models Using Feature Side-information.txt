@@ -1,0 +1,30 @@
+42	20	We compare against a number of baselines and we show significant performance improvements.
+43	44	We consider supervised learning settings in which, in addition to the classical data matrix X : n × d containing n instances and d features, and the target matrix Y : n ×m, we are also given a matrix Z : d× c, the ith row of which, denoted by zi, contains a description of the ith feature.
+44	66	We call Z the feature side-information matrix.
+47	17	In the standard setting we learn a mapping from the input to the output φ : x ∈ Rd → y ∈ Rm using the X,Y matrices by optimizing some loss function L. In this paper we learn the inputoutput mapping using in addition to the X,Y, matrices the feature side-information Z matrix.
+49	38	Given two features i, j, with zi, zj , side-information vectors the Sij element of S contains their similarity given by some similarity function.
+51	71	We use the similarity and the Laplacian matrices to constraint the learned model to treat in a similar manner features that have similar side-information.
+56	26	We will do so by requiring that the change in the model’s output is marginal if we change the relative proportion of two very similar features.
+64	30	The latent factor captures the original features total contribution leaving the model’s output unaffected to relative changes in their values.
+67	38	A natural measure of the degree to which the constraint holds for the feature pair i, j is given by: Rij(φ) = ∫ ||φ(x+ λiei + λjej) (3) −φ(x+ λ′iei + λ′jej)||2 SijI(λ)P (x)dλdx where I(λ) = 1 if λi + λj = λ′i + λ′j , and 0 otherwise.
+68	24	Since we want to define a regulariser that accounts for all feature pairs and their similarities we simply have: R(φ) = ∑ ij Rij(φ) (4) Calculating the regularizer is problematic due to the presence of the I(λ) function that selects the λ subspace over which the integration is performed.
+81	79	Adding the sample based estimate of the regulariser to the loss function we get the final objective function which we minimize with φ(x) giving the following minimization problem under the analytical approximation: min φ ∑ k L(yk,φ(xk)) + λ ∑ k Tr[J(xk)LJ T(xk)] (9) The approximation of the requlariser is only effective locally around each training point since it relies on first order Taylor expansion.
+82	80	When the learned function is highly nonlinear, it can force model invariance only to small relative changes in the values of two similar features.
+84	27	The regulariser will not be powerful enough to make the invariance hold away from the training points.
+85	20	If we want a less local approximation we can either use higher order Taylor approximation which is computationally prohibitive or rely on a more global approximation through data augmentation as we will see in the next section.
+89	41	p, which we use to generate p new instance pairs as follows: x → { x+ λ(l)i ei + λ (l) j ej x+ λ(l) ′ i ei + λ (l)′ j ej We can now use the training sample and the sampling process to get an estimate of Rij(φ) by: ∑ k ∑ l ||(φ(xk + λ(l)i ei + λ (l) j ej) −φ(xk + λ(l) ′ i ei + λ (l)′ j ej))|| 2Sij and of the final regulariser R(φ) by: R̃(φ) = ∑ ij ∑ k ∑ l ||(φ(xk + λ(l)i ei + λ (l) j ej) −φ(xk + λ(l) ′ i ei + λ (l)′ j ej))|| 2Sij (10) So the final optimization problem will now become: min φ ∑ k L(yk,φ(xk)) + λR̃(φ) (11) Note that the new instances appear only in the regulariser and not in the loss.
+90	11	The regulariser will penalise models which do not have the invariance property with respect to pairs of similar features.
+153	22	We used early stopping where we keep 20% of the training data as the validation set.
+162	14	We design a simple data generation process in order to test the performance of our regularisers when the data generation mechanism is compatible with the assumptions of our models.
+164	14	We create d/2 feature clusters as follows.
+168	18	The value of each latent feature is the sum of the values of the features that belong to its cluster.
+193	24	We cluster the features of the A set to d/4 clusters—latent factors, making sure that as in A1 each cluster has at least one feature in it.
+194	34	As a result the final latent space has a dimensionality of d/4 + d/2 = 3d/4.
+201	22	So A1 is the datasets that has most constraints while A3 is the one with the least constraints.
+204	13	As we see the classification error of both ST and AN increases as the dataset sparsity increases and it approaches that of the standard regularisers.
+205	30	We evaluated both approaches on the eight document classification datasets used in (Kusner et al., 2015).
+227	11	We give the detailed results in table 4.
+230	15	In this paper we develop a regulariser that exploits exactly such information for general non-linear models.
+243	33	This points to the fact that the regulariser should be used together with more traditional sparsity inducing regularisers, especially in the case of a sparse feature similarity matrix.
+244	59	Finally since we use the feature information through a similarity function it might be the case that the similarity function that we are using is not appropriate and better results can be obtained if we also learn the feature similarity.
+245	51	We leave this for future work.

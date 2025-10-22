@@ -1,0 +1,30 @@
+0	26	Assigning types (e.g., person, organization) to mentions of entities in context is an important task in natural language processing (NLP).
+1	16	The extracted entity type information can serve as primitives for relation extraction (Mintz et al., 2009) and event extraction (Ji and Grishman, 2008), and assists a wide range of downstream applications including knowledge base (KB) completion (Dong et al., 2014), question answering (Lin et al., 2012) and entity recommendation (Yu et al., 2014).
+2	20	While loaded at https://github.com/shanzhenren/AFET.
+3	27	traditional named entity recognition systems (Ratinov and Roth, 2009; Nadeau and Sekine, 2007) focus on a small set of coarse types (typically fewer than 10), recent studies (Ling and Weld, 2012; Yosef et al., 2012) work on a much larger set of fine-grained types (usually over 100) which form a tree-structured hierarchy (see the blue region of Fig.
+4	49	Fine-grained typing allows one mention to have multiple types, which together constitute a type-path (not necessarily ending in a leaf node) in the given type hierarchy, depending on the local context (e.g., sentence).
+5	21	1, “Arnold Schwarzenegger” could be labeled as {person, businessman} in S3 (investment).
+6	29	But he could also be labeled as {person, politician} in S1 or {person, artist, actor} in S2.
+7	19	Such fine-grained type representation provides more informative features for other NLP tasks.
+8	45	For exam- 1369 ple, since relation and event extraction pipelines rely on entity recognizer to identify possible arguments in a sentence, fine-grained argument types help distinguish hundreds or thousands of different relations and events (Ling and Weld, 2012).
+9	22	Traditional named entity recognition systems adopt manually annotated corpora as training data (Nadeau and Sekine, 2007).
+10	20	But the process of manually labeling a training set with large numbers of fine-grained types is too expensive and errorprone (hard for annotators to distinguish over 100 types consistently).
+11	14	Current fine-grained typing systems annotate training corpora automatically using knowledge bases (i.e., distant supervision) (Ling and Weld, 2012; Ren et al., 2016a).
+17	20	1, row (1)), and assume all types obtained by distant supervision are “correct” (Yogatama et al., 2015; Ling and Weld, 2012).
+18	13	The noisy labels may mislead the trained models and cause negative effect.
+19	19	A few systems try to denoise the training corpora using simple pruning heuristics such as deleting mentions with conflicting types (Gillick et al., 2014).
+21	6	The larger the target type set, the more severe the loss.
+22	10	Most existing methods (Yogatama et al., 2015; Ling and Weld, 2012) treat every type label in a training mention’s candidate type set equally and independently when learning the classifiers but ignore the fact that types in the given hierarchy are semantically correlated (e.g., actor is more relevant to singer than to politician).
+24	171	Intuitively, one should pose smaller penalty on types which are semantically more relevant to the true types.
+25	41	1 singer should receive a smaller penalty than politician does, by knowing that actor is a true type for “Arnold Schwarzenegger” in S2.
+27	115	In this paper, we approach the problem of automatic fine-grained entity typing as follows: (1) Use different objectives to model training mentions with correct type labels and mentions with noisy labels, respectively.
+28	65	(2) Design a novel partial-label loss to model true types within the noisy candidate type set which requires only the “best” candidate type to be relevant to the training mention, and progressively estimate the best type by leveraging various text features extracted for the mention.
+29	97	(3) Derive type correlation based on two signals: (i) the given type hierarchy, and (ii) the shared entities between two types in KB, and incorporate the correlation so induced by enforcing adaptive margins between different types for mentions in the training set.
+30	83	To integrate these ideas, we develop a novel embedding-based framework called AFET.
+31	102	First, it uses distant supervision to obtain candidate types for each mention, and extract a variety of text features from the mentions themselves and their local contexts.
+32	41	Mentions are partitioned into a “clean” set and a “noisy” set based on the given type hierarchy.
+33	215	Second, we embed mentions and types jointly into a low-dimensional space, where, in that space, objects (i.e., features and types) that are semantically close to each other also have similar representations.
+34	79	In the proposed objective, an adaptive margin-based rank loss is pro- posed to model the set of clean mentions to capture type correlation, and a partial-label rank loss is formulated to model the “best” candidate type for each noisy mention.
+35	169	Finally, with the learned embeddings (i.e., mapping matrices), one can predict the typepath for each mention in the test set in a top-down manner, using its text features.
+36	14	The major contributions of this paper are as follows: 1.
+37	97	We propose an automatic fine-grained entity typing framework, which reduces label noise introduced by distant supervision and incorporates type correlation in a principle way.

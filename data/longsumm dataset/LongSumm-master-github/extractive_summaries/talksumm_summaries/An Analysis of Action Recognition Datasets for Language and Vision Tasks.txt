@@ -1,0 +1,30 @@
+0	43	Action recognition is the task of identifying the action being depicted in a video or still image.
+2	66	It has been widely studied in computer vision, often on videos (Nagel, 1994; Forsyth et al., 2005), where motion and temporal information provide cues for recognizing actions (Taylor et al., 2010).
+3	12	However, many actions are recognizable from still images, see the examples in Figure 1.
+5	12	Most of the existing work can be categorized into four tasks: (a) action classification (AC); (b) determining human–object interaction (HOI); (c) visual verb sense disambiguation (VSD); and (d) visual semantic role labeling (VSRL).
+7	34	Until recently, action recognition was studied as action classification on small-scale datasets with a limited number of predefined actions labels (Ikizler et al., 2008; Gupta et al., 2009; Yao and FeiFei, 2010; Everingham et al., 2010; Yao et al., 2011).
+8	57	Often the labels in action classification tasks are verb phrases or a combination of verb and object such as playing baseball, riding horse.
+10	51	Action classification models are trained on images annotated with mutually exclusive labels, i.e., the assumption is that only a single label is relevant for a given image.
+12	19	To address these issues and also to understand the range of possible interactions between humans and objects, the human–object interaction (HOI) detection task has been proposed, in which all possible interactions between a human and a given object have to be identified (Le et al., 2014; Chao et al., 2015; Lu et al., 2016).
+14	35	On the other hand, action labels consisting of verbobject pairs can miss important generalizations: 64 riding horse and riding elephant both instantiate the same verb semantics, i.e., riding animal.
+15	27	Thirdly, existing action labels miss generalizations across verbs, e.g., the fact that fixing bike and repairing bike are semantically equivalent, in spite of the use of different verbs.
+17	14	Gella et al. (2016) propose the new task of visual verb sense disambiguation (VSD), in which a verb– image pair is annotated with a verb sense taken from an existing lexical database (OntoNotes in this case).
+19	58	Recent work (Gupta and Malik, 2015; Yatskar et al., 2016) has filled this gap by proposing the task of visual semantic role labeling (VSRL), in which images are labeled with verb frames, and the objects that fill the semantic roles of the frame are identified in the image.
+64	13	They annotate every image with a single verb and the semantic roles of the objects present in the image.
+65	17	VCOCOSRL the is dataset most similar to imSitu, however VCOCO-SRL includes localization information of agents and all objects and provides multiple action annotations per image.
+66	22	On the other hand, imSitu is the dataset that covers highest number of verbs, while also omitting many commonly studied polysemous verbs such as play.
+67	45	With the exception of a few datasets such as COCO-a, VerSe, imSitu all action recognition datasets have manually picked labels or focus on covering actions in specific domains such as sports.
+71	107	Recently proposed datasets partly handle this issue by using generic linguistic resources to extend the vocabulary of verbs in action labels.
+73	45	An analysis of various image description and question answering datasets by Ferraro et al. (2015) shows the bias in the distribution of word categories.
+76	39	Understanding actions also plays an important role in question answering, especially when the question is pertaining to an action depicted in the image.
+79	58	Action recognition datasets could be used to learn actions that are visually similar such as interacting with panda and feeding a panda or tickling a baby and calming a baby, which cannot be learned from text alone (Ramanathan et al., 2015).
+81	41	Most of the models proposed for action classification and human–object interaction tasks rely on identifying higher-level visual cues present in the image, including human bodies or body parts (Ikizler et al., 2008; Gupta et al., 2009; Yao et al., 2011; Andriluka et al., 2014), objects (Gupta et al., 2009), and scenes (Li and Fei-Fei, 2007).
+86	27	More recent approaches are based on end-toend convolutional neural network architectures which learn visual cues such as objects and image features for action recognition (Chao et al., 2015; Zhou et al., 2016; Mallya and Lazebnik, 2016).
+87	14	While most of the action classification models rely solely on visual information, models proposed for human–object interaction or visual relationship detection sometimes combine human and object identification (using visual features) with linguistic knowledge (Le et al., 2014; Krishna et al., 2016; Lu et al., 2016).
+88	23	Other work on identifying actions, especially methods that focus on relationships that are infrequent or unseen, utilize word vectors learned on large text corpora as an additional source of information (Lu et al., 2016).
+93	17	However, as we have shown in this paper, only a few of the existing datasets for action recognition and related tasks are based on linguistic resources (Chao et al., 2015; Gella et al., 2016; Yatskar et al., 2016).
+101	15	Such sense mappings are discoverable from multilingual lexical resources (e.g., BabelNet, Navigli and Ponzetto 2010), which makes it possible to construct language and vision models that are applicable to multiple languages.
+102	20	This opportunity is lost if language and vision dataset are constructed in isolation, instead of using existing linguistic resources.
+103	35	In this paper, we have shown the evolution of action recognition datasets and tasks from simple ad-hoc labels to the fine-grained annotation of verb semantics.
+104	87	It is encouraging to see the recent increase in datasets that deal with sense ambiguity and annotate semantic roles, while using standard linguistic resources.
+109	22	If we are to develop robust, domain independent models, then we need to standardize annotation schemes and use the same linguistic resources across datasets.

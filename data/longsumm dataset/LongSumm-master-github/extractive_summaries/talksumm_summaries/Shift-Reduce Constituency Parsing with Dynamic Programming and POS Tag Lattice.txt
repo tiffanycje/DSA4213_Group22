@@ -1,0 +1,30 @@
+6	40	Thus, we first present an odd-even shift-reduce constituency parser which always finishes in same number of steps, eliminating the complicated asynchronicity issue in previous work (Zhu et al., 2013; Wang and Xue, 2014), and then develop dynamic programming on top of that.
+7	27	Secondly, to alleviate the error propagation from POS tagging, we also extends the algorithm to take a tagging sausage lattice as input, which is a compromise between pipeline and joint approaches (Hatori et al., 2011; Li et al., 2011; Wang and Xue, 2014).
+9	19	One major challenge in constituency parsing is unary rules.
+10	16	Unlike dependency parsing where shiftreduce always finishes in 2n−1 steps, existing incremental constituency parsers (Zhu et al., 2013; Wang and Xue, 2014) reach the goal state (full parse tree) in different steps due to different number of unary rules.
+11	8	So we propose a new, synchronized, “oddeven” system to reach the goal in the same 4n − 2 steps.
+12	42	A state is notated p = 〈S,Q〉, where S is a stack of trees ..., s1, s0, and Q is a queue of wordtag pairs.
+13	63	At even steps (when step index is even) we can choose one of the three standard actions • sh: shift the head of Q, a word-tag pair (t, w), onto S as a singleton tree t(w); • rexx: combine the top two trees on the stack and replace them with a new tree x(s1, s0), x being the root nonterminal, headed on s0; • rexy: similar to rexx but headed on s1; and at odd steps we can choose two new actions: 1030 • unx : replace s0 with a new tree x(s0) with x being the root nonterminal; • st: no action.
+14	8	Figure 1 shows the deductive system.
+17	11	In practice, we have larger than two-way rules and multi-level unary rules, so we binarize them and collapse multi-level unary rules into one level, for example, NP S VP PPNPV =⇒ NP+S VP PPVP′ NPV Following Huang and Sagae (2010), we represent feature templates as functions f(·, ·) on stack S and queue Q.
+21	27	Following Huang and Sagae (2010), “equivalent states” ∼ in a same beam are defined by the atomic features f̃(S,Q) and the span of s0: 〈S,Q〉 ∼ 〈S′, Q′〉 ⇔ f̃(S,Q) = f̃(S′, Q′) and s0.span = s′0.span.
+25	14	If two shifted states p′ and p′′ are equivalent, p′ ∼ p′′, we merge π(p′) and π(p′′).
+26	43	If a state p makes a reduce (rexx or re x y) action, p tries to combine with every p′ ∈ π(p), and each combination generates a state r with π(r) = π(p′).
+27	42	If two reduced states are equivalent, we only keep one predictor states, as their predictor states are identical.
+28	49	If a state p fires an unx or a st action resulting in a state u, we copy the predictor states π(u) = π(p).
+29	98	Similar to reduce actions, if two resulting states after applying an unx or a st action are equivalent, we only keep the best one with highest score (the recombined ones are only useful for searching k-best trees).
+31	21	In order to compute all the scores in GSS, for each state p, we calculate the prefix score, c, which is the total cost of the best action sequence from the initial state to the end of state p, and the inside score v, which is the score since the last shift (Figure 2).
+36	26	Thus, in the sh action, we split the state with all the possible tags t′ in the tagset T ′ for the second word on the queue.
+40	7	ahead (we just need to know the tag of the first word on the queue), but in practice, we use a look ahead of 4 words (q0..q3, see Table 1), so each shift actually splits the tagset of the 5th word on the queue (q4).
+47	20	We train our parsers using “max-violation perceptron” (Huang et al., 2012) (which has been shown to converge much faster than “early-update” of Collins and Roark (2004)) with minibatch parallelization (Zhao and Huang, 2013) on the head-out binarized and unary-collapsed training set.
+48	5	We finally debinarize the trees to recover the collapsed unary rules.
+52	7	Figure 4 shows the learning curves on the PTB dev set.
+53	20	With a same beam width, DP parser achieves a better performance (89.8%, peaking at the 11th iteration) and converges faster than non-DP.
+59	22	Our DP parser improves the F1 score by 0.5 points over the non-DP, and achieves the best F1 score among empirical linear-time parsers.
+63	18	The average number of tags for each word in the 20-best list is 1.1.
+69	38	It suggests that we need a larger k to catch up the gap.
+70	37	But our DP model boosts the performance further to the best score at 83.9% with a similar set of features.
+71	29	The last two lines (non-DP and DP) in Table 2 show our English lattice parsing results.
+72	15	So we run another baseline with the non-DP English parser on 1-best POS tags, and the baseline achieves a tagging accuracy at 97.11 and an F1 score at 90.1.
+73	43	Comparing to the tagging accuracy (97.15) and F1 score (90.3) of our non-DP lattice parser, sausage lattice parsing doesn’t help the tagging accuracy, but helps parsing a little by 0.2 points.
+75	29	In this paper, we present a dynamic programming algorithm based on graph-structured stack (GSS) for shift-reduce constituency parsing, and extend the algorithm to take tagging sausage lattices as input.

@@ -1,0 +1,30 @@
+1	21	These methods come with few theoretical guarantees and it’s difficult to assess how well the computed variational posterior approximates the true posterior.
+4	19	(1) There are many situations where the VI approximation is flawed.
+5	34	This can be due to the slow convergence of the optimization problem, the inability of the approximation family to capture the true posterior, the asymmetry of the true distribution, the fact that the direction of the KL divergence under-penalizes approximation with too-light tails, or all these reasons.
+12	59	After convergence, the optimum is still an approximation to the truth.
+19	17	The first method is based on generalized Pareto distribution diagnostics used to assess the quality of a importance sampling proposal distribution in Pareto smoothed importance sampling (PSIS, Vehtari et al., 2017).
+26	37	The second diagnostic considers only the quality of the median of the variational posterior as a point estimate (in Gaussian mean-field VI this corresponds to the modal estimate).
+33	21	, θS) from a proposal distribution q(θ), the importance sampling (IS) estimate is (∑S s=1 h(θs)rs ) / ∑S s=1 rs, where the importance ratios rs are defined as rs = p(θs, y) q(θs) .
+34	31	, θS) drawn from the variational posterior q(θ), we consider a family of estimates with the form Ep[h(θ)] ≈ ∑S s=1 h(θs)ws∑S s=1 ws , (3) which contains two extreme cases: 1.
+37	31	However, this estimator has small variance.
+49	19	PSIS stabilizes importance ratios by fitting a generalized Pareto distribution using the largest M samples of ri, where M is empirically set as min(S/5, 3 √ S).
+57	42	A generalized Pareto distribution with shape k has finite moments up to order 1/k, thus any positive k̂ value can be viewed as an estimate to k = inf { k′ > 0 : Eq ( p(θ|y) q(θ) ) 1 k′ <∞ } .
+61	26	Particularly, when k > 0.5, the χ2 divergence χ(p||q), becomes infinite, and when k > 1, D1(p||q) = KL(p, q) = ∞, indicating a disastrous VI approximation, despite the fact that KL(q, p) is always minimized among the variational family.
+62	23	The connection to Rényi divergence holds when k > 0.
+65	18	Meanwhile, the shape parameter k determines the finite sample convergence rate of both IS and PSIS adjusted estimate.
+68	41	Cortes et al. (2010) and Cortes et al. (2013) also link the finite sample convergence rate of IS with the number of existing moments of importance ratios.
+69	29	PSIS has smaller estimation error than the plain VI estimate, which we will experimentally verify this in Section 4.
+76	22	2: Run variational inference to p(θ|y), obtain VI approxi- mation q(θ); 3: Sample (θs, s = 1, .
+77	18	, S) from q(θ); 4: Calculate the importance ratio rs = p(θs, y)/q(θs); 5: Fit generalized Pareto distribution to the M largest rs; 6: Report the shape parameter k̂; 7: if k̂ < 0.7 then 8: Conclude VI approximation q(θ) is close enough to the unknown truth p(θ|y); 9: Recommend further shrinking errors by PSIS.
+83	49	• If k̂ > 0.7, the PSIS convergence rate becomes impractically slow, leading to a large mean square error, and a even larger error for plain VI estimate.
+84	21	We should consider tuning the variational methods (e.g., re-parametrization, increase iteration times, increase mini-batch size, decrease learning rate, et.al.,) or turning to exact MCMC.
+86	25	The proposed diagnostic method is summarized in Algorithm 1.
+97	39	This is not the drawback of PSIS diagnostics.
+99	31	Denoting the one-dimensional true and approximate marginal density of the i-th coordinate θi as p(θi|y) and q(θi), the marginal k for θi can be defined as ki = inf { 0 < k′ < 1 : Eq ( p(θi|y) q(θi) ) 1 k′ <∞ } .
+100	60	The marginal ki is never larger (and usually smaller) than the joint k in (4).
+101	61	For any two distributions p and q with support Θ and the margin index i, if there is a number α > 1 satisfying Eq (p(θ)/q(θ)) α < ∞, then Eq (p(θi)/q(θi)) α <∞.
+105	28	Firstly, unlike the easy access to the unnormalized joint posterior distribution p(θ, y), the true marginal posterior density p(θi|y) is typically unknown, otherwise one can conduct one-dimensional sampling easily to obtain the the marginal samples.
+112	17	In this section, we propose a new method for assessing the calibration of the center of a VI posterior.
+113	29	This diagnostic is based on the proposal of Cook et al. (2006) for validating general statistical software.
+114	27	They noted that if θ(0) ∼ p(θ) and y ∼ p(y | θ(0)), then Pr(y,θ(0)) ( Prθ|y(θ < θ (0)) ≤ ·) ) = Unif[0,1]([0, ·]).
+121	64	When θ is a high-dimensional parameter, it is important to interpret the results of any hypothesis tests Algorithm 2 VSBC marginal diagnostics 1: Input: prior density p(θ), data likelihood p(y | θ); number of replications M ; parameter dimensions K; 2: for j = 1 : M do 3: Generate θ(0)j from prior p(θ); 4: Generate a size-n dataset ( y(j) ) from p(y | θ(0)j ); 5: Run variational inference using dataset y(j), obtain a VI approximation distribution qj(·) 6: for i = 1 : K do 7: Label θ(0)ij as the i-th marginal component of θ (0) j ; Label θ∗i as the i-th marginal component of θ ∗; 8: Calculate pij = Pr(θ (0) ij < θ ∗ i | θ∗ ∼ qj) 9: end for 10: end for 11: for i = 1 : K do 12: Test if the distribution of {pij}Mj=1 is symmetric; 13: If rejected, the VI approximation is biased in its i-th margin.

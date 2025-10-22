@@ -1,0 +1,30 @@
+20	15	They include a novel transformation which maps a right-consistent algorithm to a both weakly and right- consistent one that is only able to increase prices (Sec.
+23	18	Namely, the seller repeatedly proposes goods (e.g., advertisement opportunities) to a single buyer over T rounds (the time horizon): one good per round.
+24	14	The buyer holds a fixed private valuation v ∈ [0; 1] for a good, i.e., the valuation v is unknown to the seller and is equal for goods offered in all rounds.
+25	12	, T}, a price pt is offered by the seller, and an allocation decision at ∈ {0, 1} is made by the buyer: at = 1, when the buyer accepts to buy a currently offered good at that price, 0, otherwise.
+26	10	Thus, the seller applies a (pricing) algorithm A that sets prices {pt}Tt=1 in response to buyer decisions a = {at}Tt=1 referred to as a (buyer) strategy.
+35	8	The buyer can then act strategically against this algorithm and is assumed to follow the optimal strategy aOpt(T,A, v,γ) that maximizes the buyer’s γ-discounted surplus (Amin et al., 2013): Surγ(T,A, v,a) := T∑ t=1 γtat(v − pt), i.e., aOpt(T,A, v,γ) := argmaxa Surγ(T,A, v,a), where γ = {γt}∞t=1 is the discount sequence, which is positive (γt > 0 ∀t∈N) and has convergent sums ( ∑∞ t=1 γt<∞).
+37	17	Thus, we consider a two-player non-zero sum repeated game with commitment, incomplete information, and unlimited supply, which is introduced by Amin et al. (2013) and considered in (Mohri & Munoz, 2014; Drutsa, 2017): the buyer seeks to maximize his surplus, while the seller’s objective is to minimize her strategic regret (i.e., maximize her revenue).
+39	8	In our setting, following (Kleinberg & Leighton, 2003; Amin et al., 2013; 2014; Mohri & Munoz, 2014; 2015; Drutsa, 2017), we seek for algorithms that attain o(T ) strategic regret (i.e., the averaged regret converges to zero when T →∞) for the worst-case valuation v ∈ [0, 1].
+41	10	The optimization goal consists in finding of algorithms with the lowest possible strategic regret upper bound of the form O(f(T )).
+44	11	Similarly to (Drutsa, 2017), a deterministic pricing algorithm A can be associated with an infinite complete binary tree T(A) (since we consider horizon-independent algorithms).
+45	10	Each node n ∈ T(A)4 is labeled with the price pn offered by A.
+48	19	The left (right) subtrees rooted at the node l(n) (r(n) resp.)
+49	18	are denoted by L(n) (R(n) resp.).
+50	43	The operators l(·) and r(·) sequentially applied s times to a node n are denoted by ls(n) and rs(n) respectively, s ∈ N. The root node of a tree T is denoted by e(T).
+51	55	So, the algorithm’s work flow is as follows: it starts at the root e(T(A)) of the tree T(A) by offering the first price pe(T(A)) to the buyer; at each step t < T , if a price pn, n ∈ T(A), is accepted, the algorithm moves to the right node r(n) and offers the price pr(n); in the case of the rejection, it moves to the left node l(n) and offers the price pl(n); this process repeats until reaching the time horizon T .
+52	23	The pseudo-code of this process is presented in Alg.
+53	40	For a node n ∈ T(A), tn equals to the round at which the price of this node is offered.
+58	49	After that, we briefly overview pricing algorithms from existing studies (Kleinberg & Leighton, 2003; Amin et al., 2013; Mohri & Munoz, 2014; Drutsa, 2017).
+59	21	Since the buyer holds a fixed valuation, we could expect that a smart online learning algorithm should work as follows: after an acceptance (a rejection), it should set only no lower (no higher, respectively) prices than the offered one.
+60	21	Formally, this leads to the definition: Definition 1 ((Mohri & Munoz, 2014)).
+61	25	An algorithm A is said to be consistent (A in the class C) if, for any node n ∈ T(A), pm ≥ pn ∀m ∈ R(n) and pm ≤ pn ∀m ∈ L(n).
+62	47	A consistent algorithm A is based on a clear idea (Drutsa, 2017): it explores the valuation domain [0, 1] by means of a feasible search interval [q, q′] (initialized by [0, 1]) targeted to locate the valuation v. At each round t, A offers a price pt ∈ [q, q′] and, depending on the buyer’s decision, reduces the interval to the right subinterval [pt, q′] (by q := pt) or the left one [q, pt] (by q′ := pt).
+64	25	The most famous example of a consistent algorithm is the binary search.
+65	11	Definition 2 ((Drutsa, 2017)).
+67	17	Weakly consistent algorithms are similar to consistent ones, but they are additionally able to offer the same price p several times before making a final decision on which of the subintervals [q, p] or [p, q′] continue.
+70	8	Right-consistent algorithms never offer a price lower than the last accepted one, but may offer a price higher than a rejected one (in contrast to consistent algorithms).
+74	9	A strategic buyer, incited by surplus maximization, may mislead a consistent pricing algorithm (Amin et al., 2014; Mohri & Munoz, 2014).
+82	21	An optimal pricing was found in (Drutsa, 2017), where horizon-independent algorithms were studied and the causes of a linear regret in different classes of consistent algorithms were analyzed step-by-step.
+90	30	Our research goal comprises closing of that open research question.
+129	30	Let us apply the transformation pre to the pricing algorithm PRRFES (Drutsa, 2017) and refer to the transformed one as prePRRFES.

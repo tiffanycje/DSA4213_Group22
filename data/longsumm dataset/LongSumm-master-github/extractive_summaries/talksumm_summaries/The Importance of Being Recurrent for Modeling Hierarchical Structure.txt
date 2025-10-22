@@ -1,0 +1,30 @@
+0	24	Recurrent neural networks (RNNs), in particular Long Short-Term Memory networks (LSTMs), have become a dominant tool in natural language processing.
+1	52	While LSTMs appear to be a natural choice for modeling sequential data, recently a class of non-recurrent models (Gehring et al., 2017; Vaswani et al., 2017) have shown competitive performance on sequence modeling.
+3	18	Vaswani et al. (2017) introduce Transformer networks that do not use any convolution or recurrent connections while obtaining the best translation performance.
+5	13	But do they have the same ability to exploit hierarchical structures implicitly in comparison to RNNs?
+11	18	Additionally, FANs promise to be more interpretable than LSTMs by visualizing attention weights.
+15	14	Figure 1 depicts the main difference in terms of computation when each model is making predictions.
+16	58	At time step t, a FAN can access information from all previous time steps directly with O(1) computational operations.
+25	113	Linzen et al. (2016) propose the task of predicting number agreement between subject and verb in naturally occurring English sentences as a proxy for the ability of LSTMs to capture hierarchical structure in natural language.
+26	19	We use the dataset provided by Linzen et al. (2016) and follow their experimental protocol of training each model using either (a) a general language model, i.e., next word prediction objective, and (b) an explicit supervision objective, i.e., predicting the number of the verb given its sentence history.
+27	23	Table 1 illustrates the training and testing conditions of the task.
+28	20	Data: Following the original setting, we take 10% of the data for training, 1% for validation, and the rest for testing.
+30	36	Hyperparameters: To allow for a fair comparison, we find the best configuration for each model by running a grid search over the following hyperparameters: number of layers in {2, 3, 4}, dropout rate in {0.2, 0.3, 0.5}, embedding size and number of hidden units in {128, 256, 512}, number of heads (for FAN) in {2, 4}, and learning rate in {0.00001, 0.0001, 0.001}.
+31	16	The weights of the word embeddings and output layer are shared (Inan et al., 2017; Press and Wolf, 2017).
+33	16	We first assess whether the LSTM and FAN models trained with respect to the language model objective assign higher probabilities to the correctly inflected verbs.
+34	30	As shown in Figures 2a and 2b, both models achieve high accuracies for this task, but LSTMs consistently outperform FANs.
+35	22	Moreover, LSTMs are clearly more robust than FANs with respect to task difficulty, measured both in terms of word distance and number of agreement attractors1 between subject and verb.
+39	29	We note that the validation perplexities of the LSTM and FAN are 67.06 and 69.14, respectively.
+46	34	While it is hard to interpret the exact role of attention for different heads and at different layers, we find that some of the attention heads at the higher layers (`2 h1, `3 h0) frequently point to the subject with an accuracy that decreases linearly with the distance between subject and verb.
+47	17	In this task, we choose the artificial language introduced by Bowman et al. (2015b).
+49	15	The task consists of predicting one of seven mutually exclusive logical relations that describe the relationship between a pair of sentences: entailment (@, A), equivalence (≡), exhaustive and non-exhaustive contradiction (∧, |), and two types of semantic independence (#, `).
+56	23	The best of the three models achieve less than 59% accuracy on the logical inference versus 77% on the Stanford Natural Language Inference (SNLI) corpus (Bowman et al., 2015a).
+66	34	Following the experimental protocol of Bowman et al. (2015b), the data is divided into 13 bins based on the number of logical operators.
+67	14	Both FANs and LSTMs are trained on samples with at most n logical operators and tested on all bins.
+69	18	We see that FANs and LSTMs perform similarly when trained on the whole dataset (Figure 4a).
+70	17	However when trained on a subset of the data (Figure 4b), LSTMs obtain better accuracies on similar examples (n ≤ 6) and generalize better on longer examples (6 < n ≤ 12).
+71	17	We have compared a recurrent architecture (LSTM) to a non-recurrent one (FAN) with respect to the ability of capturing the underlying hierarchical structure of sequential data.
+74	14	Secondly, we found that LSTMs generalize better than FANs to longer sequences in a logical inference task.
+75	21	These findings suggest that recurrency is a key model property which should not be sacrificed for efficiency when hierarchical structure matters for the task.
+76	108	This does not imply that LSTMs should always be preferred over non-recurrent architectures.
+77	35	In fact, both FAN- and CNN-based networks have proved to perform comparably or better than LSTM-based ones on a very complex task like machine translation (Gehring et al., 2017; Vaswani et al., 2017).

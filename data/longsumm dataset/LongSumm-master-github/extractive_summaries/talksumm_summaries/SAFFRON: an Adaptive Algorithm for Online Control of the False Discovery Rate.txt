@@ -1,0 +1,30 @@
+0	133	It is now commonplace in science and technology to make thousands or even millions of related decisions based on data analysis.
+2	106	As first identified by Tukey in a seminal 1953 manuscript (1953), the central difficulty when testing a large number of null hypotheses is that several of them may appear to be false, purely by chance.
+3	10	Arguably, we would like the set of rejected null hypothesesR to have high precision, so that most discovered genes are indeed truly correlated with diabetes and further investigations are not fruitless.
+4	70	Unfortunately, separately controlling the false positive rate for each individual test actually does not provide any guarantee on the precision.
+5	88	This motivated the development of procedures that can provide guarantees on an error metric called the false discovery rate (FDR) (Benjamini & Hochberg, 1995), defined as: FDR ≡ E [FDP(R)] = E [ |H0 ∩R| |R| ] , whereH0 is the unknown set of truly null hypotheses, and 0/0 ≡ 0.
+6	16	Here the FDP represents the ratio of falsely rejected nulls to the total number of rejected nulls, and since the set of discoveries R is data-dependent, the FDR takes an expectation over the underlying randomness.
+7	24	The evidence from a hypothesis test can typically be summarized in terms of a p-value, and so offline multiple testing algorithms take a set of p-values {Pi} as their input, and a target FDR level α ∈ (0, 1), and produce a rejected set R that is guaranteed to have FDR ≤ α.
+8	51	Of course, one also desires a high recall, or equivalently a low false negative rate, but without assumptions on many uncontrollable factors like the frequency and strength of signals, additional guarantees on the recall are impossible.
+10	136	For example, large information technology companies run thou- sands of A/B tests every week of the year, and decisions about whether or not to reject the corresponding null hypothesis must be made without knowing the outcomes of future tests; indeed, future null hypotheses may depend on the outcome of the current test.
+11	37	The current standard of setting all thresholds αk to a fixed quantity such as 0.05 does not provide any control of the FDR.
+12	184	Hence, the following hypothetical scenario is entirely plausible: a company conducts 1000 tests in one week, each with a target false positive rate of 0.05; it happens to make 80 discoveries in total of which 50 are accidental false discoveries, ending up with an FDP of 5/8.
+13	20	Such uncontrolled error rates can have severe financial and social consequences.
+16	34	The GAI++ algorithms by Ramdas et al. (2017) improved the earlier GAI algorithms (uniformly), and the improved LORD++ (henceforth LORD) method arguably represents the current state-of-the-art in online multiple hypothesis testing.
+17	82	The current paper’s central contribution is the derivation and analysis of a powerful new class of online FDR algorithms called “SAFFRON” (Serial estimate of the Alpha Fraction that is Futilely Rationed On true Null hypotheses).
+18	208	As an instance of the GAI framework, the SAFFRON method starts off with an error budget, referred to as alphawealth, that it allocates to different tests over time, earning back some alpha-wealth whenever it makes a new discovery.
+21	18	Thus, the SAFFRON method can be viewed as an online analogue of Storey’s adaptive version of the BH procedure.
+28	8	Before deriving the SAFFRON algorithm, it is useful to recap a few concepts.
+34	39	Define the filtration formed by the sequence of sigma-fields F t : = σ(R1, .
+35	23	, Rt), and let αt : = ft(R1, .
+37	87	Then, we say that the null p-values are conditionally super-uniformly distributed if the following holds: If the null hypothesis Ht is true, then Pr { Pt ≤ αt ∣∣ F t−1} ≤ αt.
+39	96	We begin by defining an oracle estimate of the FDP as: FDP∗(t) : = ∑ j≤t,j∈H0 αj |R(t)| .
+40	62	The word oracle indicates that FDP∗ cannot be calculated by the scientist, since H0 is unknown.
+41	65	Intuitively, the numerator ∑ j≤t,j∈H0 αj overestimates the number of false discoveries, and FDP∗(t) overestimates the FDP, as formalized in the claim below: Proposition 1.
+42	10	If the null p-values are conditionally superuniformly distributed (3), then we have: (a) E [ ∑ j≤t,j∈H0 αj ] ≥ E [ |H0 ∩R(t)| ] ; (b) If FDP∗(t) ≤ α for all t ∈ N, then mFDR(t) ≤ α for all t ∈ N. Further, if the null p-values are independent of each other and of the non-nulls, and {αt} is a monotone function of past rejections, then: (c) E [FDP∗(t)] ≥ E [FDP(t)] ≡ FDR(t) for all t ∈ N; (d) The condition FDP∗(t) ≤ α for all t ∈ N implies that FDR(t) ≤ α for all t ∈ N. To clarify, the word monotone means that αt is a coordinatewise non-decreasing function of the vector R1, .
+47	11	The subscript LORD is used because Ramdas et al. (2017) point out that their variant of the LORD algorithm of Javanmard and Montanari (2017) can be derived by simply assigning αj in an online fashion to ensure that the condition F̂DPLORD(t) ≤ α is met for all times t.
+48	33	The main drawback of F̂DPLORD is that if the underlying (unknown) truth is such that the proportion of non-nulls (true signals) is non-negligible, then F̂DPLORD(t) is a very crude and overly conservative overestimate of FDP∗(t), and hence also of the true unknown FDP.
+49	54	With this drawback in mind, and knowing that we would expect non-nulls to typically have smaller p-values, we propose the following novel estimator: F̂DPSAFFRON(λ)(t) ≡ F̂DPλ(t) : = ∑ j≤t αj 1{Pj>λj} 1−λj |R(t)| , where {λj}∞j=1 is a predictable sequence of user-chosen parameters in the interval (0, 1).
+54	57	The following theorem shows that, even though F̂DPλ(t) is not necessarily always larger than FDP∗(t), a direct analog of Proposition 1 is nonetheless valid.
+55	7	In order to state this claim formally, we need to slightly modify the assumption (3).
+56	65	As before, denote by Rj : = 1 {Pj ≤ αj} the indicator for rejection, and let Cj := 1 {Pj ≤ λj} be the indicator for candidacy.

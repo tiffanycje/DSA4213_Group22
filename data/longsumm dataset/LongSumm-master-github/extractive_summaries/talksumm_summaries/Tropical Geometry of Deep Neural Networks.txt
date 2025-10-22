@@ -1,0 +1,30 @@
+6	24	Traditional measures of complexity such as VC-dimension and Rademacher complexity fail to explain this phenomenon.
+7	19	Understanding this implicit regularization that begets the generalization power of deep neural networks remains a challenge.
+8	58	The goal of our work is to establish connections between neural network and tropical geometry in the hope that they will shed light on the workings of deep neural networks.
+11	33	For standard and trigonometric polynomials, it is known that rational approximation — approximating a target function by a ratio of two polynomials instead of a single polynomial — vastly improves the quality of approximation without increasing the degree.
+15	43	In fact, we will show that: the family of functions represented by feedforward neural networks with rectified linear units and integer weights is exactly the family of tropical rational maps.
+25	40	Roughly speaking, tropical algebraic geometry is an analogue of classical algebraic geometry over C, the field of complex numbers, but where one replaces C by a semifield2 called the tropical semiring, to be defined below.
+29	37	The two operations ⊕ and , called tropical addition and tropical multiplication respectively, are defined as follows.
+31	21	Thus −∞ is the tropical additive identity and 0 is the tropical multiplicative identity.
+33	17	While it is not a ring (lacks additive inverse), one may nonetheless generalize many algebraic objects (e.g., matrices, polynomials, tensors, etc) and notions (e.g., rank, determinant, degree, etc) over the tropical semiring — the study of these, in a nutshell, constitutes the subject of tropical algebra.
+53	19	We will denote a tropical rational function by f g, where f and g are understood to be tropical polynomial functions.
+58	46	A d-variate tropical polynomial f(x) defines a function f : Rd → R that is a convex function in the usual sense as taking max and sum of convex functions preserve convexity (Boyd & Vandenberghe, 2004).
+63	60	, fp are tropical rational functions.
+64	29	We will denote the set of tropical polynomial maps by Pol(d, p) and the set of tropical rational maps by Rat(d, p).
+66	32	Tropical hypersurfaces are a principal object of interest in tropical geometry and will prove very useful in our approach towards neural networks.
+67	32	Intuitively, the tropical hypersurface of a tropical polynomial f is the set of points x where f is not linear at x.
+72	25	For example, the cell where a tropical monomial cjx αj attains its maximum is {x ∈ Rd : cj + αTjx ≥ ci + αTix for all i 6= j}.
+85	30	Thus, the number of vertices in P(f) provides an upper bound on the number of linear regions of f .
+86	44	Figure 1 shows the Newton polygon and dual subdivision for the tropical polynomial f(x1, x2) = 1 x21 ⊕ 1 x22 ⊕ 2 x1x2 ⊕ 2 x1 ⊕ 2 x2 ⊕ 2.
+90	24	A linear region of F ∈ Rat(d,m) is a maximal connected subset of the domain on which F is linear.
+91	108	The number of linear regions of F is denoted N (F ).
+94	17	Our analysis of neural networks will require figuring out how the polytope P(f) transforms under tropical power, sum, and product.
+98	65	The Minkowski sum of two sets P1 and P2 in Rd is the set P1 + P2 := { x1 + x2 ∈ Rd : x1 ∈ P1, x2 ∈ P2 } ; and for λ1, λ2 ≥ 0, their weighted Minkowski sum is λ1P1+λ2P2 := { λ1x1+λ2x2 ∈ Rd : x1 ∈ P1, x2 ∈ P2 } .
+100	35	In particular, the Minkowski sum of line segments is called a zonotope.
+159	22	Theorem 5.2 (Tropical characterization of neural networks).
+171	28	We would like to acknowledge the precedence of (Arora et al., 2018, Theorem 2.1), which demonstrates the equivalence between ReLU-activatedL-layer neural networks with real weights and d-variate continuous piecewise functions with real coefficients, where L ≤ dlog2(d+ 1)e+ 1.
+177	19	Let ν : Rd → R. Then ν is a continuous piecewise linear function with integer coefficients if and only if ν is a tropical rational function.
+183	22	The need to stay within tropical algebraic geometry is the reason we did not go for a simpler and more general characterization (that does not require the integer coefficients assumption).
+191	19	Nevertheless tropical signomials fall outside the realm of tropical algebraic geometry and we do not use Proposition 5.6 in the rest of this article.
+192	71	Section 5 defines neural networks via tropical algebra, a perspective that allows us to study them via tropical algebraic geometry.
+194	24	We will see that, in an appropriate sense, zonotopes form the geometric building blocks for neural networks (Section 6.2).

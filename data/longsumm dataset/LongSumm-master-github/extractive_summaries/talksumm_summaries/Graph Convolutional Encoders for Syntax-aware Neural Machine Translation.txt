@@ -1,0 +1,30 @@
+0	52	Neural machine translation (NMT) is one of success stories of deep learning in natural language processing, with recent NMT systems outperforming traditional phrase-based approaches on many language pairs (Sennrich et al., 2016a).
+1	26	State-ofthe-art NMT systems rely on sequential encoderdecoders (Sutskever et al., 2014; Bahdanau et al., 2015) and lack any explicit modeling of syntax or any hierarchical structure of language.
+3	27	Despite some successes, techniques explored so far either incorporate syntactic information in NMT models in a relatively indirect way (e.g., multi-task learning (Luong et al., 2015a; Nadejde et al., 2017; Eriguchi et al., 2017; Hashimoto and Tsuruoka, 2017)) or may be too restrictive in modeling the interface between syntax and the translation task (e.g., learning representations of linguistic phrases (Eriguchi et al., 2016)).
+7	25	Our goal is to automatically incorporate information about syntactic neighborhoods of source words into these feature vectors, and, thus, potentially improve quality of the translation output.
+51	41	We will now describe the Graph Convolutional Networks (GCNs) of Kipf and Welling (2016).
+52	21	For a comprehensive overview of alternative GCN architectures see Gilmer et al. (2017).
+54	128	In each GCN layer, information flows along edges of the graph; in other words, each node receives messages from all its immediate neighbors.
+55	46	When multiple GCN layers are stacked, information about larger neighborhoods gets integrated.
+70	36	Modifying the recursive computation for directionality, we arrive at: h(j+1)v = ρ ( ∑ u∈N (v) W (j) dir(u,v) h (j) u + b (j) dir(u,v) ) where dir(u, v) selects the weight matrix associated with the directionality of the edge connecting u and v (i.e. WIN for u-to-v, WOUT for v-to-u, and WLOOP for v-to-v).
+78	35	For each edge, a scalar gate is calculated as follows: g(j)u,v = σ ( h(j)u · ŵ(j)dir(u,v) + b̂ (j) lab(u,v) ) where σ is the logistic sigmoid function, and ŵ(j)dir(u,v) ∈ Rd and b̂ (j) lab(u,v) ∈ R are learned parameters for the gate.
+98	23	The model might not only benefit from this teleporting capability however; also the nature of the relations between words (i.e. dependency relation types) may be useful, and the GCN exploits this information (see §2.3 for details).
+112	56	In all experiments we obtain translations using a greedy decoder, i.e. we select the output token with the highest probability at each time step.
+119	26	From a vocabulary of 26 types, we generate random sequences of 3-10 tokens.
+120	37	We then randomly permute them, pointing every token to its original predecessor with a label sampled from a set of 5 labels.
+126	47	Figure 3 shows that the mean values of the bias terms of gates (i.e. b̂) for real and fake edges are far apart, suggesting that the GCN learns to distinguish them.
+128	42	A gate-less model would not understand which of the two outgoing arcs is fake and which is genuine, because only biases b would then be label-dependent.
+130	145	Although using label-specific matrices W would also help, this would not scale to the real scenario (see §2.3).
+131	80	For our experiments we use the En-De and En-Cs News Commentary v11 data from the WMT16 translation task.6 For En-De we also train on the full WMT16 data set.
+133	195	The English sides of the corpora are tokenized and parsed into dependency trees by SyntaxNet,7 using the pre-trained Parsey McParseface model.8 The Czech and German sides are tokenized using the Moses tokenizer.9 Sentence pairs where either side is longer than 50 words are filtered out after tokenization.
+135	67	For Czech and German, to deal with rare words and phenomena such as inflection and compounding, we learn byte-pair encodings (BPE) as described by Sennrich et al. (2016b).
+138	25	We use 256 units for word embeddings, 512 units for GRUs (800 for En-De full data set experiment), and 512 units for convolutional layers (or equivalently, 512 ‘channels’).
+140	125	We report results for 2-layer GCNs, as we find them most effective (see ablation studies below).
+141	80	We provide three baselines, each with a different encoder: a bag-of-words encoder, a convolutional encoder with window size w = 5, and a BiRNN.
+142	29	We report (cased) BLEU results (Papineni et al., 2002) using multi-bleu, as well as Kendall τ reordering scores.10
+145	24	We expected the BoW+GCN model to make easy gains over this baseline, which is indeed what happens.
+153	28	While it is difficult to obtain high absolute BLEU scores on this dataset, we can still see similar relative improvements.
+158	24	How many GCN layers do we need?
+167	25	One explanation may be that syntactic parses are noisier for longer sentences, and this prevents us from obtaining extra improvements with GCNs.
+191	20	We have presented a simple and effective approach to integrating syntax into neural machine translation models and have shown consistent BLEU4 improvements for two challenging language pairs: English-German and English-Czech.
+192	47	Since GCNs are capable of encoding any kind of graph-based structure, in future work we would like to go be- yond syntax, by using semantic annotations such as SRL and AMR, and co-reference chains.

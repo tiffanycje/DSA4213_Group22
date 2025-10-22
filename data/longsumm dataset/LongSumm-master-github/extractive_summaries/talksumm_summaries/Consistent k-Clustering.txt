@@ -1,0 +1,30 @@
+7	18	However, in some scenarios strong lower bounds on the competitive ratio imply that any algorithm that makes irrevocable choices will necessarily perform poorly when compared to an offline optimum.
+8	16	Online clustering is one such example.
+9	17	In this setting points x1, x2, .
+10	35	arrive one at a time, and must be instantly given one of k cluster labels.
+11	111	As is typical, the goal is to have the highest quality clustering (under some pre-specified objective function, like k-CENTER or k-MEDIAN) at every point in time.
+12	43	As Liberty et al. (2016) showed, not only do online clustering algorithms have an unbounded competitive ratio, but one must use bi-criteria approximations to have any hope of a constant approximate solution.
+25	18	This is mainly done to introduce expressiveness and non-linearity to simple systems.
+26	46	In this situation, changing the clustering would entail changing the set of features passed to the learner, and retraining the whole system; thus one certainly does not want to do it at every time step, but it can be done if the gains are worthwhile.
+29	20	As we will show, the option to recluster dramatically improves the quality of the solution, even if it is taken rarely.
+58	36	Given a p > 0, in the rest of the paper we refer to the cost of a point x with to respect to a set of centers as: costp(x, c) = minci d(x, ci) p. And cost of a cluster Ci as: costp(X,Ci) = ∑ x∈Ci d(x, ci) p. Now we are ready to define our problem.
+59	28	For any p > 0 we can define the cost of clustering of pointsX with respect to the centers c ⊆ X as: costp(X, c) = ∑ x∈X costp(x, c) =∑k i=1 ∑ x∈Ci d(x, ci) p. The k-clustering family of problems asks to find the set of centers c that minimize costp for a specific p. When p = 1, cost1(X, c) is precisely the k-MEDIAN clustering 1 For clarity of the exposition we will assume that all of the pairwise distances are unique.
+71	31	To this end, our goal in this work is to better understand the trade-off between the approximation ratio of online clustering algorithms, and the number of times the representative centers change.
+77	23	, ct and a positive monotone non-decreasing function β : Z → R, we say that the sequence is β-consistent if for all T , ∑T t=1 |ct − ct−1| ≤ β(T ).
+80	37	, xT , and a parameter p, a sequence of centers c1, c2, .
+84	82	We show that it is impossible to get a constant approximation and achieve consistency of o(log n) for any of the k clustering problems.
+85	26	Later, in Section 6 we will give a non-constructive result that shows that there is always a sequence of clusterings that is simultaneously constant-approximate and O(k log2 n) consistent.3 Lemma 3.3.
+92	81	Let Pi be the set of points at the end of phase i.
+98	32	The closest point to pj is at γi−1ej , which is at distance γi−1(γ − 1) away.
+103	23	Note that considering any p > 1 only makes any omission of point pj even more costly, as compared to the optimum solution.
+107	37	In the streaming setting, when points arrive one at a time, the DOUBLING algorithm by Charikar et al. (2004) was the first algorithm discovered for this problem.
+109	41	Furthermore, it works in O(log ∆) = O(log n) phases and the total consistency cost of each phase is k; thus we get the following lemma.
+116	52	This sketch has already been used by Charikar et al. (2003) to solve the k-median problem on data streams.
+119	24	In this way, at any point in time we have a good approximation of the optimum solution.
+123	64	In fact we will do it only when either a new point is added to the Meyerson sketch— O(k log2 n) times—or when the number of points assigned to one of these elements of the Meyerson sketch doubles— O(k log n) events per sketch.
+138	125	From Lemma 5.1 we know that with constant probability a single Meyerson sketch is of size O(k log n) and contains a set of points that give a good solution to our problem.
+139	45	Thus, if we construct 2 log n single Meyerson sketches in parallel, at least one of them gives a constant approximation to the optimum at every point in time with probability at least 1 − O(n−1).
+142	16	As mentioned above, Lemma 5.1 implies that if we construct 2 log n single Meyerson sketches in parallel, with probability 1 − O(n−1), at least one of them gives a constant approximation to the optimum at every point in time.
+145	45	This modification does not change the probability that there exist at least one single sketch that gives a constant approximation to the optimum at every point in time and has at most 4k(1 + log n) ( 22p+1 γp + 1 ) points.
+146	19	Thus with probability 1 − O(n−1) at least one of the sketches constructed in Lemma 5.1 gives a constant approximation to the optimum at every point in time.
+147	24	Merging other sketches to this sketch does not affect this property.

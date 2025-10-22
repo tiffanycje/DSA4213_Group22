@@ -1,0 +1,30 @@
+0	102	Recursive neural models perform well for many structured prediction problems, in part due to their ability to learn representations that depend globally on all parts of the output structures.
+1	84	However, global models of this sort are incompatible with existing exact inference algorithms, since they do not decompose over substructures in a way that allows effective dynamic programming.
+2	9	Existing work has therefore used greedy inference techniques such as beam search (Vinyals et al., 2015; Dyer et al., 2015) or reranking (Socher et al., 2013).
+3	45	We introduce the first global recursive neural parsing approach with optimality guarantees for decoding and use it to build a state-of-the-art CCG parser.
+4	45	To enable learning of global representations, we modify the parser to search directly in the space of all possible parse trees with no dynamic programming.
+5	130	Optimality guarantees come from A∗ search, which provides a certificate of optimality if run to completion with a heuristic that is a bound on the future cost.
+6	46	Generalizing A∗ to global models is challenging; these models also break the locality assumptions used to efficiently compute existing A∗ heuristics (Klein and Manning, 2003; Lewis and Steedman, 2014).
+7	232	Rather than directly replacing local models, we show that they can simply be augmented by adding a score from a global model that is constrained to be non-positive and has a trivial upper bound of zero.
+8	46	The global model, in effect, only needs to model the remaining non-local phenomena.
+9	84	In our experiments, we use a recent factored A∗ CCG parser (Lewis et al., 2016) for the local model, and we train a Tree-LSTM (Tai et al., 2015) to model global structure.
+10	178	Finding a model that achieves these A∗ guarantees in practice is a challenging learning problem.
+11	37	Traditional structured prediction objectives focus on ensuring that the gold parse has the highest score (Collins, 2002; Huang et al., 2012).
+12	29	This condition is insufficient in our case, since it does not guarantee that the search will terminate in subexponential time.
+13	51	We instead introduce a new objective that optimizes efficiency as well as accuracy.
+14	79	Our loss function is defined over states of the A∗ search agenda, and it penalizes the model whenever the top agenda item is not a part of the gold parse.
+15	45	2366 Minimizing this loss encourages the model to return the correct parse as quickly as possible.
+16	13	The combination of global representations and optimal decoding enables our parser to achieve state-of-the-art accuracy for Combinatory Categorial Grammar (CCG) parsing.
+20	20	A node y in this hypergraph is a labeled span, representing structures within a parse tree, as shown in Figure 1.
+21	27	Each hyperedge e in the hypergraph represents a rule production in a parse.
+24	19	This hyperedge represents a forward application rule applied to its tails, like and bananas.
+25	9	To define a path in the hypergraph, we first include a special start node ∅ that represents an empty parse.
+29	19	For example, in Figure 1, the set of bolded hyperedges form a path deriving a complete parse.
+30	114	Each hyperedge e is weighted by a score s(e) from a parsing model.
+31	79	The score of a path E is the sum of its hyperedge scores: g(E) = ∑ e∈E s(e) Viterbi decoding is equivalent to finding the highest scoring path that forms a complete parse.
+33	7	In this work, our hypergraph instead represents a forest of parses.
+37	111	The number of nodes in this hypergraph is polynomial in the sentence length, permitting exhaustive exploration (e.g. CKY parsing).
+43	8	A∗ parsing A∗ parsing has been successfully applied in locally factored models (Klein and Manning, 2003; Lewis and Steedman, 2014; Lewis et al., 2015; Lewis et al., 2016).
+46	20	Similar to the standard A∗ search algorithm, we maintain an agenda A of hyperedges to explore and a forest F of explored nodes that initially contains only the start node ∅.
+49	22	The efficiency of the search improves when this bound is tighter.
+50	44	At every step, the parser removes the top of the agenda, emax = argmaxe∈A(g(PATH(e)) + h(e)).

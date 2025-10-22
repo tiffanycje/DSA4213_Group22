@@ -1,0 +1,30 @@
+2	32	Motivated by the success of adding syntactic information to Statistical Machine Translation (SMT) (Galley et al., 2004; Menezes and Quirk, 2007; Galley et al., 2006), recent works have established that explicitly leveraging syntactic information can improve NMT quality, either through syntactic encoders (Li et al., 2017; Eriguchi et al., 2016), multi-task learning objectives (Chen et al., 2017; Eriguchi et al., 2017), or direct addition of syntactic tokens to the target sequence (Nadejde et al., 2017; Aharoni and Goldberg, 2017).
+4	17	One exception is Wu et al. (2017), which utilizes two RNNs for generating target dependency trees.
+5	65	Nevertheless, Wu et al. (2017) is specifically designed for dependency tree structures and is not trivially applicable to other varieties of trees such as phrase-structure trees, which have been used more widely in other works on syntax-based machine translation.
+7	32	In this paper, we propose TrDec, a method for incorporating tree structures in NMT.
+10	22	This model is similar to neural models of tree-structured data from syntactic and semantic parsing (Dyer et al., 2016; Alvarez-Melis and Jaakkola, 2017; Yin and Neubig, 2017), but with the addition of the word RNN, which is especially important for MT where fluency of transitions over the words is critical.
+20	11	The example uses a syntactic parse tree as the intermediate tree representation, but the process of generating with other tree representations, e.g. syntax-free trees, follows the same procedure.
+26	34	Specifically, a rule RNN first generates the top of the tree structure, and continues until a preterminal is reached.
+31	22	The source sentence is encoded by a sequential RNN encoder, producing the hidden states.
+39	7	Upon seeing a preterminal node as the current opening nonterminal, TrDec switches to using a word RNN, initialized by the last state of the encoder, to populate this empty preterminal with phrase tokens, similar to a seq2seq decoder.
+44	12	From here, TrDec chooses the rule VP 7!
+55	112	At any time step t, if the word RNN is invoked, its hidden state swordt is: s word t = LSTM([s tree p ;wt 1; ct 1], s word t 1 ), where streep is the hidden state of rule RNN that generated the CFG rule above the current terminal; wt 1 is the embedding of the word generated at time step t 1; and ct 1 is the attention context computed at the previous word RNN time step t 1.
+57	7	Unlike prior work on syntactic decoders designed for utilizing a specific type of syntactic information (Wu et al., 2017), TrDec is a flexible NMT model that can utilize any tree structure.
+60	29	We also consider a variation of standard constituency parse trees where all of their nonterminal tags are replaced by a null tag, which is visualized in Fig.
+61	24	In addition to constituency parse trees, TrDec can also utilize dependency parse trees via a simple procedure that converts a dependency tree into a constituency tree.
+64	13	Balanced Binary Trees are syntax-free trees constructed without any linguistic guidance.
+70	84	In the experiments detailed later, we evaluated TrDec with four different settings of tree structures: 1) the fully syntactic constituency parse trees; 2) constituency parse trees with null tags; 3) dependency parse trees; 4) a concatenation of both version 1 and version 2 of the binary trees, (which effectively doubles the amount of the training data and leads to slight increases in accuracy).
+72	14	English sentences are parsed using Ckylark (Oda et al., 2015) for the constituency parse trees, and Stanford Parser (de Marneffe et al., 2006; Chen and Manning, 2014) for the dependency parse trees.
+74	36	We compare TrDec against three baselines: 1) seq2seq: the standard seq2seq model with attention; 2) CCG: a syntax-aware translation model that interleaves Combinatory Categorial Grammar (CCG) tags with words on the target side of a seq2seq model (Nadejde et al., 2017); 3) CCGnull: the same model with CCG, but all syntactic tags are replaced by a null tag; and 4) LIN: a standard seq2seq model that generates linearized parse trees on the target side (Aharoni and Goldberg, 2017).
+82	14	First, we categorize the ja-en test set into buckets by length of the reference sentences, and compare the models for each length category.
+84	9	Since TrDec-con outperforms TrDec-dep for all datasets, we only focus on TrDec-con for analyzing TrDec’s performance with syntactic trees.
+87	7	This indicates that TrDec is bet- ter at capturing long-term dependencies during decoding.
+88	29	Surprisingly, TrDec-binary, which does not utilize any linguistic information, outperforms TrDec-con for all sentence length categories.
+89	12	5 shows a histogram of translations by the length difference between the generated output and the reference.
+91	11	Ideally, this distribution will be focused around zero, indicating that the MT system is generating translations about the same length as the reference.
+92	12	However, the distribution of TrDec-con is more spread out than TrDec-binary, which indicates that it is more difficult for TrDec-con to generate sentences with appropriate target length.
+93	15	This is probably because constituency parse trees of sentences with similar number of words can have very different depth, and thus larger variance in the number of generation steps, likely making it difficult for the MT model to plan the sentence structure a-prior before actually generating the child sentences.
+94	10	We propose TrDec, a novel tree-based decoder for NMT, that generates translations along with the target side tree topology.
+96	13	Our model, when used with synthetic balanced binary trees, outperforms CCG, the existing state-of-the-art in incorporating syntax in NMT models.
+97	125	The interesting result that syntax-free trees outperform their syntax-driven counterparts elicits a natural question for future work: how do we better model syntactic structure in these models?
+98	49	It would also be interesting to study the effect of using source-side syntax together with the target-side syntax supported by TrDec.

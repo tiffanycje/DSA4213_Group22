@@ -1,0 +1,30 @@
+0	41	Many dependency parsers treat attachment decisions and syntactic relation labeling as two independent tasks, despite the fact that relation labels carry important subcategorization information.
+1	90	For example, the number and types of the syntactic arguments that a predicate may take is rather restricted for natural languages — it is not common for an English verb to have more than one syntactic subject or more than two objects.
+2	46	In this work, we present a parsing approach that explicitly models subcategorization of (some) syntactic dependents as valency patterns (see Fig.
+24	31	Formally, we fix a set of syntactic relations R, and define the valency pattern of a token wi with respect to R as the linearly-ordered2 sequence a´j ¨ ¨ ¨ a´1 ˛ a1 ¨ ¨ ¨ ak: the ˛ symbol denotes the center word wi, and each al asserts the existence of a word w dominated by wi via relation al P R, wi alÝÑ w. For al and am, when l ă m, the syntactic dependent for al linearly precedes the syntactic dependent for am.
+27	19	If we consider only functional relations, both like and swim have the pattern mark ˛.4 We sometimes employ the abbreviated notation αL ˛αR, where α indicates a sequence and the lettersL andR distinguish left dependencies from right dependencies.
+42	34	On average, out of the 55.4 patterns observed in the gold-standard test sets, only 5.5, or 9.98%, are new and unseen with respect to training.
+43	21	In comparison, 36.2% of the word types appearing in the test sets are not seen during training.
+45	10	Finally, we consider the average number of valency patterns extracted from the top-performing system outputs and the number of those not observed in training.7 All 5 systems are remarkably “hallucinatory” in inventing valency relations, introducing 16.8 to 35.5 new valency patterns, significantly larger than the actual number of unseen patterns.
+56	29	For each wordwi, we generate a probability distribution over all potential syntactic heads in the sentence (Zhang et al., 2017).
+57	25	After we have selected the head of wi to be whi , we decide on the syntactic relation label based on another probability distribution.
+58	17	We use two softmax functions: P phi|wiq 9 exppscoreHEADpwhi ,wiqq, P pri|wi, hiq 9 exppscoreLABELri pwhi ,wiqq, where both scoreHEAD and scoreLABEL are parameterized by deep biaffine scoring functions (Dozat and Manning, 2017).
+61	18	For each complete and incomplete span, visualized as triangles and trapezoids respectively, we annotate the head with its valency pattern.
+62	18	We adopt Earley’s (1970) notation of ‚ to outward-delimit the portion of a valency pattern, starting from the center word ˛, that has already been collected within the span.
+63	29	INIT generates a minimal complete span with hypothesized valency pattern; the ‚ is put adjacent to ˛.
+65	15	LINK either advances the ‚ by attaching a syntactic dependent with the corresponding relation label, or attaches a dependent with a relation label irrelevant to the current valency analysis.
+66	56	This algorithm can be easily extended to cases where we analyze multiple subsets of valency relations simultaneously: we just need to annotate each head with multiple layers of valency patterns, one for each subset.8 The time complexity of a naïve dynamic programming implementation is Op|V |2|α|n3q, where |V | is the number of valency patterns and |α| is the maximum length of a valency pattern.
+67	10	In practice, |V | is usually larger than n, making the algorithm prohibitively slow.
+70	14	1) is to estimate the best compatible full parse for every chart item (in our case, complete and incomplete spans), and expand the chart based on the estimated priority scores.
+93	19	Results on UD We present our main experimental results on UD in Table 2.
+95	66	We compare the baseline to settings where we train the parsers jointly with our proposed valency analyzers, distinguishing the effect of using this information only at training (multi-task learning; MTL) vs. both at training and decoding.
+97	14	With our proposed joint decoding, there is a mild improvement to the overall UAS and LAS, and a higher boost to VPA.
+98	22	The output parse trees are now more precise in the analyzed valency relations: on core arguments, precision increases by as much as 4.56.
+103	14	In this section, we apply our proposed valency analysis to Tree Adjoining Grammar (TAG; Joshi and Schabes, 1997), because TAG derivation trees, representing the process of inserting obligatory arguments and adjoining modifiers, can be treated as a dependency representation (Rambow and Joshi, 1997).
+107	14	We strictly follow the experiment protocol of previous work (Bangalore et al., 2009; Chung et al., 2016; Friedman et al., 2017; Kasai et al., 2017, 2018), and report the results in Table 4.
+113	14	Thus, we add another relation subset, obl and nmod, to our valency analysis.
+117	11	However, they do permit improvements on precision for PP attachment by 3.30, especially with our proposed joint decoding.
+152	19	This may suggest a controllable way to address precisionrecall trade-offs targeting specific relation types.
+153	50	Second, we experimented with a few obvious subsets of relations; characterizing what subsets can be most improved with valency augmentation is an open question.
+154	22	Finally, our decoder builds upon projective dependency-tree decoding algorithms.
+155	22	In the future, we will explore the possibility of removing the projective constraint and the tree requirement, extending the applicability of valency patterns to other tasks such as semantic role labeling.

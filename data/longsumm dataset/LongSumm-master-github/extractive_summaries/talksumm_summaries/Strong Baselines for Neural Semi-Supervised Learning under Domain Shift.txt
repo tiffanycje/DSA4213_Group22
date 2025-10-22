@@ -1,0 +1,30 @@
+3	34	Many state-of-the-art domain adaptation approaches leverage task-specific characteristics such as sentiment words (Blitzer et al., 2006; Wu and Huang, 2016) or distributional features (Schn- abel and Schütze, 2014; Yin et al., 2015) which do not generalize to other tasks.
+5	20	In addition, most models only compare against weak baselines and, strikingly, almost none considers evaluating against approaches from the extensive semi-supervised learning (SSL) literature (Chapelle et al., 2006).
+6	32	In this work, we make the argument that such algorithms make strong baselines for any task in line with recent efforts highlighting the usefulness of classic approaches (Melis et al., 2017; Denkowski and Neubig, 2017).
+12	35	We make the somewhat surprising observation that classic tri-training outperforms task-agnostic state-of-the-art semi-supervised learning (Laine and Aila, 2017) and recent neural adaptation approaches (Ganin et al., 2016; Saito et al., 2017).
+22	54	Self-training (Yarowsky, 1995; McClosky et al., 2006b) is one of the earliest and simplest bootstrapping approaches.
+23	42	In essence, it leverages the model’s own predictions on unlabeled data to obtain additional information that can be used during training.
+25	89	Self-training trains a model m on a labeled training set L and an unlabeled data set U .
+30	26	Using a fixed threshold τ is thus Algorithm 1 Self-training (Abney, 2007) 1: repeat 2: m← train_model(L) 3: for x ∈ U do 4: if maxm(x) > τ then 5: L← L ∪ {(x, p(x))} 6: until no more predictions are confident not the best choice.
+40	38	Its main downside is that the model is not able to correct its own mistakes and errors are amplified, an effect that is increased under domain shift.
+42	176	Algorithm 2) first trains three models m1, m2, and m3 on bootstrap samples of the labeled data L. An unlabeled data point is added to the training set of a modelmi if the other two modelsmj andmk agree on its label.
+48	29	We thus propose to sample a number of unlabeled examples at every epoch.
+50	45	For the neural approaches we use a linearly growing candidate sampling scheme proposed by (Saito et al., 2017), increasing the candidate pool size as the models become more accurate.
+51	83	Confidence thresholding Similar to selftraining, we can introduce an additional requirement that pseudo-labeled examples are only added if the probability of the prediction of at least one model is higher than some threshold τ .
+65	20	The orthogonality constraint encourages the models not to rely on the same features for prediction.
+69	78	Given an utterance with labels y1, .., yn, our Multi-task Tri-training loss consists of three task-specific (m1,m2,m3) tagging loss functions (where ~h is the uppermost Bi-LSTM encoding): L(θ) = − ∑ i ∑ 1,..,n logPmi(y|~h) + γLorth (2) In contrast to classic tri-training, we can train the multi-task model with its three model-specific outputs jointly and without bootstrap sampling on the labeled source domain data until convergence, as the orthogonality constraint enforces different representations between models m1 and m2.
+71	28	We train the third output layerm3 only on pseudo-labeled target instances in order to make tri-training more robust to a domain shift.
+87	150	In order to ascertain which methods are robust across different domains, we evaluate on two widely used unsupervised domain adaptation datasets for two tasks, a sequence labeling and a classification task, cf.
+95	21	Regarding data, the source domain is the Ontonotes 4.0 release of the Penn treebank Wall Street Journal (WSJ) annotated for 48 fine-grained POS tags.
+107	50	Besides comparing to the top results published on both datasets, we include the following baselines: a) the task model trained on the source domain; b) self-training (Self); c) tri-training (Tri); d) tri-training with disagreement (Tri-D); and e) asymmetric tri-training (Saito et al., 2017).
+110	36	Reporting single evaluation scores might result in biased results (Reimers and Gurevych, 2017).
+147	66	Tritraining pushes performance even further and results in the best model, significantly outperforming the baseline again in 4/5 cases, and reaching FLORS performance on weblogs.
+149	106	The model likely is too simplistic for such a high-data POS setup, and exploring shared-private models might prove more fruitful (Liu et al., 2017).
+157	65	In general, we note that tri-training works best on OOVs and on low-frequency tokens, which is also shown in Figure 3 (leftmost bins).
+158	23	Both other methods fall typically below the baseline in terms of OOV accuracy, but MT-Tri still outperforms Asym in 4/5 cases.
+159	67	Table 5 (last part) also shows that no bootstrapping method works well on unknown word-tag combinations.
+174	60	We re-evaluate a range of traditional generalpurpose bootstrapping algorithms in the context of neural network approaches to semi-supervised learning under domain shift.
+175	83	For the two examined NLP tasks classic tri-training works the best and even outperforms a recent state-of-the-art method.
+176	43	The drawback of tri-training it its time and space complexity.
+178	24	For POS tagging, classic tri-training is superior, performing especially well on OOVs and low frequency to- kens, which suggests it is less affected by error propagation.
+179	19	Overall we emphasize the importance of comparing neural approaches to strong baselines and reporting results across several runs.

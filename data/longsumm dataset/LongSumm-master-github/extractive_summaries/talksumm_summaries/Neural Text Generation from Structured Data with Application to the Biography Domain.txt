@@ -1,0 +1,30 @@
+0	25	Concept-to-text generation renders structured records into natural language (Reiter et al., 2000).
+1	64	A typical application is to generate a weather forecast based on a set of structured meteorological measurements.
+2	15	In contrast to previous work, we scale to the large and very diverse problem of generating biographies based on Wikipedia infoboxes.
+3	16	An infobox is a fact table describing a person, similar to a person subgraph in a knowledge base (Bollacker et al., 2008; Ferrucci, 2012).
+5	67	Previous work experimented with datasets that contain only a few tens of thousands of records such as WEATHERGOV or the ROBOCUP dataset, while our dataset contains over 700k biographies from ∗Rémi performed this work while interning at Facebook.
+7	73	To tackle this problem we introduce a statistical generation model conditioned on a Wikipedia infobox.
+8	29	We focus on the generation of the first sentence of a biography which requires the model to select among a large number of possible fields to generate an adequate output.
+9	19	Such diversity makes it difficult for classical count-based models to estimate probabilities of rare events due to data sparsity.
+37	19	The table allows us to describe each word not only by its string (or index in the vocabulary) but also by a descriptor of its occurrence in the table.
+39	39	The occurrence of a word w in the table is described by a set of (field, position) pairs.
+41	43	For example, the word linguistics in the table of Figure 1 is described as follows: zlinguistics = {(fields, 8); (known for, 4)}, (4) assuming words are lower-cased and commas are treated as separate tokens.
+54	34	For example, it may be hard to distinguish a basketball player from a hockey player by looking only at the field names, e.g. teams, league, position, weight and height, etc.
+58	30	For predicting the next word wt after a given context ct, the language model is conditioned on sets of triplets for each word occurring in the table zct , along with all fields and words from this table.
+63	31	Our model reads a table and defines an output domainW∪Q.
+117	22	A dot product with the context vector produces a score for each word w in the table, φQβ (x,w) = h(x) · q(w) .
+124	18	It comprises all biography articles listed by WikiProject Biography1 which also have a table (infobox).
+125	18	We extract and tokenize the first sentence of each article with Stanford CoreNLP (Manning et al., 2014).
+128	15	Table 2 summarizes the dataset statistics: on average, the first sentence is twice as short as the table (26.1 vs 53.1 tokens), about a third of the sentence tokens (9.5) also occur in the table.
+156	49	For experiments with copy actions we use the full local conditioning (Equation 4) in the neural language models.
+158	25	Global conditioning on the fields improves the model by over 7 BLEU and adding words gives an additional 1.3 BLEU.
+168	44	Figure 4 shows that this mechanism adds a large bias to continue a field if it has not generated all tokens from the table, e.g., it emits the word occurring in name 2 after generating name 1.
+174	17	Our model is also several times faster than the baseline, requiring only about 200 ms per sentence with K = 5.
+179	15	All three versions of our model correctly generate the beginning of the sentence by copying the name, the birth date and the death date from the table.
+180	45	The model correctly uses the past tense since the death date in the table indicates that the person has passed away.
+183	29	In contrast, the global conditioning over the fields helps the model to understand that this person was indeed a scientist.
+188	25	In this paper, we have only focused on generating the first sentence and we will tackle the generation of longer biographies in future work.
+189	14	Also, the encoding of field values can be improved.
+192	48	Furthermore, the current training loss function does not explicitly penalize the model for generating incorrect facts, e.g. predicting an incorrect nationality or occupation is currently not considered worse than choosing an incorrect determiner.
+193	144	A loss function that could assess factual accuracy would certainly improve sentence generation by avoiding such mistakes.
+194	43	Also it will be important to define a strategy for evaluating the factual accuracy of a generation, beyond BLEU, ROUGE or NIST.

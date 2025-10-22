@@ -1,0 +1,30 @@
+1	32	Conventional batch translation waits until the entire sentence is completed before starting to translate.
+2	38	This merely optimizes translation quality and often introduces undesirable lag between the speaker and the audience.
+5	47	Various segmentation methods (Fujita et al., 2013; Oda et al., 2014) reduce translation delay; they are limited, however, by the unavoidable word reordering between languages with drastically different word orders.
+7	85	Consider the batch translation: in English, the verb change comes immediately after the subject We, whereas in Japanese it comes at the end of the sentence; therefore, to produce an intelligible English sentence, we must translate the object after the final verb is observed, resulting in one large and painfully delayed segment.
+8	22	To reduce structural discrepancy, we can apply syntactic transformations to make the word order of one language closer to the other.
+9	29	Consider the monotone translation in Figure 1.
+31	31	While we are motivated by real-time interpretation, to simplify our problem, we assume that we have perfect text input.
+32	27	Given this constraint, a typical simultaneous interpretation system (Sridhar et al., 2013; Fujita et al., 2013; Oda et al., 2014) produces partial translations of consecutive segments in the source sentence and concatenates them to produce a complete translation.
+40	23	We design a variety of syntactic transformation rules for Japanese-English translation motivated by their structural differences.
+48	36	Changing the voice is particularly useful when NP2 (object in an active-voice sentence and subject in a passive-voice sentence) is long.
+54	22	R: The president will restructure the division, they announced.
+98	25	We accept a rewritten sentence if its delay is reduced; otherwise, we revert to the input sentence.
+115	101	We apply the rules, roughly, sequentially in order of complexity: if the output of current rule is not accepted, the sentence is reverted to the last accepted version.
+117	36	For training the MT system, we also include the EIJIRO dictionary entries and the accompanying example sentences.7 Statistics of the dataset are shown in Table 1.
+123	26	After applying the rewriting rules (Section 4), Table 2 shows the percentage of sentences that are candidates and how many rewrites are accepted.
+127	37	To examine how close the rewritten sentences are to standard English, we train a 5-gram language model using the English data from the Europarl corpus, consisting of 46 million words, and use it to compute perplexity.
+129	33	To ensure that rewrites leave meaning unchanged, we use the SEMAFOR semantic role labeler (Das et al., 2014) on the original and modified sentence; for each role-labeled token in the reference sentence, we examine its corresponding role in the rewritten sentence and calculate the average accuracy acrosss all sentences.
+132	34	For example, the sentence the London Stock Exchange closes at 1230 GMT today is parsed as:10 (S (NP the London Stock Exchange) (VP (VBZ closes) (PP at 1230) (NP GMT today))) GMT today is separated from the PP as an NP and is mistaken as the object.
+138	32	A higher RP indicates that the English translation of this Japanese phrase will likely be followed by the translation of the next Japanese phrase.
+140	25	Following (Fujita et al., 2013), if the RP of the current phrase is lower than a fixed threshold, we cache the current phrase and wait for more words from the source sentence; otherwise, we translate all cached phrases.
+142	32	To show the effect of rewritten references, we compare the following MT systems: • GD: only gold reference translations; • RW: only rewritten reference translations; • RW+GD: both gold and the rewritten refer- ences; and • RW-LM+GD: using gold reference transla- tions but using the rewritten references for training the LM and for tuning.
+145	57	For RW+GD, we combine the translation models (phrase tables and reordering tables) of RW and GD by fill-up combination (Bisazza et al., 2011), where all entries in the tables of RW are preserved and entries from the tables of GD are added if new.
+151	23	However, combining RW and GD results in a better speed-accuracy tradeoff: the RW+GD curve completely dominates other curves in Figure 3a, 3c.
+152	28	Thus, using more monotone translations improves simultaneous machine translation, and because RW-LM+GD is about 0 5 10 15 20 25 30 35 Average # of words per segment 11 12 13 14 15 16 17 18 B LE U RW+GD RW-LM+GD RW GD (a) BLEU w.r.t.
+165	40	Table 3 shows the number of verbs in the translations of the test sentences produced by GD, RW, RW+GD, as well as the number in the gold reference translation.
+168	93	RW correctly puts the verb said at the end, while GD drops the final verb.
+169	67	However, RW still produces he at the beginning (also the first word in the Japanese source sentence).
+170	40	This is because our current segmentation strategy do not preserve words for later translation—a note-taking strategy used by human interpreters.
+192	27	MT systems trained on the rewritten reference translations learn interpretation strategies implicitly from the data.
+194	34	They cover a wide range of reordering phenomena between Japanese and English, and more generally, between SOV and SVO languages.

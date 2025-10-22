@@ -1,0 +1,30 @@
+0	38	The construction of large-scale Knowledge Bases (KBs) like Freebase (Bollacker et al., 2008) and Wikidata (Vrandečić and Krötzsch, 2014) has proven to be useful in many natural language processing (NLP) tasks like question-answering, web search, etc.
+1	25	However, these KBs are not exhaustive.
+2	44	Relation Extraction (RE) attempts to fill this gap by extracting semantic relationships between entity pairs from plain text.
+4	21	Formally, given an entity pair (e1,e2) from the KB and an entity annotated sentence (or instance), we aim to predict the ∗Research internship at Indian Institute of Science.
+6	14	If no relation exists, we simply label it NA.
+7	37	Most supervised relation extraction methods require large labeled training data which is expensive to construct.
+8	79	Distant Supervision (DS) (Mintz et al., 2009) helps with the construction of this dataset automatically, under the assumption that if two entities have a relationship in a KB, then all sentences mentioning those entities express the same relation.
+14	19	For alleviating noise in distant supervised datasets, attention has been utilized by (Lin et al., 2016; Jat et al., 2018).
+15	48	Syntactic information from dependency parses has been used by (Mintz et al., 2009; He et al., 2018) for capturing long-range dependencies between tokens.
+16	60	Recently proposed Graph Convolution Networks (GCN) (Defferrard et al., 2016) have been effectively employed for encoding this information (Marcheggiani and Titov, 2017; Bastings et al., 2017).
+24	70	RESIDE makes principled use of entity type and relation alias information from KBs, to impose soft constraints while predicting the relation.
+27	23	• RESIDE uses Graph Convolution Networks (GCN) for modeling syntactic information and has been shown to perform competitively even with limited side information.
+103	36	Relation Alias Side Information RESIDE uses Stanford Open IE (Angeli et al., 2015) for extracting relation phrases between target entities, which we denote by P .
+104	14	As shown in Figure 2, for the sentence Matt Coffin, executive of lowermybills, a company.., Open IE methods extract “executive of” between Matt Coffin and lowermybills.
+108	47	Several KBs like Wikidata provide such relation aliases, which can be readily exploited.
+112	15	For matching P with the PPDB expanded relation alias setR, we project both in a d-dimensional space using GloVe embeddings (Pennington et al., 2014).
+114	22	Then, for each phrase p ∈ P , we calculate its cosine distance from all relation aliases inR and take the relation corresponding to the closest relation alias as a matched relation for the sentence.
+117	39	For a given sentence, hrel is concatenated with its representa- tion s, obtained from syntactic sentence encoder (Section 5.1) as shown in Figure 1.
+130	14	For utilizing all valid sentences, following (Lin et al., 2016; Jat et al., 2018), we use attention over sentences to obtain a representation for the entire bag.
+135	14	Finally, B̂ is fed to a softmax classifier to get the probability distribution over the relations.
+139	21	Riedel: The dataset is developed by (Riedel et al., 2010) by aligning Freebase relations with New York Times (NYT) corpus, where sentences from the year 2005-2006 are used for creating the training set and from the year 2007 for the test set.
+151	21	• BGWA: Bi-GRU based relation extraction model with word and sentence level attention (Jat et al., 2018).
+163	16	Overall, we find that RESIDE achieves higher precision over the entire recall range on both the datasets.
+165	27	RESIDE outperforms PCNN+ATT and BGWA which indicates that incorporating side information helps in improving the performance of the model.
+167	31	Following (Lin et al., 2016; Liu et al., 2017), we also evaluate our method with different number of sentences.
+176	14	For this, we evaluate the performance of the model on four different settings: • None: Relation aliases are not available.
+177	17	• One: The name of relation is used as its alias.
+181	67	Overall, we find that RESIDE gives competitive performance even when very limited amount of relation alias information is available.
+183	127	In this paper, we propose RESIDE, a novel neural network based model which makes principled use of relevant side information, such as entity type and relation alias, from Knowledge Base, for improving distant supervised relation extraction.
+186	35	We have made RESIDE’s source code publicly available to promote reproducible research.

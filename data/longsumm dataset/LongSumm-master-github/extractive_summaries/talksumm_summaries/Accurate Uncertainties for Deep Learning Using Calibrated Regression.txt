@@ -1,0 +1,30 @@
+0	15	Methods for reasoning and making decisions under uncertainty are an important building block of accurate, reliable, and interpretable machine learning systems.
+1	14	In many applications — ranging from supply chain planning to medical diagnosis to autonomous driving — faithfully assessing uncertainty can be as important as obtaining high accuracy.
+3	7	Bayesian approaches provide a general framework for dealing with uncertainty (Gal, 2016).
+4	11	Bayesian methods define a probability distribution over model parameters and derive uncertainty estimates by intergrating over all possible model weights.
+5	16	Recent advances in variational inference have greatly increased the scalability and usefulness of these approaches (Blundell et al., 2015).
+6	18	In practice, however, Bayesian uncertainty estimates often fail to capture the true data distribution (Lakshminarayanan et al., 2017) — e.g., a 90% posterior credible interval generally does not contain the true outcome 90% of the time (Figure 1).
+7	27	In such cases, we say that the model is miscalibrated.
+9	9	Recently, Gal et al. (2017) and Lakshminarayanan et al. (2017) proposed uncertainty estimation techniques for deep neural networks, which include ensemble methods, heteroscedastic regression, and concrete dropout.
+12	9	An alternative way to calibrate models has been explored in the support vector classification literature.
+15	7	Here, we propose a new procedure for recalibrating any regression algorithm that is inspired by Platt scaling for classification.
+17	10	We evaluate our proposed algorithm on a range of Bayesian models, including Bayesian linear regression as well as feedforward and recurrent Bayesian neural networks.
+23	17	We are given a labeled dataset xt, yt ∈ X ×Y for t = 1, 2, ..., T of i.i.d.
+24	7	realizations of random variables X,Y ∼ P, where P is the data distribution.
+26	12	When Y is continuous, Ft is a cumulative probability distribution (CDF).
+98	9	We may also use Algorithm 1 to recalibrate nonprobabilistic forecasters, just as Platt scaling recalibrates SVMs.
+116	6	(9) The scalars wj are weights.
+130	7	The prior over the weights is a spherical Gaussian with a Gamma prior over the precision parameter.
+139	10	Concrete dropout is a technique for learning the dropout probabilities based on the concrete distribution (Maddison et al., 2016); we use it to replace standard dropout in our neural network models.
+140	10	Discrete ensembles train multiple models with heteroscedastic regression and average their predictive distributions at runtime; in our experiments, we use an ensemble 5 instances of the same neural network that we use as the base predictor (except we add σ(x) as an output).
+141	17	Table 1 reports the accuracy (in terms of mean absolute percent error) and the test set calibration error (Equation 9) of Bayesian linear regression, a dense neural network, and two baselines on eight UCI datasets.
+142	23	We also report the re- calibrated error, which is significantly lower than that of the the original model.
+147	8	We recalibrate on all the pixels in the training set.
+148	17	This yields an improvement in calibration error from 5.50E-02 to 2.41E02, while preserving accuracy.
+152	8	Furthermore, we report in Figure 6 true and forecasted sales in store #1, as well as the calibration curves for both methods.
+153	8	The two baselines improve on the calibration of the original model, but our recalibration technique is the only one to achieve almost perfectly calibrated forecasts.
+154	7	Uncertainty estimation is important in reinforcement learning to balance exploration and exploitation, as well as to improve model-based planning (Ghavamzadeh et al., 2015).
+156	8	Our task is inventory management, a classical application of reinforcement learning (Van Roy et al., 1997): on a set of days, an agent calculates order quantities for a perishable item in order to maximize store profits; transitions between states are defined by the probabilistic demand forecasts obtained in the previous section.
+164	31	We evaluate the agent on the test portion of the Kaggle dataset, using the historical sales to define the state transitions.
+165	14	Item prices and costs are set to 1.99 and 1.29 respectively; items can be ordered three days a week in packs of 12 and arrive on the next day; the shelflife of new items is always five days.
+167	7	This suggests that our method is useful for planning in model-based reinforcement learning.

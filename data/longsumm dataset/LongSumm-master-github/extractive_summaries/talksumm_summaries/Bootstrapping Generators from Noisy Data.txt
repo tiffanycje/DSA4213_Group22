@@ -1,0 +1,30 @@
+0	41	A core step in statistical data-to-text generation concerns learning correspondences between structured data representations (e.g., facts in a database) and paired texts (Barzilay and Lapata, 2005; Kim and Mooney, 2010; Liang et al., 2009).
+1	25	These correspondences describe how data representations are expressed in natural language (content realisation) but also indicate which subset of the data is verbalised in the text (content selection).
+2	43	Although content selection is traditionally performed by domain experts, recent advances in generation using neural networks (Bahdanau et al., 2015; Ranzato et al., 2016) have led to the use of large scale datasets containing loosely related data and text pairs.
+3	20	A prime example are online data sources like DBPedia (Auer et al., 2007) and Wikipedia and their associated texts which are often independently edited.
+10	25	Given the set of properties in Figure (1a) and the related text in Figure (1b), we want to learn verbalisations for those properties that are mentioned in the text and produce a short description like the one in Figure (1c).
+14	31	When exposed to sub-sequences that do not correspond to any facts in the input, the soft attention mechanism will still try to justify the sequence and somehow distribute the attention weights over the input representation (Ghader and Monz, 2017).
+51	22	Our model checks content in both directions; it identifies which properties have a corresponding text span (data selection) and also foregrounds (un)aligned text spans (text selection).
+53	16	We view a property set P and its loosely coupled text T as a coarse level, imperfect alignment.
+60	20	We encode property sets P and sentences s into a common multimodal h-dimensional embedding space.
+76	24	Alignment Objective Our learning objective seeks to maximise the similarity score between property set P and a sentence s (Karpathy and Fei-Fei, 2015).
+97	42	Using the set of alignments obtained by our content selection model, we associate each word in the training data with a binary label at indicating whether it aligns with some property in the input set.
+99	19	We optimise the following auxiliary objective function: Laln =− |Y | ∑ t=1 logP(at |y1:t−1,X) (14) and the combined multi-task objective is the weighted sum of both word prediction and alignment prediction losses: LMTL = λLwNLL+(1−λ)Laln (15) where λ controls how much model training will focus on each task.
+105	25	The advantages of reinforcement learning are twofold: (a) it allows to exploit additional task-specific knowledge (Zhang and Lapata, 2017) during training, and (b) enables the exploration of other word sequences through sampling.
+134	31	We considered abstracts up to a maximum of 12 sentences and property sets with a maximum of 50 property-value pairs.
+135	20	Finally, we associated each abstract with the set of DBPedia properties p : v corresponding to the abstract’s main entity.
+170	17	Finally, we compared the performance of the Content-Aligner at the level of property set P and sentence s similarity by comparing the average ranking position of correct pairs among 14 distractors, namely rank@15.
+173	17	We also included a template baseline system (Templ) in our evaluation experiments.
+178	17	We manually lexicalised properties into single sentence templates to be concatenated to produce the final text.
+179	14	The template for the property position and example verbalisation for the property-value position : de f ender of the entity zanetti are “[NAME] played as [POSITION].” and “ Zanetti played as defender.” respectively.
+182	18	Firstly, our models generate considerably shorter text and will be penalized for not generating text they were not supposed to generate in the first place.
+183	14	Secondly, the model might try to reproduce what is in the imperfect reference but not supported by the input properties and as a result will be rewarded when it should not.
+184	36	To alleviate this, we crowd-sourced using AMT a revised version of 200 randomly selected abstracts from the test set.
+191	27	The model enabled with the multi-task learning content selection mechanism brings an improvement of 1.29 BLEU-4 over a vanilla encoder-decoder model.
+193	16	We discuss the reasons for this discrepancy shortly.
+196	16	Human-Based Evaluation We further examined differences among systems in a human-based evaluation study.
+200	50	The annotators were asked to rank each of the texts according to the following criteria: (1) Is the text faithful to the content of the table?
+216	20	Overall, EDMTL seems to be more detail oriented and faithful to the facts included in the infobox (see dorsey burnette, aaron moores, or kirill moryganov).
+220	22	Overall, we find that the proposed content selection mechanism improves the accuracy and fluency of the generated texts.
+221	66	In the future, it would be interesting to investigate a more sophisticated representation of the input (Vinyals et al., 2016).
+222	80	It would also make sense for the model to decode hierarchically, taking sequences of words and sentences into account (Zhang and Lapata, 2014; Lebret et al., 2015).

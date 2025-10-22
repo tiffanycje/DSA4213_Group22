@@ -1,0 +1,30 @@
+0	43	In this section, we introduce smoothed max operators (Nesterov, 2005; Beck & Teboulle, 2012; Niculae & Blondel, 2017), that will serve as a powerful and generic abstraction to define differentiable dynamic programs in §2.
+1	22	Let Ω : RD → R be a strongly convex function on △D and let x ∈ RD.
+2	52	We define the max operator smoothed by Ω as: maxΩ(x) , max q∈△D 〈q,x〉 − Ω(q).
+4	30	From the duality between strong convexity and smoothness,maxΩ is smooth: differentiable everywhere and with Lipschitz continuous gradient.
+8	25	Properties of maxΩ operators Let x = (x1, .
+9	32	Commutativity: If Ω(Pq) = Ω(q), where P is a permutation matrix, then maxΩ(Px) = maxΩ(x).
+10	26	In particular, property 3 holds whenever Ω(q) = ∑D i=1 ω(qi), for some function ω.
+11	30	We focus in this paper on two specific regularizers Ω: the negentropy −H and the squared ℓ2 norm.
+12	179	For these choices, all properties above are satisfied and we can derive closedform expressions for maxΩ, its gradient and its Hessian — see §B.1.
+13	123	The former satisfies associativity, which as we shall see, makes it natural to use in dynamic programming.
+14	34	With the squared ℓ2 regularization, as observed by Martins & Astudillo (2016); Niculae & Blondel (2017), the gradient∇maxΩ is sparse.
+15	38	This will prove useful to enforce sparsity in the models we study.
+16	70	Dynamic programming (DP) is a generic way of solving combinatorial optimization problems by recursively solving problems on smaller sets.
+17	106	We first introduce this category of algorithms in a broad setting, then use smoothed max operators to define differentiable DP layers.
+20	21	Formally, let G = (V, E) be a DAG, with nodes V and edges E .
+24	16	Every directed edge (i, j) from a parent node j to a child node i has a weight θi,j ∈ R. We gather the edge weights in a matrix θ ∈ Θ ⊆ RN×N , setting θi,j = −∞ if (i, j) /∈ E and θ1,1 = 1.
+27	18	In the sequel, paths will have a one-to-one correspondence with discrete structures such as sequences or alignments.
+29	131	The computation of the highest score among all paths amounts to solving the combinatorial problem LP(θ) , max Y ∈Y 〈Y ,θ〉 ∈ R. (2) Although the size of Y is in general exponential in N , LP(θ) can be computed in one topologically-ordered pass over G using dynamic programming.
+30	32	We let Pi be the set of parent nodes of node i in graphG and define recursively v1(θ) , 0 ∀ i ∈ [2, .
+31	16	(3) This algorithm outputs DP(θ) , vN (θ).
+32	13	We now show that this is precisely the highest score among all paths.
+33	54	Optimality of dynamic programming ∀θ ∈ Θ : DP(θ) = LP(θ) The optimality of recursion (3) is well-known (Bellman, 1952).
+34	39	We prove it again with our formalism in §A.2, since it exhibits the two key properties that the max operator must satisfy to guarantee optimality: distributivity of + over it and associativity.
+36	12	In many applications, we will often rather be interested in the argument that achieves the maximum, i.e., one of the highest-scoring paths Y ⋆(θ) ∈ argmax Y ∈Y 〈Y ,θ〉.
+40	124	To see why this is the case, notice that (2) can be rewritten as a linear program over the convex polytope conv(Y): LP(θ) = max Y ∈conv(Y) 〈Y ,θ〉.
+41	12	From the generalized Danskin theorem (Bertsekas, 1971), Y ⋆(θ) ∈ ∂LP(θ) = argmax Y ∈conv(Y) 〈Y ,θ〉, where ∂ denotes the subdifferential of LP(θ), i.e., the set of subgradients.
+45	25	Worse, Y ⋆(θ), a function from Θ to Y , is discontinuous and has null or undefined derivatives.
+46	79	It is thus impossible to use it in a model trained by gradient descent.
+49	14	A natural way to circumvent the lack of differentiability of LP(θ) is then to replace the globalmax operator bymaxΩ: LPΩ(θ) , maxΩ Y ∈Y 〈Y ,θ〉 ∈ R. (5) From §1, LPΩ(θ) is convex and, as long as Ω is strongly convex, differentiable everywhere.
+54	47	Namely, we replace max by maxΩ locally within the DP recursion.

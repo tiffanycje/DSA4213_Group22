@@ -1,0 +1,30 @@
+1	67	A typical KG is a multirelational graph composed of entities as nodes and relations as different types of edges, where each edge is represented as a triple of the form (head entity, relation, tail entity).
+3	25	Recently, the concept of knowledge graph embedding has been presented and quickly become a hot research topic.
+4	62	The key idea there is to embed components of a KG (i.e., entities and relations) into a continuous vector space, so as to simplify manipulation while preserving the inherent structure of the KG.
+6	27	Recent attempts focused on either designing more complicated triple scoring models (Socher et al., 2013; Bordes et al., 2014; Wang et al., 2014; Lin et al., 2015b; Xiao et al., 2016; Nickel et al., 2016b; Trouillon et al., 2016; Liu et al., 2017), or incorporating extra information beyond KG triples (Chang et al., 2014; Zhong et al., 2015; Lin et al., 2015a; Neelakantan et al., 2015; Guo et al., 2015; Luo et al., 2015b; Xie et al., 2016a,b; Xiao et al., 2017).
+62	28	For instance, to describe cats (a concept), people usually use positive properties such as cats are mammals, cats eat fishes, and cats have four legs, but hardly ever negative properties like cats are not vehicles, cats do not have wheels, or cats are not used for communication.
+63	22	Based on such intuition, this paper proposes to impose non-negativity constraints on entity representations, by using which only positive properties will be stored in these representations.
+67	20	By approximate entailment, we mean an ordered pair of relations that the former approximately entails the latter, e.g., BornInCountry and Nationality, stating that a person born in a country is very likely, but not necessarily, to have a nationality of that country.
+73	17	Before diving into approximate entailment, we first explore the modeling of strict entailment, i.e., entailment with infinite confidence level λ = +∞.
+74	20	The strict entailment rp → rq states that if relation rp holds then relation rq must also hold.
+75	29	This entailment can be roughly modelled by requiring φ(ei, rp, ej) ≤ φ(ei, rq, ej), ∀ei, ej ∈ E , (3) where φ(·, ·, ·) is the score for a triple predicted by the embedding model, defined by Eq.
+76	20	(3) can be interpreted as follows: for any two entities ei and ej , if (ei, rp, ej) is a true fact with a high score φ(ei, rp, ej), then the triple (ei, rq, ej) with an even higher score should also be predicted as a true fact by the embedding model.
+78	18	(2), a sufficient condition for Eq.
+96	18	The second term is the sum of slack variables in the approximate entailment constraints, with a penalty coefficient µ ≥ 0.
+110	20	Usually there are much fewer entailments than triples, i.e., t s, and also n̄ ≤ 2s.1 So the time complexity of our approach is on a par withO(sd), i.e., the time complexity of ComplEx.
+123	24	Table 1 gives some examples of these approximate entailments, along with their confidence levels.
+156	51	If rp λ1−→ rq and rq λ2−→ rp with λ1, λ2 > 0.8, we think relations rp and rq are equivalent.
+162	45	After getting the best ComplEx model, we tune the relation constraint penalty of our approach ComplEx-NNE+AER (µ in Eq.
+164	34	We then directly set µ = 0 to get the optimal ComplEx-NNE model.
+169	21	On all the datasets, we test statistical significance of the improvements achieved by ComplEx-NNE/ ComplEx-NNE+AER over ComplEx, by using a paired t-test.
+170	32	The reciprocal rank or HITS@N value with n = 1, 3, 10 for each test triple is used as paired data.
+173	20	ComplEx-NNE and ComplEx-NNE+AER perform better than (or at least equally well as) ComplEx in almost all the metrics on all the three datasets, and most of the improvements are statistically significant (except those on WN18).
+174	75	More interestingly, just by introducing these simple constraints, ComplEx-NNE+ AER can beat very strong baselines, including the best performing basic models like ANALOGY, those previous extensions of ComplEx like RUGE or ComplExR, and even the complicated developments or implementations like ConvE or Single DistMult.
+175	36	This demonstrates the superiority of our approach.
+178	24	On this dataset each entity is associated with a single type label.11 We pick 4 types reptile, wine region, species, and programming language, and randomly select 30 entities from each type.
+179	19	Figure 1 visualizes the representations of these entities learned by ComplEx and ComplEx-NNE+AER (real components only), with the optimal configurations determined by link prediction (see § 4.2 for details, applicable to all analysis hereafter).
+186	20	For each dimension of these representations, top K percent of entities with the highest activation values on this dimension are picked.
+196	44	To this end, we group relation pairs involved in the DB100K entailment constraints into 3 classes: equivalence, inversion, and others.12 We choose 2 pairs of relations from each class, and visualize these relation representations learned by ComplEx-NNE+AER in Figure 3, where for each relation we randomly pick 5 dimensions from both its real and imaginary components.
+197	27	By imposing the approximate entailment constraints, these relation representations can encode logical regularities quite well.
+198	28	Pairs of relations from the first class (equivalence) tend to have identical representations rp ≈ rq, those from the second class (inversion) complex conjugate representations rp ≈ r̄q; and the others representations that Re(rp) ≤ Re(rq) and Im(rp) ≈ Im(rq).
+202	25	Experimental results on benchmark KGs demonstrate that our method is simple yet surprisingly effective, showing significant and consistent improvements over strong baselines.

@@ -1,0 +1,30 @@
+6	22	We approach this challenge from a quasigenerative perspective.
+12	16	Quantitative evaluation on the Stanford RareWord dataset (Luong et al., 2013) provides more evidence that these character-based embeddings capture word similarity for rare and unseen words.
+14	18	Our model shows significant improvement 102 across the board against a single UNK-embedding backoff method, and obtains competitive results against a supervised character-embedding model, which is trained end-to-end on the target task.
+40	52	Formally: given a language L, a vocabulary V ⊆ L of size V , and a pre-trained embeddings table W ∈ RV×d where each word {wk}Vk=1 is assigned a vector ek of dimension d, our model is trained to find the function f : L → Rd such that the projected function f |V approximates the assignments f(wk) ≈ ek.
+44	17	Let hnf represent the final hidden vector for the forward-LSTM, and let h0b represent the final hidden vector for the backward-LSTM.
+45	31	The word embedding is computed by a multilayer perceptron: (1)f(w) = OT · g(Th · [hnf ; h0b ] + bh) + bT , where Th, bh and OT , bT are parameters of affine transformations, and g is a nonlinear elementwise function.
+49	33	By backpropagating from this loss, it is possible to obtain local gradients with respect to the parameters of the LSTMs, the character embeddings, and the output model.
+51	25	The pretrained embeddings we use in our experiments are obtained from Polyglot (Al-Rfou et al., 2013), a multilingual word embedding effort.
+52	168	Available for dozens of languages, each dataset contains 64-dimension embeddings for the 100,000 most frequent words in a language’s training corpus (of variable size), as well as an UNK embedding to be used for OOV words.
+53	18	Even with this vocabulary size, querying words from respective UD corpora (train + dev + test) yields high OOV rates: in at least half of the 23 languages in our experiments (see Section 5), 29.1% or more of the word types do not appear in the Polyglot vocabulary.
+58	50	These examples demonstrate several properties: (a) word shape is learned well (acronyms, capitalizations, suffixes); (b) the model shows robustness to typos (e.g., developiong, corssing); (c) part-of-speech is learned across multiple suffixes (pesky – euphoric, ghastly); (d) word compounding is detected (e.g., lawnmower – bookmaker, postman); (e) semantics are not learned well (as is to be expected from the lack of context in training), but there are surprises (e.g., flatfish – slimy, watery).
+59	22	Table 2 presents examples from Hebrew that show learned properties can be extended to nominal morphosyntactic attributes (gender, number – first two examples) and even relational syntactic subword forms such as genetive markers (third example).
+60	43	Names are learned (fourth example) despite the lack of casing in the script.
+61	20	Spanish examples exhibit wordshape and part-of-speech learning patterns with some loose semantics: for example, the plural adjective form prenatales is similar to other familyrelated plural adjectives such as patrimoniales and generacionales.
+63	36	The Stanford RareWord evaluation corpus (Luong et al., 2013) focuses on predicting word similarity between pairs involving low-frequency English words, predominantly ones with common morphological affixes.
+69	26	The results, shown in Table 3, demonstrate that the MIMICK RNN recovers about half of the loss in performance incurred by the original Polyglot training model due to out-of-vocabulary words in the “All pairs” condition.
+72	22	The Universal Dependencies (UD) scheme (De Marneffe et al., 2014) features a minimal set of 17 POS tags (Petrov et al., 2012) and supports tagging further language-specific features using attribute-specific inventories.
+73	49	For example, a verb in Turkish could be assigned a value for the evidentiality attribute, one which is absent from Danish.
+75	21	Our approach for tagging morphosyntactic attributes is similar to the part-of-speech tagging model of Ling et al. (2015), who attach a projection layer to the output of a sentence-level bidirectional LSTM.
+76	29	We extend this approach to morphosyntactic tagging by duplicating this projection layer for each attribute type.
+81	35	Alternative initializations are considered in the evaluation, as described in Section 5.2.
+89	24	The morphological complexity and compositionality of words varies greatly across languages.
+90	89	While a morphologically-rich agglutinative language such as Hungarian contains words that carry many attributes as fully separable morphemes, a sentence in an analytic language such as Vietnamese may have not a single polymorphemic or inflected word in it.
+92	33	Language family and script type are other potentially influential factors in an orthography-based approach such as ours, and so we vary along these parameters as well.
+131	33	In several languages, the MIMICK algorithm fares better than the CHAR→TAG model on part-of-speech tagging in low-resource settings.
+135	42	While test set OOVs are a strength of the CHAR→TAG model (Plank et al., 2016), in many languages there are still considerable improvements to be obtained from the application of MIMICK initialization.
+137	135	We present a straightforward algorithm to infer OOV word embedding vectors from pre-trained, limited-vocabulary models, without need to access the originating corpus.
+139	36	Our method improves performance over word-based models on annotated sequence-tagging tasks for a large variety of languages across dimensions of family, orthography, and morphology.
+140	35	In addition, we present a BiLSTM approach for tagging morphosyntactic attributes at the token level.
+141	92	In this paper, the MIMICK model was trained using characters as input, but future work may consider the use of other subword units, such as morphemes, phonemes, or even bitmap representations of ideographic characters (Costa-jussà et al., 2017).

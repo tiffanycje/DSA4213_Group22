@@ -1,0 +1,30 @@
+26	12	• We propose a meta path-based unified frame- work to detect both explicitly and implicitly relevant mentions.
+28	15	Each concept has a set of textual representation fields (Meij et al., 2012), including title (the title of the article), sentence (the first sentence of the article), paragraph (the first paragraph of the article), content (the entire content of the article), and anchor (the set of all anchor texts with incoming links to the article).
+29	44	Wikipedia Lexicon Construction We first construct an offline lexicon with each entry as 〈m, {c1, ..., ck}〉, where {c1, ..., ck} is the set of possible referent concepts for the mention m. Following the previous work (Bunescu, 2006; Cucerzan, 2007; Hachey et al., 2013), we extract the possible mentions for a given concept c using the following resources: the title of c; the aliases appearing in the introduction and infoboxes of c (e.g., The Evergreen State is an alias of Washington state); the titles of pages redirecting to c (e.g., State of Washington is a redirecting page of Washington (state)); the titles of the disambigua- tion pages containing c; and all the anchor texts appearing in at least 5 pages with hyperlinks to c (e.g., WA is a mention for the concept Washington (state) in the text “401 5th Ave N [[Seattle]], [[Washington (state)—WA]] 98109 USA”.
+30	16	We also propose three heuristic rules to extract mentions (i.e., different combinations of the family name and given name for a person, the headquarters of an organization, and the city name for a sports team).
+34	8	A single tweet may not provide enough evidence to identify prominent mentions and infer their correct referent concepts due to the lack of contextual information.
+78	18	We consider two mentions mi and mj coreferential if mi and mj share the same surface form or one is an abbreviation of the other, and at least one meta path exists betweenmi andmj .
+80	42	Ensuring topical coherence (Principle 3) has been beneficial for wikification on formal texts (e.g., News) by linking a set of semantically-related mentions to a set of semantically-related concepts simultaneously (Han et al., 2011; Ratinov et al., 2011; Cheng and Roth, 2013).
+81	27	However, the shortness of a single tweet means that it may not provide enough topical clues.
+85	14	Then we compute a weight matrix representing the semantic relatedness relation as: W relij = { SR(Ni, Nj) if SR(Ni, Nj) ≥ δ 0 Otherwise where SR(Ni, Nj) = SR(mi,mj) × SR(ci, cj) and δ = 0.3, which is optimized from a development set.
+86	59	Based on the above three weight matricesW loc, W coref , and W rel, we first obtain their corresponding transition matrices P loc, P coref , and P rel, respectively.
+88	40	Then we obtain the combined graph G with weight matrix W , where Wij = αP locij + βP coref ij + γP rel ij .
+89	9	α, β, and γ are three coefficients between 0 and 1 with the constraint that α+ β + γ = 1.
+95	9	Given the constructed relational graph with the weighted matrix W and the label vector Y of all nodes, we assume the first l nodes are labeled as Yl and the remaining u nodes (u = n− l) are initialized with labels Y 0u .
+97	64	Intuitively, if two nodes are strongly connected, they tend to hold the same label.
+98	32	We propose a novel semi-supervised graph regularization framework based on the graph-based semi-supervised learning algorithm (Zhu et al., 2003): Q(Y) = µ n∑ i=l+1 (yi−y0i )2 + 1 2 ∑ i,j Wij(yi−yj)2.
+101	68	The second term is a regularizer that smoothes the refined labels over the constructed graph.
+107	25	We assume that the vector of the labeled examples Yl is fixed, so we only need to infer the refined label vector of the unlabeled examples Yu.
+114	11	For our experiments we use a public data set (Meij et al., 2012) including 502 tweets posted by 28 verified users.
+123	18	In our semisupervised regularization model, the matrix W loc is constructed by a kNN graph (k = 20).
+125	12	In order to randomize the experiments and make the comparison fair, we conduct 20 test runs for each method and report the average scores across the 20 trials.
+130	33	This is because that our model performs collective inference by making use of the manifold (cluster) structure of both labeled and unlabeled data, and that the local compatibility relation is detected with high precision2 (89.4%).
+131	26	For example, the following three pairs of mentions and concepts 〈pelosi, Nancy Pelosi〉, 〈obama, Barack Obama〉, and 〈gaddafi, Muammar Gaddafi〉 have strong local compatibility with each other since they share many similar characteristics captured by the local features such as string similarity between the mention and the concept.
+132	61	Suppose the first pair is labeled, then its positive label will be propagated to other unlabeled nodes through the local compatibility relation, and correctly predict the labels of other nodes.
+133	11	Incorporating coreferential or semantic relatedness relation into SSRegu1 provides further gains, demonstrating the effectiveness of these two relations.
+134	16	For instance, “wh” is correctly linked to White House by incorporating evidence from its coreferential mention “white house”.
+138	43	Our full model corrects these two wrong links by propagating evidence through the semantic links as shown in Figure 4 to obtain mutual ranking improvement.
+140	6	We also study the disambiguation performance for the annotated mentions, as shown in Table 3.
+141	194	We can easily see that our proposed approach using 50% labeled data achieves similar performance with the state-of-the-art supervised model with 100% labeled data.
+143	88	In fact, mention detection actually is the performance bottleneck of a tweet wikification system (Guo et al., 2013).
+145	47	In this work, we propose a unified framework utilizing meta path-based semantic relations to explore richer relevant context.

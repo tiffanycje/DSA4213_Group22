@@ -1,0 +1,30 @@
+6	20	In this work, we observe that we can often learn to turn bad images into good images by only looking at bad images, and do this just as well – sometimes even better – as if we were using clean examples.
+22	14	Hence, the properties of the underlying loss are inherited by neural network training.
+26	9	Training a neural network regressor using training pairs of lowand high-resolution images using the L2 loss, the network learns to output the average of all plausible explanations (e.g., edges shifted by different amounts), which results in spatial blurriness for the network’s predictions.
+32	5	This implies that we can, in principle, corrupt the training targets of a neural network with zero-mean noise without changing what the network learns.
+33	33	Combining this with the corrupted inputs from Equation 1, we are left with the empirical risk minimization task argmin θ ∑ i L (fθ(x̂i), ŷi) , (6) where both the inputs and the targets are now drawn from a corrupted distribution (not necessarily the same), conditioned on the underlying, unobserved clean target yi such that E{ŷi|x̂i} = yi.
+34	18	Given infinite data, the solution is the same as that of (1).
+35	4	For finite data, the variance is the average variance of the corruptions in the targets, divided by the number of training samples (see supplemental material).
+36	51	Interestingly, none of the above relies on a likelihood model of the corruption, nor a density model (prior) for the underlying clean image manifold.
+37	39	That is, we do not need an explicit p(noisy|clean) or p(clean), as long as we have data distributed according to them.
+38	67	In many image restoration tasks, the expectation of the corrupted input data is the clean target that we seek to restore.
+39	38	Low-light photography is an example: a long, noise-free exposure is the average of short, independent, noisy exposures.
+40	72	With this in mind, the above suggests the ability to learn to remove photon noise given only pairs of noisy images, with no need for potentially expensive or difficult long exposures.
+46	87	In Section 3.4, we show that image reconstruction from subNyquist spectral samplings in magnetic resonance imaging (MRI) can be learned from corrupted observations only.
+47	8	We will first study the effect of corrupted targets using synthetic additive Gaussian noise.
+48	16	As the noise has zero mean, we use the L2 loss for training to recover the mean.
+50	23	We train the network using 256×256-pixel crops drawn from the 50k images in the IMAGENET validation set.
+51	24	We furthermore randomize the noise standard deviation σ ∈ [0, 50] separately for each training example, i.e., the network has to estimate the magnitude of noise while removing it (“blind” denoising).
+73	16	This makes the convergence slower, but even with extreme blur, the eventual quality is similar (within 0.1 dB).
+75	32	We now study corrupted vs. clean training data in the realistic scenario of finite data and a fixed capture budget.
+77	81	Let one ImageNet image with white additive Gaussian noise at σ = 25 correspond to one “capture unit” (CU).
+78	133	Suppose that 19 CUs are enough for a clean capture, so that one noisy realization plus the clean version (the average of 19 noisy realizations) consumes 20 CU.
+79	45	Let us fix a total capture budget of, say, 2000 CUs.
+82	14	We first observe that using the same captured data as 100 ∗ 20 ∗ 19 = 38000 training pairs with corrupted targets — i.e., for each latent, forming all the 19 ∗ 20 possible noisy/clean pairs — yields notably better results (several .1s of dB) than the traditional, fixed noisy+clean pairs, even if we still only have N = 100 latents (Figure 1c, Case 2).
+84	14	We conclude that for additive Gaussian noise, corrupted targets offer benefits — not just the same performance but better — over clean targets on two levels: both 1) seeing more realizations of the corruption for the same latent clean image, and 2) seeing more latent clean images, even if just two corrupted realizations of each, are beneficial.
+89	8	We use the L2 loss, and vary the noise magnitude λ ∈ [0, 50] during training.
+90	41	Training with clean targets results in 30.59± 0.02 dB, while noisy targets give an equally good 30.57 ± 0.02 dB, again at similar convergence speed.
+91	18	A comparison method (Mäkitalo & Foi, 2011) that first transforms the input Poisson noise into Gaussian (Anscombe transform), then denoises by BM3D, and finally inverts the transform, yields 2 dB less.
+100	18	DIP was almost 2 dB worse – DIP is not a learning-based solution, and as such very different from our approach, but it shares the property that neither clean examples nor an explicit model of the corruption is needed.
+101	58	We used the “Image reconstruction” setup as described in the DIP supplemental material.2 Text removal Figure 3 demonstrates blind text removal.
+102	10	The corruption consists of a large, varying number of random strings in random places, also on top of each other, and furthermore so that the font size and color are randomized as well.

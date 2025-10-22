@@ -1,0 +1,30 @@
+0	25	With the introduction of large scale machine comprehension datasets, machine comprehension models that are highly accurate and efficient in answering questions given raw texts have been proposed recently (Seo et al., 2016; Xiong et al., 2016; Wang et al., 2017c).
+1	48	While conventional machine comprehension models were given a paragraph that always contains an answer to a question, some researchers have extended the models to an open-domain setting where relevant documents have to be searched from an extremely large knowledge source such as Wikipedia (Chen et al., 2017; Wang et al., 2017a).
+2	26	However, most of the open-domain QA pipelines depend on traditional information retrieval systems which use TF-IDF rankings (Chen et al., 2017; Wang et al., 2017b).
+3	15	Despite the efficiency of the traditional retrieval systems, the documents retrieved and ranked at the top by such systems often do not contain answers to questions.
+5	11	The tradeoff between reading more documents and minimizing noise is frequently observed in previous works that defined the N number of top documents as a hyperparameter to find (Wang et al., 2017a).
+6	40	In this paper, we tackle the problem of ranking the paragraphs of retrieved documents for improving the answer recall of the paragraphs while filtering irrelevant paragraphs.
+9	20	However, whereas their main focus is on re-ranking retrieved sentences to maximize the rewards of correctly answering the questions, our focus is to increase the answer recall of paragraphs with less noise.
+16	18	Even though we did not further customize Document Reader of DrQA (Chen et al., 2017), the large improvement in the exact match scores shows that future researches would benefit from ranking and reading the more relevant paragraphs.
+20	22	For the retrieval system and the reader model, we used Document Retriever and Document Reader of Chen et al. (2017).1 The overview of our pipeline is illustrated in Figure 1.
+21	19	Given N number of documents retrieved from Document Retriever, we assume that each document contains K number of paragraphs on average.
+23	34	Utilizing Paragraph Ranker, we safely increase N for a higher answer recall, and reduce the number of paragraphs to read by selecting only top ranked paragraphs.
+28	26	Once each paragraph and the question are represented as pih and qh, we calculate the probability of each paragraph to contain an answer of the question as follows: p(Pi|Q) = 1 1 + e−s(p i h,qh) where we have used similarity function s(·, ·) to measure the probability of containing answer to the question Q in the paragraph Pi.
+30	13	We tested three different scoring functions: 1) the dot product of pih and qh, 2) the bilinear form pih T Wqh, and 3) a multilayer perceptron (MLP) (Severyn and Moschitti, 2015).
+37	22	Based on the rank of each paragraph from Paragraph Ranker and the rank of source document from Document Retriever, we collect top M paragraphs to read.
+41	25	Chen et al. (2017) and Clark et al. (2017) used the unnormalized answer probability from the reader.
+43	21	In our QA pipeline, we incorporate the coverage-based method by Wang et al. (2017b) with paragraph scores from Paragraph Ranker.
+52	13	WikiMovies (Miller et al., 2016) contains questions regarding movies collected from OMDb and the MovieLens database.
+53	26	We pretrain Document Reader and Paragraph Ranker on the SQuAD training set.3
+54	9	Paragraph Ranker uses 3-layer Bi-LSTM networks with 128 hidden units.
+55	14	Due to the different characteristics of questions in WebQuestion and WikiMovies, we find α, β, and γ based on the validation QA pairs of the two datasets.
+59	20	In our experiments, Paragraph Ranker ranks only paragraphs, and answers are determined by unnormalized scores of the answers.
+61	11	aggregates answers using Equation 1 with the coveragebased aggregation.
+67	10	In Table 2, we show 3 random paragraphs of the top document returned by Document Retriever, and the top 3 paragraphs ranked by Paragraph Ranker from the top 40 documents.
+69	14	However, Question 1 includes the polysemy of the word “play” which makes it more difficult for Document Retriever to perform effectively.
+70	19	Our Paragraph Ranker well understands that the question is about a sports player not a musician.
+72	17	This shows that increasing number of documents to rank helps Paragraph Ranker find more relevant paragraphs.
+73	52	In this paper, we present an open-domain question answering pipeline and proposed Paragraph Ranker.
+74	35	By using Paragraph Ranker, the QA pipeline benefits from increased answer recall from paragraphs to read, and filters irrelevant documents or paragraphs.
+75	52	With our simple Paragraph Ranker, we achieve state-of-the-art performances on the four open-domain QA datasets with large margins.
+76	36	As future works, we plan to further improve Paragraph Ranker based on the researches on learning to rank.

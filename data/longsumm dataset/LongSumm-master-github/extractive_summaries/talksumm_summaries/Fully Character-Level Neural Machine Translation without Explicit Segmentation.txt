@@ -1,0 +1,30 @@
+6	37	To address this, we present a fully character-level NMT model that maps a character sequence in a source language to a character sequence in a target language.
+17	29	We also showcase our model’s ability to handle intra-sentence codeswitching while performing language identification on the fly.
+18	54	The contributions of this work are twofold: we empirically show that (1) we can train character-tocharacter NMT model without any explicit segmentation; and (2) we can share a single character-level encoder across multiple languages to build a multilingual translation system without increasing the model size.
+68	30	This makes a naive character-level approach, such as in Luong and Manning (2016), computationally prohibitive.
+72	17	(3) Long range dependencies in characters A character-level encoder needs to model dependencies over longer timespans than a word-level encoder does.
+77	31	Embedding We map the sequence of source characters (x1, .
+81	30	Assuming we have a single filter f ∈ Rdc×w of width w, we first apply padding to the beginning and the end of X , such that the padded sentence X ′ ∈ Rdc×(Tx+w−1) is w − 1 symbols longer.
+101	17	Highway network A sequence of segment embeddings from the max pooling layer is fed into a highway network (Srivastava et al., 2015).
+102	15	Highway networks are shown to significantly improve the quality of a character-level language model when used with convolutional layers (Kim et al., 2015).
+110	23	Similarly to the attention model in Chung et al. (2016) and Firat et al. (2016a), a single-layer feedforward network computes the attention score of next target character to be generated with every source segment representation.
+115	15	We experiment in two different scenarios: 1) a bilingual setting where we train a model on data from a single language pair; and 2) a multilingual setting where the task is many-to-one translation.
+117	20	Hence, our baselines and models are: (a) bilingual bpe2bpe: from (Firat et al., 2016a) (b) bilingual bpe2char: from (Chung et al., 2016) (c) bilingual char2char (d) multilingual bpe2char (e) multilingual char2char We train all the models ourselves other than (a), for which we report the results from Firat et al. (2016a).
+150	19	Multilingual BPE For the multilingual bpe2char model, multilingual BPE segmentation rules are extracted from a large dataset containing training source corpora of all the language pairs.
+151	23	To ensure the BPE rules are not biased towards one language, larger datasets such as Czech and German corpora are trimmed such that every corpus contains, approximately, an equal number of characters.
+158	20	Meanwhile, in a multilingual setting, the character-level encoder significantly surpasses the subword-level encoder consistently in all the language pairs (Table 5 (d-e), (i-j), (n-o) and (s-t)).
+160	15	This also demonstrates that the character-level model is more flexible in assigning model capacity to different language pairs.
+180	15	Overall, the improvement in translation quality yielded by the multilingual character-level model mainly comes from fluency.
+187	16	On the other hand, a character-level model has a much better chance recovering the original word or sentence.
+188	25	Indeed, our char2char model is robust against a few spelling mistakes (Table 7 (a)).
+191	43	We expect a character-level model to handle novel and unseen morphological inflections well.
+200	48	We discover that when given sentences with a high degree of language intermixing, as in Table 7 (e), the multilingual bpe2char model fails to seamlessly handle alternation of languages.
+201	86	Overall, however, both multilingual models generate reasonable translations.
+204	40	There are indeed cases where the proposed character-level model fails, and we notice that those are often sentences with long-distance dependencies (see Table 8).
+205	33	We show supplementary, sample translations in each scenario on a webpage.4 Training and decoding speed On a single Titan X GPU, we observe that our char2char models are approximately 35% slower to train than our bpe2char baselines when the same batch size was used.
+206	16	Our bilingual character-level models can be trained in roughly two weeks.
+211	114	Figure 2 shows the evolution of the FI-EN validation BLEU scores where the bilingual models overfit rapidly but the multilingual models seem to regularize learning by training simultaneously on other language pairs.
+212	26	We propose a fully character-level NMT model that accepts a sequence of characters in the source language and outputs a sequence of characters in the target language.
+214	85	Our empirical results show that the fully character-level model performs as well as, or better than, subword-level translation models.
+218	28	Ultimately, we present a case for fully character-level translation: that translation at the level of character is strongly beneficial and should be encouraged more.
+219	16	The repository https://github.com/nyu-dl /dl4mt-c2c contains the source code and pretrained models for reproducing the experimental results.

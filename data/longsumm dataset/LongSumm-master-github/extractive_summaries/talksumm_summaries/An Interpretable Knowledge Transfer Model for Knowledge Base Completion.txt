@@ -1,0 +1,30 @@
+16	18	950 Previously, a line of research makes use of external information such as textual relations from web-scale corpus or node features (Toutanova et al., 2015; Toutanova and Chen, 2015; Nguyen et al., 2016a), alleviating the sparsity problem.
+19	40	In this paper, we propose an interpretable knowledge transfer model (ITransF), which encourages the sharing of statistic regularities between the projection matrices of relations and alleviates the data sparsity problem.
+24	31	In summary, the contributions of this work are: (i) proposing a novel knowledge embedding model which enables knowledge transfer by learning to discover shared regularities; (ii) introducing a learning algorithm to directly optimize a sparse representation from which the knowledge transferring procedure is interpretable; (iii) showing the effectiveness of our model by outperforming baselines on two benchmark datasets for knowledge base completion task.
+26	29	In knowledge base completion, given a training set P of triples (h, r, t) where h, t ∈ E are the head and tail entities having a relation r ∈ R, e.g., (Steve Jobs, FounderOf, Apple), we want to predict missing facts such as (Steve Jobs, Profession, Businessperson).
+27	19	Most of the embedding models for knowledge base completion define an energy function fr(h, t) according to the fact’s plausibility (Bordes et al., 2011, 2014, 2013; Socher et al., 2013; Wang et al., 2014; Yang et al., 2015; Guu et al., 2015; Nguyen et al., 2016b).
+28	12	The models are learned to minimize energy fr(h, t) of a plausible triple (h, r, t) and to maximize energy fr(h′, t′) of an implausible triple (h′, r, t′).
+29	12	Motivated by the linear translation phenomenon observed in well trained word embeddings (Mikolov et al., 2013), TransE (Bordes et al., 2013) represents the head entity h, the relation r and the tail entity t with vectors h, r and t ∈ Rn respectively, which were trained so that h+r ≈ t. They define the energy function as fr(h, t) = ‖h+ r− t‖` where ` = 1 or 2, which means either the `1 or the `2 norm of the vector h + r − t will be used depending on the performance on the validation set.
+30	15	To better model relation-specific aspects of the same entity, TransR (Lin et al., 2015b) uses projection matrices and projects the head entity and the tail entity to a relation-dependent space.
+33	18	As discussed above, a fundamental weakness in TransR and STransE is that they equip each relation with a set of unique projection matrices, which not only introduces more parameters but also hinders knowledge sharing.
+35	31	For example, the relation “(somebody) won award for (some work)” and “(somebody) was nominated for (some work)” both describe a person’s high-quality work which wins an award or a nomination respectively.
+36	37	This phenomenon suggests that one relation actually represents a collection of real-world concepts, and one concept can be shared by several relations.
+54	40	Moreover, a relation usually does not consist of all existing concepts in practice.
+61	53	Putting these modifications together, we can rewrite the optimization problem as minimize L subject to ‖IHr ‖0 ≤ k, ‖ITr ‖0 ≤ k (3) where L is the loss function defined in Eq.
+67	12	Then, the core difficulty lies in the step of optimizing the sparse partition (i.e. the sparse assignment vectors), during which we want the following two properties to hold 1. the sparsity required by the `0 constaint is maintained, and 2. the cost define by Eq.
+89	19	As the energy gap exceeds γ, there will be no training signal from this corrupted triple.
+91	47	Motivated by this observation, we propose to sample corrupted head or tail from entities in the same domain with a probability pr and from the whole entity set with probability 1 − pr.
+116	22	We can see that path information is very helpful on FB15k and models taking advantage of path information outperform intrinsic models by a significant margin.
+122	12	Performance on Rare Relations In the proposed ITransF, we design an attention mechanism to encourage knowledge sharing across different relations.
+131	15	In particular, in the last bin (rarest relations), the average Hits@10 increases from 55.2 to 93.8, showing the great benefits of transferring statistical strength from common relations to rare ones.
+145	32	On FB15k, we also see the sharing between reverse relations, as in “(somebody) won award for (some work)” and “(some work) award winning work (somebody)”.
+146	15	What’s more, although relation “won award for” and “was nominated for” share the same concepts, their attention distributions are different, suggesting distinct emphasis.
+147	16	Finally, symmetric relations like spouse behave similarly as mentioned before.
+148	13	Model Compression A byproduct of parameter sharing mechanism employed by ITransF is a much more compact model with equal performance.
+155	13	Here, we show that our model employing sparse attention can achieve similar results with dense attention with a significantly less computational burden.
+169	15	For completeness, we compare our model with the aforementioned approach4.
+186	51	In summary, we propose a knowledge embedding model which can discover shared hidden concepts, and design a learning algorithm to induce the interpretable sparse representation.
+187	53	Empirically, we show our model can improve the performance on two benchmark datasets without external resources, over all previous models of the same kind.
+198	22	We want the probability of generating a negative sample from the domain to be inversely proportional to the probability of the sample being true, so we define the probability as Eq.
+201	32	With large λ and higher domain sampling probability, our model’s Hits@10 increases while mean rank also increases.
+202	18	The rise of mean rank is due to higher probability of generating a valid triple as a negative sample causing the energy of a valid triple to increase, which leads to a higher overall rank of a correct entity.

@@ -1,0 +1,30 @@
+5	19	Reinforcement Learning (RL) is another method that has been used to learn policies regarding when the system should interrupt the user (barge-in), stay silent, or generate backchannels in order to improve the responsiveness of the SDS or increase task success (Kim et al., 2014; Khouzaimi et al., 2015; Dethlefs et al., 2016).
+6	75	We apply RL to the problem of incremental dialogue policy learning in the context of a fast-paced dialogue game.
+10	30	Our contributions are as follows: We provide an RL method for incremental dialogue processing based on simplistic features which performs better in offline simulations (based on real user data) than the high performance CDR baseline.
+18	60	For this study we used the RDG-Image (Rapid Dialogue Game) (Paetzel et al., 2014) dataset and the high performance baseline Eve system (Section 2.2).
+19	33	RDG-Image is a collaborative, two player, time-constrained, incentivized rapid conversational game, and has two player roles, the Director and the Matcher.
+20	20	The players are given 8 images as shown in Figure 1 in a randomized order.
+21	114	One of the images is highlighted with a red border on the Director’s screen (called target image - TI).
+60	66	She can do it by taking three actions: i) WAIT: Listen more in the hope that the user provides more information; ii) As-I: Make the selection and request the next TI; iii) As-S: Make the selection and request the next TI as it might not be fruitful to wait more.1 Eve’s policy depicted in Algorithm 1, uses two threshold values namely identification threshold (IT) and give-up threshold (GT) to select these actions.
+62	23	GT is the maximum time the agent should WAIT before giving up on the current image set and requesting the human Director to move on to the next TI.
+63	16	The IT and GT values are learned using an offline policy optimization method called the Eavesdropper simulation, which performs an exhaustive grid search to find the optimal values of IT and GT for each image set (Paetzel et al., 2015).
+66	25	The Eve agent is very efficient and carefully engineered to perform well in this task, and serves as a very strong baseline.
+67	37	In the real user study reported in Paetzel et al. (2015), Eve in the HA gameplay scored nearly as well as human users in HH gameplay.
+68	66	Thus this study provides an opportunity to compare an RL policy with a strong baseline Algorithm 1 Eve’s dialogue policy if P ∗t > IT & |filtered(dt)| ≥ 1 then Assert-Identified (As-I) else if elapsed(t) < GT then WAIT (continue listening) else Request-Skip (As-S) end if policy that uses a hand-crafted carefully designed rule structure (CDR baseline).
+91	46	Case 3 shows an instance where the agent can save time by committing to a selection at a much lesser confidence value.
+117	20	LSPI in our work uses State-ActionReward-State (SARS) transitions sampled from the human interactions data (HH and HA).
+139	17	For every ASR partial we obtain the highest assigned confidence score from the NLU, use the time consumed feature from the game, and obtain the action from the policy.
+140	29	If the action chosen by the policy is “WAIT” then we sample the next state.
+141	70	For each pair of confidence and time consumed values we obtain the actions from the baseline and the RL policy separately and compare them with the ground truth to evaluate which policy performs better.
+147	57	The PPS parameter is a measure of how effective the agent is at scoring points overall, and is calculated as the ratio of the total points scored by the 5p=0.06; we cannot claim that the time taken is significantly higher but there is a trend.
+149	74	Table 2 shows the points per second and the total points scored in some of the image sets by the baseline and the RL.
+151	24	By scoring more points overall than the baseline, the RL also scores higher in the PPS metric (p<0.05).
+157	90	In order to understand the differences in the actions taken by the RL policy and the baseline policy, we plot on a 3 dimensional scatter plot, the action taken by the policy for confidence values between 0 and 1 (spaced at 0.1 intervals) and the time consumed between 0s to 15s (spaced at 100ms intervals) for one of the image sets (bikes).
+161	18	i) Regardless of whether the confidence value is high or low, the RL policy learns to wait for low values of the time consumed.
+181	20	Building an SDS with carefullly crafted rules has often been criticized as a laborious and time consuming exercise.
+203	90	Our experiments were performed in simulation (albeit using real user data) and the next step is to investigate whether these improvements transfer to real time experiments (real time interaction of the agent with human users).
+204	26	Another interesting avenue for future work is to implement a hybrid approach of engineering a hand-crafted policy using the intuitions learned from using RL.
+205	96	There are still regions of the state space that were not fully explored by RL.
+206	144	On the other hand, as we saw, RL can potentially learn interesting policies which would not have been intuitive for a dialogue designer to come up with.
+207	125	Therefore, we plan to explore incorporating intuitions from the RL into the high performance CDR baseline and see which avenue would be more fruitful and if we can get the best of both worlds.
+208	92	Finally, another idea for future work is to experiment with Inverse Reinforcement Learning (Abbeel and Ng, 2004; Nouri et al., 2012; Kim et al., 2014) in order to potentially learn a better reward function directly from the data.

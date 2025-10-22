@@ -1,0 +1,30 @@
+33	13	Work on theory-inspired defenses include (Mądry et al., 2017; Kolter and Wong, 2017; Aman Sinha, 2018), who provide defense mechanisms for adversarial examples in neural networks that are relaxations of certain principled optimization objectives.
+50	19	We consider test-time attacks in a white box setting, where the adversary has full knowledge of the training process – namely, the type of classifier used, the training data and any parameters – but cannot modify training in any way.
+51	6	Given an input x, the adversary’s goal is to perturb it so as to force the trained classifier f to report a different label than f(x).
+56	13	Definition 2.1 (Robustness Radius).
+59	22	A plausible way to extend this into a global notion is to require a lower bound on the robustness radius everywhere; however, only the constant classifier will satisfy this condition.
+61	13	Definition 2.2 (Robustness with respect to a Distribution).
+62	12	The robustness of a classifier f at radius r with respect to a distribution µ over the instance space X , denoted by R(f, r, µ), is the fraction of instances drawn from µ for which the robustness radius is greater than or equal to r. R(f, r, µ) = Pr x∼µ (ρ(f, x) ≥ r) Finally, observe that we are interested in classifiers that are both robust and accurate.
+65	5	Unlike accuracy, astuteness cannot be directly empirically measured unless we have a way to certify a lower bound on the robustness radius.
+75	14	, (Xn, Yn)} and a test example x, we use the notation X(i)(x) to denote the i-th nearest neighbor of x in Sn, and Y (i)(x) to denote the label of X(i)(x).
+77	11	The Bayes optimal classifier g over a data distribution D has the following classification rule: g(x) = � 1 if η(x) = Pr(y = 1|x) ≥ 1/2; 0 otherwise.
+78	79	How robust is the k-nearest neighbor classifier?
+82	7	Then, for fixed k, ρ(Ak(Sn, ·), x) converges in probability to 0.
+95	5	We define the probability radius of a ball around x as: rp(x) = inf{r | µ(B(x, r)) ≥ p} We next define the r-robust (p,Δ)-strict interiors as follows: X+r,Δ,p = {x ∈ supp(µ) | ∀x� ∈ Bo(x, r), ∀x�� ∈ B(x�, rp(x�)), η(x��) > 1/2 +Δ} X−r,Δ,p = {x ∈ supp(µ) | ∀x� ∈ Bo(x, r), ∀x�� ∈ B(x�, rp(x�)), η(x��) < 1/2−Δ} What is the significance of these interiors?
+110	8	Unlike the latter, Theorem 3.3 has a more stringent requirement on k. Whether this is necessary is left as an open question for future work.
+115	7	Most training datasets however contain nearby points that are oppositely labeled; thus, we propose to remove a subset of training points to enforce this property.
+121	11	, (xm, ym)} of labeled examples is said to be r-separated if for all pairs (xi, yi), (xj , yj) ∈ A, �xi − xj� ≤ r implies yi = yj .
+123	11	Given confidence parametersΔ and δ, Algorithm 2 returns a 0/1 label when this label agrees with the average of kn points closest to x; otherwise, it returns ⊥.
+126	9	Let f(xi) be the output of Algorithm 2 on xi.
+127	19	If yi = f(xi) and if for all xj ∈ B(xi, r), f(xi) = f(xj) = yi, then we mark xi as red.
+128	7	Finally, we compute the largest r-separated subset of the training data that includes all the red points; this reduces to a constrained matching problem as in (Kontorovich and Weiss, 2015).
+131	13	Moreover, we keep all (xi, yi) when we are confident about the label of xi and its nearby points.
+133	11	The following theorem establishes performance guarantees for Algorithm 1.
+137	12	The proof is in the Appendix, along with an analogous result for astuteness.
+139	25	Since η(x) is constrained to be greater than 12 + Δn or less than 1 2 − Δn in this region, as opposed to 0 or 1, this is an improvement over standard nearest neighbors when the data distribution has a large high density region that intersects with the interiors.
+147	8	Since there are no general methods that certify robustness at an input, we assess robustness by measuring how our algorithm performs against a suite of standard attack methods.
+149	40	How does our algorithm perform against popular white box and black box attacks compared with standard baselines?
+150	8	How is performance affected when we change the training set size relative to the data dimension?
+151	32	These questions are considered in the context of three datasets with varying training set sizes relative to the dimension, as well as two standard white box attacks and black box attacks with two kinds of substitute classifiers.
+152	11	We use three datasets – Halfmoon, MNIST 1v7 and Abalone – with differing data sizes relative to dimension.
+153	41	Halfmoon is a popular 2-dimensional synthetic data set for non-linear classification.

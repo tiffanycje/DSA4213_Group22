@@ -1,0 +1,30 @@
+2	37	The assumption that the matrix is low-rank is equivalent to assuming the data lies on (or near) a lowdimensional linear subspace.
+3	23	It is of great interest to generalize matrix completion to exploit low-complexity nonlinear structures in the data.
+4	32	Several avenues have been explored in the literature, from generic manifold learning (Lee et al., 2013), to unions of subspaces (Eriksson et al., 2012; Elhamifar & Vidal, 2013), to low-rank matrices perturbed by a nonlinear monotonic function (Ganti et al., 2015; Song et al., 2016).
+5	46	In each case missing data has been considered, but there lacks a clear, unifying framework for these ideas.
+6	18	In this work we study the problem of completing a matrix whose columns belong to an algebraic variety, i.e., the set of solutions to a system of polynomial equations (Cox et al., 2015).
+7	50	This is a strict generalization of the linear (or affine) subspace model, which can be written as the set of points satisfying a system of linear equations.
+8	44	Unions of subspaces and unions of affine spaces are also algebraic varieties.
+20	15	We identify bounds on the rank of a matrix φd(X) when the columns of the data matrix X belong to an algebraic variety.
+24	20	This leads to a general algorithm for completion of a data matrix whose columns belong to a variety.
+45	56	As a toy example to illustrate our approach, consider a matrix X = ( x1,1 x1,2 · · · x1,6 x2,1 x2,2 · · · x2,6 ) ∈ R2×6 whose six columns satisfy the quadratic equation c0+c1 x1,i+c2 x2,i+c3 x 2 1,i+c4 x1,ix2,i+c5 x 2 2,i = 0 (2) for i = 1, .
+56	19	Then from (2) we have c3 x 2 1,1 + (c1 + c4 x2,1)x1,1 = −c0 − c2 x2,1 − c5 x22,1.
+76	26	Suppose the variety V (P ) is defined by the finite set of polynomials P = {f1, ..., fq}, where each fi has degree at most d. Let C ∈ RN×q be the matrix whose columns are given by the vectorized coefficients (cα,i)|α|≤d of the polynomials fi(x), i = 1, ..., q in P .
+91	18	In Section 3 we show how to bound the dimension of Sd(V ) in the case where V is a union of subspaces.
+96	28	First, we characterize how missing entries of the data matrix translate to missing entries in feature space.
+102	27	Suppose the N × s lifted matrix φd(X) is rank R. By the preceding discussion, we need least R(N + s−R) entries of the feature space matrix φd(X) to complete it uniquely among the class of all N × s matrices of rank R. Hence, at minimum we need to satisfy Ms ≥ R(N + s−R).
+134	49	Recall that the minimum sampling rate is approximately (R/N) 1 d for s R. Hence the mininum number of samples per column m should be m ≈ O(k 1d r).
+140	27	In fact, we find that for these values of d we get excellent empirical results for the recovery of union of subspaces data, as shown in Section 5.
+141	61	There are several existing matrix completion algorithms that could potentially be adapted to solve a relaxation of the rank minimization problem (1), such as singular value thresholding (Cai et al., 2010), or alternating minimization (Jain et al., 2013).
+142	29	However, these approaches do not easily lend themselves to “kernelized” implementations, i.e., ones that do not require forming the high-dimensional lifted matrix φd(X) explicitly, but instead make use of the efficiently computable kernel function for polynomial feature maps 2 kd(x,y) := φd(x) Tφd(y) = (x Ty + 1)d. (13) For matrices X = [x1, ...,xs],Y = [y1, ...,ys] ∈ Rn×s, we use kd(X,Y ) to denote the matrix whose (i, j)-th entry is kd(xi,yj), or equivalently, kd(X,Y ) := φd(X) Tφd(Y ) = (X TY + 1) d, (14) where 1 ∈ Rs×s is the matrix of all ones, and (·) d denotes the entrywise d-th power of a matrix.
+143	46	A kernelized implentation is critical for even modest sizes of d, since the number of rows of the lifted matrix scales exponentially with d. One class of algorithm that kernelizes very naturally is the iterative reweighted least squares (IRLS) approach of (Fornasier et al., 2011; Mohan & Fazel, 2012) for low-rank matrix completion.
+144	34	The algorithm also has the advantage of being able to accommodate the non-convex Schatten-p relaxation of the rank penalty, in addition to the convex nuclear norm relaxation.
+145	25	Specifically, we use an IRLS approach to solve the following variety-based matrix completion (VMC) optimization problem: min X ‖φd(X)‖pSp s.t.
+161	15	Specifically, we set γn = γ0/ηn, where γ0 and η are user-defined parameters, and update τn = γ 1−p/2 n .
+176	23	In Figure 3 we apply VMC to the problem of motion segmentation (Kanatani, 2001) with missing data using the Hopkins 155 dataset (Tron & Vidal, 2007).
+179	23	We simulate missing trajectories by sampling uniformly at random from the feature points across all frames.
+181	29	A similar approach of standard LRMC followed by SSC (LRMC+SSC) provides a consistent baseline for subspace clustering with missing data (Yang et al., 2015; Elhamifar, 2016).
+192	14	We introduce a matrix completion approach that generalizes low-rank matrix completion to a much wider class of variety models, including data belonging to a union of subspaces.
+196	18	We additionally introduce an efficient algorithm based on an iterative reweighted least squares approach that realizes these hypothesized bounds on synthetic data, and reaches state-of-the-art performance on for matrix completion on several real high-rank datasets.
+199	43	However, analysis of the sample complexity in this case is complicated by the fact that a feature space representation for Gaussian RBF kernel is necessarily infinitedimensional.
+200	46	Understanding the sample requirements in this case would be an interesting avenue for future work.

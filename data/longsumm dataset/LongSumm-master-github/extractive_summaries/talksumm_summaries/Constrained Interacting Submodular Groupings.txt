@@ -1,0 +1,25 @@
+35	1	We demonstrate that our approach improves on previous state-of-the-art results and moreover the groupings achieve the aforementioned desired properties.
+38	3	Our first contribution is that, unlike Wei et al. (2015), which only handles partitions, we also handle coverings and packings.
+39	29	Our second contribution is the inclusion of more general block-specific constraints, expressed as intersections of matroids on an expanded ground set.
+41	26	Our third contribution, and the most significant, is the introduction of cross-block interaction terms, enabling us to avoid groupings containing pairs of blocks that jointly score poorly.
+42	12	Our final objective is: F (π) =Fra(π) + λ3 min i,j∈[m],i<j Fi,j(A π i , A π j ) (2) + λ4 1( m 2 ) ∑ i,j∈[m],i<j Fi,j(A π i , A π j ).
+43	1	While there are four λis in this objective, typically only two—one for scoring individual blocks, and the other for pairwise interactions—will be nonzero.
+44	7	We interpret the extra cross-block terms Fi,j as rewarding inter-block diversity.
+45	22	For example, we could cause our objective function to prefer blocks with large pairwise symmetric differences by taking Fi,j(Aπi , A π j ) = ∣∣Aπi4Aπj ∣∣.
+46	93	Alternatively, in the partitioning or packing setting, we could define Fi,j(A π i , A π j ) = f(A π i ∪ Aπj ), in which case if there are two blocks Aπi , A π j with either f(A π i ∪ Aπj ) ≈ f(Aπi ) or f(Aπi ∪Aπj ) ≈ f(Aπj ), then, under an interpretation of f as a diversity measure, the two blocks would be redundant, a situation we would prefer to avoid.
+47	27	We study several possible cross-block interactions, based on unions, intersections and symmetric differences, and {sub,super}modular functions thereof, and show that cross-block diversity preserves submodularity in an expanded ground set under various set-to-set mappings (Section 4).
+48	67	Finally, we offer an approach that reduces the above problem to either non-monotone (without robust terms, i.e. λ1 = 0 and λ3 = 0) or iterative monotone (with one robust term, i.e. only one of λ1 or λ3 is nonzero) submodular maximization subject to multiple matroid constraints (Section 5).
+49	14	There are several applications in machine learning and data science that fit naturally into this setting, two of which we outline here.
+50	88	Constructing ensembles of machine learning models: Let V index a set of features, with subsets of V corresponding to subsets of features on which a model will be trained.
+51	93	The classical feature selection problem would be to choose a single set of features that result in a good model.
+52	178	We’re interested instead in the problem of finding an ensemble of models, each trained on a different subset of features, that together achieve good performance (Canini et al., 2016).
+53	41	This can be done by grouping V into Aπ1 , A π 2 , .
+54	15	, A π m, from which we form an ensemble of m models, the results of which are aggregated together e.g. by averaging, voting, or taking the minimum.
+55	35	Given a submodular function f : V → R+ measuring the “quality” of a single feature subset, one natural goal would be to choose each Aπi to be individually high-quality, according to f .
+56	42	However, since the ensemble outputs are being aggregated, it would be purposeless to have redundant models—many results (e.g. Kittler et al., 1998) suggest that when aggregating models, it is best for them to be as diverse as possible (so that the errors they make are independent, thereby improving accuracy and reducing variance).
+57	23	This motivates us to seek blocks that are as different from each other as possible.
+58	61	Individual model quality combined with diversity is exactly what maximizing Eq.
+59	67	Our case study (Section 6) was performed in this setting and supports the benefits of aggregating diverse models.
+60	5	Multiple mutually diverse summaries: Data summarization involves finding a small but representative subset of a large set.
+62	30	For example, in parallel machine learning, where training data might need to be partitioned onto multiple machines distributed across a network, it can be useful to ensure that each subset is representative (so that local computations are accurate) but also diverse (since if two subsets are redundant, than so will the work that each processor performs).
+63	24	As another example, consider the problem of document summarization.

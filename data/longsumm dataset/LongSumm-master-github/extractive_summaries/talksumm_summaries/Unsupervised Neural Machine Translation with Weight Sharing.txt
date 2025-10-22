@@ -1,0 +1,30 @@
+0	18	Neural machine translation (Kalchbrenner and Blunsom, 2013; Sutskever et al., 2014; Cho et al., 2014; Bahdanau et al., 2014), directly applying a single neural network to transform the source sentence into the target sentence, has now reached impressive performance (Shen et al., 2015; Wu et al., 2016; Johnson et al., 2016; Gehring et al., 2017; Vaswani et al., 2017).
+5	25	In the unsupervised setting, we only have two independent monolingual corpora with one for each language and there is no bilingual training example to provide alignment information for the two languages.
+8	88	Motivated by recent success in unsupervised cross-lingual embeddings (Artetxe et al., 2016; Zhang et al., 2017b; Conneau et al., 2017), the models proposed for unsupervised NMT often assume that a pair of sentences from two different languages can be mapped to a same latent representation in a shared-latent space (Lample et al., 2017; Artetxe et al., 2017b).
+9	50	Following this assumption, Lample et al. (2017) use a single encoder and a single decoder for both the source and target languages.
+10	61	The encoder and decoder, acting as a standard auto-encoder (AE), are trained to reconstruct the inputs.
+13	51	Although the shared encoder is vital for mapping sentences from different languages into the shared-latent space, it is weak in keeping the uniqueness and internal characteristics of each language, such as the style, terminology and sentence structure.
+14	14	Since each language has its own characteristics, the source and target languages should be encoded and learned independently.
+18	46	For each language, the encoder and its corresponding decoder perform an AE, where the encoder generates the latent representations from the perturbed input sentences and the decoder reconstructs the sentences from the latent representations.
+30	23	Experimental results show that the proposed approach consistently achieves great success.
+59	14	We implement the local discriminator as a multi-layer perceptron and implement the global discriminator based on the convolutional neural network (CNN).
+60	15	Several ways exist to interpret the roles of the sub networks are summarised in table 1.
+83	23	In this form, each encoder should learn to compose the embeddings of its corresponding language and each decoder is expected to learn to decompose this representation into its corresponding language.
+95	18	To further enforce the shared-latent space, we train a discriminative neural network, referred to as the local discriminator, to classify between the encoding of source sentences and the encoding of target sentences.
+142	17	Specifically, it translates a sentence word-by-word, replacing each word with its nearest neighbor in the other language.
+143	56	Lample et al. (2017) The second baseline is a previous work that uses the same training and testing sets with this paper.
+148	37	We firstly investigate how the number of weightsharing layers affects the translation performance.
+150	50	Sharing one layer in AEs means sharing one layer for the encoders and in the meanwhile, sharing one layer for the decoders.
+161	24	And the shared encoder is weak in keeping the unique characteristic of each language.
+163	23	This confirms our intuition that the shared layers are vital to map the source and target latent representations to a shared-latent space.
+165	27	Table 2 shows the BLEU scores on EnglishGerman, English-French and English-to-Chinese test sets.
+166	56	As it can be seen, the proposed approach obtains significant improvements than the word-by-word baseline system, with at least +5.01 BLEU points in English-to-German translation and up to +13.37 BLEU points in English-toFrench translation.
+167	47	This shows that the proposed model only trained with monolingual data effec- tively learns to use the context information and the internal structure of each language.
+168	47	Compared to the work of (Lample et al., 2017), our model also achieves up to +1.92 BLEU points improvement on English-to-French translation task.
+172	35	To understand the importance of different components of the proposed system, we perform an ablation study by training multiple versions of our model with some missing components: the local GANs, the global GANs, the directional self-attention, the weight-sharing, the embeddingreinforced encoders, etc.
+174	32	We do not test the the importance of the auto-encoding, back-translation and the pretrained embeddings because they have been widely tested in (Lample et al., 2017; Artetxe et al., 2017b).
+183	14	The models proposed recently for unsupervised NMT use a single encoder to map sentences from different languages to a shared-latent space.
+185	36	In this paper, we propose the weight-sharing constraint in unsupervised NMT to address this issue.
+187	15	Additionally, the directional self-attention is introduced to model the temporal order information for our system.
+188	16	We test the proposed model on EnglishGerman, English-French and Chinese-to-English translation tasks.
+189	30	The experimental results reveal that our approach achieves significant improvement and verify our conjecture that the shared encoder is really a bottleneck for improving the unsupervised NMT.

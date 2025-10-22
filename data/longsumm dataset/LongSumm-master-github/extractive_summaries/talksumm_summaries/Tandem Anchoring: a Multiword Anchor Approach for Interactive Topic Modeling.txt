@@ -1,0 +1,30 @@
+3	37	To recover the topic matrix A using anchor words, we first compute a V × V cooccurrence matrix Q, where Qi,j is the conditional probability p(wj |wi) of seeing word type wj after having seen wi in the same document.
+5	62	Once we have the set of anchor words, we can compute the probability of a topic given a word (the inverse of the conditioning in A).
+8	28	Solving each row of C is fast and is embarrassingly parallel.
+9	30	Finally, we apply Bayes’ rule to recover the topic matrix A from the coefficient matrix C. The anchor algorithm can be orders of magnitude faster than probabilistic inference (Arora et al., 2013).
+10	33	The construction of Q has a runtime of O(DN2) where D is the number of documents and N is the average number of tokens per document.
+11	40	This computation requires only a single pass over the data and can be pre-computed for interactive use-cases.
+12	19	Once Q is constructed, topic recovery requires O(KV 2 +K2V I), where K is the number of topics, V is the vocabulary size, and I is the average number of iterations (typically 100-1000).
+14	45	This example is drawn from preliminary experiments with an author as the user.
+18	29	Techniques such as Online LDA (Hoffman et al., 2010) or Stochastic Variation Inference (Hoffman et al., 2013) improves this to a single pass over the entire data.
+19	19	However, from Heaps’ law (Heaps, 1978) it follows that V 2 DN for large datasets, leading to much faster inference times for anchor methods compared to probabilistic topic modeling.
+21	23	Single word anchors can be opaque to users.
+22	97	For an example of bewildering anchor words, consider a camera bag topic from a collection of Amazon product reviews (Table 1).
+25	22	Bizarre, low-to-mid frequency words are often anchors because anchor words must be unique to a topic; intuitive or high-frequency words cannot be anchors if they have probability in any other topic.
+30	16	Unfortunately, because these words might appear in multiple topics, individually they are not suitable as anchor words.
+31	88	The anchor word “camera” generates a general camera topic instead of camera bags, and the topic anchored by “bag” includes bags for diaper pails (Table 1).
+33	16	This section discusses strategies to build anchors from multiple words and the implications of using multiword anchors to recover topics.
+60	37	Vector average makes the pseudoword Sgk,j more central, which is intuitive but inconsistent with the interpretation from Arora et al. (2013) that anchors should be extreme points whose linear combinations explain more central words.
+68	15	Using the intersection, the cooccurrence pattern of our anchor facet will only include terms relevant to camera bags.
+81	29	Furthermore, we runtime analysis given by Arora et al. (2013) applies to tandem anchors.
+96	27	Critically, the topic modeling algorithm has no knowledge of document-label relationships.
+104	19	Finally, we infer topic assignments in the test data and evaluate the classification using those topic-word features.
+127	17	Tandem anchors will enable users to direct topic inference to improve topic quality.
+155	31	Users can also add additional topics by clicking the “Add Anchor” to create additional anchors.
+174	19	Topics from user generated multiword anchors yield higher classification accuracy (Figure 3).
+180	62	For all three significance metrics, multiword anchors produce more significant topics than single word anchors.10 Topic coherence is based solely on the top n words of a topic, while both accuracy and topic significance depend on the entire topicword distributions.
+185	69	In a follow-up survey with our users, 75% find it easier to affect individual changes in the topics using tandem anchors compared to single word anchors.
+186	19	Users who prefer editing multiword anchors over single word anchors often report that multiword anchors make it easier to merge similar topics into a single focused topic by combining anchors.
+187	38	For example, by combining multiple words related to Christianity, users were able to create a topic which is highly specific, and differentiated from general religion themes which included terms about Atheism and Judaism.
+192	20	Our participants also produce fewer topics when using multiword anchors.
+193	18	The mean difference between topics under single word anchors and multiple word anchors is 9.35.

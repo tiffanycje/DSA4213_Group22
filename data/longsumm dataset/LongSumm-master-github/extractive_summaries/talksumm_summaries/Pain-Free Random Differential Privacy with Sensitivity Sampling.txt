@@ -1,0 +1,30 @@
+11	11	This paper builds on the large body of work in differential privacy (Dwork et al., 2006; Dwork & Roth, 2014), which has gained broad interest in part due the framework’s strong guarantees of data privacy when releasing aggregate statistics or models, and due to availability of many generic privatising mechanisms e.g.,: Laplace (Dwork et al., 2006), exponential (McSherry & Talwar, 2007), Gaussian (Dwork & Roth, 2014), Bernstein (Aldà & Rubinstein, 2017) and many more.
+16	37	Several systems have been developed to ease deployment of differentially privacy, with Barthe et al. (2016) overviewing contributions from Programming Languages.
+17	49	Dynamic approaches track privacy budget expended at runtime, e.g., the PINQ (McSherry, 2009; McSherry & Mahajan, 2010) and Airavat (Roy et al., 2010) systems.
+29	8	Here we approximate analytical computations, and to our knowledge provide a first generic mechanism that preserves random differential privacy (Hall et al., 2012)—a natural weakening of the strong guarantee of differential privacy.
+36	14	Randomized mechanism M : Dn → R responding with values in arbitrary response set R preserves -differential privacy for > 0 if for all neighbouring D,D′ ∈ Dn and measurable R ⊂ R it holds that Pr (M(D) ∈ R) ≤ exp( )Pr (M(D′) ∈ R).
+38	11	In Section 4, we recall a number of key mechanisms that preserve these notions of privacy by virtue of target nonprivate function sensitivity.
+39	7	The following definition due to Hall et al. (2012) relaxes the requirement that uniform smoothness of response distribution holds on all pairs of databases, to the requirement that uniform smoothness holds for likely database pairs.
+40	25	Randomized mechanism M : Dn → R responding with values in an arbitrary response set R preserves ( , γ)-random differential privacy, at privacy level > 0 and confidence γ ∈ (0, 1), if Pr (∀R ⊂ R,Pr (M(D) ∈ R) ≤ e Pr (M(D′) ∈ R)) ≥ 1 − γ, with the inner probabilities over the mechanism’s randomization, and the outer probability over neighbouring D,D′ ∈ Dn drawn from some Pn+1.
+49	7	Modelling the default times by iid exponential variables of rate λ > 0, then |f(D)− f(D′)| = |Dn −D′n|/n is distributed as Exp(nλ), and so Pr (∀t ∈ R,Pr (M∆, (D) = t) ≤ e Pr (M∆, (D′) = t)) ≥Pr (|f(D)− f(D′)| ≤ ∆) = 1− e−λn∆ ≥ 1− γ , provided that ∆ ≥ log(1/γ)/(λn).
+57	53	Let P,Q be distributions on D with bounded KL divergence KL(P‖Q) ≤ τ .
+58	40	If mechanism M on databases in Dn is RDP with confidence γ > 0 wrt P then it is also RDP with confidence γ + √ (n+ 1)τ/2 wrt Q, with the same privacy parameters (or , δ).
+59	128	When a privatising mechanism M is known to achieve differential privacy for some mapping f : Dn → B under bounded global sensitivity, then our approach’s high-probability estimates of sensitivity will imply highprobability preservation of differential privacy.
+60	51	In order to reason about such arguments, we introduce the concept of sensitivity-induced differential privacy.
+61	140	For arbitrary mapping f : Dn → B and randomised mechanism M∆ : B → R, we say that M∆ is sensitivity-induced -differentially private if for a neighbouring pair of databases D,D′ ∈ Dn, and ∆ ≥ 0 ‖f(D)− f(D′)‖B ≤ ∆ =⇒ ∀R ⊂ R, Pr (M∆(f(D)) ∈ R) ≤ exp( ) · Pr (M∆(f(D′)) ∈ R) with the qualification on R being all measurable subsets of the response set R. In the same vein, the analogous definition for ( , δ)-differential privacy can also be made.
+62	84	Many generic mechanisms in use today preserve differential privacy by virtue of satisfying this condition.
+64	61	First, when a non-private target function f aims to release Euclidean vectors responses.
+66	18	Consider database D ∈ Dn, normed space B = (Rd, ‖ · ‖1) for d ∈ N, nonprivate function f : Dn → B.
+78	7	Consider database D ∈ Dn, query space Y = [0, 1]` with constant dimension ` ∈ N, lattice cover of Y of size k ∈ N given by Algorithm 1 SENSITIVITYSAMPLER Input: database size n, target mapping f : Dn → B, sample size m, order statistic index k, distribution P for i = 1 to m do Sample D ∼ Pn+1 Set Gi = ‖f (D1...n)− f (D1...n−1,n+1)‖B end for Sort G1, .
+85	22	, Dm ∼ Pn+1 of databases on n+1 records, where P is chosen to match the desired distribution in definition of random differential privacy.
+88	43	, Gm ∈ R of the random variable G = ‖f (D1...n)− f (D1...n−1;n+1)‖B .
+89	30	From these observations of the sensitivity of target mapping f : Dn → B, we estimate w.h.p.
+91	19	If we knew the full CDF of G, we would simply invert this CDF to determine the level of sensitivity for achieving any desired γ level of random differential privacy: higher Algorithm 2 SAMPLE-THEN-RESPOND Input: database D; randomised mechanism M∆ : B → R; target mapping f : Dn → B, sample size m, order statistic index k, distribution P Set ∆̂ to SENSITIVITYSAMPLER (|D|, f,m, k, P ) respond M∆̂(D) confidence would invoke higher sensitivity and therefore lower utility.
+92	11	However as we cannot in general possess the true CDF, we resort to uniformly approximating it w.h.p.
+110	5	A trivial stage, given neighbouring databases, measurement could involve expanding a mathematical expression representing a target function, or a computer program such as running a deep learning or computer vision open-source package.
+113	71	Strictly speaking the entire sensitivity sample need not be sorted, as only one order statistic is required.
+115	69	An alternative strategy to inversion as presented, is to take the maximum sensitivity measured so as to maximise privacy without consideration to utility.
+116	21	It is noteworthy that in settings where mechanism M∆ is to be run multiple times, the estimation of ∆̂ need not be redone.
+117	90	As such SENSITIVITYSAMPLER could be performed entirely in an offline amortisation stage.
+119	7	In this section we use Φm (∆) to bound the likelihood of a (non-private, possibly deterministic) mapping f : Dn → R achieving sensitivity ∆.
+122	27	Provided that 1− γ + ρ+ ρ′ ≤ 1 ⇔ ρ′ ≤ γ − ρ , (3) then the random sensitivity ∆̂ = G(k), where k = dm(1− γ + ρ + ρ′)e, is the smallest ∆ ≥ 0 such that Φm(∆) ≥ 1− γ + ρ+ ρ′.

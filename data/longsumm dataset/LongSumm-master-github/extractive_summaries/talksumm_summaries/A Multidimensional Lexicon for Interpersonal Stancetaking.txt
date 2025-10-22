@@ -1,0 +1,30 @@
+13	132	A predictive evaluation shows that the membership of online communities is determined in part by the interactional stances that predominate in those communities.
+20	18	This parallels what Eckert (2012) has called the “first wave” of language variation studies in sociolinguistics, which also focused on macro-scale variables.
+25	49	Interpersonal stancetaking represents an attempt to unify concepts such as sentiment, politeness, formality, and subjectivity under a single theoretical framework (Jaffe, 2009; Kiesling, 2009).
+26	18	The key idea, as articulated by Du Bois (2007), is that stancetaking captures the speaker’s relationship to (a) the topic of discussion, (b) the interlocutor or audience, and (c) the talk (or writing) itself.
+28	18	For example, epistemic stance relates to the speaker’s certainty about what is being expressed, while affective stance indicates the speaker’s emotional position with respect to the content (Ochs, 1993).
+30	21	But despite its strong theoretical foundation, we are aware of no prior efforts to operationalize stancetaking at scale.
+31	20	Since annotators may not have strong intuitions about stance — in the way that they do about formality and politeness — we cannot rely on the annotation methodologies employed in prior work.
+32	13	We take a different approach, performing a multidimensional analysis of the distribution of likely stance markers.
+33	26	Our operationalization of stancetaking is based on the induction of lexicons of stance markers.
+34	32	The lexicon-based methodology is related to earlier work from social psychology, such as the General Inquirer (Stone, 1966) and LIWC (Tausczik and Pennebaker, 2010).
+37	35	In contrast, we follow the approach of Biber (1991), using multidimensional analysis to identify latent groupings of markers based on co-occurrence statistics.
+44	17	This makes it possible to identify the specific interpersonal features that vary across communities.
+54	157	U3: “Ha ha awesome!” U4: ‘‘are those..... furries?” OP: “yes, sir.
+59	17	We began with a seed lexicon of stance markers from Biber and Finegan (1989), who compiled an extensive list by surveying dictionaries, previous studies on stance, and texts in several genres of English.
+60	98	This list includes certainty adverbs (e.g., actually, of course, in fact), affect markers (e.g., amazing, thankful, sadly), and hedges (e.g., kind of, maybe, something like) among other adverbial, adjectival, verbal, and modal markers of stance.
+63	23	Our dataset — like much of the recent work in this domain — consists of online discussions, which differ significantly from printed texts (Eisenstein, 2013).
+66	15	The final seed lexicon consists of 517 unique markers, from these two sources.
+68	14	Online discussions differ not only from written texts, but also from spoken discussions, due to their use of non-standard vocabulary and spellings.
+79	13	To summarize the main axes of variation across the lexicon of stance markers, we apply a multidimensional analysis (Biber, 1992) to the distributional statistics of stance markers across subreddit communities.
+90	25	Truncated singular value decomposition performs the approximate factorization X ≈ UΣV >, where each row of the matrix U is a k-dimensional description of each stance marker, and each row of V is a k-dimensional description of each subreddit.
+93	62	Table 3 shows the top five stance markers for each extreme of the six dimensions.
+96	20	Evaluating model output against gold-standard annotations is appropriate when there is some notion of a correct answer.
+101	15	This section describes intrinsic evaluations, which test whether the extracted stance dimensions are linguistically coherent and mean- ingful, thereby testing the construct or content validity of the proposed stance dimensions (Quinn et al., 2010).
+107	23	We deployed a word intrusion task on Amazon Mechanical Turk (AMT), in which we presented the top four stance markers from one end of a dimension, along with an intruder marker selected from the top four markers of the opposite end of that dimension.
+126	13	Before performing the mutidimensional analysis, we identified two groups of hypotheses that are expected to hold with respect to the latent stancetaking dimensions using our prior linguistic knowledge: • Hypothesis I: Stance markers that are synonyms should not appear on the opposite ends of a stance dimension.
+145	40	Therefore we hypothesize that users of Reddit have preferred interactional styles, and that participation in subreddit communities is governed not only by topic interest, but also by these interactional preferences.
+151	19	For each subreddit s, we identify the five highest and lowest PMI pairs 〈s, t〉, and add these to the high-crossover and low-crossover sets, respectively.
+158	16	We also tested the relevance of multi-dimensional analysis, by applying SVD to both lexicons.
+171	14	Stance dimensions For each document in the above datasets, we compute the stance properties, as follows: for each dimension, we compute the total frequency of the hundred most positive terms and the hundred most negative terms, and then take the difference.
+184	17	Overall, these results indicate that interactional phenomena such as politeness and formality are reflected in our stance dimensions, which are induced in an unsupervised manner.

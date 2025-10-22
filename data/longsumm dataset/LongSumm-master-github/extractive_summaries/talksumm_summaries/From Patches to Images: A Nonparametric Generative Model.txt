@@ -1,0 +1,30 @@
+2	18	For example, the K-SVD method (Elad & Aharon, 2006) generalizes K-means clustering to learn a dictionary for sparse coding of image patches.
+7	15	By deriving a rigorous variational bound, we then develop improved nonparametric models of natural image statistics using the hierarchical Dirichlet process (HDP, Teh et al. (2006)).
+9	12	Unlike previous whole-image generative models such as fields of experts (FoE, Roth & Black (2005)), which uses a single set of Markov random field parameters to model all images, our HDP model learns image-specific clusters to accurately model distinctive textures.
+12	11	Let Pi be a binary indicator matrix that extracts the G = 82 pixels Pix ∈ RG in patch i.
+15	10	Given a corrupted image y, EPLL estimates a clean image x by minimizing the objective: min x λ 2 ‖x− y‖2 −∑i log p(BPix).
+35	14	In addition, the HDP models image-specific variability by allowing each image to use this shared set of clusters with unique frequencies; grass might be abundant in one image but absent in another.
+63	21	We also validate our model on image inpainting problems (Bertalmio et al., 2000), where some pixels are observed without noise but others are completely missing.
+74	21	(15) We constrain the solution of our optimization to come from a tractable family of structured mean-field distributions Q, parameterized by free parameters.
+77	36	Rather than applying a fixed truncation to the stick-breaking prior (Blei & Jordan, 2006), we dynamically truncate the patch assignment distributions q(z) to only use the first K clusters to explain the M observed images.
+83	16	The patch-specific variables Ψpatch have structured posteriors, conditioned on the value of the grid indicator wm for the current image: q(zmgn | wm = g) = Categorical ( r̂mgn1, ..., r̂mgnK ) , q(umgn | wm = g) = Norm ( ûmgn, φ̂ u mgn ) , q(vmgn | wm = g,zmgn = k) = Norm ( v̂mgnk, φ̂ v mgnk ) .
+85	21	Given clean images x, we perform coodinate ascent on the objective L, alternatively updating one factor among q(β)q(Λ)q(w)q(Ψpatch).
+87	46	As one intuitive example, consider the update for the cluster precision matrix posterior q(Λk|ν̂k, Ŵk): ν̂k = ν + 1 G Nk, Nk = M∑ m=1 G∑ g=1 Nmg∑ n=1 r̂mgnk, (16) Ŵk = W + 1 G M∑ m=1 G∑ g=1 Nmg∑ n=1 Eq [ 1k(zmgn)vmgnv T mgn ] .︸ ︷︷ ︸ Sk Statistic Nk(r̂) counts patches assigned to cluster k, while Sk(r̂, v̂, φ̂ v) aggregates second moments.
+92	25	The mean depends on the average image vector across all patches in all grids, denoted by hm: hm , 1 G G∑ g=1 Nmg∑ n=1 PTmgn(CmgnEq[vmgn] + ûmgn).
+102	16	The third EPLL term assumes zerocentered patches Bv̄i are drawn from Gaussian mixtures: −∑i log p(Bv̄i | π0,Λ).
+103	21	(25) Similarly, in our minimization objective −L we draw vgn from a DP mixture model.
+107	23	The DP model above, and the parametric EPLL objective it generalizes, assume the same cluster frequency vector π0 for each image m. Our HDP Grid model allows image-specific frequencies πm to be learned from data, via the hierarchical regularization of the HDP prior (Teh et al., 2006).
+110	26	The free parameter θ̂m is also a vector of size K + 1 whose last entry represents all inactive clusters.
+114	16	Due to the heavy-tailed distribution of natural images (Ruderman, 1997), even with large training sets, test images may still contain unique textural patterns like the striped scarf in the Barbara image in Fig.
+115	64	Fortunately, our Bayesian nonparametric HDP Grid model provides a coherent way to capture such patterns by appending K ′ novel, image-specific clusters to the original K clusters learned from training images.
+119	13	Then we expand the variational posterior q(Λ) intoK+K ′ clusters.
+124	16	Similarly, the other global variational factor q(β) is also expanded to K + K ′ clusters via sufficient statistics N ′ and counts of cluster usage from training data.
+127	15	We thus delete new clusters that our sparsity-biased variational updates do not assign to any patch.
+134	11	Using variational learning algorithms that adapt the number of clusters to the observed data (Hughes & Sudderth, 2013), we discover K = 449 clusters for the DP-Grid model, which we use to initialize our HDP model.
+136	15	Image denoising methods are often divided into two types (Zontak & Irani, 2011): external methods (like EPLL) that learn all parameters from a training database of clean images, and internal methods that denoise patches using other patches of the single noisy image.
+139	17	We test our algorithm on 12 “classic” images used in many previous denoising papers (Mairal et al., 2009; Zoran & Weiss, 2011), as well as the 68 BSDS test images used by (Roth & Black, 2005; Zoran & Weiss, 2011).
+140	17	We evaluate the denoising performance by the peak signal-to-noise ratio (PSNR), a logarithmic transform of the mean squared error (MSE) between images with normalized intensities, PSNR , −20 log10 MSE.
+142	15	Internal vs. external clusters.
+143	15	In result figures, we use eDP to refer to our DP-Grid model trained solely on external clean images and HDP to refer to the HDP-Grid model that also learns novel image-specific clusters.
+144	50	We also train an internal DP-Grid model, referred to as iDP, using only information from the noisy test image.
+148	34	Also, the consistent gain in performance from EPLL to eDP demonstrates the benefits of Bayesian nonparametric learning of an appropriate model complexity (for EPLL, the number of clusters was arbitrarily fixed at K = 200).

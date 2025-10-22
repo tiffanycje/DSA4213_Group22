@@ -1,0 +1,30 @@
+0	51	Can we efficiently predict which face is in the picture amongst multiple billions of people?
+1	34	In a translation, can we effectively predict which word should come next amongst 105 possibilities?
+2	68	More generally can we predict one of K classes in polylogarithmic time in K?
+8	39	• High accuracy: The approach should provide accuracy competitive with OAA, a remarkably strong baseline (Rifkin & Klautau, 2004) which is the standard “output layer” of many learning systems such as winners of the ImageNet contest (He et al., 2015; Simonyan & Zisserman, 2014).
+9	30	• High speed at training time and test time: A multiclass classifier must spend at least Ω(logK) time (Choromanska & Langford, 2015)) so this is a natural benchmark to optimize against.
+17	16	How can you efficiently determine what classes should be scored?
+19	19	The goal of the tree is to maximize the recall of the candidate set so we call this approach “The Recall Tree.” In a traditional tree-based classifier, a traversal of the tree leads to a leaf, and a leaf corresponds to a single label, In the Recall Tree, we loosen the latter requirement and allow a leaf to corresponds to a set of labels of size O(logK).
+33	34	The Recall Tree data structure (see Figure 2) consists of two components: (1) a binary tree, described below; and (2) a scoring function scorey(x) that will evaluate the quality of a small set of candidates y to make a final prediction.
+34	18	Each node n in the binary tree maintains: • a router, denoted f , that maps an example to either a left or right child; routers are implemented as binary classifiers; • a histogram of the labels of all training examples that have been routed to, or through, n. The primary purpose of the histogram is to generate a candidate set of labels to be scored, taken to be the most frequent labels in that histogram.
+36	40	Crucially, the leaves of the tree do not partition the set of classes: classes can (and do) have support at multiple leaves.
+37	21	At test time, an input x is provided and a recursive computation begins at the root of the tree.
+62	96	The Recall Tree maintains one regressor for each class and a tree whose purpose is to eliminate regressor from consideration.
+63	21	We refer to the per-class regressor as one-againstsome (OAS) regressors.
+64	92	The tree creates a high recall set of candidate classes and then leverages the OAS regressors to achieve precision.
+67	20	If the true label is not in the F most frequent classes at this node then no update occurs.
+69	29	At each node, the most frequent F labels are the candidate set.
+70	19	Learning the routers at each node In Algorithm 2, update router updates the router at a node by optimizing the reduction in the entropy of the label distribution (the label entropy) due to routing, as detailed in Algorithm 3.
+72	20	The label entropy for a node is estimated using the empirical counts of each class label entering the node.
+74	43	The expected label entropy after routing is estimated by averaging the estimated label entropy of each child node, weighted by the fraction of examples routing left or right.
+79	25	Input: Example (x, y); Candidate set candidates Output: Update scoring functions score if y ∈ candidates then online update to scorey(x) with label +1 for ŷ ∈ candidates− {y} do online update to scoreŷ(x) with label −1 end for end if by taking the difference of the expected label entropies for routing left vs. right.
+80	19	The sign of this difference determines the binary label for updating the router.
+82	41	As we descend the tree, the bound first increases (empirical recall increases) then declines (variance increases).
+94	21	This approach generally fails in the multiclass setting because covering the simplex of multiclass label distributions requires (K − 1)θ(1/γ) nodes.
+95	22	When the distribution over class labels is skewed so one label is the majority class, learning an entropy minimizing binary classifier predicts whether the class is the majority or not.
+96	25	There are only K possible OAS regressors of this sort so maintaining one for each class label is computationally tractable.
+97	21	Using OAS classifiers creates a limited branching program structure over predictions.
+99	74	In finite sample regimes, which are not covered by these boosting analyses, more labeled samples induce a better predictor as per standard sample complexity analysis.
+100	29	As a result, we use the empirical Bernstein lower bound on recall described in §2.1.
+101	23	Reducing the depth of the tree by using this lower bound and joining labeled examples from many leaves in a one-against-some approach both relieves data sparsity problems and allows greater error tolerance by the root node.
+102	56	Different multiclass classification schemes give rise to different multiclass hypothesis classes.

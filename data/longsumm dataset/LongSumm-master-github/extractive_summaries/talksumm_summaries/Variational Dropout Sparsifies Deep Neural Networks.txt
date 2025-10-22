@@ -1,0 +1,30 @@
+0	56	Deep neural networks (DNNs) are a widely popular family of models which is currently state-of-the-art in many important problems (Szegedy et al., 2016; Silver et al., 2016).
+11	14	This technique is especially attractive in the case of deep neural networks.
+18	13	These techniques make it possible to train Bayesian Deep Neural Networks using stochastic optimization and provide us an opportunity to transfer Bayesian regularization techniques from simple models to DNNs.
+25	22	Our experiments show that Sparse Variational Dropout leads to a high level of sparsity in fully-connected and convolutional layers of Deep Neural Networks.
+60	21	The optimal value of variational parameters ϕ can be found by maximization of the variational lower bound: L(ϕ) = LD(ϕ)−DKL(qϕ(w) ∥ p(w)) → max ϕ∈Φ (1) LD(ϕ) = N∑ n=1 Eqϕ(w)[log p(yn |xn, w)] (2) It consists of two parts, the expected log-likelihood LD(ϕ) and the KL-divergenceDKL(qϕ(w) ∥ p(w)), which acts as a regularization term.
+70	20	In this section we consider a single fully-connected layer with I input neurons and O output neurons before a nonlinearity.
+75	17	B = (A⊙ Ξ)W, with ξmi ∼ p(ξ) (6) The original version of dropout, so-called Bernoulli or Binary Dropout, was presented with ξmi ∼ Bernoulli(1− p) (Hinton et al., 2012).
+81	16	Now wij becomes a random variable parametrized by θij .
+85	22	The prior distribution p(W ) is chosen to be improper logscale uniform to make the Variational Dropout with fixed α equivalent to Gaussian Dropout (Kingma et al., 2015).
+100	23	Training Neural Networks with Variational Dropout is difficult when dropout rates αij are large because of a huge variance of stochastic gradients (Kingma et al., 2015).
+101	26	The cause of large gradient variance arises from multiplicative noise.
+114	18	In our experiments, we use both Additive Noise Reparameterization and the Local Reparameterization Trick.
+124	17	The negative KL-divergence goes to a constant as logαij goes to infinity, and tends to 0.5 logαij as logαij goes to minus infinity.
+128	20	One should notice that as α approaches infinity, the KLdivergence approaches a constant.
+137	25	Infinitely large αij corresponds to infinitely large multiplicative noise in wij .
+204	19	To see how Additive Noise Reparameterization reduces the variance, we compare it with the original parameterization.
+213	17	In these architectures, our method achieves a state-of-the-art level of sparsity, while its accuracy is comparable to other methods.
+222	65	We observe underfitting while training our model from a random initialization, so we pre-train the network with Binary Dropout and L2 regularization.
+225	20	Recently is was shown that the CNNs are capable of memorizing the data even with random labeling (Zhang et al., 2016).
+231	20	However, our model decides to drop every single weight and provide a constant prediction.
+243	41	This way we can abandon the empirical Bayes approach that is known to overfit (Cawley, 2010).
+245	16	This result correlates with results of other works on training of sparse neural networks (Han et al., 2015a; Wen et al., 2016; Ullrich et al., 2017; So- ravit Changpinyo, 2017).
+246	31	All these works can be viewed as a kind of regularization of neural networks, as they restrict the model complexity.
+248	61	According to that paper, although modern DNNs generalize well in practice, they can also easily learn a random labeling of data.
+249	29	Interestingly, it is not the case for our model, as a network with zero weights has a higher value of objective than a trained network.
+250	15	In this paper we study only the level of sparsity and do not report the actual network compression.
+251	30	However, our approach can be combined with other modern techniques of network compression, e.g. quantization and Huffman coding (Han et al., 2015a; Ullrich et al., 2017), as they use sparsification as an intermediate step.
+252	15	As our method provides a higher level of sparsity, we believe that it can improve these techniques even further.
+253	27	Another possible direction for future research is to find a way to obtain structured sparsity using our framework.
+254	22	As reported by (Wen et al., 2016), structured sparsity is crucial to acceleration of DNNs.

@@ -1,0 +1,30 @@
+0	58	SMT from a morphologically poor language like English into a language with richer morphology continues to be a problem, in particular when training data is sparse and/or the SMT system has insufficient modeling capabilities for morphological variation in the target language.
+18	22	In contrast to the above studies, which have concentrated on text translation, this paper focuses on spoken language translation within a bilingual human-human dialog system.
+20	22	The intended use in a real-time dialog system imposes additional constraints on morphological modeling: any proposed approach should not add a significant computational burden to the overall system that might result in delays in translation or response generation.
+21	47	Our goal is also complicated by the fact that our target language is a spoken dialect of Arabic, for which few linguistic resources (training data, lexicons, morphological analyzers) exist.
+22	24	Lastly, Arabic written forms are morphologically highly ambiguous due to the lack of short vowel markers that signal grammatical categories.
+23	40	The first step in the dialog system used for this study consists of an automatic speech recognition (ASR) component that produces ASR hypotheses for the user’s speech input.
+27	13	If an error is found, another clarification subdialog is initiated; otherwise, the translation is sent to a text-to-speech engine to produce the acoustic output in the other language.
+30	20	The system was evaluated in live mode with native IA speakers as part of the DARPA BOLT Phase-II benchmark evaluations.
+33	19	During debriefing sessions with the users, some users voiced dissatisfaction with the translation quality, and a subsequent detailed error analysis was conducted on the logs of 30 interactions.
+38	27	Similarly, in Example 2 the translation of transport should agree with the translations of someone and the preceding auxiliary verb can (yqdr).
+40	19	Such translation errors are confusing to users as they affect the understanding of basic semantic roles.
+43	29	An analysis of the SMT component showed that morphological translation errors primarily occur when a head word and its dependent (such as a verbal head and its subject noun dependent) are translated as part of different phrases or rules.
+45	22	Our approach is to annotate syntactic dependencies on the source side using a statistical parser.
+46	66	Based on the resulting dependency structures the source-side data is then tagged with explicit morphological verbal features using deterministic rules (e.g., subject nouns assign their person/number features to their verbal heads), and a new translation model is trained on this data.
+48	29	For instance, the input sentence in Example 1 in Table 1 would be annotated as: you need-2sg to tell-2sg the locals to evacuate-3pl the area so we can-1pl secure-1pl the area to make1pl sure no one gets-3sg hurt.
+49	18	This approach avoids the costly extraction of multiple features, subsequent statistical classification, and inflection generation during run time; moreover, it does not require target-side annotation tools, an advantage when dealing with under-resourced spoken dialects.
+51	15	First, introducing tags fragments the training data: the same word may receive multiple different tags, either due to genuine ambiguity or because of parser errors.
+57	14	In this case the baseline model is used by default, and the morphtagged model is only used whenever heads and dependents are translated as part of different phrases.
+59	16	However, this would require identifying the correct stem for the word in question, generating all possible morphological forms, and either selecting one or providing all options to the SMT system, which again increases system load.
+71	13	For the development experiments we used a phrase-based Moses SMT system with a hierarchical reordering model, tested on Eval set 1.
+73	19	In addition to automatic evaluation we performed manual analyses of the accuracy of verbal features in the IA translations on a subset of 65 sentences (containing 143 verb forms) from the live evaluations described above.
+76	56	For final testing we used a more advanced SMT engine on Eval set 2.This system is the one used in the real-time dialog system; it contains a hierarchical phrase-based translation model, sparse features, and a neural network joint model (NNJM) (Devlin et al., 2014).
+77	18	Results in Table 2 show the comparison between the baseline, different parsers, and the combined system.
+79	23	Improvements over the baseline system without morphology are statistically significant; differences between the individual parsers are not (not, however, that the sample size for manual evaluation was quite small).
+88	13	The morph-tagged data improves the BLEU score under both conditions: in Experiment 1, the improve- ment is almost a full BLEU point (0.91); in Experiment 2 the improvement is even larger (1.13), even though the baseline performance is stronger.
+101	62	The first step is to make sure that all personnel are in your debrief.
+105	15	In this case the statistical parser identified I as the subject of help, but platoon is more likely to be the controller and was in fact identified as the underlying subject by the annotator.
+108	14	In other cases, more sophisticated modeling of the entities and their relationships in the situational context will be required.
+110	39	Finally, in 13% of the cases, mistranslations are caused by a mismatch of number features across languages (e.g. number features for nouns such as family or people).
+114	17	Possible areas for future study include the use of discourse or and other contextual information to determine morphological agreement, application to other languages pairs/morphological agreement types, and learning the annotation rules from data.

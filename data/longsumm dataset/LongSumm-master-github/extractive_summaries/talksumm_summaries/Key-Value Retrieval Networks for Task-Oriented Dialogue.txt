@@ -1,0 +1,30 @@
+1	245	Current commercial dialogue agents are often brittle pattern-matching systems which are unable to maintain the kind of flexible conversations that people desire.
+2	50	Neural dialogue agents present one of the most promising avenues for leveraging dialogue corpora to build statistical models directly from data by using powerful distributed representations (Bordes and Weston, 2016; Wen et al., 2016b; Dhingra et al., 2016).
+3	37	While this work has been somewhat successful, these task-oriented neural dialogue models suffer from a number of problems: 1) They struggle to effectively reason over and incorporate knowledge base information while still preserving their endto-end trainability and 2) They often require explicitly modelling user dialogues with belief trackers and dialogue state information, which necessitates additional data annotation and also breaks differentiability.
+6	65	By doing so, it is able to learn how to extract useful information from a knowledge base directly from data in an end-to-end fashion, with- 37 out the need for explicit training of belief or intent trackers as is done in traditional task-oriented dialogue systems.
+24	60	The vanilla sequence-to-sequence decoder predicts the tokens of the ith system response si by first computing decoder hidden states via the recurrent unit.
+26	73	We extend this decoder with an attentionbased model (Bahdanau et al., 2015; Luong et al., 2015a), where, at every time step t of the decoding, an attention score ati is computed for each hidden state hi of the encoder, using the attention mechanism of (Vinyals et al., 2015).
+32	29	For storing the KB of a given dialogue, we take inspiration from the work of (Miller et al., 2016) which found that a key-value structured memory allowed for efficient machine reading of documents.
+33	76	We store every entry of our KB using a (subject, relation, object) representation.
+34	38	In our representation a KB entry from the dialogue in Figure 1 such as (event=dinner, time=8pm, date=the 13th, party=Ana, agenda=“-”) would be normalized into four separate triples of the form (dinner, time, 8pm).
+39	46	For our purposes, the key of an entry corresponds to the sum of the word embeddings of the subject (meeting) and relation (time).
+52	62	This description seeks to capture the intuition that in response to the query What time is my meeting, we want the model to put a high attention weight on the key representation for the (meeting, time, 5pm) KB triple, which should then lead the model to favor outputting the value token at the given timestep.
+56	38	The data for the multi-turn dialogues was collected using a Wizard-of-Oz scheme inspired by that of (Wen et al., 2016b).
+57	50	In our scheme, users had two potential modes they could play: Driver and Car Assistant.
+58	28	In the Driver mode, users were presented with a task that listed certain information they were trying to extract from the Car Assistant as well as the dialogue history exchanged between Driver and Car Assistant up to that point.
+97	26	For our experiments, we divided the dialogues into train/validation/test sets using a 0.8/0.1/0.1 data split and ensured that each domain type was equally represented in each of the splits.
+117	21	• Copy-Augmented Sequence-to-Sequence Network: This model is derived from the work of (Eric and Manning, 2017).
+124	42	Though prior work has shown that automatic evaluation metrics often correlate poorly with human assessments of dialogue agents (Liu et al., 2016), we report a number of automatic metrics in Table 3.
+134	42	We see that of our baseline models, Copy Net has the lowest aggregate entity F1 performance.
+137	30	Our rule-based model has the lowest BLEU score, which is a consequence of the fact that the naturalness of the system output is very limited by the number of diverse and distinct response templates we manually provided.
+148	103	It outperforms the rule-based aggregate entity F1 by 4.2% and outperforms the Copy Net BLEU score by 2.2 points as well as its entity F1 by 11%.
+149	25	These salient gains are noteworthy because our model is able to achieve them by learning its latent representationts directly from data, without the need for heuristics or manual labelling.
+152	23	This, in effect, functions as an interannotator agreement score and sets a human upper bound on model performance.
+153	111	We see that there is a sizable gap between human performance on entity F1 and that of our key-value retrieval net (∼ 12.7%), though our model is on par with human performance in BLEU score.
+154	43	We randomly generated 120 distinct scenarios across the three dialogue domains, where a scenario is defined by an underlying KB as well as a user goal for the dialogue (e.g. find the nearest gas station, avoiding heavy traffic).
+155	22	We then paired Amazon Mechanical Turkers with one of our systems in a real-time chat environment, where each Turker played the role of the Driver.
+157	38	We also paired a Turker with another Turker for each of the scenarios, in order to get evaluations of human performance.
+162	105	We see that on real-time dialogues the key-value retrieval network outperforms the baseline models on all of the metrics, with especially sizeable performance gains over the Copy Net which is the only other recurrent neural model evaluated.
+170	31	In this work, we have presented a novel neural task-oriented dialogue model that is able to sustain grounded discourse across a variety of domains by retrieving world knowledge represented in knowledge bases.
+171	104	It smoothly incorporates this world knowledge into natural-sounding system responses in an end-to-end trainable fashion, without the need to explicitly model dialogue state.
+175	40	This will include developing new methods for robust handling of joint KB attributes as well as usage of the KB that requires more pragmatic understanding of the world via notions such as temporal reasoning.

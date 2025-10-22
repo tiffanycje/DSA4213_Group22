@@ -1,0 +1,30 @@
+6	29	When the word conducted is reached, this ambiguity is resolved in favor of the reduced relative parse.
+8	51	This makes the disambiguating word conducted unexpected, causing it to be read more slowly than it would be in a context such as (2), in which the words who were indicate early on that only the relative clause parse is possible: (2) The experienced soldiers who were warned about the dangers conducted the midnight raid.
+10	43	As the experiment progressed, the cost of disambiguation in favor of the reduced relative interpretation decreased, suggesting that readers had come to expect a construction that is normally infrequent.
+11	47	Human syntactic expectations have been successfully modeled with syntax-based language models (Hale, 2001; Levy, 2008; Roark et al., 2009).
+12	16	Recently, language models (LMs) based on recurrent neural networks (RNNs) have been shown to make adequate syntactic predictions (Linzen et al., 2016; Gulordava et al., 2018), and to make comparable reading time predictions to syntax-based LMs (van Schijndel and Linzen, 2018).
+16	26	We use a simple method to adapt our LM: at the end of each new test sentence, we update the parameters of the LM based on its cross-entropy loss when predicting that sentence; the new weights are then used to predict the next test sentence.2 Our baseline LM is a long short-term memory (LSTM; Hochreiter and Schmidhuber, 1997) language model trained on 90 million words of English Wikipedia by Gulordava et al. (2018) (see Supplementary Materials for details).
+18	22	We examine the effect of this parameter in Section 5.2.
+20	16	There are two narrative genres in the corpus: fairy tales (seven texts) and documentary accounts (three texts).
+25	24	If the model adapts to stylistic or syntactic patterns, we might expect adaptation to be more helpful in the fairy tale than the documentary genre: the Wikipedia corpus that the LM was originally trained on is likely to be more similar in style to the documentary genre.
+32	39	If anything, this likely resulted in a conservative estimate of the benefit of adaptation compared to a model that adapts continuously across multiple stories from the same genre, as humans might do.3 We used surprisal as a linking function between the LM’s predictions and human reading times (Hale, 2001; Smith and Levy, 2013).
+33	17	Surprisal quantifies how unpredictable each word (wi) is given the preceding words: surprisal(wi) = −log P(wi | w1...wi−1) (1) We fit the self-paced reading times in the Natural Stories Corpus with linear mixed effects models (LMEMs), a generalization of linear regression (see Supplementary Materials for details).
+35	43	Adaptive surprisal was a significant predictor of reading times (p < 0.001) over non-adaptive surprisal and all baseline factors (Table 1, Bottom).
+38	72	We have shown that LM adaptation improves our ability to model human expectations as reflected in a self-paced reading time corpus.
+40	13	We address this ques- tion using two syntactic phenomena: reduced relative clauses and the dative alternation.
+42	8	We used surprisal as our proxy for reading times.
+45	8	Linear regression showed that the disambiguation penalty decreased as the model was exposed to more critical items (item order coefficient: β̂ = −0.0804, p < 0.001), indicating that the LM was adapting to reduced relatives, a syntactic construction without any lexical content.
+47	29	First, we fit a linear model of the mean surprisal of each disambiguating region with the number of trials the model had seen in the experiment thus far to account for a general trend of subjects speeding up over the course of the experiment.
+53	26	Dative events can be expressed using two roughly equivalent English constructions: (3) a. Prepositional object (PO): The boy threw the ball to the dog.
+54	24	Double object (DO): The boy threw the dog the ball.
+57	18	We shuffled 100 DO sentences into 1000 filler sentences sampled from the Wikitext-2 training corpus (Merity et al., 2016) and adapted the model to these 1100 sentences.
+58	34	We then froze the weights of the adapted model and tested its predictions for two types of sentences: the PO counterparts of the DO sentences in the adaptation set, which shared the vocabulary of the adaptation set but differed in syntax; and 100 new DO sentences, which shared syntax but no content words with the adaptation set.5 An additional goal of this experiment was to examine the effect of learning rate on adaptation.
+59	8	During adaptation the model performs a single parameter update after each sentence and does not train until convergence with gradual reduction of the learning rate as would normally be the case during LM training.
+65	50	The model successfully adapted to the DO construction as well as to the vocabulary of the adaptation sentences.
+79	9	Adaptation greatly improved an RNN LM’s word prediction accuracy, in line with other work on LM adaptation (Kneser and Steinbiss, 1993).
+84	26	The simplicity of our adaptation method makes it attractive for use in modeling human expectations.
+88	13	Finally, we reverted to the base model after the end of each text in our experiments, forgetting any text-specific adaptation.
+89	26	This mimics the effect of a participant leaving an experiment that had an unusual distribution of syntactic constructions and reverting to their standard expectations.
+90	16	In practice, however, humans are able to generalize from prior experience when they begin adapting to a new speaker or text if it is similar in some way to their previous experiences.
+91	141	For example, the model of Jaech and Ostendorf (2018) adapts to environmental factors, so it could potentially draw on independent experiences with female speakers and with lawyer speech in order to initialize a model of adaptation to a new female lawyer (see also Mikolov and Zweig, 2012; Kleinschmidt, 2018).
+92	55	The psycholinguistic plausibility of these models can be tested in future work.

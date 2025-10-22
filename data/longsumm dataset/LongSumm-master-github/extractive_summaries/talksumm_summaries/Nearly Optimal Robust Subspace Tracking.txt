@@ -1,0 +1,30 @@
+83	8	A Least Squares (LS) based debiasing step on T̂t returns the final x̂t.
+92	9	Pick an ε ≤ min(0.01, 0.03 minj SE(Pj−1,Pj)2/f).
+93	4	If 1. incoherence: Pj’s are µ-incoherent; and at’s are zero mean, mutually independent over time t, have identical covariance matrices, i.e. E[atat′] = Λ, are element-wise uncorrelated (Λ is diagonal), are element-wise bounded (for a numerical constant η, (at) 2 i ≤ ηλi(Λ)), and are independent of all outlier supports Tt; 2. vt: ‖vt‖2 ≤ cr‖E[vtvt′]‖, ‖E[vtvt′]‖ ≤ cε2λ−, zero mean, mutually independent, independent of xt, `t; 3. max-outlier-frac-col ≤ c1µr , max-outlier-frac-row α ≤ c2f2 ; 4. subspace change: let ∆ := maxj SE(Pj−1,Pj), (a) tj+1 − tj > (K + 2)α, (b) ∆ ≤ 0.8 and C1 √ rλ+(∆ + 2ε) ≤ xmin; 5. init4: SE(P̂0,P0) ≤ 0.25, C1 √ rλ+SE(P̂0,P0) ≤ xmin; and (6) algorithm parameters are appropriately set; then, with probability (w.p.)
+96	8	Algorithm 1 Basic-NORST (with tj known).
+100	7	Obtain P̂0 by C(log r) iterations of AltProj on Y[1,ttrain] with ttrain = Cr followed by SVD on the output L̂.
+104	7	15: end if 16: if t = tj +Kα then 17: P̂j ← P̂(t), k ← 1, j ← j + 1 18: end if 19: end for Remark 2.2 (Bi-level outliers).
+107	4	Assume that the outlier magnitudes are such that the following holds: xt can be split as xt = (xt)small+(xt)large with the two components having disjoint supports and being such that, ‖(xt)small‖ ≤ bv,t and the smallest nonzero entry of (xt)large is greater than 30bv,t with bv,t defined as follows: bv,t = C(2ε+∆) √ rλ+ for t ∈ [tj , t̂j+α) (before the first subspace update), bv,t := 0.3k−1C(2ε+ ∆) √ rλ+ for t ∈ [t̂j + (k − 1)α, t̂j + kα − 1], k = 2, 2, .
+110	13	Theorem 2.1 shows that, with high probability (whp), when using NORST, the subspace change gets detected within a delay of at most 2α = Cf2(r log n) time instants, and the subspace gets estimated to ε error within at most (K + 2)α = Cf2(r log n) log(1/ε) time instants.
+113	8	The same is true for the NORST memory complexity which is almost d/r times better.
+124	7	This, along with mutual independence and identical covariances, of at’s is similar to the right incoherence assumption needed by all static RPCA methods, see Remark 3.5 in longer version.
+126	19	The assumption that Λ be diagonal is also minor5.
+130	19	is only measuring the largest principal angle.
+144	7	Outlier v/s Subspace Assumptions.
+145	4	When there are fewer outliers in the data or when outliers are easy to detect, one would expect to need weaker assumptions on the true data’s subspace and/or on its rate of change.
+147	7	The upper bound on ∆ implies that, if xmin is larger (outliers are easier to detect), a larger amount of subspace change ∆ can be tolerated.
+149	15	ple expression for K. If we did not do this, we would get K = Cd 1− log(√b0f) log( c∆ 0.8ε )e, see Remark A.1 of long version.
+165	8	These two facts imply that s-ReProCS needs an -accurate subspace initialization in order to ensure that the later changed subspaces can be tracked with -accuracy; and it does not provide a useful solution for ST-missing or dynamic MC.
+170	6	(i) The guaranteed memory complexity, tracking delay, and required delay between subspace change times of NORST are all r/ 2 times lower than that of originalReProCS.
+174	15	(ii) Their subspace change model required one or more new directions orthogonal to Pj−1 to be added at each tj .
+175	6	This is an unrealistic model for slow subspace change, e.g., in 3D, it implies that the subspace needs to change from the x-y plane to the y-z plane.
+183	14	It can also detect subspace change quickly, which can be a useful feature.
+204	4	The projected CS proof (part one of both lemmas) uses the following lemma from (Qiu et al., 2014) that relates the s-Restricted Isometry Constant (RIC) (Candes, 2008) of a projection matrix to the incoherence of its orthogonal complement.
+207	7	We apply this lemma with s = max-outlier-frac-col · n. The subspace update step proof uses a guarantee for PCA in sparse data-dependent noise, Corollary 4.17, due to (Vaswani & Narayanamurthy, 2017).
+210	6	Applied to our problem, this result requires ‖ ∑ t∈Jα ITtITt ′/α‖ to be bounded by a constant less than one.
+216	6	Put together, one can show exponential decay of both SE(P̂j,k,Pj) and the error/noise level.
+224	10	Theorem 2.1 is an easy consequence of these.
+237	12	As can be seen, offline-NORST outperforms all the batch RPCA methods, both for the moving object outlier support model and for the commonly used random Bernoulli support model.
+238	11	All results in this table are averaged over 10 independent runs.
+239	226	We also evaluated NORST for background subtraction; see Figure 1.
+240	155	The NORST parameters were set as α = 60, K = 3, r = 40 and ξt = ‖Ψ ˆ̀t−1‖.

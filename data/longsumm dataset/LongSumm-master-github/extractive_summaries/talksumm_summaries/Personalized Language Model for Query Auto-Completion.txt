@@ -1,0 +1,30 @@
+0	26	Query auto-completion (QAC) is a feature used by search engines that provides a list of suggested queries for the user as they are typing.
+3	27	Most approaches to QAC are extensions of the Most Popular Completion (MPC) algorithm (BarYossef and Kraus, 2011).
+5	14	One way to improve MPC is to consider additional signals such as temporal information (Shokouhi and Radinsky, 2012; Whiting and Jose, 2014) or information gleaned from a users’ past queries (Shokouhi, 2013).
+9	11	In their work, completions are generated from a character LSTM language model instead of by ranking completions retrieved from a database, as in the MPC algorithm.
+10	20	This approach is able to complete queries whose prefixes were not seen during training and has significant memory savings over having to store a large query database.
+11	17	Building on this work, we consider the task of personalized QAC, advancing current methods by combining the obvious advantages of personalization with the effectiveness of a language model in handling rare and previously unseen prefixes.
+19	15	The novel aspects of this work are the application of an adaptive language model to the task of QAC personalization and the demonstration of how RNN language models can be adapted to contexts (users) not seen during training.
+21	39	Adaptation depends on learning an embedding for each user, which we discuss in Section 2.1, and then using that embedding to adjust the weights of the recurrent layer, discussed in Section 2.2.
+22	16	During training, we learn an embedding for each of the users.
+26	83	The embedding for an individual user is the ith row of U and is denoted by ui.
+31	21	When doing online updating of the user embeddings, the rest of the model parameters (everything except U) are frozen.
+36	38	Jaech and Ostendorf (2017) refer to this model as the ConcatCell and show that it is equivalent to adding a term Vu to adjust the bias of the recurrent layer.
+37	20	The hidden state of a ConcatCell with embedding size e and hidden state size h is given in Equation 1 where σ is the activation function, wt is the character embedding, ht−1 is the previous hidden state, and W ∈ Re+h×h and b ∈ Rh are the recurrent layer weight matrix and bias vector.
+40	10	The FactorCell uses a weight matrix W′ = W +A that has been additively transformed by a personalized low-rank matrix A.
+42	10	The above product selects a user specific adaptation matrix by taking a weighted combination of the m rank r matrices held between ZL and ZR.
+46	31	This contains approximately 12 million queries from 173,000 users for an average of 70 queries per user (median 15).
+63	15	Results are reported using mean reciprocal rank (MRR), the standard method of evaluating QAC systems.
+68	13	Table 2 compares the performance of the different models against the MPC baseline on a test set of one million queries from a user population that is disjoint with the training set.
+71	14	The personalized models are both better than the unadapted one.
+72	30	The FactorCell model is the best overall in both the big and small sized experiments, but the gain is mainly for the seen prefixes.
+80	18	Comparing the personalized model against the unpersonalized baseline, we see that the biggest gains are for short queries and prefixes of length one or two.
+88	23	Tables 3 and 4 show the queries with the highest relative likelihood of the adapted vs. unadapted models after two related search queries: “high school softball” and “math homework help” for Table 3, and “Prada handbags” and “Versace eyewear” for Table 4.
+90	41	In the first case, the FactorCell model identifies queries that a high school student might make, including entertainment sources and a celebrity entertainer popular with that demographic.
+93	25	There is no obvious semantic connection between the highest likelihood ratio phrases for the ConcatCell; it seems to be focusing more on orthography than semantics (e.g. “home” in the first example).. Not shown are the queries which experienced the greatest decrease in likelihood.
+94	16	For the “high school” case, these included searches for travel agencies and airline tickets— websites not targeted towards the high school age demographic.
+111	22	In most cases there will be time between queries for updates, but updates can be less frequent to reduce computational costs.
+112	47	We also showed that language model personalization can be effective even on users who are not seen during training.
+113	60	The benefits of personalization are immediate and increase over time as the system continues to leverage the incoming data to build better user representations.
+114	17	The approach can easily be extended to include time as an additional conditioning factor.
+115	14	We leave the question of whether the results can be improved by combining the language model with MPC for future work.

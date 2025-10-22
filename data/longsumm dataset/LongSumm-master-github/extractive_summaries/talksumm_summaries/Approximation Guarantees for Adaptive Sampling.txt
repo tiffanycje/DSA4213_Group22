@@ -1,0 +1,30 @@
+3	36	Informally, the adaptivity of an algorithm is the number of sequential rounds it requires when polynomially-many function evaluations can be executed in parallel in each round.
+4	62	The adaptivity of the greedy algorithm is k since it sequentially adds elements in k rounds, making linearly many function evaluations in each round to evaluate the marginal contribution of every element to the set of elements selected in the previous rounds.
+5	13	In general, k 2 ⌦(n) and the adaptivity, as well as the parallel runtime, of the greedy algorithm is hence linear in the size of the data.
+6	19	The concept of adaptivity is generally well-studied in multiple areas of computer science as algorithms with low adaptivity lead to algorithms that can be parallelized efficiently (see Section 6 for further discussion).
+9	13	Somewhat surprisingly, until very recently ⌦(n) was the best known adaptivity required for a constant factor approximation to maximizing a monotone submodular maximization under a cardinality constraint.
+10	37	In recent work (Balkanski & Singer, 2018) introduce an adaptive sampling technique for maximizing monotone submodular functions under a cardinality constraint.
+11	13	This technique produces an algorithm that is O(log n)-adaptive and achieves an approximation arbitrarily close to 1/3.
+12	47	Further- more, this is tight in the sense that no algorithm can achieve a constant factor approximation with õ(log n) rounds.
+16	62	Why does adaptive sampling perform so well in practice?
+17	32	In this paper we use the standard notion of curvature to reason about the strong performance of adaptive sampling.
+18	14	Curvature is a well-studied concept in the context of submodular optimization (Conforti & Cornuéjols, 1984; Vondrák, 2010; Iyer & Bilmes, 2013; Iyer et al., 2013; Sviridenko et al., 2015; Balkanski et al., 2016).
+20	19	R has curvature  if fS(a) (1 )f(a) for all S and a 62 S. Our main result in this paper is that even under very mild conditions of curvature on the function, adaptive sampling achieves an approximation guarantee that is arbitrarily close to 1/2 in O(log n) rounds.
+21	76	In particular we show: • An approximation arbitrarily close to max(1 , 1/2) in O ⇣ logn 1  ⌘ adaptive rounds if the function has bounded curvature  < 1, • An approximation arbitrarily close to 1 µ2µ+1 for a µ-homogeneous function with bounded curvature, • A tradeoff between the approximation guarantee and the number of adaptive rounds of the algorithm, • A tight lower bound of log n adaptive rounds, up to lower order terms, to obtain a 1/2 approximation for functions with bounded curvature  < 1, • Experiments over two real-world datasets demonstrating the effectiveness of adaptive sampling in practice and the effect of curvature.
+22	26	The homogeneity condition, which we introduce to further improve the approximation guarantee, resembles the large market assumption in mechanism design, e.g. (Bei et al., 2012; Anari et al., 2014; Balkanski & Hartline, 2016), in the sense that it bounds the impact of a single element on the overall objective.
+36	12	Informally, the adaptivity of an algorithm is the number of sequential rounds of queries it makes, where every round allows for polynomially-many parallel queries.
+47	13	The algorithm maintains two solutions X and S, initialized to the empty set and the ground set N respectively.
+49	35	The algorithm terminates when |X| = k or alternatively when sufficiently many elements have been discarded to get |X [ S|  k. Thus, with r = O(log n), the algorithm has at most logarithmic many rounds.
+97	18	Finally, we show that a (1+ ✏) fraction of the remaining elements are discarded at every round, so the number of rounds where elements are discarded is at most log1+✏(n).
+143	13	The goal of a movie recommendation system is to find a personalized and diverse collection of movies to recommend to an individual user, given ratings of movies that this user has already seen.
+153	18	In the taxi dispatch application, there are k taxis and the goal is to pick the k best locations to cover the maximium number of potential customers.
+161	19	It is used as an upper bound to measure the performance cost of obtaining logarithmic adaptivity with ADAPTIVE-SAMPLING.
+167	18	In Figures 3(a) and 3(b), we observe that ADAPTIVE-SAMPLING achieves a final value that is close to the one obtained by GREEDY, but in a much smaller number of rounds.
+170	16	For the movie recommender application, the value of the solution obtained by GREEDY increases linearly but we emphasize that this function is not linear, as movies that have the same genre as a movie already picked have their marginal contribution to the solution that decreases by ↵.
+172	47	In fact, we observe very similar performance for ADAPTIVE-SAMPLING whether it uses 10 or 10K samples per round.
+177	20	The movie application has good homogeneity with µ close to 0 regardless of ↵ since optimal movies all have similarly high predicted ratings and different genres.
+180	26	As it is implied by the theoretical bounds, ADAPTIVESAMPLING, TOPK, and GREEDY all perform arbitrarily close to the optimal solution when the curvature is small.
+185	30	For the taxi dispatch, since a small number of elements can have very large value for large radius, the number of rounds needed by GREEDY decreases for large radius, as well as for ADAPTIVE-SAMPLING.
+186	41	Similarly as in the two previous figures with the approximation, we observe that the setting where ADAPTIVE-SAMPLING needs the most number of rounds is for mid-range radius.
+188	29	There is a tradeoff between the number of rounds of ADAPTIVESAMPLING and its performance.
+190	14	Overall, ADAPTIVE-SAMPLING obtains a high value in a small number of rounds, but this value can be slightly improved by increasing the number of rounds of ADAPTIVE-SAMPLING.

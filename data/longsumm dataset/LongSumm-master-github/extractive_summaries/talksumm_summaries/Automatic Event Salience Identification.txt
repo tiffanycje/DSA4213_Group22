@@ -1,0 +1,30 @@
+11	99	In this work, we study the task of event salience detection, to find events that are most relevant to the main content of documents.
+33	58	First, we present two event salience detection systems, which capture rich relations among discourse units.
+35	17	Finally, we construct a large scale event salience corpus, providing a testbed for future research.
+71	14	We manually inspect frames that are not subframes of the above-mentioned ones (around 200) to keep event related ones (including subframes), such as Arson, Delivery, etc.
+75	37	Salience Labeling: For all articles with a human written abstract (around 664,911) in the New York Times Annotated Corpus, we extract event mentions.
+76	40	We then label an event mention as salient if we can find its lemma in the corresponding abstract (Mitamura et al. (2015) showed that lemma matching is a strong baseline for event coreference.).
+77	19	For example, in Figure 1, event mentions in bold and red are found in the abstract, thus labeled as salient.
+81	26	Our lemma-based salience annotation method is based on the assumption that lemma matching being a strong detector for event coreference.
+83	15	The automatic lemma rule identifies 72 such pairs: 64 of these matches human decision, producing a precision of 88.9% (64/72) and a recall of 78% (64/82).
+87	37	We asked two annotators to manually annotate 10 documents (around 300 events) using a 5-point Likert scale for salience.
+89	22	We find the task to be challenging for human: annotators don’t agree well on the 5-point scale (Cohens Kappa = 0.29).
+98	16	Basic Discourse Features: We first use two basic features similar to Dunietz and Gillick (2014): Frequency and Sentence Location.
+103	16	In addition to events, the relations between events and entities are also important.
+110	26	These lead to 3 content features: Event Voting, the average similarity to other events in the document; Entity Voting, the average similarity to entities in the document; Local Entity Voting, the average similarity to entities in the same sentence.
+118	42	As discussed in §1, the salience of discourse units is reflected by rich relations beyond lexical similarities, for example, script (“charge” and “trial”) and frame (a “trial” of “attacks”).
+119	22	The relations between these words are specific to the salience task, thus difficult to be captured by raw cosine scores that are optimized for word similarities.
+120	33	In this section, we present a neural model to exploit the embedding space more effectively, in order to capture relations for event salience estimation.
+121	27	Inspired by the kernel ranking model (Xiong et al., 2017), we propose Kernel-based Centrality Estimation (KCE), to find and weight semantic relations of interests, in order to better estimate salience.
+124	20	The embedding function is initialized with pretrained embeddings.
+128	22	ΦK(evi,V) enforces multi-level interactions among events — relations that contribute similarly to salience are expected to be grouped into the same kernels.
+133	44	The pairwise loss is first backpropagated through the network to update the kernel weights Wv, assigning higher weights to relevant regions.
+153	18	The Frequency baseline ranks events based on the count of the headword lemma; the Location baseline ranks events using the order of their appearances in discourse.
+160	16	The metrics are the precision and recall value at 1, 5 and 10 respectively.
+165	38	Entities are extracted using the TagMe entity linking toolkit (Ferragina and Scaiella, 2010).
+168	50	There is one exact match kernel (µ = 1, σ = 1e−3) and ten soft-match kernels evenly distributed between (−1, 1), i.e. µ ∈ {−0.9,−0.7, .
+171	22	Event embeddings are initialized by their headword embedding.
+173	57	To better understand its behavior, we design the following event intrusion test, following the word intrusion test used to assess topic model quality (Chang et al., 2009).
+174	42	Event Intrusion Test: The test will present to a model a set of events, including: the origins, all events from one document; the intruders, some events from another document.
+175	76	Intuitively, if events inside a document are organized around the core content, a model capturing their relations well should easily identify the intruder(s).
+177	20	, Op}, from a document O, as the origins.

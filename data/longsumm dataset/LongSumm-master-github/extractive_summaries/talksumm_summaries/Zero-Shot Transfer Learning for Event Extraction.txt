@@ -1,0 +1,30 @@
+1	36	An example is shown in Figure 1.
+2	51	Traditional supervised methods have typically modeled this task of event extraction as a classification problem, by assigning event triggers to event types from a pre-defined fixed set.
+3	15	These methods rely heavily on manual annotations and features specific to each event type, and thus are not easily adapted to new event types without extra annotation effort.
+20	60	Our goal is to learn a generic mapping function independent of event types, which can be trained from annotations for a limited number of seen event types and then used for any new unseen event types.
+22	21	For event mentions with unseen types, their structures will be projected into the same semantic space using the same framework and assigned types with top-ranked similarity values.
+35	80	Given a target event ontology, for each type y, e.g., Transport Person, we construct a type structure Sy consisting of its predefined roles, and use a tensor to denote the implicit relation between any type and argument role.
+38	14	By minimizing the semantic distance between dispatch-01 and Trans- port Person using their dense vectors, VSt and VSy respectively, we jointly map the representations of event mention and event types into a shared semantic space, where each mention is closest to its annotated type.
+39	26	After training that completes the construction of the semantic space, the compositional functions and CNNs are then used to project any new event mention (e.g., donate-01) into the semantic space and find its closest event type (e.g., Donation) (in Section 5.3).
+52	30	Event Mention Structure For each tuple u = 〈w1, λ, w2〉 in an event mention structure, we use a matrix to represent each AMR relation λ, and compose the semantics of λ between two concepts w1 and w2 as: Vu = [V ′ w1 ;V ′ w2 ] = f([Vw1 ;Vw2 ] ·Mλ) where Vw1 , Vw2 ∈ Rd are the vector representations of words w1 and w2.
+57	14	Event Type Structure For each tuple u′ = 〈y, r〉 in an event type structure, where y denotes the event type and r denotes an argument role, following Socher et al. (2013b), we assume an implicit relation exists between any pair of type and argument, and use a single and powerful tensor to represent the implicit relation: Vu′ = [V ′ y ;V ′ r ] = f([Vy;Vr] T · U [1:2d] · [Vy;Vr]) where Vy and Vr are vector representations for y and r. U [1:2d] ∈ R2d×2d×2d is a 3-order tensor.
+77	21	Here a “negative” event mention means that the mention has no positive event type among all seen types, namely it belongs to Other.
+80	52	By minimizing Ld1, we can learn the optimized model which can compose structure representations and map both event mention and types into a shared semantic space, where the positive type ranks the highest for each mention.
+81	16	For each mention, we map each candidate argument to a specific role based on the semantic similarity of the argument path.
+114	23	For testing, we selected 3 other subtypes of Justice: Sentence, Appeal, Release-Parole.
+115	21	Additionally, we selected one subtype from each of the other seven main types for comparison.
+116	78	Table 6 shows that, when testing on a new unseen type, the more similar it is to the seen types, the better performance is achieved.
+117	14	The ACE2005 corpus includes the richest event annotations currently available for 33 types.
+119	34	To enrich the target event ontology and assess our transferable neural architecture on a large number of unseen types, when trained on limited annotations of seen types, we manually constructed a new event ontology which combined 33 ACE event types and argument roles, and 1,161 frames from FrameNet, except for the most generic frames such as Entity and Locale.
+128	26	We first identified the candidate triggers and arguments, then mapped each of these to the target event ontology.
+136	32	Recall that we used AMR parsing output to identify triggers and arguments in constructing event structures.
+137	24	To assess the impact of the AMR parser (Wang et al., 2015a) on event extraction, we chose a subset of the ERE (Entity, Relation, Event) corpus (Song et al., 2015) which has ground-truth AMR annotations.
+139	70	We selected the top-6 most popular event types (Arrest-Jail, Execute, Die, Meet, Sentence, Charge-Indict) with manual annotations of 548 event mentions as seen types.
+141	83	We combined the annotated events for seen types and the negative event mentions, and used 90% for training and 10% for development.
+144	15	We also compared AMR analyses with Semantic Role Labeling (SRL) output (Palmer et al., 2010) by keeping only the core roles (e.g., :ARG0, :ARG1) from AMR annotations.
+145	25	As Table 8 shows, comparing the full AMR (top row) to this SRL proxy (middle row), the fine-grained AMR semantic relations such as :location, :instrument appear to be more informative for inferring event argument role labeling.
+161	123	In this work, we take a fresh look at the event extraction task and model it as a generic grounding problem.
+162	73	We propose a transferable neural architecture, which leverages existing humanconstructed event schemas and manual annotations for a small set of seen types, and transfers the knowledge from the existing types to the extraction of unseen types, to improve the scalability of event extraction as well as to save human effort.
+163	130	To the best of our knowledge, this work is the first time that zero-shot learning has been applied to event extraction.
+164	69	Without any annotation, our approach can achieve performance comparable to state-of-the-art supervised models trained on a large amount of labeled data.
+165	35	In the future, we will extend this framework to other Information Extraction problems.

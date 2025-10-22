@@ -1,0 +1,30 @@
+0	15	Many natural language understanding situations require reasoning with respect to numbers or quanti- ∗Most of the work was done when the authors were at the University of Illinois, Urbana Champaign.
+2	22	Math word problems form a natural abstraction to a lot of these quantitative reasoning problems.
+3	22	Consequently, there has been a growing interest in developing automated methods to solve math word problems (Kushman et al., 2014; Hosseini et al., 2014; Roy and Roth, 2015).
+4	48	Understanding and solving math word problems involves interpreting the natural language description of mathematical concepts, as well as understanding their interaction with the physical world.
+12	21	Some of these involve understanding comparisons, transactions, and the application of math or physics formulas.
+38	30	The works of Hosseini et al. (2014) and Mitra and Baral (2016) focus on arithmetic problems involving only addition and subtraction.
+41	27	Both require extensive annotations for intermediate steps (verb classification for Hosseini et al. (2014), alignment of numbers to formulas for Mitra and Baral (2016), etc).
+69	14	Transfer: This involves understanding the transfer of objects from one person to another.
+103	21	To use dimensional analysis, one needs to extract the units of numbers as well as the relations between the units.
+104	17	Consider the following excerpt of a word problem: “Stephen has 5 bags.
+105	19	Knowing that the unit of 5 is “bag” and the effective unit of 4 is “apples per bag”, allows us to infer that the numbers can be multiplied to obtain the total number of apples.
+108	19	In our example, the unit of 4 is “apple”, and the rate component of 4 is “bag”.
+109	18	We define variables Unit1 and Rate1 to denote the unit and the rate component of the first number respectively.
+129	14	For the above example, the applicable declarative rule is: [Sibling(Number1,Number2)]⇒ Addition The rules for the part-whole concept can generate addition and subtraction operations.
+131	22	Note that all the declarative rules are designed to determine an operation between two numbers only.
+135	17	In order to combine two numbers mentioned in x, we first predict a concept k, and then we choose a declarative knowledge rule r from k. The rule r generates the math operation needed to combine the two numbers.
+137	17	To combine 6 and 9, we first decide on the transfer concept, and then choose an appropriate rule under the transfer to generate the operation.
+151	25	In order to discriminate between multiple candidate solution expressions of a word problem x, we score them using a linear model over features extracted from the derivation of the solution.
+152	16	Our scoring function has the following form: SCORE(x, y) = ∑ o∈ (y) wkφk(x, k o) + wrφr(x, r o) where φk(x, ko) and φr(x, ro) are feature vectors related to concept ko, and declarative rule ro, respectively, and wk and wr are the corresponding weight vectors.
+225	18	We compare to the top performing systems for arithmetic word problems.
+235	19	The performance of KNOWLEDGE is on par or lower than some of the existing systems.
+238	36	Systems which remember these biases get an undue advantage in evaluation.
+258	34	We manually pruned problems which did not yield the desired solution a′, or were too different from the input problem p. This procedure gave us a set of 661 new word problems, which we refer to as Perturb.
+271	33	This shows that declarative knowledge allows the system to learn the correct abstractions, even from biased datasets.
+307	78	We can potentially expand our rule based system to detect those, or replace it by a learned module like Roy and Roth (2015).
+310	17	For the example in Table 6, we fail to detect the coreference between “team member” and “people”.
+312	23	Our knowledge based approach outperforms all other systems, and also learns better abstractions from biased datasets.
+313	46	Given that the variability in text is much larger than the number of declarative rules that governs Math word problems, we believe that this is a good way to introduce Math knowledge to a natural language understanding system.
+316	53	A straightforward approach can be to augment news documents with a question asking for the required information, and treating this augmented news document as a math word problem.
+317	30	Code and dataset are available at https:// github.com/CogComp/arithmetic.

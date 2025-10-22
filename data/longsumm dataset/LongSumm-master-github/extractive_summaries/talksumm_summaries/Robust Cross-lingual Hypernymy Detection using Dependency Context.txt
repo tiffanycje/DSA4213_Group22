@@ -1,0 +1,30 @@
+20	4	We extensively evaluate BISPARSE-DEP on a new crowd-sourced cross-lingual dataset, with over 2900 hypernym pairs, spanning four languages from distinct families – French, Russian, Arabic and Chinese – and release the datasets for future evaluations.
+40	2	The context of a word can be described in multiple ways using its syntactic neighborhood in a dependency graph.
+43	4	• JOINT context (Chersoni et al., 2016): Par- ent concatenated with each of its siblings (eg.
+44	1	roamed#desert and roamed#seeking are contexts for traveler).
+45	1	These two contexts exploit different amounts of syntactic information – JOINT does not require labeled parses, unlike FULL.
+46	1	The JOINT context combines parent and sibling information, while FULL keeps them as distinct contexts.
+54	1	BISPARSE generates sparse, bilingual word embeddings using a dictionary learning objective with a sparsity inducing l1 penalty.
+55	2	We give a brief overview of this approach, the full details of which can be found in our prior work.
+59	1	The translation matrix S (of size ve×vf ) captures correspondences between the vocabularies (of size ve and vf ) of two languages.
+63	4	BalAPinc is based on the distributional inclusion hypothesis (Geffet and Dagan, 2005) and computes the geometric mean of 1) LIN (Lin, 1998), a symmetric score that captures similarity, and 2) APinc, an asymmetric score based on average precision.
+67	2	Our datasets span four languages from distinct families - French (Fr), Russian (Ru), Arabic (Ar) and Chinese (Zh) - paired with English.
+71	5	Also, we restrict the task to annotators verified by CrowdFlower to have those language skills.
+108	4	The resulting matrix is reduced to 1000 dimensions using SVD (Golub and Kahan, 1965).6 These vectors are used as Xe,Xf in the setup from §3.3 to generate 100 dimensional sparse bilingual vectors.
+109	3	Evaluation We use accuracy as our evaluation metric, as it is easy to interpret when the classes are balanced (Turney and Mohammad, 2015).
+121	1	Vulić (2017) showed improvements for word similarity and bilingual lexicon induction.
+124	1	Evaluating on a truly low resource language is complicated by the fact that obtaining an evaluation dataset for such a language is difficult.
+128	3	We use treebanks from Slovenian, Ukrainian, Serbian, Polish, Bulgarian, Slovak and Czech (40k sentences) for training the Russian parser, and treebanks from English, Spanish, German, Portuguese, Swedish and Italian (66k sentences) for training the French parser.
+131	1	The monolingual corpora are then parsed with these weaker parsers, and coocurrences and dependency contexts are computed as before.
+140	2	We evaluate the models on the two test splits described in §4.2 – HYPERHYPO and HYPER-COHYPO.
+150	1	While the BISPARSE-DEP models were generally performing better than window models on both test sets, CL-DEP was not as consistent (e.g., it was worse than the best window model on HYPER-COHYPO).
+152	1	This explains the relatively inconsistent performance of CL-DEP.
+155	1	We will investigate this ability more carefully in future work.
+158	1	To answer this, we evaluate a third BISPARSE-DEP model which uses UNLABELED dependency contexts.
+161	1	2, contexts will be roamed and tired.
+169	2	In contrast, a fully-trained parser achieves a F1 of 76.7 for Russian and 76.8 for French for the same edge.
+190	2	We also introduced crowd-sourced crosslingual hypernymy datasets for four languages for future evaluations.
+192	4	In general, distributional approaches can help refine ontology construction for any language where sufficient resources are available.
+193	12	It remains to be seen how our approach performs for other language pairs beyond simluated low-resource settings.
+194	141	We anticipate that replacing our delexicalized parser with more sophisticated transfer strategies (Rasooli and Collins, 2017; Aufrant et al., 2016) might be beneficial in such settings.While our delexicalized parsing based approach exhibits robustness, it can benefit from more sophisticated approaches for transfer parsing (Rasooli and Collins, 2017; Aufrant et al., 2016) to improve parser performance.
+195	142	We aim to explore these and other directions in the future.

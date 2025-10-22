@@ -1,0 +1,30 @@
+0	71	Understanding and producing sentences like ‘There are more cars than parking lots’, ‘Most of the supporters wear blue t-shirts’, ‘Twenty percent of the trees have been planted last year’, or ‘Seven students passed the exam’, is a fundamental competence which allows speakers to communicate information about quantities.
+1	63	Crucially, the type of information conveyed by these expressions, as well as their underlying cognitive mechanisms, are not equivalent, as suggested by evidence from linguistics, language acquisition, and cognition.
+2	28	First, comparatives (‘more’, ‘less’), quantifiers (‘some’, ‘most’, ‘all’), and proportions (‘20%’, ‘two thirds’) express a comparison or relation between sets (e.g., between the set of cars and the set of parking lots).
+4	34	In contrast, numbers (‘one’, ‘six’, ‘twenty-two’) denote the exact, absolute cardinality of the items belonging to one set (e.g., the set of students who passed the exam).
+8	21	As for proportions, they are acquired significantly later, being fully mastered only at the age of 9 or 10 (Hartnett and Gelman, 1998; Moss and Case, 1999; Sophian, 2000).
+13	26	In support of this, behavioral findings indicate that, in non-symbolic 419 contexts (e.g. visual scenes), proportional values are extracted holistically, i.e. without relying on the pre-computed cardinalities of the sets (Fabbri et al., 2012; Yang et al., 2015).
+18	36	Finally, the ratio-based operation underlying these task would be different from (and possibly conflicting with) that of estimating the absolute numerosity of one set.
+21	44	In particular, we investigate whether ratio-based quantification tasks can be modeled by a single, multi-task learning neural network.
+27	20	On the other, we provide further evidence on the effectiveness of these computational architectures.
+55	17	Given a visual scene depicting a number of animals (targets) and artifacts (non-targets), we explore the following tasks, represented in Figure 1: (a) set comparison (hence, setComp), i.e. judging whether the targets are ‘more’, ‘same’, ‘less’ than non-targets; (b) vague quantification (hence, vagueQ), i.e. predicting the probability to use each of the 9 quantifiers (‘none’, ‘almost none’, ‘few’, ‘the smaller part’, ‘some’, ‘many’, ‘most’, ‘almost all’, ‘all’) to refer to the target set; (c) proportional estimation (hence, propTarg), i.e. predicting the proportion of targets choosing among 17 ratios, ranging from 0 to 100%.
+78	19	Ground-truth classes for the tasks of setComp and propTarg were automatically assigned to each scene while generating the data.
+81	41	In particular, they were computed against the proportion of targets in the scene, which in that study was shown to be the overall best predictor for quantifiers.
+82	16	To illustrate, given a scene containing 20% of targets (cf.
+97	24	The frozen representation of the scene had been previously extracted using the state-of-art Inception v3 CNN (Szegedy et al., 2016) pretrained on ImageNet (Deng et al., 2009).
+99	20	One-Task-End2end These models are MLP networks that take as input the 203*203-pixel image and compute the visual features by means of the embedded Inception v3 module, which outputs 25*2048-d vectors (the grey and colored box in Figure 1).
+106	43	As can be noted, the order of the tasks reflects their complexity, since the last task in the pipeline has 2 more layers than the preceding one and 4 more than the first one.
+118	19	Since these classes differ by a very small percentage, we gain indirect evidence that the model is learning some kind of proportional information rather than trivial associations between scenes and orthogonal classes.
+132	27	Onetask models were also tested to evaluate the difficulty of the task when performed in isolation.
+152	16	The motivation is that, even in the most challenging propTarg task, the model might learn to match a given combination, e.g. 3:12, to a given proportion, i.e. 20%.
+154	17	If it learns a more abstract representation of the proportion of targets depicted in the scene, in contrast, it should be able to generalize to unseen combinations.
+159	16	The unseen dataset included around 14K datapoints (80% train, 10% val, 10% test).
+164	25	Overall, this pattern of results suggests that propTarg is an extremely hard task for the separate models, which are not able to generalize to unseen combinations.
+168	28	The overall good performance in predicting the correct proportion can be appreciated in Figure 7, where the errors are represented by means of a heatmap.
+174	36	In the present study, we investigated whether ratio-based quantification mechanisms, expressed in language by comparatives, quantifiers, and proportions, can be computationally modeled in vision exploiting MTL.
+176	29	Moreover, we showed (a) the increasing complexity of the tasks, (b) the interference of absolute number, and (c) the high generalization power of MTL.
+177	27	These results lead to many additional questions.
+179	39	We firmly believe this to be the case, though the results might be affected by the natural biases contained in those images.
+181	70	Since linguistic expressions of quantity are grounded on a non-symbolic system, we might expect that a model trained on one modality can be applied to another, at least to some extent.
+182	63	Even further, jointly learning representations from both modalities might represent an even more natural, human-like way to learn and refer to quantities.
+183	73	Further work is needed to explore all these issues.

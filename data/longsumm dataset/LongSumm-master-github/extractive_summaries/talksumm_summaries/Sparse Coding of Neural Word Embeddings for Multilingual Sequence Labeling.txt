@@ -1,0 +1,30 @@
+10	18	Our work aims at introducing a novel sequence labeling model solely utilizing features derived from the sparse coding of continuous word embeddings.
+17	45	Distributed word representations assign some relatively low-dimensional, dense vectors to each word in a corpus such that words with similar context and meaning tend to have similar representations.
+26	20	These word embeddings are instead trained in a manner favoring the word analogy task introduced by Mikolov et al. (2013c).
+35	27	The hand-crafted features they employ for POS tagging and NER are the same as in Collobert et al. (2011) and Turian et al. (2010).
+38	76	This can be formalized into an `1-regularized linear least-squares minimization problem having the form min D∈C,α 1 2n n∑ i=1 ( ‖xi −Dαi‖22 + λ‖αi‖1 ) , (1) with C being the convex set of matrices of column vectors having an `2 norm at most one, matrix D acting as the shared dictionary across the signals, and the columns of the sparse matrix α containing the coefficients for the linear combinations of each of the n observed signals.
+44	52	Since our goal is to measure the effectiveness of sparse word embeddings alone, we do not apply any features based on gazetters, capitalization patterns or character suffixes.
+49	38	The intuition behind this feature is that words with similar meaning are expected to use an overlapping set of basis vectors from dictionary D. Incorporating the signs of coefficients into the feature function can help to distinguish cases when a basis vector takes part in the reconstruction of a word representation “destructively” or “constructively”.
+55	15	For dictionary learning as formulated in Equation 1, one should choose m and λ, controlling the number of the basis vectors and the regularization coefficient affecting the sparsity of α, respectively.
+62	29	We generate features from length-p (p ∈ {4, 6, 10, 20}) prefixes of Brown cluster identifiers similar to Ratinov and Roth (2009) and Turian et al. (2010).
+84	27	We rely on the official scripts released by Petrov et al. (2012)5 for mapping the treebank specific POS tags to the Google universal POS tags in order to obtain results comparable across languages.
+90	20	Comparing word embeddings Our motivation for choosing polyglot word embeddings as input to sparse coding is that they are publicly available for a variety of languages.
+93	27	In order that the utility of different word embeddings not to be conflated with other factors, we train them on the same Wikipedia dumps used for training the polyglotword vectors.
+96	21	Instead of reporting results as a function of λ, we rather present accuracies as a function of the different sparsity levels induced by different λ values.
+100	19	Models relying on SGSC and CBOWSC representations have an average tagging accuracy of 93.74 and 93.63, respectively, and they typically perform better than the baseline using Brown clustering with an average tagging performance of 93.27.
+102	82	The average tagging performance over the 12 languages when relying on features based on polyglotSC is only 1.3 points below that of FRw+c (i.e. 94.4 versus 95.7).
+104	26	Furthermore, our model does not employ word identity features, nor does it rely on character-level features of words.
+105	15	Analyzing the effects of window size Hyperparameters for training word representations can greatly impact their quality as also concluded by Levy et al. (2015).
+109	18	Comparing dense and sparse representations Unless stated otherwise, we use λ = 0.1 for the experiments below in accordance to Figure 2.
+110	40	Table 3 demonstrates that performances obtained by models using dense word representations as features are consistently inferior to those models relying on sparse word representations.
+115	12	Comparing the effects of training corpus size We also investigate the generalization characteristics of the proposed representation by training models that have access to substantially different amounts of training data per language.
+116	12	We distinguish three scenarios, i.e. when using only the first 150, the first 1,500 and all the available training sentences from each corpus.
+156	34	We report our results on UD v1.2 in Table 5.
+158	55	We now investigate how much contribution word identity features convey on their own and also when used in conjunction with sparse coding-derived features.
+162	19	We also present in Table 5 the state-of-the-art results of the bidirectional LSTM models by Plank et al. (2016) for comparative purposes.
+179	39	In this paper we show that it is possible to train sequence models that perform nearly as well as best existing models on a variety of languages for both POS tagging and NER.
+180	22	Our approach does not require word identity features to perform reliably, furthermore, it is capable of achieving comparable results to traditional feature-rich models.
+181	19	We also il- lustrate the advantageous generalization property of our model as it retained 89.8% of its original average POS tagging accuracy when trained on only 1.2% of the total accessible training sentences.
+182	27	As Mikolov et al. (2013b) pointed out the similarities of continuous word embeddings across languages, we think that our proposed model could be employed not in just multi-lingual, but also in crosslingual language analysis settings.
+183	50	In fact, we investigate its feasibility in our future work.
+184	19	Finally, we have made the sparse coded word embedding vectors publicly available in order to facilitate the reproducibility of our results and to foster multilingual and cross-lingual research.

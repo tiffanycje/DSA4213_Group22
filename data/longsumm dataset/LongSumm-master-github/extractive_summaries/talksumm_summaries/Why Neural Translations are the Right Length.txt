@@ -1,0 +1,29 @@
+0	157	The neural encoder-decoder framework for machine translation (Neco and Forcada, 1997; Castaño and Casacuberta, 1997; Sutskever et al., 2014; Bahdanau et al., 2014; Luong et al., 2015) provides new tools for addressing the field’s difficult challenges.
+1	19	In this framework (Figure 1), we use a recurrent neural network (encoder) to convert a source sentence into a dense, fixed-length vector.
+3	15	In this paper, we train long shortterm memory (LSTM) neural units (Hochreiter and Schmidhuber, 1997) trained with back-propagation through time (Werbos, 1990).
+8	8	By contrast, builders of standard statistical MT (SMT) systems must work hard to ensure correct length.
+15	7	MERT also sets weights for the language model P(e), translation model P(f|e), and other features.
+17	1	NMT’s ability to correctly model length is remarkable for these reasons: • SMT relies on maximum BLEU training to ob- tain a length ratio that is prized by BLEU, while NMT obtains the same result through generic maximum likelihood training.
+20	2	• SMT decoding involves heavy search, so if one MT output path delivers an infelicitous ending, another path can be used.
+21	9	NMT decoding explores far fewer hypotheses, using a tight beam without recombination.
+24	47	The goal of the translator is simply to copy those strings.
+25	44	Training cases look like this: a a a b b a <EOS> → a a a b b a <EOS> b b a <EOS> → b b a <EOS> a b a b a b a a <EOS> → a b a b a b a a <EOS> b b a b b a b b a <EOS> → b b a b b a b b a <EOS> The encoder must summarize the content of any source string into a fixed-length vector, so that the decoder can then reconstruct it.1 With 4 hidden LSTM units, our NMT system can learn to solve this problem after being trained on 2500 randomly chosen strings of lengths up to 9.2 3 To understand how the learned system works, we encode different strings and record the resulting LSTM cell values.
+26	14	Because our LSTM has four hidden units, each string winds up at some point in four- dimensional space.
+31	32	• unit2 records the number of b’s minus the num- ber of a’s, thus assigning a more positive value to b-heavy strings.
+34	1	If its value is less than 1.0, the string starts with b.
+41	38	During encoding, the value of unit1 decreases by approximately 1.0 each time a letter is read.
+43	4	When it reaches zero, it signals the decoder to output <EOS>.
+50	20	We train on data from the WMT 2014 English-to-French task, consisting of 12,075,604 sentence pairs, with 303,873,236 tokens on the English side, and 348,196,030 on the French side.
+51	3	We use 1000 hidden LSTM units.
+52	44	We also use two layers of LSTM units between source and target.5 After the LSTM encoder-decoder is trained, we send test-set English strings through the encoder portion.
+56	17	Instead, we seek to predict string length from the cell values, using a weighted, linear combination of the 1000 LSTM cell values.
+60	59	The best unit in the second layer is unit109, which correlates with R2=0.894.
+61	8	We therefore employ three mechanisms to locate
+62	36	a subset of units responsible for tracking length.
+67	7	For the toy problem, Figure 3 (middle part) shows how the cell value of unit1 moves back to zero as the target string is built up.
+69	6	MT decoding is trickier, because source and target strings are not necessarily the same length, and target length depends on the words chosen.
+71	6	They behave similarly on this sentence, but not identically.
+72	47	These two units do not form a simple switch that controls length—rather, they are high-level features computed from lower/previous states that contribute quantitatively to the decision to end the sentence.
+73	7	Figure 4 also shows the log P(<EOS>) curve, where we note that the probability of outputting <EOS> rises sharply (from 10−8 to 10−4 to 0.998), rather than gradually.
+74	58	We determine how target length is regulated in NMT decoding.
+75	87	In future work, we hope to determine how other parts of the translator work, especially with reference to grammatical structure and transformations.

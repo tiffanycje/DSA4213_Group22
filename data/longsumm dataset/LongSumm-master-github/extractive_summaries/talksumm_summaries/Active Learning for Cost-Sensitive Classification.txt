@@ -1,0 +1,30 @@
+0	23	The field of active learning studies how to efficiently elicit relevant information so learning algorithms can make good decisions.
+1	39	Almost all active learning algorithms are designed for binary classification problems, leading to the natural question: How can active learning address more complex prediction problems?
+2	78	Multiclass and importanceweighted classification require only minor modifications but we know of no active learning algorithms that enjoy theoretical guarantees for more complex problems.
+3	45	One such problem is cost-sensitive multiclass classification (CSMC).
+4	17	In CSMC with K classes, passive learners receive input examples x and cost vectors c 2 RK , where c(y) is the cost of predicting label y on x.1 A natural design for an active CSMC learner then is to adaptively query the costs of only a (possibly empty) subset of labels on each x.
+5	69	Since measuring label complexity is more nuanced in CSMC (e.g., is it more expensive to query three costs on a single example or one cost on three examples?
+6	12	), we track both the number of examples for which at least one cost is queried, along with the total number of cost queries issued.
+7	13	The first corresponds to a fixed human effort for inspecting x.
+22	11	2), the algorithm achieves generalization error ˜O(K lnN/n) while requesting ˜O(Kc1/ n ✓ 2 lnN) labels from ˜O(c1/ n ✓ 1 K lnN) examples (Cor.
+31	11	In this reduction, evaluating the cost of a class often involves a computationally expensive “roll-out,” so using an active learning algorithm inside such a (passive) joint prediction method can lead to significant computational savings.
+69	10	Formally, we define Q i (y) to be the indicator that the algorithm queries label y on the ith example and measure L 1 , n X i=1 _ y Q i (y), and L 2 , n X i=1 X y Q i (y).
+75	10	11: c (y) MINCOST((x, y), i, ⌘i 4 p 3 , bR i (·; y)).
+81	105	To compute an approximate version space we first find the regression function that minimizes the empirical risk for each label y, which at round i is: bR i (g; y) = 1 i 1 i 1 X j=1 (g(x j ) c j (y))2Q j (y).
+82	34	(5) Recall that Q j (y) is the indicator that we query label y on the jth example.
+95	34	The algorithm queries any non-dominated label that has a large cost range, where a label is nondominated if its estimated minimum cost is smaller than the smallest maximum cost (among all labels) and the cost range is the difference between the label’s estimated maximum and minimum costs.
+97	21	The idea is that labels with little disagreement do not provide much information for further reducing the version space, since by construction all functions would suffer similar loss.
+133	23	Our low-noise assumption is related to the Massart noise condition (Massart & Nédélec, 2006), which in binary classification posits that the Bayes optimal predictor is bounded away from 1/2 for all x.
+136	13	The Massart noise condition describes favorable prediction problems that lead to sharper generalization and label complexity bounds for COAL.
+146	9	However, since the bound captures the difficulty of the CSMC problem as measured by P ⇣ , we can obtain a sharper result under Assumption 2 by setting ⇣ = ⌧ .
+151	13	Without distributional assumptions, the label complexity of COAL can be O(n), just as in the binary classification case, since there may always be confusing labels that force querying.
+191	11	On the other hand, all of the suboptimal labels have large cost ranges, so querying based solely on a cost range criteria leads to a large label complexity.
+196	15	The algorithm processes the data in one pass, and the idea is to (1) replace g i,y , the ERM, with an approximation go i,y obtained by online updates, and (2) compute the minimum and maximum costs via a sensitivity analysis of the online update.
+198	12	Then we approximate c via go i,y (x) wo · s(x, 0, go i,y ) where wo is the largest weight w satisfying w(go i,y (x)2 (go i,y (x) ws(x, 0, go i,y )) 2 )  i , and i is the radius used at round i.
+223	16	We also compare COAL with two active learning baselines.
+229	23	COAL substantially outperforms both baselines, which provide minimal improvement over passive learning.
+243	10	We use COAL and a passive learning baseline inside AGGRAVATE on three joint prediction datasets (statistics are in Figure 2, upper right).
+247	19	On the Wikipedia data, COAL performs a factor of 4 less rollouts to achieve similar performance to passive learning and achieves substantially better test performance.
+254	21	Can we use a square loss oracle in other partial infor- mation problems like contextual bandits?
+256	14	Can we analyze the online approximation to COAL?
+257	41	We hope to answer these questions in future work.

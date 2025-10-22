@@ -1,0 +1,30 @@
+0	14	Spoken Dialogue Systems (SDS) are computer programs that can hold a conversation with a human.
+1	19	These can be task-based systems that help the user achieve specific goals, e.g. finding and booking hotels or restaurants.
+2	27	In order for the SDS to infer the user goals/intentions during the conversation, its Belief Tracking (BT) component maintains a distribution of states, called a belief state, across dialogue turns (Young et al., 2010).
+3	36	The belief state is used by the system to take actions in each turn until the conversation is concluded and the user goal is achieved.
+4	105	In order to extract these belief states from the conversation, traditional approaches use a Spoken Language Understanding (SLU) unit that utilizes a semantic dictionary to hold all the key terms, rephrasings and alternative mentions of a belief state.
+8	28	Nevertheless, the NBT model does not tackle the problem of mixing different domains in a conversation.
+9	36	Moreover, as each slot is trained independently without sharing information between different slots, scaling such approaches to large multi-domain systems is greatly hindered.
+10	12	In this paper, we propose a model that jointly identifies the domain and tracks the belief states corresponding to that domain.
+23	13	The larger the ontology, the more flexible and multi-purposed the system is, but the harder it is to train and maintain a good quality BT.
+26	48	The main idea behind the NBT (Mrkšić et al., 2017) is to use semantically specialized pretrained word embeddings to encode the user utterance, the system act and the candidate slots and values taken from the ontology.
+29	37	The NBT leverages semantic information from the word embeddings to resolve lexical/morphological ambiguity and maximize the shared parameters across the values of each slot.
+31	18	Recently, Rastogi et al. (2017) proposed a multidomain approach using delexicalized utterances fed to a two layer stacked bi-directional GRU network to extract features from the user and the system utterances.
+39	68	In this way, the model parameters only learn to model the interactions between turn utterances and ontology terms in the semantic space, rather than the mapping from utterances to states.
+43	29	The proposed model uses semantically specialized pre-trained word embeddings (Wieting et al., 2015).
+47	14	A variant of the CNNs as a feature extractor, similar to the one used in the NBT-CNN (Mrkšić et al., 2017) is also employed.
+51	45	To detect the presence of the domain in the dialogue turn, element-wise multiplication is used as a similarity metric between the hidden states and the ontology embeddings of the domain: dk = h d k tanh(Wd ed + bd), where k ∈ {usr, sys}, ed is the embedding vector of the domain and Wd ∈ RL×D transforms the domain word embeddings of dimension D to the hidden representation.
+57	50	If the system utterance is: ’When do you want the taxi to arrive?’ and the user answers with ’19:30’.
+58	48	Confirm: The system wants to confirm information about the value of a specific slot.
+59	80	If the system asked: ’Would you like free parking?’, the user can either affirm positively or negatively.
+60	16	The model detects the user affirmation, using a separate bi-directional LSTM or CNN to output hausr.
+61	14	The three cases are modelled as following: ys,vinf = winf {susr ⊕ vusr}+ binf , ys,vreq = wreq {ssys ⊕ vusr}+ breq, ys,vaf = waf {ssys ⊕ vsys ⊕ h a usr}+ baf , where sk,vk for k ∈ {usr, sys} represent semantic similarity between the user and system utterances and the ontology slot and value terms respectively computed as shown in Figure 1, and w and b are learnable parameters.
+62	39	The distribution over the values of slot s in domain d at turn t can be computed by summing the unscaled states, yinf , yreq and yaf for each value v in s, and applying a softmax to normalize the distribution: Pt(s, v) = softmax(ys,vinf + y s,v req + y s,v af ).
+63	23	Since dialogue systems in the real-world operate in noisy environments, a robust BT should utilize the flow of the conversation to reduce the uncertainty in the belief state distribution.
+81	46	That is why, following the Wizard-of-Oz (WOZ) approach (Kelley, 1984; Wen et al., 2017), we ran text-based multi-domain corpus data collection scheme through Amazon MTurk.
+87	29	The data consists of 2480 single-domain dialogues and 7375 multi-domain dialogues usually spanning from 2 up to 5 domains.
+95	30	We also used the extended WOZ 2.0 dataset (Wen et al., 2017).2 WOZ2 dataset consists of 1200 single topic dialogues constrained to the restaurant domain.
+100	29	Table 1 shows the performance of our model in tracking the belief state of single-domain dialogues, compared to the NBT-CNN variant of the NBT discussed in Section 3.1.
+101	37	Our model outperforms NBT in all the three slots and the joint goals for the two datasets.
+104	10	This is because the dialogues in the new dataset are richer and more noisier, as a closer resemblance to real environment dialogues.
+106	12	To demonstrate the difficulty of the multidomain belief tracking problem, values of a theoretical baseline that samples the belief state uniformly at random are also presented.

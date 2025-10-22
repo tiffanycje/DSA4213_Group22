@@ -1,0 +1,30 @@
+0	21	Broad-coverage knowledge graphs such as Freebase, Wikidata, and NELL are increasingly being used in many NLP and AI tasks.
+2	27	Jeopardy system (Welty et al., 2012).
+5	40	Despite being rich sources of factual knowledge, cross-domain knowledge graphs often lack a succinct textual description for many of the existing entities.
+6	25	1 depicts an example of a concise entity description presented to a user.
+7	38	Descriptions of this sort can be beneficial both to humans and in downstream AI and natural language processing tasks, including question answering (e.g., Who is Roger Federer?
+8	44	), named entity disambiguation (e.g., Philadelphia as a city vs. the film or even the brand of cream cheese), and information retrieval, to name but a few.
+9	52	Additionally, descriptions of this sort can also be useful to determine the ontological type of an entity – another challenging task that often needs to be addressed in cross-domain knowledge graphs.
+12	19	In this work, we consider the task of generating more detailed open vocabulary descriptions (e.g., Swiss tennis player) that can readily be presented to end users, generated from facts in the knowledge graph.
+17	27	Typically, a short description of an entity will hence need to be synthesized just by drawing on certain most relevant facts about it.
+35	51	Our proposed dynamic memory-based generative network consists of three key components: an input module, a dynamic memory module, and an output module.
+37	25	The input to the input module is a set of N facts F = {f1, f2, .
+43	18	We encode each fact fi as a vector fi =∑J j=1 lj◦wij, where ◦ is an element-wise multiplication, and lj is a column vector with the structure lkj = (1 − jJ ) − (k/d)(1 − 2 j J ), with J being the number of words in the factual phrase, wij as the embedding of the j-th word, and d as the dimensionality of the embedding.
+46	37	The dynamic memory module is responsible for memorizing specific facts about an entity that will be useful for generating the next word in the output description sequence.
+50	51	These attention weights are scalar values informed by two factors: (1) how much information from a particular fact is used by the previous memory state m(t−1), and (2) how much information of a particular fact is invoked in the current context of the output sequence h(t−1).
+53	34	(4) This newly obtained context information is then used along with the previous memory state to update the memory state as follows: C(t) = [m(t−1); c(t);h(t−1)] (5) m(t) = max(0,WmC (t) + bm) (6) Such updated memory states serve as the input to the decoder sequence of the output module at each time step.
+55	48	At each time step, the decoder GRU is presented as input a glimpse of the current memory state m(t) as well as the previous context of the output sequence, i.e., the previous hidden state of the decoder h(t−1).
+80	19	However, instead of an input sequence, it here operates on a set of fact embeddings {f1, f2, .
+96	24	Dynamic Memory Network (DMN+).
+104	28	In DMN+, the final memory state is passed through a softmax layer to generate the answer.
+106	33	However, as our task is to generate a sequence of words as descriptions, we use a GRU-based decoder sequence model, which at each time step receives the final memory state m(T ) as input to the GRU.
+129	21	Our model not only uses the current context of the output sequence, but also memorizes how information of a particular fact has been used thus far, via the dynamic memory module.
+140	19	Table 2 provides a representative sample of the generated descriptions and their ground truth counterparts.
+149	43	Finally, the last group consists of cases in which our model generated descriptions that are factually accurate and may be deemed appropriate despite diverging from the reference descriptions to an extent that almost no overlapping words are shared with them.
+150	37	Note that such outputs are heavily penalized by the metrics considered in our evaluation.
+214	72	Generating them from facts in a knowledge graph requires not only mapping the structured fact information to natural language, but also identifying the type of entity and then discerning the most crucial pieces of information for that particular type from the long list of input facts and compressing them down to a highly succinct form.
+215	82	This is very challenging in light of the very heterogeneous kinds of entities in our data.
+216	19	To this end, we have introduced a novel dynamic memory-based neural architecture that updates its memory at each step to continually reassess the relevance of potential input signals.
+217	36	We have shown that our approach outperforms several competitive baselines.
+218	69	In future work, we hope to explore the potential of this architecture on further kinds of data, including multimodal data (Long et al., 2018), from which one can extract structured signals.
+219	46	Our code and data is freely available.2

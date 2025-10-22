@@ -1,0 +1,30 @@
+9	80	We decided that we need a larger and more diverse corpus of sarcasm in dialogue.
+18	29	There has been relatively little theoretical work on sarcasm in dialogue that has had access to a large corpus of naturally occurring examples.
+19	22	Gibbs (2000) analyzes a corpus of 62 conversations between friends and argues that a robust theory of verbal irony must account for the large diversity in form.
+20	86	He defines several subtypes, including rhetorical questions and hyperbole: • Rhetorical Questions: asking a question that implies a humorous or critical assertion • Hyperbole: expressing a non-literal meaning by exaggerating the reality of a situation Other categories of irony defined by Gibbs (2000) include understatements, jocularity, and sarcasm (which he defines as a critical/mocking form of irony).
+21	88	Other work has also tackled jocularity and humor, using different approaches for data aggregation, including filtering by Twitter hashtags, or analyzing laugh-tracks from recordings (Reyes et al., 2012; Bertero and Fung, 2016).
+22	102	Previous work has not, however, attempted to operationalize these subtypes in any concrete way.
+25	38	2.2) using data from the Internet Argument Corpus (IAC 2.0).1 Table 1 provides examples of SARCASTIC and NOT-SARCASTIC posts from the corpus we create.
+27	54	We first replicated the pattern-extraction experiments of Lukin and Walker (2013) on their dataset using AutoSlog-TS (Riloff, 1996), a weaklysupervised pattern learner that extracts lexicosyntactic patterns associated with the input data.
+28	28	We set up the learner to extract patterns for both SARCASTIC and NOT-SARCASTIC utterances.
+29	84	Our first discovery is that we can classify NOTSARCASTIC posts with very high precision, ranging between 80-90%.2 Because our main goal is to build a larger, more diverse corpus of sarcasm, we use the highprecision NOT-SARCASTIC patterns extracted by AutoSlog-TS to create a “not-sarcastic” filter.
+30	99	We did this by randomly selecting a new set of 30K posts (restricting to posts with between 10 and 150 words) from IAC 2.0 (Abbott et al., 2016), and applying the high-precision NOT-SARCASTIC patterns from AutoSlog-TS to filter out any posts that contain at least one NOT-SARCASTIC cue.
+32	45	We acknowledge that this may also filter out sarcastic posts, but we expect it to increase the ratio of sarcastic posts in the remaining pool.
+49	25	The average percent agreement with the majority vote is 89% for these three annotators.
+52	49	Using our filtering method, we are able to reduce the number of posts annotated from our original 30K to around 11K, achieving a percentage of 20% sarcastic posts, even though we choose to use a conservative threshold of at least 6 out of 9 sarcasm labels.
+54	19	The goal of collecting additional corpora for rhetorical questions and hyperbole is to increase the diversity of the corpus, and to allow us to explore the semantic differences between SARCASTIC and NOT-SARCASTIC utterances when particular lexico-syntactic cues are held constant.
+77	38	We thus use this “middle of post” heuristic to obviate the need to gather manual annotations for RQs, and developed regex patterns to find RQs that were more likely to be sarcastic.
+80	25	We then supplement these with posts containing RQ cues from our cue-annotation experiments: posts that received 3 out of 5 sarcastic labels in the experiments were considered sarcastic, and posts that received 2 or fewer sarcastic labels were considered not-sarcastic.
+81	71	Our final rhetorical questions corpus consists of 851 posts per class (1,702 total posts).
+85	46	Hyperbole exaggerates the literal situation, introducing a discrepancy between the “truth” and what is said, as a matter of degree.
+90	28	Depending on what they modify, adverbial intensifiers like totally, absolutely, incredibly shift the strength of the assertion to extreme negative or positive.
+105	27	We use GoogleNews Word2Vec features (Mikolov et al., 2013).4 Table 7 summarizes the results of our supervised learning experiments on our datasets using 10-fold cross validation.
+149	35	Many of our sarcastic questions focus specifically on attacks on the mental abilities of the addressee.
+153	31	We did not use this pattern to retrieve hyperbole, but because each hyperbolic sarcastic utterance contains multiple cues, we learn an expanded class of patterns for hyperbole.
+156	82	Interestingly, many of these instantiate the observations of Cano Mora (2009) on hyperbole and its related semantic fields: creating contrast by exclusion, e.g. no limit and no way, or by expanding a predicated class, e.g. everyone knows.
+159	23	We have developed a large scale, highly diverse corpus of sarcasm using a combination of linguistic analysis and crowd-sourced annotation.
+163	56	Our final corpus consists of data representing generic sarcasm, rhetorical questions, and hyperbole.
+167	40	We also present qualitative analysis of the different characteristics of rhetorical questions and hyperbole in sarcastic acts, and of the distinctions between sarcastic/not-sarcastic cues in generic sarcasm data.
+169	24	In future work, we will focus on feature engineering to improve results on the task of sarcasm classification for both our generic data and subclasses.
+170	43	We will also begin to explore evaluation on real-world data distributions, where the ratio of sarcastic/not-sarcastic posts is inherently unbalanced.
+171	84	As we continue our analysis of the generic and fine-grained categories of sarcasm, we aim to better characterize and model the great diversity of sarcasm in dialogue.

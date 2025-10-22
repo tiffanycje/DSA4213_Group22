@@ -1,0 +1,30 @@
+0	14	Sarcasm, commonly defined as ‘An ironical taunt used to express contempt’, is a challenging NLP problem due to its highly figurative nature.
+4	20	Sarcasm is often associated to several linguistic phenomena such as (1) an explicit contrast between sentiments or (2) disparity between the conveyed emotion and the author’s situation (context).
+5	36	Prior work has considered sarcasm to be a contrast between a positive and negative sentiment (Riloff et al., 2013).
+9	21	Perfect movie for people who can’t fall asleep.
+13	19	Hence, it would be useful to capture the relationships between selected word pairs in a sentence, i.e., looking in-between.
+14	12	State-of-the-art sarcasm detection systems mainly rely on deep and sequential neural networks (Ghosh and Veale, 2016; Zhang et al., 2016).
+15	25	In these works, compositional encoders such as gated recurrent units (GRU) (Cho et al., 2014) or long short-term memory (LSTM) (Hochreiter and Schmidhuber, 1997) are often employed, with the input document being parsed one word at a time.
+25	19	We propose a multi-dimensional intra-attention recurrent network that models intricate similarities between each word pair in the sentence.
+26	26	In other words, our novel deep learning model aims to capture ‘contrast’ (Riloff et al., 2013) and ‘incongruity’ (Joshi et al., 2015) within end-to-end neural networks.
+60	16	To the best of our knowledge, our work is not only the first work that only applies intra-attention to sarcasm detection but also the first attention model for sarcasm detection.
+66	13	The word embeddings are parameterized by an embedding layer W ∈ Rn×|V |.
+70	27	The multidimensional adaptation will be introduced later in this section.
+73	14	A simple way to achieve this is to use a linear1 transformation layer to project the concatenation of each word embedding pair into a scalar score as follows: sij =Wa([wi;wj ]) + ba (1) where Wa ∈ R2n×1, ba ∈ R are the parameters of this layer.
+75	21	We can easily observe that s is a symmetrical matrix of `× ` dimensions.
+76	15	In order to learn attention vector a, we apply a row-wise max-pooling operator on matrix s. a = softmax(max row s) (2) where a ∈ R` is a vector representing the learned intra-attention weights.
+98	13	To this end, we employ the standard Long Short-Term Memory (LSTM) encoder.
+125	35	More specifically, we use the dataset obtained from (1) (Ptáček et al., 2014) in which tweets are trained via hashtag based semisupervised learning, i.e., hashtags such as #not, #sarcasm and #irony are marked as sarcastic tweets and (2) (Riloff et al., 2013) in which Tweets are hand annotated and manually checked for sarcasm.
+133	23	This dataset, unlike the first two, is mainly concerned with long text and provides a diverse comparison from the other datasets.
+164	16	Document lengths are truncated at 40, 20, 80 tokens for Twitter, Reddit and Debates dataset respectively.
+195	14	The performance improvements are encouraging, leading to almost 10% improvement in terms of F1 and accuracy.
+224	58	On the other hand, ATTRAW focuses on relatively non-meaningful words such as ‘big’.
+225	19	Overall, we analyzed two cases (positive and negative labels) and found that MIARN produces very explainable attention maps.
+226	47	In general, we found that MIARN is able to identify contrast and incongruity in sentences, allowing our model to better detect sarcasm.
+227	20	This is facilitated by modeling intra-sentence relationships.
+228	17	Notably, the standard vanilla attention is not explainable or interpretable.
+229	20	Based on the intuition of intra-sentence similarity (i.e., looking in-between), we proposed a new neural network architecture for sarcasm detection.
+230	42	Our network incorporates a multi-dimensional intra-attention component that learns an intraattentive representation of the sentence, enabling it to detect contrastive sentiment, situations and incongruity.
+231	17	Extensive experiments over six public benchmarks confirm the empirical effectiveness of our proposed model.
+232	48	Our proposed MIARN model outperforms strong state-of-the-art baselines such as GRNN and CNN-LSTM-DNN.
+233	89	Analysis of the intra-attention scores shows that our model learns highly interpretable attention weights, paving the way for more explainable neural sarcasm detection methods.

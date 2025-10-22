@@ -1,0 +1,30 @@
+4	12	The most generally applicable tuning method is cross validation (Stone, 1974).
+5	27	One common choice is k-fold cross validation, which however presents potential bias issues in high-dimensional settings where n is comparable to p. For instance, the phase transition phenomena that happen in such regimes (Amelunxen et al., 2014; Donoho et al., 2009; Donoho & Tanner, 2005) indicate that any data splitting may cause dramatic effects on the solution of (2) (see Figure 1 for an example).
+6	20	Hence, the risk estimates obtained from k-fold cross validation may not be reliable.
+7	6	The bias issues of k-fold cross validation may be alleviated by choosing the number of folds k to be large.
+8	5	However, such schemes are computationally demanding and may not be useful for emerging high-dimensional applications.
+9	30	An alternative choice of cross validation is LOOCV, which is unbiased in high-dimensional problems.
+11	33	The high computational complexity of LOOCV has motivated researchers to propose computationally less demanding approximations of the quantity.
+14	4	In this line of work, the accuracy of the approximations was either not studied or was only studied in the n large, p fixed regime.
+19	4	In this paper, we propose two powerful frameworks for calculating an approximate leave-one-out estimator (ALO) of the LOOCV risk that are capable of offering accurate parameter tuning even for non-differentiable losses and regularizers.
+21	8	The second approach is based on the approximation of the dual of (2).
+23	28	We use our platforms to obtain concise formulas for several popular examples including generalized LASSO, support vector machine (SVM) and nuclear norm minimization.
+25	7	Finally, we present extensive simulations to confirm the accuracy of our formulas on various important machine learning models.
+26	10	Code is available at github.com/wendazhou/alocv-package.
+27	14	The importance of parameter tuning in learning systems has encouraged many researchers to study the problem from different perspectives.
+34	26	Another class of parameter tuning schemes are based on approximate message passing (Bayati et al., 2013; Mousavi et al., 2017; Obuchi & Kabashima, 2016).
+43	10	In this paper, we study the statistical learning models in form (2).
+46	5	As an alternative, we propose an estimator β̃/i to approximate β̂/i based on the full-data estimator β̂ to reduce the computational complexity.
+47	19	We consider two frameworks for obtaining β̃/i, and denote the corresponding risk estimate by: aloλ := 1 n n∑ i=1 d(yi,x > i β̃ /i).
+49	36	The objective function of penalized regression problem with loss ` and regularizer R is given by: P (β) := n∑ j=1 `(x>j β; yj) +R(β).
+50	18	(6) Here and subsequently, we absorb the value of λ into R to simplify the notation.
+51	50	We also consider the Lagrangian dual problem, which can be written in the form: min θ∈Rn D(θ) := n∑ j=1 `∗(−θj ; yj) +R∗(X>θ), (7) where `∗ and R∗ denote the Fenchel conjugates 1 of ` and R respectively.
+52	52	See the derivation in Appendix A.
+53	42	It is known that under mild conditions, (6) and (7) are equivalent (Boyd & Vandenberghe, 2004).
+54	24	In this case, we have the primal-dual correspondence relating the primal optimal β̂ and the dual optimal θ̂: β̂ ∈ ∂R∗(X>θ̂), X>θ̂ ∈ ∂R(β̂), x>j β̂ ∈ ∂`∗(−θ̂j ; yj), −θ̂j ∈ ∂`(x>j β̂; yj), (8) where ∂f denotes the set of subgradients of a function f .
+55	58	Below we will use both primal and dual perspectives for approximating looλ.
+56	10	Let us first start with a simple example that illustrates our dual method in deriving an approximate leave-one-out (ALO) formula for the standard LASSO.
+57	71	The LASSO estimator, first proposed in (Tibshirani, 1996), can be formulated as the penalized regression framework in (6) by setting `(µ; y) = (µ− y)2/2, and R(β) = λ‖β‖1.
+58	16	We recall the general formulation of the dual for penalized regression problems (7), and note that in the case of the LASSO we have: `∗(θi; yi) = 1 2 (θi−yi)2, R∗(β) = { 0 if ‖β‖∞ ≤ λ, +∞ otherwise.
+63	9	We augment the leave-i-out problem with a virtual ith observation that does not affect the result of the optimization, but restores the dimensionality of the problem.
+64	56	More precisely, let ya be the same as y, except that its ith coordinate is replaced by ŷ/ii = x > i β̂ /i, the leave-i-out predicted value.
